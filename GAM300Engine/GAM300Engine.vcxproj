@@ -156,6 +156,7 @@
     <ClCompile Include="..\Shared_Libs\Vector3.cpp" />
     <ClCompile Include="..\Shared_Libs\Vector4.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Src\Animation\Pose.cpp" />
     <ClCompile Include="Src\application.cpp" />
     <ClCompile Include="Src\Geometry\AABB.cpp" />
     <ClCompile Include="Src\Geometry\Geometry.cpp" />
@@ -164,6 +165,8 @@
     <ClCompile Include="Src\Geometry\Ray.cpp" />
     <ClCompile Include="Src\Geometry\Sphere.cpp" />
     <ClCompile Include="Src\Geometry\Triangle.cpp" />
+    <ClCompile Include="Src\Model\Skeleton.cpp" />
+    <ClCompile Include="Src\Model\Transform.cpp" />
     <ClCompile Include="Src\vulkanTools\vulkanDebugger.cpp" />
     <ClCompile Include="Src\vulkanTools\vulkanDevice.cpp" />
     <ClCompile Include="Src\vulkanTools\vulkanInstance.cpp" />
@@ -180,6 +183,7 @@
     <ClInclude Include="..\Shared_Libs\Vector2.h" />
     <ClInclude Include="..\Shared_Libs\Vector3.h" />
     <ClInclude Include="..\Shared_Libs\Vector4.h" />
+    <ClInclude Include="Include\Animation\Pose.h" />
     <ClInclude Include="Include\application.h" />
     <ClInclude Include="Include\Geometry\AABB.h" />
     <ClInclude Include="Include\Geometry\Geometry.h" />
@@ -188,6 +192,8 @@
     <ClInclude Include="Include\Geometry\Ray.h" />
     <ClInclude Include="Include\Geometry\Sphere.h" />
     <ClInclude Include="Include\Geometry\Triangle.h" />
+    <ClInclude Include="Include\Model\Skeleton.h" />
+    <ClInclude Include="Include\Model\Transform.h" />
     <ClInclude Include="Include\vulkanTools\vulkanDebugger.h" />
     <ClInclude Include="Include\vulkanTools\vulkanDevice.h" />
     <ClInclude Include="Include\vulkanTools\vulkanInstance.h" />

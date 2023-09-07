@@ -5,10 +5,10 @@
 #include "Matrix4.h"
 
 // layout:
-// w
 // x
 // y
 // z
+// w
 
 namespace TDS
 {
@@ -53,6 +53,7 @@ class Quat
     static Quat exp(Quat const& q);
     // Extract the real component of q
     static float extractRealComponent(Quat const& q);
+    static Quat fromTo(const Vec3& from, const Vec3& to);
     // Returns an intermediate control pt for squad interpolation
     static Quat intermediate(Quat const& prev, Quat const& curr, Quat const& next);
     // Returns the inverse of q
@@ -63,8 +64,10 @@ class Quat
     static float length2(Quat const& q);
     // Returns the log of a quaternion
     static Quat log(Quat const& q);
+    static Quat lookRotation(const Vec3& direction, const Vec3& up);
     // Return a SLERP interpolated quaternion of x and y according to a
     static Quat mix(Quat const& x, Quat const& y, float a);
+    static Quat nlerp(const Quat& from, const Quat& to, float t);
     // Returns a normalized quaternion
     static Quat normalize(Quat const& q);
     // Return pitch value of euler angles
@@ -100,10 +103,10 @@ class Quat
     Quat& operator/=(float f);
 
     // Variables
-    float w;
     float x;
     float y;
     float z;
+    float w;
 };
 
 // Operators (unabry bit arithmetic)

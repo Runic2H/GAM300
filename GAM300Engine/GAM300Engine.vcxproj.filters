@@ -37,6 +37,18 @@
     <Filter Include="Header Files\Geometry">
       <UniqueIdentifier>{a28162a9-687d-45c0-85fd-c970f51f4736}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Animation">
+      <UniqueIdentifier>{2cfb9d0f-27eb-4d59-978c-4b7844f6ba1e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Animation">
+      <UniqueIdentifier>{928a50d4-acc4-4481-8653-2487f713d697}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Model">
+      <UniqueIdentifier>{291bbfd4-2840-4517-96ea-4f799cc5f53a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Model">
+      <UniqueIdentifier>{50177b12-0184-44ad-b2fe-5cf989d61865}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -104,6 +116,15 @@
     </ClCompile>
     <ClCompile Include="Src\Geometry\Triangle.cpp">
       <Filter>Source Files\Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Animation\Pose.cpp">
+      <Filter>Source Files\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Model\Transform.cpp">
+      <Filter>Source Files\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Model\Skeleton.cpp">
+      <Filter>Source Files\Model</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -187,6 +208,15 @@
     </ClInclude>
     <ClInclude Include="Include\Geometry\Triangle.h">
       <Filter>Header Files\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Animation\Pose.h">
+      <Filter>Header Files\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Model\Transform.h">
+      <Filter>Header Files\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Model\Skeleton.h">
+      <Filter>Header Files\Model</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

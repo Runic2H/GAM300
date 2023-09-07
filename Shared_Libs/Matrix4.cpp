@@ -284,7 +284,7 @@ namespace TDS
         Vec3 s = Vec3::Cross(f, up).normalize();
         Vec3 u = Vec3::Cross(s, f);
 
-        Mat4 result(1.f);
+        Mat4 result = Mat4::identity();
         result.m[0][0] = s.x;
         result.m[1][0] = s.y;
         result.m[2][0] = s.z;
@@ -302,7 +302,7 @@ namespace TDS
 
     Mat4 Mat4::Ortho(float left, float right, float bottom, float top, float zNear, float zFar)
     {
-        Mat4 result(1.f);
+        Mat4 result = Mat4::identity();
         result.m[0][0] = 2.0f / (right - left);
         result.m[1][1] = 2.0f / (top - bottom);
         result.m[2][2] = -2.0f / (zFar - zNear);
@@ -341,51 +341,15 @@ namespace TDS
         return Mat4(v1, v2, v3, v4);
     }
 
-  	Quat Mat4::toQuat(Mat4 const& m4)
+  	Quat Mat4::toQuat(Mat4 const& m)
 	{
-		Mat3 m = Mat3(m4.m[0][0], m4.m[0][1], m4.m[0][2],
-			m4.m[1][0], m4.m[1][1], m4.m[1][2],
-			m4.m[2][0], m4.m[2][1], m4.m[2][2]);
+		Vec3 up = Vec3::Normalize(Vec3(m[4], m[5], m[6]));
+        Vec3 forward = Vec3::Normalize(Vec3(m[8], m[9], m[10]));
+        Vec3 right = Vec3::Cross(up, forward);
+        up = Vec3::Cross(forward, right);
 
-        float fourXSquareMinus1 = m.m[0][0] - m.m[1][1] - m.m[2][2];
-		float fourYSquareMinus1 = m.m[1][1] - m.m[0][0] - m.m[2][2];
-		float fourZSquareMinus1 = m.m[2][2] - m.m[0][0] - m.m[1][1];
-		float fourWSquareMinus1 = m.m[0][0] + m.m[1][1] + m.m[2][2];
-
-		int biggestIndex = 0;
-		float fourBiggestSquareMinus1 = fourWSquareMinus1;
-		if (fourXSquareMinus1 > fourBiggestSquareMinus1)
-		{
-			fourBiggestSquareMinus1 = fourXSquareMinus1;
-			biggestIndex = 1;
-		}
-		if (fourYSquareMinus1 > fourBiggestSquareMinus1)
-		{
-			fourBiggestSquareMinus1 = fourYSquareMinus1;
-			biggestIndex = 2;
-		}
-		if (fourZSquareMinus1 > fourBiggestSquareMinus1)
-		{
-			fourBiggestSquareMinus1 = fourZSquareMinus1;
-			biggestIndex = 3;
-		}
-
-		float biggestVal = Mathf::Sqrt(fourBiggestSquareMinus1 + 1.f) * 0.5f;
-		float mult = 0.25f / biggestVal;
-
-		switch (biggestIndex)
-		{
-		case 0:
-			return Quat(biggestVal, (m.m[1][2] - m.m[2][1]) * mult, (m.m[2][0] - m.m[0][2]) * mult, (m.m[0][1] - m.m[1][0]) * mult);
-		case 1:
-			return Quat((m.m[1][2] - m.m[2][1]) * mult, biggestVal, (m.m[0][1] + m.m[1][0]) * mult, (m.m[2][0] + m.m[0][2]) * mult);
-		case 2:
-			return Quat((m.m[2][0] - m.m[0][2]) * mult, (m.m[0][1] + m.m[1][0]) * mult, biggestVal, (m.m[1][2] + m.m[2][1]) * mult);
-		case 3:
-			return Quat((m.m[0][1] - m.m[1][0]) * mult, (m.m[2][0] + m.m[0][2]) * mult, (m.m[1][2] + m.m[2][1]) * mult, biggestVal);
-		default:
-			return Quat();
-        }
+        return Quat::lookRotation(forward, up);
+	
 	}
 
     Mat4& Mat4::operator=(const Mat4& var)

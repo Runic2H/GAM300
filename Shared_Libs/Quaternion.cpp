@@ -5,7 +5,7 @@ namespace TDS
 	Quat::Quat() : w(1.0f), x(0.0f), y(0.0f), z(0.0f) {}
 	Quat::Quat(Quat const& q) : w(q.w), x(q.x), y(q.y), z(q.z) {}
 	Quat::Quat(float value) : w(value), x(value), y(value), z(value) {}
-	Quat::Quat(float data[]) : w(data[0]), x(data[1]), y(data[2]), z(data[3]) {}
+	Quat::Quat(float data[]) : x(data[0]), y(data[1]), z(data[2]), w(data[3]) {}
 	Quat::Quat(float newX, float newY, float newZ, float newW) : w(newW), x(newX), y(newY), z(newZ) {}
 	Quat::Quat(float angle, Vec3 const& axis) : w(angle), x(axis.x), y(axis.y), z(axis.z) {}
 	// Create a quaternion from two normalized vectors
@@ -30,7 +30,7 @@ namespace TDS
             t = Vec3::Cross(u, v);
         }
 
-        *this = normalize(Quat(real_part, t.x, t.y, t.z));
+        *this = normalize(Quat(t.x, t.y, t.z, real_part));
     }
 	Quat::Quat(Vec3 const& euler)
 	{
@@ -59,13 +59,13 @@ namespace TDS
 	{
 		float const a = angle;
         float const s = Mathf::Sin(a * 0.5f);
-        return Quat(Mathf::Cos(a * 0.5f), newX * s, newY * s, newZ * s);
+        return Quat(newX * s, newY * s, newZ * s, Mathf::Cos(a * 0.5f));
 	}
 	Quat Quat::angleAxis(float const& angle, Vec3 const& axis)
 	{
 		float const a = angle;
         float const s = Mathf::Sin(a * 0.5f);
-        return Quat(Mathf::Cos(a * 0.5f), axis.x * s, axis.y * s, axis.z * s);
+        return Quat(axis.x * s, axis.y * s, axis.z * s, Mathf::Cos(a * 0.5f));
 	}
 	Vec3 Quat::axis(Quat const& q)
 	{
@@ -77,15 +77,15 @@ namespace TDS
 	}
 	Quat Quat::conjugate(Quat const& q)
 	{
-		return Quat(q.w, -q.x, -q.y, -q.z);
+		return Quat(-q.x, -q.y, -q.z, q.w);
 	}
 	Quat Quat::cross(Quat const& q1, Quat const& q2)
 	{
 		return Quat(
-			q1.w * q2.w - q1.x * q2.x - q1.y * q2.y - q1.z * q2.z,
 			q1.w * q2.x + q1.x * q2.w + q1.y * q2.z - q1.z * q2.y,
 			q1.w * q2.y + q1.y * q2.w + q1.z * q2.x - q1.x * q2.z,
-			q1.w * q2.z + q1.z * q2.w + q1.x * q2.y - q1.y * q2.x);
+			q1.w * q2.z + q1.z * q2.w + q1.x * q2.y - q1.y * q2.x,
+			q1.w * q2.w - q1.x * q2.x - q1.y * q2.y - q1.z * q2.z);
 	}
 	Vec3 Quat::cross(Quat const& q, Vec3 const& v)
 	{
@@ -110,7 +110,7 @@ namespace TDS
         if (tmpAngle < Mathf::Epsilon)
             return Quat();
         Vec3 const v = u / tmpAngle;
-        return Quat(Mathf::Cos(tmpAngle), v.x * Mathf::Sin(tmpAngle), v.y * Mathf::Sin(tmpAngle), v.z * Mathf::Sin(tmpAngle));
+        return Quat(v.x * Mathf::Sin(tmpAngle), v.y * Mathf::Sin(tmpAngle), v.z * Mathf::Sin(tmpAngle), Mathf::Cos(tmpAngle));
 	}
 	float Quat::extractRealComponent(Quat const& q)
 	{
@@ -119,6 +119,38 @@ namespace TDS
             return 0.f;
         return -Mathf::Sqrt(tmpW);
 	}
+	Quat Quat::fromTo(const Vec3& from, const Vec3& to)
+	{
+		Vec3 f = Vec3::Normalize(from);
+		Vec3 t = Vec3::Normalize(to);
+
+		if (f == t) return Quat();
+
+		else if (f == t * -1.0f)
+		{
+			Vec3 ortho = Vec3(1, 0, 0);
+			if (Mathf::Abs(f.y) < Mathf::Abs(f.x))
+			{
+				ortho = Vec3(0, 1, 0);
+			}
+			if (Mathf::Abs(f.z) < Mathf::Abs(f.y) && Mathf::Abs(f.z) < Mathf::Abs(f.x))
+			{
+				ortho = Vec3(0, 0, 1);
+			}
+
+			Vec3 axis = Vec3::Normalize(Vec3::Cross(f, ortho));
+			return Quat(axis.x, axis.y, axis.z, 0);
+		}
+
+		Vec3 half = Vec3::Normalize(f + t);
+		Vec3 axis = Vec3::Cross(f, half);
+
+		return Quat(axis.x,
+					axis.y,
+					axis.z,
+					Vec3::Dot(f, half));
+	}
+
 	Quat Quat::intermediate(Quat const& prev, Quat const& curr, Quat const& next)
 	{
 		Quat invQuat = inverse(curr);
@@ -126,7 +158,16 @@ namespace TDS
 	}
 	Quat Quat::inverse(Quat const& q)
 	{
-        return conjugate(q) / dot(q, q);
+		float lenSq = dot(q, q);
+		if (lenSq < Mathf::Epsilon) {
+			return Quat();
+		}
+		float denom = 1.0f / lenSq;
+
+		return Quat(-q.x * denom,
+					-q.y * denom,
+					-q.z * denom,
+					q.w * denom);
 	}
 	float Quat::length(Quat const& q)
 	{
@@ -150,8 +191,28 @@ namespace TDS
 		{
 			float t = Mathf::Atan2(Vec3Len, q.w) / Vec3Len;
 			float QuatLen2 = Vec3Len * Vec3Len + q.w * q.w;
-			return Quat(Mathf::Log(QuatLen2) * 0.5f, t * q.x, t * q.y, t * q.z);
+			return Quat(t * q.x, t * q.y, t * q.z, Mathf::Log(QuatLen2) * 0.5f);
 		}
+	}
+	Quat Quat::lookRotation(const Vec3& direction, const Vec3& up)
+	{
+		Vec3 f = Vec3::Normalize(direction);
+		Vec3 u = Vec3::Normalize(up);
+		Vec3 r = Vec3::Cross(u, f);
+		u = Vec3::Cross(f, r);
+
+		// From world foward to object forward
+		Quat f2d = fromTo(Vec3(0, 0, 1), f);
+
+		// what direction is the new object up?
+		Vec3 objectUp = f2d * Vec3(0, 1, 0);
+		// From object up to desired up
+		Quat u2u = fromTo(objectUp, u);
+
+		// Rotate to forward direction first, then twist to correct up
+		Quat result = f2d * u2u;
+		// normalizing the result
+		return normalize(result);
 	}
 	Quat Quat::mix(Quat const& x, Quat const& y, float a)
 	{
@@ -162,7 +223,7 @@ namespace TDS
 			float tmpX = x.x * (1.f -a) + y.x * a;
 			float tmpY = x.y * (1.f -a) + y.y * a;
 			float tmpZ = x.z * (1.f -a) + y.z * a;
-			return Quat(tmpW, tmpX, tmpY, tmpZ);
+			return Quat(tmpX, tmpY, tmpZ, tmpW);
 		}
 		else
 		{
@@ -170,13 +231,17 @@ namespace TDS
 			return (Mathf::Sin((1.f - a) * angle) * x + Mathf::Sin(a * angle) * y) / Mathf::Sin(angle);
 		}
 	}
+	Quat Quat::nlerp(const Quat& from, const Quat& to, float t)
+	{
+		return normalize(from + (to - from) * t);
+	}
 	Quat Quat::normalize(Quat const& q)
 	{
 		float len = length(q);
 		if (len <= 0.f)
 			return Quat(1.f, 0.f, 0.f, 0.f);
 		float oneOverLen = 1.f / len;
-		return Quat(q.w * oneOverLen, q.x * oneOverLen, q.y * oneOverLen, q.z * oneOverLen);
+		return Quat(q.x * oneOverLen, q.y * oneOverLen, q.z * oneOverLen, q.w * oneOverLen);
 	}
 	float Quat::pitch(Quat const& q)
 	{
@@ -196,7 +261,7 @@ namespace TDS
 		{
 			float VectorMagnitude = q.x * q.x + q.y * q.y + q.z * q.z;
 			if (VectorMagnitude < Mathf::Epsilon)
-				return Quat(Mathf::Pow(q.w, exponent), 0.f, 0.f, 0.f);
+				return Quat(0.f, 0.f, 0.f, Mathf::Pow(q.w, exponent));
 			tmpAngle = Mathf::Asin(Mathf::Sqrt(VectorMagnitude) / magnitude);
 		}
 		else
@@ -207,7 +272,7 @@ namespace TDS
 		float newAngle = tmpAngle * exponent;
 		float Div = Mathf::Sin(newAngle) / Mathf::Sin(tmpAngle);
 		float Mag = Mathf::Pow(magnitude, exponent - 1.f);
-		return Quat(Mathf::Cos(newAngle) * magnitude * Mag, q.x * Div * Mag, q.y * Div * Mag, q.z * Div * Mag);
+		return Quat(q.x * Div * Mag, q.y * Div * Mag, q.z * Div * Mag, Mathf::Cos(newAngle) * magnitude * Mag);
 	}
 	float Quat::roll(Quat const& q)
 	{
@@ -241,7 +306,7 @@ namespace TDS
 
 		float const AngleRad(angle);
 		float const Sin = Mathf::Sin(AngleRad * 0.5f);
-		return q * Quat(Mathf::Cos(AngleRad * 0.5f), tmp.x * Sin, tmp.y * Sin, tmp.z * Sin);
+		return q * Quat(tmp.x * Sin, tmp.y * Sin, tmp.z * Sin, Mathf::Cos(AngleRad * 0.5f));
 	}
 	Quat Quat::squad(Quat const& q1, Quat const& q2, Quat const& s1, Quat const& s2, float const& h)
 	{
@@ -291,10 +356,10 @@ namespace TDS
     {
         switch (index)
         {
-        case 0: return w;
-        case 1: return x;
-        case 2: return y;
-        case 3: return z;
+        case 0: return x;
+        case 1: return y;
+        case 2: return z;
+        case 3: return w;
         default: throw std::out_of_range("Index out of range");
         }
     }
@@ -303,11 +368,11 @@ namespace TDS
 	{
         switch (index)
         {
-        case 0: return w;
-        case 1: return x;
-        case 2: return y;
-        case 3: return z;
-        default: throw std::out_of_range("Index out of range");
+		case 0: return x;
+		case 1: return y;
+		case 2: return z;
+		case 3: return w;
+		default: throw std::out_of_range("Index out of range");
         }
 	}
 	Quat& Quat::operator=(Quat const& q)
@@ -364,32 +429,32 @@ namespace TDS
 
 	Quat operator-(Quat const& q)
 	{
-		return Quat(-q.w, -q.x, -q.y, -q.z);
+		return Quat(-q.x, -q.y, -q.z, - q.w);
 	}
 	Quat operator+(Quat const& q1, Quat const& q2)
 	{
-		return Quat(q1.w + q2.w, q1.x + q2.x, q1.y + q2.y, q1.z + q2.z);
+		return Quat(q1.x + q2.x, q1.y + q2.y, q1.z + q2.z, q1.w + q2.w);
 	}
 	Quat operator-(Quat const& q1, Quat const& q2)
 	{
-		return Quat(q1.w - q2.w, q1.x - q2.x, q1.y - q2.y, q1.z - q2.z);
+		return Quat(q1.x - q2.x, q1.y - q2.y, q1.z - q2.z, q1.w - q2.w);
 	}
 	Quat operator*(Quat const& q1, Quat const& q2)
 	{
-        return Quat(
-            q1.w * q2.w - q1.x * q2.x - q1.y * q2.y - q1.z * q2.z,
-            q1.w * q2.x + q1.x * q2.w + q1.y * q2.z - q1.z * q2.y,
-            q1.w * q2.y + q1.y * q2.w + q1.z * q2.x - q1.x * q2.z,
-            q1.w * q2.z + q1.z * q2.w + q1.x * q2.y - q1.y * q2.x);
+		return Quat(
+			q1.w * q2.x + q1.x * q2.w + q1.y * q2.z - q1.z * q2.y,
+			q1.w * q2.y + q1.y * q2.w + q1.z * q2.x - q1.x * q2.z,
+			q1.w * q2.z + q1.z * q2.w + q1.x * q2.y - q1.y * q2.x,
+			q1.w * q2.w - q1.x * q2.x - q1.y * q2.y - q1.z * q2.z);
 	}
-	Vec3 operator*(Quat const& q, Vec3 const& v)
-	{
-        Vec3 const QuatVector(q.x, q.y, q.z);
-        Vec3 const uv(Vec3::Cross(QuatVector, v));
-        Vec3 const uuv(Vec3::Cross(QuatVector, uv));
-        return v + ((uv * q.w) + uuv) * 2.0f;
-    }
 
+	Vec3 operator*(const Quat& q, const Vec3& v)
+	{
+		Vec3 qvec(q.x, q.y, q.z);
+		return qvec * 2.0f * Vec3::Dot(qvec, v) +
+			v * (q.w * q.w - Vec3::Dot(qvec, qvec)) +
+			Vec3::Cross(qvec, v) * 2.0f * q.w;
+	}
 	Vec4 operator*(Quat const& q, Vec4 const& v)
 	{
         return (q * Vec3(v.x, v.y, v.z), v.w);
@@ -400,7 +465,7 @@ namespace TDS
 	}
 	Quat operator*(Quat const& q, float const& f)
 	{
-        return Quat(q.w * f, q.x * f, q.y * f, q.z * f);
+        return Quat(q.x * f, q.y * f, q.z * f, q.w * f);
 	}
 	Quat operator*(float const& f, Quat const& q)
 	{
@@ -408,7 +473,7 @@ namespace TDS
 	}
 	Quat operator/(Quat const& q, float const& f)
 	{
-        return Quat(q.w / f, q.x / f, q.y / f, q.z / f);
+        return Quat(q.x / f, q.y / f, q.z / f, q.w / f);
 	}
 	bool operator==(Quat const& q1, Quat const& q2)
 	{
