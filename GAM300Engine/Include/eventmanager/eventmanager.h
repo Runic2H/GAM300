@@ -1,10 +1,6 @@
 #ifndef EVENTMANAGER
 #define EVENTMANAGER
 
-#include <unordered_map>
-#include <queue>
-#include <vector>
-#include <cstdarg>
 #include "ecs/ecs.h"
 
 namespace TDS

@@ -1,7 +1,6 @@
 #ifndef POSE_H
 #define POSE_H
 
-#include <vector>
 #include "Model/Transform.h"
 
 namespace TDS

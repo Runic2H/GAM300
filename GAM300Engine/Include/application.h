@@ -1,8 +1,6 @@
 #ifndef APPLICATION
 #define APPLICATION
 
-#include <iostream>
-
 #include "windowswindow.h"
 #include "vulkanTools/vulkanInstance.h"
 

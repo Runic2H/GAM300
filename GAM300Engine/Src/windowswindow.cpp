@@ -1,5 +1,4 @@
 #include "windowswindow.h"
-#include <iostream>
 
 namespace TDS
 {

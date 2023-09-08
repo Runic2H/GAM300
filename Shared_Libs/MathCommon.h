@@ -1,15 +1,6 @@
 #ifndef MATHCOMMON_H
 #define MATHCOMMON_H
 
-#include <cstdarg>
-#include <cmath>
-#include <limits>
-#include <string>
-#include <sstream>
-#include <stdexcept>
-#include <iomanip>
-#include <limits>
-
 
 #include "Vector2.h"
 #include "Vector3.h"

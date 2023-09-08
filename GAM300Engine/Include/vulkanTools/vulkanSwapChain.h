@@ -1,12 +1,6 @@
 #ifndef VULKAN_SWAP_CHAIN
 #define VULKAN_SWAP_CHAIN
 
-#include <iostream>
-#include <stdlib.h>
-#include <string>
-#include <assert.h>
-#include <stdio.h>
-#include <vector>
 
 #define	VK_USE_PLATFORM_WIN32_KHR
 #include <vulkan/vulkan.h>

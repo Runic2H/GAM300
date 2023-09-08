@@ -1,16 +1,6 @@
 #ifndef ECS_
 #define ECS_
 
-#include <cstdint>
-#include <new>
-#include <string>
-#include <cstddef>
-#include <vector>
-#include <algorithm> 
-#include <functional>
-#include <unordered_map>
-#include <iostream>
-#include <chrono>
 
 // reference: https://indiegamedev.net/2020/05/19/an-entity-component-system-with-data-locality-in-cpp/
 namespace TDS
