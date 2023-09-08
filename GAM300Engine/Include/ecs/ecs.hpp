@@ -24,12 +24,11 @@ namespace TDS
 
     // --add--
     // Adding a new component, with component values
-    // args - values of the component variables (IN ORDER)
     // Return - pointer to the entity's new component data
-    template<typename C, typename... Args>
-    inline C* Entity::add(Args&&... args)
+    template<typename C>
+    inline C* Entity::add()
     {
-        return mECS.addComponent<C>(mID, std::forward<Args>(args)...);
+        return mECS.addComponent<C>(mID);
     }
 
     // --add--
@@ -55,7 +54,7 @@ namespace TDS
     // Set name of component
     // name - new name of component
     template<class C>
-    void Component<C>::setName(std::string name)
+    void ECSComponent<C>::setName(std::string name)
     {
         componentName = name;
     }
@@ -64,7 +63,7 @@ namespace TDS
     // Get name of component
     // Return - name of component
     template<class C>
-    std::string Component<C>::getName() const
+    std::string ECSComponent<C>::getName() const
     {
         return componentName;
     }
@@ -73,7 +72,7 @@ namespace TDS
     // Allocating new memory for the data
     // data - pointer to the new memory for the data
     template<class C>
-    void Component<C>::constructData(unsigned char* data) const
+    void ECSComponent<C>::constructData(unsigned char* data) const
     {
         new (&data[0]) C();
     }
@@ -82,7 +81,7 @@ namespace TDS
     // Destroy data of the component
     // data - data to be destroyed
     template<class C>
-    void Component<C>::destroyData(unsigned char* data) const
+    void ECSComponent<C>::destroyData(unsigned char* data) const
     {
         // std::launder ensures that the compiler will not flag this
         C* dataLocation = std::launder(reinterpret_cast<C*>(data));
@@ -95,7 +94,7 @@ namespace TDS
     // source - source of the data
     // destination - destination of the data to move to
     template<class C>
-    void Component<C>::moveData(unsigned char* source, unsigned char* destination) const
+    void ECSComponent<C>::moveData(unsigned char* source, unsigned char* destination) const
     {
         new (&destination[0]) C(std::move(*reinterpret_cast<C*>(source)));
     }
@@ -104,7 +103,7 @@ namespace TDS
     // Returns the size of the whole component
     // Return - size of the component data
     template<class C>
-    std::size_t Component<C>::getSize() const
+    std::size_t ECSComponent<C>::getSize() const
     {
         return sizeof(C);
     }
@@ -113,7 +112,7 @@ namespace TDS
     // Returns the unique ID of the component
     // Return - unique ID of the component
     template<class C>
-    ComponentTypeID Component<C>::getTypeID()
+    ComponentTypeID ECSComponent<C>::getTypeID()
     {
         return TypeIdGenerator<ComponentBase>::getNewID<C>();
     }
@@ -134,9 +133,9 @@ namespace TDS
     // ecs - THE ecs
     // layer - layer to put the system under
     template<class... Cs>
-    System<Cs...>::System(ECS& ecs, const std::uint8_t& layer) : m_ecs(ecs), m_funcSet(false)
+    System<Cs...>::System(ECS& ecs, const std::uint8_t& layer) : mECS(ecs), mFuncSet(false)
     {
-        m_ecs.RegisterSystem(layer, this);
+        mECS.registerSystem(layer, this);
     }
 
     // --getKey--
@@ -145,7 +144,7 @@ namespace TDS
     template<class... Cs>
     ArchetypeID System<Cs...>::getKey() const
     {
-        return { {Component<Cs>::getTypeID()...} };
+        return { {ECSComponent<Cs>::getTypeID()...} };
     }
 
     // --doAction--
@@ -156,7 +155,7 @@ namespace TDS
     void System<Cs...>::doAction(const float elapsedMilliseconds, Archetype* archetype)
     {
         if (mFuncSet)
-            DoAction<0>(elapsedMilliseconds,
+            doAction<0>(elapsedMilliseconds,
                 archetype->type,
                 archetype->entityIds,
                 archetype->componentData);
@@ -179,7 +178,7 @@ namespace TDS
     {
         typedef std::tuple_element<Index, std::tuple<Cs...>>::type IthT;
 
-        ComponentTypeID thisTypeCS = Component<IthT>::getTypeID();
+        ComponentTypeID thisTypeCS = ECSComponent<IthT>::getTypeID();
 
         if (!archeTypeIds[thisTypeCS])
         {
@@ -187,7 +186,7 @@ namespace TDS
             ("System was executed against an incorrect Archetype");
         }
 
-        DoAction<Index + 1>(elapsedMilliseconds,
+        doAction<Index + 1>(elapsedMilliseconds,
             archeTypeIds,
             entityIDs,
             t,
@@ -210,7 +209,7 @@ namespace TDS
             T& t,
             Ts... ts)
     {
-        m_func(elapsedMilliseconds, entityIDs, ts...);
+        mFunc(elapsedMilliseconds, entityIDs, ts...);
     }
 
     // ECS ==========================================================================================
@@ -242,17 +241,15 @@ namespace TDS
     template<class C>
     void ECS::registerComponent(std::string name)
     {
-        ComponentTypeID componentTypeId = Component<C>::getTypeID();
+        ComponentTypeID componentTypeId = ECSComponent<C>::getTypeID();
 
         if (mComponentMap.contains(componentTypeId))
         {
             return; // can't re-register a type
         }
 
-        mComponentMap.emplace(componentTypeId, new Component<C>);
+        mComponentMap.emplace(componentTypeId, new ECSComponent<C>);
         mComponentMap[componentTypeId]->setName(name);
-
-        systemCount++;
     }
 
     // --registerSystem--
@@ -279,14 +276,18 @@ namespace TDS
     // --addComponent--
     // Add a component to the entity, and (optionally) put in the values for each variable in the component
     // entityId - entityID of the entity
-    // args - values of the variables in the component (IN ORDER)
     // Return - pointer to the entity's component data
-    template<typename C, typename... Args>
-    inline C* ECS::addComponent(const EntityID& entityID, Args&&... args)
-    {
-        // no safety checks
 
-        ComponentTypeID newCompTypeId = Component<C>::getTypeID();
+    // args - values of the variables in the component (IN ORDER)
+    //template<typename C, typename... Args>
+    //inline C* ECS::addComponent(const EntityID& entityID, Args&&... args)
+
+    template<typename C>
+    inline C* ECS::addComponent(const EntityID& entityID)
+    {
+        // add safety checks
+
+        ComponentTypeID newCompTypeId = ECSComponent<C>::getTypeID();
 
         const std::size_t& compDataSize = mComponentMap[newCompTypeId]->getSize();
 
@@ -369,9 +370,12 @@ namespace TDS
                     }
                 }
 
+                //newComponent
+                //    = new (&newArchetype->componentData[j][currentSize])
+                //    C(std::forward<Args>(args)...);
                 newComponent
                     = new (&newArchetype->componentData[j][currentSize])
-                    C(std::forward<Args>(args)...);
+                    C();
 
             cnt:;
             }
@@ -461,9 +465,12 @@ namespace TDS
                 newArchetype->componentData[newCompTypeId] = newData;
             }
 
+            //newComponent
+            //    = new (&newArchetype->componentData[newCompTypeId][currentSize])
+            //    C(std::forward<Args>(args)...);
             newComponent
                 = new (&newArchetype->componentData[newCompTypeId][currentSize])
-                C(std::forward<Args>(args)...);
+                C();
         }
 
         newArchetype->entityIds.push_back(entityID);
@@ -482,7 +489,7 @@ namespace TDS
         //if (!IsComponentRegistered<C>())
           //  return;
 
-        ComponentTypeID compTypeId = Component<C>::getTypeID();
+        ComponentTypeID compTypeId = ECSComponent<C>::getTypeID();
 
         // if (!m_entityArchetypeMap.contains(entityId))
           //   return; // it doesn't exist
@@ -633,7 +640,7 @@ namespace TDS
     template<class C>
     inline C* ECS::getComponent(const EntityID& entityId)
     {
-        ComponentTypeID compTypeId = Component<C>::getTypeID();
+        ComponentTypeID compTypeId = ECSComponent<C>::getTypeID();
         if (!mEntityArchetypeMap.contains(entityId))
             return nullptr; // it doesn't exist
 
@@ -905,6 +912,8 @@ namespace TDS
     template<class C>
     inline std::vector<EntityID> ECS::getEntitiesWith()
     {
+        std::vector<EntityID> entitiesList;
+
         for (auto i : ecs.getEntities())
         {
             C* theType = ecs.getComponent<C>(i);
@@ -913,5 +922,7 @@ namespace TDS
                 entitiesList.push_back(i);
             }
         }
+
+        return entitiesList;
     }
 }

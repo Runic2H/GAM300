@@ -188,6 +188,9 @@
     <ClInclude Include="Include\eventmanager\eventmanager.hpp">
       <Filter>Header Files\eventmanager</Filter>
     </ClInclude>
+    <ClInclude Include="Include\dotnet\ImportExport.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="application.h">
       <Filter>Header Files</Filter>
     </ClInclude>

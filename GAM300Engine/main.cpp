@@ -13,8 +13,6 @@ int main(int argc, const char** argv) {
 #pragma comment( linker, "/subsystem:windows" )
 #endif
 
-
-
 TDS::Application* g_Application {nullptr};
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow) {

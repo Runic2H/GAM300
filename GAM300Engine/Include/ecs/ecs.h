@@ -56,10 +56,6 @@ namespace TDS
         std::vector<EntityID>               entityIds;
     };
 
-
-    //base class helps us by allowing child class to store any type of component
-    //by having a non-template base-class we can store any templated version of the child class using a pointer and polymorphism.
-
     // SYSTEM BASE CLASS ==================================================================================
     // Base system class for system class 
     class SystemBase
@@ -134,7 +130,7 @@ namespace TDS
     // COMPONENT CLASS ====================================================================================
     //templated child class
     template<class C>
-    class Component : public ComponentBase
+    class ECSComponent : public ComponentBase
     {
     public:
         // Set name of component
@@ -220,8 +216,12 @@ namespace TDS
         Archetype*                          getArchetype(const ArchetypeID& id);
 
         // Add a component to the entity, and (optionally) put in the values for each variable in the component
-        template<typename C, typename... Args>
-        C*                                  addComponent(const EntityID& entityId, Args&&... args);
+        //template<typename C, typename... Args>
+        //C*                                addComponent(const EntityID& entityId, Args&&... args);
+
+        // Add a component to the entity
+        template<typename C>
+        C*                                  addComponent(const EntityID& entityId);
 
         // Remove a component from the entity
         template<typename C>
@@ -279,8 +279,8 @@ namespace TDS
         explicit                            Entity(ECS& ecs = ecs);
 
         // Adding a new component, with component values
-        template<typename C, typename... Args>
-        C*                                  add(Args&&... args);
+        template<typename C>
+        C*                                  add();
 
         // Adding a new component overload, move component data
         template<typename C>
@@ -292,6 +292,16 @@ namespace TDS
     private:
         EntityID                            mID;
         ECS&                                mECS;
+    };
+
+    // COMPONENT ==========================================================================================
+    // Base class for components
+    class Component
+    {
+    public:
+        virtual void serialize();
+
+    private:
     };
 }
 

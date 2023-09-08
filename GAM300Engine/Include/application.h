@@ -3,11 +3,15 @@
 
 #include "windowswindow.h"
 #include "vulkanTools/vulkanInstance.h"
+#include "dotnet/ImportExport.h"
+#include <stdexcept>
+#include "dotnet/include/coreclrhost.h" 
+#include <iomanip>
 
 
 namespace TDS
 {
-	class Application
+	class DLL_API Application
 	{
 	public:
 	
@@ -19,11 +23,64 @@ namespace TDS
 		void   Render() {}
 		void   Exit() {}
 
+		static void HelloWorld();
 
+	private:
+		// Function Pointers to CoreCLR functions
+		coreclr_initialize_ptr      initializeCoreClr = nullptr;
+		coreclr_create_delegate_ptr createManagedDelegate = nullptr;
+		coreclr_shutdown_ptr        shutdownCoreClr = nullptr;
+
+		// Helper Functions
+		template<typename FunctType>
+		FunctType getCoreClrFuncPtr(const std::string& functionName)
+		{
+			auto fPtr = reinterpret_cast<FunctType>(GetProcAddress(coreClr, functionName.c_str()));
+			if (!fPtr)
+				throw std::runtime_error("Unable to get pointer to function.");
+			return fPtr;
+		}
+
+		// Helper Functions
+		template<typename FunctionType>
+		FunctionType GetFunctionPtr(const std::string_view& assemblyName, const std::string_view& typeName, const std::string_view& functionName)
+		{
+			FunctionType managedDelegate = nullptr;
+			int result = createManagedDelegate
+			(
+				hostHandle,
+				domainId,
+				assemblyName.data(),
+				typeName.data(),
+				functionName.data(),
+				reinterpret_cast<void**>(&managedDelegate)
+			);
+			// Check if it failed
+			if (result < 0)
+			{
+				std::ostringstream oss;
+				oss << std::hex << std::setfill('0') << std::setw(8)
+					<< "[DotNetRuntime] Failed to get pointer to function \""
+					<< typeName << "." << functionName << "\" in assembly (" << assemblyName << "). "
+					<< "Error 0x" << result << "\n";
+				throw std::runtime_error(oss.str());
+			}
+			return managedDelegate;
+		}
+
+		std::string buildTpaList(const std::string& directory);
+
+	private:
+		void startScriptEngine();
+		void stopScriptEngine();
+		// References to CoreCLR key components
+		HMODULE coreClr = nullptr;
+		void* hostHandle = nullptr;
+		unsigned int domainId = 0;
 
 	private:
 		Application(const Application&);
-		Application& operator=(const Application&) {}
+		//Application& operator=(const Application&) {}
 
 	private:
 		WindowsWin						 m_window;
