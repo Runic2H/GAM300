@@ -2,7 +2,13 @@
 #ifndef STDAFX_H
 #define STDAFX_H
 
+#ifndef NOMINMAX
+#define NOMINMAX
+#endif//NOMINMAX
+
 // STD Library
+
+#include <array>
 #include <algorithm> 
 #include <assert.h>
 #include <chrono>

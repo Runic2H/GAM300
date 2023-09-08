@@ -1,7 +1,6 @@
 #ifndef MATHCOMMON_H
 #define MATHCOMMON_H
 
-
 #include "Vector2.h"
 #include "Vector3.h"
 #include "Vector4.h"
