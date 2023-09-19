@@ -79,6 +79,10 @@ namespace TDS
         }break;
         case WM_KEYUP:
         {
+            uint32_t VKcode = wParam;
+            bool wasDown = (lParam & (1 << 30)) != 0;
+            bool isDown = (lParam & (1 << 31)) == 0;
+            Input::processKeyboardInput(VKcode, wasDown, isDown);
             Input::keystatus = Input::KeyStatus::RELEASED;
             Input::keystatus = Input::KeyStatus::IDLE;
         }break;
@@ -88,7 +92,7 @@ namespace TDS
      {
          /*auto& sceneManager = SceneManager::GetInstance();
          sceneManager->Init();*/
-         Run();
+         //Run();
      }
 
      void Application::Run()
@@ -132,6 +136,7 @@ namespace TDS
      void Application::Update()
      {
          auto  Clock = std::chrono::system_clock::now();
+         ImGuiIO& io = ImGui::GetIO();
          while (m_window.processInputEvent())
          {
              float DeltaTime;
@@ -141,9 +146,11 @@ namespace TDS
                  DeltaTime = ElapsedSeconds.count();
                  Clock = Now;
              }
+  
              //imgui helper
              {//docking 
                  imguiHelper::Update();
+
                  ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoDocking | ImGuiWindowFlags_NoTitleBar |
                      ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove |
                      ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoNavFocus |
@@ -167,8 +174,14 @@ namespace TDS
 
                  ImGui::End();
              }
+             
              ImGui::ShowDemoWindow();
-
+             // Update and Render additional Platform Windows
+             if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
+             {
+                 ImGui::UpdatePlatformWindows();
+                 ImGui::RenderPlatformWindowsDefault();
+             }
              m_pVKInst.get()->drawFrame(m_window, DeltaTime);
             
 
@@ -286,7 +299,7 @@ namespace TDS
 
      bool Application::initImgui()
      {
-         VkDescriptorPoolSize pool_sizes[] =
+        /* VkDescriptorPoolSize pool_sizes[] =
          {
              { VK_DESCRIPTOR_TYPE_SAMPLER, 1000 },
              { VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 1000 },
@@ -309,7 +322,7 @@ namespace TDS
          pool_info.pPoolSizes = pool_sizes;
 
          vkCreateDescriptorPool(m_pVKInst.get()->m_logicalDevice, &pool_info, nullptr
-           , &m_pVKInst.get()->m_ImguiDescriptorPool);
+           , &m_pVKInst.get()->m_ImguiDescriptorPool);*/
 
          ImGui_ImplVulkan_InitInfo initInfo{};
 
@@ -323,7 +336,7 @@ namespace TDS
          
 
 
-         initInfo.DescriptorPool = m_pVKInst.get()->m_ImguiDescriptorPool;
+         initInfo.DescriptorPool = m_pVKInst.get()->m_descriptorPool;
          initInfo.Subpass = 0;
          initInfo.MinImageCount = 2;
          initInfo.ImageCount = 2;
@@ -343,6 +356,10 @@ namespace TDS
              std::cerr << "failed to create command buffer for imgui font creation\n";
              return false;
          }
+         
+        /* for(uint32_t i = 0; i < m_pVKInst.get()->swapChainImageViews.size(); i++)
+             m_pVKInst.get()->m_descriptorSets[i] = ImGui_ImplVulkan_AddTexture(m_pVKInst.get()->m_textureSampler, m_pVKInst.get()->swapChainImageViews[i], VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL);*/
+
 
          return true;
 

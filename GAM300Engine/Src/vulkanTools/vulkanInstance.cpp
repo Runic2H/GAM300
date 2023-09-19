@@ -493,7 +493,7 @@ namespace TDS
 			vkDestroyBuffer(m_logicalDevice, uniformBuffers[i], nullptr);
 			vkFreeMemory(m_logicalDevice,uniformBuffersMemory[i], nullptr);
 		}
-		vkDestroyDescriptorPool(m_logicalDevice, m_ImguiDescriptorPool, nullptr);
+		//vkDestroyDescriptorPool(m_logicalDevice, m_ImguiDescriptorPool, nullptr);
 		vkDestroyDescriptorPool(m_logicalDevice, m_descriptorPool, nullptr);
 
 		vkDestroySampler(m_logicalDevice, m_textureSampler, nullptr);
@@ -1324,7 +1324,7 @@ namespace TDS
 		poolInfo.pPoolSizes = poolSizes.data();
 
 		//specify the maximum number of descriptor sets that may be allocated
-		poolInfo.maxSets = static_cast<uint32_t>(MAX_FRAMES_IN_FLIGHT);
+		poolInfo.maxSets = static_cast<uint32_t>(poolSizes.size())*2;
 
 		if (vkCreateDescriptorPool(m_logicalDevice, &poolInfo, nullptr, &m_descriptorPool) != VK_SUCCESS) {
 			throw std::runtime_error("failed to create descriptor pool!");

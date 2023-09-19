@@ -19,10 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Include\editor.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="Src\editor.cpp" />
+    <ClCompile Include="entry.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

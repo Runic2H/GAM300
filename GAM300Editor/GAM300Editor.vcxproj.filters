@@ -15,12 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Include\editor.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="Src\editor.cpp">
+    <ClCompile Include="entry.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

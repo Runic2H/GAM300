@@ -113,6 +113,7 @@ namespace TDS
 
 				default:
 					return false;
+					break;
 			}
 		}
 		else

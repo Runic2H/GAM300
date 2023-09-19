@@ -22,7 +22,7 @@ namespace TDS
 	class DLL_API WindowsWin
 	{
 	public:		//functions
-				WindowsWin(HINSTANCE hInstance, int nCmdShow, const wchar_t* className);
+			     WindowsWin(HINSTANCE hInstance, int nCmdShow, const wchar_t* className);
 				~WindowsWin();
 
      uint32_t	getWidth()  const noexcept;
@@ -32,12 +32,12 @@ namespace TDS
 	 void		setHeight(const uint32_t& _value) { m_Height = _value; }
 	 
 
-	 bool		registerWindow(const WNDPROC& wndproc);
 	 bool		createWindow(const WNDPROC& wndproc);
 	 bool		processInputEvent();
 	
 	 HWND		getWindowHandler() const { return m_handleWindows; }
 	 HINSTANCE	getHInstance()	   const { return m_hInstance;     }
+
 	private:	//functions
 
 	public:		//variables
@@ -65,6 +65,8 @@ namespace TDS
 		static constexpr int minWidth {1280};
 		static constexpr int minHeight {800};
 
+	private:
+	 bool		registerWindow(const WNDPROC& wndproc);
 	};
 
 }//end TDS

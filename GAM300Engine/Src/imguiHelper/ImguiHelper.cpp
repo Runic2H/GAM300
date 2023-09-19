@@ -7,10 +7,11 @@ namespace TDS
 		IMGUI_CHECKVERSION();
 		ImGui::CreateContext();
 		ImGuiIO& io{ ImGui::GetIO() };
-		io.BackendFlags |= ImGuiBackendFlags_HasMouseCursors;
-		io.BackendFlags |= ImGuiBackendFlags_HasSetMousePos;
+		//io.BackendFlags |= ImGuiBackendFlags_HasMouseCursors;
+		//io.BackendFlags |= ImGuiBackendFlags_HasSetMousePos;
 		io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;           // Enable Docking
 		io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;       // Enable Multi-Viewport / Platform Windows
+		io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
 		ImGui::StyleColorsDark();
 		ImGui_ImplVulkan_Init(&initinfo, RenderPass);
 		ImGui_ImplWin32_Init(inHwnd);

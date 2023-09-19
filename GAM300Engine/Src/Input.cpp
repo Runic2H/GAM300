@@ -1,5 +1,5 @@
 #include "Input.h"
-
+#include <iostream>
 namespace TDS
 {
 	Input::keyboardInputMap Input::keyboard;
@@ -47,30 +47,35 @@ namespace TDS
 
 			else if (VKcode == VK_UP)
 			{
+				keyCode = VKcode;
 				keyboard.keys[TDS_UP].isDown = isDown;
 				keyboard.keys[TDS_UP].wasDown = wasDown;
 			}
 
 			else if (VKcode == VK_DOWN)
 			{
+				keyCode = VKcode;
 				keyboard.keys[TDS_DOWN].isDown = isDown;
 				keyboard.keys[TDS_DOWN].wasDown = wasDown;
 			}
 
 			else if (VKcode == VK_LEFT)
 			{
+				keyCode = VKcode;
 				keyboard.keys[TDS_LEFT].isDown = isDown;
 				keyboard.keys[TDS_LEFT].wasDown = wasDown;
 			}
 
 			else if (VKcode == VK_RIGHT)
 			{
+				keyCode = VKcode;
 				keyboard.keys[TDS_RIGHT].isDown = isDown;
 				keyboard.keys[TDS_RIGHT].wasDown = wasDown;
 			}
 
 			else if (VKcode >= '0' && VKcode <= '9')
 			{
+				keyCode = VKcode;
 				uint32_t TDS_keycode = VKcode - '0' + TDS_0;
 				keyboard.keys[TDS_keycode].isDown = isDown;
 				keyboard.keys[TDS_keycode].wasDown = wasDown;
@@ -78,96 +83,112 @@ namespace TDS
 
 			else if (VKcode == VK_OEM_MINUS)
 			{
+				keyCode = VKcode;
 				keyboard.keys[TDS_MINUS].isDown = isDown;
 				keyboard.keys[TDS_MINUS].wasDown = wasDown;
 			}
 
 			else if (VKcode == VK_OEM_PLUS)
 			{
+				keyCode = VKcode;
 				keyboard.keys[TDS_PLUS].isDown = isDown;
 				keyboard.keys[TDS_PLUS].wasDown = wasDown;
 			}
 
 			else if (VKcode == VK_SHIFT)
 			{
+				keyCode = VKcode;
 				keyboard.keys[TDS_SHIFT].isDown = isDown;
 				keyboard.keys[TDS_SHIFT].wasDown = wasDown;
 			}
 
 			else if (VKcode == VK_CONTROL)
 			{
+				keyCode = VKcode;
 				keyboard.keys[TDS_CONTROL].isDown = isDown;
 				keyboard.keys[TDS_CONTROL].wasDown = wasDown;
 			}
 
 			else if (VKcode == VK_MENU)
 			{
+				keyCode = VKcode;
 				keyboard.keys[TDS_ALT].isDown = isDown;
 				keyboard.keys[TDS_ALT].wasDown = wasDown;
 			}
 
 			else if (VKcode == VK_SPACE)
 			{
+				keyCode = VKcode;
 				keyboard.keys[TDS_SPACE].isDown = isDown;
 				keyboard.keys[TDS_SPACE].wasDown = wasDown;
 			}
 
 			else if (VKcode == VK_ESCAPE)
 			{
+				keyCode = VKcode;
 				keyboard.keys[TDS_ESCAPE].isDown = isDown;
 				keyboard.keys[TDS_ESCAPE].wasDown = wasDown;
 			}
 
 			else if (VKcode == VK_CAPITAL)
 			{
+				keyCode = VKcode;
 				keyboard.keys[TDS_CAPSLOCK].isDown = isDown;
 				keyboard.keys[TDS_CAPSLOCK].wasDown = wasDown;
 			}
 
 			else if (VKcode == VK_TAB)
 			{
+				keyCode = VKcode;
 				keyboard.keys[TDS_TAB].isDown = isDown;
 				keyboard.keys[TDS_TAB].wasDown = wasDown;
 			}
 
 			else if (VKcode == VK_RETURN)
 			{
+				keyCode = VKcode;
 				keyboard.keys[TDS_ENTER].isDown = isDown;
 				keyboard.keys[TDS_ENTER].wasDown = wasDown;
 			}
 
 			else if (VKcode == VK_BACK)
 			{
+				keyCode = VKcode;
 				keyboard.keys[TDS_BACKSPACE].isDown = isDown;
 				keyboard.keys[TDS_BACKSPACE].wasDown = wasDown;
 			}
 
 			else if (VKcode == VK_OEM_3)
 			{
+				keyCode = VKcode;
 				keyboard.keys[TDS_TILDE].isDown = isDown;
 				keyboard.keys[TDS_TILDE].wasDown = wasDown;
 			}
 
 			else if (VKcode == VK_OEM_COMMA)
 			{
+				keyCode = VKcode;
 				keyboard.keys[TDS_COMMA].isDown = isDown;
 				keyboard.keys[TDS_COMMA].wasDown = wasDown;
 			}
 
 			else if (VKcode == VK_OEM_PERIOD)
 			{
+				keyCode = VKcode;
 				keyboard.keys[TDS_PERIOD].isDown = isDown;
 				keyboard.keys[TDS_PERIOD].wasDown = wasDown;
 			}
 
 			else if (VKcode == VK_OEM_2)
 			{
+				keyCode = VKcode;
 				keyboard.keys[TDS_SLASH].isDown = isDown;
 				keyboard.keys[TDS_SLASH].wasDown = wasDown;
 			}
 
 			else if (VKcode == VK_OEM_1)
 			{
+				keyCode = VKcode;
 				keyboard.keys[TDS_SEMICOLON].isDown = isDown;
 				keyboard.keys[TDS_SEMICOLON].wasDown = wasDown;
 			}

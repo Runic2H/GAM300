@@ -13,7 +13,7 @@
 
 namespace TDS
 {
-	class DLL_API Application
+	class /*DLL_API*/ Application
 	{
 	public:
 	
