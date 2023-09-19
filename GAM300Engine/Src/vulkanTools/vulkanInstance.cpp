@@ -12,7 +12,7 @@ namespace TDS
 	VulkanInstance::VulkanInstance(const WindowsWin& _Windows)
 	{
 		VkResult err;
-
+		vsync = _Windows.settings.vsync;
 		// Vulkan instance
 		err = createInstance(_Windows.settings.validation);
 		if (err) {
@@ -774,13 +774,16 @@ namespace TDS
 	
 	VkPresentModeKHR VulkanInstance::chooseSwapPresentMode(const std::vector<VkPresentModeKHR>& availablePresentModes)
 	{
+		if(vsync)
+			return VK_PRESENT_MODE_FIFO_KHR;
+
 		for (const auto& availablePresentMode : availablePresentModes) {
 			if (availablePresentMode == VK_PRESENT_MODE_MAILBOX_KHR) {
 				return availablePresentMode;
 			}
 		}
 
-		return VK_PRESENT_MODE_FIFO_KHR;
+		
 	}
 	
 	VkExtent2D VulkanInstance::chooseSwapExtent(const VkSurfaceCapabilitiesKHR& capabilities, const WindowsWin &windows)

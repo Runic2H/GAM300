@@ -46,7 +46,7 @@ namespace TDS
 		{
 			bool validation		{ true };
 			bool fullscreen		{ false };
-			bool vsync			{ false };
+			bool vsync			{ true };
 			bool overlay		{ true	};
 		
 		}settings;

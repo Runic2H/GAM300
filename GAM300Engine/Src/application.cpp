@@ -135,18 +135,18 @@ namespace TDS
 
      void Application::Update()
      {
-         auto  Clock = std::chrono::system_clock::now();
+        
          ImGuiIO& io = ImGui::GetIO();
          while (m_window.processInputEvent())
          {
              float DeltaTime;
              {
-                 auto                         Now = std::chrono::system_clock::now();
+                 auto                         Now = std::chrono::high_resolution_clock::now();
                  std::chrono::duration<float> ElapsedSeconds = Now - Clock;
                  DeltaTime = ElapsedSeconds.count();
                  Clock = Now;
              }
-  
+
              //imgui helper
              {//docking 
                  imguiHelper::Update();
@@ -174,7 +174,13 @@ namespace TDS
 
                  ImGui::End();
              }
-             
+             {//profiler
+                 ImGui::Begin("Profiler");
+                 ImGui::Text("FPS: %.3f", 1.f / DeltaTime);
+                 ImGui::End();
+
+
+             }
              ImGui::ShowDemoWindow();
              // Update and Render additional Platform Windows
              if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)

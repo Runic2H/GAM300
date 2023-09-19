@@ -300,6 +300,7 @@ public://members
 
 		//to be removed
 		TDSCamera camera{ -90.0f ,0.f};
+		bool vsync{ false };
 	};
 
 
