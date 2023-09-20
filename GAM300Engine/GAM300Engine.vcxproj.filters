@@ -51,6 +51,7 @@
     <ClCompile Include="Src\Animation\Pose.cpp" />
     <ClCompile Include="Src\Model\Skeleton.cpp" />
     <ClCompile Include="Src\Model\ModelTransform.cpp" />
+    <ClCompile Include="Src\pch.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Shared_Libs\MathCommon.h" />
@@ -101,5 +102,6 @@
     <ClInclude Include="Include\Animation\Pose.h" />
     <ClInclude Include="Include\Model\Skeleton.h" />
     <ClInclude Include="Include\Model\ModelTransform.h" />
+    <ClInclude Include="Include\pch.h" />
   </ItemGroup>
 </Project>
