@@ -24,14 +24,15 @@ namespace TDS
 	****************************************************************************/
 	void SceneManager::Init()
 	{
+		ECS::registerComponent<NameTag>("NameTag");
+		ECS::registerComponent<Transform>("Transform");
+
 		ECS::registerComponent<CameraComponent>("CameraComponent");
 		ECS::registerComponent<Collider>("Collider");
-		ECS::registerComponent<NameTag>("NameTag");
 		ECS::registerComponent<PlayerAttributes>("PlayerAttributes");
 		ECS::registerComponent<RigidBody>("RigidBody");
 		ECS::registerComponent<Sprite>("Sprite");
 		ECS::registerComponent<Tag>("Tag");
-		ECS::registerComponent<Transform>("Transform");
 		ECS::registerComponent<WinData>("WinData");
 
 		// Setting default scene
@@ -86,6 +87,7 @@ namespace TDS
 
 			std::cout << std::endl;
 		}
+		ECS::addComponent<Sprite>(ECS::getEntities()[0]);
 
 		//SerializeToFile(std::filesystem::current_path().parent_path().string() + "\\assets\\scenes\\MainMenu.json");
 	}

@@ -19,4 +19,9 @@ namespace TDS
 		//UNREFERENCED_PARAMETER(writer);
 		return true;
 	}
+
+	void PlayerAttributes::ImGuiDisplay()
+	{
+
+	}
 }

@@ -14,6 +14,8 @@ namespace TDS
 		virtual bool Deserialize(const rapidjson::Value& obj);
 		virtual bool Serialize(rapidjson::PrettyWriter<rapidjson::StringBuffer>* writer) const;
 
+		virtual void ImGuiDisplay();
+
 		Vec2& GetAcceleration() { return mAcceleration; }
 		void SetAcceleration(Vec2 acceleration) { mAcceleration = acceleration; }
 

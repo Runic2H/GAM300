@@ -9,6 +9,8 @@
 #include "application.h"
 #include "Input.h"
 #include "imguiHelper/ImguiHelper.h"
+#include "sceneManager/sceneManager.h"
+#include "Logger/Logger.h"
 //#include "sceneManager/sceneManager.h"
 
 namespace TDS
@@ -18,6 +20,7 @@ namespace TDS
      {
          m_window.createWindow(wndproc);
          m_pVKInst = std::make_shared<VulkanInstance>(m_window);
+         Log::Init();
 	 }
      void  Application::handleMessages(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
      {
@@ -90,14 +93,17 @@ namespace TDS
      }
      void Application::Initialize()
      {
-         /*auto& sceneManager = SceneManager::GetInstance();
-         sceneManager->Init();*/
+
+         auto& sceneManager = SceneManager::GetInstance();
+         sceneManager->Init();
          //Run();
      }
 
      void Application::Run()
      {
          startScriptEngine();
+        
+         //startScriptEngine();
 
          // Step 1: Get Functions
          auto init = GetFunctionPtr<void(*)(void)>
@@ -130,13 +136,18 @@ namespace TDS
              executeUpdate();
          }
 
-         stopScriptEngine();
+         //stopScriptEngine();
      }
 
      void Application::Update()
      {
+
         
          ImGuiIO& io = ImGui::GetIO();
+
+         TDS_INFO("Hello, {}!", "World");
+         auto  Clock = std::chrono::system_clock::now();
+
          while (m_window.processInputEvent())
          {
              float DeltaTime;
@@ -146,8 +157,6 @@ namespace TDS
                  DeltaTime = ElapsedSeconds.count();
                  Clock = Now;
              }
-
-             //imgui helper
              {//docking 
                  imguiHelper::Update();
 
@@ -178,9 +187,8 @@ namespace TDS
                  ImGui::Begin("Profiler");
                  ImGui::Text("FPS: %.3f", 1.f / DeltaTime);
                  ImGui::End();
-
-
              }
+             
              ImGui::ShowDemoWindow();
              // Update and Render additional Platform Windows
              if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
@@ -189,13 +197,12 @@ namespace TDS
                  ImGui::RenderPlatformWindowsDefault();
              }
              m_pVKInst.get()->drawFrame(m_window, DeltaTime);
-            
-
              Input::scrollStop();
          }
          vkDeviceWaitIdle(m_pVKInst.get()->getVkLogicalDevice());
          imguiHelper::Exit();
      }
+  
      Application::~Application()
      {
          
@@ -350,11 +357,11 @@ namespace TDS
          initInfo.Allocator = nullptr;
          initInfo.CheckVkResultFn = nullptr;
 
-         imguiHelper::initializeImgui(initInfo, m_pVKInst.get()->m_RenderPass, m_window.getWindowHandler());
+         imguiHelper::InitializeImgui(initInfo, m_pVKInst.get()->m_RenderPass, m_window.getWindowHandler());
 
          if (VkCommandBuffer FCB{ m_pVKInst.get()->beginSingleTimeCommands() }; FCB != nullptr)
          {
-             imguiHelper::createFont(FCB);
+             imguiHelper::ImguiCreateFont(FCB);
              m_pVKInst.get()->endSingleTimeCommands(FCB);
          }
          else

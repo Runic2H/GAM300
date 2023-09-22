@@ -25,4 +25,9 @@ namespace TDS {
 		//UNREFERENCED_PARAMETER(writer);
 		return false;
 	}
+
+	void CameraComponent::ImGuiDisplay()
+	{
+
+	}
 }

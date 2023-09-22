@@ -37,4 +37,11 @@ namespace TDS
 
 		return true;
 	}
+
+	void Transform::ImGuiDisplay()
+	{
+		ImguiVec3Input("Position", mPosition);
+		ImguiVec3Input("Scale", mScale);
+		ImguiFloatInput("Rotation", mRotation);
+	}
 }

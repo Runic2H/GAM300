@@ -5,7 +5,7 @@ namespace TDS {
 	/*!*************************************************************************
 	Constructor for collider component
 	****************************************************************************/
-	Collider::Collider() : mColliderType	(ColliderType::none),
+	Collider::Collider() : mColliderType	(ColliderType::NONE),
 						   mCollisionNormal (Vec2(0.0f, 0.0f)),
 						   mMin				(Vec2(0.0f, 0.0f)),
 						   mMax				(Vec2(0.0f, 0.0f)),
@@ -70,5 +70,46 @@ namespace TDS {
 		writer->Double(mIsAlive);
 
 		return true;
+	}
+
+	void Collider::ImGuiDisplay()
+	{
+		// Collider Type
+		static std::string colliderTypeStringList[3]{ "None", "Circle", "Rectangle" };
+		int colliderTypeSelected = static_cast<int>(mColliderType) - 1;
+
+		// Uninitialized
+		if (colliderTypeSelected == -1)
+		{
+			mColliderType = ColliderType::NONE;
+			colliderTypeSelected = 0;
+		}
+
+		if (ImGui::BeginCombo("Collider Type", colliderTypeStringList[colliderTypeSelected].c_str()))
+		{
+			for (int n = 0; n < 3; n++)
+			{
+				const bool is_selected = (colliderTypeSelected == n);
+				if (ImGui::Selectable(colliderTypeStringList[n].c_str(), is_selected))
+				{
+					mColliderType = static_cast<ColliderType>(n + 1);
+				}
+
+				// Set the initial focus when opening the combo (scrolling + keyboard navigation focus)
+				if (is_selected)
+				{
+					ImGui::SetItemDefaultFocus();
+				}
+			}
+			ImGui::EndCombo();
+		}
+
+		ImguiVec2Input("Collision Normal", mCollisionNormal);
+		ImguiVec2Input("Min", mMin);
+		ImguiVec2Input("Max", mMax);
+		ImguiVec2Input("Offset", mOffset);
+		ImguiIntInput("Hit", mHit);
+		ImguiFloatInput("Radius", mRadius);
+		ImguiBoolInput("Is Alive", mIsAlive);
 	}
 }

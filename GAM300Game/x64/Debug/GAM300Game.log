@@ -1,0 +1,6 @@
+﻿  0 File(s) copied
+  File not found - net7.0
+  The system cannot find the file specified.
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VC\v170\Microsoft.CppCommon.targets(160,5): error MSB3073: The command "xcopy /s /r /y /q "C:\Users\mattc\Downloads\GAM300\GAM300Engine\x64\Debug\net7.0" "C:\Users\mattc\Downloads\GAM300\GAM300Engine\x64\Debug\"
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VC\v170\Microsoft.CppCommon.targets(160,5): error MSB3073: rmdir /s /q "C:\Users\mattc\Downloads\GAM300\GAM300Engine\x64\Debug\net7.0"
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VC\v170\Microsoft.CppCommon.targets(160,5): error MSB3073: :VCEnd" exited with code 4.

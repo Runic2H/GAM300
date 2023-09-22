@@ -60,4 +60,14 @@ namespace TDS
 
 		return true;
 	}
+
+	void RigidBody::ImGuiDisplay()
+	{
+		ImguiVec2Input("Acceleration", mAcceleration);
+		ImguiVec2Input("Velocity", mVelocity);
+		ImguiVec2Input("Direction", mDirection);
+		ImguiVec2Input("Next Position", mNextPosition);
+		ImguiFloatInput("Friction", mFriction);
+		ImguiFloatInput("Restitution", mRestitution);
+	}
 }

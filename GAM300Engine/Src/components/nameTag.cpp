@@ -17,4 +17,15 @@ namespace TDS
 		writer->String(mName.c_str());
 		return true;
 	}
+
+	void NameTag::ImGuiDisplay()
+	{
+		//ImGui::NewLine();
+
+		//ImGui::Indent();
+
+		ImguiTextInput("Name", mName);
+
+		//ImGui::Unindent();
+	}
 }

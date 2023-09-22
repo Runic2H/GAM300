@@ -52,6 +52,8 @@
     <ClCompile Include="Src\Model\Skeleton.cpp" />
     <ClCompile Include="Src\Model\ModelTransform.cpp" />
     <ClCompile Include="Src\pch.cpp" />
+    <ClCompile Include="Src\Logger\Logger.cpp" />
+    <ClCompile Include="Src\ExceptionHandler\ExceptionHandler.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Shared_Libs\MathCommon.h" />
@@ -103,5 +105,7 @@
     <ClInclude Include="Include\Model\Skeleton.h" />
     <ClInclude Include="Include\Model\ModelTransform.h" />
     <ClInclude Include="Include\pch.h" />
+    <ClInclude Include="Include\Logger\Logger.h" />
+    <ClInclude Include="Include\ExceptionHandler\ExceptionHandler.h" />
   </ItemGroup>
 </Project>

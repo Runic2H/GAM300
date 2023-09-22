@@ -50,4 +50,9 @@ namespace TDS
 
 		return true;
 	}
+
+	void WinData::ImGuiDisplay()
+	{
+
+	}
 }

@@ -75,4 +75,17 @@ namespace TDS
 
 		return true;
 	}
+
+	void Sprite::ImGuiDisplay()
+	{
+		ImguiVec2Input("Index", mIndex);
+		ImguiBoolInput("Is Spritesheet", mIsSpriteSheet);
+		ImguiBoolInput("Is Animated", mIsAnimated);
+		ImguiFloatInput("Internal Timer", mInternalTimer);
+		ImguiIntInput("Layer Order", mLayerOrder);
+		ImguiTextInput("Texture Name", mTextureName);
+		ImguiVec2Input("UV Coordinate", mUVcooridnates);
+		ImguiFloatInput("Alpha", mAlpha);
+		ImguiIntInput("Max Index", mMaxIndex);
+	}
 }

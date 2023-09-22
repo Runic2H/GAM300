@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "vUiXhEGmmDy0wdYX9q1ayKL3lcf21kl5lktDb9YR/VqcsfRRKMb/op/Wnn2DN2KGcOywV9UgmqvVx8Dg9y46Gg==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\mattc\\Downloads\\GAM300\\ScriptAPI\\ScriptAPI.vcxproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\mattc\\.nuget\\packages\\microsoft.windows.sdk.net.ref\\10.0.22000.29\\microsoft.windows.sdk.net.ref.10.0.22000.29.nupkg.sha512"
+  ],
+  "logs": []
+}
