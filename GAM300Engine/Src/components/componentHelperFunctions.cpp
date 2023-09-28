@@ -4,7 +4,9 @@ namespace TDS
 {
 	IComponent* addComponentByName(std::string componentName, EntityID entityID)
 	{
-		if (componentName == "Camera Component")
+		if (componentName == "AI")
+			return ECS::addComponent<AI>(entityID);
+		else if (componentName == "Camera Component")
 			return ECS::addComponent<CameraComponent>(entityID);
 		else if (componentName == "Collider")
 			return ECS::addComponent<Collider>(entityID);
@@ -28,7 +30,9 @@ namespace TDS
 
 	IComponent* getComponentByName(std::string componentName, EntityID entityID)
 	{
-		if (componentName == "Camera Component")
+		if (componentName == "AI")
+			return ECS::getComponent<AI>(entityID);
+		else if (componentName == "Camera Component")
 			return ECS::getComponent<CameraComponent>(entityID);
 		else if (componentName == "Collider")
 			return ECS::getComponent<Collider>(entityID);
@@ -52,7 +56,9 @@ namespace TDS
 
 	void removeComponentByName(std::string componentName, EntityID entityID)
 	{
-		if (componentName == "Camera Component")
+		if (componentName == "AI")
+			ECS::removeComponent<AI>(entityID);
+		else if (componentName == "Camera Component")
 			ECS::removeComponent<CameraComponent>(entityID);
 		else if (componentName == "Collider")
 			ECS::removeComponent<Collider>(entityID);

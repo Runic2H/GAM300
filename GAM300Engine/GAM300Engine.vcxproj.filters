@@ -69,6 +69,11 @@
     <ClCompile Include="Src\imguiHelper\ImguiConsole.cpp" />
     <ClCompile Include="Src\imguiHelper\ImguiToolBar.cpp" />
     <ClCompile Include="Src\imguiHelper\ImguiProfiler.cpp" />
+    <ClCompile Include="Src\AI\aiSystem.cpp" />
+    <ClCompile Include="Src\AI\behaviourTree.cpp" />
+    <ClCompile Include="Src\components\ai.cpp" />
+    <ClCompile Include="Src\imguiHelper\ImguiBehaviourTree.cpp" />
+    <ClCompile Include="Src\Input\Input.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Shared_Libs\MathCommon.h" />
@@ -136,6 +141,11 @@
     <ClInclude Include="Include\imguiHelper\ImguiProfiler.h" />
     <ClInclude Include="Include\fmod_engine\AudioEngine.h" />
     <ClInclude Include="Include\fmod_engine\SoundInfo.h" />
+    <ClInclude Include="Include\imguiHelper\ImguiBehaviourTree.h" />
+    <ClInclude Include="Include\imguiHelper\ImguiSceneBrowser.h" />
+    <ClInclude Include="Include\AI\aiSystem.h" />
+    <ClInclude Include="Include\AI\behaviourTree.h" />
+    <ClInclude Include="Include\components\ai.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="imgui.ini" />

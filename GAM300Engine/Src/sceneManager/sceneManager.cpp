@@ -27,6 +27,7 @@ namespace TDS
 		ECS::registerComponent<NameTag>("Name Tag");
 		ECS::registerComponent<Transform>("Transform");
 
+		ECS::registerComponent<AI>("AI");
 		ECS::registerComponent<CameraComponent>("Camera Component");
 		ECS::registerComponent<Collider>("Collider");
 		ECS::registerComponent<PlayerAttributes>("Player Attributes");
@@ -36,47 +37,51 @@ namespace TDS
 		ECS::registerComponent<WinData>("Win Data");
 
 		// Setting default scene
-		sceneDeserialize();
+		//sceneDeserialize();
 
-		//allScenes.emplace_back("Game");
-		//allScenes.emplace_back("MainMenu");
-		//startScene = "MainMenu";
-		//currentScene = "Game";
+		allScenes.emplace_back("Game");
+		allScenes.emplace_back("MainMenu");
+		startScene = "MainMenu";
+		currentScene = "MainMenu";
 
-		//EntityID entity1 = ECS::getNewID();
-		//ECS::registerEntity(entity1);
-		//ECS::addComponent<NameTag>(entity1);
-		//ECS::getComponent<NameTag>(entity1)->SetNameTag("entity1");
+		EntityID entity1 = ECS::getNewID();
+		ECS::registerEntity(entity1);
+		ECS::addComponent<NameTag>(entity1);
+		ECS::getComponent<NameTag>(entity1)->SetNameTag("entity1");
+		ECS::addComponent<Transform>(entity1);
+		ECS::getComponent<Transform>(entity1)->SetPosition(Vec3{ 2.f, 3.f, 4.f });
+		ECS::getComponent<Transform>(entity1)->SetScale(Vec3{ 2.f, 3.f, 4.f });
+		ECS::addComponent<AI>(entity1);
+		ECS::getComponent<AI>(entity1)->SetBehaviourTreeIndex(0);
 
-		//EntityID entity2 = ECS::getNewID();
-		//ECS::registerEntity(entity2);
-		//ECS::addComponent<NameTag>(entity2);
-		//ECS::getComponent<NameTag>(entity2)->SetNameTag("entity2");
-		//ECS::addComponent<Transform>(entity2);
-		//ECS::getComponent<Transform>(entity2)->SetPosition(Vec3{2.f, 3.f, 4.f});
-		//ECS::getComponent<Transform>(entity2)->SetScale(Vec3{2.f, 3.f, 4.f});
-		//ECS::addComponent<Collider>(entity2);
+		EntityID entity2 = ECS::getNewID();
+		ECS::registerEntity(entity2);
+		ECS::addComponent<NameTag>(entity2);
+		ECS::getComponent<NameTag>(entity2)->SetNameTag("entity2");
+		ECS::addComponent<Transform>(entity2);
+		ECS::getComponent<Transform>(entity2)->SetPosition(Vec3{2.f, 3.f, 4.f});
+		ECS::getComponent<Transform>(entity2)->SetScale(Vec3{2.f, 3.f, 4.f});
+		ECS::addComponent<Collider>(entity2);
 
-		//EntityID entity3 = ECS::getNewID();
-		//ECS::registerEntity(entity3);
-		//ECS::addComponent<NameTag>(entity3);
-		//ECS::getComponent<NameTag>(entity3)->SetNameTag("entity3");
-		//ECS::addComponent<Transform>(entity3);
-		//ECS::getComponent<Transform>(entity3)->SetPosition(Vec3{2.f, 3.f, 4.f});
-		//ECS::getComponent<Transform>(entity3)->SetScale(Vec3{2.f, 3.f, 4.f});
-		//ECS::addComponent<PlayerAttributes>(entity3);
+		EntityID entity3 = ECS::getNewID();
+		ECS::registerEntity(entity3);
+		ECS::addComponent<NameTag>(entity3);
+		ECS::getComponent<NameTag>(entity3)->SetNameTag("entity3");
+		ECS::addComponent<Transform>(entity3);
+		ECS::getComponent<Transform>(entity3)->SetPosition(Vec3{2.f, 3.f, 4.f});
+		ECS::getComponent<Transform>(entity3)->SetScale(Vec3{2.f, 3.f, 4.f});
+		ECS::addComponent<PlayerAttributes>(entity3);
 
-		//EntityID entity4 = ECS::getNewID();
-		//ECS::registerEntity(entity4);
-		//ECS::addComponent<NameTag>(entity4);
-		//ECS::getComponent<NameTag>(entity4)->SetNameTag("entity4");
-		//ECS::addComponent<Transform>(entity4);
-		//ECS::getComponent<Transform>(entity4)->SetPosition(Vec3{10.f, 10.f, 10.f });
-		//ECS::getComponent<Transform>(entity4)->SetScale(Vec3{ 10.f, 10.f, 10.f });
-		//ECS::addComponent<PlayerAttributes>(entity4);
-		//ECS::addComponent<RigidBody>(entity4);
+		EntityID entity4 = ECS::getNewID();
+		ECS::registerEntity(entity4);
+		ECS::addComponent<NameTag>(entity4);
+		ECS::getComponent<NameTag>(entity4)->SetNameTag("entity4");
+		ECS::addComponent<Transform>(entity4);
+		ECS::getComponent<Transform>(entity4)->SetPosition(Vec3{10.f, 10.f, 10.f });
+		ECS::getComponent<Transform>(entity4)->SetScale(Vec3{ 10.f, 10.f, 10.f });
+		ECS::addComponent<PlayerAttributes>(entity4);
+		ECS::addComponent<RigidBody>(entity4);
 
-		//ECS::addComponent<Transform>(entity1);
 
 		//for (int i = 3; i < 103; ++i)
 		//{
@@ -229,16 +234,18 @@ namespace TDS
 			writer->String(std::to_string(i).c_str(), static_cast<rapidjson::SizeType>(std::to_string(i).length()), false);
 			writer->StartObject();
 
+			std::string archetype = ECS::getArchetypeID(entityList[i]);
+
 			writer->Key("ArchetypeID");
-			writer->String(ECS::getArchetypeID(entityList[i]).c_str());
+			writer->String(archetype.c_str());
 
 			std::vector<std::string> componentStrings = ECS::getEntityComponents(entityList[i]);
 			int j = 0;
 			for (IComponent* component : ECS::getEntityComponentsBase(entityList[i]))
 			{
-				if (!component)
+				while (archetype[j] == '0' && j < archetype.length())
 				{
-					continue;
+					++j;
 				}
 
 				writer->String(componentStrings[j].c_str(), static_cast<rapidjson::SizeType>(componentStrings[j].length()), false);
@@ -246,7 +253,6 @@ namespace TDS
 				writer->StartObject();
 				component->Serialize(writer);
 				writer->EndObject();
-
 				++j;
 			}
 

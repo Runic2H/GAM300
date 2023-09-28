@@ -71,21 +71,21 @@ namespace TDS {
 		writer->Key("maxZ");
 		writer->Double(mMax.z);
 
-		writer->Key("mOffsetX");
+		writer->Key("offsetX");
 		writer->Double(mOffset.x);
-		writer->Key("mOffsetY");
+		writer->Key("offsetY");
 		writer->Double(mOffset.y);
-		writer->Key("mOffsetZ");
+		writer->Key("offsetZ");
 		writer->Double(mOffset.z);
 
 		writer->Key("hit");
-		writer->Double(mHit);
+		writer->Int(mHit);
 
 		writer->Key("radius");
 		writer->Double(mRadius);
 
 		writer->Key("isAlive");
-		writer->Double(mIsAlive);
+		writer->Bool(mIsAlive);
 
 		return true;
 	}

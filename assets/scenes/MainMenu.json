@@ -1,44 +1,48 @@
 {
     "Archetype Sizes": {
-        "110000000": {
-            "0": 48,
-            "1": 40
-        },
-        "110100000": {
+        "1110000000": {
             "0": 48,
             "1": 40,
-            "3": 72
+            "2": 40
         },
-        "110010000": {
+        "1100100000": {
             "0": 48,
             "1": 40,
-            "4": 8
+            "4": 72
         },
-        "110011000": {
+        "1100010000": {
             "0": 48,
             "1": 40,
-            "4": 8,
-            "5": 128
+            "5": 8
+        },
+        "1100011000": {
+            "0": 48,
+            "1": 40,
+            "5": 8,
+            "6": 128
         }
     },
     "Entity Data": {
         "0": {
-            "ArchetypeID": "110000000",
+            "ArchetypeID": "1110000000",
             "Name Tag": {
                 "name": "entity1"
             },
             "Transform": {
-                "positionX": 0.0,
-                "positionY": 0.0,
-                "positionZ": 0.0,
-                "scaleX": 1.0,
-                "scaleY": 1.0,
-                "scaleZ": 0.0,
+                "positionX": 2.0,
+                "positionY": 3.0,
+                "positionZ": 4.0,
+                "scaleX": 2.0,
+                "scaleY": 3.0,
+                "scaleZ": 4.0,
                 "rotation": 0.0
+            },
+            "AI": {
+                "behaviourTreeIndex": 0
             }
         },
         "1": {
-            "ArchetypeID": "110100000",
+            "ArchetypeID": "1100100000",
             "Name Tag": {
                 "name": "entity2"
             },
@@ -51,7 +55,7 @@
                 "scaleZ": 4.0,
                 "rotation": 0.0
             },
-            "Camera Component": {
+            "Collider": {
                 "colliderType": 0,
                 "collisionNormalX": 0.0,
                 "collisionNormalY": 0.0,
@@ -62,16 +66,16 @@
                 "maxX": 0.0,
                 "maxY": 0.0,
                 "maxZ": 0.0,
-                "mOffsetX": 0.0,
-                "mOffsetY": 0.0,
-                "mOffsetZ": 0.0,
-                "hit": 0.0,
+                "offsetX": 0.0,
+                "offsetY": 0.0,
+                "offsetZ": 0.0,
+                "hit": 0,
                 "radius": 0.0,
-                "isAlive": 1.0
+                "isAlive": true
             }
         },
         "2": {
-            "ArchetypeID": "110010000",
+            "ArchetypeID": "1100010000",
             "Name Tag": {
                 "name": "entity3"
             },
@@ -84,10 +88,10 @@
                 "scaleZ": 4.0,
                 "rotation": 0.0
             },
-            "Camera Component": {}
+            "Player Attributes": {}
         },
         "3": {
-            "ArchetypeID": "110011000",
+            "ArchetypeID": "1100011000",
             "Name Tag": {
                 "name": "entity4"
             },
@@ -100,8 +104,8 @@
                 "scaleZ": 10.0,
                 "rotation": 0.0
             },
-            "Camera Component": {},
-            "Collider": {
+            "Player Attributes": {},
+            "Rigid Body": {
                 "accelerationX": 0.0,
                 "accelerationY": 0.0,
                 "accelerationZ": 0.0,
@@ -126,6 +130,7 @@
                 "friction": 0.0,
                 "restitution": 0.0,
                 "mass": 1.0,
+                "inverseMass": 0.0,
                 "gravity": 0.0
             }
         }

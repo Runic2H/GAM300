@@ -196,6 +196,11 @@ rmdir /s /q "$(OutDir)net6.0"</Command>
     <ClCompile Include="Include\ecs\ecs.cpp" />
     <ClCompile Include="Include\GraphicsResource\Model.cpp" />
     <ClCompile Include="Include\Identifier\GUID.cpp" />
+    <ClCompile Include="Src\AI\aiSystem.cpp" />
+    <ClCompile Include="Src\AI\behaviourTree.cpp" />
+    <ClCompile Include="Src\components\ai.cpp" />
+    <ClCompile Include="Src\imguiHelper\ImguiBehaviourTree.cpp" />
+    <ClCompile Include="Src\Input\Input.cpp" />
     <ClCompile Include="Src\Physics\CollisionSystem.cpp" />
     <ClCompile Include="Include\ResourceManagement\ResourceManager.cpp" />
     <ClCompile Include="main.cpp" />
@@ -260,8 +265,11 @@ rmdir /s /q "$(OutDir)net6.0"</Command>
     <ClInclude Include="..\Shared_Libs\Vector2.h" />
     <ClInclude Include="..\Shared_Libs\Vector3.h" />
     <ClInclude Include="..\Shared_Libs\Vector4.h" />
+    <ClInclude Include="Include\AI\aiSystem.h" />
+    <ClInclude Include="Include\AI\behaviourTree.h" />
     <ClInclude Include="Include\Animation\Pose.h" />
     <ClInclude Include="Include\application.h" />
+    <ClInclude Include="Include\components\ai.h" />
     <ClInclude Include="Include\components\cameraComponent.h" />
     <ClInclude Include="Include\components\collider.h" />
     <ClInclude Include="Include\components\components.h" />
@@ -288,6 +296,7 @@ rmdir /s /q "$(OutDir)net6.0"</Command>
     <ClInclude Include="Include\Identifier\Identifier.h" />
     <ClInclude Include="Include\imguiHelper\ImguiAssetBrowser.h" />
     <ClInclude Include="Include\imguiHelper\ImguiAudio.h" />
+    <ClInclude Include="Include\imguiHelper\ImguiBehaviourTree.h" />
     <ClInclude Include="Include\imguiHelper\ImguiFunctionHelper.h" />
     <ClInclude Include="Include\imguiHelper\ImguiHelper.h" />
     <ClInclude Include="Include\imguiHelper\ImguiHierarchy.h" />
@@ -295,6 +304,7 @@ rmdir /s /q "$(OutDir)net6.0"</Command>
     <ClInclude Include="Include\imguiHelper\ImguiProfiler.h" />
     <ClInclude Include="Include\imguiHelper\ImguiProperties.h" />
     <ClInclude Include="Include\ExceptionHandler\ExceptionHandler.h" />
+    <ClInclude Include="Include\imguiHelper\ImguiSceneBrowser.h" />
     <ClInclude Include="Include\imguiHelper\ImguiToolbar.h" />
     <ClInclude Include="Include\Input.h" />
     <ClInclude Include="Include\dotnet\ImportExport.h" />

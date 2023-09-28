@@ -50,7 +50,7 @@ namespace TDS
 		mFriction			= obj["friction"].GetFloat();
 		mRestitution		= obj["restitution"].GetFloat();
 		mMass				= obj["mass"].GetFloat();
-		mInverseMass		= obj["inversemass"].GetFloat();
+		mInverseMass		= obj["inverseMass"].GetFloat();
 		mGravity			= obj["gravity"].GetFloat();
 		return true;
 	}
@@ -117,6 +117,9 @@ namespace TDS
 
 		writer->Key("mass");
 		writer->Double(mMass);
+
+		writer->Key("inverseMass");
+		writer->Double(mInverseMass);
 
 		writer->Key("gravity");
 		writer->Double(mGravity);

@@ -5,6 +5,7 @@
 #include "imguiHelper/ImguiProperties.h"
 #include "imguiHelper/ImguiAssetBrowser.h"
 #include "imguiHelper/ImguiAudio.h"
+#include "imguiHelper/ImguiBehaviourTree.h"
 
 #include "imguiHelper/ImguiConsole.h"
 #include "imguiHelper/ImguiToolbar.h"
@@ -30,6 +31,7 @@ namespace TDS
 			m_instance->panels[PanelTypes::CONSOLE] = std::make_shared<EditorConsole>();
 			m_instance->panels[PanelTypes::TOOLBAR] = std::make_shared<Toolbar>();
 			m_instance->panels[PanelTypes::PROFILER] = std::make_shared<Profiler>();
+			m_instance->panels[PanelTypes::BEHAVIOURTREEEDITOR] = std::make_shared<BehaviourTreePanel>();
 		}
 		return m_instance;
 	}

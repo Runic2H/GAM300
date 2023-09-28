@@ -1,6 +1,7 @@
 #ifndef COMPONENTS
 #define COMPONENTS
 
+#include "ai.h"
 #include "cameraComponent.h"
 #include "collider.h"
 #include "nameTag.h"

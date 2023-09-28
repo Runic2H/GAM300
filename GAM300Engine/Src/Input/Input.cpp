@@ -1,7 +1,11 @@
-#include "input/Input.h"
+#include "Input.h"
 
 namespace TDS
 {
+	Input::KeyStatus Input::keystatus;
+	uint32_t Input::keyCode;
+	short Input::wheelDelta;
+
 	Input::keyboardInputMap Input::keyboard;
 	Input::mouseInputMap	Input::mouse;
 

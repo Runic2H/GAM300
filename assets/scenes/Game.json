@@ -1,33 +1,36 @@
 {
     "Archetype Sizes": {
-        "110000000": {
+        "1100000000": {
             "0": 96,
             "1": 80
         },
-        "110100000": {
+        "1110000000": {
             "0": 48,
             "1": 40,
-            "3": 56
+            "2": 40
         }
     },
     "Entity Data": {
         "0": {
-            "ArchetypeID": "110000000",
+            "ArchetypeID": "1110000000",
             "Name Tag": {
                 "name": "entity1"
             },
             "Transform": {
-                "positionX": 0.0,
-                "positionY": 0.0,
-                "positionZ": 0.0,
-                "scaleX": 1.0,
-                "scaleY": 1.0,
-                "scaleZ": 0.0,
+                "positionX": 2.0,
+                "positionY": 3.0,
+                "positionZ": 4.0,
+                "scaleX": 2.0,
+                "scaleY": 3.0,
+                "scaleZ": 4.0,
                 "rotation": 0.0
+            },
+            "AI": {
+                "behaviourTreeIndex": 0
             }
         },
         "1": {
-            "ArchetypeID": "110100000",
+            "ArchetypeID": "1100000000",
             "Name Tag": {
                 "name": "entity2"
             },
@@ -39,24 +42,10 @@
                 "scaleY": 3.0,
                 "scaleZ": 4.0,
                 "rotation": 0.0
-            },
-            "Camera Component": {
-                "colliderType": 0,
-                "collisionNormalX": 0.0,
-                "collisionNormalY": 0.0,
-                "minX": 0.0,
-                "minY": 0.0,
-                "maxX": 0.0,
-                "maxY": 0.0,
-                "mOffsetX": 0.0,
-                "mOffsetY": 0.0,
-                "hit": 0.0,
-                "radius": 0.0,
-                "isAlive": 1.0
             }
         },
         "2": {
-            "ArchetypeID": "110000000",
+            "ArchetypeID": "1100000000",
             "Name Tag": {
                 "name": "entity3"
             },
