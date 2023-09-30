@@ -144,6 +144,7 @@ namespace TDS
         RendererManager renderermgr{ *m_pVKInst.get(), m_Renderer->getSwapChainRenderPass(), globalSetLayout->getDescSetLayout() };
         //PointLightSystem PlightSystem{ *m_pVKInst.get(), m_Renderer->getSwapChainRenderPass(), globalSetLayout->getDescSetLayout() };
         initImgui();
+        float lightx = 0.f;
         while (m_window.processInputEvent())
         {
             float DeltaTime;
@@ -180,12 +181,14 @@ namespace TDS
                     m_Renderer->getAspectRatio(), 0.1f, 10.f);
                 ubo.proj.m[1][1] *= -1;*/
 
+                lightx = lightx < -1.f ? 1.f : lightx - 0.005f;
+
                 GlobalUBO PLUbo;
                 PLUbo.m_Projection = Mat4::Perspective(m_camera.m_Fov * Mathf::Deg2Rad,
                     m_Renderer->getAspectRatio(), 0.1f, 10.f);
                 PLUbo.m_Projection.m[1][1] *= -1;
                 PLUbo.m_View = m_camera.GetViewMatrix();
-                PLUbo.m_vPointLights[0].m_Position = Vec4(0.f, 2.f, 0.f, 1.f);
+                PLUbo.m_vPointLights[0].m_Position = Vec4(lightx, 0.5f, 0.f, 0.2f);
                 PLUbo.m_vPointLights[0].m_Color = Vec4(1.f, 1.f, 1.f, 1.f);
                 //PlightSystem.update(frameinfo, PLUbo);
                 uboBuffers[frameIndex]->WritetoBuffer(&PLUbo);

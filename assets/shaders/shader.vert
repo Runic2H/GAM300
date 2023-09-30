@@ -7,14 +7,8 @@ layout(location = 3) in vec4 vNormals;
 
 layout(location = 0) out vec3 fragColor;
 layout(location = 1) out vec2 fragTexCoord;
-
-
-// layout(binding = 0) uniform UniformBufferObject
-// {
-//     mat4 model;
-//     mat4 view;
-//     mat4 proj;
-// }ubo;
+layout(location = 2) out vec3 fragPosWorld;
+layout(location = 3) out vec3 fragNormalWorld;
 
 struct PointLight{
     vec4 Position;
@@ -38,15 +32,12 @@ layout(push_constant) uniform Push {
 
 
 void main() {
-    vec3 position_in_world = (push.modelMatrix * vec4(vPosition, 1.0)).xyz;
+    vec4 position_in_world = push.modelMatrix * vec4(vPosition, 1.0);
     gl_Position = PL.proj * PL.view *push.modelMatrix* vec4(vPosition, 1.0);
     
-    vec3 normalworldspace = normalize(mat3(push.normalMatrix) * vNormals.xyz);
-    vec3 directiontolight = PL.pointlights[0].Position.xyz - position_in_world;
-    vec3 lightcolor  = PL.pointlights[0].Color.xyz * PL.pointlights[0].Color.w;
-    vec3 ambientlight = PL.ambientlightcolor.xyz * PL.ambientlightcolor.w;
-    vec3 diffuselight = lightcolor* max(dot(normalworldspace, normalize(directiontolight)),0);
+    fragNormalWorld = normalize(mat3(push.normalMatrix) * vNormals.xyz);
+    fragPosWorld = position_in_world.xyz;
 
-    fragColor =  (diffuselight + ambientlight)*vColor;
+    fragColor = vColor;
     fragTexCoord = inTexCoord;
 }
