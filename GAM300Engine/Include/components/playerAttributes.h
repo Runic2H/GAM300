@@ -5,7 +5,7 @@
 
 namespace TDS
 {
-	class PlayerAttributes : public IComponent
+	class DLL_API PlayerAttributes : public IComponent
 	{
 	public:
 		PlayerAttributes() { }
@@ -16,7 +16,7 @@ namespace TDS
 
 		//PlayerAttributes& operator=(PlayerAttributes&& other) noexcept { return *this; };
 
-		virtual void ImGuiDisplay();
+		//virtual void ImGuiDisplay();
 
 	private:
 	};

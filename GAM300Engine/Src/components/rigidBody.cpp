@@ -127,17 +127,17 @@ namespace TDS
 		return true;
 	}
 
-	void RigidBody::ImGuiDisplay()
-	{
-		ImguiVec3Input("Input Force", mInputForce);
-		ImguiVec3Input("Linear Velocity", mLinearVelocity);
-		ImguiVec3Input("Angular Velocity", mAngularVelocity);
-		ImguiVec3Input("Acceleration", mAcceleration);
-		ImguiVec3Input("Direction", mDirection);
-		ImguiVec3Input("Next Position", mNextPosition);
-		ImguiFloatInput("Friction", mFriction);
-		ImguiFloatInput("Restitution", mRestitution);
-		ImguiFloatInput("Mass", mMass);
-		ImguiFloatInput("Gravity", mGravity);
-	}
+	//void RigidBody::ImGuiDisplay()
+	//{
+	//	ImguiVec3Input("Input Force", mInputForce);
+	//	ImguiVec3Input("Linear Velocity", mLinearVelocity);
+	//	ImguiVec3Input("Angular Velocity", mAngularVelocity);
+	//	ImguiVec3Input("Acceleration", mAcceleration);
+	//	ImguiVec3Input("Direction", mDirection);
+	//	ImguiVec3Input("Next Position", mNextPosition);
+	//	ImguiFloatInput("Friction", mFriction);
+	//	ImguiFloatInput("Restitution", mRestitution);
+	//	ImguiFloatInput("Mass", mMass);
+	//	ImguiFloatInput("Gravity", mGravity);
+	//}
 }

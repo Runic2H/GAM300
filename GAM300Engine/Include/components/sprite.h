@@ -6,7 +6,7 @@
 
 namespace TDS
 {
-	class Sprite : public IComponent
+	class DLL_API Sprite : public IComponent
 	{
 	public:
 		Sprite();
@@ -17,7 +17,7 @@ namespace TDS
 
 		//Sprite& operator=(Sprite&& other) noexcept { return *this; };
 
-		virtual void ImGuiDisplay();
+		//virtual void ImGuiDisplay();
 
 		bool& GetIsSpriteSheet() { return mIsSpriteSheet; }
 		void SetIsSpriteSheet(bool isSpriteSheet) { mIsSpriteSheet = isSpriteSheet; }

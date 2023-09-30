@@ -40,16 +40,16 @@
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
-    <UseDebugLibraries>true</UseDebugLibraries>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
-    <WholeProgramOptimization>false</WholeProgramOptimization>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
@@ -82,7 +82,7 @@
     <ExternalIncludePath>$(SolutionDir)Dependencies\dotnet\include;$(SolutionDir)Dependencies\assimp\include;$(SolutionDir)Dependencies\fmod;$(ExternalIncludePath)</ExternalIncludePath>
     <LibraryPath>$(OutDir);$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir).bin\$(Configuration)-$(Platform)</OutDir>
-    <PostBuildEventUseInBuild>false</PostBuildEventUseInBuild>
+    <PostBuildEventUseInBuild>true</PostBuildEventUseInBuild>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
@@ -140,7 +140,8 @@
       <AdditionalDependencies>vulkan-1.lib;assimp-vc143-mtd.lib;fmodL_vc.lib;fmodstudioL_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /s /r /y /q "$(SolutionDir)..\Dependencies\dotnet\bin" "$(OutDir)"
+      <Command>xcopy /Y "$(SolutionDir).bin\Debug-x64\GAM300Engine.dll" "$(SolutionDir)..\GAM300Editor\"
+xcopy /s /r /y /q "$(SolutionDir)..\Dependencies\dotnet\bin" "$(OutDir)"
 xcopy /s /r /y /q "$(OutDir)net6.0" "$(OutDir)"
 rmdir /s /q "$(OutDir)net6.0"
 xcopy /y /d "$(SolutionDir)..\Libs\fmod\*.dll" "$(OutDir)"</Command>
@@ -158,7 +159,7 @@ xcopy /y /d "$(SolutionDir)..\Libs\fmod\*.dll" "$(OutDir)"</Command>
       <AdditionalIncludeDirectories>$(SolutionDir)..\Dependencies;$(SolutionDir)Include;$(SolutionDir)..\Shared_Libs;$(SolutionDir)..\Dependencies\assimp\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalIncludeDirectories>$(SolutionDir)..\Dependencies;$(SolutionDir)Include;$(SolutionDir)..\Shared_Libs;$(SolutionDir)Include\Geometry;$(SolutionDir)..\Dependencies\assimp\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalIncludeDirectories>$(SolutionDir)..\Dependencies;$(SolutionDir)Include;$(SolutionDir)..\Shared_Libs;$(SolutionDir)Include\Geometry;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PrecompiledHeader>Create</PrecompiledHeader>
+      <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <ForcedIncludeFiles>pch.h</ForcedIncludeFiles>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -178,13 +179,6 @@ rmdir /s /q "$(OutDir)net6.0"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\Dependencies\imgui\imgui.cpp" />
-    <ClCompile Include="..\Dependencies\imgui\imgui_demo.cpp" />
-    <ClCompile Include="..\Dependencies\imgui\imgui_draw.cpp" />
-    <ClCompile Include="..\Dependencies\imgui\imgui_impl_vulkan.cpp" />
-    <ClCompile Include="..\Dependencies\imgui\imgui_impl_win32.cpp" />
-    <ClCompile Include="..\Dependencies\imgui\imgui_tables.cpp" />
-    <ClCompile Include="..\Dependencies\imgui\imgui_widgets.cpp" />
     <ClCompile Include="..\Shared_Libs\MathCommon.cpp" />
     <ClCompile Include="..\Shared_Libs\Matrix2.cpp" />
     <ClCompile Include="..\Shared_Libs\Matrix3.cpp" />
@@ -194,19 +188,10 @@ rmdir /s /q "$(OutDir)net6.0"</Command>
     <ClCompile Include="..\Shared_Libs\Vector3.cpp" />
     <ClCompile Include="..\Shared_Libs\Vector4.cpp" />
     <ClCompile Include="Include\ecs\ecs.cpp" />
-    <ClCompile Include="Include\GraphicsResource\Model.cpp" />
-    <ClCompile Include="Include\Identifier\GUID.cpp" />
     <ClCompile Include="Src\AI\aiSystem.cpp" />
     <ClCompile Include="Src\AI\behaviourTree.cpp" />
+    <ClCompile Include="Src\AudioEngine.cpp" />
     <ClCompile Include="Src\components\ai.cpp" />
-    <ClCompile Include="Src\imguiHelper\ImguiBehaviourTree.cpp" />
-    <ClCompile Include="Src\Input\Input.cpp" />
-    <ClCompile Include="Src\Physics\CollisionSystem.cpp" />
-    <ClCompile Include="Include\ResourceManagement\ResourceManager.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="Src\Animation\Pose.cpp" />
-    <ClCompile Include="Src\application.cpp" />
-    <ClCompile Include="src\AudioEngine.cpp" />
     <ClCompile Include="Src\components\cameraComponent.cpp" />
     <ClCompile Include="Src\components\collider.cpp" />
     <ClCompile Include="Src\components\componentHelperFunctions.cpp" />
@@ -217,18 +202,7 @@ rmdir /s /q "$(OutDir)net6.0"</Command>
     <ClCompile Include="Src\components\tag.cpp" />
     <ClCompile Include="Src\components\transform.cpp" />
     <ClCompile Include="Src\components\winData.cpp" />
-    <ClCompile Include="Src\camera\camera.cpp" />
-    <ClCompile Include="Src\imguiHelper\ImguiAssetBrowser.cpp" />
-    <ClCompile Include="src\imguiHelper\ImguiAudio.cpp" />
-    <ClCompile Include="Src\imguiHelper\ImguiHelper.cpp" />
-    <ClCompile Include="Src\imguiHelper\ImguiHierarchy.cpp" />
-    <ClCompile Include="Src\imguiHelper\ImguiConsole.cpp" />
-    <ClCompile Include="Src\imguiHelper\ImguiProfiler.cpp" />
-    <ClCompile Include="Src\imguiHelper\ImguiProperties.cpp" />
     <ClCompile Include="Src\ExceptionHandler\ExceptionHandler.cpp" />
-    <ClCompile Include="Src\imguiHelper\ImguiSceneBrowser.cpp" />
-    <ClCompile Include="Src\imguiHelper\ImguiToolBar.cpp" />
-    <ClCompile Include="Src\Input.cpp" />
     <ClCompile Include="Src\Geometry\AABB.cpp" />
     <ClCompile Include="Src\Geometry\Geometry.cpp" />
     <ClCompile Include="Src\Geometry\Line.cpp" />
@@ -236,21 +210,36 @@ rmdir /s /q "$(OutDir)net6.0"</Command>
     <ClCompile Include="Src\Geometry\Ray.cpp" />
     <ClCompile Include="Src\Geometry\Sphere.cpp" />
     <ClCompile Include="Src\Geometry\Triangle.cpp" />
+    <ClCompile Include="Src\Identifier\GUID.cpp" />
+    <ClCompile Include="Src\AssetManagement\AssetManager.cpp" />
+    <ClCompile Include="Src\GraphicsResource\AssetModel.cpp" />
+    <ClCompile Include="Src\GraphicsResource\TextureInfo.cpp" />
+    <ClCompile Include="Src\Input\Input.cpp" />
+    <ClCompile Include="Src\Animation\Pose.cpp" />
+    <ClCompile Include="Src\camera\camera.cpp" />
     <ClCompile Include="Src\Logger\Logger.cpp" />
     <ClCompile Include="Src\memoryManager\memoryManager.cpp" />
-    <ClCompile Include="Src\Model\Skeleton.cpp" />
     <ClCompile Include="Src\Model\ModelTransform.cpp" />
+    <ClCompile Include="Src\Model\Skeleton.cpp" />
     <ClCompile Include="Src\pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Use</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Src\Physics\CollisionSystem.cpp" />
     <ClCompile Include="Src\Physics\PhysicsSystem.cpp" />
+    <ClCompile Include="Src\ResourceManagement\ResouceManager.cpp" />
     <ClCompile Include="Src\sceneManager\sceneManager.cpp" />
     <ClCompile Include="Src\sceneManager\serialization.cpp" />
     <ClCompile Include="Src\Timestep\Timestep.cpp" />
-    <ClCompile Include="Src\vulkanTools\vmaSetup.cpp" />
+    <ClCompile Include="Src\vulkanTools\Buffer.cpp" />
+    <ClCompile Include="Src\vulkanTools\Descriptor.cpp" />
+    <ClCompile Include="Src\vulkanTools\GraphicsAllocator.cpp" />
+    <ClCompile Include="Src\vulkanTools\Model.cpp" />
+    <ClCompile Include="Src\vulkanTools\Pipeline.cpp" />
+    <ClCompile Include="Src\vulkanTools\PointLightSystem.cpp" />
+    <ClCompile Include="Src\vulkanTools\Renderer.cpp" />
+    <ClCompile Include="Src\vulkanTools\RendererManager.cpp" />
     <ClCompile Include="Src\vulkanTools\vulkanDebugger.cpp" />
-    <ClCompile Include="Src\vulkanTools\vulkanDevice.cpp" />
     <ClCompile Include="Src\vulkanTools\vulkanInstance.cpp" />
     <ClCompile Include="Src\vulkanTools\vulkanSwapChain.cpp" />
     <ClCompile Include="Src\windowswindow.cpp" />
@@ -268,7 +257,10 @@ rmdir /s /q "$(OutDir)net6.0"</Command>
     <ClInclude Include="Include\AI\aiSystem.h" />
     <ClInclude Include="Include\AI\behaviourTree.h" />
     <ClInclude Include="Include\Animation\Pose.h" />
-    <ClInclude Include="Include\application.h" />
+    <ClInclude Include="Include\AssetManagement\AssetManager.h" />
+    <ClInclude Include="Include\AssetManagement\FactoryBase.h" />
+    <ClInclude Include="Include\AssetManagement\ModelFactory.h" />
+    <ClInclude Include="Include\AssetManagement\TextureFactory.h" />
     <ClInclude Include="Include\components\ai.h" />
     <ClInclude Include="Include\components\cameraComponent.h" />
     <ClInclude Include="Include\components\collider.h" />
@@ -281,33 +273,14 @@ rmdir /s /q "$(OutDir)net6.0"</Command>
     <ClInclude Include="Include\components\tag.h" />
     <ClInclude Include="Include\components\transform.h" />
     <ClInclude Include="Include\components\winData.h" />
-    <ClInclude Include="Include\camera\camera.h" />
-    <ClInclude Include="Include\fmod\AudioEngine.h" />
-    <ClInclude Include="Include\fmod\SoundInfo.h" />
+    <ClInclude Include="Include\ecs\ecs.h" />
+    <ClInclude Include="Include\ecs\ecs.hpp" />
     <ClInclude Include="Include\ecs\systems.h" />
+    <ClInclude Include="Include\eventmanager\eventmanager.h" />
+    <ClInclude Include="Include\eventmanager\eventmanager.hpp" />
+    <ClInclude Include="Include\ExceptionHandler\ExceptionHandler.h" />
     <ClInclude Include="Include\fmod_engine\AudioEngine.h" />
     <ClInclude Include="Include\fmod_engine\SoundInfo.h" />
-    <ClInclude Include="Include\GraphicsResource\Geom.h" />
-    <ClInclude Include="Include\GraphicsResource\GraphicsResourceDefines.h" />
-    <ClInclude Include="Include\GraphicsResource\Material.h" />
-    <ClInclude Include="Include\GraphicsResource\Model.h" />
-    <ClInclude Include="Include\GraphicsResource\VertexInfo.h" />
-    <ClInclude Include="Include\Identifier\GUID.h" />
-    <ClInclude Include="Include\Identifier\Identifier.h" />
-    <ClInclude Include="Include\imguiHelper\ImguiAssetBrowser.h" />
-    <ClInclude Include="Include\imguiHelper\ImguiAudio.h" />
-    <ClInclude Include="Include\imguiHelper\ImguiBehaviourTree.h" />
-    <ClInclude Include="Include\imguiHelper\ImguiFunctionHelper.h" />
-    <ClInclude Include="Include\imguiHelper\ImguiHelper.h" />
-    <ClInclude Include="Include\imguiHelper\ImguiHierarchy.h" />
-    <ClInclude Include="Include\imguiHelper\ImguiConsole.h" />
-    <ClInclude Include="Include\imguiHelper\ImguiProfiler.h" />
-    <ClInclude Include="Include\imguiHelper\ImguiProperties.h" />
-    <ClInclude Include="Include\ExceptionHandler\ExceptionHandler.h" />
-    <ClInclude Include="Include\imguiHelper\ImguiSceneBrowser.h" />
-    <ClInclude Include="Include\imguiHelper\ImguiToolbar.h" />
-    <ClInclude Include="Include\Input.h" />
-    <ClInclude Include="Include\dotnet\ImportExport.h" />
     <ClInclude Include="Include\Geometry\AABB.h" />
     <ClInclude Include="Include\Geometry\Geometry.h" />
     <ClInclude Include="Include\Geometry\Line.h" />
@@ -315,35 +288,50 @@ rmdir /s /q "$(OutDir)net6.0"</Command>
     <ClInclude Include="Include\Geometry\Ray.h" />
     <ClInclude Include="Include\Geometry\Sphere.h" />
     <ClInclude Include="Include\Geometry\Triangle.h" />
-    <ClInclude Include="Include\Logger\Logger.h" />
+    <ClInclude Include="Include\GraphicsResource\AssetModel.h" />
+    <ClInclude Include="Include\GraphicsResource\GraphicsResourceDefines.h" />
+    <ClInclude Include="Include\GraphicsResource\Material.h" />
+    <ClInclude Include="Include\GraphicsResource\TextureInfo.h" />
+    <ClInclude Include="Include\GraphicsResource\VertexInfo.h" />
+    <ClInclude Include="Include\Input\Input.h" />
     <ClInclude Include="Include\memoryManager\memoryManager.h" />
-    <ClInclude Include="Include\Model\Skeleton.h" />
     <ClInclude Include="Include\Model\ModelTransform.h" />
-    <ClInclude Include="Include\pch.h" />
+    <ClInclude Include="Include\Model\Skeleton.h" />
     <ClInclude Include="Include\Physics\CollisionSystem.h" />
     <ClInclude Include="Include\Physics\PhysicsSystem.h" />
-    <ClInclude Include="Include\ResourceManagement\Resource.h" />
-    <ClInclude Include="Include\ResourceManagement\ResourceManager.h" />
-    <ClInclude Include="Include\ResourceManagement\ResourceRef.h" />
     <ClInclude Include="Include\sceneManager\sceneManager.h" />
     <ClInclude Include="Include\sceneManager\serialization.h" />
+    <ClInclude Include="Include\vulkanTools\Geom.h" />
+    <ClInclude Include="Include\vulkanTools\GraphicsAllocator.h" />
+    <ClInclude Include="Include\camera\camera.h" />
+    <ClInclude Include="Include\Identifier\GUID.h" />
+    <ClInclude Include="Include\Identifier\Identifier.h" />
+    <ClInclude Include="Include\dotnet\ImportExport.h" />
+    <ClInclude Include="Include\Logger\Logger.h" />
+    <ClInclude Include="Include\pch.h" />
+    <ClInclude Include="Include\ResourceManagement\ResourceManager.h" />
+    <ClInclude Include="Include\ResourceManagement\ResourceRef.h" />
     <ClInclude Include="Include\Timestep\Timestep.h" />
-    <ClInclude Include="Include\vulkanTools\vmaSetup.h" />
+    <ClInclude Include="Include\vulkanTools\Buffer.h" />
+    <ClInclude Include="Include\vulkanTools\Descriptor.h" />
+    <ClInclude Include="Include\vulkanTools\FrameInfo.h" />
+    <ClInclude Include="Include\vulkanTools\GraphicsResourceDefines.h" />
+    <ClInclude Include="Include\vulkanTools\Pipeline.h" />
+    <ClInclude Include="Include\vulkanTools\PointLightSystem.h" />
+    <ClInclude Include="Include\vulkanTools\Renderer.h" />
+    <ClInclude Include="Include\vulkanTools\RendererManager.h" />
     <ClInclude Include="Include\vulkanTools\vulkanDebugger.h" />
-    <ClInclude Include="Include\vulkanTools\vulkanDevice.h" />
     <ClInclude Include="Include\vulkanTools\vulkanInstance.h" />
     <ClInclude Include="Include\vulkanTools\vulkanSwapChain.h" />
-    <ClInclude Include="Include\ecs\ecs.h" />
-    <ClInclude Include="Include\ecs\ecs.hpp" />
-    <ClInclude Include="Include\eventmanager\eventmanager.h" />
-    <ClInclude Include="Include\eventmanager\eventmanager.hpp" />
     <ClInclude Include="Include\windowswindow.h" />
+    <ClInclude Include="Include\vulkanTools\Model.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="assimp-vc143-mtd.dll" />
+    <None Include="fmod.dll" />
     <None Include="fmodL.dll" />
+    <None Include="fmodstudio.dll" />
     <None Include="fmodstudioL.dll" />
-    <None Include="imgui.ini" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

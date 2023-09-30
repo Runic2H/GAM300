@@ -6,7 +6,7 @@
 
 namespace TDS
 {
-	class Transform : public IComponent
+	class DLL_API Transform : public IComponent
 	{
 	public:
 		Transform();
@@ -17,7 +17,7 @@ namespace TDS
 
 		//Transform& operator=(Transform&& other) noexcept { return *this; };
 
-		virtual void ImGuiDisplay();
+		//virtual void ImGuiDisplay();
 
 		Vec3& GetPosition() { return mPosition;  }
 		void SetPosition(Vec3 position) { mPosition = position; }

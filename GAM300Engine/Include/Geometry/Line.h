@@ -2,11 +2,11 @@
 #define LINE_H
 
 #include "TDSMath.h"
-
+#include "dotnet/ImportExport.h"
 namespace TDS
 {
 
-class Line
+class DLL_API Line
 {
 public:
     Line();

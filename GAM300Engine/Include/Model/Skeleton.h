@@ -4,11 +4,11 @@
 #include <vector>
 #include "TDSMath.h"
 #include "Animation/Pose.h"
-
+#include "dotnet/ImportExport.h"
 
 namespace TDS
 {
-	class Skeleton
+	class DLL_API Skeleton
 	{
 	protected:
 		Pose mRestPose;

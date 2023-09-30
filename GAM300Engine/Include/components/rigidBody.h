@@ -6,7 +6,7 @@
 
 namespace TDS
 {
-	class RigidBody : public IComponent
+	class DLL_API RigidBody : public IComponent
 	{
 	public:
 		RigidBody();
@@ -15,7 +15,7 @@ namespace TDS
 		virtual bool Deserialize(const rapidjson::Value& obj);
 		virtual bool Serialize(rapidjson::PrettyWriter<rapidjson::StringBuffer>* writer) const;
 
-		virtual void ImGuiDisplay();
+		//virtual void ImGuiDisplay();
 
 		Vec3& GetAcceleration() { return mAcceleration; }
 		void SetAcceleration(Vec3 acceleration) { mAcceleration = acceleration; }

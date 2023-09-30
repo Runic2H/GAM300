@@ -2,6 +2,7 @@
 #define BEHAVIOUR_TREE
 
 #include "ecs/ecs.h"
+#include "dotnet/ImportExport.h"
 
 namespace TDS
 {
@@ -17,7 +18,7 @@ namespace TDS
 	class AI;
 
 	// Base class for nodes
-	class Node
+	class DLL_API Node
 	{
 	public:
 		virtual void addChild(std::shared_ptr<Node> newChild) = 0;
@@ -40,7 +41,7 @@ namespace TDS
 	};
 
 	// Multiple children, 1 parent
-	class ControlFlow : public Node
+	class DLL_API ControlFlow : public Node
 	{
 	public:
 		virtual void addChild(std::shared_ptr<Node> newChild)
@@ -52,7 +53,7 @@ namespace TDS
 		std::string name = "ControlFlow";
 	};
 
-	class C_Selector : public ControlFlow
+	class DLL_API C_Selector : public ControlFlow
 	{
 	public:
 		virtual void enter(AI& aiComponent);
@@ -63,7 +64,7 @@ namespace TDS
 		std::string name = "C_Selector";
 	};
 
-	class C_Sequencer : public ControlFlow
+	class DLL_API C_Sequencer : public ControlFlow
 	{
 	public:
 		virtual void enter(AI& aiComponent);
@@ -74,7 +75,7 @@ namespace TDS
 		std::string name = "C_Sequencer";
 	};
 
-	class C_ParallelSelector : public ControlFlow
+	class DLL_API C_ParallelSelector : public ControlFlow
 	{
 	public:
 		//virtual void update(AI& aiComponent);
@@ -82,7 +83,7 @@ namespace TDS
 		std::string name = "C_ParallelSelector";
 	};
 
-	class C_ParallelSequencer : public ControlFlow
+	class DLL_API C_ParallelSequencer : public ControlFlow
 	{
 	public:
 		//virtual void update(AI& aiComponent);
@@ -91,7 +92,7 @@ namespace TDS
 	};
 
 	// 1 child, 1 parent
-	class Decorator : public Node
+	class DLL_API Decorator : public Node
 	{
 	public:
 		virtual void addChild(std::shared_ptr<Node> newChild) { if (!children.size()) children.emplace_back(newChild); };
@@ -100,7 +101,7 @@ namespace TDS
 		std::string name = "Decorator";
 	};
 
-	class D_Inverter : public Decorator			// Maybe shift to scripting
+	class DLL_API D_Inverter : public Decorator			// Maybe shift to scripting
 	{
 	public:
 		//virtual void update(AI& aiComponent);
@@ -108,7 +109,7 @@ namespace TDS
 		std::string name = "D_Inverter";
 	};
 
-	class D_Timer : public Decorator				// Maybe shift to scripting
+	class DLL_API D_Timer : public Decorator				// Maybe shift to scripting
 	{
 	public:
 		//virtual void update(AI& aiComponent);
@@ -117,7 +118,7 @@ namespace TDS
 	};
 
 	// No children, 1 parent
-	class LeafNode : public Node
+	class DLL_API LeafNode : public Node
 	{
 	public:
 		virtual void addChild(std::shared_ptr<Node> newChild) { };
@@ -128,7 +129,7 @@ namespace TDS
 		std::string name = "LeafNode";
 	};
 
-	class L_Move : public LeafNode
+	class DLL_API L_Move : public LeafNode
 	{
 	public:
 		virtual void enter(AI& aiComponent);
@@ -137,7 +138,7 @@ namespace TDS
 		std::string name = "L_Move";
 	};
 
-	class L_Idle : public LeafNode
+	class DLL_API L_Idle : public LeafNode
 	{
 	public:
 		virtual void enter(AI& aiComponent);
@@ -146,7 +147,7 @@ namespace TDS
 		std::string name = "L_Idle";
 	};
 
-	class L_Chase : public LeafNode
+	class DLL_API L_Chase : public LeafNode
 	{
 	public:
 		virtual void enter(AI& aiComponent);
@@ -156,7 +157,7 @@ namespace TDS
 	};
 
 	//
-	class BehaviourTree
+	class DLL_API BehaviourTree
 	{
 	public:
 		void run(AI& aiComponent, float dt);
@@ -166,7 +167,7 @@ namespace TDS
 		std::string name;
 	};
 
-	class BehaviourTreeManager
+	class DLL_API BehaviourTreeManager
 	{
 	public:
 		/*!*************************************************************************

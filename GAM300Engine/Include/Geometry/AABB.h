@@ -1,12 +1,13 @@
 #ifndef AABB_H
 #define AABB_H
 
-#include "TDSMath.h"
+
 #include "Ray.h"
+#include "dotnet/ImportExport.h"
 
 namespace TDS
 {
-	class AABB
+	class DLL_API AABB
 	{
 	public:
 		AABB();

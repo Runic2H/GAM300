@@ -8,7 +8,7 @@
 
 namespace TDS
 {
-	class SceneManager : public Serializer
+	class DLL_API SceneManager : public Serializer
 	{
 	public:
 		/*!*************************************************************************

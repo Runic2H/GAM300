@@ -1,5 +1,6 @@
 #pragma once
-#include "../Identifier/Identifier.h"
+#include "dotnet/ImportExport.h"
+#include "Identifier/Identifier.h"
 namespace TDS
 {
 	template <typename T>
@@ -7,9 +8,10 @@ namespace TDS
 	{
 		static T* Create()
 		{
-			T* resource = new T();
+			return new T();
+
 		}
-		static void Destroy(T* ptr) 
+		static void Destroy(T* ptr)
 		{
 			delete ptr;
 		};
@@ -17,6 +19,7 @@ namespace TDS
 
 	struct Resource_Ref
 	{
+		UniqueID m_GUID;
 		TypeIdentifier m_Identifier;
 		virtual bool IsPointer() = 0;
 		virtual void SetNullGUID() = 0;
@@ -25,17 +28,13 @@ namespace TDS
 
 	struct UniversalReference : public Resource_Ref
 	{
-		
-		UniqueID m_GUID;
 		void* m_Reference;
-		
 
-
-		virtual bool IsPointer()
+		virtual bool IsPointer() override
 		{
 			return (m_GUID.GetUniqueID() & 1) == 0;
 		}
-		virtual void SetNullGUID()
+		virtual void SetNullGUID() override
 		{
 			m_GUID.setNull();
 		}
@@ -43,16 +42,13 @@ namespace TDS
 	template <typename Type>
 	struct SingleTypeReference : public Resource_Ref
 	{
-		
-		UniqueID m_GUID;
 		Type* m_Reference;
-		
 
-		virtual bool IsPointer()
+		virtual bool IsPointer() override
 		{
 			return (m_GUID.GetUniqueID() & 1) == 0;
 		}
-		virtual void SetNullGUID()
+		virtual void SetNullGUID() override
 		{
 			m_GUID.setNull();
 		}
@@ -63,6 +59,11 @@ namespace TDS
 		~GuidTypeIDKey() {}
 		UniqueID m_GUID;
 		TypeIdentifier m_typeIdentifier;
+		bool operator==(const GuidTypeIDKey& other) const noexcept
+		{
+			return m_GUID == other.m_GUID && m_typeIdentifier == other.m_typeIdentifier;
+		}
+
 	};
 
 	struct CombineHash

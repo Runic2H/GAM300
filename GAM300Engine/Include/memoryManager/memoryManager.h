@@ -6,10 +6,10 @@
 #include <memory>
 #include <string>
 #include <unordered_map>
-
+#include "dotnet/ImportExport.h"
 namespace TDS
 {
-	class MemoryManager // for ECS
+	class DLL_API MemoryManager // for ECS
 	{
 	private:
 		typedef std::string ArchetypeID;

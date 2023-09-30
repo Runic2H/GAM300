@@ -6,7 +6,7 @@
 #include <iostream>
 #include <fmod_engine/AudioEngine.h>
 
-namespace AudioWerks
+namespace TDS
 {
     AudioEngine::AudioEngine() : sounds(), loopsPlaying(), soundBanks(),
     eventDescriptions(), eventInstances(), reverb() {}

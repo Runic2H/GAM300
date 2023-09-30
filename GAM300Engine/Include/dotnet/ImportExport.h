@@ -7,3 +7,6 @@
 #       define DLL_API __declspec(dllimport)
 #   endif
 #endif
+
+//#include "ecs/ecs.h"
+//DLL_API TDS::ECS ecs;

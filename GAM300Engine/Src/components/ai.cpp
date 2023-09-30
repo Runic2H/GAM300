@@ -27,8 +27,8 @@ namespace TDS
 		return true;
 	}
 
-	void AI::ImGuiDisplay()
-	{
+	//void AI::ImGuiDisplay()
+	//{
 
-	}
+	//}
 }

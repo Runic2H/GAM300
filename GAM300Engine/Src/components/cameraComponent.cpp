@@ -29,8 +29,8 @@ namespace TDS {
 		return false;
 	}
 
-	void CameraComponent::ImGuiDisplay()
-	{
+	//void CameraComponent::ImGuiDisplay()
+	//{
 
-	}
+	//}
 }

@@ -5,7 +5,7 @@
 
 namespace TDS
 {
-	class CameraComponent : public IComponent
+	class DLL_API CameraComponent : public IComponent
 	{
 	public:
 		CameraComponent();
@@ -16,7 +16,7 @@ namespace TDS
 
 		//CameraComponent& operator=(CameraComponent&& other) noexcept { return *this; };
 
-		virtual void ImGuiDisplay();
+		//virtual void ImGuiDisplay();
 
 	private:
 	};

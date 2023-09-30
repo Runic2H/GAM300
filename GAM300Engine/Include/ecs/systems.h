@@ -8,7 +8,9 @@
 
 namespace TDS
 {
-	ECS::SystemsArrayMap						ECS::mSystems;
+	DLL_API ECS ecs;
+
+	//std::unique_ptr<ECS> ECS::m_instance;
 
 	System<Transform, RigidBody>				_PhysicsSystem(1);
 	System<Transform, RigidBody, Collider>		_ColliderSystem(1);

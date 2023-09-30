@@ -6,7 +6,7 @@
 
 namespace TDS
 {
-	class Collider : public IComponent
+	class DLL_API Collider : public IComponent
 	{
 	public:
 		/*!*************************************************************************
@@ -25,7 +25,7 @@ namespace TDS
 		virtual bool Deserialize(const rapidjson::Value& obj);
 		virtual bool Serialize(rapidjson::PrettyWriter<rapidjson::StringBuffer>* writer) const;
 
-		virtual void ImGuiDisplay();
+		//virtual void ImGuiDisplay();
 
 		ColliderType& GetColliderType() { return mColliderType; }
 		void SetColliderType(ColliderType colliderType) { mColliderType = colliderType; }

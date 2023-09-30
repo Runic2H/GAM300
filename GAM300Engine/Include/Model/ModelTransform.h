@@ -2,10 +2,11 @@
 #define MODELTRANSFORM_H
 
 #include "TDSMath.h"
+#include "dotnet/ImportExport.h"
 
 namespace TDS
 {
-	struct ModelTransform
+	struct DLL_API ModelTransform
 	{
 		Vec3 pos;
 		Quat rot;

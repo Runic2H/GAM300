@@ -25,6 +25,18 @@ namespace TDS
         {
             return m_value != other.m_value;
         }
+        UniqueID& operator=(const UniqueID& other) noexcept
+        {
+            m_value = other.m_value;
+            return *this;
+        }
+
+        UniqueID& operator=(const std::uint64_t& other) noexcept
+        {
+            m_value = other;
+            return *this;
+        }
+
 
         inline bool isValid() const noexcept
         {
@@ -40,12 +52,12 @@ namespace TDS
         {
             m_value = 0;
         }
-
         std::string getStringHex() const noexcept;
         inline const std::uint64_t GetUniqueID()
         {
             return m_value;
         }
+
 
     private:
         std::uint64_t m_value;

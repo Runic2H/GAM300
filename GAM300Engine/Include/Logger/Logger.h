@@ -6,12 +6,12 @@
 #include "spdlog/fmt/ostr.h"
 #include <string>
 #include <memory>
+#include "dotnet/ImportExport.h"
 #define TDS_API __declspec(dllexport)
-
 namespace TDS
 {
 	//template class TDS_API std::shared_ptr<spdlog::logger>;
-	class Log
+	class DLL_API Log
 	{
 	public:
 		static void Init();

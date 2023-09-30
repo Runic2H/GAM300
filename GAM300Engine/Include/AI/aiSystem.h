@@ -2,10 +2,11 @@
 #define AI_SYSTEM
 
 #include "components/components.h"
+#include "dotnet/ImportExport.h"
 
 namespace TDS
 {
-	class AISystem
+	class DLL_API AISystem
 	{
 	public:
 		static void AISystemInit();

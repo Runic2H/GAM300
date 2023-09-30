@@ -5,7 +5,7 @@
 
 namespace TDS
 {
-	class Tag : public IComponent
+	class DLL_API Tag : public IComponent
 	{
 	public:
 		Tag();
@@ -16,7 +16,7 @@ namespace TDS
 
 		//Tag& operator=(Tag&& other) noexcept { return *this; };
 
-		virtual void ImGuiDisplay();
+		//virtual void ImGuiDisplay();
 
 		std::string GetTag() { return mTag; }
 		void SetTag(std::string tag) { mTag = tag; }

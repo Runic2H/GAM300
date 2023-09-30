@@ -1,12 +1,12 @@
 #ifndef TDS_CAMERA
 #define TDS_CAMERA
 
-#include "TDSMath.h"
-#include "Input.h"
+#include "Input/Input.h"
+#include "dotnet/ImportExport.h"
 
 namespace TDS
 {
-	class TDSCamera
+	class DLL_API TDSCamera
 	{
 	public:
 

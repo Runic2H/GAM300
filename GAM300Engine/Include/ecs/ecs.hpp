@@ -17,9 +17,9 @@ namespace TDS
     // --Entity Constructor--
     // Making a new entity
     // theecs - reference to the ECS class
-    inline Entity::Entity() : mID(ECS::getNewID())
+    inline Entity::Entity() : mID(ecs.getNewID())
     {
-        ECS::registerEntity(mID);
+        ecs.registerEntity(mID);
     }
 
     // --add--
@@ -28,7 +28,7 @@ namespace TDS
     template<typename C>
     inline C* Entity::add()
     {
-        return ECS::addComponent<C>(mID);
+        return ecs.addComponent<C>(mID);
     }
 
     // --add--
@@ -38,7 +38,7 @@ namespace TDS
     template<typename C>
     inline C* Entity::add(C&& c)
     {
-        return ECS::addComponent<C>(mID, std::forward<C>(c));
+        return ecs.addComponent<C>(mID, std::forward<C>(c));
     }
 
     // --getID--
@@ -134,7 +134,7 @@ namespace TDS
     template<class... Cs>
     System<Cs...>::System(const int layer) : mFuncSet(false)
     {
-        ECS::registerSystem(layer, this);
+        ecs.registerSystem(layer, this);
         key = "";
     }
 
@@ -148,7 +148,7 @@ namespace TDS
         {
             auto components = {Component<Cs>::getTypeID()...};
 
-            for (int i = 0; i < ECS::getNumberOfComponents(); ++i)
+            for (int i = 0; i < ecs.getNumberOfComponents(); ++i)
             {
                 key += "0";
             }
@@ -238,6 +238,18 @@ namespace TDS
     // --ECS Constructor--
     inline ECS::ECS()
     { }
+
+    /*!*************************************************************************
+    Returns an instance of the ECS
+    ****************************************************************************/
+    //inline std::unique_ptr<ECS>& ECS::GetInstance()
+    //{
+    //    if (m_instance == nullptr)
+    //    {
+    //        m_instance = std::make_unique<ECS>();
+    //    }
+    //    return m_instance;
+    //}
 
     // --getNewID--
     // Get new entity ID 
@@ -819,7 +831,7 @@ namespace TDS
 
     // --~ECS--
     // Decontructing ECS
-    inline ECS::~ECS()
+    inline void ECS::destroy()
     {
         for (Archetype* archetype : mArchetypes)
         {
@@ -864,6 +876,11 @@ namespace TDS
         }
         return entityIDs;
     }
+
+    //inline std::unique_ptr<ECS>& getECS()
+    //{
+    //    return ECS::GetInstance();
+    //}
 
     // --getEntityComponents--
     // Get components of a certain entity

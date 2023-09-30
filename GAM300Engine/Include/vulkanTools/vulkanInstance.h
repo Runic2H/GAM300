@@ -8,77 +8,140 @@
 
 #include <vulkan/vulkan.h>
 #include <vector>
-#include <string>
-#include <iostream>
-#include <set>
-#include <limits>
-#include <algorithm>
-#include <fstream>
+//#include <string>
+//#include <iostream>
+//#include <set>
+//#include <limits>
+//#include <algorithm>
+//#include <fstream>
 #include <optional>
-#include <array>
-#include <chrono>//to be moved
+//#include <array>
 
 //assimp to be moved
-#include <assimp/Importer.hpp>
-#include <assimp/scene.h>
-#include <assimp/postprocess.h>
+//#include <assimp/Importer.hpp>
+//#include <assimp/scene.h>
+//#include <assimp/postprocess.h>
 //assimp
 #include "windowswindow.h"
 #include "vulkanTools/vulkanDebugger.h"
-#include "vulkanTools/vulkanDevice.h"
-#include "TDSMath.h"
-//#include "vulkanSwapChain.h"
-#include "Vector2.h"
 #include "dotnet/ImportExport.h"
-#include "camera/camera.h"
+//#include "vulkanTools/vulkanDevice.h"
+//#include "TDSMath.h"
+////#include "vulkanSwapChain.h"
+//#include "Vector2.h"
+//#include "dotnet/ImportExport.h"
+//#include "camera/camera.h"
 namespace TDS
 {
-	
-	class /*DLL_API*/ VulkanInstance
+
+	class DLL_API VulkanInstance
 	{
-
-		static std::vector<char> readFile(const std::string& filename) 
-		{
-			std::ifstream file(filename, std::ios::ate | std::ios::binary);
-
-			if (!file.is_open()) {
-				throw std::runtime_error("failed to open file!");
-			}
-
-			size_t fileSize = (size_t)file.tellg();
-			std::vector<char> buffer(fileSize);
-
-			file.seekg(0);
-			file.read(buffer.data(), fileSize);
-
-			file.close();
-
-			return buffer;
-
-		}
-
+	public:
 		struct QueueFamilyIndices
 		{
+
 			std::optional<uint32_t> graphicsFamily;
 			std::optional<uint32_t>	presentFamily;
 			bool isComplete()
 			{
 				return graphicsFamily.has_value() &&
-					   presentFamily.has_value();
+					presentFamily.has_value();
 			}
 		};
+
 		struct SwapChainSupportDetails
 		{
 			VkSurfaceCapabilitiesKHR capabilities{};
 			std::vector<VkSurfaceFormatKHR> formats{};
 			std::vector<VkPresentModeKHR> presentModes{};
 		};
-		struct Vertex
+
+	public:
+		VulkanInstance(const WindowsWin& enableWindows);
+		~VulkanInstance();
+
+		//copyable or movable
+		VulkanInstance(const VulkanInstance&) = delete;
+		VulkanInstance(VulkanInstance&&) = delete;
+		VulkanInstance& operator=(const VulkanInstance&) = delete;
+		VulkanInstance& operator=(VulkanInstance&&) = delete;
+
+
+		//getters
+		VkInstance       getInstance() const { return m_VKhandler; }
+		VkPhysicalDevice getVkPhysicalDevice()const { return m_PhysDeviceHandle; }
+		VkDevice		 getVkLogicalDevice()const { return m_logicalDevice; }
+		VkCommandPool	 getCommandPool() const { return m_CommandPool; }
+		VkQueue          getGraphicsQueue() { return  m_graphicQueue; }
+		VkQueue          getPresentQueue() { return m_presentQueue; }
+		VkSurfaceKHR     getSurface() { return m_Surface; }
+		bool			 getVsync()const { return vsync; }
+
+		//helpers
+		SwapChainSupportDetails getSwapChainSupport() { return querySwapChainSupport(m_PhysDeviceHandle); }
+		QueueFamilyIndices findPhysicalQueueFamilies() { return findQueueFamilies(m_PhysDeviceHandle); }
+		uint32_t findMemoryType(const uint32_t& typeFiler, VkMemoryPropertyFlags properties);
+		VkFormat findSupportedFormat(const std::vector<VkFormat>& candidates, VkImageTiling tiling, VkFormatFeatureFlags features);
+		void createBuffers(VkDeviceSize size, VkBufferUsageFlags usage, VkMemoryPropertyFlags properties, VkBuffer& buffer,
+			VkDeviceMemory& buffermemory);
+		VkCommandBuffer	beginSingleTimeCommands();
+		void endSingleTimeCommands(VkCommandBuffer commandBuffer);
+		void copyBuffer(VkBuffer srcBuffer, VkBuffer dstBuffer, VkDeviceSize size);
+		void copyBufferToImage(VkBuffer buffer, VkImage image, uint32_t width, uint32_t height, uint32_t layerCount);
+		void createImageWithInfo(const VkImageCreateInfo& imageInfo, VkMemoryPropertyFlags properties,
+			VkImage& image, VkDeviceMemory& imageMemory);
+
+	private:
+
+		VkInstance		 m_VKhandler{};
+		VkSurfaceKHR	 m_Surface{};
+
+		VkPhysicalDevice m_PhysDeviceHandle{ VK_NULL_HANDLE }; //where selected graphic card is stored
+
+		VkDevice		 m_logicalDevice{};
+		VkQueue			 m_graphicQueue{};
+		VkQueue			 m_presentQueue{};
+
+		VkCommandPool	 m_CommandPool{};
+
+		VkPhysicalDeviceProperties m_Properties;
+
+		std::vector<std::string> supportedInstanceExtensions{};
+		std::vector<const char*> enabledInstanceExtensions{};
+
+		const std::vector<const char*> validationLayers{ "VK_LAYER_KHRONOS_validation" };
+		const std::vector<const char*> deviceExtensions{ VK_KHR_SWAPCHAIN_EXTENSION_NAME };
+
+		static constexpr decltype(VkApplicationInfo::apiVersion) apiVersion{ VK_API_VERSION_1_3 };
+
+		bool		  vsync{ false };
+		bool		  enableValidate{ false };
+
+
+
+	private:
+
+		VkResult createInstance(bool enableValidation);
+		void CreateSurface(const WindowsWin& _Windows);
+		void ChoosePhysicalDevice();
+		void CreateLogicalDevice(const WindowsWin& _Windows);
+		void CreateCommandPool();
+
+
+		//helper functions
+		bool checkValidationLayerSupport();
+		bool isDeviceSuitable(VkPhysicalDevice device);
+		QueueFamilyIndices findQueueFamilies(VkPhysicalDevice device);
+		bool checkDeviceExtensionSupport(VkPhysicalDevice device);
+		SwapChainSupportDetails  querySwapChainSupport(const VkPhysicalDevice& device);
+
+
+		/*struct Vertex
 		{
 			Vec3 pos;
 			Vec3 color;
 			Vec2 texCoord;
-			static VkVertexInputBindingDescription getBindingDescription() 
+			static VkVertexInputBindingDescription getBindingDescription()
 			{
 				VkVertexInputBindingDescription bindingDescription{};
 				bindingDescription.binding = 0;
@@ -87,7 +150,7 @@ namespace TDS
 
 				return bindingDescription;
 			}
-			static std::array<VkVertexInputAttributeDescription, 3> getAttributeDescriptions() 
+			static std::array<VkVertexInputAttributeDescription, 3> getAttributeDescriptions()
 			{
 				std::array<VkVertexInputAttributeDescription, 3> attributeDescriptions{};
 				//pos which now is vec 2
@@ -109,7 +172,7 @@ namespace TDS
 
 				return attributeDescriptions;
 			}
-			
+
 		};
 		struct UniformBufferObject
 		{
@@ -126,39 +189,33 @@ namespace TDS
 		void	 drawFrame(const WindowsWin& _Windows, float deltaTime);
 		//getters
 		//VkInstance		 getVkInstance()const		{ return m_VKhandler; }
-		//VkPhysicalDevice getVkPhysicalDevice()const { return m_PhysDeviceHandle; }
 		VkDevice		 getVkLogicalDevice()const { return m_logicalDevice; }
-		QueueFamilyIndices findQueueFamilies(VkPhysicalDevice device);
+
 	private:
 
 		bool			   checkValidationLayerSupport();
-		bool			   isDeviceSuitable(VkPhysicalDevice device);
 
 		//to be moved to other file
-		bool					 checkDeviceExtensionSupport(VkPhysicalDevice device);
-		SwapChainSupportDetails  querySwapChainSupport(const VkPhysicalDevice& device);
+
 		VkSurfaceFormatKHR		 chooseSwapSurfaceFormat(const std::vector<VkSurfaceFormatKHR>& availableFormats);
 		VkPresentModeKHR         chooseSwapPresentMode(const std::vector<VkPresentModeKHR>& availablePresentModes);
 		VkExtent2D				 chooseSwapExtent(const VkSurfaceCapabilitiesKHR& capabilities, const WindowsWin& windows);
 		VkShaderModule			 createShaderModule(const std::vector<char>& code);
 		void					 recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t imageIndex);
-	
+
 		void					 recreateSwapChain(const WindowsWin& _Windows);
 		void					 createSwapChain(const WindowsWin& _Windows);
 		void					 cleanupSwapChain();
 		void					 createImageViews();
 		void					 createFrameBuffer();
-		
-		//to be removed
-		void					 createBuffers(VkDeviceSize size, VkBufferUsageFlags usage, VkMemoryPropertyFlags properties, VkBuffer& buffer,
-											   VkDeviceMemory& buffermemory);
+
+
 		void					 createVertexBuffer();
 		void					 createIndexBuffer();
 		void					 createUniformBuffers();
 		void					 createDescriptorPool();
 		void					 createDescriptorSets();
-		uint32_t				 findMemoryType(const uint32_t& typeFiler, VkMemoryPropertyFlags properties);
-		void					 copyBuffer(VkBuffer srcBuffer, VkBuffer dstBuffer, VkDeviceSize size);
+
 
 		//provide details about every descriptor binding used in the shaders for pipeline creation
 		void					 createDescriptorSetLayout();
@@ -172,7 +229,7 @@ namespace TDS
 		void					 createImage(uint32_t width, uint32_t height, uint32_t miplevels, VkSampleCountFlagBits numSamples, VkFormat format, VkImageTiling tiling,
 								 VkImageUsageFlags usage, VkMemoryPropertyFlags properties, VkImage& image, VkDeviceMemory& imageMemory);
 		void					 createTextureSampler();
-		
+
 
 		//mipmap
 		void					 generateMipmaps(VkImage image, VkFormat imageFormat, int32_t texWidth, int32_t texHeight, uint32_t mipLevels);
@@ -188,31 +245,28 @@ namespace TDS
 		void					 processMesh(aiMesh* mesh, const aiScene* scene);
 public:
 		//helper function
-		VkCommandBuffer			 beginSingleTimeCommands();
 		VkImageView				 createImageView(VkImage image, VkFormat format, VkImageAspectFlags aspectflags, uint32_t mipmaps);
-		void					 endSingleTimeCommands(VkCommandBuffer commandBuffer);
 		void					 transitionImageLayout(VkImage image, VkFormat format, VkImageLayout oldLayout, VkImageLayout newLayout, uint32_t mipmaps);
-		void					 copyBufferToImage(VkBuffer buffer, VkImage image, uint32_t width, uint32_t height);
+
 		void					 createTextureImageView();
 
 
 		//helper function to find the most to less desirable depth format
-		VkFormat findSupportedFormat(const std::vector<VkFormat>& candidates, VkImageTiling tiling, VkFormatFeatureFlags features);
 		VkFormat findDepthFormat();
 		bool	 hasStencilComponent(VkFormat format); //to tell if chose depth formats comes with stencil component?
-	
+
 		//query on max sample bit we can use
 		VkSampleCountFlagBits	 getMaxUsableSampleCount();
 
 
 public://members
 
-		static constexpr decltype(VkApplicationInfo::apiVersion) apiVersion		{ VK_API_VERSION_1_3 };
-		std::vector<std::string> supportedInstanceExtensions{};
+
+
 		std::vector<const char*> enabledInstanceExtensions{};
 
 		bool framebufferResized { false };
-	
+
 	public:
 
 		//frames processed concurrently
@@ -222,20 +276,15 @@ public://members
 
 		VkDescriptorPool			  m_ImguiDescriptorPool;
 
-		/*Each frame should have its own command buffer, set of semaphores, and fence*/
+		/*Each frame should have its own command buffer, set of semaphores, and fence
 		std::vector <VkCommandBuffer> m_commandBuffers;
 		std::vector <VkSemaphore>	  m_imageAvailableSemaphore;
 		std::vector <VkSemaphore>	  m_renderFinishedSemaphore;
 		std::vector <VkFence>		  m_inFlightFence;
 
-	
+
 		std::vector<VkImageView> swapChainImageViews;
-		VkInstance				m_VKhandler;
-		VkPhysicalDevice		m_PhysDeviceHandle{ VK_NULL_HANDLE }; //where selected graphic card is stored
-		VkDevice				m_logicalDevice;
-		VkQueue					m_graphicQueue;	
-		VkQueue					m_presentQueue;
-		VkSurfaceKHR			m_Surface{};
+
 		VkSwapchainKHR			m_SwapChain{};
 		VkFormat				m_swapChainImageFormat;
 		VkExtent2D				m_swapChainExtent;
@@ -244,11 +293,10 @@ public://members
 		VkDescriptorSetLayout	m_descriptorSetLayout;
 		VkPipelineLayout		m_pipelineLayout;
 		VkPipeline				m_graphicPipeline;
-		VkCommandPool			m_commandPool;
 
 		//handle vertex
 		VkBuffer			m_vertexBuffer; //use it in rendering commands, does not depend on swapchain
-		VkDeviceMemory		m_vertexBufferMemory;// store the handle to the memory 
+		VkDeviceMemory		m_vertexBufferMemory;// store the handle to the memory
 
 		//handle indices
 		VkBuffer			m_indexBuffer;
@@ -283,11 +331,10 @@ public://members
 
 		std::vector<VkImage>		   m_swapChainImages;
 		std::vector<VkFramebuffer>	   m_swapChainFramebuffers;
-		const std::vector<const char*> validationLayers { "VK_LAYER_KHRONOS_validation" };
-		const std::vector<const char*> deviceExtensions { VK_KHR_SWAPCHAIN_EXTENSION_NAME };
+
 		std::vector <VkPipelineShaderStageCreateInfo> shaderStages{};
 		bool	enableValidate{ false };
-		
+
 		std::vector<Vertex> vertices
 		{};
 
@@ -300,6 +347,7 @@ public://members
 
 		//to be removed
 		TDSCamera camera{ -90.0f ,0.f};
+		*/
 	};
 
 

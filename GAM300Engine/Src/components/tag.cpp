@@ -29,9 +29,9 @@ namespace TDS
 		return true;
 	}
 
-	void Tag::ImGuiDisplay()
-	{
-		ImguiTextInput("Tag", mTag);
-		ImguiTextInput("Target Tag", mTargetTag);
-	}
+	//void Tag::ImGuiDisplay()
+	//{
+	//	ImguiTextInput("Tag", mTag);
+	//	ImguiTextInput("Target Tag", mTargetTag);
+	//}
 }

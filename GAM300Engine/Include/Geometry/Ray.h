@@ -1,11 +1,11 @@
 #ifndef RAY_H
 #define RAY_H
 
-#include "TDSMath.h"
+#include "dotnet/ImportExport.h"
 
 namespace TDS
 {
-class Ray
+class DLL_API Ray
 {
 public:
     Ray();

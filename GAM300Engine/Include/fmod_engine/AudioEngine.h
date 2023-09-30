@@ -18,8 +18,9 @@
 #include <list>
 #include <map>
 #include "SoundInfo.h"
+#include "dotnet/ImportExport.h"
 
-namespace AudioWerks
+namespace TDS
 {
     /**
      * Error Handling Function for FMOD Errors
@@ -33,7 +34,7 @@ namespace AudioWerks
       * Deals with all FMOD calls so that FMOD-specific code does not need to be used outside this class.
       * Only one AudioEngine should be constructed for an application.
       */
-     class AudioEngine
+     class DLL_API AudioEngine
      {
      public:
          /**

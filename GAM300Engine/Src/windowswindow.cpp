@@ -4,8 +4,8 @@
 namespace TDS
 {
 	WindowsWin::WindowsWin(HINSTANCE hInstance, int nCmdShow, const wchar_t* className)
-		:m_handleWindows{ nullptr }, m_hInstance{ hInstance }, m_Width{ 0 }, m_Height{ 0 }, 
-		m_classname{ className }, m_cmdshow {nCmdShow}
+		:m_handleWindows{ nullptr }, m_hInstance{ hInstance }, m_Width{ 0 }, m_Height{ 0 },
+		m_classname{ className }, m_cmdshow{ nCmdShow }
 	{
 	}
 
@@ -17,13 +17,13 @@ namespace TDS
 		}
 	}
 
-	uint32_t WindowsWin::getWidth()  const noexcept 
-	{ 
-		return static_cast<uint32_t>(m_Width); 
+	uint32_t WindowsWin::getWidth()  const noexcept
+	{
+		return static_cast<uint32_t>(m_Width);
 	}
 
 	uint32_t WindowsWin::getHeight() const noexcept
-	{ 
+	{
 		return static_cast<uint32_t>(m_Height);
 	}
 
@@ -35,7 +35,7 @@ namespace TDS
 		}
 		WNDCLASSEX windowclass{};
 		windowclass.cbSize = sizeof(decltype(windowclass));
-		windowclass.style  = CS_HREDRAW | CS_VREDRAW;
+		windowclass.style = CS_HREDRAW | CS_VREDRAW;
 		windowclass.lpfnWndProc = wndproc;
 		windowclass.cbClsExtra = 0;
 		windowclass.cbWndExtra = 0;
@@ -50,7 +50,7 @@ namespace TDS
 		return RegisterClassEx(&windowclass) ? true : false;
 	}
 
-	bool WindowsWin::createWindow(const WNDPROC& wndproc)
+	bool WindowsWin::createWindow(const WNDPROC& wndproc, int _width, int _height)
 	{
 		if (false == registerWindow(wndproc))
 		{
@@ -64,8 +64,8 @@ namespace TDS
 		const int screenWidth{ GetSystemMetrics(SM_CXSCREEN) };
 		const int screenHeight{ GetSystemMetrics(SM_CYSCREEN) };
 
-		m_Width = minWidth;
-		m_Height = minHeight;
+		m_Width = _width;
+		m_Height = _height;
 
 		RECT windowRect;
 		SetRect(&windowRect, static_cast<decltype(windowRect.left)>(screenWidth / 2 - m_Width / 2),
@@ -79,17 +79,17 @@ namespace TDS
 
 		m_handleWindows = CreateWindowEx
 		(
-			0, 
+			0,
 			m_classname.data(),
-			L"TEAR DROP STUDIO", 
-			style, 
-			windowRect.left, 
-			windowRect.top, 
-			windowRect.right - windowRect.left, 
-			windowRect.bottom - windowRect.top, 
-			NULL, 
-			NULL, 
-			m_hInstance, 
+			L"TEAR DROP STUDIO",
+			style,
+			windowRect.left,
+			windowRect.top,
+			windowRect.right - windowRect.left,
+			windowRect.bottom - windowRect.top,
+			NULL,
+			NULL,
+			m_hInstance,
 			NULL
 		);
 

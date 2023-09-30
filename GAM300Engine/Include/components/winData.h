@@ -5,7 +5,7 @@
 
 namespace TDS
 {
-	class WinData : public IComponent
+	class DLL_API WinData : public IComponent
 	{
 	public:
 		WinData();
@@ -16,7 +16,7 @@ namespace TDS
 
 		//WinData& operator=(WinData&& other) noexcept { return *this; };
 
-		virtual void ImGuiDisplay();
+		//virtual void ImGuiDisplay();
 
 		std::string GetTitle() { return mTitle; }
 		void SetTitle(std::string title) { mTitle = title; }

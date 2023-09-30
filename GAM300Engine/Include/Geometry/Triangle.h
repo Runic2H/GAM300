@@ -2,10 +2,10 @@
 #define TRIANGLE_H
 
 #include "TDSMath.h"
-
+#include "dotnet/ImportExport.h"
 namespace TDS
 {
-class Tri
+class DLL_API Tri
 {
   public:
     Tri();

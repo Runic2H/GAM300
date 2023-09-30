@@ -1,4 +1,5 @@
 #include "vulkanTools/vulkanDebugger.h"
+#include "Logger/Logger.h"
 
 namespace TDS
 {
@@ -13,11 +14,11 @@ namespace TDS
 			//paras
 			VkDebugUtilsMessageSeverityFlagBitsEXT		messageSeverity, // specifies the severity of the message,
 			VkDebugUtilsMessageTypeFlagsEXT				messageType,	 //
-	        const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData,	 //
+			const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData,	 //
 			void*										/*pUserData*/		 //
 		)
 		{
-			std::string_view prefix{""};
+			std::string_view prefix{ "" };
 
 			if (messageType & VK_DEBUG_UTILS_MESSAGE_SEVERITY_VERBOSE_BIT_EXT)
 				prefix = "Diagnostic message: "sv;
@@ -29,7 +30,7 @@ namespace TDS
 				prefix = "Warning message: "sv;
 
 			else if (messageSeverity & VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT) // invalid likely will cause crashes
-				prefix = "Siao liao lor: "sv;
+				prefix = "Error: "sv;
 
 			std::stringstream debugMessage;
 			debugMessage << prefix << "[" << pCallbackData->messageIdNumber << "][" << pCallbackData->pMessageIdName << "] : " << pCallbackData->pMessage;
@@ -38,13 +39,14 @@ namespace TDS
 			//statements
 			if (messageSeverity >= VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT)
 			{
+				//TDS_ERROR(debugMessage.str());
 				std::cerr << debugMessage.str() << std::endl;
 			}
 
 			return VK_FALSE;
 		}
 
-		void setupDebugger(VkInstance instance)
+		void setupDebugger(const VkInstance& instance)
 		{
 			vkCreateDebugUtilsMessengerEXT = reinterpret_cast<PFN_vkCreateDebugUtilsMessengerEXT>(vkGetInstanceProcAddr(instance, "vkCreateDebugUtilsMessengerEXT"));
 			vkDestroyDebugUtilsMessengerEXT = reinterpret_cast<PFN_vkDestroyDebugUtilsMessengerEXT>(vkGetInstanceProcAddr(instance, "vkDestroyDebugUtilsMessengerEXT"));
@@ -61,7 +63,7 @@ namespace TDS
 			};
 		}
 
-		void freeDebugger(VkInstance instance)
+		void freeDebugger(const VkInstance& instance)
 		{
 			if (debugMessenger != VK_NULL_HANDLE)
 			{

@@ -20,8 +20,8 @@ namespace TDS
 		return true;
 	}
 
-	void PlayerAttributes::ImGuiDisplay()
-	{
+	//void PlayerAttributes::ImGuiDisplay()
+	//{
 
-	}
+	//}
 }

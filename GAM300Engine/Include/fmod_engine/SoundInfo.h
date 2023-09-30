@@ -5,7 +5,7 @@
 #include <array>
 #include <time.h>
 
-namespace AudioWerks{
+namespace TDS{
     static unsigned int counter{ 0 };
 
     enum SOUND_STATE

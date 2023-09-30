@@ -12,9 +12,9 @@ namespace TDS
 {
 	namespace Debug
 	{
-		void setupDebugger(VkInstance instance);
-		
-		void freeDebugger(VkInstance instance);
+		void setupDebugger(const VkInstance& instance);
+
+		void freeDebugger(const VkInstance& instance);
 	}
 
 }//namespace TDS

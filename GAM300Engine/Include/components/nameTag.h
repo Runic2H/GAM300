@@ -5,7 +5,7 @@
 
 namespace TDS
 {
-	class NameTag : public IComponent
+	class DLL_API NameTag : public IComponent
 	{
 	public:
 		NameTag();
@@ -16,7 +16,7 @@ namespace TDS
 
 		//NameTag& operator=(NameTag&& toMove) noexcept { return *this; };
 
-		virtual void ImGuiDisplay();
+		//virtual void ImGuiDisplay();
 
 		std::string& GetNameTag() { return mName; }
 		void SetNameTag(std::string name) { mName = name; }

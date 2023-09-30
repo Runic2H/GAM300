@@ -5,10 +5,10 @@
 #include "rapidJSON/document.h"
 #include "rapidJSON/stringbuffer.h"
 #include "rapidJSON/prettywriter.h"
-
+#include "dotnet/ImportExport.h"
 namespace TDS
 {
-	class Serializer
+	class DLL_API Serializer
 	{
 	public:
 		/*!*************************************************************************

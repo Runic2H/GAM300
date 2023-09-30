@@ -2,11 +2,11 @@
 #define POSE_H
 
 #include "Model/ModelTransform.h"
-#include <vector>
+#include "dotnet/ImportExport.h"
 
 namespace TDS
 {
-	class Pose
+	class DLL_API Pose
 	{
 	protected:
 		std::vector<ModelTransform> mJoints;

@@ -41,13 +41,32 @@ namespace TDS
 	struct TypeIdentifier
 	{
 		size_t m_TypeHash;
+		size_t m_NameHash;
+		std::string m_CustomName;
+		std::string m_ClassType;
+
 		template <typename Type>
-		void CreateTypeID(Type& typeref)
+		void CreateTypeIDByClass(Type& typeref)
 		{
 			std::string TypeName = getTypeName<decltype(typeref)>();
 			m_TypeHash = std::hash<std::string>{}(TypeName);
 		}
-		
+		template <typename Type>
+		void GetTypeName()
+		{
+			std::string TypeName = getTypeName<Type>();
+			m_TypeHash = std::hash<std::string>{}(TypeName);
+		}
+		void CreateTypeIDByName(std::string_view customName)
+		{
+			m_CustomName = customName;
+			m_NameHash = std::hash<std::string>{}(m_CustomName);
+		}
+		bool operator==(const TypeIdentifier& other) const noexcept
+		{
+			return m_TypeHash == other.m_TypeHash;
+		}
+
 	};
 
 

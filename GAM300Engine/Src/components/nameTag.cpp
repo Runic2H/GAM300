@@ -21,14 +21,14 @@ namespace TDS
 		return true;
 	}
 
-	void NameTag::ImGuiDisplay()
-	{
-		//ImGui::NewLine();
+	//void NameTag::ImGuiDisplay()
+	//{
+	//	//ImGui::NewLine();
 
-		//ImGui::Indent();
+	//	//ImGui::Indent();
 
-		ImguiTextInput("Name", mName);
+	//	ImguiTextInput("Name", mName);
 
-		//ImGui::Unindent();
-	}
+	//	//ImGui::Unindent();
+	//}
 }

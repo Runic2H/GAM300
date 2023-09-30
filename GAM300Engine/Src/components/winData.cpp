@@ -61,8 +61,8 @@ namespace TDS
 		return true;
 	}
 
-	void WinData::ImGuiDisplay()
-	{
+	//void WinData::ImGuiDisplay()
+	//{
 
-	}
+	//}
 }

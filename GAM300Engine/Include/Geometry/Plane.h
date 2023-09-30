@@ -1,11 +1,10 @@
 #ifndef PLANE_H
 #define PLANE_H
 
-#include "TDSMath.h"
-
+#include "dotnet/ImportExport.h"
 namespace TDS
 {
-class Plane
+class DLL_API Plane
 {
 public:
     Plane();

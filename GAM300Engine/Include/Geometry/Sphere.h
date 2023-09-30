@@ -1,11 +1,11 @@
 #ifndef SPHERE_H
 #define SPHERE_H
 
-#include "TDSMath.h"
+#include "dotnet/ImportExport.h"
 
 namespace TDS
 {
-class Sphere
+class DLL_API Sphere
 {
 public:
     Sphere();
