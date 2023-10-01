@@ -62,6 +62,7 @@
     <ClCompile Include="Src\sceneManager\sceneManager.cpp" />
     <ClCompile Include="Src\sceneManager\serialization.cpp" />
     <ClCompile Include="Src\AudioEngine.cpp" />
+    <ClCompile Include="Src\vulkanTools\ShadowMap.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Shared_Libs\MathCommon.h" />
@@ -139,6 +140,7 @@
     <ClInclude Include="Include\Physics\PhysicsSystem.h" />
     <ClInclude Include="Include\sceneManager\sceneManager.h" />
     <ClInclude Include="Include\sceneManager\serialization.h" />
+    <ClInclude Include="Include\vulkanTools\ShadowMap.h" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Include\Logger\Logger.h" />

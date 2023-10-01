@@ -7,19 +7,24 @@
 #endif // !MODEL_DIR
 
 namespace TDS {
+
+	//model class constructor
 	Model::Model(VulkanInstance& Instance, const Model::Builder& Builder) : m_Instance(Instance) {
 		createVertexBuffer(Builder.Vertices);
 		createIndexBuffer(Builder.Indices);
 	}
 
+	//model class deconstructor
 	Model::~Model() {}
 
+	//creates model data from specified filepath
 	std::unique_ptr<Model> Model::createModelFromFile(VulkanInstance& Instance, const std::string& FilePath) {
 		Builder Build{};
 		Build.LoadModel(MODEL_Dir + FilePath);
 		return std::make_unique<Model>(Instance, Build);
 	}
 
+	//create vertexbuffer for model
 	void Model::createVertexBuffer(const std::vector<Vertex>& Vertices) {
 		m_VertexCount = static_cast<uint32_t>(Vertices.size());
 		assert(m_VertexCount >= 3 && "Vertexcount must be at least 3");
@@ -36,6 +41,7 @@ namespace TDS {
 		m_Instance.copyBuffer(stagingBuffer.getBuffer(), m_VertexBuffer->getBuffer(), buffersize);
 	}
 
+	//create indexbuffer for model
 	void Model::createIndexBuffer(const std::vector<uint32_t>& Indices) {
 		m_IndexCount = static_cast<uint32_t>(Indices.size());
 		m_hasIndexBuffer = m_IndexCount > 0;
@@ -53,6 +59,7 @@ namespace TDS {
 		m_Instance.copyBuffer(stagingBuffer.getBuffer(), m_IndexBuffer->getBuffer(), buffersize);
 	}
 
+	//draw the commandbuffer
 	void Model::draw(VkCommandBuffer cmdbuffer) {
 		if (m_hasIndexBuffer)
 			vkCmdDrawIndexed(cmdbuffer, m_IndexCount, 1, 0, 0, 0);
@@ -60,6 +67,7 @@ namespace TDS {
 			vkCmdDraw(cmdbuffer, m_VertexCount, 1, 0, 0);
 	}
 
+	//binds the model to the commandbuffer
 	void Model::bind(VkCommandBuffer cmdbuffer) {
 		VkBuffer buffers[] = { m_VertexBuffer->getBuffer() };
 		VkDeviceSize offset[] = { 0 };
@@ -68,6 +76,7 @@ namespace TDS {
 			vkCmdBindIndexBuffer(cmdbuffer, m_IndexBuffer->getBuffer(), 0, VK_INDEX_TYPE_UINT32);
 	}
 
+	//set binding descriptions for the model
 	std::vector<VkVertexInputBindingDescription> Model::Vertex::getBindingDescriptions() {
 		std::vector<VkVertexInputBindingDescription> BindingDescription(1);
 		BindingDescription[0].binding = 0;
@@ -76,6 +85,7 @@ namespace TDS {
 		return BindingDescription;
 	}
 
+	//set attribute descriptions for the model
 	std::vector<VkVertexInputAttributeDescription> Model::Vertex::getAttributeDescriptions() {
 		std::vector< VkVertexInputAttributeDescription> attributedescription{};
 		attributedescription.push_back({ 0,0,VK_FORMAT_R32G32B32_SFLOAT, offsetof(Vertex, Pos) });
@@ -85,6 +95,7 @@ namespace TDS {
 		return attributedescription;
 	}
 
+	//load model from the serialized data created from geom compiler
 	void Model::Builder::LoadModel(const std::string& filepath)
 	{
 		GeomCompiled output;
@@ -92,6 +103,7 @@ namespace TDS {
 		LoadGeomData(output);
 	}
 
+	//get data from geom
 	void  Model::Builder::LoadGeomData(GeomCompiled& geom)
 	{
 		iColor color{};
@@ -119,6 +131,7 @@ namespace TDS {
 		}
 	}
 
+	//deserialize the geom data
 	void Model::DeserializeGeom(GeomCompiled& geomOut, std::string_view PathData)
 	{
 		std::ifstream inFile(PathData.data(), std::ios::binary);

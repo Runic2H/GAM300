@@ -27,7 +27,7 @@ namespace TDS {
 
 		//getters
 		VkBuffer				getBuffer()			const { return m_Buffer; }
-		void* getMappedmemory()	const { return m_memory; }
+		void*					getMappedmemory()	const { return m_memory; }
 		uint32_t				getInstanceCount()	const { return m_InstanceCount; }
 		VkDeviceSize			getInstanceSize()	const { return m_InstanceSize; }
 		VkDeviceSize			getAlignmentSize()	const { return m_AlignmentSize; }

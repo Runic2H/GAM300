@@ -39,12 +39,12 @@ namespace TDS {
 		static void defaultPipelineConfiginfo(PipelineConfiginfo& configInfo);
 		static void enableAlphaBlending(PipelineConfiginfo& configInfo);
 
-	private:
 		static std::vector<char>	ReadFile(const std::string& Filepath);
+		void						createShaderModule(const std::vector<char>& code, VkShaderModule* shadermodule);
+	private:
 
 		void						createGraphicPipeline(const std::string& VertFilepath, const std::string& FragFilePath, const PipelineConfiginfo& configInfo);
 
-		void						createShaderModule(const std::vector<char>& code, VkShaderModule* shadermodule);
 
 		VulkanInstance& m_Instance;
 		VkPipeline					m_GraphicPipeline;

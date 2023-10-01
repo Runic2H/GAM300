@@ -5,16 +5,19 @@
 #endif // !SHADER_DIR
 
 namespace TDS {
+	//Pipeline constructor
 	Pipeline::Pipeline(VulkanInstance& Instance, const std::string& VertFilePath, const std::string& FragFilePath, const PipelineConfiginfo& configInfo) :m_Instance(Instance) {
 		createGraphicPipeline(VertFilePath, FragFilePath, configInfo);
 	}
 
+	//Pipeline Destructor
 	Pipeline::~Pipeline() {
 		vkDestroyShaderModule(m_Instance.getVkLogicalDevice(), m_VertShaderModule, nullptr);
 		vkDestroyShaderModule(m_Instance.getVkLogicalDevice(), m_FragShaderModule, nullptr);
 		vkDestroyPipeline(m_Instance.getVkLogicalDevice(), m_GraphicPipeline, nullptr);
 	}
 
+	//converts textfile into vector of chars
 	std::vector<char> Pipeline::ReadFile(const std::string& Filepath) {
 		std::string Path = SHADER_DIR + Filepath;
 		std::ifstream file(Path, std::ios::ate | std::ios::binary);
@@ -31,6 +34,7 @@ namespace TDS {
 		return buffer;
 	}
 
+	//create graphiccs pipeline
 	void Pipeline::createGraphicPipeline(const std::string& VertFilePath, const std::string& FragFilePath, const PipelineConfiginfo& configInfo) {
 		assert(configInfo.m_PipelineLayout != VK_NULL_HANDLE && "Cannot create graphic pipeline: no pipelinelayout provided in configInfo");
 		assert(configInfo.m_renderpass != VK_NULL_HANDLE && "Cannot create graphics pipeline: no RenderPass provided in configInfo");
@@ -92,6 +96,7 @@ namespace TDS {
 			throw std::runtime_error("failed to create graphic pipeline");
 	}
 
+	//create shader module using a vector of chars
 	void Pipeline::createShaderModule(const std::vector<char>& code, VkShaderModule* ShaderModule) {
 		VkShaderModuleCreateInfo CreateInfo{};
 		CreateInfo.sType = VK_STRUCTURE_TYPE_SHADER_MODULE_CREATE_INFO;
@@ -102,10 +107,12 @@ namespace TDS {
 			throw std::runtime_error("Failed to create shader module");
 	}
 
+	//binds the pipeline to a commandbuffer
 	void Pipeline::bind(VkCommandBuffer commandbuffer) {
 		vkCmdBindPipeline(commandbuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, m_GraphicPipeline);
 	}
 
+	//defualt set up for pipeline
 	void Pipeline::defaultPipelineConfiginfo(PipelineConfiginfo& configInfo) {
 		//input assembly
 		configInfo.m_InputAssemblyInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_INPUT_ASSEMBLY_STATE_CREATE_INFO;
@@ -190,6 +197,7 @@ namespace TDS {
 		configInfo.m_AttributeDescriptions = Model::Vertex::getAttributeDescriptions();
 	}
 
+	//enable settigns for alpha blending
 	void Pipeline::enableAlphaBlending(PipelineConfiginfo& configInfo) {
 		configInfo.m_ColorBlendAttachment.blendEnable = VK_TRUE;
 		configInfo.m_ColorBlendAttachment.colorWriteMask = VK_COLOR_COMPONENT_R_BIT | VK_COLOR_COMPONENT_G_BIT | VK_COLOR_COMPONENT_B_BIT | VK_COLOR_COMPONENT_A_BIT;

@@ -1,15 +1,19 @@
 #include <vulkanTools/Renderer.h>
 
 namespace TDS {
+	
+	//Renderer class constructor
 	Renderer::Renderer(WindowsWin& window, VulkanInstance& instance) : m_Window(window), m_Instance(instance) {
 		recreateSwapChain();
 		createCommandBuffers();
 	}
 
+	//Renderer class destructor
 	Renderer::~Renderer() {
 		freeCommandBuffers();
 	}
 
+	//recreates the data from using the previous swapchain
 	void Renderer::recreateSwapChain() {
 		vkDeviceWaitIdle(m_Instance.getVkLogicalDevice());
 
@@ -28,6 +32,7 @@ namespace TDS {
 		}
 	}
 
+	//create commandbuffer for Rendering
 	void Renderer::createCommandBuffers() {
 		m_vCommandBuffers.resize(VulkanSwapChain::MAX_FRAMES_IN_FLIGHT);
 
@@ -41,11 +46,13 @@ namespace TDS {
 			throw std::runtime_error("failed to allocate command buffers");
 	}
 
+	//free the command buffers
 	void Renderer::freeCommandBuffers() {
 		vkFreeCommandBuffers(m_Instance.getVkLogicalDevice(), m_Instance.getCommandPool(), static_cast<uint32_t>(m_vCommandBuffers.size()), m_vCommandBuffers.data());
 		m_vCommandBuffers.clear();
 	}
 
+	//Start recording of the frame
 	VkCommandBuffer Renderer::BeginFrame() {
 		assert(!m_isFrameStarted && "cant call beginframe while already in progress");
 
@@ -68,6 +75,7 @@ namespace TDS {
 		return commandbuffer;
 	}
 
+	//end recording of the frame
 	void Renderer::EndFrame() {
 		assert(m_isFrameStarted && "cant call endframe while frame is not in progress");
 		auto commandbuffer = getCurrentCommandBuffer();
@@ -86,6 +94,7 @@ namespace TDS {
 		m_currentFrameIndex = (m_currentFrameIndex + 1) % VulkanSwapChain::MAX_FRAMES_IN_FLIGHT;
 	}
 
+	//start the renderpass of the swapchain
 	void Renderer::BeginSwapChainRenderPass(VkCommandBuffer commandbuffer) {
 		assert(m_isFrameStarted && "cant call beginswapchainrenderpass if frame is not in progress");
 		assert(commandbuffer == getCurrentCommandBuffer() && "cant begin renderpass on commandbuffer from different frame");
@@ -119,6 +128,7 @@ namespace TDS {
 		vkCmdSetScissor(commandbuffer, 0, 1, &scissor);
 	}
 
+	//stop the renderpass of the swapchain
 	void Renderer::EndSwapChainRenderPass(VkCommandBuffer commandbuffer) {
 		assert(m_isFrameStarted && "cant call endswapchainrenderpass if frame is not in progress");
 		assert(commandbuffer == getCurrentCommandBuffer() && "cant end renderpass on commandbuffer from a different frame");

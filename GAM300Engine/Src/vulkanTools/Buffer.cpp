@@ -2,13 +2,14 @@
 
 namespace TDS {
 
-
+	//gets the alignment in the logical device
 	VkDeviceSize Buffer::getAlignment(VkDeviceSize InstanceSize, VkDeviceSize minOffsetAlignment)
 	{
 		if (minOffsetAlignment > 0) return (InstanceSize + minOffsetAlignment - 1) & ~(minOffsetAlignment - 1);
 		return InstanceSize;
 	}
 
+	//Buffer constructor
 	Buffer::Buffer(VulkanInstance& Instance, VkDeviceSize InstanceSize, uint32_t InstanceCount, VkBufferUsageFlags UsageFlags, VkMemoryPropertyFlags memoryPropertyFlag, VkDeviceSize minOffsetAlignment)
 		: m_Instance(Instance), m_InstanceSize(InstanceSize), m_InstanceCount(InstanceCount), m_UsageFlags(UsageFlags), m_MemoryPropertyFlag(memoryPropertyFlag)
 	{
@@ -17,6 +18,7 @@ namespace TDS {
 		Instance.createBuffers(m_BufferSize, m_UsageFlags, m_MemoryPropertyFlag, m_Buffer, m_memory);
 	}
 
+	//Buffer destructor
 	Buffer::~Buffer()
 	{
 		unmap();
@@ -87,10 +89,12 @@ namespace TDS {
 		return flush(m_AlignmentSize, index * m_AlignmentSize);
 	}
 
+	//get the descriptorinfo at specified index
 	VkDescriptorBufferInfo Buffer::descriptorinfoforIndex(int index) {
 		return descriptorinfo(m_AlignmentSize, index * m_AlignmentSize);
 	}
 
+	//invalidate the data held at the index
 	VkResult Buffer::invalidateIndex(int index) {
 		return invalidate(m_AlignmentSize, index * m_AlignmentSize);
 	}
