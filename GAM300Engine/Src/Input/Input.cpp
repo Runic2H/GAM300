@@ -1,3 +1,17 @@
+/*!*************************************************************************
+****
+\file Input.cpp
+\author Cheung Jun Yin Matthew
+\par DP email: j.cheung@digipen.edu
+\par Course: CSD3400
+\par Section: a
+\par assignment: M1
+\date 01-10-2023
+\brief  This file implements the input handling system for the TDS engine. 
+		Input mapping is implemented via win32 API.
+****************************************************************************
+***/
+
 #include "Input/Input.h"
 namespace TDS
 {
