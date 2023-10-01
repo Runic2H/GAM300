@@ -1,3 +1,12 @@
+/*!*****************************************************************************
+ * \file          ModelFactory.h
+ * \author        Eugene Ho Shu Sheng
+ * \par DP email: shushengeugene.ho@digipen.edu
+ * \par Course:   CSD3400
+ * \par Section:  A
+ * \date          01/10/2023
+ * \brief         This file contains the declaration of the ModelFactory class.
+ *******************************************************************************/
 #pragma once
 #include "FactoryBase.h"
 #include <string_view>
@@ -9,6 +18,9 @@
 #define MODEL_PATH "../assets/models/"
 namespace TDS
 {
+	/*!*************************************************************************
+	 * template class ModelFactory
+	 ***************************************************************************/
 	template<>
 	class DLL_API AssetFactory<AssetModel>
 	{
@@ -19,6 +31,9 @@ namespace TDS
 
 
 	public:
+		/*!*************************************************************************
+		 * Deserialize the model from the file.
+		 ***************************************************************************/
 		static void DeserializeGeom(GeomCompiled& geomOut, std::string_view PathData)
 		{
 			std::ifstream inFile(PathData.data(), std::ios::binary);
@@ -103,7 +118,9 @@ namespace TDS
 
 			inFile.close();
 		}
-
+		/*!*************************************************************************
+		 * Preload the model from the file.
+		 ***************************************************************************/
 		void Preload(ResourceManager& resourceMgr)
 		{
 			m_LoadedModelsGUID.reserve(20);
@@ -146,7 +163,9 @@ namespace TDS
 			}
 		}
 
-
+		/*!*************************************************************************
+		 * Loading the model from the file.
+		 ***************************************************************************/
 		static void Load(std::string_view path, SingleTypeReference<AssetModel>& model, ResourceManager& resourceMgr)
 		{
 			GeomCompiled geom{};

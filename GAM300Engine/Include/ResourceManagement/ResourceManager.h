@@ -1,3 +1,13 @@
+/*!*****************************************************************************
+ * \file          ResourceManager.h
+ * \author        Eugene Ho Shu Sheng
+ * \par DP email: shushengeugene.ho@digipen.edu
+ * \par Course:   CSD3400
+ * \par Section:  A
+ * \date          01/10/2023
+ * \brief         This file contains the declaration of the 
+ *				  ResourceManager class.
+ *******************************************************************************/
 #pragma once
 #include <array>
 #include <unordered_map>
@@ -10,6 +20,9 @@
 namespace TDS
 {
 	constexpr std::int32_t MAX_RESOURCES = 8192;
+	/*!*************************************************************************
+	 * Universal type of the resource
+	 ***************************************************************************/
 	struct UniversalType
 	{
 		TypeIdentifier m_Identifier;
@@ -17,7 +30,9 @@ namespace TDS
 		void(*m_DestroyFunc)(void*);
 		void(*m_LoadFunc);
 	};
-
+	/*!*************************************************************************
+	 * Getting the instance of the resource manager
+	 ***************************************************************************/
 	struct Instance_info
 	{
 		void* m_pData{ nullptr };
@@ -29,8 +44,14 @@ namespace TDS
 	class ResourceManager
 	{
 	public:
+		/*!*************************************************************************
+		 * Constructor & Destructor of the resource manager
+		 ***************************************************************************/
 		ResourceManager();
 		~ResourceManager();
+		/*!*************************************************************************
+		 * Registering the resource type
+		 ***************************************************************************/
 		template <typename ...Types>
 		void RegisterTypes()
 		{
@@ -51,7 +72,9 @@ namespace TDS
 
 			(registerSingleType.operator() < Types > (), ...);
 		}
-
+		/*!*************************************************************************
+		 * Getting the resource from the resource manager
+		 ***************************************************************************/
 		template <typename T>
 		T* getResource(SingleTypeReference<T>& ref)
 		{
@@ -76,7 +99,9 @@ namespace TDS
 			return ref.m_Reference;
 		}
 
-
+		/*!*************************************************************************
+		 * Releasing the reference from the resource manager
+		 ***************************************************************************/
 		template <typename T>
 		void ReleaseReference(SingleTypeReference<T>& ref)
 		{
@@ -98,7 +123,9 @@ namespace TDS
 			}
 			ref.m_GUID = OriginalId;
 		}
-
+		/*!*************************************************************************
+		 * Getting the GUID
+		 ***************************************************************************/
 		template <typename T>
 		UniqueID GetInstanceGuid(const SingleTypeReference<T>& ref) const
 		{
@@ -108,14 +135,18 @@ namespace TDS
 			assert(instance != m_ResourceInUsed.end());
 			return instance->second->m_GUID;
 		}
-
+		/*!*************************************************************************
+		 * Getting Resource Count
+		 ***************************************************************************/
 		inline std::int32_t GetResouceCount()
 		{
 			assert(m_ResourceInstance.size() == m_ResourceInUsed.size());
 
 			return std::uint32_t(m_ResourceInstance.size());
 		}
-
+		/*!*************************************************************************
+		 * Helper Functions
+		 ***************************************************************************/
 		void* GetResource(UniversalReference& uRef);
 
 		void ReleaseReference(UniversalReference& uRef);

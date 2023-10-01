@@ -1,3 +1,13 @@
+/*!*****************************************************************************
+ * \file          GraphicsAllocator.h
+ * \author        Eugene Ho Shu Sheng
+ * \par DP email: shushengeugene.ho@digipen.edu
+ * \par Course:   CSD3400
+ * \par Section:  A
+ * \date          01/10/2023
+ * \brief         This file contains the declaration of the 
+ *				  GraphicsAllocator class.
+ *******************************************************************************/
 #pragma once
 #include <vma/vk_mem_alloc.h>
 #include "dotnet/ImportExport.h"
@@ -16,11 +26,18 @@ namespace TDS
 		{
 			return m_instance;
 		}
-
+		/*!*************************************************************************
+		 * Constructor & Destructor for GraphicsAllocator class
+		 ***************************************************************************/
 		DLL_API GraphicsAllocator();
 		DLL_API ~GraphicsAllocator();
-
+		/*!*************************************************************************
+		 * Init for GraphicsAllocator class
+		 ***************************************************************************/
 		void DLL_API Init(VulkanInstance& instance);
+		/*!*************************************************************************
+		 * Mapping and Unmapping Memory
+		 ***************************************************************************/
 		template <typename T>
 		static void MapMemory(T* RequestSpace, VmaAllocation allocation)
 		{
@@ -28,7 +45,9 @@ namespace TDS
 
 		}
 		static void DLL_API UnMapMemory(VmaAllocation allocation);
-
+		/*!*************************************************************************
+		 * Helper functions
+		 ***************************************************************************/
 		inline VmaAllocator& GetAllocator()
 		{
 			return m_VulkanAllocator;
@@ -41,7 +60,9 @@ namespace TDS
 		{
 			m_TotalAllocatedBytes += bytes;
 		}
-
+		/*!*************************************************************************
+		 * Allocation and Freeing Memory
+		 ***************************************************************************/
 		template <typename T>
 		static VmaAllocation Allocate(void* CreateInfo, VmaMemoryUsage usage, T*& buffer)
 		{

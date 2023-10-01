@@ -11,7 +11,7 @@
 #include "vulkanTools/Model.h"
 #include "imguiHelper/ImguiHelper.h"
 #include "vulkanTools/FrameInfo.h"
-
+#include "Timestep/Timestep.h"
 #include "sceneManager/sceneManager.h"
 
 #include <imgui/imgui.h>
@@ -158,14 +158,8 @@ namespace TDS
         float lightx = 0.f;
         while (m_window.processInputEvent())
         {
-            float DeltaTime;
-            {
-                auto  Now = std::chrono::high_resolution_clock::now();
-                std::chrono::duration<float> ElapsedSeconds = Now - Clock;
-                DeltaTime = ElapsedSeconds.count();
-                Clock = Now;
-            }
-
+            TimeStep::CalculateDeltaTime();
+			float DeltaTime = TimeStep::GetDeltaTime();
             if (isPlaying)
             {
                 ecs.runSystems(1, DeltaTime);

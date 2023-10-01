@@ -1,3 +1,12 @@
+/*!*****************************************************************************
+ * \file          GUID.h
+ * \author        Eugene Ho Shu Sheng
+ * \par DP email: shushengeugene.ho@digipen.edu
+ * \par Course:   CSD3400
+ * \par Section:  A
+ * \date          01/10/2023
+ * \brief         This file contains the declaration of the GUID class.
+ *******************************************************************************/
 #pragma once
 #include <random>
 #include <cstdarg>
@@ -10,12 +19,20 @@ namespace TDS
     class UniqueID
     {
     public:
-
+        /*!*************************************************************************
+		 * Constructor & Destructor for UniqueID class
+         ***************************************************************************/
         UniqueID() noexcept;
         UniqueID(std::uint64_t value) noexcept;
+		/*!*************************************************************************
+		 * Resetting and Creating UniqueID
+		 ***************************************************************************/
         void reset() noexcept;
         static UniqueID CreateUniqueGuid() noexcept;
 
+        /*!*************************************************************************
+         * Helper Functions
+         ***************************************************************************/
         bool operator==(const UniqueID& other) const noexcept
         {
             return m_value == other.m_value;
@@ -36,7 +53,6 @@ namespace TDS
             m_value = other;
             return *this;
         }
-
 
         inline bool isValid() const noexcept
         {

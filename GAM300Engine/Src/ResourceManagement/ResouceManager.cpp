@@ -1,3 +1,13 @@
+/*!*****************************************************************************
+ * \file          ResouceManager.cpp
+ * \author        Eugene Ho Shu Sheng
+ * \par DP email: shushengeugene.ho@digipen.edu
+ * \par Course:   CSD3400
+ * \par Section:  A
+ * \date          01/10/2023
+ * \brief         This file contains the implementation of the 
+ *				  ResourceManager class.
+ *******************************************************************************/
 #include "ResourceManagement/ResourceManager.h"
 
 namespace TDS

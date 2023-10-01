@@ -1,3 +1,12 @@
+/*!*****************************************************************************
+ * \file          TextureInfo.h
+ * \author        Eugene Ho Shu Sheng
+ * \par DP email: shushengeugene.ho@digipen.edu
+ * \par Course:   CSD3400
+ * \par Section:  A
+ * \date          01/10/2023
+ * \brief         Loading of texture using TinyDDS
+ *******************************************************************************/
 #pragma once
 #include <stdarg.h>
 #include <vulkan/vulkan.h>
@@ -5,7 +14,9 @@
 #include "dotnet/ImportExport.h"
 namespace TDS
 {
-
+	/*!*************************************************************************
+	 * Loading of texture using TinyDDS
+	 ***************************************************************************/
 	struct DLL_API TextureData
 	{
 		tinyddsloader::DDSFile m_TextureLoaded;
