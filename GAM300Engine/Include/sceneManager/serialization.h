@@ -1,3 +1,13 @@
+/*!*************************************************************************
+****
+\file serialization.h
+\author Go Ruo Yan
+\par DP email: ruoyan.go@digipen.edu
+\date 28-9-2023
+\brief  This program declares the functions in the serializer class
+****************************************************************************
+***/
+
 #ifndef SERIALIZATION
 #define SERIALIZATION
 

@@ -1,17 +1,37 @@
+/*!*************************************************************************
+****
+\file transform.cpp
+\author Go Ruo Yan
+\par DP email: ruoyan.go@digipen.edu
+\date 28-9-2023
+\brief  This program defines the functions in the Transform component class
+****************************************************************************
+***/
+
 #include "components/transform.h"
 
 namespace TDS
 {
+	/*!*************************************************************************
+	Initializes the Transform component when created
+	****************************************************************************/
 	Transform::Transform() : mPosition	(Vec3(0.0f, 0.0f, 0.0f)), 
 							 mScale		(Vec3(1.0f, 1.0f, 0.0f)),
 							 mRotation	(0.0f)
 	{ }
 
+	/*!*************************************************************************
+	Initializes the Transform component when created, given another Transform
+	component to move (for ECS)
+	****************************************************************************/
 	Transform::Transform(Transform&& toMove) noexcept : mPosition	(toMove.mPosition),
 														mScale		(toMove.mScale),
 														mRotation	(toMove.mRotation)
 	{ }
 
+	/*!*************************************************************************
+	Deserializes the WinData component
+	****************************************************************************/
 	bool Transform::Deserialize(const rapidjson::Value& obj)
 	{
 		mPosition = Vec3(obj["positionX"].GetFloat(), obj["positionY"].GetFloat(), obj["positionZ"].GetFloat());
@@ -21,6 +41,9 @@ namespace TDS
 		return true;
 	}
 
+	/*!*************************************************************************
+	Serializes the Transform component
+	****************************************************************************/
 	bool Transform::Serialize(rapidjson::PrettyWriter<rapidjson::StringBuffer>* writer) const
 	{
 		writer->Key("positionX");

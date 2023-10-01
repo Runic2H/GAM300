@@ -15,6 +15,9 @@
 #include "sceneManager/sceneManager.h"
 
 #include <imgui/imgui.h>
+
+bool isPlaying = false;
+
 namespace TDS
 {
     Application::Application(HINSTANCE hinstance, int& nCmdShow, const wchar_t* classname, WNDPROC wndproc)
@@ -109,6 +112,7 @@ namespace TDS
         m_AssetManager.Init();
         m_AssetManager.PreloadAssets();
         SceneManager::GetInstance()->Init();
+        ecs.initializeSystems(1);
     }
 
     void Application::Update()
@@ -153,6 +157,11 @@ namespace TDS
                 std::chrono::duration<float> ElapsedSeconds = Now - Clock;
                 DeltaTime = ElapsedSeconds.count();
                 Clock = Now;
+            }
+
+            if (isPlaying)
+            {
+                ecs.runSystems(1, DeltaTime);
             }
 
             imguiHelper::Update();

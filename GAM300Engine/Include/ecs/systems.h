@@ -1,3 +1,13 @@
+/*!*************************************************************************
+****
+\file systems.h
+\author Go Ruo Yan
+\par DP email: ruoyan.go@digipen.edu
+\date 28-9-2023
+\brief  This program declares and registers the systems in the ECS
+****************************************************************************
+***/
+
 #ifndef SYSTEMS
 #define SYSTEMS
 

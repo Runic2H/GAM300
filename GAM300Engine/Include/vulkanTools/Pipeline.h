@@ -62,6 +62,7 @@ namespace TDS {
 		void						createShaderModule(const std::vector<char>& code, VkShaderModule* shadermodule);
 	private:
 		//creates a graphic pipeline
+
 		void						createGraphicPipeline(const std::string& VertFilepath, const std::string& FragFilePath, const PipelineConfiginfo& configInfo);
 
 

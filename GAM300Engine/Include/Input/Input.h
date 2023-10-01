@@ -1,3 +1,17 @@
+/*!*************************************************************************
+****
+\file Input.h
+\author Cheung Jun Yin Matthew
+\par DP email: j.cheung@digipen.edu
+\par Course: CSD3400
+\par Section: a
+\par assignment: M1
+\date 01-10-2023
+\brief  This file implements the input handling system for the TDS engine.
+		Input mapping is implemented via win32 API.
+****************************************************************************
+***/
+
 #ifndef TDS_INPUTS
 #define TDS_INPUTS
 #include "windowswindow.h"
@@ -123,35 +137,82 @@ namespace TDS
 		static keyboardInputMap keyboard;
 		static mouseInputMap mouse;
 	public:
+
+		/*!*************************************************************************
+		Return the state of the key, wasDown, IsDown.
+		****************************************************************************/
 		static keyState GetKeyState(uint32_t keycode);
 
-		static bool isKeyPressed(uint32_t keycode); //true if key is being pressed
+		/*!*************************************************************************
+		Returns true if key is being pressed.
+		****************************************************************************/
+		static bool isKeyPressed(uint32_t keycode); 
+		
+		/*!*************************************************************************
+		Returns true if key is released.
+		****************************************************************************/
+		static bool isKeyReleased(uint32_t keycode);
 
-		static bool isKeyReleased(uint32_t keycode); //true if key is not being pressed
+		/*!*************************************************************************
+		Returns true if key key has just been pressed.
+		****************************************************************************/
+		static bool wasKeyHit(uint32_t keycode); 
 
-		static bool wasKeyHit(uint32_t keycode); //true if key has just been pressed
-
+		/*!*************************************************************************
+		Returns true if mouse wheel is being scrolled up.
+		****************************************************************************/
 		static bool isMouseScrollUp();
-
+		
+		/*!*************************************************************************
+		Returns true if mouse wheel is being scrolled down.
+		****************************************************************************/
 		static bool isMouseScrollDown();
-
+		
+		/*!*************************************************************************
+		Returns mouse position
+		****************************************************************************/
 		static mousePosition getMousePosition();
 
+		/*!*************************************************************************
+		Returns true if mouse button is being pressed.
+		****************************************************************************/
 		static bool isMouseButtonPressed(unsigned int buttonCode);
-
+		
+		/*!*************************************************************************
+		Returns true if mouse button is being released.
+		****************************************************************************/
 		static bool isMouseButtonReleased(unsigned int buttonCode);
 
-		static bool wasMouseButtonHit(unsigned int buttonCode); //true if button has just been pressed
+		/*!*************************************************************************
+		Returns true if button has just been pressed.
+		****************************************************************************/
+		static bool wasMouseButtonHit(unsigned int buttonCode); 
 
-
+		/*!*************************************************************************
+		Processes mouse scroll bools through GET_WHEEL_DELTA_WPARAM
+		****************************************************************************/
 		static void processMouseScroll(WPARAM _wParam);
 
+		/*!*************************************************************************
+		Stops scroll wheel from continuously outputing scroll up or down data.
+		****************************************************************************/
 		static void scrollStop();
-
+		
+		/*!*************************************************************************
+		Maps the keycodes to the macros defined by offseting them from the win32 API
+		keycode numbers.
+		****************************************************************************/
 		static void processKeyboardInput(uint32_t VKcode, bool wasDown, bool isDown);
 
+		/*!*************************************************************************
+		Updates the mouse button bools
+		****************************************************************************/
 		static void processMouseInput(WPARAM wParam, LPARAM lParam);
 
+		/*!*************************************************************************
+		Updates the mouse position through GET_X_LPARAM(lParam) & GET_Y_LPARAM(lParam)
+		to track global position of the mouse.
+		****************************************************************************/
 		static void updateMousePosition(LPARAM lParam);
 	private:
 

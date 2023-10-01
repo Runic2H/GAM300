@@ -1,3 +1,13 @@
+/*!*************************************************************************
+****
+\file sceneManager.cpp
+\author Go Ruo Yan
+\par DP email: ruoyan.go@digipen.edu
+\date 28-9-2023
+\brief  This program defines the functions in the SceneManager class
+****************************************************************************
+***/
+
 #include <fstream>
 
 #include "sceneManager/sceneManager.h"
@@ -15,6 +25,19 @@ namespace TDS
 		if (m_instance == nullptr)
 		{
 			m_instance = std::make_unique<SceneManager>();
+
+			std::filesystem::path currentPath = std::filesystem::current_path();
+			while (!std::filesystem::exists(currentPath.string() + "\\assets"))
+			{
+				if (currentPath == "C:\\")
+				{
+					std::cout << "No asset directory found" << std::endl;
+					break;
+				}
+				currentPath = currentPath.parent_path();
+			}
+			m_instance->parentFilePath = currentPath.string() + "\\assets\\";
+			m_instance->filePath = currentPath.string() + "\\assets\\scenes\\";
 		}
 		return m_instance;
 	}
@@ -36,92 +59,15 @@ namespace TDS
 		ecs.registerComponent<Tag>("Tag");
 		ecs.registerComponent<WinData>("Win Data");
 
+		bindSystemFunctions();
+
 		// Setting default scene
-		//sceneDeserialize();
-
-		allScenes.emplace_back("Game");
-		allScenes.emplace_back("MainMenu");
-		startScene = "MainMenu";
-		currentScene = "MainMenu";
-
-		EntityID entity1 = ecs.getNewID();
-		ecs.registerEntity(entity1);
-		ecs.addComponent<NameTag>(entity1);
-		ecs.getComponent<NameTag>(entity1)->SetNameTag("entity1");
-		ecs.addComponent<Transform>(entity1);
-		ecs.getComponent<Transform>(entity1)->SetPosition(Vec3{ 2.f, 3.f, 4.f });
-		ecs.getComponent<Transform>(entity1)->SetScale(Vec3{ 2.f, 3.f, 4.f });
-		ecs.addComponent<AI>(entity1);
-		ecs.getComponent<AI>(entity1)->SetBehaviourTreeIndex(0);
-
-		EntityID entity2 = ecs.getNewID();
-		ecs.registerEntity(entity2);
-		ecs.addComponent<NameTag>(entity2);
-		ecs.getComponent<NameTag>(entity2)->SetNameTag("entity2");
-		ecs.addComponent<Transform>(entity2);
-		ecs.getComponent<Transform>(entity2)->SetPosition(Vec3{2.f, 3.f, 4.f});
-		ecs.getComponent<Transform>(entity2)->SetScale(Vec3{2.f, 3.f, 4.f});
-		ecs.addComponent<Collider>(entity2);
-
-		EntityID entity3 = ecs.getNewID();
-		ecs.registerEntity(entity3);
-		ecs.addComponent<NameTag>(entity3);
-		ecs.getComponent<NameTag>(entity3)->SetNameTag("entity3");
-		ecs.addComponent<Transform>(entity3);
-		ecs.getComponent<Transform>(entity3)->SetPosition(Vec3{2.f, 3.f, 4.f});
-		ecs.getComponent<Transform>(entity3)->SetScale(Vec3{2.f, 3.f, 4.f});
-		ecs.addComponent<PlayerAttributes>(entity3);
-
-		EntityID entity4 = ecs.getNewID();
-		ecs.registerEntity(entity4);
-		ecs.addComponent<NameTag>(entity4);
-		ecs.getComponent<NameTag>(entity4)->SetNameTag("entity4");
-		ecs.addComponent<Transform>(entity4);
-		ecs.getComponent<Transform>(entity4)->SetPosition(Vec3{10.f, 10.f, 10.f });
-		ecs.getComponent<Transform>(entity4)->SetScale(Vec3{ 10.f, 10.f, 10.f });
-		ecs.addComponent<PlayerAttributes>(entity4);
-		ecs.addComponent<RigidBody>(entity4);
-
-
-		//for (int i = 3; i < 103; ++i)
-		//{
-		//	EntityID newEntity = ecs.getNewID();
-		//	ecs.registerEntity(newEntity);
-		//	ecs.addComponent<NameTag>(newEntity);
-		//	ecs.getComponent<NameTag>(newEntity)->SetNameTag("entity" + std::to_string(i));
-		//	ecs.addComponent<Transform>(newEntity);
-		//	ecs.getComponent<Transform>(newEntity)->SetPosition(Vec3{ (float)i, (float)i, (float)i });
-		//	ecs.getComponent<Transform>(newEntity)->SetScale(Vec3{ (float)i, (float)i, (float)i });
-		//	ecs.addComponent<PlayerAttributes>(newEntity);
-		//}
-
-		//ecs.removeComponent<Transform>(entity2);
-
-
-		//DeserializeFromFile(std::filesystem::current_path().parent_path().string() + "\\assets\\scenes\\" + currentScene + ".json");
-
-		//std::cout << "ECS: " << std::endl;
-		//for (auto entity : ecs.getEntities())
-		//{
-		//	std::cout << entity << std::endl;
-
-		//	if (NameTag* nametag = ecs.getComponent<NameTag>(entity))
-		//	{
-		//		std::cout << nametag->GetNameTag() << std::endl;
-		//	}
-		//	if (Transform* transform = ecs.getComponent<Transform>(entity))
-		//	{
-		//		std::cout << transform->GetPosition() << std::endl;
-		//		std::cout << transform->GetScale() << std::endl;
-		//		std::cout << transform->GetRotation() << std::endl;
-		//	}
-
-		//	std::cout << std::endl;
-		//}
-
-		SerializeToFile(std::filesystem::current_path().parent_path().string() + "\\assets\\scenes\\" + currentScene + ".json");
+		sceneDeserialize();
 	}
 
+	/*!*************************************************************************
+	Deserializes ECS entities and data from JSON file to build ECS (File loading)
+	****************************************************************************/
 	bool SceneManager::Deserialize(const rapidjson::Value& obj)
 	{
 		ecs.removeAllEntities();
@@ -268,9 +214,12 @@ namespace TDS
 		return true;
 	}
 
+	/*!*************************************************************************
+	This function serializes scenes into JSON files
+	****************************************************************************/
 	bool SceneManager::sceneSerialize()
 	{
-		std::ofstream ofs(std::filesystem::current_path().parent_path().string() + "\\assets\\scene.json");
+		std::ofstream ofs(parentFilePath + "scene.json");
 
 		rapidjson::StringBuffer sb;
 		rapidjson::PrettyWriter<rapidjson::StringBuffer> writer(sb);
@@ -298,10 +247,13 @@ namespace TDS
 		return true;
 	}
 
+	/*!*************************************************************************
+	This function deserializes scenes from JSON files
+	****************************************************************************/
 	bool SceneManager::sceneDeserialize()
 	{
-		std::string filepath = std::filesystem::current_path().parent_path().string() + "\\assets\\scene.json";
-		std::ifstream ifs(filepath, std::ios::in);
+		std::string allScenesFilepath = parentFilePath + "scene.json";
+		std::ifstream ifs(allScenesFilepath, std::ios::in);
 		std::stringstream buffer;
 		buffer << ifs.rdbuf();
 		ifs.close();
@@ -343,23 +295,35 @@ namespace TDS
 		return true;
 	}
 
+	/*!*************************************************************************
+	This function adds a new scene into the Scene Manager
+	****************************************************************************/
 	void SceneManager::newScene(std::string scene)
 	{
 		allScenes.emplace_back(scene);
 	}
+	/*!*************************************************************************
+	This function loads given scene
+	****************************************************************************/
 	void SceneManager::loadScene(std::string scene)
 	{
-		DeserializeFromFile(std::filesystem::current_path().parent_path().string() + "\\assets\\scenes\\" + scene + ".json");
+		DeserializeFromFile(filePath + scene + ".json");
 		currentScene = scene;
 	}
 
+	/*!*************************************************************************
+	This function saves the given scene 
+	****************************************************************************/
 	void SceneManager::saveScene(std::string scene)
 	{
-		SerializeToFile(std::filesystem::current_path().parent_path().string() + "\\assets\\scenes\\" + scene + ".json");
+		SerializeToFile(filePath + scene + ".json");
 	}
+	/*!*************************************************************************
+	This function deletes the given scene
+	****************************************************************************/
 	void SceneManager::deleteScene(std::string scene)
 	{
-		std::filesystem::remove(std::filesystem::current_path().parent_path().string() + "\\assets\\scenes\\" + scene + ".json");
+		std::filesystem::remove(filePath + scene + ".json");
 		auto sceneInVector = std::find(allScenes.begin(), allScenes.end(), scene);
 
 		if (sceneInVector != allScenes.end())
@@ -368,11 +332,17 @@ namespace TDS
 		}
 	}
 
+	/*!*************************************************************************
+	This function is the getter function for current scene
+	****************************************************************************/
 	std::string SceneManager::getCurrentScene()
 	{
 		return currentScene;
 	}
 
+	/*!*************************************************************************
+	This function is the getter function for all scenes in Scene Browser
+	****************************************************************************/
 	std::vector<std::string>& SceneManager::getScenes()
 	{
 		return allScenes;

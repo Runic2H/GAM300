@@ -80,8 +80,8 @@ namespace TDS
 		colors[ImGuiCol_Button] = ImVec4(0.05f, 0.05f, 0.05f, 0.54f);
 		colors[ImGuiCol_ButtonHovered] = ImVec4(0.19f, 0.19f, 0.19f, 0.54f);
 		colors[ImGuiCol_ButtonActive] = ImVec4(0.20f, 0.22f, 0.23f, 1.00f);
-		colors[ImGuiCol_Header] = ImVec4(0.00f, 0.00f, 0.00f, 0.52f);
-		colors[ImGuiCol_HeaderHovered] = ImVec4(0.00f, 0.00f, 0.00f, 0.36f);
+		colors[ImGuiCol_Header] = ImVec4(0.14f, 0.14f, 0.14f, 0.52f);
+		colors[ImGuiCol_HeaderHovered] = ImVec4(0.14f, 0.14f, 0.14f, 0.36f);
 		colors[ImGuiCol_HeaderActive] = ImVec4(0.20f, 0.22f, 0.23f, 0.33f);
 		colors[ImGuiCol_Separator] = ImVec4(0.00f, 0.00f, 0.00f, 1.00f);
 		colors[ImGuiCol_SeparatorHovered] = ImVec4(0.00f, 0.00f, 0.00f, 1.00f);
@@ -175,7 +175,7 @@ namespace TDS
 		// Panels
 		for (auto currentPanel : LevelEditorManager::GetInstance()->panels)
 		{
-			ImGui::GetStyle().WindowPadding = currentPanel.second->windowPadding;
+			//ImGui::GetStyle().WindowPadding = currentPanel.second->windowPadding;
 
 			if (ImGui::Begin(currentPanel.second->panelTitle.c_str(), (bool*)0, currentPanel.second->flags))
 			{
@@ -213,8 +213,10 @@ namespace TDS
 		ImGui::DestroyContext();
 	}
 
-
-	void ImguiTextInput(std::string variableName, std::string& textVariable)
+	/*!*************************************************************************
+	This function is a helper function for draw TEXT variables
+	****************************************************************************/
+	std::string ImguiTextInput(std::string variableName, std::string textVariable)
 	{
 		ImGui::TableNextRow();
 		ImGui::TableNextColumn();
@@ -224,10 +226,14 @@ namespace TDS
 		char temp[100];
 		strcpy_s(temp, textVariable.c_str());
 		ImGui::InputText(("##" + variableName).c_str(), temp, 100);
-		textVariable = std::string(temp);
+
+		return std::string(temp);
 	}
 
-	void ImguiBoolInput(std::string variableName, bool& boolVariable)
+	/*!*************************************************************************
+	This function is a helper function for draw BOOl variables
+	****************************************************************************/
+	bool ImguiBoolInput(std::string variableName, bool boolVariable)
 	{
 		ImGui::TableNextRow();
 		ImGui::TableNextColumn();
@@ -235,9 +241,14 @@ namespace TDS
 
 		ImGui::TableNextColumn();
 		ImGui::Checkbox(("##" + variableName).c_str(), &boolVariable);
+
+		return boolVariable;
 	}
 
-	void ImguiIntInput(std::string variableName, int& intVariable, float speed, float min, float max)
+	/*!*************************************************************************
+	This function is a helper function for draw INT variables
+	****************************************************************************/
+	int ImguiIntInput(std::string variableName, int intVariable, float speed, int min, int max)
 	{
 		ImGui::TableNextRow();
 		ImGui::TableNextColumn();
@@ -252,9 +263,14 @@ namespace TDS
 		{
 			ImGui::DragInt(("##" + variableName).c_str(), &intVariable, speed, min, max);
 		}
+
+		return intVariable;
 	}
 
-	void ImguiFloatInput(std::string variableName, float& floatVariable, float speed, float min, float max)
+	/*!*************************************************************************
+	This function is a helper function for draw FLOAT variables
+	****************************************************************************/
+	float ImguiFloatInput(std::string variableName, float floatVariable, float speed, float min, float max)
 	{
 		ImGui::TableNextRow();
 		ImGui::TableNextColumn();
@@ -262,9 +278,14 @@ namespace TDS
 
 		ImGui::TableNextColumn();
 		ImGui::DragFloat(("##" + variableName).c_str(), &floatVariable, speed, min, max);
+
+		return floatVariable;
 	}
 
-	void ImguiVec2Input(std::string variableName, Vec2& Vec2Variable)
+	/*!*************************************************************************
+	This function is a helper function for draw VEC2 variables
+	****************************************************************************/
+	Vec2 ImguiVec2Input(std::string variableName, Vec2 Vec2Variable)
 	{
 		ImGui::TableNextRow();
 		ImGui::TableNextColumn();
@@ -275,9 +296,14 @@ namespace TDS
 		ImGui::DragFloat2(("##" + variableName).c_str(), temp, 1.0f);
 		Vec2Variable.x = temp[0];
 		Vec2Variable.y = temp[1];
+
+		return Vec2Variable;
 	}
 
-	void ImguiVec3Input(std::string variableName, Vec3& Vec3Variable)
+	/*!*************************************************************************
+	This function is a helper function for draw VEC3 variables
+	****************************************************************************/
+	Vec3 ImguiVec3Input(std::string variableName, Vec3 Vec3Variable)
 	{
 		ImGui::TableNextRow();
 		ImGui::TableNextColumn();
@@ -289,6 +315,7 @@ namespace TDS
 		Vec3Variable.x = temp[0];
 		Vec3Variable.y = temp[1];
 		Vec3Variable.z = temp[2];
-	}
 
+		return Vec3Variable;
+	}
 }

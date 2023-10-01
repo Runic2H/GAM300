@@ -1,6 +1,8 @@
 #include "imguiHelper/ImguiToolbar.h"
 #include "imguiHelper/ImguiConsole.h"
 
+#include "sceneManager/sceneManager.h"
+
 namespace TDS
 {
 	/*EditorConsole console;*/ //Wrong method of getting instance
@@ -29,27 +31,30 @@ namespace TDS
 		{
 			console->AddLog("Play button pressed");
 			//console->AddLog("Play button pressed");
-			if (isPlay) {
-				//App->timeManagement->Play();
-				////TODO: Call the Init of the particles
-				//App->scene->PlayScene(App->scene->GetRoot(), App->scene->GetRoot());
-			}
-			else if (isPause) {
-				//set game to resume
-				//App->timeManagement->Resume();
-			}
+			//if (isPlay) {
+			//	//App->timeManagement->Play();
+			//	////TODO: Call the Init of the particles
+			//	//App->scene->PlayScene(App->scene->GetRoot(), App->scene->GetRoot());
+			//}
+			//else if (isPause) {
+			//	//set game to resume
+			//	//App->timeManagement->Resume();
+			//}
 			/*App->scene->inGame = true;*/
+
+			isPlaying = true;
 		}
 		ImGui::SameLine();
 		if (ImGui::Button("||", { 23, 19 }))
 		{
-			//AddLog("Pause button pressed");
-			if (isPause) {
-				//pause
-				console->AddLog("Pause button pressed");
+			console->AddLog("Pause button pressed");
+			//if (isPause) {
+			//	//pause
+			//	console->AddLog("Pause button pressed");
 
-			}
+			//}
 
+			isPlaying = false;
 		}
 		ImGui::SameLine();
 		ImGui::PushStyleColor(ImGuiCol_Button, { 0.8f,0,0,1 });
@@ -86,46 +91,44 @@ namespace TDS
 		ImGui::PopStyleColor();
 		ImGui::PopStyleColor();
 
-		ImGui::SameLine();
-		ImGui::PushStyleColor(ImGuiCol_Button, { 0.1f,0.1f,0.1f,1 });
-		ImGui::PushStyleColor(ImGuiCol_ButtonHovered, { 1,0.1f,0,1 });
-		if (ImGui::Button("Load Scene", { 100, 19 }))
-		{
+		//ImGui::SameLine();
+		//ImGui::PushStyleColor(ImGuiCol_Button, { 0.1f,0.1f,0.1f,1 });
+		//ImGui::PushStyleColor(ImGuiCol_ButtonHovered, { 1,0.1f,0,1 });
+		//if (ImGui::Button("Load Scene", { 100, 19 }))
+		//{
+		//	console->AddLog("Load Scene Button Pressed");
+		//	if (isLoadScene) {
 
-			console->AddLog("Load Scene Button Pressed");
-			if (isLoadScene) {
 
-
-			}
-		}
-		ImGui::PopStyleColor();
-		ImGui::PopStyleColor();
+		//	}
+		//}
+		//ImGui::PopStyleColor();
+		//ImGui::PopStyleColor();
 
 		ImGui::SameLine();
 		ImGui::PushStyleColor(ImGuiCol_Button, { 0.1f,0.1f,0.1f,1 });
 		ImGui::PushStyleColor(ImGuiCol_ButtonHovered, { 1,0.1f,0,1 });
 		if (ImGui::Button("Save Scene", { 100, 19 }))
 		{
-
 			console->AddLog("Save Scene Button Pressed");
 			if (isSaveScene) {
 
-
+				SceneManager::GetInstance()->saveScene(SceneManager::GetInstance()->getCurrentScene());
 			}
 		}
 		ImGui::PopStyleColor();
 		ImGui::PopStyleColor();
 
-		ImGui::SameLine();
-		ImGui::PushStyleColor(ImGuiCol_Button, { 0.1f,0.1f,0.1f,1 });
-		ImGui::PushStyleColor(ImGuiCol_ButtonHovered, { 1,0.1f,0,1 });
-		if (ImGui::Button("Add Component", { 100, 19 }))
-		{
+		//ImGui::SameLine();
+		//ImGui::PushStyleColor(ImGuiCol_Button, { 0.1f,0.1f,0.1f,1 });
+		//ImGui::PushStyleColor(ImGuiCol_ButtonHovered, { 1,0.1f,0,1 });
+		//if (ImGui::Button("Add Component", { 100, 19 }))
+		//{
 
-			console->AddLog("Adding Component");
-			//do add component
-		}
-		ImGui::PopStyleColor();
-		ImGui::PopStyleColor();
+		//	console->AddLog("Adding Component");
+		//	//do add component
+		//}
+		//ImGui::PopStyleColor();
+		//ImGui::PopStyleColor();
 	}
 }

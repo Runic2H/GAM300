@@ -1,8 +1,22 @@
+/*!*************************************************************************
+****
+\file ImguiSceneBrowser.cpp
+\author Go Ruo Yan
+\par DP email: ruoyan.go@digipen.edu
+\date 28-9-2023
+\brief  This program defines the functions in the Level Editor Scene Browser
+		panel
+****************************************************************************
+***/
+
 #include "imguiHelper/ImguiSceneBrowser.h"
 #include "imguiHelper/ImguiHierarchy.h"
 
 namespace TDS
 {
+	/*!*************************************************************************
+	This function initializes the Scene Broswer panel
+	****************************************************************************/
 	SceneBrowser::SceneBrowser()
 	{
 		flags = ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoCollapse;
@@ -10,6 +24,9 @@ namespace TDS
 		windowPadding = ImVec2(10.f, 10.f);
 	}
 
+	/*!*************************************************************************
+	This function is the update function for Scene Broswer panel
+	****************************************************************************/
 	void SceneBrowser::update()
 	{
 		std::shared_ptr<Hierarchy> hierarchyPanel = static_pointer_cast<Hierarchy>(LevelEditorManager::GetInstance()->panels[PanelTypes::HIERARCHY]);
