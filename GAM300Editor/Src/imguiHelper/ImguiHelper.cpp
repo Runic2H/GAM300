@@ -213,6 +213,9 @@ namespace TDS
 		ImGui::DestroyContext();
 	}
 
+	/*!*************************************************************************
+	This function is a helper function for draw TEXT variables
+	****************************************************************************/
 	std::string ImguiTextInput(std::string variableName, std::string textVariable)
 	{
 		ImGui::TableNextRow();
@@ -227,6 +230,9 @@ namespace TDS
 		return std::string(temp);
 	}
 
+	/*!*************************************************************************
+	This function is a helper function for draw BOOl variables
+	****************************************************************************/
 	bool ImguiBoolInput(std::string variableName, bool boolVariable)
 	{
 		ImGui::TableNextRow();
@@ -239,6 +245,9 @@ namespace TDS
 		return boolVariable;
 	}
 
+	/*!*************************************************************************
+	This function is a helper function for draw INT variables
+	****************************************************************************/
 	int ImguiIntInput(std::string variableName, int intVariable, float speed, int min, int max)
 	{
 		ImGui::TableNextRow();
@@ -258,6 +267,9 @@ namespace TDS
 		return intVariable;
 	}
 
+	/*!*************************************************************************
+	This function is a helper function for draw FLOAT variables
+	****************************************************************************/
 	float ImguiFloatInput(std::string variableName, float floatVariable, float speed, float min, float max)
 	{
 		ImGui::TableNextRow();
@@ -270,6 +282,9 @@ namespace TDS
 		return floatVariable;
 	}
 
+	/*!*************************************************************************
+	This function is a helper function for draw VEC2 variables
+	****************************************************************************/
 	Vec2 ImguiVec2Input(std::string variableName, Vec2 Vec2Variable)
 	{
 		ImGui::TableNextRow();
@@ -285,6 +300,9 @@ namespace TDS
 		return Vec2Variable;
 	}
 
+	/*!*************************************************************************
+	This function is a helper function for draw VEC3 variables
+	****************************************************************************/
 	Vec3 ImguiVec3Input(std::string variableName, Vec3 Vec3Variable)
 	{
 		ImGui::TableNextRow();

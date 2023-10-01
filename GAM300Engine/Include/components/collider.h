@@ -1,3 +1,13 @@
+/*!*************************************************************************
+****
+\file collider.h
+\author Go Ruo Yan
+\par DP email: ruoyan.go@digipen.edu
+\date 28-9-2023
+\brief  This program declares the functions in the Collider component class
+****************************************************************************
+***/
+
 #ifndef COLLIDERCOMPONENT
 #define COLLIDERCOMPONENT
 
@@ -19,12 +29,31 @@ namespace TDS
 			RECTANGLE		// AABB
 		};
 
+		/*!*************************************************************************
+		Initializes the Collider component when created
+		****************************************************************************/
 		Collider();
+		/*!*************************************************************************
+		Initializes the Collider component when created, given another Collider
+		component to move (for ECS)
+		****************************************************************************/
 		Collider(Collider&& toMove) noexcept;
+		/*!*************************************************************************
+		Destructor for the Collider component class
+		****************************************************************************/
 		~Collider() = default;
+		/*!*************************************************************************
+		Deserializes the Collider component
+		****************************************************************************/
 		virtual bool Deserialize(const rapidjson::Value& obj);
+		/*!*************************************************************************
+		Serializes the Collider component
+		****************************************************************************/
 		virtual bool Serialize(rapidjson::PrettyWriter<rapidjson::StringBuffer>* writer) const;
 
+		/*!*************************************************************************
+		Getter and setter functions for the variables in the Collider component class
+		****************************************************************************/
 		ColliderType& GetColliderType() { return mColliderType; }
 		void SetColliderType(ColliderType colliderType) { mColliderType = colliderType; }
 

@@ -1,3 +1,14 @@
+/*!*************************************************************************
+****
+\file FrameInfo.h
+\author Ng Zuo Xian Amadeus
+\par DP email: ng.z@digipen.edu
+\par Course: CSD3400
+\par Section: a
+\date 22-9-2023
+\brief  Global Structs to be used in other files if needed
+****************************************************************************
+***/
 #pragma once
 #include "camera/camera.h"
 #include "Model.h"

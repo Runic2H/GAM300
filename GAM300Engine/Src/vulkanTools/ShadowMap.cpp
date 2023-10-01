@@ -1,10 +1,20 @@
+/*!*************************************************************************
+****
+\file ShadowMap.cpp
+\author Ng Zuo Xian Amadeus
+\par DP email: ng.z@digipen.edu
+\par Course: CSD3400
+\par Section: a
+\date 22-9-2023
+\brief  Function definitions of the ShadowMap Class
+****************************************************************************
+***/
 #include "vulkanTools/ShadowMap.h"
 #include "vulkanTools/Pipeline.h"
 
 namespace TDS {
 	ShadowMap::ShadowMap(VulkanInstance& Instance, VkRenderPass renderpass, VkDescriptorSetLayout globbalsetlayout)
 		:m_Instance(Instance) {
-		//createPipelineLayout(globbalsetlayout);
 		createPipeline(renderpass);
 	}
 

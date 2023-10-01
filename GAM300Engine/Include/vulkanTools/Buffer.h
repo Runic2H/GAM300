@@ -1,3 +1,15 @@
+/*!*************************************************************************
+****
+\file Buffer.h
+\author Ng Zuo Xian Amadeus
+\par DP email: ng.z@digipen.edu
+\par Course: CSD3400
+\par Section: a
+\date 22-9-2023
+\brief  Contains the Buffer Class and its member functions
+****************************************************************************
+***/
+
 #ifndef TDS_VULKAN_BUFFER
 #define TDS_VULKAN_BUFFER
 
@@ -5,6 +17,7 @@
 namespace TDS {
 	class DLL_API Buffer {
 	public:
+		//constructor and destructor
 		Buffer(VulkanInstance& Instance, VkDeviceSize instanceSize, uint32_t instanceCount, VkBufferUsageFlags usageFlag, VkMemoryPropertyFlags Property, VkDeviceSize minOffsetAlignment = 1);
 		~Buffer();
 
@@ -12,14 +25,22 @@ namespace TDS {
 		Buffer(const Buffer&) = delete;
 		Buffer& operator=(const Buffer&) = delete;
 
-		VkResult map(VkDeviceSize size = VK_WHOLE_SIZE, VkDeviceSize offset = 0);
-		void unmap();
+		/*!*************************************************************************
+		This function maps memory to buffer
+		****************************************************************************/
+		VkResult					map(VkDeviceSize size = VK_WHOLE_SIZE, VkDeviceSize offset = 0);
+		/*!*************************************************************************
+		This function unmaps memory from buffer 
+		****************************************************************************/
+		void						unmap();
 
+		//functions to act on Device memory
 		void						WritetoBuffer(void* data, VkDeviceSize size = VK_WHOLE_SIZE, VkDeviceSize offset = 0);
 		VkResult					flush(VkDeviceSize size = VK_WHOLE_SIZE, VkDeviceSize offset = 0);
 		VkDescriptorBufferInfo		descriptorinfo(VkDeviceSize size = VK_WHOLE_SIZE, VkDeviceSize offset = 0);
 		VkResult					invalidate(VkDeviceSize size = VK_WHOLE_SIZE, VkDeviceSize offset = 0);
 
+		//functions on specific index in Device Memory
 		void						writetoIndex(void* data, int index);
 		VkResult					flushIndex(int index);
 		VkDescriptorBufferInfo		descriptorinfoforIndex(int index);
@@ -34,6 +55,7 @@ namespace TDS {
 		VkBufferUsageFlags		getUsageFlags()		const { return m_UsageFlags; }
 		VkMemoryPropertyFlags	getPropertyFlags()	const { return m_MemoryPropertyFlag; }
 		VkDeviceSize			getBufferSize()		const { return m_BufferSize; }
+
 	private:
 		static VkDeviceSize getAlignment(VkDeviceSize size, VkDeviceSize minOffsetAlignment);
 

@@ -1,8 +1,22 @@
+/*!*************************************************************************
+****
+\file ImguiBehaviourTree.cpp
+\author Go Ruo Yan
+\par DP email: ruoyan.go@digipen.edu
+\date 28-9-2023
+\brief  This program defines functions of the level editor behaviour tree 
+		panel
+****************************************************************************
+***/
+
 #include "imguiHelper/ImguiBehaviourTree.h"
 #include "Logger/Logger.h"
 
 namespace TDS
 {
+	/*!*************************************************************************
+	This function initializes the Behaviour Tree panel
+	****************************************************************************/
 	BehaviourTreePanel::BehaviourTreePanel()
 	{
 		flags = ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoCollapse;
@@ -29,16 +43,25 @@ namespace TDS
 		nodes.emplace_back(newNode);
 	}
 
+	/*!*************************************************************************
+	This function is the helper function to convert from Imgui Vector 2 to Vec2
+	****************************************************************************/
 	Vec2 convertToVec2(ImVec2 vector)
 	{
 		return Vec2(vector.x, vector.y);
 	}
 
+	/*!*************************************************************************
+	This function is the helper function to convert from Vec2 to Imgui Vector 2
+	****************************************************************************/
 	ImVec2 convertToImVec2(Vec2 vector)
 	{
 		return ImVec2(vector.x, vector.y);
 	}
 
+	/*!*************************************************************************
+	This function is the update function for Behaviour Tree panel
+	****************************************************************************/
 	void BehaviourTreePanel::update()
 	{
 		ImGuiIO& io = ImGui::GetIO();
@@ -466,18 +489,9 @@ namespace TDS
 	}
 
 	// STRUCT FUNCTIONS =============================================================================
-	/*  _________________________________________________________________________*/
-	/*! constructor
-
-	@param _id				ID of the node
-	@param _name			Name of the node
-	@param _type			BehaviorTree type of the node
-	@param _position		Position of the node
-	@param _inputsCount		Number of inputs of the node
-	@param _outputsCount	Number of outputs of the node
-
+	/*!*************************************************************************
 	This function is a constructor for the nodes in the behaviorTree editor.
-	*/
+	****************************************************************************/
 	BehaviourTreePanel::BTENode::BTENode(int _id, std::string _name, BehaviourTreeType _type, const Vec2& _position, int _inputsCount, int _outputsCount)
 	{
 		id = _id;
@@ -490,45 +504,28 @@ namespace TDS
 		childrenNodeCount = 0;
 	}
 
-	/*  _________________________________________________________________________*/
-	/*! getInputSlotPos
-
-	@param slotNumber		Input slot id
-	@return					Position of the input slot
-
+	/*!*************************************************************************
 	This function calculates the position of the input slot id given, based on
 	the node position and number of inputs it has.
-	*/
+	****************************************************************************/
 	Vec2 BehaviourTreePanel::BTENode::getInputSlotPos(int slotNumber) const
 	{
 		return Vec2(position.x + size.x * ((float)slotNumber + 1) / ((float)inputsCount + 1), position.y);
 	}
-
-	/*  _________________________________________________________________________*/
-	/*! getOutputSlotPos
-
-	@param slotNumber		Output slot id
-	@return					Position of the output slot
-
+	/*!*************************************************************************
 	This function calculates the position of the output slot id given, based on
 	the node position and number of outputs it has.
-	*/
+	****************************************************************************/
 	Vec2 BehaviourTreePanel::BTENode::getOutputSlotPos(int slotNumber) const
 	{
 		return Vec2(position.x + size.x * ((float)slotNumber + 1) / ((float)outputsCount + 1), position.y + size.y);
 	}
 
-	/*  _________________________________________________________________________*/
-	/*! constructor
 
-	@param inputIndex		Index of the input node in the node list
-	@param inputSlot		Index of the input slot
-	@param outputIndex		Output of the input node in the node list
-	@param outputSlot		Output of the input slot
-
+	/*!*************************************************************************
 	This function connects the 2 nodes together, drawing a bezier curve line,
 	joining the input slot with the output slot.
-	*/
+	****************************************************************************/
 	BehaviourTreePanel::BTELink::BTELink(int inputIndex, int inputSlot, int outputIndex, int outputSlot)
 	{
 		InputIdx = inputIndex;
@@ -537,6 +534,9 @@ namespace TDS
 		OutputSlot = outputSlot;
 	}
 
+	/*!*************************************************************************
+	This function checks if the link is colliding with the node.
+	****************************************************************************/
 	bool BehaviourTreePanel::nodeLinkButtonCheck(Vec2 nodeLink)
 	{
 		Vec2 mousePos = convertToVec2(ImGui::GetMousePos());

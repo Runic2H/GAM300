@@ -1,7 +1,20 @@
+/*!*************************************************************************
+****
+\file aiSystem.cpp
+\author Go Ruo Yan
+\par DP email: ruoyan.go@digipen.edu
+\date 28-9-2023
+\brief  This program defines functions of aiSystem class
+****************************************************************************
+***/
+
 #include "AI/aiSystem.h"
 
 namespace TDS
 {
+	/*!*************************************************************************
+	Initialization of the AISystem class (to bind in ECS)
+	****************************************************************************/
 	void AISystem::AISystemInit()
 	{
 		// Selector
@@ -37,6 +50,9 @@ namespace TDS
 		behaviourTreeManagerInstance->getBehaviourTrees().emplace_back(newBehvaiourTree);
 	}
 
+	/*!*************************************************************************
+	Update of the AISystem class (to bind in ECS)
+	****************************************************************************/
 	void AISystem::AISystemUpdate(const float dt, const std::vector<EntityID>& entities, AI* _ai)
 	{
 		std::unique_ptr<BehaviourTreeManager>& behaviourTreeManagerInstance = BehaviourTreeManager::GetInstance();

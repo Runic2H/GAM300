@@ -2,7 +2,6 @@
 #include "imguiHelper/ImguiConsole.h"
 
 #include "sceneManager/sceneManager.h"
-#include "Logger/Logger.h"
 
 namespace TDS
 {
@@ -30,8 +29,7 @@ namespace TDS
 
 		if (ImGui::ArrowButton("Play", ImGuiDir_Right))
 		{
-			TDS_INFO("Play button pressed");
-			console->AddLog(Log::GetImguiLog().c_str());
+			console->AddLog("Play button pressed");
 			//console->AddLog("Play button pressed");
 			//if (isPlay) {
 			//	//App->timeManagement->Play();
@@ -49,9 +47,7 @@ namespace TDS
 		ImGui::SameLine();
 		if (ImGui::Button("||", { 23, 19 }))
 		{
-			TDS_INFO("Pause button pressed");
-			console->AddLog(Log::GetImguiLog().c_str());
-
+			console->AddLog("Pause button pressed");
 			//if (isPause) {
 			//	//pause
 			//	console->AddLog("Pause button pressed");
@@ -65,9 +61,7 @@ namespace TDS
 		ImGui::PushStyleColor(ImGuiCol_ButtonHovered, { 1,0.2f,0,1 });
 		if (ImGui::Button("STOP", { 40, 19 }))
 		{
-			TDS_INFO("Stop button pressed");
-			console->AddLog(Log::GetImguiLog().c_str());
-
+			console->AddLog("Stop button pressed");
 			if (isStopped) {
 
 				//stop the app
@@ -86,9 +80,7 @@ namespace TDS
 		if (ImGui::Button("Open FMOD Studio", { 120, 19 }))
 		{
 
-			TDS_INFO("Opening FMOD Studio");
-			console->AddLog(Log::GetImguiLog().c_str());
-
+			console->AddLog("Opening fmod");
 			if (isOpenFMOD) {
 
 				const char* fmodStudioPath = "..\\Dependencies\\FMOD_Studio_2.02.17\\FMOD_Studio.exe";
@@ -118,9 +110,7 @@ namespace TDS
 		ImGui::PushStyleColor(ImGuiCol_ButtonHovered, { 1,0.1f,0,1 });
 		if (ImGui::Button("Save Scene", { 100, 19 }))
 		{
-			TDS_INFO("Save Scene Button Pressed");
-			console->AddLog(Log::GetImguiLog().c_str());
-
+			console->AddLog("Save Scene Button Pressed");
 			if (isSaveScene) {
 
 				SceneManager::GetInstance()->saveScene(SceneManager::GetInstance()->getCurrentScene());

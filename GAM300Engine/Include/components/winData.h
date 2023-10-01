@@ -1,3 +1,13 @@
+/*!*************************************************************************
+****
+\file winData.h
+\author Go Ruo Yan
+\par DP email: ruoyan.go@digipen.edu
+\date 28-9-2023
+\brief  This program declares the functions in the winData component class
+****************************************************************************
+***/
+
 #ifndef WINDATACOMPONENT
 #define WINDATACOMPONENT
 
@@ -8,12 +18,31 @@ namespace TDS
 	class DLL_API WinData : public IComponent
 	{
 	public:
+		/*!*************************************************************************
+		Initializes the WinData component when created
+		****************************************************************************/
 		WinData();
+		/*!*************************************************************************
+		Initializes the WinData component when created, given another WinData
+		component to move (for ECS)
+		****************************************************************************/
 		WinData(WinData&& toMove) noexcept;
+		/*!*************************************************************************
+		Destructor for the WinData component class
+		****************************************************************************/
 		~WinData() = default;
+		/*!*************************************************************************
+		Deserializes the WinData component
+		****************************************************************************/
 		virtual bool Deserialize(const rapidjson::Value& obj);
+		/*!*************************************************************************
+		Serializes the WinData component
+		****************************************************************************/
 		virtual bool Serialize(rapidjson::PrettyWriter<rapidjson::StringBuffer>* writer) const;
 
+		/*!*************************************************************************
+		Getter and setter functions for the variables in the WinData component class
+		****************************************************************************/
 		std::string GetTitle() { return mTitle; }
 		void SetTitle(std::string title) { mTitle = title; }
 

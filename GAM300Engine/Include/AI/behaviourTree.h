@@ -1,3 +1,14 @@
+/*!*************************************************************************
+****
+\file behaviourTree.h
+\author Go Ruo Yan
+\par DP email: ruoyan.go@digipen.edu
+\date 28-9-2023
+\brief  This program declares the classes behaviourTree and 
+		behaviourTreeManager, and all the classes used in the behaviour tree
+****************************************************************************
+***/
+
 #ifndef BEHAVIOUR_TREE
 #define BEHAVIOUR_TREE
 
@@ -21,15 +32,36 @@ namespace TDS
 	class DLL_API Node
 	{
 	public:
+		/*!*************************************************************************
+		Add child to the node
+		****************************************************************************/
 		virtual void addChild(std::shared_ptr<Node> newChild) = 0;
+		/*!*************************************************************************
+		Get the children of the node
+		****************************************************************************/
 		virtual std::vector<std::shared_ptr<Node>> getChildren() { return children; };
 
+		/*!*************************************************************************
+		Runs when this node is first ran
+		****************************************************************************/
 		virtual void enter(AI& aiComponent);
+		/*!*************************************************************************
+		Runs until success / failed
+		****************************************************************************/
 		virtual void update(AI& aiComponent, float dt);
 
+		/*!*************************************************************************
+		Called by children to inform node of child status change
+		****************************************************************************/
 		virtual void childStatusChange(AI& aiComponent);
 
+		/*!*************************************************************************
+		Runs when the node failed
+		****************************************************************************/
 		virtual void failed(AI& aiComponent);
+		/*!*************************************************************************
+		Runs when the node succeed
+		****************************************************************************/
 		virtual void success(AI& aiComponent);
 
 		std::shared_ptr<Node> parent;
@@ -44,6 +76,9 @@ namespace TDS
 	class DLL_API ControlFlow : public Node
 	{
 	public:
+		/*!*************************************************************************
+		Add child to the node (Override)
+		****************************************************************************/
 		virtual void addChild(std::shared_ptr<Node> newChild)
 		{
 			newChild->childIndex = static_cast<int>(children.size());
@@ -56,9 +91,18 @@ namespace TDS
 	class DLL_API C_Selector : public ControlFlow
 	{
 	public:
+		/*!*************************************************************************
+		Runs when this node is first ran (Override)
+		****************************************************************************/
 		virtual void enter(AI& aiComponent);
+		/*!*************************************************************************
+		Runs until success / failed (Override)
+		****************************************************************************/
 		virtual void update(AI& aiComponent, float dt = 0);
 
+		/*!*************************************************************************
+		Called by children to inform node of child status change (Override)
+		****************************************************************************/
 		virtual void childStatusChange(AI& aiComponent);
 
 		std::string name = "C_Selector";
@@ -67,9 +111,18 @@ namespace TDS
 	class DLL_API C_Sequencer : public ControlFlow
 	{
 	public:
+		/*!*************************************************************************
+		Runs when this node is first ran (Override)
+		****************************************************************************/
 		virtual void enter(AI& aiComponent);
+		/*!*************************************************************************
+		Runs until success / failed (Override)
+		****************************************************************************/
 		virtual void update(AI& aiComponent, float dt = 0);
 
+		/*!*************************************************************************
+		Called by children to inform node of child status change (Override)
+		****************************************************************************/
 		virtual void childStatusChange(AI& aiComponent);
 
 		std::string name = "C_Sequencer";
@@ -78,16 +131,12 @@ namespace TDS
 	class DLL_API C_ParallelSelector : public ControlFlow
 	{
 	public:
-		//virtual void update(AI& aiComponent);
-
 		std::string name = "C_ParallelSelector";
 	};
 
 	class DLL_API C_ParallelSequencer : public ControlFlow
 	{
 	public:
-		//virtual void update(AI& aiComponent);
-
 		std::string name = "C_ParallelSequencer";
 	};
 
@@ -95,8 +144,10 @@ namespace TDS
 	class DLL_API Decorator : public Node
 	{
 	public:
+		/*!*************************************************************************
+		Add child to the node (Override)
+		****************************************************************************/
 		virtual void addChild(std::shared_ptr<Node> newChild) { if (!children.size()) children.emplace_back(newChild); };
-		//virtual void update(AI& aiComponent);
 
 		std::string name = "Decorator";
 	};
@@ -121,9 +172,18 @@ namespace TDS
 	class DLL_API LeafNode : public Node
 	{
 	public:
+		/*!*************************************************************************
+		Add child to the node (Override)
+		****************************************************************************/
 		virtual void addChild(std::shared_ptr<Node> newChild) { };
 
+		/*!*************************************************************************
+		Runs when the node failed (Override)
+		****************************************************************************/
 		virtual void failed(AI& aiComponent);
+		/*!*************************************************************************
+		Runs when the node succeed (Override)
+		****************************************************************************/
 		virtual void success(AI& aiComponent);
 
 		std::string name = "LeafNode";
@@ -132,7 +192,13 @@ namespace TDS
 	class DLL_API L_Move : public LeafNode
 	{
 	public:
+		/*!*************************************************************************
+		Runs when this node is first ran (Override)
+		****************************************************************************/
 		virtual void enter(AI& aiComponent);
+		/*!*************************************************************************
+		Runs until success / failed (Override)
+		****************************************************************************/
 		virtual void update(AI& aiComponent, float dt);
 
 		std::string name = "L_Move";
@@ -141,7 +207,13 @@ namespace TDS
 	class DLL_API L_Idle : public LeafNode
 	{
 	public:
+		/*!*************************************************************************
+		Runs when this node is first ran (Override)
+		****************************************************************************/
 		virtual void enter(AI& aiComponent);
+		/*!*************************************************************************
+		Runs until success / failed (Override)
+		****************************************************************************/
 		virtual void update(AI& aiComponent, float dt);
 
 		std::string name = "L_Idle";
@@ -150,7 +222,13 @@ namespace TDS
 	class DLL_API L_Chase : public LeafNode
 	{
 	public:
+		/*!*************************************************************************
+		Runs when this node is first ran (Override)
+		****************************************************************************/
 		virtual void enter(AI& aiComponent);
+		/*!*************************************************************************
+		Runs until success / failed (Override)
+		****************************************************************************/
 		virtual void update(AI& aiComponent, float dt);
 
 		std::string name = "L_Chase";
@@ -160,8 +238,14 @@ namespace TDS
 	class DLL_API BehaviourTree
 	{
 	public:
+		/*!*************************************************************************
+		Constructor of the Behaviour Tree
+		****************************************************************************/
 		BehaviourTree() : rootChild(nullptr) { }
 
+		/*!*************************************************************************
+		Runs the behaviour tree from the root node
+		****************************************************************************/
 		void run(AI& aiComponent, float dt);
 
 		std::shared_ptr<ControlFlow> rootChild;
@@ -177,6 +261,9 @@ namespace TDS
 		****************************************************************************/
 		static std::unique_ptr<BehaviourTreeManager>& GetInstance();
 
+		/*!*************************************************************************
+		Returns all of the behaviour trees
+		****************************************************************************/
 		std::vector<BehaviourTree>& getBehaviourTrees();
 
 	private:

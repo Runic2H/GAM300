@@ -1,3 +1,13 @@
+/*!*************************************************************************
+****
+\file rigidBody.h
+\author Go Ruo Yan
+\par DP email: ruoyan.go@digipen.edu
+\date 28-9-2023
+\brief  This program declares the functions in the rigidBody component class
+****************************************************************************
+***/
+
 #ifndef RIGIDBODYCOMPONENT
 #define RIGIDBODYCOMPONENT
 
@@ -9,12 +19,31 @@ namespace TDS
 	class DLL_API RigidBody : public IComponent
 	{
 	public:
+		/*!*************************************************************************
+		Initializes the RigidBody component when created
+		****************************************************************************/
 		RigidBody();
+		/*!*************************************************************************
+		Initializes the RigidBody component when created, given another RigidBody
+		component to move (for ECS)
+		****************************************************************************/
 		RigidBody(RigidBody&& toMove) noexcept;
+		/*!*************************************************************************
+		Destructor for the RigidBody component class
+		****************************************************************************/
 		~RigidBody() = default;
+		/*!*************************************************************************
+		Deserializes the RigidBody component
+		****************************************************************************/
 		virtual bool Deserialize(const rapidjson::Value& obj);
+		/*!*************************************************************************
+		Serializes the RigidBody component
+		****************************************************************************/
 		virtual bool Serialize(rapidjson::PrettyWriter<rapidjson::StringBuffer>* writer) const;
 
+		/*!*************************************************************************
+		Getter and setter functions for the variables in the RigidBody component class
+		****************************************************************************/
 		Vec3& GetAcceleration() { return mAcceleration; }
 		void SetAcceleration(Vec3 acceleration) { mAcceleration = acceleration; }
 
