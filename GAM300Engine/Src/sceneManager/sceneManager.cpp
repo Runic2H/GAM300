@@ -15,6 +15,19 @@ namespace TDS
 		if (m_instance == nullptr)
 		{
 			m_instance = std::make_unique<SceneManager>();
+
+			std::filesystem::path currentPath = std::filesystem::current_path();
+			while (!std::filesystem::exists(currentPath.string() + "\\assets"))
+			{
+				if (currentPath == "C:\\")
+				{
+					std::cout << "No asset directory found" << std::endl;
+					break;
+				}
+				currentPath = currentPath.parent_path();
+			}
+			m_instance->parentFilePath = currentPath.string() + "\\assets\\";
+			m_instance->filePath = currentPath.string() + "\\assets\\scenes\\";
 		}
 		return m_instance;
 	}
@@ -36,51 +49,53 @@ namespace TDS
 		ecs.registerComponent<Tag>("Tag");
 		ecs.registerComponent<WinData>("Win Data");
 
+		bindSystemFunctions();
+
 		// Setting default scene
-		//sceneDeserialize();
+		sceneDeserialize();
 
-		allScenes.emplace_back("Game");
-		allScenes.emplace_back("MainMenu");
-		startScene = "MainMenu";
-		currentScene = "MainMenu";
+		//allScenes.emplace_back("Game");
+		//allScenes.emplace_back("MainMenu");
+		//startScene = "MainMenu";
+		//currentScene = "MainMenu";
 
-		EntityID entity1 = ecs.getNewID();
-		ecs.registerEntity(entity1);
-		ecs.addComponent<NameTag>(entity1);
-		ecs.getComponent<NameTag>(entity1)->SetNameTag("entity1");
-		ecs.addComponent<Transform>(entity1);
-		ecs.getComponent<Transform>(entity1)->SetPosition(Vec3{ 2.f, 3.f, 4.f });
-		ecs.getComponent<Transform>(entity1)->SetScale(Vec3{ 2.f, 3.f, 4.f });
-		ecs.addComponent<AI>(entity1);
-		ecs.getComponent<AI>(entity1)->SetBehaviourTreeIndex(0);
+		//EntityID entity1 = ecs.getNewID();
+		//ecs.registerEntity(entity1);
+		//ecs.addComponent<NameTag>(entity1);
+		//ecs.getComponent<NameTag>(entity1)->SetNameTag("entity1");
+		//ecs.addComponent<Transform>(entity1);
+		//ecs.getComponent<Transform>(entity1)->SetPosition(Vec3{ 2.f, 3.f, 4.f });
+		//ecs.getComponent<Transform>(entity1)->SetScale(Vec3{ 2.f, 3.f, 4.f });
+		//ecs.addComponent<AI>(entity1);
+		//ecs.getComponent<AI>(entity1)->SetBehaviourTreeIndex(0);
 
-		EntityID entity2 = ecs.getNewID();
-		ecs.registerEntity(entity2);
-		ecs.addComponent<NameTag>(entity2);
-		ecs.getComponent<NameTag>(entity2)->SetNameTag("entity2");
-		ecs.addComponent<Transform>(entity2);
-		ecs.getComponent<Transform>(entity2)->SetPosition(Vec3{2.f, 3.f, 4.f});
-		ecs.getComponent<Transform>(entity2)->SetScale(Vec3{2.f, 3.f, 4.f});
-		ecs.addComponent<Collider>(entity2);
+		//EntityID entity2 = ecs.getNewID();
+		//ecs.registerEntity(entity2);
+		//ecs.addComponent<NameTag>(entity2);
+		//ecs.getComponent<NameTag>(entity2)->SetNameTag("entity2");
+		//ecs.addComponent<Transform>(entity2);
+		//ecs.getComponent<Transform>(entity2)->SetPosition(Vec3{2.f, 3.f, 4.f});
+		//ecs.getComponent<Transform>(entity2)->SetScale(Vec3{2.f, 3.f, 4.f});
+		//ecs.addComponent<Collider>(entity2);
 
-		EntityID entity3 = ecs.getNewID();
-		ecs.registerEntity(entity3);
-		ecs.addComponent<NameTag>(entity3);
-		ecs.getComponent<NameTag>(entity3)->SetNameTag("entity3");
-		ecs.addComponent<Transform>(entity3);
-		ecs.getComponent<Transform>(entity3)->SetPosition(Vec3{2.f, 3.f, 4.f});
-		ecs.getComponent<Transform>(entity3)->SetScale(Vec3{2.f, 3.f, 4.f});
-		ecs.addComponent<PlayerAttributes>(entity3);
+		//EntityID entity3 = ecs.getNewID();
+		//ecs.registerEntity(entity3);
+		//ecs.addComponent<NameTag>(entity3);
+		//ecs.getComponent<NameTag>(entity3)->SetNameTag("entity3");
+		//ecs.addComponent<Transform>(entity3);
+		//ecs.getComponent<Transform>(entity3)->SetPosition(Vec3{2.f, 3.f, 4.f});
+		//ecs.getComponent<Transform>(entity3)->SetScale(Vec3{2.f, 3.f, 4.f});
+		//ecs.addComponent<PlayerAttributes>(entity3);
 
-		EntityID entity4 = ecs.getNewID();
-		ecs.registerEntity(entity4);
-		ecs.addComponent<NameTag>(entity4);
-		ecs.getComponent<NameTag>(entity4)->SetNameTag("entity4");
-		ecs.addComponent<Transform>(entity4);
-		ecs.getComponent<Transform>(entity4)->SetPosition(Vec3{10.f, 10.f, 10.f });
-		ecs.getComponent<Transform>(entity4)->SetScale(Vec3{ 10.f, 10.f, 10.f });
-		ecs.addComponent<PlayerAttributes>(entity4);
-		ecs.addComponent<RigidBody>(entity4);
+		//EntityID entity4 = ecs.getNewID();
+		//ecs.registerEntity(entity4);
+		//ecs.addComponent<NameTag>(entity4);
+		//ecs.getComponent<NameTag>(entity4)->SetNameTag("entity4");
+		//ecs.addComponent<Transform>(entity4);
+		//ecs.getComponent<Transform>(entity4)->SetPosition(Vec3{10.f, 10.f, 10.f });
+		//ecs.getComponent<Transform>(entity4)->SetScale(Vec3{ 10.f, 10.f, 10.f });
+		//ecs.addComponent<PlayerAttributes>(entity4);
+		//ecs.addComponent<RigidBody>(entity4);
 
 
 		//for (int i = 3; i < 103; ++i)
@@ -119,7 +134,7 @@ namespace TDS
 		//	std::cout << std::endl;
 		//}
 
-		SerializeToFile(std::filesystem::current_path().parent_path().string() + "\\assets\\scenes\\" + currentScene + ".json");
+		//SerializeToFile(filePath + currentScene + ".json");
 	}
 
 	bool SceneManager::Deserialize(const rapidjson::Value& obj)
@@ -270,7 +285,7 @@ namespace TDS
 
 	bool SceneManager::sceneSerialize()
 	{
-		std::ofstream ofs(std::filesystem::current_path().parent_path().string() + "\\assets\\scene.json");
+		std::ofstream ofs(parentFilePath + "scene.json");
 
 		rapidjson::StringBuffer sb;
 		rapidjson::PrettyWriter<rapidjson::StringBuffer> writer(sb);
@@ -300,8 +315,8 @@ namespace TDS
 
 	bool SceneManager::sceneDeserialize()
 	{
-		std::string filepath = std::filesystem::current_path().parent_path().string() + "\\assets\\scene.json";
-		std::ifstream ifs(filepath, std::ios::in);
+		std::string allScenesFilepath = parentFilePath + "scene.json";
+		std::ifstream ifs(allScenesFilepath, std::ios::in);
 		std::stringstream buffer;
 		buffer << ifs.rdbuf();
 		ifs.close();
@@ -349,17 +364,17 @@ namespace TDS
 	}
 	void SceneManager::loadScene(std::string scene)
 	{
-		DeserializeFromFile(std::filesystem::current_path().parent_path().string() + "\\assets\\scenes\\" + scene + ".json");
+		DeserializeFromFile(filePath + scene + ".json");
 		currentScene = scene;
 	}
 
 	void SceneManager::saveScene(std::string scene)
 	{
-		SerializeToFile(std::filesystem::current_path().parent_path().string() + "\\assets\\scenes\\" + scene + ".json");
+		SerializeToFile(filePath + scene + ".json");
 	}
 	void SceneManager::deleteScene(std::string scene)
 	{
-		std::filesystem::remove(std::filesystem::current_path().parent_path().string() + "\\assets\\scenes\\" + scene + ".json");
+		std::filesystem::remove(filePath + scene + ".json");
 		auto sceneInVector = std::find(allScenes.begin(), allScenes.end(), scene);
 
 		if (sceneInVector != allScenes.end())

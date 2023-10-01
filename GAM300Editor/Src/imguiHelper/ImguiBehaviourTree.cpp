@@ -1,4 +1,5 @@
 #include "imguiHelper/ImguiBehaviourTree.h"
+#include "Logger/Logger.h"
 
 namespace TDS
 {
@@ -90,6 +91,7 @@ namespace TDS
 					behaviourTrees.emplace_back(newBehvaiourTree);
 
 					treeRename = true;
+					treeSelectedIndex = static_cast<int>(behaviourTrees.size() - 1);
 				}
 				ImGui::EndMenu();
 			}
@@ -101,41 +103,31 @@ namespace TDS
 		ImGui::Text("Trees");
 		ImGui::Separator();
 
-		//if (treeRename)
-		//{
-		//	if ((InputSystem::isMouseTriggered(Mouse::LEFT) && !ImGui::IsItemHovered()) ||
-		//		InputSystem::isKeyTriggered(Key::ENTER))
-		//	{
-		//		treeRename = false;
-		//	}
-
-		//	ImGui::SetKeyboardFocusHere(0);
-
-		//	char temp[100];
-		//	strcpy_s(temp, mainBehaviorTree->treeName.c_str());
-		//	ImGui::InputText("##name", temp, 100);
-		//	mainBehaviorTree->treeName = std::string(temp);
-		//}
-
 		for (int i = 0; i < behaviourTrees.size(); ++i)
 		{
-			if (ImGui::Selectable(behaviourTrees[i].name.c_str(), treeSelectedIndex == i))
+			if (treeRename && i == treeSelectedIndex)
+			{
+				ImGui::SetKeyboardFocusHere(0);
+
+				char temp[100];
+				strcpy_s(temp, behaviourTrees[i].name.c_str());
+				ImGui::InputText(("##name" + std::to_string(i)).c_str(), temp, 100);
+				behaviourTrees[i].name = std::string(temp);
+
+				if ((ImGui::IsMouseClicked(ImGuiMouseButton_Left) && !ImGui::IsItemHovered()) ||
+					ImGui::IsKeyPressed(ImGuiKey_Enter))
+				{
+					treeRename = false;
+				}
+			}
+			else if (ImGui::Selectable(behaviourTrees[i].name.c_str(), treeSelectedIndex == i))
 			{
 				treeSelectedIndex = i;
 				//changeBehaviorTree(treeSelected);
 			}
 		}
 
-		// Printing out trees here
-		//if (treeSelected == -1)
-		//{
-		//	treeSelected = 0;
-		//	changeBehaviorTree(treeSelected);
-		//}
-
 		ImGui::EndChild();
-
-
 		ImGui::SameLine();
 		ImGui::BeginGroup();
 
@@ -197,32 +189,11 @@ namespace TDS
 			ImGui::SetCursorScreenPos(convertToImVec2(node_rect_min + NODE_WINDOW_PADDING));
 			ImGui::BeginGroup(); // Lock horizontal position
 
-			if (nodeRename == node_idx)
-			{
-				ImGui::SetKeyboardFocusHere(0);
-				ImGui::PushItemWidth(-1);
-				char temp[100];
-				strcpy_s(temp, node->name.c_str());
-				ImGui::InputText("##name", temp, 100);
-				node->name = std::string(temp);
-				ImGui::PopItemWidth();
-
-				if (ImGui::IsMouseClicked(ImGuiMouseButton_Left) || ImGui::IsMouseClicked(ImGuiMouseButton_Right) || ImGui::IsKeyPressed(ImGuiKey_Enter))
-				{
-					nodeRename = -1;
-				}
-			}
-			else
-			{
-				ImGui::Text(node->name.c_str());
-			}
-
-			//ImGui::Text("hmm");
-
+			ImGui::Text(node->name.c_str());
 			ImGui::EndGroup();
 
 			// Save the size of what we have emitted and whether any of the widgets are being used
-			bool node_widgets_active = (!old_any_active && ImGui::IsAnyItemActive());
+			//bool node_widgets_active = (!old_any_active && ImGui::IsAnyItemActive());
 			node->size = convertToVec2(ImGui::GetItemRectSize()) + NODE_WINDOW_PADDING + NODE_WINDOW_PADDING;
 			Vec2 node_rect_max = node_rect_min + node->size;
 
@@ -236,11 +207,9 @@ namespace TDS
 				nodeHoveredInScene = node->id;
 				openContextMenu |= ImGui::IsMouseClicked(ImGuiMouseButton_Right);
 			}
+
+			// Checking for selecting of output
 			bool node_moving_active = ImGui::IsItemActive();
-			//if (node_widgets_active || node_moving_active)
-			//{
-			//	nodeSelected = node->id;
-			//}
 
 			if (node_moving_active && ImGui::IsMouseDragging(ImGuiMouseButton_Left) && !dragCheck)
 				node->position = node->position + convertToVec2(io.MouseDelta);
@@ -273,9 +242,12 @@ namespace TDS
 						{
 							if (links[i].OutputIdx == node_idx && links[i].OutputSlot == slot_idx)
 							{
+								currentInputNode = &nodes[links[i].OutputIdx];
+
 								currentOutputNode = &nodes[links[i].InputIdx];
 								currentOutputNodeSlot = links[i].InputSlot;
 								currentOutputIndex = links[i].InputIdx;
+
 								dragCheck = true;
 								node_moving_active = false;
 								linkType = "unlink";
@@ -308,6 +280,7 @@ namespace TDS
 			ImGui::PopID();
 		}
 
+		// Joining the lines together
 		if (dragCheck)
 		{
 			if (ImGui::IsMouseDown(ImGuiMouseButton_Left))
@@ -317,24 +290,35 @@ namespace TDS
 			else if (ImGui::IsMouseReleased(ImGuiMouseButton_Left))
 			{
 				bool check = false;
-				for (int node_idx = 0; node_idx < nodes.size(); node_idx++)
+				for (int currenInputIndex = 0; currenInputIndex < nodes.size(); currenInputIndex++)
 				{
-					for (int slot_idx = 0; slot_idx < nodes[node_idx].inputsCount; slot_idx++)
+					for (int slot_idx = 0; slot_idx < nodes[currenInputIndex].inputsCount; slot_idx++)
 					{
-						if (nodeLinkButtonCheck(offset + nodes[node_idx].getInputSlotPos(slot_idx)))
+						if (nodeLinkButtonCheck(offset + nodes[currenInputIndex].getInputSlotPos(slot_idx)))
 						{
 							// Checking to make sure that the node connected to root is either sequencer or selector
-							//if (nodes[currentOutputIndex].type == BehaviorTreeType::ROOT && (nodes[node_idx].type == BehaviorTreeType::SEQUENCE || nodes[node_idx].type == BehaviorTreeType::SELECTOR))
+							if (nodes[currentOutputIndex].type == BehaviourTreeType::ROOT && nodes[currenInputIndex].type == BehaviourTreeType::CONTROL_FLOW && behaviourTrees[treeSelectedIndex].rootChild == nullptr)
+							{
+								behaviourTrees[treeSelectedIndex].rootChild = static_pointer_cast<ControlFlow>(nodes[currenInputIndex].pointer);
+								links.emplace_back(BTELink(currentOutputIndex, currentOutputNodeSlot, currenInputIndex, slot_idx));
+							}
+							//else if (behaviourTrees[treeSelectedIndex].rootChild)
 							//{
-							//	mainBehaviorTree->setRootChild(nodes[node_idx].pointer);
-							//	links.emplace_back(BTELink(currentOutputIndex, currentOutputNodeSlot, node_idx, slot_idx));
+							else if (nodes[currentOutputIndex].type == BehaviourTreeType::DECORATOR && !nodes[currentOutputIndex].pointer->children.size())
+							{
+								nodes[currentOutputIndex].pointer->children.emplace_back(nodes[currenInputIndex].pointer);
+								nodes[currenInputIndex].pointer->parent = nodes[currentOutputIndex].pointer;
+								nodes[currenInputIndex].childNumber = static_cast<int>(nodes[currentOutputIndex].pointer->children.size() - 1);
+								links.emplace_back(BTELink(currentOutputIndex, currentOutputNodeSlot, currenInputIndex, slot_idx));
+							}
+							else if (nodes[currentOutputIndex].type != BehaviourTreeType::DECORATOR && nodes[currentOutputIndex].type != BehaviourTreeType::ROOT)
+							{
+								nodes[currentOutputIndex].pointer->children.emplace_back(nodes[currenInputIndex].pointer);
+								nodes[currenInputIndex].pointer->parent = nodes[currentOutputIndex].pointer;
+								nodes[currenInputIndex].childNumber = static_cast<int>(nodes[currentOutputIndex].pointer->children.size() - 1);
+								links.emplace_back(BTELink(currentOutputIndex, currentOutputNodeSlot, currenInputIndex, slot_idx));
+							}
 							//}
-							//else if (mainBehaviorTree->root && nodes[currentOutputIndex].type != BehaviorTreeType::ROOT)
-							//{
-							//	nodes[currentOutputIndex].pointer->children.emplace_back(nodes[node_idx].pointer);
-							//	links.push_back(BTELink(currentOutputIndex, currentOutputNodeSlot, node_idx, slot_idx));
-							//}
-							links.emplace_back(BTELink(currentOutputIndex, currentOutputNodeSlot, node_idx, slot_idx));
 
 							check = true;
 							break;
@@ -342,6 +326,30 @@ namespace TDS
 					}
 					if (check)
 					{
+						break;
+					}
+				}
+
+				if (!check && linkType == "unlink")
+				{
+					switch (currentOutputNode->type)
+					{
+					case BehaviourTreeType::ROOT:
+						behaviourTrees[treeSelectedIndex].rootChild = nullptr;
+						break;
+					case BehaviourTreeType::CONTROL_FLOW:
+						currentOutputNode->pointer->children.erase(currentOutputNode->pointer->children.begin() + currentInputNode->childNumber);
+						currentInputNode->pointer->parent = nullptr;
+						for (int i = 0; i < currentOutputNode->pointer->children.size(); ++i)
+						{
+							currentOutputNode->pointer->children[i]->childIndex = i;
+						}
+						break;
+					case BehaviourTreeType::DECORATOR:
+						currentOutputNode->pointer->children.erase(currentOutputNode->pointer->children.begin());
+						currentInputNode->pointer->parent = nullptr;
+						break;
+					case BehaviourTreeType::LEAF_NODE:
 						break;
 					}
 				}
@@ -362,8 +370,10 @@ namespace TDS
 			}
 		}
 
+		static Vec2 scene_pos;
 		if (openContextMenu)
 		{
+			scene_pos = convertToVec2(ImGui::GetMousePosOnOpeningCurrentPopup()) - offset;
 			ImGui::OpenPopup("contextMenu");
 			if (nodeHoveredInList != -1)
 			{
@@ -377,154 +387,68 @@ namespace TDS
 
 		// Draw context menu
 		ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(8, 8));
-		Vec2 scene_pos = convertToVec2(ImGui::GetMousePosOnOpeningCurrentPopup()) - offset;
 		if (ImGui::BeginPopup("contextMenu"))
 		{
 			BTENode* node = nodeSelected != -1 ? &nodes[nodeSelected] : nullptr;
 
-			if (node)
+			//if (node)
+			//{
+			//	ImGui::Text(node->name.c_str());
+			//	ImGui::Separator();
+			//	if (ImGui::MenuItem("Copy", NULL, false, false)) { }
+			//	if (ImGui::MenuItem("Delete"))
+			//	{
+
+			//	}
+			//}
+			//else
+			//{
+			if (ImGui::BeginMenu("Add"))
 			{
-				ImGui::Text(node->name.c_str());
-				ImGui::Separator();
-				//if ((node->type == BehaviorTreeType::SEQUENCE || node->type == BehaviorTreeType::SELECTOR) && ImGui::MenuItem("Add Output"))
-				//{
-				//	++node->outputsCount;
-				//	// Resize if too many nodes
-				//}
-				//if (ImGui::BeginMenu("Change Type"))
-				//{
-				//	for (BehaviorTreeType behaviorTreeTypeIter = BehaviorTreeType::ROOT; behaviorTreeTypeIter != BehaviorTreeType::LAST; ++behaviorTreeTypeIter)
-				//	{
-				//		rttr::enumeration enumeration = rttr::type::get_by_name("BehaviorTreeType").get_enumeration();
-
-				//		if (node->type != behaviorTreeTypeIter)
-				//		{
-				//			if (ImGui::MenuItem(enumeration.value_to_name(behaviorTreeTypeIter).to_string().c_str()))
-				//			{
-				//				node->type = behaviorTreeTypeIter;
-
-				//				// Not a Task base class
-				//				if (node->type < BehaviorTreeType::TARGETINRANGE)
-				//				{
-				//					node->outputsCount = node->outputsCount == 0 ? 1 : node->outputsCount;
-				//				}
-				//				else
-				//				{
-				//					node->outputsCount = 0;
-				//				}
-				//			}
-				//		}
-				//	}
-
-				//	ImGui::EndMenu();
-				//}
-
-				if (ImGui::MenuItem("Rename"))
+				if (ImGui::BeginMenu("Control Flow"))
 				{
-					nodeRename = nodeSelected;
-				}
-				if (ImGui::MenuItem("Copy", NULL, false, false)) {}
-				if (ImGui::MenuItem("Delete"))
-				{
-
-				}
-			}
-			else
-			{
-				if (ImGui::BeginMenu("Add"))
-				{
-					if (ImGui::BeginMenu("Control Flow"))
+					for (auto& behaviourTreeNode : allNodeTypes[0])
 					{
-						for (auto& behaviourTreeNode : allNodeTypes[0])
+						if (ImGui::MenuItem(behaviourTreeNode.first.c_str()))
 						{
-							if (ImGui::MenuItem(behaviourTreeNode.first.c_str()))
-							{
-								nodes.emplace_back(BTENode(static_cast<int>(nodes.size()), behaviourTreeNode.first, BehaviourTreeType::CONTROL_FLOW, scene_pos, 1, 1));
-								nodes[nodes.size() - 1].pointer = std::shared_ptr<ControlFlow>(new ControlFlow(*static_pointer_cast<ControlFlow>(behaviourTreeNode.second)));
-							}
+							nodes.emplace_back(BTENode(static_cast<int>(nodes.size()), behaviourTreeNode.first, BehaviourTreeType::CONTROL_FLOW, scene_pos, 1, 1));
+							nodes[nodes.size() - 1].pointer = std::shared_ptr<ControlFlow>(new ControlFlow(*static_pointer_cast<ControlFlow>(behaviourTreeNode.second)));
 						}
-
-						ImGui::EndMenu();
 					}
-					if (ImGui::BeginMenu("Decorator"))
-					{
-						for (auto& behaviourTreeNode : allNodeTypes[1])
-						{
-							if (ImGui::MenuItem(behaviourTreeNode.first.c_str()))
-							{
-								nodes.emplace_back(BTENode(static_cast<int>(nodes.size()), behaviourTreeNode.first, BehaviourTreeType::DECORATOR, scene_pos, 1, 1));
-								nodes[nodes.size() - 1].pointer = std::shared_ptr<Decorator>(new Decorator(*static_pointer_cast<Decorator>(behaviourTreeNode.second)));
-
-							}
-						}
-
-						ImGui::EndMenu();
-					}
-					if (ImGui::BeginMenu("Leaf Node"))
-					{
-						for (auto& behaviourTreeNode : allNodeTypes[2])
-						{
-							if (ImGui::MenuItem(behaviourTreeNode.first.c_str()))
-							{
-								nodes.emplace_back(BTENode(static_cast<int>(nodes.size()), behaviourTreeNode.first, BehaviourTreeType::LEAF_NODE, scene_pos, 1, 0));
-								nodes[nodes.size() - 1].pointer = std::shared_ptr<LeafNode>(new LeafNode(*static_pointer_cast<LeafNode>(behaviourTreeNode.second)));
-							}
-						}
-
-						ImGui::EndMenu();
-					}
-					//for (BehaviorTreeType behaviorTreeTypeIter = BehaviorTreeType::ROOT; behaviorTreeTypeIter != BehaviorTreeType::LAST; ++behaviorTreeTypeIter)
-					//{
-					//	ImGui::PushID(static_cast<int>(behaviorTreeTypeIter));
-
-					//	rttr::enumeration enumeration = rttr::type::get_by_name("BehaviorTreeType").get_enumeration();
-					//	std::string behaviorTreeTypeString = enumeration.value_to_name(behaviorTreeTypeIter).to_string();
-
-					//	if (static_cast<int>(behaviorTreeTypeIter) >= static_cast<int>(BehaviorTreeType::TARGETINRANGE))
-					//	{
-					//		if (ImGui::BeginMenu("Task"))
-					//		{
-					//			for (BehaviorTreeType behaviorTreeTypeInnerIter = behaviorTreeTypeIter; behaviorTreeTypeInnerIter != BehaviorTreeType::LAST; ++behaviorTreeTypeInnerIter)
-					//			{
-					//				ImGui::PushID(static_cast<int>(behaviorTreeTypeInnerIter));
-					//				if (ImGui::MenuItem(enumeration.value_to_name(behaviorTreeTypeInnerIter).to_string().c_str()))
-					//				{
-					//					nodes.push_back(BTENode(static_cast<int>(nodes.size()), "Task", behaviorTreeTypeInnerIter, scene_pos, 1, 1));
-					//					nodes[nodes.size() - 1].pointer = makeSharedPointer(behaviorTreeTypeInnerIter);
-					//					nodes[nodes.size() - 1].outputsCount = 0;
-					//				}
-					//				ImGui::PopID();
-					//			}
-
-					//			ImGui::EndMenu();
-					//		}
-					//		behaviorTreeTypeIter = static_cast<BehaviorTreeType>(static_cast<int>(BehaviorTreeType::LAST) - 1);
-					//	}
-					//	else if (ImGui::MenuItem(enumeration.value_to_name(behaviorTreeTypeIter).to_string().c_str()))
-					//	{
-					//		// Not a Task base class
-					//		if (behaviorTreeTypeIter < BehaviorTreeType::STATECHECK)
-					//		{
-					//			nodes.push_back(BTENode(static_cast<int>(nodes.size()), "Composite", behaviorTreeTypeIter, scene_pos, 1, 1));
-					//			nodes[nodes.size() - 1].pointer = makeSharedPointer(behaviorTreeTypeIter);
-					//			nodes[nodes.size() - 1].outputsCount = 1;
-					//		}
-					//		// Not a Decorator base class
-					//		else if (behaviorTreeTypeIter < BehaviorTreeType::TARGETINRANGE)
-					//		{
-					//			nodes.push_back(BTENode(static_cast<int>(nodes.size()), "Decorator", behaviorTreeTypeIter, scene_pos, 1, 1));
-					//			nodes[nodes.size() - 1].pointer = makeSharedPointer(behaviorTreeTypeIter);
-					//			nodes[nodes.size() - 1].outputsCount = 1;
-					//		}
-					//	}
-
-					//	ImGui::PopID();
-					//}
 
 					ImGui::EndMenu();
 				}
-				if (ImGui::MenuItem("Paste", NULL, false, false)) {}
+				if (ImGui::BeginMenu("Decorator"))
+				{
+					for (auto& behaviourTreeNode : allNodeTypes[1])
+					{
+						if (ImGui::MenuItem(behaviourTreeNode.first.c_str()))
+						{
+							nodes.emplace_back(BTENode(static_cast<int>(nodes.size()), behaviourTreeNode.first, BehaviourTreeType::DECORATOR, scene_pos, 1, 1));
+							nodes[nodes.size() - 1].pointer = std::shared_ptr<Decorator>(new Decorator(*static_pointer_cast<Decorator>(behaviourTreeNode.second)));
+						}
+					}
+
+					ImGui::EndMenu();
+				}
+				if (ImGui::BeginMenu("Leaf Node"))
+				{
+					for (auto& behaviourTreeNode : allNodeTypes[2])
+					{
+						if (ImGui::MenuItem(behaviourTreeNode.first.c_str()))
+						{
+							nodes.emplace_back(BTENode(static_cast<int>(nodes.size()), behaviourTreeNode.first, BehaviourTreeType::LEAF_NODE, scene_pos, 1, 0));
+							nodes[nodes.size() - 1].pointer = std::shared_ptr<LeafNode>(new LeafNode(*static_pointer_cast<LeafNode>(behaviourTreeNode.second)));
+						}
+					}
+
+					ImGui::EndMenu();
+				}
+
+				ImGui::EndMenu();
 			}
+			//if (ImGui::MenuItem("Paste", NULL, false, false)) { }
+		//}
 			ImGui::EndPopup();
 		}
 		ImGui::PopStyleVar();

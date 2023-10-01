@@ -10,7 +10,11 @@
 #include <imgui/imgui_impl_win32.h>
 #include <imgui/imgui_impl_vulkan.h>
 
+#include "Logger/Logger.h"
+
 #include "components/components.h"
+
+extern bool isPlaying;
 
 namespace TDS 
 {

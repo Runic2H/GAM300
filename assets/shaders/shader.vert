@@ -15,6 +15,7 @@ struct PointLight{
     vec4 Color;
 };
 
+//for the scene
 layout(set = 0, binding = 0) uniform GlobalUBO{
     mat4 proj;
     mat4 view;

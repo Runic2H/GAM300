@@ -239,6 +239,7 @@ rmdir /s /q "$(OutDir)net6.0"</Command>
     <ClCompile Include="Src\vulkanTools\PointLightSystem.cpp" />
     <ClCompile Include="Src\vulkanTools\Renderer.cpp" />
     <ClCompile Include="Src\vulkanTools\RendererManager.cpp" />
+    <ClCompile Include="Src\vulkanTools\ShadowMap.cpp" />
     <ClCompile Include="Src\vulkanTools\vulkanDebugger.cpp" />
     <ClCompile Include="Src\vulkanTools\vulkanInstance.cpp" />
     <ClCompile Include="Src\vulkanTools\vulkanSwapChain.cpp" />
@@ -320,6 +321,7 @@ rmdir /s /q "$(OutDir)net6.0"</Command>
     <ClInclude Include="Include\vulkanTools\PointLightSystem.h" />
     <ClInclude Include="Include\vulkanTools\Renderer.h" />
     <ClInclude Include="Include\vulkanTools\RendererManager.h" />
+    <ClInclude Include="Include\vulkanTools\ShadowMap.h" />
     <ClInclude Include="Include\vulkanTools\vulkanDebugger.h" />
     <ClInclude Include="Include\vulkanTools\vulkanInstance.h" />
     <ClInclude Include="Include\vulkanTools\vulkanSwapChain.h" />

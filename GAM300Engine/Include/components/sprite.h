@@ -15,9 +15,8 @@ namespace TDS
 		virtual bool Deserialize(const rapidjson::Value& obj);
 		virtual bool Serialize(rapidjson::PrettyWriter<rapidjson::StringBuffer>* writer) const;
 
-		//Sprite& operator=(Sprite&& other) noexcept { return *this; };
-
-		//virtual void ImGuiDisplay();
+		Vec2& GetIndex() { return mIndex; }
+		void SetIndex(Vec2 index) { mIndex = index; }
 
 		bool& GetIsSpriteSheet() { return mIsSpriteSheet; }
 		void SetIsSpriteSheet(bool isSpriteSheet) { mIsSpriteSheet = isSpriteSheet; }

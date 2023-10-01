@@ -63,7 +63,7 @@ namespace TDS
         std::vector<ComponentData>          componentData;
 
         // vector of sizes of each component total data used
-        std::vector<std::size_t>            componentDataSize;
+        std::vector<std::uint32_t>          componentDataSize;
 
         // vector of entity IDs that are under this archetype
         // entities with Physics, and entities with Physics and Collision are under 2 different archetypes
@@ -106,7 +106,7 @@ namespace TDS
 
     protected:
         // Filtering out the entities that satisfies the given archetype
-        template<std::size_t Index1, typename T, typename... Ts>
+        template<std::uint32_t Index1, typename T, typename... Ts>
         std::enable_if_t<Index1 != sizeof...(Cs)>
             doAction(const float elapsedMilliseconds,
                 const ArchetypeID& archeTypeIds,
@@ -115,7 +115,7 @@ namespace TDS
                 Ts... ts);
 
         // Default function
-        template<std::size_t Index1, typename T, typename... Ts>
+        template<std::uint32_t Index1, typename T, typename... Ts>
         std::enable_if_t<Index1 == sizeof...(Cs)>
             doAction(const float elapsedMilliseconds,
                 const ArchetypeID& archeTypeIds,
@@ -144,10 +144,9 @@ namespace TDS
         virtual                             ~ComponentBase() {}
         virtual void                        constructData(unsigned char* data) const = 0;
         virtual void                        moveData(unsigned char* source, unsigned char* destination) const = 0;
-        virtual void                        readData(unsigned char* pointer) const = 0;
         virtual std::string                 getName() const = 0;
         virtual void                        setName(std::string name) = 0;
-        virtual std::size_t                 getSize() const = 0;
+        virtual std::uint32_t               getSize() const = 0;
     };
 
     // COMPONENT CLASS ====================================================================================
@@ -168,10 +167,8 @@ namespace TDS
         // Move the data
         virtual void                        moveData(unsigned char* source, unsigned char* destination) const override;
 
-        virtual void                        readData(unsigned char* pointer) const;
-
         // Returns the size of the whole component
-        virtual std::size_t                 getSize() const override;
+        virtual std::uint32_t                 getSize() const override;
 
         // Returns the unique ID of the component
         static ComponentTypeID              getTypeID();
@@ -315,15 +312,15 @@ namespace TDS
         // Unique pointer to ECS
         //static std::unique_ptr<ECS>  m_instance;
 
-        std::uint32_t                systemCount;
+        std::uint32_t                systemCount = 0;
 
-        std::uint32_t                componentCount;
+        std::uint32_t                componentCount = 0;
 
         EntityArchetypeMap           mEntityArchetypeMap;
 
         ArchetypesArray              mArchetypes;
 
-        EntityID                     mEntityIdCounter;
+        EntityID                     mEntityIdCounter = 1;
 
         SystemsArrayMap              mSystems;
 

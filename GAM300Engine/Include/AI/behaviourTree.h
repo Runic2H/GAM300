@@ -46,7 +46,7 @@ namespace TDS
 	public:
 		virtual void addChild(std::shared_ptr<Node> newChild)
 		{
-			newChild->childIndex = children.size();
+			newChild->childIndex = static_cast<int>(children.size());
 			children.emplace_back(newChild);
 		}
 
@@ -160,6 +160,8 @@ namespace TDS
 	class DLL_API BehaviourTree
 	{
 	public:
+		BehaviourTree() : rootChild(nullptr) { }
+
 		void run(AI& aiComponent, float dt);
 
 		std::shared_ptr<ControlFlow> rootChild;

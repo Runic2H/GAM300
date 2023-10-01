@@ -9,14 +9,10 @@ namespace TDS
 	{
 	public:
 		PlayerAttributes() { }
-		PlayerAttributes(PlayerAttributes&& toMove) noexcept { }
+		PlayerAttributes(PlayerAttributes&& toMove) noexcept { toMove; }
 		~PlayerAttributes() = default;
 		virtual bool Deserialize(const rapidjson::Value& obj);
 		virtual bool Serialize(rapidjson::PrettyWriter<rapidjson::StringBuffer>* writer) const;
-
-		//PlayerAttributes& operator=(PlayerAttributes&& other) noexcept { return *this; };
-
-		//virtual void ImGuiDisplay();
 
 	private:
 	};

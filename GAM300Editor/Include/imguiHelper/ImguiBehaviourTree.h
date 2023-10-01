@@ -4,7 +4,8 @@
 #include "ImguiHelper.h"
 
 #include "AI/behaviourTree.h"
-namespace TDS 
+
+namespace TDS
 {
 	class BehaviourTreePanel : public LevelEditorPanel
 	{
@@ -67,6 +68,8 @@ namespace TDS
 			Vec2	position, size;
 			int inputsCount, outputsCount;
 			std::shared_ptr<Node> pointer;
+
+			int childNumber;
 
 			int childrenNodeCount;
 		};
@@ -136,9 +139,11 @@ namespace TDS
 		bool dragCheck = false;
 		BTENode* currentOutputNode;
 		int currentOutputNodeSlot;
-		BTENode* currentInputNode;
 		int currentOutputIndex;
+		BTENode* currentInputNode;
 		std::string linkType;
+
+		std::string connectionType;
 
 	private:
 	};

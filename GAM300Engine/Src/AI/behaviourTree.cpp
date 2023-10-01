@@ -56,13 +56,16 @@ namespace TDS
 	}
 	void Node::update(AI& aiComponent, float dt)
 	{
+		aiComponent;
+		dt;
 		// To be overrided
-		//std::cout << "Node update" << std::endl;
+		std::cout << "Node update" << std::endl;
 	}
 
 	void Node::childStatusChange(AI& aiComponent)
 	{
-		//std::cout << "Node child status change" << std::endl;
+		aiComponent;
+		std::cout << "Node child status change" << std::endl;
 	}
 
 	void Node::failed(AI& aiComponent)
@@ -80,12 +83,13 @@ namespace TDS
 	// Runs until success is returned
 	void C_Selector::enter(AI& aiComponent)
 	{
-		//std::cout << "C_Selector enter" << std::endl;
+		std::cout << "C_Selector enter" << std::endl;
 		aiComponent.SetEntityCurrentStatus(NodeStatus::RUNNING);
 	}
 	void C_Selector::update(AI& aiComponent, float dt)
 	{
-		//std::cout << "C_Selector update" << std::endl;
+		dt;
+		std::cout << "C_Selector update" << std::endl;
 		// Run children
 		// if there is a failed, move to next one
 		// else if there is a success, return success
@@ -98,13 +102,13 @@ namespace TDS
 		else
 		{
 			// Error log 
-			//std::cout << "No Children!" << std::endl;
+			std::cout << "No Children!" << std::endl;
 		}
 	}
 
 	void C_Selector::childStatusChange(AI& aiComponent)
 	{
-		//std::cout << "C_Selector child status change" << std::endl;
+		std::cout << "C_Selector child status change" << std::endl;
 
 		if (aiComponent.GetEntityCurrentStatus() == NodeStatus::FAILED && childIndex + 1 < children.size())
 		{
@@ -127,12 +131,13 @@ namespace TDS
 	// Runs until failed is returned
 	void C_Sequencer::enter(AI& aiComponent)
 	{
-		//std::cout << "C_Sequencer enter" << std::endl;
+		std::cout << "C_Sequencer enter" << std::endl;
 		aiComponent.SetEntityCurrentStatus(NodeStatus::RUNNING);
 	}
 	void C_Sequencer::update(AI& aiComponent, float dt)
 	{
-		//std::cout << "C_Sequencer update" << std::endl;
+		dt;
+		std::cout << "C_Sequencer update" << std::endl;
 		// Run children
 		// if there is a failed, move to next one
 		// else if there is a success, return success
@@ -145,13 +150,13 @@ namespace TDS
 		else
 		{
 			// Error log 
-			//std::cout << "No Children!" << std::endl;
+			std::cout << "No Children!" << std::endl;
 		}
 	}
 
 	void C_Sequencer::childStatusChange(AI& aiComponent)
 	{
-		//std::cout << "C_Sequencer child status change" << std::endl;
+		std::cout << "C_Sequencer child status change" << std::endl;
 
 		if (aiComponent.GetEntityCurrentStatus() == NodeStatus::SUCCESS && childIndex + 1 < children.size())
 		{
@@ -207,13 +212,13 @@ namespace TDS
 	// IDLE =====================================================================================
 	void L_Idle::enter(AI& aiComponent)
 	{
-		//std::cout << "L_Idle enter" << std::endl;
+		std::cout << "L_Idle enter" << std::endl;
 		aiComponent.SetEntityCurrentStatus(NodeStatus::RUNNING);
 		aiComponent.SetTimer(0);
 	}
 	void L_Idle::update(AI& aiComponent, float dt)
 	{
-		//std::cout << "L_Idle update" << std::endl;
+		std::cout << "L_Idle update" << std::endl;
 
 		if (aiComponent.GetTimer() > 1)
 		{
@@ -228,13 +233,13 @@ namespace TDS
 	// ATTACK ===================================================================================
 	void L_Chase::enter(AI& aiComponent)
 	{
-		//std::cout << "L_Chase enter" << std::endl;
+		std::cout << "L_Chase enter" << std::endl;
 		aiComponent.SetEntityCurrentStatus(NodeStatus::RUNNING);
 		aiComponent.SetTimer(0);
 	}
 	void L_Chase::update(AI& aiComponent, float dt)
 	{
-		//std::cout << "L_Chase update" << std::endl;
+		std::cout << "L_Chase update" << std::endl;
 
 		if (aiComponent.GetTimer() > 1)
 		{

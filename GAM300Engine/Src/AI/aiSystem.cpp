@@ -11,25 +11,25 @@ namespace TDS
 		//		> Attack
 		std::unique_ptr<BehaviourTreeManager>& behaviourTreeManagerInstance = BehaviourTreeManager::GetInstance();
 
-		std::shared_ptr<C_Selector> cSelectorNode = std::make_shared<C_Selector>();
+		//std::shared_ptr<C_Selector> cSelectorNode = std::make_shared<C_Selector>();
 
-		std::shared_ptr<C_Sequencer> cSequencerNode= std::make_shared<C_Sequencer>();
-		cSequencerNode->parent = cSelectorNode;
-		cSelectorNode->addChild(cSequencerNode);
+		//std::shared_ptr<C_Sequencer> cSequencerNode= std::make_shared<C_Sequencer>();
+		//cSequencerNode->parent = cSelectorNode;
+		//cSelectorNode->addChild(cSequencerNode);
 
-		std::shared_ptr<L_Move> lMoveNode = std::make_shared<L_Move>();
-		lMoveNode->parent = cSequencerNode;
-		std::shared_ptr<L_Idle> lIdleNode = std::make_shared<L_Idle>();
-		lIdleNode->parent = cSequencerNode;
-		cSequencerNode->addChild(lMoveNode);
-		cSequencerNode->addChild(lIdleNode);
+		//std::shared_ptr<L_Move> lMoveNode = std::make_shared<L_Move>();
+		//lMoveNode->parent = cSequencerNode;
+		//std::shared_ptr<L_Idle> lIdleNode = std::make_shared<L_Idle>();
+		//lIdleNode->parent = cSequencerNode;
+		//cSequencerNode->addChild(lMoveNode);
+		//cSequencerNode->addChild(lIdleNode);
 
-		std::shared_ptr<L_Chase> lChaseNode = std::make_shared<L_Chase>();
-		lChaseNode->parent = cSelectorNode;
-		cSelectorNode->addChild(lChaseNode);
+		//std::shared_ptr<L_Chase> lChaseNode = std::make_shared<L_Chase>();
+		//lChaseNode->parent = cSelectorNode;
+		//cSelectorNode->addChild(lChaseNode);
 
 		BehaviourTree newBehvaiourTree;
-		newBehvaiourTree.rootChild = cSelectorNode;
+		//newBehvaiourTree.rootChild = cSelectorNode;
 		newBehvaiourTree.name = "Sample Tree";
 
 		//std::shared_ptr<Sequencer> sequencer = std::make_shared<Sequencer>();
@@ -46,7 +46,7 @@ namespace TDS
 		for (int i = 0; i < entities.size(); ++i)
 		{
 			int& behaviourTreeIndex = _ai[i].GetBehaviourTreeIndex();
-			if (behaviourTreeIndex != -1 && behaviourTreeIndex < behaviourTrees.size())
+			if (behaviourTreeIndex != -1 && behaviourTreeIndex < behaviourTrees.size() && behaviourTrees[behaviourTreeIndex].rootChild)
 			{
 				if (!_ai[i].GetCurrentNode())
 				{

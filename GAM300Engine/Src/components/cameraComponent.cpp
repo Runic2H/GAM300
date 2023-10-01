@@ -17,6 +17,7 @@ namespace TDS {
 	bool CameraComponent::Deserialize(const rapidjson::Value& obj)
 	{
 		//UNREFERENCED_PARAMETER(obj);
+		obj;
 		return false;
 	}
 
@@ -26,6 +27,7 @@ namespace TDS {
 	bool CameraComponent::Serialize(rapidjson::PrettyWriter<rapidjson::StringBuffer>* writer) const
 	{
 		//UNREFERENCED_PARAMETER(writer);
+		writer;
 		return false;
 	}
 

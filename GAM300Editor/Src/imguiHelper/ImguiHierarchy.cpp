@@ -20,7 +20,7 @@ namespace TDS
 		if (ImGui::BeginMenuBar())
 		{
 			// Add entity (make it a menu item if there are prefabs)
-			if (ImGui::BeginMenu("+ v"))
+			if (ImGui::BeginMenu("Create New | V"))
 			{
 				if (ImGui::MenuItem("Empty"))
 				{
@@ -28,6 +28,8 @@ namespace TDS
 					newEntity.add<NameTag>();
 					newEntity.add<Transform>();
 					selectedEntity = newEntity.getID();
+
+					TDS_INFO("New Entity Created");
 				}
 				if (ImGui::MenuItem("Square"))
 				{
@@ -36,6 +38,8 @@ namespace TDS
 					newEntity.add<NameTag>();
 					newEntity.add<Transform>();
 					selectedEntity = newEntity.getID();
+
+					TDS_INFO("New Entity Created");
 				}
 				ImGui::EndMenu();
 			}

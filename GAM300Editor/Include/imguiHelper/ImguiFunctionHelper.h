@@ -10,12 +10,12 @@
 namespace TDS 
 {		
 	// Helper functions
-	void ImguiTextInput(std::string variableName, std::string& textVariable);
-	void ImguiBoolInput(std::string variableName, bool& boolVariable);
-	void ImguiIntInput(std::string variableName, int& intVariable, float speed = 1.f, float min = 0.f, float max = 0.f);
-	void ImguiFloatInput(std::string variableName, float& floatVariable, float speed = 1.f, float min = 0.f, float max = 0.f);
-	void ImguiVec2Input(std::string variableName, Vec2& Vec2Variable);
-	void ImguiVec3Input(std::string variableName, Vec3& Vec3Variable);
+	std::string ImguiTextInput(std::string variableName, std::string textVariable);
+	bool ImguiBoolInput(std::string variableName, bool boolVariable);
+	int ImguiIntInput(std::string variableName, int intVariable, float speed = 1.f, int min = 0, int max = 0);
+	float ImguiFloatInput(std::string variableName, float floatVariable, float speed = 1.f, float min = 0, float max = 0);
+	Vec2 ImguiVec2Input(std::string variableName, Vec2 Vec2Variable);
+	Vec3 ImguiVec3Input(std::string variableName, Vec3 Vec3Variable);
 }
 
 #endif // !TDS_IMGUI_FUNCTION_HELPER

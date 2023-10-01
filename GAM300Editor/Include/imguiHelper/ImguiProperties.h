@@ -12,6 +12,8 @@ namespace TDS
 
 		void update();
 
+		void ImguiComponentDisplay(std::string componentName, IComponent* componentBase);
+
 	private:
 	};
 }

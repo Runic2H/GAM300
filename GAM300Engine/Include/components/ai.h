@@ -14,8 +14,6 @@ namespace TDS
 		virtual bool Deserialize(const rapidjson::Value& obj);
 		virtual bool Serialize(rapidjson::PrettyWriter<rapidjson::StringBuffer>* writer) const;
 
-		//virtual void ImGuiDisplay();
-
 		int& GetBehaviourTreeIndex() { return mBehaviourTreeIndex; }
 		void SetBehaviourTreeIndex(int behaviourTreeIndex) { mBehaviourTreeIndex = behaviourTreeIndex; }
 
