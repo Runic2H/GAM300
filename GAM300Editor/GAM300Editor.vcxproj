@@ -87,6 +87,7 @@
     <ClCompile Include="Src\imguiHelper\ImguiToolBar.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="GAM300Engine.dll" />
     <None Include="imgui.ini" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

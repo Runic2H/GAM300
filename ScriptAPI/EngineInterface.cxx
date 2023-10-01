@@ -15,7 +15,9 @@ namespace ScriptAPI
 		TDS::Application::HelloWorld();
 
 	}
-
+    /*!*************************************************************************
+    * Loads the managed script dll and adds the scriptlist to all active entities
+    ***************************************************************************/
 	void EngineInterface::Init()
 	{
         // Load Assembly
@@ -23,10 +25,6 @@ namespace ScriptAPI
 
 		scripts = gcnew System::Collections::Generic::SortedList<TDS::EntityID,ScriptList^>();
 
-        /*for (int i = 0; i < TDS::Application::ENTITY_COUNT; ++i)
-        {
-            scripts->Add(i,gcnew ScriptList());
-        }*/
         HelloWorld();
         
         for (auto i : TDS::ECS::getEntities())
@@ -38,6 +36,9 @@ namespace ScriptAPI
 		System::Console::WriteLine("Hello Engine Interface Init!");
 	}
 
+    /*!*************************************************************************
+    * Adds scripts from the managedscript.dll to the entity via name
+    ***************************************************************************/
     bool EngineInterface::AddScriptViaName(TDS::EntityID entityId, System::String^ scriptName)
     {
         if (entityId == TDS::NULLENTITY || TDS::ECS::getEntities().size() == 0)
@@ -75,6 +76,9 @@ namespace ScriptAPI
         return true;
     }
 
+    /*!*************************************************************************
+    * Calls the update function for scripts
+    ***************************************************************************/
     void EngineInterface::ExecuteUpdate()
     {
         for (int i = 0; i < scripts->Count; i++)
@@ -116,6 +120,10 @@ namespace ScriptAPI
             return pair->type;
         }
     }
+
+    /*!*************************************************************************
+    * Updates script type list
+    ***************************************************************************/
     void EngineInterface::updateScriptTypeList()
     {
         using namespace System;

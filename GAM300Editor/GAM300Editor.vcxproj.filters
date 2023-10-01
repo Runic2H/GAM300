@@ -212,5 +212,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="imgui.ini" />
+    <None Include="GAM300Engine.dll" />
   </ItemGroup>
 </Project>
