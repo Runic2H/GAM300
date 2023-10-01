@@ -50,5 +50,3 @@ ManagedScripts/obj/ManagedScripts.csproj.nuget.dgspec.json
 ManagedScripts/obj/ManagedScripts.csproj.nuget.dgspec.json
 ManagedScripts/obj/ManagedScripts.csproj.nuget.g.props
 ManagedScripts/obj/project.assets.json
-*.ini
-GAM300Editor/imgui.ini
