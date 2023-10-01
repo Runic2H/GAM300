@@ -1,3 +1,14 @@
+/*!*************************************************************************
+****
+\file RendererManager.h
+\author Ng Zuo Xian Amadeus
+\par DP email: ng.z@digipen.edu
+\par Course: CSD3400
+\par Section: a
+\date 22-9-2023
+\brief  Contains the RendererManager Class and its member functions
+****************************************************************************
+***/
 #ifndef TDS_VULKAN_RENDERERMGR
 #define TDS_VULKAN_RENDERERMGR
 
@@ -17,14 +28,18 @@ namespace TDS {
 			Mat4 ModelMat{ 1.f };
 			Mat4 NormalMat{ 1.f };
 		};
+		//Constructor and Destructor
 		RendererManager(VulkanInstance& m_Instance, VkRenderPass RenderPass, VkDescriptorSetLayout globalSetlayout);
 		~RendererManager();
 
+		//No copy constructor
 		RendererManager(const RendererManager&) = delete;
 		RendererManager& operator=(const RendererManager&) = delete;
 
+		//draws the current frame
 		void draw(FrameInfo& frameinfo);
 	private:
+		//helper function
 		void createPipelineLayout(VkDescriptorSetLayout globalsetlayout);
 		void createPipeline(VkRenderPass renderpass);
 

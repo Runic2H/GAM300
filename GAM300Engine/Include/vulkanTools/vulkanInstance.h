@@ -1,3 +1,14 @@
+/*!*************************************************************************
+****
+\file vulkanInstance.h
+\author Ng Zuo Xian Amadeus
+\par DP email: ng.z@digipen.edu
+\par Course: CSD3400
+\par Section: a
+\date 22-9-2023
+\brief  Contains the vulkanInstance Class and its member functions
+****************************************************************************
+***/
 #ifndef VULKAN_CREATE_INSTANCE
 #define VULKAN_CREATE_INSTANCE
 
@@ -57,10 +68,11 @@ namespace TDS
 		};
 
 	public:
+		//constructor and destructor
 		VulkanInstance(const WindowsWin& enableWindows);
 		~VulkanInstance();
 
-		//copyable or movable
+		//no copyable or movable
 		VulkanInstance(const VulkanInstance&) = delete;
 		VulkanInstance(VulkanInstance&&) = delete;
 		VulkanInstance& operator=(const VulkanInstance&) = delete;

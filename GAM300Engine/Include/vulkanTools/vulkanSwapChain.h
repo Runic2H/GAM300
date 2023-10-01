@@ -1,3 +1,14 @@
+/*!*************************************************************************
+****
+\file vulkanSwapChain.h
+\author Ng Zuo Xian Amadeus
+\par DP email: ng.z@digipen.edu
+\par Course: CSD3400
+\par Section: a
+\date 22-9-2023
+\brief  Contains the vulkanSwapChain Class and its member functions
+****************************************************************************
+***/
 #ifndef VULKAN_SWAP_CHAIN
 #define VULKAN_SWAP_CHAIN
 
@@ -22,23 +33,26 @@ namespace TDS
 		//frames processed concurrently
 		static constexpr int MAX_FRAMES_IN_FLIGHT{ 2 };	//maybe set as a macro, will see
 
+		//constructor and destructor
 		VulkanSwapChain(VulkanInstance& Instance, VkExtent2D WindowExtent);
 		VulkanSwapChain(VulkanInstance& Instance, VkExtent2D WindowExtent, std::shared_ptr<VulkanSwapChain> prev);
 		~VulkanSwapChain();
 
+		//no copy constructor
 		VulkanSwapChain(const VulkanSwapChain&) = delete;
 		VulkanSwapChain& operator=(const VulkanSwapChain&) = delete;
 
-		VkFramebuffer		getFrameBuffer(int Index) { return m_vSwapChainFramebuffers[Index]; }
-		VkRenderPass		getRenderPass() { return m_RenderPass; }
-		VkImageView			getImageView(int Index) { return m_vSwapChainImageViews[Index]; }
-		size_t				getImageCount() { return m_vSwapChainImages.size(); }
-		VkFormat			getSwapChainImageFormat() { return m_SwapChainImageFormat; }
-		VkExtent2D			getSwapChainExtent() { return m_SwapChainExtent; }
-		uint32_t			width() { return m_SwapChainExtent.width; }
-		uint32_t			height() { return m_SwapChainExtent.height; }
-		std::vector	<VkImageView> getImageViewContainer()const { return m_vSwapChainImageViews; }
-		float extentAspectRatio() {
+		//getters
+		VkFramebuffer				getFrameBuffer(int Index)		{ return m_vSwapChainFramebuffers[Index]; }
+		VkRenderPass				getRenderPass()					{ return m_RenderPass; }
+		VkImageView					getImageView(int Index)			{ return m_vSwapChainImageViews[Index]; }
+		size_t						getImageCount()					{ return m_vSwapChainImages.size(); }
+		VkFormat					getSwapChainImageFormat()		{ return m_SwapChainImageFormat; }
+		VkExtent2D					getSwapChainExtent()			{ return m_SwapChainExtent; }
+		uint32_t					width()							{ return m_SwapChainExtent.width; }
+		uint32_t					height()						{ return m_SwapChainExtent.height; }
+		std::vector	<VkImageView>	getImageViewContainer()const	{ return m_vSwapChainImageViews; }
+		float						extentAspectRatio() {
 			return static_cast<float>(m_SwapChainExtent.width) / static_cast<float>(m_SwapChainExtent.height);
 		}
 
@@ -53,6 +67,7 @@ namespace TDS
 
 
 	private:
+		//helper functions
 		void init();
 		void CreateSwapChain();
 		void CreateImageViews();
