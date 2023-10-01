@@ -1,9 +1,20 @@
+/*!*****************************************************************************
+ * \file          GeomCompiler.h
+ * \author        Eugene Ho Shu Sheng
+ * \par DP email: shushengeugene.ho@digipen.edu
+ * \par Course:   CSD3400
+ * \par Section:  A
+ * \date          01/10/2023
+ * \brief         This file contains the prototype of the GeomCompiler class
+ *******************************************************************************/
 #pragma once
 #include "GeometryStructures.h"
 #include "Descriptor.h"
 namespace TDS
 {
-
+	/*!*************************************************************************
+	 * Raw input mesh that is received
+	 ***************************************************************************/
 	struct InputMesh
 	{
 		std::string m_MeshName;
@@ -12,7 +23,9 @@ namespace TDS
 		std::vector<std::uint32_t> m_InputIndices;
 		std::int32_t m_iMaterialInstance;
 	};
-
+	/*!*************************************************************************
+	 * Optimized mesh given to the renderer
+	 ***************************************************************************/
 	struct OptimizedMesh
 	{
 		std::string m_MeshName;
@@ -33,15 +46,22 @@ namespace TDS
 		std::vector<InputMesh> m_InputMeshes;
 		Descriptor m_CurrDesc;
 	public:
+		/*!*************************************************************************
+		 * Contructor & Destructor for GeomCompiler
+		 ***************************************************************************/
 		static std::shared_ptr<GeomCompiler> m_Instance;
 		GeomCompiler();
 		~GeomCompiler();
-
+		/*!*************************************************************************
+		 * Main function that load the mesh and start compiling
+		 ***************************************************************************/
 		void Init();
 		bool LoadDescriptor();
 		void LoadAndCompile();
 
-
+		/*!*************************************************************************
+		 * Helper functions
+		 ***************************************************************************/
 		void ImportData(std::vector<InputMesh>& InputNodes);
 		void MergeData(std::vector<InputMesh>& InputNodes);
 		void CreateFinalGeom(const std::vector<OptimizedMesh>& Nodes);
@@ -49,7 +69,10 @@ namespace TDS
 		void Optimize(std::vector<InputMesh>& InputNodes);
 		void ClearAllData();
 
-
+		/*!*************************************************************************
+		 * Coverting all the meshes into geometry before outputting into a binary
+		 * file
+		 ***************************************************************************/
 		void ProcessNode(aiNode* Node);
 		void ProcessMesh(const aiMesh& AssimpMesh, const aiMatrix4x4& Transform, InputMesh& MeshPart, int iTexCordinates, int iColors);
 		void Apply(const aiNode& Node, std::vector<InputMesh>& Nodes);
