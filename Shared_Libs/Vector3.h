@@ -2,7 +2,7 @@
 #define VECTOR3_H
 
 #include "MathCommon.h"
-
+#include "dotnet/ImportExport.h"
 namespace TDS
 {
 class Vec2;

@@ -1,3 +1,13 @@
+/*!*************************************************************************
+****
+\file ecs.hpp
+\author Go Ruo Yan
+\par DP email: ruoyan.go@digipen.edu
+\date 28-9-2023
+\brief  This program defines functions of the ECS
+****************************************************************************
+***/
+
 namespace TDS
 {
     // TYPE ID GENERATOR ==================================================================================
@@ -17,9 +27,9 @@ namespace TDS
     // --Entity Constructor--
     // Making a new entity
     // theecs - reference to the ECS class
-    inline Entity::Entity() : mID(ECS::getNewID())
+    inline Entity::Entity() : mID(ecs.getNewID())
     {
-        ECS::registerEntity(mID);
+        ecs.registerEntity(mID);
     }
 
     // --add--
@@ -28,7 +38,7 @@ namespace TDS
     template<typename C>
     inline C* Entity::add()
     {
-        return ECS::addComponent<C>(mID);
+        return ecs.addComponent<C>(mID);
     }
 
     // --add--
@@ -38,7 +48,7 @@ namespace TDS
     template<typename C>
     inline C* Entity::add(C&& c)
     {
-        return ECS::addComponent<C>(mID, std::forward<C>(c));
+        return ecs.addComponent<C>(mID, std::forward<C>(c));
     }
 
     // --getID--
@@ -88,20 +98,11 @@ namespace TDS
         new (destination) C(std::move(*reinterpret_cast<C*>(source)));
     }
 
-    // --readData--
-    // Purely for debug purposes
-    // pointer - pointer to the data
-    template<class C>
-    void Component<C>::readData(unsigned char* pointer) const
-    {
-        C* cData = reinterpret_cast<C*>(pointer);
-    }
-
     // --getSize--
     // Returns the size of the whole component
     // Return - size of the component data
     template<class C>
-    std::size_t Component<C>::getSize() const
+    std::uint32_t Component<C>::getSize() const
     {
         return sizeof(C);
     }
@@ -134,7 +135,7 @@ namespace TDS
     template<class... Cs>
     System<Cs...>::System(const int layer) : mFuncSet(false)
     {
-        ECS::registerSystem(layer, this);
+        ecs.registerSystem(layer, this);
         key = "";
     }
 
@@ -148,7 +149,7 @@ namespace TDS
         {
             auto components = {Component<Cs>::getTypeID()...};
 
-            for (int i = 0; i < ECS::getNumberOfComponents(); ++i)
+            for (std::uint32_t i = 0; i < ecs.getNumberOfComponents(); ++i)
             {
                 key += "0";
             }
@@ -183,7 +184,7 @@ namespace TDS
     // entityIDs - list of entities selected
     // t & ts - components to be checked
     template<class... Cs>
-    template<std::size_t Index, typename T, typename... Ts>
+    template<std::uint32_t Index, typename T, typename... Ts>
     std::enable_if_t<Index != sizeof...(Cs)>
         System<Cs...>::doAction(const float elapsedMilliseconds,
             const ArchetypeID& archeTypeIds,
@@ -216,7 +217,7 @@ namespace TDS
     // entityIDs - list of entities selected
     // t & ts - components to be checked
     template<class... Cs>
-    template<std::size_t Index, typename T, typename... Ts>
+    template<std::uint32_t Index, typename T, typename... Ts>
     std::enable_if_t<Index == sizeof...(Cs)>
         System<Cs...>::doAction(const float elapsedMilliseconds,
             const ArchetypeID& archeTypeIds,
@@ -224,6 +225,8 @@ namespace TDS
             T& t,
             Ts... ts)
     {
+        archeTypeIds;
+        t;
         mRunFunc(elapsedMilliseconds, entityIDs, ts...);
     }
 
@@ -238,6 +241,18 @@ namespace TDS
     // --ECS Constructor--
     inline ECS::ECS()
     { }
+
+    /*!*************************************************************************
+    Returns an instance of the ECS
+    ****************************************************************************/
+    //inline std::unique_ptr<ECS>& ECS::GetInstance()
+    //{
+    //    if (m_instance == nullptr)
+    //    {
+    //        m_instance = std::make_unique<ECS>();
+    //    }
+    //    return m_instance;
+    //}
 
     // --getNewID--
     // Get new entity ID 
@@ -352,17 +367,17 @@ namespace TDS
                 lastEntityIndex = lastEntityRecord.index;
             }
 
-            for (std::uint32_t i = 0; i < oldArchetype->type.size(); ++i)
+            for (std::uint32_t i = 0; i < static_cast<std::uint32_t>(oldArchetype->type.size()); ++i)
             {
                 if (oldArchetypeId[i] == '0')
                 {
                     continue;
                 }
-                std::uint32_t newIndex = newArchetype->entityIds.size();
+                std::uint32_t newIndex = static_cast<std::uint32_t>(newArchetype->entityIds.size());
 
                 const ComponentBase* const currentComponent = mComponentMap[i];
 
-                auto currentComponentSize = currentComponent->getSize();
+                auto currentComponentSize = static_cast<std::uint32_t>(currentComponent->getSize());
 
                 // 1. Add component in new archetype & transfer data over
                 unsigned char* oldComponentPointer = MemoryManager::GetInstance()->getComponentData(oldArchetypeId, i, currentComponentSize, record.index);
@@ -416,7 +431,7 @@ namespace TDS
         // Add entity ID to new archetype
         newArchetype->entityIds.emplace_back(entityID);
         // Change index
-        record.index = newArchetype->entityIds.size() - 1;
+        record.index = static_cast<uint32_t>(newArchetype->entityIds.size() - 1);
         // Change archetype pointer
         record.archetype = newArchetype;
 
@@ -438,7 +453,7 @@ namespace TDS
 
         record.archetype = getArchetype(archetype);
         record.archetype->entityIds.emplace_back(entityID);
-        record.index = record.archetype->entityIds.size() - 1;
+        record.index = static_cast<std::uint32_t>(record.archetype->entityIds.size() - 1);
 
         for (std::uint32_t componentID = 0; componentID < archetype.size(); ++componentID)
         {
@@ -509,7 +524,7 @@ namespace TDS
         }
 
         // For each component in new archetype
-        for (std::uint32_t j = 0; j < oldArchetypeId.size(); ++j)
+        for (std::uint32_t j = 0; j < static_cast<std::uint32_t>(oldArchetypeId.size()); ++j)
         {
             // Not a component
             if (oldArchetypeId[j] == '0')
@@ -520,9 +535,9 @@ namespace TDS
             // New component base pointer 
             const ComponentBase* const currentComponent = mComponentMap[j];
             // Size of new component base pointer
-            const std::size_t& currentComponentSize = currentComponent->getSize();
+            const std::uint32_t currentComponentSize = currentComponent->getSize();
 
-            std::uint32_t newIndex = newArchetype->entityIds.size();
+            std::uint32_t newIndex = static_cast<std::uint32_t>(newArchetype->entityIds.size());
 
             // If this is not the component to delete, move component data from the old archetype to the new archetype
             if (j != Component<C>::getTypeID())
@@ -567,7 +582,7 @@ namespace TDS
         oldArchetype->entityIds.erase(willBeRemoved);
 
         newArchetype->entityIds.emplace_back(entityID);
-        record.index = newArchetype->entityIds.size() - 1;
+        record.index = static_cast<uint32_t>(newArchetype->entityIds.size() - 1);
         record.archetype = newArchetype;
     }
 
@@ -626,7 +641,7 @@ namespace TDS
             lastEntityIndex = lastEntityRecord.index;
         }
 
-        for (std::size_t i = 0; i < oldArchetypeID.size(); ++i)
+        for (std::uint32_t i = 0; i < static_cast<std::uint32_t>(oldArchetypeID.size()); ++i)
         {
             if (oldArchetypeID[i] == '0')
             {
@@ -635,7 +650,7 @@ namespace TDS
 
             const ComponentBase* const currentComponent = mComponentMap[(unsigned int)i];
 
-            const std::size_t& currentComponentSize = currentComponent->getSize();
+            const std::uint32_t& currentComponentSize = currentComponent->getSize();
 
             if (lastEntity)
             {
@@ -784,7 +799,7 @@ namespace TDS
         MemoryManager::GetInstance()->newBook(id);
 
         // Add an empty array for each component in the type
-        for (ArchetypeID::size_type i = 0; i < id.size(); ++i)
+        for (std::uint32_t i = 0; i < static_cast<std::uint32_t>(id.size()); ++i)
         {
             if (id[i] == '1')
             {
@@ -819,7 +834,7 @@ namespace TDS
 
     // --~ECS--
     // Decontructing ECS
-    inline ECS::~ECS()
+    inline void ECS::destroy()
     {
         for (Archetype* archetype : mArchetypes)
         {
@@ -864,6 +879,11 @@ namespace TDS
         }
         return entityIDs;
     }
+
+    //inline std::unique_ptr<ECS>& getECS()
+    //{
+    //    return ECS::GetInstance();
+    //}
 
     // --getEntityComponents--
     // Get components of a certain entity

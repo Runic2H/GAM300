@@ -5,7 +5,7 @@
 #include <array>
 #include <time.h>
 
-namespace AudioWerks{
+namespace TDS{
     static unsigned int counter{ 0 };
 
     enum SOUND_STATE
@@ -97,7 +97,7 @@ namespace AudioWerks{
             {
                 volume = 149.f;
             }*/
-
+            (void)vol;
             volume = 1.f;
         }
 
@@ -124,6 +124,7 @@ namespace AudioWerks{
         SoundInfo(const char* _filePath = "", bool _isLoop = false, bool _is3D = false, SOUND_STATE _theState = SOUND_UNLOAD, float _x = 0.0f, float _y = 0.0f, float _z = 0.0f, float _volume = 50.f, float _reverbamount = 0.f)
             : filePath(_filePath), isitLoop(_isLoop), isit3D(_is3D), whatState(_theState), posVec{ _x, _y, _z }, volume(_volume), ReverbAmount(_reverbamount)  //!!!!!!!To be replaced when vec container is used
         {
+            MSLength = 0;
             uniqueID = counter++; //Change UID to include time when added
         }
 

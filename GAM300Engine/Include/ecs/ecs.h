@@ -1,3 +1,13 @@
+/*!*************************************************************************
+****
+\file ecs.h
+\author Go Ruo Yan
+\par DP email: ruoyan.go@digipen.edu
+\date 28-9-2023
+\brief  This program declares functions of the ECS
+****************************************************************************
+***/
+
 #ifndef ECS_
 #define ECS_
 
@@ -63,7 +73,7 @@ namespace TDS
         std::vector<ComponentData>          componentData;
 
         // vector of sizes of each component total data used
-        std::vector<std::size_t>            componentDataSize;
+        std::vector<std::uint32_t>          componentDataSize;
 
         // vector of entity IDs that are under this archetype
         // entities with Physics, and entities with Physics and Collision are under 2 different archetypes
@@ -106,7 +116,7 @@ namespace TDS
 
     protected:
         // Filtering out the entities that satisfies the given archetype
-        template<std::size_t Index1, typename T, typename... Ts>
+        template<std::uint32_t Index1, typename T, typename... Ts>
         std::enable_if_t<Index1 != sizeof...(Cs)>
             doAction(const float elapsedMilliseconds,
                 const ArchetypeID& archeTypeIds,
@@ -115,7 +125,7 @@ namespace TDS
                 Ts... ts);
 
         // Default function
-        template<std::size_t Index1, typename T, typename... Ts>
+        template<std::uint32_t Index1, typename T, typename... Ts>
         std::enable_if_t<Index1 == sizeof...(Cs)>
             doAction(const float elapsedMilliseconds,
                 const ArchetypeID& archeTypeIds,
@@ -144,10 +154,9 @@ namespace TDS
         virtual                             ~ComponentBase() {}
         virtual void                        constructData(unsigned char* data) const = 0;
         virtual void                        moveData(unsigned char* source, unsigned char* destination) const = 0;
-        virtual void                        readData(unsigned char* pointer) const = 0;
         virtual std::string                 getName() const = 0;
         virtual void                        setName(std::string name) = 0;
-        virtual std::size_t                 getSize() const = 0;
+        virtual std::uint32_t               getSize() const = 0;
     };
 
     // COMPONENT CLASS ====================================================================================
@@ -168,10 +177,8 @@ namespace TDS
         // Move the data
         virtual void                        moveData(unsigned char* source, unsigned char* destination) const override;
 
-        virtual void                        readData(unsigned char* pointer) const;
-
         // Returns the size of the whole component
-        virtual std::size_t                 getSize() const override;
+        virtual std::uint32_t                 getSize() const override;
 
         // Returns the unique ID of the component
         static ComponentTypeID              getTypeID();
@@ -212,45 +219,50 @@ namespace TDS
         // Constructor
         ECS();
 
+        /*!*************************************************************************
+        Returns an instance of the ECS
+        ****************************************************************************/
+        //static std::unique_ptr<ECS>& GetInstance();
+
         // Destructor
-        ~ECS();
+        void destroy();
 
         // Get new entity ID 
-        static EntityID                     getNewID();
+        EntityID                     getNewID();
 
         // Get the total number of systems
-        static int                          getSystemCount();
+        int                          getSystemCount();
 
         // Get the total number of systems
         template<class C>
-        static void                         registerComponent(std::string name);
+        void                         registerComponent(std::string name);
 
         // Register a new system
-        static void                         registerSystem(const int layer, SystemBase* system);
+        void                         registerSystem(const int layer, SystemBase* system);
 
         // Register a new entity
-        static void                         registerEntity(const EntityID entityId);
+        void                         registerEntity(const EntityID entityId);
 
         // Initialize all the systems of a certain layer
-        static void                         initializeSystems(const int layer);
+        void                         initializeSystems(const int layer);
 
         // Run all the systems of a certain layer
-        static void                         runSystems(const int layer, const float elapsedMilliseconds);
+        void                         runSystems(const int layer, const float elapsedMilliseconds);
 
         // Gets the archetype class pointer of the given archetype ID
-        static Archetype*                   getArchetype(const ArchetypeID& id);
+        Archetype*                   getArchetype(const ArchetypeID& id);
 
         // Gets all archetypes
-        static ArchetypesArray              getAllArchetypes();
+        ArchetypesArray              getAllArchetypes();
 
         // Gets archetype ID
-        static ArchetypeID                  getArchetypeID(EntityID& id);
+        ArchetypeID                  getArchetypeID(EntityID& id);
 
         // Adds a new archetype ID
-        static Archetype*                   addArchetype(const ArchetypeID& id, bool commit = true);
+        Archetype*                   addArchetype(const ArchetypeID& id, bool commit = true);
 
         // Committing an archetype ID
-        static void                         commitArchetype(const ArchetypeID& id);
+        void                         commitArchetype(const ArchetypeID& id);
 
         // Add a component to the entity, and (optionally) put in the values for each variable in the component
         //template<typename C, typename... Args>
@@ -258,70 +270,76 @@ namespace TDS
 
         // Add a component to the entity
         template<typename C>
-        static C*                           addComponent(const EntityID& entityID);
+        C*                           addComponent(const EntityID& entityID);
 
         // Add components to a new entity by archetype
-        static void                         addComponentsByArchetype(const EntityID& entityID, ArchetypeID archetype);
+        void                         addComponentsByArchetype(const EntityID& entityID, ArchetypeID archetype);
 
         // Setting component size
-        static void                         setComponentSize(const ArchetypeID& archetypeID, ComponentTypeID componentID, std::uint32_t componentSize);
+        void                         setComponentSize(const ArchetypeID& archetypeID, ComponentTypeID componentID, std::uint32_t componentSize);
 
         // Remove a component from the entity
         template<typename C>
-        static void                         removeComponent(const EntityID& entityId);
+        void                         removeComponent(const EntityID& entityId);
 
         // Get a component data from the entity
         template<typename C>
-        static C*                           getComponent(const EntityID& entityId);
+        C*                           getComponent(const EntityID& entityId);
 
         // Get a component data from the entity
         template<class C>
-        static C*                           getComponent(const EntityID& entityId, Record& record);
+        C*                           getComponent(const EntityID& entityId, Record& record);
 
         // Get entities with a certain component in the angle bracket
         template<typename C>
-        static std::vector<EntityID>        getEntitiesWith();
+        std::vector<EntityID>        getEntitiesWith();
 
         // Remove the entity, by removing all its component and data
-        static void                         removeEntity(const EntityID& entityId);
+        void                         removeEntity(const EntityID& entityId);
 
         // Remove the all of entities
-        static void                         removeAllEntities();
+        void                         removeAllEntities();
 
         // Set the entity ID counter
-        static void                         setIDCounter(int counter);
+        void                         setIDCounter(int counter);
 
         // Getting all registered components
-        static std::vector<std::string>     getAllRegisteredComponents();
+        std::vector<std::string>     getAllRegisteredComponents();
 
         // Getting number of components
-        static std::uint32_t                getNumberOfComponents();
+        std::uint32_t                getNumberOfComponents();
 
         // Get components of a certain entity
-        static std::vector<std::string>     getEntityComponents(const EntityID& entityId);
+        std::vector<std::string>     getEntityComponents(const EntityID& entityId);
 
         // Get components of a certain entity
-        static std::vector<IComponent*>     getEntityComponentsBase(const EntityID& entityId);
+        std::vector<IComponent*>     getEntityComponentsBase(const EntityID& entityId);
 
         // Getting all registered entities
-        static std::vector<EntityID>        getEntities();
+        std::vector<EntityID>        getEntities();
 
     private:
+        // Unique pointer to ECS
+        //static std::unique_ptr<ECS>  m_instance;
 
-        static std::uint32_t                systemCount;
+        std::uint32_t                systemCount = 0;
 
-        static std::uint32_t                componentCount;
+        std::uint32_t                componentCount = 0;
 
-        static EntityArchetypeMap           mEntityArchetypeMap;
+        EntityArchetypeMap           mEntityArchetypeMap;
 
-        static ArchetypesArray              mArchetypes;
+        ArchetypesArray              mArchetypes;
 
-        static EntityID                     mEntityIdCounter;
+        EntityID                     mEntityIdCounter = 1;
 
-        static SystemsArrayMap              mSystems;
+        SystemsArrayMap              mSystems;
 
-        static ComponentTypeIDBaseMap       mComponentMap;
+        ComponentTypeIDBaseMap       mComponentMap;
     };
+    DLL_API extern ECS ecs;
+    //extern std::unique_ptr<ECS>  m_instance;
+
+    //std::unique_ptr<ECS>& getECS();
 
     // ENTITY =============================================================================================
     //wrapper for entity ID

@@ -1,13 +1,25 @@
-#include "Input.h"
+/*!*************************************************************************
+****
+\file Input.cpp
+\author Cheung Jun Yin Matthew
+\par DP email: j.cheung@digipen.edu
+\par Course: CSD3400
+\par Section: a
+\par assignment: M1
+\date 01-10-2023
+\brief  This file implements the input handling system for the TDS engine. 
+		Input mapping is implemented via win32 API.
+****************************************************************************
+***/
 
+#include "Input/Input.h"
 namespace TDS
 {
-	Input::KeyStatus Input::keystatus;
-	uint32_t Input::keyCode;
-	short Input::wheelDelta;
-
 	Input::keyboardInputMap Input::keyboard;
 	Input::mouseInputMap	Input::mouse;
+	Input::KeyStatus		Input::keystatus;
+	uint32_t				Input::keyCode;
+	short					Input::wheelDelta;
 
 	Input::keyState Input::GetKeyState(uint32_t keycode)
 	{
@@ -41,36 +53,42 @@ namespace TDS
 			if (VKcode >= 'A' && VKcode <= 'Z')
 			{
 				uint32_t TDCkeycode = VKcode - 'A';
+				keyCode = VKcode - 'A';
 				keyboard.keys[TDCkeycode].isDown = isDown;
 				keyboard.keys[TDCkeycode].wasDown = wasDown;
 			}
 
 			else if (VKcode == VK_UP)
 			{
+				keyCode = VKcode;
 				keyboard.keys[TDS_UP].isDown = isDown;
 				keyboard.keys[TDS_UP].wasDown = wasDown;
 			}
 
 			else if (VKcode == VK_DOWN)
 			{
+				keyCode = VKcode;
 				keyboard.keys[TDS_DOWN].isDown = isDown;
 				keyboard.keys[TDS_DOWN].wasDown = wasDown;
 			}
 
 			else if (VKcode == VK_LEFT)
 			{
+				keyCode = VKcode;
 				keyboard.keys[TDS_LEFT].isDown = isDown;
 				keyboard.keys[TDS_LEFT].wasDown = wasDown;
 			}
 
 			else if (VKcode == VK_RIGHT)
 			{
+				keyCode = VKcode;
 				keyboard.keys[TDS_RIGHT].isDown = isDown;
 				keyboard.keys[TDS_RIGHT].wasDown = wasDown;
 			}
 
 			else if (VKcode >= '0' && VKcode <= '9')
 			{
+				keyCode = VKcode;
 				uint32_t TDS_keycode = VKcode - '0' + TDS_0;
 				keyboard.keys[TDS_keycode].isDown = isDown;
 				keyboard.keys[TDS_keycode].wasDown = wasDown;
@@ -78,96 +96,112 @@ namespace TDS
 
 			else if (VKcode == VK_OEM_MINUS)
 			{
+				keyCode = VKcode;
 				keyboard.keys[TDS_MINUS].isDown = isDown;
 				keyboard.keys[TDS_MINUS].wasDown = wasDown;
 			}
 
 			else if (VKcode == VK_OEM_PLUS)
 			{
+				keyCode = VKcode;
 				keyboard.keys[TDS_PLUS].isDown = isDown;
 				keyboard.keys[TDS_PLUS].wasDown = wasDown;
 			}
 
 			else if (VKcode == VK_SHIFT)
 			{
+				keyCode = VKcode;
 				keyboard.keys[TDS_SHIFT].isDown = isDown;
 				keyboard.keys[TDS_SHIFT].wasDown = wasDown;
 			}
 
 			else if (VKcode == VK_CONTROL)
 			{
+				keyCode = VKcode;
 				keyboard.keys[TDS_CONTROL].isDown = isDown;
 				keyboard.keys[TDS_CONTROL].wasDown = wasDown;
 			}
 
 			else if (VKcode == VK_MENU)
 			{
+				keyCode = VKcode;
 				keyboard.keys[TDS_ALT].isDown = isDown;
 				keyboard.keys[TDS_ALT].wasDown = wasDown;
 			}
 
 			else if (VKcode == VK_SPACE)
 			{
+				keyCode = VKcode;
 				keyboard.keys[TDS_SPACE].isDown = isDown;
 				keyboard.keys[TDS_SPACE].wasDown = wasDown;
 			}
 
 			else if (VKcode == VK_ESCAPE)
 			{
+				keyCode = VKcode;
 				keyboard.keys[TDS_ESCAPE].isDown = isDown;
 				keyboard.keys[TDS_ESCAPE].wasDown = wasDown;
 			}
 
 			else if (VKcode == VK_CAPITAL)
 			{
+				keyCode = VKcode;
 				keyboard.keys[TDS_CAPSLOCK].isDown = isDown;
 				keyboard.keys[TDS_CAPSLOCK].wasDown = wasDown;
 			}
 
 			else if (VKcode == VK_TAB)
 			{
+				keyCode = VKcode;
 				keyboard.keys[TDS_TAB].isDown = isDown;
 				keyboard.keys[TDS_TAB].wasDown = wasDown;
 			}
 
 			else if (VKcode == VK_RETURN)
 			{
+				keyCode = VKcode;
 				keyboard.keys[TDS_ENTER].isDown = isDown;
 				keyboard.keys[TDS_ENTER].wasDown = wasDown;
 			}
 
 			else if (VKcode == VK_BACK)
 			{
+				keyCode = VKcode;
 				keyboard.keys[TDS_BACKSPACE].isDown = isDown;
 				keyboard.keys[TDS_BACKSPACE].wasDown = wasDown;
 			}
 
 			else if (VKcode == VK_OEM_3)
 			{
+				keyCode = VKcode;
 				keyboard.keys[TDS_TILDE].isDown = isDown;
 				keyboard.keys[TDS_TILDE].wasDown = wasDown;
 			}
 
 			else if (VKcode == VK_OEM_COMMA)
 			{
+				keyCode = VKcode;
 				keyboard.keys[TDS_COMMA].isDown = isDown;
 				keyboard.keys[TDS_COMMA].wasDown = wasDown;
 			}
 
 			else if (VKcode == VK_OEM_PERIOD)
 			{
+				keyCode = VKcode;
 				keyboard.keys[TDS_PERIOD].isDown = isDown;
 				keyboard.keys[TDS_PERIOD].wasDown = wasDown;
 			}
 
 			else if (VKcode == VK_OEM_2)
 			{
+				keyCode = VKcode;
 				keyboard.keys[TDS_SLASH].isDown = isDown;
 				keyboard.keys[TDS_SLASH].wasDown = wasDown;
 			}
 
 			else if (VKcode == VK_OEM_1)
 			{
+				keyCode = VKcode;
 				keyboard.keys[TDS_SEMICOLON].isDown = isDown;
 				keyboard.keys[TDS_SEMICOLON].wasDown = wasDown;
 			}
@@ -208,14 +242,15 @@ namespace TDS
 		mouse.buttons[TDS_MOUSE_MIDDLE].isDown = wParam & MK_MBUTTON;
 		mouse.buttons[TDS_MOUSE_X1].isDown = wParam & MK_XBUTTON1;
 		mouse.buttons[TDS_MOUSE_X2].isDown = wParam & MK_XBUTTON2;
-		
+
 		updateMousePosition(lParam);
 
 	}
 
 	void Input::processMouseScroll(WPARAM _wParam)
 	{
-		if (GET_WHEEL_DELTA_WPARAM(_wParam) > 0)
+		wheelDelta = GET_WHEEL_DELTA_WPARAM(_wParam);
+		if (wheelDelta > 0)
 		{
 			mouse.buttons[TDS_MOUSE_SCROLL].isScrollUp = true;
 			mouse.buttons[TDS_MOUSE_SCROLL].isScrollDown = false;
@@ -236,7 +271,7 @@ namespace TDS
 
 	void Input::scrollStop()
 	{
-	
+
 		mouse.buttons[TDS_MOUSE_SCROLL].isScrollDown = false;
 		mouse.buttons[TDS_MOUSE_SCROLL].isScrollUp = false;
 	}

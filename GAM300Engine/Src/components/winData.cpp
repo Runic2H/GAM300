@@ -1,7 +1,20 @@
+/*!*************************************************************************
+****
+\file winData.cpp
+\author Go Ruo Yan
+\par DP email: ruoyan.go@digipen.edu
+\date 28-9-2023
+\brief  This program defines the functions in the WinData component class
+****************************************************************************
+***/
+
 #include "components/winData.h"
 
 namespace TDS
 {
+	/*!*************************************************************************
+	Initializes the WinData component when created
+	****************************************************************************/
 	WinData::WinData() : mTitle				("Disinheritance"),
 						 mWidth				(1920),
 						 mHeight			(1080),
@@ -12,6 +25,10 @@ namespace TDS
 						 mSFXVolume			(1.0f)
 	{ }
 
+	/*!*************************************************************************
+	Initializes the WinData component when created, given another WinData 
+	component to move (for ECS)
+	****************************************************************************/
 	WinData::WinData(WinData&& toMove) noexcept : mTitle			(toMove.mTitle),
 												  mWidth			(toMove.mWidth),
 												  mHeight			(toMove.mHeight),
@@ -22,13 +39,16 @@ namespace TDS
 												  mSFXVolume		(toMove.mSFXVolume)
 	{ }
 
+	/*!*************************************************************************
+	Deserializes the WinData component
+	****************************************************************************/
 	bool WinData::Deserialize(const rapidjson::Value& obj)
 	{
 		mTitle = obj["title"].GetString();
 		mWidth = obj["width"].GetUint();
 		mHeight = obj["height"].GetUint();
 		mCurrentWidth = obj["currentWidth"].GetUint();
-		mCurrentHeight = obj["currentHeight"].GetFloat();
+		mCurrentHeight = obj["currentHeight"].GetUint();
 		mMasterVolume = obj["masterVolume"].GetFloat();
 		mBGMVolume = obj["BGMVolume"].GetFloat();
 		mSFXVolume = obj["SFXVolume"].GetFloat();
@@ -36,6 +56,9 @@ namespace TDS
 		return true;
 	}
 
+	/*!*************************************************************************
+	Serializes the WinData component
+	****************************************************************************/
 	bool WinData::Serialize(rapidjson::PrettyWriter<rapidjson::StringBuffer>* writer) const
 	{
 		writer->Key("title");
@@ -59,10 +82,5 @@ namespace TDS
 		writer->Double(mSFXVolume);
 
 		return true;
-	}
-
-	void WinData::ImGuiDisplay()
-	{
-
 	}
 }

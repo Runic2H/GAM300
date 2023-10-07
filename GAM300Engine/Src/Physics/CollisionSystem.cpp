@@ -1,3 +1,12 @@
+/*!*****************************************************************************
+ * \file          CollisionSystem.cpp
+ * \author        Cheang Wen Ding
+ * \par DP email: cheang.w@digipen.edu
+ * \par Course:   CSD3400
+ * \par Section:  A
+ * \date          01/10/2023
+ * \brief         Implementation of the collision system.
+ *******************************************************************************/
 #include "Physics/CollisionSystem.h"
 
 namespace TDS
@@ -8,6 +17,7 @@ namespace TDS
 	
 	void CollisionSystem::CollisionSystemUpdate(const float dt, const std::vector<EntityID>& entities, Transform* _transform, RigidBody* _rigidbody, Collider* _collider)
 	{
+		(void)dt;
 		for (int i = 0; i < entities.size(); ++i)
 		{
 			for (int j = 0; j < entities.size(); ++j)
@@ -35,6 +45,7 @@ namespace TDS
 	/*Helper Function*/
 	bool CollisionSystem::SphereSphereCollision(Transform& trans1, RigidBody& body1, Collider& collider1, Transform& trans2, RigidBody& body2, Collider& collider2)
 	{
+		(void)body2, (void)body1;
 		// get the distance between the two objects
 		float distance = (trans1.GetPosition() - trans2.GetPosition()).magnitude();
 		// if the distance is less than the sum of the two radii, they are colliding
@@ -47,6 +58,7 @@ namespace TDS
 
 	void CollisionSystem::SphereSphereResolution(Transform& trans1, RigidBody& body1, Transform& trans2, RigidBody& body2)
 	{
+		(void)trans1, (void)trans2;
 		// get the direction of both objects, reflect them and multiply back into the forces
 		Vec3 Dir1 = body1.GetDirection();
 		Vec3 Dir2 = body2.GetDirection();

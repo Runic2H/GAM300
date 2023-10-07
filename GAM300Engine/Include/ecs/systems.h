@@ -1,3 +1,13 @@
+/*!*************************************************************************
+****
+\file systems.h
+\author Go Ruo Yan
+\par DP email: ruoyan.go@digipen.edu
+\date 28-9-2023
+\brief  This program declares and registers the systems in the ECS
+****************************************************************************
+***/
+
 #ifndef SYSTEMS
 #define SYSTEMS
 
@@ -8,7 +18,9 @@
 
 namespace TDS
 {
-	ECS::SystemsArrayMap						ECS::mSystems;
+	DLL_API ECS ecs;
+
+	//std::unique_ptr<ECS> ECS::m_instance;
 
 	System<Transform, RigidBody>				_PhysicsSystem(1);
 	System<Transform, RigidBody, Collider>		_ColliderSystem(1);

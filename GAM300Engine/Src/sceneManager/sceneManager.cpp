@@ -1,3 +1,13 @@
+/*!*************************************************************************
+****
+\file sceneManager.cpp
+\author Go Ruo Yan
+\par DP email: ruoyan.go@digipen.edu
+\date 28-9-2023
+\brief  This program defines the functions in the SceneManager class
+****************************************************************************
+***/
+
 #include <fstream>
 
 #include "sceneManager/sceneManager.h"
@@ -15,6 +25,19 @@ namespace TDS
 		if (m_instance == nullptr)
 		{
 			m_instance = std::make_unique<SceneManager>();
+
+			std::filesystem::path currentPath = std::filesystem::current_path();
+			while (!std::filesystem::exists(currentPath.string() + "\\assets"))
+			{
+				if (currentPath == "C:\\")
+				{
+					std::cout << "No asset directory found" << std::endl;
+					break;
+				}
+				currentPath = currentPath.parent_path();
+			}
+			m_instance->parentFilePath = currentPath.string() + "\\assets\\";
+			m_instance->filePath = currentPath.string() + "\\assets\\scenes\\";
 		}
 		return m_instance;
 	}
@@ -24,124 +47,47 @@ namespace TDS
 	****************************************************************************/
 	void SceneManager::Init()
 	{
-		ECS::registerComponent<NameTag>("Name Tag");
-		ECS::registerComponent<Transform>("Transform");
+		ecs.registerComponent<NameTag>("Name Tag");
+		ecs.registerComponent<Transform>("Transform");
 
-		ECS::registerComponent<AI>("AI");
-		ECS::registerComponent<CameraComponent>("Camera Component");
-		ECS::registerComponent<Collider>("Collider");
-		ECS::registerComponent<PlayerAttributes>("Player Attributes");
-		ECS::registerComponent<RigidBody>("Rigid Body");
-		ECS::registerComponent<Sprite>("Sprite");
-		ECS::registerComponent<Tag>("Tag");
-		ECS::registerComponent<WinData>("Win Data");
+		ecs.registerComponent<AI>("AI");
+		ecs.registerComponent<CameraComponent>("Camera Component");
+		ecs.registerComponent<Collider>("Collider");
+		ecs.registerComponent<PlayerAttributes>("Player Attributes");
+		ecs.registerComponent<RigidBody>("Rigid Body");
+		ecs.registerComponent<Sprite>("Sprite");
+		ecs.registerComponent<Tag>("Tag");
+		ecs.registerComponent<WinData>("Win Data");
+
+		bindSystemFunctions();
 
 		// Setting default scene
-		//sceneDeserialize();
-
-		allScenes.emplace_back("Game");
-		allScenes.emplace_back("MainMenu");
-		startScene = "MainMenu";
-		currentScene = "MainMenu";
-
-		EntityID entity1 = ECS::getNewID();
-		ECS::registerEntity(entity1);
-		ECS::addComponent<NameTag>(entity1);
-		ECS::getComponent<NameTag>(entity1)->SetNameTag("entity1");
-		ECS::addComponent<Transform>(entity1);
-		ECS::getComponent<Transform>(entity1)->SetPosition(Vec3{ 2.f, 3.f, 4.f });
-		ECS::getComponent<Transform>(entity1)->SetScale(Vec3{ 2.f, 3.f, 4.f });
-		ECS::addComponent<AI>(entity1);
-		ECS::getComponent<AI>(entity1)->SetBehaviourTreeIndex(0);
-
-		EntityID entity2 = ECS::getNewID();
-		ECS::registerEntity(entity2);
-		ECS::addComponent<NameTag>(entity2);
-		ECS::getComponent<NameTag>(entity2)->SetNameTag("entity2");
-		ECS::addComponent<Transform>(entity2);
-		ECS::getComponent<Transform>(entity2)->SetPosition(Vec3{2.f, 3.f, 4.f});
-		ECS::getComponent<Transform>(entity2)->SetScale(Vec3{2.f, 3.f, 4.f});
-		ECS::addComponent<Collider>(entity2);
-
-		EntityID entity3 = ECS::getNewID();
-		ECS::registerEntity(entity3);
-		ECS::addComponent<NameTag>(entity3);
-		ECS::getComponent<NameTag>(entity3)->SetNameTag("entity3");
-		ECS::addComponent<Transform>(entity3);
-		ECS::getComponent<Transform>(entity3)->SetPosition(Vec3{2.f, 3.f, 4.f});
-		ECS::getComponent<Transform>(entity3)->SetScale(Vec3{2.f, 3.f, 4.f});
-		ECS::addComponent<PlayerAttributes>(entity3);
-
-		EntityID entity4 = ECS::getNewID();
-		ECS::registerEntity(entity4);
-		ECS::addComponent<NameTag>(entity4);
-		ECS::getComponent<NameTag>(entity4)->SetNameTag("entity4");
-		ECS::addComponent<Transform>(entity4);
-		ECS::getComponent<Transform>(entity4)->SetPosition(Vec3{10.f, 10.f, 10.f });
-		ECS::getComponent<Transform>(entity4)->SetScale(Vec3{ 10.f, 10.f, 10.f });
-		ECS::addComponent<PlayerAttributes>(entity4);
-		ECS::addComponent<RigidBody>(entity4);
-
-
-		//for (int i = 3; i < 103; ++i)
-		//{
-		//	EntityID newEntity = ECS::getNewID();
-		//	ECS::registerEntity(newEntity);
-		//	ECS::addComponent<NameTag>(newEntity);
-		//	ECS::getComponent<NameTag>(newEntity)->SetNameTag("entity" + std::to_string(i));
-		//	ECS::addComponent<Transform>(newEntity);
-		//	ECS::getComponent<Transform>(newEntity)->SetPosition(Vec3{ (float)i, (float)i, (float)i });
-		//	ECS::getComponent<Transform>(newEntity)->SetScale(Vec3{ (float)i, (float)i, (float)i });
-		//	ECS::addComponent<PlayerAttributes>(newEntity);
-		//}
-
-		//ECS::removeComponent<Transform>(entity2);
-
-
-		//DeserializeFromFile(std::filesystem::current_path().parent_path().string() + "\\assets\\scenes\\" + currentScene + ".json");
-
-		//std::cout << "ECS: " << std::endl;
-		//for (auto entity : ECS::getEntities())
-		//{
-		//	std::cout << entity << std::endl;
-
-		//	if (NameTag* nametag = ECS::getComponent<NameTag>(entity))
-		//	{
-		//		std::cout << nametag->GetNameTag() << std::endl;
-		//	}
-		//	if (Transform* transform = ECS::getComponent<Transform>(entity))
-		//	{
-		//		std::cout << transform->GetPosition() << std::endl;
-		//		std::cout << transform->GetScale() << std::endl;
-		//		std::cout << transform->GetRotation() << std::endl;
-		//	}
-
-		//	std::cout << std::endl;
-		//}
-
-		SerializeToFile(std::filesystem::current_path().parent_path().string() + "\\assets\\scenes\\" + currentScene + ".json");
+		sceneDeserialize();
 	}
 
+	/*!*************************************************************************
+	Deserializes ECS entities and data from JSON file to build ECS (File loading)
+	****************************************************************************/
 	bool SceneManager::Deserialize(const rapidjson::Value& obj)
 	{
-		ECS::removeAllEntities();
+		ecs.removeAllEntities();
 
 		for (rapidjson::Value::ConstMemberIterator itr = obj["Archetype Sizes"].MemberBegin(); itr != obj["Archetype Sizes"].MemberEnd(); ++itr)
 		{
 			std::string archetypeID = itr->name.GetString();
 			auto archetypeSizes = itr->value.GetObject();
 
-			ECS::addArchetype(archetypeID, false);
+			ecs.addArchetype(archetypeID, false);
 
 			for (rapidjson::Value::ConstMemberIterator componentItr = archetypeSizes.MemberBegin(); componentItr != archetypeSizes.MemberEnd(); ++componentItr)
 			{
 				int componentID = std::stoi(componentItr->name.GetString());
 				auto componentSize = componentItr->value.GetInt();
 
-				ECS::setComponentSize(archetypeID, componentID, componentSize);
+				ecs.setComponentSize(archetypeID, componentID, componentSize);
 			}
 
-			ECS::commitArchetype(archetypeID);
+			ecs.commitArchetype(archetypeID);
 		}
 
 		int i = 0;
@@ -152,8 +98,8 @@ namespace TDS
 				continue;
 			}
 
-			EntityID newEntity = ECS::getNewID();
-			ECS::registerEntity(newEntity);
+			EntityID newEntity = ecs.getNewID();
+			ecs.registerEntity(newEntity);
 
 			for (auto& m : itr->value.GetObject())
 			{
@@ -162,7 +108,7 @@ namespace TDS
 				if (componentName == "ArchetypeID") // First "componentName" to immediately find the archetype of entity
 				{
 					// Add all components at once
-					ECS::addComponentsByArchetype(newEntity, m.value.GetString());
+					ecs.addComponentsByArchetype(newEntity, m.value.GetString());
 
 					continue;
 				}
@@ -192,7 +138,7 @@ namespace TDS
 
 		writer->StartObject();
 
-		for (Archetype* a : ECS::getAllArchetypes())
+		for (Archetype* a : ecs.getAllArchetypes())
 		{
 			if (!a->entityIds.size())
 			{
@@ -204,7 +150,7 @@ namespace TDS
 			// Start of data sizes
 			writer->StartObject();
 
-			for (int i = 0; i < ECS::getNumberOfComponents(); ++i)
+			for (unsigned int i = 0; i < ecs.getNumberOfComponents(); ++i)
 			{
 				if (a->type[i] == '1')
 				{
@@ -225,23 +171,23 @@ namespace TDS
 		writer->StartObject();
 
 		std::string entityNo = "EntityNo";
-		std::string component = "Component";
+		//std::string component = "Component";
 
-		std::vector<EntityID> entityList = ECS::getEntities();
+		std::vector<EntityID> entityList = ecs.getEntities();
 
 		for (int i = 0; i < entityList.size(); ++i)
 		{
 			writer->String(std::to_string(i).c_str(), static_cast<rapidjson::SizeType>(std::to_string(i).length()), false);
 			writer->StartObject();
 
-			std::string archetype = ECS::getArchetypeID(entityList[i]);
+			std::string archetype = ecs.getArchetypeID(entityList[i]);
 
 			writer->Key("ArchetypeID");
 			writer->String(archetype.c_str());
 
-			std::vector<std::string> componentStrings = ECS::getEntityComponents(entityList[i]);
+			std::vector<std::string> componentStrings = ecs.getEntityComponents(entityList[i]);
 			int j = 0;
-			for (IComponent* component : ECS::getEntityComponentsBase(entityList[i]))
+			for (IComponent* component : ecs.getEntityComponentsBase(entityList[i]))
 			{
 				while (archetype[j] == '0' && j < archetype.length())
 				{
@@ -268,9 +214,12 @@ namespace TDS
 		return true;
 	}
 
+	/*!*************************************************************************
+	This function serializes scenes into JSON files
+	****************************************************************************/
 	bool SceneManager::sceneSerialize()
 	{
-		std::ofstream ofs(std::filesystem::current_path().parent_path().string() + "\\assets\\scene.json");
+		std::ofstream ofs(parentFilePath + "scene.json");
 
 		rapidjson::StringBuffer sb;
 		rapidjson::PrettyWriter<rapidjson::StringBuffer> writer(sb);
@@ -298,10 +247,13 @@ namespace TDS
 		return true;
 	}
 
+	/*!*************************************************************************
+	This function deserializes scenes from JSON files
+	****************************************************************************/
 	bool SceneManager::sceneDeserialize()
 	{
-		std::string filepath = std::filesystem::current_path().parent_path().string() + "\\assets\\scene.json";
-		std::ifstream ifs(filepath, std::ios::in);
+		std::string allScenesFilepath = parentFilePath + "scene.json";
+		std::ifstream ifs(allScenesFilepath, std::ios::in);
 		std::stringstream buffer;
 		buffer << ifs.rdbuf();
 		ifs.close();
@@ -343,23 +295,36 @@ namespace TDS
 		return true;
 	}
 
+	/*!*************************************************************************
+	This function adds a new scene into the Scene Manager
+	****************************************************************************/
 	void SceneManager::newScene(std::string scene)
 	{
 		allScenes.emplace_back(scene);
+		currentScene = scene;
 	}
+	/*!*************************************************************************
+	This function loads given scene
+	****************************************************************************/
 	void SceneManager::loadScene(std::string scene)
 	{
-		DeserializeFromFile(std::filesystem::current_path().parent_path().string() + "\\assets\\scenes\\" + scene + ".json");
+		DeserializeFromFile(filePath + scene + ".json");
 		currentScene = scene;
 	}
 
+	/*!*************************************************************************
+	This function saves the given scene 
+	****************************************************************************/
 	void SceneManager::saveScene(std::string scene)
 	{
-		SerializeToFile(std::filesystem::current_path().parent_path().string() + "\\assets\\scenes\\" + scene + ".json");
+		SerializeToFile(filePath + scene + ".json");
 	}
+	/*!*************************************************************************
+	This function deletes the given scene
+	****************************************************************************/
 	void SceneManager::deleteScene(std::string scene)
 	{
-		std::filesystem::remove(std::filesystem::current_path().parent_path().string() + "\\assets\\scenes\\" + scene + ".json");
+		std::filesystem::remove(filePath + scene + ".json");
 		auto sceneInVector = std::find(allScenes.begin(), allScenes.end(), scene);
 
 		if (sceneInVector != allScenes.end())
@@ -368,11 +333,17 @@ namespace TDS
 		}
 	}
 
+	/*!*************************************************************************
+	This function is the getter function for current scene
+	****************************************************************************/
 	std::string SceneManager::getCurrentScene()
 	{
 		return currentScene;
 	}
 
+	/*!*************************************************************************
+	This function is the getter function for all scenes in Scene Browser
+	****************************************************************************/
 	std::vector<std::string>& SceneManager::getScenes()
 	{
 		return allScenes;

@@ -1,3 +1,12 @@
+/*!*****************************************************************************
+ * \file          Timestep.cpp
+ * \author        Cheang Wen Ding
+ * \par DP email: cheang.w@digipen.edu
+ * \par Course:   CSD3400
+ * \par Section:  A
+ * \date          01/10/2023
+ * \brief         Implementation of Timestep class.
+ *******************************************************************************/
 #include "Timestep/Timestep.h"
 
 namespace TDS

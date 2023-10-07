@@ -1,6 +1,18 @@
+/*!*************************************************************************
+****
+\file behaviourTree.h
+\author Go Ruo Yan
+\par DP email: ruoyan.go@digipen.edu
+\date 28-9-2023
+\brief  This program declares the classes behaviourTree and 
+		behaviourTreeManager, and all the classes used in the behaviour tree
+****************************************************************************
+***/
+
 #ifndef BEHAVIOUR_TREE
 #define BEHAVIOUR_TREE
 
+#include "dotnet/ImportExport.h"
 #include "ecs/ecs.h"
 
 namespace TDS
@@ -20,21 +32,42 @@ namespace TDS
 	class Node
 	{
 	public:
-		virtual void addChild(std::shared_ptr<Node> newChild) = 0;
-		virtual std::vector<std::shared_ptr<Node>> getChildren() { return children; };
+		/*!*************************************************************************
+		Add child to the node
+		****************************************************************************/
+		DLL_API virtual void addChild(std::shared_ptr<Node> newChild) = 0;
+		/*!*************************************************************************
+		Get the children of the node
+		****************************************************************************/
+		DLL_API virtual std::vector<std::shared_ptr<Node>> getChildren() { return children; };
 
-		virtual void enter(AI& aiComponent);
-		virtual void update(AI& aiComponent, float dt);
+		/*!*************************************************************************
+		Runs when this node is first ran
+		****************************************************************************/
+		DLL_API virtual void enter(AI& aiComponent);
+		/*!*************************************************************************
+		Runs until success / failed
+		****************************************************************************/
+		DLL_API virtual void update(AI& aiComponent, float dt);
 
-		virtual void childStatusChange(AI& aiComponent);
+		/*!*************************************************************************
+		Called by children to inform node of child status change
+		****************************************************************************/
+		DLL_API virtual void childStatusChange(AI& aiComponent);
 
-		virtual void failed(AI& aiComponent);
-		virtual void success(AI& aiComponent);
+		/*!*************************************************************************
+		Runs when the node failed
+		****************************************************************************/
+		DLL_API virtual void failed(AI& aiComponent);
+		/*!*************************************************************************
+		Runs when the node succeed
+		****************************************************************************/
+		DLL_API virtual void success(AI& aiComponent);
 
-		std::shared_ptr<Node> parent;
-		std::vector<std::shared_ptr<Node>> children;
+		std::shared_ptr<DLL_API Node> parent;
+		std::vector<DLL_API std::shared_ptr<DLL_API Node>> children;
 
-		int childIndex;
+		int childIndex{};
 
 		std::string name = "Node";
 	};
@@ -43,9 +76,12 @@ namespace TDS
 	class ControlFlow : public Node
 	{
 	public:
-		virtual void addChild(std::shared_ptr<Node> newChild)
+		/*!*************************************************************************
+		Add child to the node (Override)
+		****************************************************************************/
+		DLL_API virtual void addChild(std::shared_ptr<Node> newChild)
 		{
-			newChild->childIndex = children.size();
+			newChild->childIndex = static_cast<int>(children.size());
 			children.emplace_back(newChild);
 		}
 
@@ -55,10 +91,19 @@ namespace TDS
 	class C_Selector : public ControlFlow
 	{
 	public:
-		virtual void enter(AI& aiComponent);
-		virtual void update(AI& aiComponent, float dt = 0);
+		/*!*************************************************************************
+		Runs when this node is first ran (Override)
+		****************************************************************************/
+		DLL_API virtual void enter(AI& aiComponent);
+		/*!*************************************************************************
+		Runs until success / failed (Override)
+		****************************************************************************/
+		DLL_API virtual void update(AI& aiComponent, float dt = 0);
 
-		virtual void childStatusChange(AI& aiComponent);
+		/*!*************************************************************************
+		Called by children to inform node of child status change (Override)
+		****************************************************************************/
+		DLL_API virtual void childStatusChange(AI& aiComponent);
 
 		std::string name = "C_Selector";
 	};
@@ -66,10 +111,19 @@ namespace TDS
 	class C_Sequencer : public ControlFlow
 	{
 	public:
-		virtual void enter(AI& aiComponent);
-		virtual void update(AI& aiComponent, float dt = 0);
+		/*!*************************************************************************
+		Runs when this node is first ran (Override)
+		****************************************************************************/
+		DLL_API virtual void enter(AI& aiComponent);
+		/*!*************************************************************************
+		Runs until success / failed (Override)
+		****************************************************************************/
+		DLL_API virtual void update(AI& aiComponent, float dt = 0);
 
-		virtual void childStatusChange(AI& aiComponent);
+		/*!*************************************************************************
+		Called by children to inform node of child status change (Override)
+		****************************************************************************/
+		DLL_API virtual void childStatusChange(AI& aiComponent);
 
 		std::string name = "C_Sequencer";
 	};
@@ -77,16 +131,12 @@ namespace TDS
 	class C_ParallelSelector : public ControlFlow
 	{
 	public:
-		//virtual void update(AI& aiComponent);
-
 		std::string name = "C_ParallelSelector";
 	};
 
 	class C_ParallelSequencer : public ControlFlow
 	{
 	public:
-		//virtual void update(AI& aiComponent);
-
 		std::string name = "C_ParallelSequencer";
 	};
 
@@ -94,8 +144,10 @@ namespace TDS
 	class Decorator : public Node
 	{
 	public:
-		virtual void addChild(std::shared_ptr<Node> newChild) { if (!children.size()) children.emplace_back(newChild); };
-		//virtual void update(AI& aiComponent);
+		/*!*************************************************************************
+		Add child to the node (Override)
+		****************************************************************************/
+		DLL_API virtual void addChild(std::shared_ptr<Node> newChild) { if (!children.size()) children.emplace_back(newChild); };
 
 		std::string name = "Decorator";
 	};
@@ -113,17 +165,26 @@ namespace TDS
 	public:
 		//virtual void update(AI& aiComponent);
 
-		std::string name = "D_Timer";
+		 std::string name = "D_Timer";
 	};
 
 	// No children, 1 parent
 	class LeafNode : public Node
 	{
 	public:
-		virtual void addChild(std::shared_ptr<Node> newChild) { };
+		/*!*************************************************************************
+		Add child to the node (Override)
+		****************************************************************************/
+		DLL_API virtual void addChild(std::shared_ptr<Node> newChild) { };
 
-		virtual void failed(AI& aiComponent);
-		virtual void success(AI& aiComponent);
+		/*!*************************************************************************
+		Runs when the node failed (Override)
+		****************************************************************************/
+		DLL_API virtual void failed(AI& aiComponent);
+		/*!*************************************************************************
+		Runs when the node succeed (Override)
+		****************************************************************************/
+		DLL_API virtual void success(AI& aiComponent);
 
 		std::string name = "LeafNode";
 	};
@@ -131,8 +192,14 @@ namespace TDS
 	class L_Move : public LeafNode
 	{
 	public:
-		virtual void enter(AI& aiComponent);
-		virtual void update(AI& aiComponent, float dt);
+		/*!*************************************************************************
+		Runs when this node is first ran (Override)
+		****************************************************************************/
+		DLL_API virtual void enter(AI& aiComponent);
+		/*!*************************************************************************
+		Runs until success / failed (Override)
+		****************************************************************************/
+		DLL_API virtual void update(AI& aiComponent, float dt);
 
 		std::string name = "L_Move";
 	};
@@ -140,8 +207,14 @@ namespace TDS
 	class L_Idle : public LeafNode
 	{
 	public:
-		virtual void enter(AI& aiComponent);
-		virtual void update(AI& aiComponent, float dt);
+		/*!*************************************************************************
+		Runs when this node is first ran (Override)
+		****************************************************************************/
+		DLL_API virtual void enter(AI& aiComponent);
+		/*!*************************************************************************
+		Runs until success / failed (Override)
+		****************************************************************************/
+		DLL_API virtual void update(AI& aiComponent, float dt);
 
 		std::string name = "L_Idle";
 	};
@@ -149,32 +222,49 @@ namespace TDS
 	class L_Chase : public LeafNode
 	{
 	public:
-		virtual void enter(AI& aiComponent);
-		virtual void update(AI& aiComponent, float dt);
+		/*!*************************************************************************
+		Runs when this node is first ran (Override)
+		****************************************************************************/
+		DLL_API virtual void enter(AI& aiComponent);
+		/*!*************************************************************************
+		Runs until success / failed (Override)
+		****************************************************************************/
+		DLL_API virtual void update(AI& aiComponent, float dt);
 
 		std::string name = "L_Chase";
 	};
 
 	//
-	class BehaviourTree
+	class  BehaviourTree
 	{
 	public:
-		void run(AI& aiComponent, float dt);
+		/*!*************************************************************************
+		Constructor of the Behaviour Tree
+		****************************************************************************/
+		DLL_API BehaviourTree() : rootChild(nullptr) { }
 
-		std::shared_ptr<ControlFlow> rootChild;
+		/*!*************************************************************************
+		Runs the behaviour tree from the root node
+		****************************************************************************/
+		DLL_API void run(AI& aiComponent, float dt);
+
+	    std::shared_ptr<ControlFlow> rootChild;
 
 		std::string name;
 	};
 
-	class BehaviourTreeManager
+	class  BehaviourTreeManager
 	{
 	public:
 		/*!*************************************************************************
 		Returns an instance of the BehaviourTreeManager
 		****************************************************************************/
-		static std::unique_ptr<BehaviourTreeManager>& GetInstance();
+		DLL_API static std::unique_ptr<BehaviourTreeManager>& GetInstance();
 
-		std::vector<BehaviourTree>& getBehaviourTrees();
+		/*!*************************************************************************
+		Returns all of the behaviour trees
+		****************************************************************************/
+		DLL_API std::vector<BehaviourTree>& getBehaviourTrees();
 
 	private:
 		// Unique pointer to BehaviourTreeManager

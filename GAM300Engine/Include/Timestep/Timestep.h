@@ -1,3 +1,12 @@
+/*!*****************************************************************************
+ * \file          Timestep.h
+ * \author        Cheang Wen Ding
+ * \par DP email: cheang.w@digipen.edu
+ * \par Course:   CSD3400
+ * \par Section:  A
+ * \date          01/10/2023
+ * \brief         Timestep class that handles the delta time & fps.
+ *******************************************************************************/
 #ifndef TIMESTEP_H
 #define TIMESTEP_H
 
@@ -5,14 +14,20 @@
 
 namespace TDS
 {
-class DLL_API TimeStep
+class TimeStep
 {
 public:
-	
-	static float GetDeltaTime() { return mDeltaTime; }
-	static float GetFixedDeltaTime() { return mFixedTime; }
-	static float GetFps() { return mFps; }
-	static void CalculateDeltaTime();
+	/*!*************************************************************************
+	 * Getters for delta time and fps
+	 ***************************************************************************/
+	DLL_API static float GetDeltaTime() { return mDeltaTime; }
+	DLL_API static float GetFixedDeltaTime() { return mFixedTime; }
+	DLL_API static float GetFps() { return mFps; }
+	/*!*************************************************************************
+	 * Static function that updates the delta time and fps called in the 
+	 * main loop
+	 ***************************************************************************/
+	DLL_API static void CalculateDeltaTime();
 
 private:
 	// functions

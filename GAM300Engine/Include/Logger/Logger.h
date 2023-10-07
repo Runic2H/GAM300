@@ -1,3 +1,17 @@
+/*!*************************************************************************
+****
+\file Logger.h
+\author Cheung Jun Yin Matthew
+\par DP email: j.cheung@digipen.edu
+\par Course: CSD3400
+\par Section: a
+\par assignment: M1
+\date 01-10-2023
+\brief  This file implements a logging system using spdlog, macros such as
+		TDS_INFO() are TDS_WARN() used to call logging system info of their
+		respective spdlog::level.
+****************************************************************************
+***/
 #ifndef TDS_LOGGER
 #define TDS_LOGGER
 
@@ -6,19 +20,32 @@
 #include "spdlog/fmt/ostr.h"
 #include <string>
 #include <memory>
+#include "dotnet/ImportExport.h"
 #define TDS_API __declspec(dllexport)
-
 namespace TDS
 {
 	//template class TDS_API std::shared_ptr<spdlog::logger>;
 	class Log
 	{
 	public:
-		static void Init();
+		DLL_API static void Init();
 
-		static std::shared_ptr<spdlog::logger>& GetCoreLogger() { return s_CoreLogger; }
-		static std::shared_ptr<spdlog::logger>& GetClientLogger() { return s_ClientLogger; }
-		static std::string GetImguiLog();
+
+		/*!*************************************************************************
+		Retrieves CoreLogger info
+		****************************************************************************/
+		DLL_API static std::shared_ptr<spdlog::logger>& GetCoreLogger() { return s_CoreLogger; }
+
+		/*!*************************************************************************
+		Retrieves ClientLogger info
+		****************************************************************************/
+		DLL_API static std::shared_ptr<spdlog::logger>& GetClientLogger() { return s_ClientLogger; }
+
+		/*!*************************************************************************
+		Outputs spdlog info via output string stream for ImGui
+		****************************************************************************/
+		DLL_API static std::string GetImguiLog();
+		
 
 	private:
 		static std::shared_ptr<spdlog::logger> s_CoreLogger;

@@ -1,3 +1,13 @@
+/*!*************************************************************************
+****
+\file collider.h
+\author Go Ruo Yan
+\par DP email: ruoyan.go@digipen.edu
+\date 28-9-2023
+\brief  This program declares the functions in the Collider component class
+****************************************************************************
+***/
+
 #ifndef COLLIDERCOMPONENT
 #define COLLIDERCOMPONENT
 
@@ -19,40 +29,57 @@ namespace TDS
 			RECTANGLE		// AABB
 		};
 
-		Collider();
-		Collider(Collider&& toMove) noexcept;
-		~Collider() = default;
-		virtual bool Deserialize(const rapidjson::Value& obj);
-		virtual bool Serialize(rapidjson::PrettyWriter<rapidjson::StringBuffer>* writer) const;
+		/*!*************************************************************************
+		Initializes the Collider component when created
+		****************************************************************************/
+		DLL_API Collider();
+		/*!*************************************************************************
+		Initializes the Collider component when created, given another Collider
+		component to move (for ECS)
+		****************************************************************************/
+		DLL_API Collider(Collider&& toMove) noexcept;
+		/*!*************************************************************************
+		Destructor for the Collider component class
+		****************************************************************************/
+		DLL_API ~Collider() = default;
+		/*!*************************************************************************
+		Deserializes the Collider component
+		****************************************************************************/
+		DLL_API virtual bool Deserialize(const rapidjson::Value& obj);
+		/*!*************************************************************************
+		Serializes the Collider component
+		****************************************************************************/
+		DLL_API virtual bool Serialize(rapidjson::PrettyWriter<rapidjson::StringBuffer>* writer) const;
 
-		virtual void ImGuiDisplay();
+		/*!*************************************************************************
+		Getter and setter functions for the variables in the Collider component class
+		****************************************************************************/
+		DLL_API ColliderType& GetColliderType() { return mColliderType; }
+		DLL_API void SetColliderType(ColliderType colliderType) { mColliderType = colliderType; }
 
-		ColliderType& GetColliderType() { return mColliderType; }
-		void SetColliderType(ColliderType colliderType) { mColliderType = colliderType; }
+		DLL_API Vec3& GetColliderNormal() { return mCollisionNormal; }
+		DLL_API void SetColliderNormal(Vec3 collisionNormal) { mCollisionNormal = collisionNormal; }
 
-		Vec3& GetColliderNormal() { return mCollisionNormal; }
-		void SetColliderNormal(Vec3 collisionNormal) { mCollisionNormal = collisionNormal; }
+		DLL_API Vec3& GetMin() { return mMin; }
+		DLL_API void SetMin(Vec3 min) { mMin = min; }
 
-		Vec3& GetMin() { return mMin; }
-		void SetMin(Vec3 min) { mMin = min; }
+		DLL_API Vec3& GetMax() { return mMax; }
+		DLL_API void SetMax(Vec3 max) { mMax = max; }
 
-		Vec3& GetMax() { return mMax; }
-		void SetMax(Vec3 max) { mMax = max; }
+		DLL_API Vec3& GetOffset() { return mOffset; }
+		DLL_API void SetOffset(Vec3 offset) { mOffset = offset; }
 
-		Vec3& GetOffset() { return mOffset; }
-		void SetOffset(Vec3 offset) { mOffset = offset; }
+		DLL_API int& GetHit() { return mHit; }
+		DLL_API void SetHit(int hit) { mHit = hit; }
 
-		int& GetHit() { return mHit; }
-		void SetHit(int hit) { mHit = hit; }
+		DLL_API float& GetRadius() { return mRadius; }
+		DLL_API void SetRadius(float radius) { mRadius = radius; }
 
-		float& GetRadius() { return mRadius; }
-		void SetRadius(float radius) { mRadius = radius; }
+		DLL_API bool& GetAlive() { return mIsAlive; }
+		DLL_API void SetAlive(bool isAlive) { mIsAlive = isAlive; }
 
-		bool& GetAlive() { return mIsAlive; }
-		void SetAlive(bool isAlive) { mIsAlive = isAlive; }
-
-		bool& GetCollision() { return mCollision; }
-		void SetCollision(bool collision) { mCollision = collision; }
+		DLL_API bool& GetCollision() { return mCollision; }
+		DLL_API void SetCollision(bool collision) { mCollision = collision; }
 
 	private:
 		ColliderType mColliderType;
