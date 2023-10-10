@@ -113,7 +113,7 @@ namespace TDS
         m_AssetManager.PreloadAssets();
         SceneManager::GetInstance()->Init();
         ecs.initializeSystems(1);
-        //Run();
+        Run();
     }
 
     void Application::Update()
@@ -316,6 +316,19 @@ namespace TDS
         }
     }
 
+    void Application::stopScriptEngine()
+    {
+        // Shutdown CoreCLR
+        const int RESULT = shutdownCoreClr(hostHandle, domainId);
+        if (RESULT < 0)
+        {
+            std::stringstream oss;
+            oss << std::hex << std::setfill('0') << std::setw(8)
+                << "Failed to shut down CoreCLR. Error 0x" << RESULT << "\n";
+            throw std::runtime_error(oss.str());
+        }
+    }
+
     std::string Application::buildTpaList(const std::string& directory)
     {
         // Constants
@@ -336,19 +349,6 @@ namespace TDS
             FindClose(fileHandle);
         }
         return tpaList.str();
-    }
-
-    void Application::stopScriptEngine()
-    {
-        // Shutdown CoreCLR
-        const int RESULT = shutdownCoreClr(hostHandle, domainId);
-        if (RESULT < 0)
-        {
-            std::stringstream oss;
-            oss << std::hex << std::setfill('0') << std::setw(8)
-                << "Failed to shut down CoreCLR. Error 0x" << RESULT << "\n";
-            throw std::runtime_error(oss.str());
-        }
     }
 
     bool Application::initImgui()

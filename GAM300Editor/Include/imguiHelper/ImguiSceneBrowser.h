@@ -33,6 +33,10 @@ namespace TDS
 		void update();
 
 	private:
+		float buttonSize;
+		bool deleteSceneConfirmation;
+		int renameFileID;
+		std::string renameFileOldName;
 	};
 }
 

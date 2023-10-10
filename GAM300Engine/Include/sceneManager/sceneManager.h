@@ -58,9 +58,9 @@ namespace TDS
 		DLL_API void loadScene(std::string scene);
 
 		/*!*************************************************************************
-		This function saves the given scene
+		This function saves the current scene
 		****************************************************************************/
-		DLL_API void saveScene(std::string scene);
+		DLL_API void saveCurrentScene();
 		/*!*************************************************************************
 		This function deletes the given scene
 		****************************************************************************/
@@ -70,6 +70,25 @@ namespace TDS
 		This function is the getter function for current scene
 		****************************************************************************/
 		DLL_API std::string getCurrentScene();
+		/*!*************************************************************************
+		This function is the setter function for current scene
+		****************************************************************************/
+		DLL_API void setCurrentScene(std::string _currentScene);
+		/*!*************************************************************************
+		This function is the getter function for current scene saved
+		****************************************************************************/
+		DLL_API bool getCurrentSceneSaved();
+		/*!*************************************************************************
+		This function is the setter function for current scene saved
+		****************************************************************************/
+		DLL_API void setCurrentSceneSaved(bool _currentSceneSaved);
+
+		/*!*************************************************************************
+		This function renames a file
+		****************************************************************************/
+		DLL_API static bool stringCompare(std::string a, std::string b);
+		DLL_API bool renameScene(std::string oldName, std::string newName);
+
 		/*!*************************************************************************
 		This function is the getter function for all scenes in Scene Browser
 		****************************************************************************/
@@ -82,8 +101,10 @@ namespace TDS
 		static std::unique_ptr<SceneManager> m_instance;
 
 		std::vector<std::string> allScenes;
-		std::string currentScene;
 		std::string startScene;
+
+		std::string currentScene;
+		bool currentSceneSaved;
 
 		std::string parentFilePath;
 		std::string filePath;

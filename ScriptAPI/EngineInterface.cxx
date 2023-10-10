@@ -1,6 +1,4 @@
 #include "EngineInterface.hxx"
-#include "../GAM300Engine/Include/application.h"
-#include "../GAM300Engine/Include/ecs/ecs.cpp"
 using namespace System;
 using namespace System::Runtime::InteropServices;
 #pragma comment (lib, "GAM300Engine.lib")
@@ -12,8 +10,6 @@ namespace ScriptAPI
 	void EngineInterface::HelloWorld()
 	{
 		System::Console::WriteLine("Hello Managed World!");
-		TDS::Application::HelloWorld();
-
 	}
     /*!*************************************************************************
     * Loads the managed script dll and adds the scriptlist to all active entities

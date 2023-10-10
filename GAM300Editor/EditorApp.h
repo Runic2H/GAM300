@@ -68,13 +68,6 @@ namespace TDS
 	private:
 
 		/*!*************************************************************************
-		* Function Pointers to CoreCLR functions
-		***************************************************************************/
-		coreclr_initialize_ptr      initializeCoreClr = nullptr;
-		coreclr_create_delegate_ptr createManagedDelegate = nullptr;
-		coreclr_shutdown_ptr        shutdownCoreClr = nullptr;
-
-		/*!*************************************************************************
 		* Helper functions to get CoreClr pointers
 		***************************************************************************/
 		template<typename FunctType>
@@ -115,11 +108,6 @@ namespace TDS
 			return managedDelegate;
 		}
 
-		/*!*************************************************************************
-		* Function to build TPA list for C++/CLI to function
-		***************************************************************************/
-		std::string buildTpaList(const std::string& directory);
-
 	private:
 		/*!*************************************************************************
 		* Function in initialize script engine
@@ -130,11 +118,21 @@ namespace TDS
 		***************************************************************************/
 		void stopScriptEngine();
 		/*!*************************************************************************
+		* Function to build TPA list for C++/CLI to function
+		***************************************************************************/
+		std::string buildTpaList(const std::string& directory);
+		/*!*************************************************************************
 		* References to CoreCLR key components
 		***************************************************************************/
 		HMODULE coreClr = nullptr;
 		void* hostHandle = nullptr;
 		unsigned int domainId = 0;
+		/*!*************************************************************************
+		* Function Pointers to CoreCLR functions
+		***************************************************************************/
+		coreclr_initialize_ptr      initializeCoreClr = nullptr;
+		coreclr_create_delegate_ptr createManagedDelegate = nullptr;
+		coreclr_shutdown_ptr        shutdownCoreClr = nullptr;
 
 
 	};//class application

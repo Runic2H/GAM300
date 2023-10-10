@@ -46,6 +46,7 @@ namespace TDS
 				ImGuiTreeNodeFlags_SpanFullWidth |
 				ImGuiTreeNodeFlags_Selected;
 
+			int i = 0;
 			for (auto componentName : allComponentNames)
 			{
 				IComponent* componentBase = getComponentByName(componentName, selectedEntity);
@@ -65,6 +66,7 @@ namespace TDS
 
 				bool componentOpen = ImGui::TreeNodeEx(componentName.c_str(), nodeFlags);
 
+				ImGui::PushID(i);
 				if (ImGui::BeginPopupContextItem("componentEditPopup"))
 				{
 					if (ImGui::Selectable("Remove Component"))
@@ -80,6 +82,8 @@ namespace TDS
 				{
 					ImGui::OpenPopup("componentEditPopup");
 				}
+				ImGui::PopID();
+				++i;
 
 				if (componentOpen)
 				{
@@ -100,19 +104,6 @@ namespace TDS
 				}
 			}
 
-			if (ImGui::BeginPopupContextItem("componentAddPopup"))
-			{
-				for (auto componentName : allComponentNames)
-				{
-					if (!getComponentByName(componentName, selectedEntity) && ImGui::Selectable(componentName.c_str()))
-					{
-						addComponentByName(componentName, selectedEntity);
-						TDS_INFO("Added Component");
-					}
-				}
-				ImGui::EndPopup();
-			}
-
 			// Add component button
 			ImGuiStyle& style = ImGui::GetStyle();
 
@@ -126,6 +117,19 @@ namespace TDS
 			if (ImGui::Button("Add Component", ImVec2(100.f, 20.f)))
 			{
 				ImGui::OpenPopup("componentAddPopup");
+			}
+
+			if (ImGui::BeginPopupContextItem("componentAddPopup"))
+			{
+				for (auto componentName : allComponentNames)
+				{
+					if (!getComponentByName(componentName, selectedEntity) && ImGui::Selectable(componentName.c_str()))
+					{
+						addComponentByName(componentName, selectedEntity);
+						TDS_INFO("Added Component");
+					}
+				}
+				ImGui::EndPopup();
 			}
 		}
 	}

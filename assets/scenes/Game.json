@@ -1,61 +1,53 @@
 {
     "Archetype Sizes": {
         "1100000000": {
-            "0": 96,
-            "1": 80
-        },
-        "1110000000": {
-            "0": 48,
-            "1": 40,
-            "2": 40
+            "0": 336,
+            "1": 280
         }
     },
     "Entity Data": {
         "0": {
-            "ArchetypeID": "1110000000",
+            "ArchetypeID": "1100000000",
             "Name Tag": {
-                "name": "entity1"
+                "name": "New Entity"
             },
             "Transform": {
-                "positionX": 2.0,
-                "positionY": 3.0,
-                "positionZ": 4.0,
-                "scaleX": 2.0,
-                "scaleY": 3.0,
-                "scaleZ": 4.0,
+                "positionX": 0.0,
+                "positionY": 0.0,
+                "positionZ": 0.0,
+                "scaleX": 1.0,
+                "scaleY": 1.0,
+                "scaleZ": 0.0,
                 "rotation": 0.0
-            },
-            "AI": {
-                "behaviourTreeIndex": 0
             }
         },
         "1": {
             "ArchetypeID": "1100000000",
             "Name Tag": {
-                "name": "entity2"
+                "name": "New Entity"
             },
             "Transform": {
-                "positionX": 2.0,
-                "positionY": 3.0,
-                "positionZ": 4.0,
-                "scaleX": 2.0,
-                "scaleY": 3.0,
-                "scaleZ": 4.0,
+                "positionX": 0.0,
+                "positionY": 0.0,
+                "positionZ": 0.0,
+                "scaleX": 1.0,
+                "scaleY": 1.0,
+                "scaleZ": 0.0,
                 "rotation": 0.0
             }
         },
         "2": {
             "ArchetypeID": "1100000000",
             "Name Tag": {
-                "name": "entity3"
+                "name": "New Entity"
             },
             "Transform": {
-                "positionX": 2.0,
-                "positionY": 3.0,
-                "positionZ": 4.0,
-                "scaleX": 2.0,
-                "scaleY": 3.0,
-                "scaleZ": 4.0,
+                "positionX": 0.0,
+                "positionY": 0.0,
+                "positionZ": 0.0,
+                "scaleX": 1.0,
+                "scaleY": 1.0,
+                "scaleZ": 0.0,
                 "rotation": 0.0
             }
         }

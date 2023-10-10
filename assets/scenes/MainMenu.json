@@ -1,137 +1,69 @@
 {
     "Archetype Sizes": {
-        "1110000000": {
-            "0": 48,
-            "1": 40,
-            "2": 40
-        },
-        "1100100000": {
-            "0": 48,
-            "1": 40,
-            "4": 72
-        },
-        "1100010000": {
-            "0": 48,
-            "1": 40,
-            "5": 8
-        },
-        "1100011000": {
-            "0": 48,
-            "1": 40,
-            "5": 8,
-            "6": 128
+        "1100000000": {
+            "0": 192,
+            "1": 160
         }
     },
     "Entity Data": {
         "0": {
-            "ArchetypeID": "1110000000",
+            "ArchetypeID": "1100000000",
             "Name Tag": {
-                "name": "entity1"
+                "name": "New Entity"
             },
             "Transform": {
-                "positionX": 2.0,
-                "positionY": 3.0,
-                "positionZ": 4.0,
-                "scaleX": 2.0,
-                "scaleY": 3.0,
-                "scaleZ": 4.0,
+                "positionX": 0.0,
+                "positionY": 0.0,
+                "positionZ": 0.0,
+                "scaleX": 1.0,
+                "scaleY": 1.0,
+                "scaleZ": 0.0,
                 "rotation": 0.0
-            },
-            "AI": {
-                "behaviourTreeIndex": 0
             }
         },
         "1": {
-            "ArchetypeID": "1100100000",
+            "ArchetypeID": "1100000000",
             "Name Tag": {
-                "name": "entity2"
+                "name": "New Entity"
             },
             "Transform": {
-                "positionX": 2.0,
-                "positionY": 3.0,
-                "positionZ": 4.0,
-                "scaleX": 2.0,
-                "scaleY": 3.0,
-                "scaleZ": 4.0,
+                "positionX": 0.0,
+                "positionY": 0.0,
+                "positionZ": 0.0,
+                "scaleX": 1.0,
+                "scaleY": 1.0,
+                "scaleZ": 0.0,
                 "rotation": 0.0
-            },
-            "Collider": {
-                "colliderType": 0,
-                "collisionNormalX": 0.0,
-                "collisionNormalY": 0.0,
-                "collisionNormalZ": 0.0,
-                "minX": 0.0,
-                "minY": 0.0,
-                "minZ": 0.0,
-                "maxX": 0.0,
-                "maxY": 0.0,
-                "maxZ": 0.0,
-                "offsetX": 0.0,
-                "offsetY": 0.0,
-                "offsetZ": 0.0,
-                "hit": 0,
-                "radius": 0.0,
-                "isAlive": true
             }
         },
         "2": {
-            "ArchetypeID": "1100010000",
+            "ArchetypeID": "1100000000",
             "Name Tag": {
-                "name": "entity3"
+                "name": "New Entity"
             },
             "Transform": {
-                "positionX": 2.0,
-                "positionY": 3.0,
-                "positionZ": 4.0,
-                "scaleX": 2.0,
-                "scaleY": 3.0,
-                "scaleZ": 4.0,
+                "positionX": 0.0,
+                "positionY": 0.0,
+                "positionZ": 0.0,
+                "scaleX": 1.0,
+                "scaleY": 1.0,
+                "scaleZ": 0.0,
                 "rotation": 0.0
-            },
-            "Player Attributes": {}
+            }
         },
         "3": {
-            "ArchetypeID": "1100011000",
+            "ArchetypeID": "1100000000",
             "Name Tag": {
-                "name": "entity4"
+                "name": "New Entity"
             },
             "Transform": {
-                "positionX": 10.0,
-                "positionY": 10.0,
-                "positionZ": 10.0,
-                "scaleX": 10.0,
-                "scaleY": 10.0,
-                "scaleZ": 10.0,
+                "positionX": 0.0,
+                "positionY": 0.0,
+                "positionZ": 0.0,
+                "scaleX": 1.0,
+                "scaleY": 1.0,
+                "scaleZ": 0.0,
                 "rotation": 0.0
-            },
-            "Player Attributes": {},
-            "Rigid Body": {
-                "accelerationX": 0.0,
-                "accelerationY": 0.0,
-                "accelerationZ": 0.0,
-                "linearvelocityX": 0.0,
-                "linearvelocityY": 0.0,
-                "linearvelocityZ": 0.0,
-                "angularvelocityX": 0.0,
-                "angularvelocityY": 0.0,
-                "angularvelocityZ": 0.0,
-                "directionX": 0.0,
-                "directionY": 0.0,
-                "directionZ": 0.0,
-                "nextPositionX": 0.0,
-                "nextPositionY": 0.0,
-                "nextPositionZ": 0.0,
-                "inputForceX": 0.0,
-                "inputForceY": 0.0,
-                "inputForceZ": 0.0,
-                "normalizedForceX": 0.0,
-                "normalizedForceY": 0.0,
-                "normalizedForceZ": 0.0,
-                "friction": 0.0,
-                "restitution": 0.0,
-                "mass": 1.0,
-                "inverseMass": 0.0,
-                "gravity": 0.0
             }
         }
     }

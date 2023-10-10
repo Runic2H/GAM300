@@ -59,8 +59,9 @@ namespace TDS
 		ecs.registerComponent<Tag>("Tag");
 		ecs.registerComponent<WinData>("Win Data");
 
-		bindSystemFunctions();
+		startScene = "";
 
+		bindSystemFunctions();
 		// Setting default scene
 		sceneDeserialize();
 	}
@@ -70,8 +71,6 @@ namespace TDS
 	****************************************************************************/
 	bool SceneManager::Deserialize(const rapidjson::Value& obj)
 	{
-		ecs.removeAllEntities();
-
 		for (rapidjson::Value::ConstMemberIterator itr = obj["Archetype Sizes"].MemberBegin(); itr != obj["Archetype Sizes"].MemberEnd(); ++itr)
 		{
 			std::string archetypeID = itr->name.GetString();
@@ -225,19 +224,9 @@ namespace TDS
 		rapidjson::PrettyWriter<rapidjson::StringBuffer> writer(sb);
 
 		writer.StartObject();
+		writer.String("start", 5, false);
+		writer.String(startScene.c_str(), static_cast<rapidjson::SizeType>(startScene.length()), false);
 
-		for (int i = 0; i < allScenes.size(); ++i)
-		{
-			if (allScenes[i] == startScene)
-			{
-				writer.String("start", 5, false);
-			}
-			else
-			{
-				writer.String(std::to_string(i + 1).c_str(), static_cast<rapidjson::SizeType>(std::to_string(i + 1).length()), false);
-			}
-			writer.String(allScenes[i].c_str(), static_cast<rapidjson::SizeType>(allScenes[i].length()), false);
-		}
 		writer.EndObject();
 
 		ofs << sb.GetString();
@@ -269,29 +258,62 @@ namespace TDS
 		rapidjson::Value& value = doc.GetObject();
 
 		// Starting scene
-		rapidjson::Value::MemberIterator theItr = value.FindMember("start");
-
-		std::string startingScene = theItr->value.GetString();
-
-		SceneManager::newScene(startingScene);
-
-		int i = 0;
-		for (rapidjson::Value::ConstMemberIterator itr = value.MemberBegin(); itr != value.MemberEnd(); ++itr, ++i)
+		for (auto& directory_entry : std::filesystem::directory_iterator(filePath))
 		{
-			theItr = value.FindMember(std::to_string(i + 1).c_str());
-
-			if (!value.HasMember(std::to_string(i + 1).c_str()))
+			if (directory_entry.path().extension() == ".json")
 			{
-				continue;
+				newScene(directory_entry.path().stem().string());
 			}
-
-			SceneManager::newScene(theItr->value.GetString());
 		}
 
-		SceneManager::loadScene(startingScene);
+		rapidjson::Value::MemberIterator theItr = value.FindMember("start");
+		std::string startingScene = theItr->value.GetString();
+
+		if (std::find(allScenes.begin(), allScenes.end(), startingScene) == allScenes.end())
+		{
+			startingScene = "";
+		}
+
+		if (startingScene == "")
+		{
+			if (allScenes.size() == 0)
+			{
+				newScene("NewScene");
+				startingScene = "NewScene";
+			}
+			loadScene(allScenes[0]);
+		}
+		else
+		{
+			loadScene(startingScene);
+		}
 		currentScene = startingScene;
 		startScene = startingScene;
+		currentSceneSaved = true;
 
+		return true;
+	}
+
+	bool SceneManager::stringCompare(std::string a, std::string b)
+	{
+		for (int index = 0; index < a.size() && index < b.size(); ++index)
+		{
+			char lowerA = std::tolower(a[index]);
+			char lowerB = std::tolower(b[index]);
+
+			if (lowerA < lowerB)
+			{
+				return true;
+			}
+			else if (lowerA > lowerB)
+			{
+				return false;
+			}
+		}
+		if (a.size() > b.size())
+		{
+			return false;
+		}
 		return true;
 	}
 
@@ -301,29 +323,50 @@ namespace TDS
 	void SceneManager::newScene(std::string scene)
 	{
 		allScenes.emplace_back(scene);
-		currentScene = scene;
+
+		if (!std::filesystem::exists(filePath + scene + ".json"))
+		{
+			std::ofstream ofs(filePath + scene + ".json");
+			ofs.close();
+		}
+
+		std::sort(allScenes.begin(), allScenes.end(), stringCompare);
 	}
 	/*!*************************************************************************
 	This function loads given scene
 	****************************************************************************/
 	void SceneManager::loadScene(std::string scene)
 	{
+		ecs.removeAllEntities();
 		DeserializeFromFile(filePath + scene + ".json");
 		currentScene = scene;
+		currentSceneSaved = true;
 	}
 
 	/*!*************************************************************************
 	This function saves the given scene 
 	****************************************************************************/
-	void SceneManager::saveScene(std::string scene)
+	void SceneManager::saveCurrentScene()
 	{
-		SerializeToFile(filePath + scene + ".json");
+		setCurrentSceneSaved(true);
+
+		SerializeToFile(filePath + currentScene + ".json");
+
+		if (std::find(allScenes.begin(), allScenes.end(), currentScene) == allScenes.end())
+		{
+			newScene(currentScene);
+		}
 	}
 	/*!*************************************************************************
 	This function deletes the given scene
 	****************************************************************************/
 	void SceneManager::deleteScene(std::string scene)
 	{
+		if (scene == currentScene)
+		{
+			setCurrentSceneSaved(false);
+		}
+
 		std::filesystem::remove(filePath + scene + ".json");
 		auto sceneInVector = std::find(allScenes.begin(), allScenes.end(), scene);
 
@@ -339,6 +382,52 @@ namespace TDS
 	std::string SceneManager::getCurrentScene()
 	{
 		return currentScene;
+	}
+
+	/*!*************************************************************************
+	This function is the setter function for current scene
+	****************************************************************************/
+	void SceneManager::setCurrentScene(std::string _currentScene)
+	{
+		currentScene = _currentScene;
+	}
+	/*!*************************************************************************
+	This function is the getter function for current scene saved
+	****************************************************************************/
+	bool SceneManager::getCurrentSceneSaved()
+	{
+		return currentSceneSaved;
+	}
+	/*!*************************************************************************
+	This function is the setter function for current scene saved
+	****************************************************************************/
+	void SceneManager::setCurrentSceneSaved(bool _currentSceneSaved)
+	{
+		if (!_currentSceneSaved && currentSceneSaved)
+		{
+			currentScene += "*";
+		}
+		else if (_currentSceneSaved && !currentSceneSaved)
+		{
+			currentScene.erase(currentScene.end() - 1);
+		}
+
+		currentSceneSaved = _currentSceneSaved;
+	}
+
+	/*!*************************************************************************
+	This function renames a file
+	****************************************************************************/
+	bool SceneManager::renameScene(std::string oldName, std::string newName)
+	{
+		if (std::find(allScenes.begin(), allScenes.end(), newName) != allScenes.end())
+		{
+			return false;
+		}
+
+		std::filesystem::rename(filePath + oldName + ".json", filePath + newName + ".json");
+		std::sort(allScenes.begin(), allScenes.end(), stringCompare);
+		return true;
 	}
 
 	/*!*************************************************************************
