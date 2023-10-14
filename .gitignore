@@ -50,3 +50,8 @@ ManagedScripts/obj/ManagedScripts.csproj.nuget.dgspec.json
 ManagedScripts/obj/ManagedScripts.csproj.nuget.dgspec.json
 ManagedScripts/obj/ManagedScripts.csproj.nuget.g.props
 ManagedScripts/obj/project.assets.json
+scriptDLL/ManagedScripts.deps.json
+scriptDLL/ManagedScripts.dll
+scriptDLL/ManagedScripts.pdb
+scriptDLL/ScriptAPI.dll
+scriptDLL/ScriptAPI.pdb

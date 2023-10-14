@@ -2,6 +2,7 @@
 #define VECTOR2_H
 
 #include "MathCommon.h"
+#include "dotnet/ImportExport.h"
 
 namespace TDS
 {

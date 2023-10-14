@@ -16,7 +16,7 @@
 
 namespace TDS
 {
-	class Transform : public IComponent
+	DLL_API class Transform : public IComponent
 	{
 	public:
 		/*!*************************************************************************
@@ -48,11 +48,11 @@ namespace TDS
 		DLL_API Vec3& GetPosition() { return mPosition;  }
 		DLL_API void SetPosition(Vec3 position) { mPosition = position; }
 		DLL_API void SetPosition(float positionX, float positionY, float positionZ) { mPosition = Vec3(positionX, positionY, positionZ); }
-		
+
 		DLL_API Vec3& GetScale() { return mScale; }
 		DLL_API void SetScale(Vec3 scale) { mScale = scale; }
 		DLL_API void SetScale(float scaleX, float scaleY, float scaleZ) { mScale = Vec3(scaleX, scaleY, scaleZ); }
-		
+
 		DLL_API float& GetRotation() { return mRotation; }
 		DLL_API void SetRotation(float rotation) { mRotation = rotation; }
 
@@ -61,6 +61,8 @@ namespace TDS
 		Vec3 mScale;
 		float mRotation;
 	};
+
+	DLL_API Transform* GetTransform(EntityID entityID);
 }
 
 #endif // TRANSFORMCOMPONENT

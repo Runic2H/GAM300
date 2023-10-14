@@ -118,12 +118,26 @@ namespace TDS
 
     void Application::Update()
     {
-        /*auto executeUpdate = GetFunctionPtr<void(*)(void)>
+        auto executeUpdate = GetFunctionPtr<void(*)(void)>
             (
                 "ScriptAPI",
                 "ScriptAPI.EngineInterface",
                 "ExecuteUpdate"
-            );*/
+            );
+
+        auto reloadScripts = GetFunctionPtr<void(*)(void)>
+            (
+                "ScriptAPI",
+                "ScriptAPI.EngineInterface",
+                "Reload"
+            );
+
+        auto addScript = GetFunctionPtr<bool(*)(int, const char*)>
+            (
+                "ScriptAPI",
+                "ScriptAPI.EngineInterface",
+                "AddScriptViaName"
+            );
 
         std::vector<std::unique_ptr<Buffer>> uboBuffers(VulkanSwapChain::MAX_FRAMES_IN_FLIGHT);
         for (int i = 0; i < uboBuffers.size(); i++) {
@@ -226,9 +240,16 @@ namespace TDS
             //    ImGui::RenderPlatformWindowsDefault();
             //}
             Input::scrollStop();
-            //executeUpdate();
+            if (GetKeyState(VK_SPACE) & 0x8000)
+            {
+                compileScriptAssembly();
+                reloadScripts();
+                addScript(1, "Test");
+            }
+
+            executeUpdate();
         }
-        //stopScriptEngine();
+        stopScriptEngine();
         vkDeviceWaitIdle(m_pVKInst.get()->getVkLogicalDevice());
         imguiHelper::Exit();
         ecs.destroy();
@@ -237,6 +258,7 @@ namespace TDS
     void Application::Run()
     {
         startScriptEngine();
+        compileScriptAssembly();
 
         // Step 1: Get Functions
         auto init = GetFunctionPtr<void(*)(void)>
@@ -246,8 +268,24 @@ namespace TDS
                 "Init"
             );
 
+        auto reloadScripts = GetFunctionPtr<void(*)(void)>
+            (
+                "ScriptAPI",
+                "ScriptAPI.EngineInterface",
+                "Reload"
+            );
+
+
+        auto addScript = GetFunctionPtr<bool(*)(int, const char*)>
+            (
+                "ScriptAPI",
+                "ScriptAPI.EngineInterface",
+                "AddScriptViaName"
+            );
+
         // Step 2: Initialize
         init();
+        addScript(1, "Test");
     }
 
     Application::~Application()
@@ -349,6 +387,78 @@ namespace TDS
             FindClose(fileHandle);
         }
         return tpaList.str();
+    }
+
+    void Application::compileScriptAssembly()
+    {
+        //relative path to the script assembly project file
+        const char* PROJ_PATH =
+            "..\\..\\ManagedScripts\\ManagedScripts.csproj";
+
+        std::wstring buildCmd = L" build \"" +
+            std::filesystem::absolute(PROJ_PATH).wstring() +
+            L"\" -c Debug --no-self-contained " +
+            L"-o \"..\\..\\scriptDLL/\" -r \"win-x64\"";
+
+        // Define the struct to config the compiler process call
+        STARTUPINFOW startInfo;
+        PROCESS_INFORMATION pi;
+        ZeroMemory(&startInfo, sizeof(startInfo));
+        ZeroMemory(&pi, sizeof(pi));
+        startInfo.cb = sizeof(startInfo);
+
+        // Start compiler process
+        const auto SUCCESS = CreateProcess
+        (
+            L"C:\\Program Files\\dotnet\\dotnet.exe", buildCmd.data(),
+            nullptr, nullptr, true, NULL, nullptr, nullptr,
+            &startInfo, &pi
+        );
+
+        // Check that we launched the process
+        if (!SUCCESS)
+        {
+            auto err = GetLastError();
+            std::ostringstream oss;
+            oss << "Failed to launch compiler. Error code: "
+                << std::hex << err;
+            throw std::runtime_error(oss.str());
+        }
+
+        // Wait for process to end
+        DWORD exitCode{};
+        while (true)
+        {
+            const auto EXEC_SUCCESS =
+                GetExitCodeProcess(pi.hProcess, &exitCode);
+            if (!EXEC_SUCCESS)
+            {
+                auto err = GetLastError();
+                std::ostringstream oss;
+                oss << "Failed to query process. Error code: "
+                    << std::hex << err;
+                throw std::runtime_error(oss.str());
+            }
+            if (exitCode != STILL_ACTIVE)
+                break;
+        }
+
+        // Successful build
+        if (exitCode == 0)
+        {
+            // Copy out files
+            std::filesystem::copy_file
+            (
+                "..\\..\\scriptDLL/ManagedScripts.dll",
+                "ManagedScripts.dll",
+                std::filesystem::copy_options::overwrite_existing
+            );
+        }
+        // Failed build
+        else
+        {
+            throw std::runtime_error("Failed to build managed scripts!");
+        }
     }
 
     bool Application::initImgui()

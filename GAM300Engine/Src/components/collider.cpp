@@ -104,4 +104,9 @@ namespace TDS
 
 		return true;
 	}
+
+	Collider* GetCollider(EntityID entityID)
+	{
+		return ecs.getComponent<Collider>(entityID);
+	}
 }

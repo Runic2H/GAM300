@@ -121,6 +121,7 @@ namespace TDS
 		* Function to build TPA list for C++/CLI to function
 		***************************************************************************/
 		std::string buildTpaList(const std::string& directory);
+		void compileScriptAssembly();
 		/*!*************************************************************************
 		* References to CoreCLR key components
 		***************************************************************************/
