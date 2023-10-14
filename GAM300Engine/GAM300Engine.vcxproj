@@ -176,6 +176,8 @@ xcopy /y /d "$(SolutionDir)Libs\fmod\*.dll" "$(OutDir)"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\Shared_Libs\Color.cpp" />
+    <ClCompile Include="..\Shared_Libs\Color8UNorm.cpp" />
     <ClCompile Include="..\Shared_Libs\MathCommon.cpp" />
     <ClCompile Include="..\Shared_Libs\Matrix2.cpp" />
     <ClCompile Include="..\Shared_Libs\Matrix3.cpp" />
@@ -243,6 +245,8 @@ xcopy /y /d "$(SolutionDir)Libs\fmod\*.dll" "$(OutDir)"</Command>
     <ClCompile Include="Src\windowswindow.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\Shared_Libs\Color.h" />
+    <ClInclude Include="..\Shared_Libs\Color8UNorm.h" />
     <ClInclude Include="..\Shared_Libs\MathCommon.h" />
     <ClInclude Include="..\Shared_Libs\Matrix2.h" />
     <ClInclude Include="..\Shared_Libs\Matrix3.h" />

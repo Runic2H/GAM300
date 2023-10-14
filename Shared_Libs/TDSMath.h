@@ -9,5 +9,7 @@
 #include "Matrix3.h"
 #include "Matrix4.h"
 #include "Quaternion.h"
+#include "Color.h"
+#include "Color8UNorm.h"
 
 #endif // TDSMATH_H
