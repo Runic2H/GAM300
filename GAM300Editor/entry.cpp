@@ -10,12 +10,10 @@
 
 #if _DEBUG
 #pragma comment( linker, "/subsystem:console" )
-int main(int argc, const char** argv) {
-<<<<<<<< HEAD:GAM300Editor/entry.cpp
+int main(int argc, const char** argv) 
+{
+
     (void)argc, (void)argv;
-========
-    
->>>>>>>> development:GAM300Engine/main.cpp
     return WinMain(GetModuleHandle(NULL), NULL, GetCommandLineA(), 0);
 }
 #else
