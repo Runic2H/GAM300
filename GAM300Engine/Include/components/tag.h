@@ -1,3 +1,13 @@
+/*!*************************************************************************
+****
+\file tag.h
+\author Go Ruo Yan
+\par DP email: ruoyan.go@digipen.edu
+\date 28-9-2023
+\brief  This program declares the functions in the tag component class
+****************************************************************************
+***/
+
 #ifndef TAGCOMPONENT
 #define TAGCOMPONENT
 
@@ -8,18 +18,36 @@ namespace TDS
 	class Tag : public IComponent
 	{
 	public:
-		Tag();
-		~Tag() = default;
-		virtual bool Deserialize(const rapidjson::Value& obj);
-		virtual bool Serialize(rapidjson::PrettyWriter<rapidjson::StringBuffer>* writer) const;
+		/*!*************************************************************************
+		Initializes the Tag component when created
+		****************************************************************************/
+		DLL_API Tag();
+		/*!*************************************************************************
+		Initializes the Tag component when created, given another Tag component to
+		move (for ECS)
+		****************************************************************************/
+		DLL_API Tag(Tag&& toMove) noexcept;
+		/*!*************************************************************************
+		Destructor for the Tag component class
+		****************************************************************************/
+		DLL_API ~Tag() = default;
+		/*!*************************************************************************
+		Deserializes the Tag component
+		****************************************************************************/
+		DLL_API virtual bool Deserialize(const rapidjson::Value& obj);
+		/*!*************************************************************************
+		Serializes the Tag component
+		****************************************************************************/
+		DLL_API virtual bool Serialize(rapidjson::PrettyWriter<rapidjson::StringBuffer>* writer) const;
 
-		virtual void ImGuiDisplay();
+		/*!*************************************************************************
+		Getter and setter functions for the variables in the Tag component class
+		****************************************************************************/
+		DLL_API std::string GetTag() { return mTag; }
+		DLL_API void SetTag(std::string tag) { mTag = tag; }
 
-		std::string GetTag() { return mTag; }
-		void SetTag(std::string tag) { mTag = tag; }
-
-		std::string GetTargetTag() { return mTargetTag; }
-		void SetTargetTag(std::string target) { mTargetTag = target; }
+		DLL_API std::string GetTargetTag() { return mTargetTag; }
+		DLL_API void SetTargetTag(std::string target) { mTargetTag = target; }
 
 	private:
 		std::string mTag;

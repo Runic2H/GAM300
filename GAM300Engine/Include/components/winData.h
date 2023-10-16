@@ -1,3 +1,13 @@
+/*!*************************************************************************
+****
+\file winData.h
+\author Go Ruo Yan
+\par DP email: ruoyan.go@digipen.edu
+\date 28-9-2023
+\brief  This program declares the functions in the winData component class
+****************************************************************************
+***/
+
 #ifndef WINDATACOMPONENT
 #define WINDATACOMPONENT
 
@@ -8,36 +18,54 @@ namespace TDS
 	class WinData : public IComponent
 	{
 	public:
-		WinData();
-		~WinData() = default;
-		virtual bool Deserialize(const rapidjson::Value& obj);
-		virtual bool Serialize(rapidjson::PrettyWriter<rapidjson::StringBuffer>* writer) const;
+		/*!*************************************************************************
+		Initializes the WinData component when created
+		****************************************************************************/
+		DLL_API WinData();
+		/*!*************************************************************************
+		Initializes the WinData component when created, given another WinData
+		component to move (for ECS)
+		****************************************************************************/
+		DLL_API WinData(WinData&& toMove) noexcept;
+		/*!*************************************************************************
+		Destructor for the WinData component class
+		****************************************************************************/
+		DLL_API ~WinData() = default;
+		/*!*************************************************************************
+		Deserializes the WinData component
+		****************************************************************************/
+		DLL_API virtual bool Deserialize(const rapidjson::Value& obj);
+		/*!*************************************************************************
+		Serializes the WinData component
+		****************************************************************************/
+		DLL_API virtual bool Serialize(rapidjson::PrettyWriter<rapidjson::StringBuffer>* writer) const;
 
-		virtual void ImGuiDisplay();
+		/*!*************************************************************************
+		Getter and setter functions for the variables in the WinData component class
+		****************************************************************************/
+		DLL_API std::string GetTitle() { return mTitle; }
+		DLL_API void SetTitle(std::string title) { mTitle = title; }
 
-		std::string GetTitle() { return mTitle; }
-		void SetTitle(std::string title) { mTitle = title; }
+		DLL_API std::uint32_t GetWidth() { return mWidth; }
+		DLL_API void SetWidth(std::uint32_t width) { mWidth = width; }
 
-		std::uint32_t GetWidth() { return mWidth; }
-		void SetWidth(std::uint32_t width) { mWidth = width; }
+		DLL_API std::uint32_t GetHeight() { return mHeight; }
+		DLL_API void SetHeight(std::uint32_t height) { mHeight = height; }
 
-		std::uint32_t GetHeight() { return mHeight; }
-		void SetHeight(std::uint32_t height) { mHeight = height; }
+		DLL_API std::uint32_t GetCurrentWidth() { return mCurrentWidth; }
+		DLL_API void SetCurrentWidth(std::uint32_t currentWidth) { mCurrentWidth = currentWidth; }
 
-		std::uint32_t GetCurrentWidth() { return mCurrentWidth; }
-		void SetCurrentWidth(std::uint32_t currentWidth) { mCurrentWidth = currentWidth; }
-
-		std::uint32_t GetCurrentHeight() { return mCurrentHeight; }
-		void SetCurrentHeight(std::uint32_t currentHeight) { mCurrentHeight = currentHeight; }
+		DLL_API std::uint32_t GetCurrentHeight() { return mCurrentHeight; }
+		DLL_API void SetCurrentHeight(std::uint32_t currentHeight) { mCurrentHeight = currentHeight; }
 		
-		float GetMasterVolume() { return mMasterVolume; }
-		void SetMasterVolume(float masterVolume) { mMasterVolume = masterVolume; }
+		DLL_API float GetMasterVolume() { return mMasterVolume; }
+		DLL_API void SetMasterVolume(float masterVolume) { mMasterVolume = masterVolume; }
 		
-		float GetBGMVolume() { return mBGMVolume; }
-		void SetBGMVolume(float BGMVolume) { mBGMVolume = BGMVolume; }
+		DLL_API float GetBGMVolume() { return mBGMVolume; }
+		DLL_API void SetBGMVolume(float BGMVolume) { mBGMVolume = BGMVolume; }
 		
-		float GetSFXVolume() { return mSFXVolume; }
-		void SetSFXVolume(float SFXVolume) { mSFXVolume = SFXVolume; }
+		DLL_API float GetSFXVolume() { return mSFXVolume; }
+		DLL_API void SetSFXVolume(float SFXVolume) { mSFXVolume = SFXVolume; }
 
 	private:
 		std::string mTitle;

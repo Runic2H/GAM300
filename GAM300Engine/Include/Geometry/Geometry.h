@@ -11,7 +11,7 @@
 
 namespace TDS
 {
-class Geometry
+class DLL_API Geometry
 {
 public:
 

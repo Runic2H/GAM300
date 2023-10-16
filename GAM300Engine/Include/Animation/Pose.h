@@ -2,7 +2,7 @@
 #define POSE_H
 
 #include "Model/ModelTransform.h"
-#include <vector>
+#include "dotnet/ImportExport.h"
 
 namespace TDS
 {
@@ -13,22 +13,22 @@ namespace TDS
 		std::vector<int> mParents;
 
 	public:
-		Pose();
-		Pose(const Pose& p);
-		Pose& operator=(const Pose& p);
-		Pose(unsigned int numJoints);
-		void Resize(unsigned int size);
-		unsigned int Size();
-		ModelTransform GetLocalTransform(unsigned int index);
-		void SetLocalTransform(unsigned int index, const ModelTransform& t);
-		ModelTransform GetGlobalTransform(unsigned int index);
-		ModelTransform operator[](unsigned int index);
-		void GetMatrixPalette(std::vector<Mat4>& out);
-		int GetParent(unsigned int index);
-		void SetParent(unsigned int index, int parent);
+		DLL_API Pose();
+		DLL_API Pose(const Pose& p);
+		DLL_API Pose& operator=(const Pose& p);
+		DLL_API Pose(unsigned int numJoints);
+		DLL_API void Resize(unsigned int size);
+		DLL_API unsigned int Size();
+		DLL_API ModelTransform GetLocalTransform(unsigned int index);
+		DLL_API void SetLocalTransform(unsigned int index, const ModelTransform& t);
+		DLL_API ModelTransform GetGlobalTransform(unsigned int index);
+		DLL_API ModelTransform operator[](unsigned int index);
+		DLL_API void GetMatrixPalette(std::vector<Mat4>& out);
+		DLL_API int GetParent(unsigned int index);
+		DLL_API void SetParent(unsigned int index, int parent);
 
-		bool operator==(const Pose& other);
-		bool operator!=(const Pose& other);
+		DLL_API bool operator==(const Pose& other);
+		DLL_API bool operator!=(const Pose& other);
 	};
 
 

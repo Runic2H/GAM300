@@ -1,4 +1,12 @@
-#pragma once
+/*!*****************************************************************************
+ * \file          GeometryStructures.h
+ * \author        Eugene Ho Shu Sheng
+ * \par DP email: shushengeugene.ho@digipen.edu
+ * \par Course:   CSD3400
+ * \par Section:  A
+ * \date          01/10/2023
+ * \brief         Structure for Geometry
+ *******************************************************************************/
 #pragma once
 #include "assimp/Importer.hpp"
 #include "assimp/scene.h"
@@ -8,6 +16,9 @@
 
 namespace TDS
 {
+	/*!*************************************************************************
+	 * iColor struct that create a color, either in RGBA or value
+	 ***************************************************************************/
     struct iColor {
         union {
             Vec4       m_RGBA;
@@ -104,7 +115,9 @@ namespace TDS
             m_RGBA.w = static_cast<float>(m_Value & 0xFF) / 255.0f;
         }
     };
-
+    /*!*************************************************************************
+	 * RawVertex struct that create a vertex
+     ***************************************************************************/
     struct RawVertex
     {
         Vec3 m_Pos;
@@ -118,7 +131,9 @@ namespace TDS
         iColor m_Color;
     };
 
-
+    /*!*************************************************************************
+	 * For geom compiler, compile all the geometry into a single file
+     ***************************************************************************/
     struct GeomCompiled
     {
         struct Mesh
@@ -151,7 +166,9 @@ namespace TDS
     };
 
 
-
+    /*!*************************************************************************
+	 * Output the geometry into a file from the compiled geometry
+     ***************************************************************************/
     struct FinalGeom
     {
         struct SubMesh

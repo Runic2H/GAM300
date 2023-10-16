@@ -4,7 +4,7 @@
 #include <vector>
 #include "TDSMath.h"
 #include "Animation/Pose.h"
-
+#include "dotnet/ImportExport.h"
 
 namespace TDS
 {
@@ -19,16 +19,16 @@ namespace TDS
 		void UpdateInverseBindPose();
 
 	public:
-		Skeleton();
-		Skeleton(const Pose& rest, const Pose& bind, const std::vector<std::string>& names);
+		DLL_API Skeleton();
+		DLL_API Skeleton(const Pose& rest, const Pose& bind, const std::vector<std::string>& names);
 
-		void Set(const Pose& rest, const Pose& bind, const std::vector<std::string>& names);
+		DLL_API void Set(const Pose& rest, const Pose& bind, const std::vector<std::string>& names);
 
-		Pose& GetBindPose();
-		Pose& GetRestPose();
-		std::vector<Mat4>& GetInvBindPose();
-		std::vector<std::string>& GetJointNames();
-		std::string& GetJointName(unsigned int index);
+		DLL_API Pose& GetBindPose();
+		DLL_API Pose& GetRestPose();
+		DLL_API std::vector<Mat4>& GetInvBindPose();
+		DLL_API std::vector<std::string>& GetJointNames();
+		DLL_API std::string& GetJointName(unsigned int index);
 
 	};
 

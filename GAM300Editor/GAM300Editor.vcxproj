@@ -19,10 +19,88 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Include\editor.h" />
+    <ClInclude Include="..\Dependencies\imgui\GraphEditor.h" />
+    <ClInclude Include="..\Dependencies\imgui\imconfig.h" />
+    <ClInclude Include="..\Dependencies\imgui\ImCurveEdit.h" />
+    <ClInclude Include="..\Dependencies\imgui\ImGradient.h" />
+    <ClInclude Include="..\Dependencies\imgui\imgui.h" />
+    <ClInclude Include="..\Dependencies\imgui\ImGuizmo.h" />
+    <ClInclude Include="..\Dependencies\imgui\imgui_impl_glfw.h" />
+    <ClInclude Include="..\Dependencies\imgui\imgui_impl_sdl2.h" />
+    <ClInclude Include="..\Dependencies\imgui\imgui_impl_vulkan.h" />
+    <ClInclude Include="..\Dependencies\imgui\imgui_impl_win32.h" />
+    <ClInclude Include="..\Dependencies\imgui\imgui_internal.h" />
+    <ClInclude Include="..\Dependencies\imgui\ImSequencer.h" />
+    <ClInclude Include="..\Dependencies\imgui\imstb_rectpack.h" />
+    <ClInclude Include="..\Dependencies\imgui\imstb_textedit.h" />
+    <ClInclude Include="..\Dependencies\imgui\imstb_truetype.h" />
+    <ClInclude Include="..\Dependencies\imgui\ImZoomSlider.h" />
+    <ClInclude Include="..\Shared_Libs\MathCommon.h" />
+    <ClInclude Include="..\Shared_Libs\Matrix2.h" />
+    <ClInclude Include="..\Shared_Libs\Matrix3.h" />
+    <ClInclude Include="..\Shared_Libs\Matrix4.h" />
+    <ClInclude Include="..\Shared_Libs\Quaternion.h" />
+    <ClInclude Include="..\Shared_Libs\TDSMath.h" />
+    <ClInclude Include="..\Shared_Libs\Vector2.h" />
+    <ClInclude Include="..\Shared_Libs\Vector3.h" />
+    <ClInclude Include="..\Shared_Libs\Vector4.h" />
+    <ClInclude Include="EditorApp.h" />
+    <ClInclude Include="Include\EditorRenderer\ImguiLayer.h" />
+    <ClInclude Include="Include\imguiHelper\ImguiAssetBrowser.h" />
+    <ClInclude Include="Include\imguiHelper\ImguiAudio.h" />
+    <ClInclude Include="Include\imguiHelper\ImguiBehaviourTree.h" />
+    <ClInclude Include="Include\imguiHelper\ImguiConsole.h" />
+    <ClInclude Include="Include\imguiHelper\ImguiFunctionHelper.h" />
+    <ClInclude Include="Include\imguiHelper\ImguiHelper.h" />
+    <ClInclude Include="Include\imguiHelper\ImguiHierarchy.h" />
+    <ClInclude Include="Include\imguiHelper\ImguiProfiler.h" />
+    <ClInclude Include="Include\imguiHelper\ImguiProperties.h" />
+    <ClInclude Include="Include\imguiHelper\ImguiSceneBrowser.h" />
+    <ClInclude Include="Include\imguiHelper\ImguiToolbar.h" />
+    <ClInclude Include="Include\imguiHelper\ImGuiViewport.h" />
+    <ClInclude Include="Include\Tools\CompilerSettings.h" />
+    <ClInclude Include="Include\Tools\GeomCompiler.h" />
+    <ClInclude Include="Include\Tools\GeomStructures.h" />
+    <ClInclude Include="Include\Tools\ShaderReflector.h" />
+    <ClInclude Include="Include\Tools\TextureCompiler.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Src\editor.cpp" />
+    <ClCompile Include="..\Dependencies\imgui\imgui.cpp" />
+    <ClCompile Include="..\Dependencies\imgui\imgui_demo.cpp" />
+    <ClCompile Include="..\Dependencies\imgui\imgui_draw.cpp" />
+    <ClCompile Include="..\Dependencies\imgui\imgui_impl_vulkan.cpp" />
+    <ClCompile Include="..\Dependencies\imgui\imgui_impl_win32.cpp" />
+    <ClCompile Include="..\Dependencies\imgui\imgui_tables.cpp" />
+    <ClCompile Include="..\Dependencies\imgui\imgui_widgets.cpp" />
+    <ClCompile Include="..\Shared_Libs\MathCommon.cpp" />
+    <ClCompile Include="..\Shared_Libs\Matrix2.cpp" />
+    <ClCompile Include="..\Shared_Libs\Matrix3.cpp" />
+    <ClCompile Include="..\Shared_Libs\Matrix4.cpp" />
+    <ClCompile Include="..\Shared_Libs\Quaternion.cpp" />
+    <ClCompile Include="..\Shared_Libs\Vector2.cpp" />
+    <ClCompile Include="..\Shared_Libs\Vector3.cpp" />
+    <ClCompile Include="..\Shared_Libs\Vector4.cpp" />
+    <ClCompile Include="EditorApp.cpp" />
+    <ClCompile Include="entry.cpp" />
+    <ClCompile Include="Src\EditorRenderer\ImguiLayer.cpp" />
+    <ClCompile Include="Src\imguiHelper\ImguiAssetBrowser.cpp" />
+    <ClCompile Include="Src\imguiHelper\ImguiAudio.cpp" />
+    <ClCompile Include="Src\imguiHelper\ImguiBehaviourTree.cpp" />
+    <ClCompile Include="Src\imguiHelper\ImguiConsole.cpp" />
+    <ClCompile Include="Src\imguiHelper\ImguiHelper.cpp" />
+    <ClCompile Include="Src\imguiHelper\ImguiHierarchy.cpp" />
+    <ClCompile Include="Src\imguiHelper\ImguiProfiler.cpp" />
+    <ClCompile Include="Src\imguiHelper\ImguiProperties.cpp" />
+    <ClCompile Include="Src\imguiHelper\ImguiSceneBrowser.cpp" />
+    <ClCompile Include="Src\imguiHelper\ImguiToolBar.cpp" />
+    <ClCompile Include="Src\Tools\CompilerSettings.cpp" />
+    <ClCompile Include="Src\Tools\GeomCompiler.cpp" />
+    <ClCompile Include="Src\Tools\ShaderReflector.cpp" />
+    <ClCompile Include="Src\Tools\TextureCompiler.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="GAM300Engine.dll" />
+    <None Include="imgui.ini" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
@@ -84,9 +162,11 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
+    <OutDir>$(SolutionDir).bin\$(Configuration)-$(Platform)\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(SolutionDir).bin\$(Configuration)-$(Platform)\</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -118,35 +198,57 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>Level4</WarningLevel>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)..\Dependencies\imgui;$(SolutionDir)..\GAM300Engine\Include;$(SolutionDir)..\GAM300Editor\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)GAM300Engine\Include;$(SolutionDir)GAM300Editor\Include;$(SolutionDir)Dependencies\spdlog\include;$(SolutionDir)Dependencies;$(SolutionDir)Shared_Libs;$(SolutionDir)Dependencies\dds;$(SolutionDir)ToolsDependencies;$(SolutionDir)ToolsDependencies\DirectXTex-main\DirectXTex;$(SolutionDir)ToolsDependencies\DirectXTex-main;$(SolutionDir)ToolsDependencies\DirectXTex-main\DDSTextureLoader;$(SolutionDir)ToolsDependencies\spirv_cross;$(SolutionDir)ToolsDependencies\spirv-headers;$(SolutionDir)ToolsDependencies\spirv-tools;$(SolutionDir)ToolsDependencies\meshoptimizer-master;$(SolutionDir)ToolsDependencies\assimp\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeaderFile>
+      </PrecompiledHeaderFile>
+      <ForcedIncludeFiles>pch.h</ForcedIncludeFiles>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(SolutionDir).bin\Debug-x64;$(SolutionDir)Libs;$(SolutionDir)ToolsLibs;$(SolutionDir)ToolsLibs\DebugLibs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>GAM300Engine.lib;vulkan-1.lib;meshoptimizer_d.lib;assimp-vc143-mtd.lib;SPIRVd.lib;shadercd.lib;glslangd.lib;glslang-default-resource-limitsd.lib;OGLCompilerd.lib;OSDependentd.lib;spirv-cross-cored.lib;spirv-cross-glsld.lib;SPIRV-Toolsd.lib;SPIRV-Tools-optd.lib;SPVRemapperd.lib;MachineIndependentd.lib;GenericCodeGend.lib;DirectXTexd.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>xcopy /s /r /y /q "$(OutDir)net6.0" "$(OutDir)"
+rmdir /s /q "$(OutDir)net6.0"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>Level4</WarningLevel>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)..\Dependencies\imgui;$(SolutionDir)..\GAM300Engine\Include;$(SolutionDir)..\GAM300Editor\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)GAM300Engine\Include;$(SolutionDir)GAM300Editor\Include;$(SolutionDir)Dependencies\spdlog\include;$(SolutionDir)Dependencies;$(SolutionDir)Shared_Libs;$(SolutionDir)Dependencies\dds;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeaderFile>
+      </PrecompiledHeaderFile>
+      <ForcedIncludeFiles>pch.h</ForcedIncludeFiles>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(SolutionDir).bin\Debug-x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>GAM300Engine.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>xcopy /s /r /y /q "$(OutDir)net6.0" "$(OutDir)"
+rmdir /s /q "$(OutDir)net6.0"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

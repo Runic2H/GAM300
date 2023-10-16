@@ -30,7 +30,7 @@ namespace TDS
 		return inv;
 	}
 
-	ModelTransform mix(const ModelTransform& a, const ModelTransform& b, float t)
+	ModelTransform Mix(const ModelTransform& a, const ModelTransform& b, float t)
 	{
 		Quat bRot = b.rot;
 		if (Quat::dot(a.rot, bRot) < 0.0f)

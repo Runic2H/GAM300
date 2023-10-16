@@ -295,4 +295,5 @@ namespace TDS
     }
     Vec4::operator Vec2() { return Vec2(x, y); }
     Vec4::operator Vec3() { return Vec3(x, y, z); }
+
 }  // namespace WD

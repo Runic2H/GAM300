@@ -85,6 +85,20 @@ public:
     float y;
     float z;
     float w;
+	
+    struct Color
+    {
+		float r;
+		float g;
+		float b;
+		float a;
+		Color() : r(0), g(0), b(0), a(1) {}
+
+        Color(float _r, float _g, float _b, float _a)
+                : r(_r), g(_g), b(_b), a(_a) {}
+    };
+	Color GetColor() { return Color(x, y, z, w); }
+
     static constexpr float kEpsilon = 0.00001f;
     static constexpr float kEpsilonNormalSqrt = 1e-15f;
 

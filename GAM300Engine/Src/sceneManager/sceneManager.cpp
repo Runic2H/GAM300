@@ -1,3 +1,13 @@
+/*!*************************************************************************
+****
+\file sceneManager.cpp
+\author Go Ruo Yan
+\par DP email: ruoyan.go@digipen.edu
+\date 28-9-2023
+\brief  This program defines the functions in the SceneManager class
+****************************************************************************
+***/
+
 #include <fstream>
 
 #include "sceneManager/sceneManager.h"
@@ -15,6 +25,19 @@ namespace TDS
 		if (m_instance == nullptr)
 		{
 			m_instance = std::make_unique<SceneManager>();
+
+			std::filesystem::path currentPath = std::filesystem::current_path();
+			while (!std::filesystem::exists(currentPath.string() + "\\assets"))
+			{
+				if (currentPath == "C:\\")
+				{
+					std::cout << "No asset directory found" << std::endl;
+					break;
+				}
+				currentPath = currentPath.parent_path();
+			}
+			m_instance->parentFilePath = currentPath.string() + "\\assets\\";
+			m_instance->filePath = currentPath.string() + "\\assets\\scenes\\";
 		}
 		return m_instance;
 	}
@@ -24,126 +47,76 @@ namespace TDS
 	****************************************************************************/
 	void SceneManager::Init()
 	{
-		ECS::registerComponent<NameTag>("NameTag");
-		ECS::registerComponent<Transform>("Transform");
+		ecs.registerComponent<NameTag>("Name Tag");
+		ecs.registerComponent<Transform>("Transform");
+		ecs.registerComponent<GraphicsComponent>("Graphics Component");
+		ecs.registerComponent<AI>("AI");
+		ecs.registerComponent<CameraComponent>("Camera Component");
+		ecs.registerComponent<Collider>("Collider");
+		ecs.registerComponent<PlayerAttributes>("Player Attributes");
+		ecs.registerComponent<RigidBody>("Rigid Body");
+		ecs.registerComponent<Sprite>("Sprite");
+		ecs.registerComponent<Tag>("Tag");
+		ecs.registerComponent<WinData>("Win Data");
 
-		ECS::registerComponent<CameraComponent>("CameraComponent");
-		ECS::registerComponent<Collider>("Collider");
-		ECS::registerComponent<PlayerAttributes>("PlayerAttributes");
-		ECS::registerComponent<RigidBody>("RigidBody");
-		ECS::registerComponent<Sprite>("Sprite");
-		ECS::registerComponent<Tag>("Tag");
-		ECS::registerComponent<WinData>("WinData");
+		startScene = "";
 
+		bindSystemFunctions();
 		// Setting default scene
-		//sceneDeserialize();
-
-		//allScenes.emplace_back("Game");
-		//allScenes.emplace_back("MainMenu");
-		//startScene = "MainMenu";
-
-		//EntityID entity1 = ECS::getNewID();
-		//ECS::registerEntity(entity1);
-		//ECS::addComponent<NameTag>(entity1);
-		//ECS::getComponent<NameTag>(entity1)->SetNameTag("entity1");
-
-		//EntityID entity2 = ECS::getNewID();
-		//ECS::registerEntity(entity2);
-		//ECS::addComponent<NameTag>(entity2);
-		//ECS::getComponent<NameTag>(entity2)->SetNameTag("entity2");
-		//ECS::addComponent<Transform>(entity2);
-		//ECS::getComponent<Transform>(entity2)->SetPosition(Vec3{2.f, 3.f, 4.f});
-		//ECS::getComponent<Transform>(entity2)->SetScale(Vec3{2.f, 3.f, 4.f});
-
-		//ECS::addComponent<Transform>(entity1);
-
-		//EntityID entity3 = ECS::getNewID();
-		//ECS::registerEntity(entity3);
-		//ECS::addComponent<NameTag>(entity3);
-		//ECS::getComponent<NameTag>(entity3)->SetNameTag("entity3");
-		//ECS::addComponent<Transform>(entity3);
-		//ECS::getComponent<Transform>(entity3)->SetPosition(Vec3{ 2.f, 3.f, 4.f });
-		//ECS::getComponent<Transform>(entity3)->SetScale(Vec3{ 2.f, 3.f, 4.f });
-		//ECS::addComponent<PlayerAttributes>(entity3);
-
-		
-		DeserializeFromFile(std::filesystem::current_path().parent_path().string() + "\\assets\\scenes\\MainMenu.json");
-
-		std::cout << "ECS: " << std::endl;
-		for (auto entity : ECS::getEntities())
-		{
-			std::cout << entity << std::endl;
-
-			if (NameTag* nametag = ECS::getComponent<NameTag>(entity))
-			{
-				std::cout << nametag->GetNameTag() << std::endl;
-			}
-			if (Transform* transform = ECS::getComponent<Transform>(entity))
-			{
-				std::cout << transform->GetPosition() << std::endl;
-				std::cout << transform->GetScale() << std::endl;
-				std::cout << transform->GetRotation() << std::endl;
-			}
-
-			std::cout << std::endl;
-		}
-		ECS::addComponent<Sprite>(ECS::getEntities()[0]);
-
-		//SerializeToFile(std::filesystem::current_path().parent_path().string() + "\\assets\\scenes\\MainMenu.json");
+		sceneDeserialize();
 	}
 
+	/*!*************************************************************************
+	Deserializes ECS entities and data from JSON file to build ECS (File loading)
+	****************************************************************************/
 	bool SceneManager::Deserialize(const rapidjson::Value& obj)
 	{
-		ECS::removeAllEntities();
+		for (rapidjson::Value::ConstMemberIterator itr = obj["Archetype Sizes"].MemberBegin(); itr != obj["Archetype Sizes"].MemberEnd(); ++itr)
+		{
+			std::string archetypeID = itr->name.GetString();
+			auto archetypeSizes = itr->value.GetObject();
 
-		//auto archetypeSizeObject = obj.MemberBegin();
+			ecs.addArchetype(archetypeID, false);
+
+			for (rapidjson::Value::ConstMemberIterator componentItr = archetypeSizes.MemberBegin(); componentItr != archetypeSizes.MemberEnd(); ++componentItr)
+			{
+				int componentID = std::stoi(componentItr->name.GetString());
+				auto componentSize = componentItr->value.GetInt();
+
+				ecs.setComponentSize(archetypeID, componentID, componentSize);
+			}
+
+			ecs.commitArchetype(archetypeID);
+		}
 
 		int i = 0;
 		for (rapidjson::Value::ConstMemberIterator itr = obj["Entity Data"].MemberBegin(); itr != obj["Entity Data"].MemberEnd(); ++itr, ++i)
 		{
-			rapidjson::Value::ConstMemberIterator theItr = obj["Entity Data"].FindMember(std::to_string(i).c_str());
-
-			if (theItr == obj["Entity Data"].MemberEnd())
+			if (itr == obj["Entity Data"].MemberEnd())
 			{
 				continue;
 			}
 
-			auto hmmmm = theItr->name.GetString();
-			auto hmm = theItr->value.GetObject();
+			EntityID newEntity = ecs.getNewID();
+			ecs.registerEntity(newEntity);
 
-			EntityID newEntity = ECS::getNewID();
-			ECS::registerEntity(newEntity);
-
-			for (auto& m : theItr->value.GetObject())
+			for (auto& m : itr->value.GetObject())
 			{
 				std::string componentName = m.name.GetString();
 
 				if (componentName == "ArchetypeID") // First "componentName" to immediately find the archetype of entity
 				{
-					std::vector<ComponentTypeID> ArchetypeID;
-
-					for (auto c : componentName)
-					{
-						if (c == '1')
-						{
-							ArchetypeID.emplace_back(1);
-						}
-						else
-						{
-							ArchetypeID.emplace_back(0);
-						}
-					}
-
 					// Add all components at once
+					ecs.addComponentsByArchetype(newEntity, m.value.GetString());
 
 					continue;
 				}
 
 				auto componentData = m.value.GetObject();
 
-				if (auto addedComponent = addComponentByName(componentName, newEntity))
+				if (auto componentPointer = getComponentByName(componentName, newEntity))
 				{
-					addedComponent->Deserialize(componentData);
+					componentPointer->Deserialize(componentData);
 				}
 			}
 
@@ -157,125 +130,103 @@ namespace TDS
 	****************************************************************************/
 	bool SceneManager::Serialize(rapidjson::PrettyWriter<rapidjson::StringBuffer>* writer) const
 	{
-	//	writer->StartObject();
+		writer->StartObject();
 
-	//	// Serialize archetype sizes first
-	//	writer->String("Archetype Sizes", static_cast<rapidjson::SizeType>(std::string("Archetype Sizes").length()), false);
+		// Serialize archetype sizes first
+		writer->String("Archetype Sizes", static_cast<rapidjson::SizeType>(std::string("Archetype Sizes").length()), false);
 
-	//	writer->StartObject();
+		writer->StartObject();
 
-	//	for (Archetype* a : ECS::getAllArchetypes())
-	//	{
-	//		if (!a->entityIds.size())
-	//		{
-	//			continue;	// there is no entities under this archetype
-	//		}
+		for (Archetype* a : ecs.getAllArchetypes())
+		{
+			if (!a->entityIds.size())
+			{
+				continue;	// there is no entities under this archetype
+			}
 
-	//		std::unordered_map<std::uint32_t, std::uint32_t> archetypeSizes;
+			writer->String(a->type.c_str(), static_cast<rapidjson::SizeType>(a->type.length()), false);
 
-	//		std::string archetype = "";
+			// Start of data sizes
+			writer->StartObject();
 
-	//		for (int i = 0; i < ECS::getNumberOfComponents(); ++i)
-	//		{
-	//			if (a->componentData[i])
-	//			{
-	//				archetype += "1";
-	//				archetypeSizes[i] = a->componentDataSize[i];
-	//			}
-	//			else
-	//			{
-	//				archetype += "0";
-	//			}
-	//		}
+			for (unsigned int i = 0; i < ecs.getNumberOfComponents(); ++i)
+			{
+				if (a->type[i] == '1')
+				{
+					writer->Key(std::to_string(i).c_str());
+					writer->Int(a->componentDataSize[i]);
+				}
+			}
 
-	//		writer->String(archetype.c_str(), static_cast<rapidjson::SizeType>(archetype.length()), false);
+			writer->EndObject();
+		}
 
-	//		// Start of data sizes
-	//		writer->StartObject();
+		// End of archetype sizes
+		writer->EndObject();
 
-	//		for (auto archetypeSizeMap = archetypeSizes.begin(); archetypeSizeMap != archetypeSizes.end(); ++archetypeSizeMap)
-	//		{
-	//			writer->Key(std::to_string(archetypeSizeMap->first).c_str());
-	//			writer->Int(archetypeSizeMap->second);
-	//		}
+		// =======================================================
+		// Serialize entity data
+		writer->String("Entity Data", static_cast<rapidjson::SizeType>(std::string("Entity Data").length()), false);
+		writer->StartObject();
 
-	//		writer->EndObject();
+		std::string entityNo = "EntityNo";
+		//std::string component = "Component";
 
-	//	}
+		std::vector<EntityID> entityList = ecs.getEntities();
 
-	//	// End of archetype sizes
-	//	writer->EndObject();
+		for (int i = 0; i < entityList.size(); ++i)
+		{
+			writer->String(std::to_string(i).c_str(), static_cast<rapidjson::SizeType>(std::to_string(i).length()), false);
+			writer->StartObject();
 
-	//	// =======================================================
-	//	// Serialize entity data
-	//	writer->String("Entity Data", static_cast<rapidjson::SizeType>(std::string("Entity Data").length()), false);
-	//	writer->StartObject();
+			std::string archetype = ecs.getArchetypeID(entityList[i]);
 
-	//	std::string entityNo = "EntityNo";
-	//	std::string component = "Component";
+			writer->Key("ArchetypeID");
+			writer->String(archetype.c_str());
 
-	//	std::vector<EntityID> entityList = ECS::getEntities();
+			std::vector<std::string> componentStrings = ecs.getEntityComponents(entityList[i]);
+			int j = 0;
+			for (IComponent* component : ecs.getEntityComponentsBase(entityList[i]))
+			{
+				while (archetype[j] == '0' && j < archetype.length())
+				{
+					++j;
+				}
 
-	//	for (int i = 0; i < entityList.size(); ++i)
-	//	{
-	//		writer->String(std::to_string(i).c_str(), static_cast<rapidjson::SizeType>(std::to_string(i).length()), false);
-	//		writer->StartObject();
+				writer->String(componentStrings[j].c_str(), static_cast<rapidjson::SizeType>(componentStrings[j].length()), false);
 
-	//		std::string archetypeIDString = "";
-	//		for (auto componentID : ECS::getArchetypeID(entityList[i]))
-	//		{
-	//			archetypeIDString += std::to_string(componentID);
-	//		}
+				writer->StartObject();
+				component->Serialize(writer);
+				writer->EndObject();
+				++j;
+			}
 
-	//		writer->Key("ArchetypeID");
-	//		writer->String(archetypeIDString.c_str());
+			writer->EndObject();
+		}
 
-	//		std::vector<std::string> componentStrings = ECS::getEntityComponents(entityList[i]);
-	//		int j = 0;
-	//		for (IComponent* component : ECS::getEntityComponentsBase(entityList[i]))
-	//		{
-	//			writer->String(componentStrings[j].c_str(), static_cast<rapidjson::SizeType>(componentStrings[j].length()), false);
-	//			
-	//			writer->StartObject();
-	//			component->Serialize(writer);
-	//			writer->EndObject();
+		// End of entity data
+		writer->EndObject();
 
-	//			++j;
-	//		}
-
-	//		writer->EndObject();
-	//	}
-
-	//	// End of entity data
-	//	writer->EndObject();
-
-	//	// End of file
-	//	writer->EndObject();
+		// End of file
+		writer->EndObject();
 
 		return true;
 	}
 
+	/*!*************************************************************************
+	This function serializes scenes into JSON files
+	****************************************************************************/
 	bool SceneManager::sceneSerialize()
 	{
-		std::ofstream ofs(std::filesystem::current_path().parent_path().string() + "\\assets\\scene.json");
+		std::ofstream ofs(parentFilePath + "scene.json");
 
 		rapidjson::StringBuffer sb;
 		rapidjson::PrettyWriter<rapidjson::StringBuffer> writer(sb);
 
 		writer.StartObject();
+		writer.String("start", 5, false);
+		writer.String(startScene.c_str(), static_cast<rapidjson::SizeType>(startScene.length()), false);
 
-		for (int i = 0; i < allScenes.size(); ++i)
-		{
-			if (allScenes[i] == startScene)
-			{
-				writer.String("start", 5, false);
-			}
-			else
-			{
-				writer.String(std::to_string(i + 1).c_str(), static_cast<rapidjson::SizeType>(std::to_string(i + 1).length()), false);
-			}
-			writer.String(allScenes[i].c_str(), static_cast<rapidjson::SizeType>(allScenes[i].length()), false);
-		}
 		writer.EndObject();
 
 		ofs << sb.GetString();
@@ -285,10 +236,13 @@ namespace TDS
 		return true;
 	}
 
+	/*!*************************************************************************
+	This function deserializes scenes from JSON files
+	****************************************************************************/
 	bool SceneManager::sceneDeserialize()
 	{
-		std::string filepath = std::filesystem::current_path().parent_path().string() + "\\assets\\scene.json";
-		std::ifstream ifs(filepath, std::ios::in);
+		std::string allScenesFilepath = parentFilePath + "scene.json";
+		std::ifstream ifs(allScenesFilepath, std::ios::in);
 		std::stringstream buffer;
 		buffer << ifs.rdbuf();
 		ifs.close();
@@ -304,49 +258,116 @@ namespace TDS
 		rapidjson::Value& value = doc.GetObject();
 
 		// Starting scene
-		rapidjson::Value::MemberIterator theItr = value.FindMember("start");
-
-		std::string startingScene = theItr->value.GetString();
-
-		SceneManager::newScene(startingScene);
-
-		int i = 0;
-		for (rapidjson::Value::ConstMemberIterator itr = value.MemberBegin(); itr != value.MemberEnd(); ++itr, ++i)
+		for (auto& directory_entry : std::filesystem::directory_iterator(filePath))
 		{
-			theItr = value.FindMember(std::to_string(i + 1).c_str());
-
-			if (!value.HasMember(std::to_string(i + 1).c_str()))
+			if (directory_entry.path().extension() == ".json")
 			{
-				continue;
+				newScene(directory_entry.path().stem().string());
 			}
-
-			SceneManager::newScene(theItr->value.GetString());
 		}
 
-		SceneManager::loadScene(startingScene);
+		rapidjson::Value::MemberIterator theItr = value.FindMember("start");
+		std::string startingScene = theItr->value.GetString();
+
+		if (std::find(allScenes.begin(), allScenes.end(), startingScene) == allScenes.end())
+		{
+			startingScene = "";
+		}
+
+		if (startingScene == "")
+		{
+			if (allScenes.size() == 0)
+			{
+				newScene("NewScene");
+				startingScene = "NewScene";
+			}
+			loadScene(allScenes[0]);
+		}
+		else
+		{
+			loadScene(startingScene);
+		}
 		currentScene = startingScene;
 		startScene = startingScene;
+		currentSceneSaved = true;
 
 		return true;
 	}
 
+	bool SceneManager::stringCompare(std::string a, std::string b)
+	{
+		for (int index = 0; index < a.size() && index < b.size(); ++index)
+		{
+			char lowerA = std::tolower(a[index]);
+			char lowerB = std::tolower(b[index]);
+
+			if (lowerA < lowerB)
+			{
+				return true;
+			}
+			else if (lowerA > lowerB)
+			{
+				return false;
+			}
+		}
+		if (a.size() > b.size())
+		{
+			return false;
+		}
+		return true;
+	}
+
+	/*!*************************************************************************
+	This function adds a new scene into the Scene Manager
+	****************************************************************************/
 	void SceneManager::newScene(std::string scene)
 	{
 		allScenes.emplace_back(scene);
+
+		if (!std::filesystem::exists(filePath + scene + ".json"))
+		{
+			std::ofstream ofs(filePath + scene + ".json");
+			ofs.close();
+		}
+
+		std::sort(allScenes.begin(), allScenes.end(), stringCompare);
 	}
+	/*!*************************************************************************
+	This function loads given scene
+	****************************************************************************/
 	void SceneManager::loadScene(std::string scene)
 	{
-		DeserializeFromFile(std::filesystem::current_path().parent_path().string() + "\\assets\\scenes\\" + scene + ".json");
+		ecs.removeAllEntities();
+		DeserializeFromFile(filePath + scene + ".json");
 		currentScene = scene;
+		currentSceneSaved = true;
 	}
 
-	void SceneManager::saveScene(std::string scene)
+	/*!*************************************************************************
+	This function saves the given scene 
+	****************************************************************************/
+	void SceneManager::saveCurrentScene()
 	{
-		SerializeToFile(std::filesystem::current_path().parent_path().string() + "\\assets\\scenes\\" + scene + ".json");
+		setCurrentSceneSaved(true);
+
+		SerializeToFile(filePath + currentScene + ".json");
+
+		if (std::find(allScenes.begin(), allScenes.end(), currentScene) == allScenes.end())
+		{
+			newScene(currentScene);
+		}
 	}
+	/*!*************************************************************************
+	This function deletes the given scene
+	****************************************************************************/
 	void SceneManager::deleteScene(std::string scene)
 	{
-		std::filesystem::remove(std::filesystem::current_path().parent_path().string() + "\\assets\\scenes\\" + scene + ".json");
+		if (scene == currentScene)
+		{
+			setCurrentSceneSaved(false);
+		}
+
+		std::filesystem::remove(filePath + scene + ".json");
 		auto sceneInVector = std::find(allScenes.begin(), allScenes.end(), scene);
 
 		if (sceneInVector != allScenes.end())
@@ -355,8 +376,65 @@ namespace TDS
 		}
 	}
 
+	/*!*************************************************************************
+	This function is the getter function for current scene
+	****************************************************************************/
 	std::string SceneManager::getCurrentScene()
 	{
 		return currentScene;
+	}
+
+	/*!*************************************************************************
+	This function is the setter function for current scene
+	****************************************************************************/
+	void SceneManager::setCurrentScene(std::string _currentScene)
+	{
+		currentScene = _currentScene;
+	}
+	/*!*************************************************************************
+	This function is the getter function for current scene saved
+	****************************************************************************/
+	bool SceneManager::getCurrentSceneSaved()
+	{
+		return currentSceneSaved;
+	}
+	/*!*************************************************************************
+	This function is the setter function for current scene saved
+	****************************************************************************/
+	void SceneManager::setCurrentSceneSaved(bool _currentSceneSaved)
+	{
+		if (!_currentSceneSaved && currentSceneSaved)
+		{
+			currentScene += "*";
+		}
+		else if (_currentSceneSaved && !currentSceneSaved)
+		{
+			currentScene.erase(currentScene.end() - 1);
+		}
+
+		currentSceneSaved = _currentSceneSaved;
+	}
+
+	/*!*************************************************************************
+	This function renames a file
+	****************************************************************************/
+	bool SceneManager::renameScene(std::string oldName, std::string newName)
+	{
+		if (std::find(allScenes.begin(), allScenes.end(), newName) != allScenes.end())
+		{
+			return false;
+		}
+
+		std::filesystem::rename(filePath + oldName + ".json", filePath + newName + ".json");
+		std::sort(allScenes.begin(), allScenes.end(), stringCompare);
+		return true;
+	}
+
+	/*!*************************************************************************
+	This function is the getter function for all scenes in Scene Browser
+	****************************************************************************/
+	std::vector<std::string>& SceneManager::getScenes()
+	{
+		return allScenes;
 	}
 }

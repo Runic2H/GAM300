@@ -1,30 +1,55 @@
+/*!*************************************************************************
+****
+\file collider.cpp
+\author Go Ruo Yan
+\par DP email: ruoyan.go@digipen.edu
+\date 28-9-2023
+\brief  This program defines the functions in the Collider component class
+****************************************************************************
+***/
+
 #include "components/collider.h"
 
-namespace TDS {
-
+namespace TDS 
+{
 	/*!*************************************************************************
-	Constructor for collider component
+	Initializes the Collider component when created
 	****************************************************************************/
 	Collider::Collider() : mColliderType	(ColliderType::NONE),
-						   mCollisionNormal (Vec2(0.0f, 0.0f)),
-						   mMin				(Vec2(0.0f, 0.0f)),
-						   mMax				(Vec2(0.0f, 0.0f)),
-						   mOffset			(Vec2(0.0f, 0.0f)),
+						   mCollisionNormal (Vec3(0.0f, 0.0f, 0.0f)),
+						   mMin				(Vec3(0.0f, 0.0f, 0.0f)),
+						   mMax				(Vec3(0.0f, 0.0f, 0.0f)),
+						   mOffset			(Vec3(0.0f, 0.0f, 0.0f)),
 						   mHit				(0),
 						   mRadius			(0.0f),
-						   mIsAlive			(true)
+						   mIsAlive			(true),
+						   mCollision		(false)
 	{ }
 
 	/*!*************************************************************************
-	Derserialize collider component
+	Initializes the Collider component when created, given another Collider
+	component to move (for ECS)
+	****************************************************************************/
+	Collider::Collider(Collider&& toMove) noexcept : mColliderType(toMove.mColliderType),
+													 mCollisionNormal(toMove.mCollisionNormal),
+													 mMin(toMove.mMin),
+													 mMax(toMove.mMax),
+													 mOffset(toMove.mOffset),
+													 mHit(toMove.mHit),
+													 mRadius(toMove.mRadius),
+													 mIsAlive(toMove.mIsAlive)
+	{ }
+
+	/*!*************************************************************************
+	Deserializes the Collider component
 	****************************************************************************/
 	bool Collider::Deserialize(const rapidjson::Value& obj)
 	{
 		mColliderType		= static_cast<ColliderType>(obj["colliderType"].GetInt());
-		mCollisionNormal	= Vec2(obj["collisionNormalX"].GetFloat(), obj["collisionNormalY"].GetFloat());
-		mMin				= Vec2(obj["minX"].GetFloat(), obj["minY"].GetFloat());
-		mMax				= Vec2(obj["maxX"].GetFloat(), obj["maxY"].GetFloat());
-		mOffset				= Vec2(obj["offsetX"].GetFloat(), obj["offsetY"].GetFloat());
+		mCollisionNormal	= Vec3(obj["collisionNormalX"].GetFloat(), obj["collisionNormalY"].GetFloat(), obj["collisionNormalZ"].GetFloat());
+		mMin				= Vec3(obj["minX"].GetFloat(), obj["minY"].GetFloat(), obj["minZ"].GetFloat());
+		mMax				= Vec3(obj["maxX"].GetFloat(), obj["maxY"].GetFloat(), obj["maxZ"].GetFloat());
+		mOffset				= Vec3(obj["offsetX"].GetFloat(), obj["offsetY"].GetFloat(), obj["offsetZ"].GetFloat());
 		mHit				= obj["hit"].GetInt();
 		mRadius				= obj["radius"].GetFloat();
 		mIsAlive			= obj["isAlive"].GetBool();
@@ -33,7 +58,7 @@ namespace TDS {
 	}
 
 	/*!*************************************************************************
-	Serialize collider component
+	Serializes the Collider component
 	****************************************************************************/
 	bool Collider::Serialize(rapidjson::PrettyWriter<rapidjson::StringBuffer>* writer) const
 	{
@@ -44,72 +69,39 @@ namespace TDS {
 		writer->Double(mCollisionNormal.x);
 		writer->Key("collisionNormalY");
 		writer->Double(mCollisionNormal.y);
+		writer->Key("collisionNormalZ");
+		writer->Double(mCollisionNormal.z);
 
 		writer->Key("minX");
 		writer->Double(mMin.x);
 		writer->Key("minY");
 		writer->Double(mMin.y);
+		writer->Key("minZ");
+		writer->Double(mMin.z);
 
 		writer->Key("maxX");
 		writer->Double(mMax.x);
 		writer->Key("maxY");
 		writer->Double(mMax.y);
+		writer->Key("maxZ");
+		writer->Double(mMax.z);
 
-		writer->Key("mOffsetX");
+		writer->Key("offsetX");
 		writer->Double(mOffset.x);
-		writer->Key("mOffsetY");
+		writer->Key("offsetY");
 		writer->Double(mOffset.y);
+		writer->Key("offsetZ");
+		writer->Double(mOffset.z);
 
 		writer->Key("hit");
-		writer->Double(mHit);
+		writer->Int(mHit);
 
 		writer->Key("radius");
 		writer->Double(mRadius);
 
 		writer->Key("isAlive");
-		writer->Double(mIsAlive);
+		writer->Bool(mIsAlive);
 
 		return true;
-	}
-
-	void Collider::ImGuiDisplay()
-	{
-		// Collider Type
-		static std::string colliderTypeStringList[3]{ "None", "Circle", "Rectangle" };
-		int colliderTypeSelected = static_cast<int>(mColliderType) - 1;
-
-		// Uninitialized
-		if (colliderTypeSelected == -1)
-		{
-			mColliderType = ColliderType::NONE;
-			colliderTypeSelected = 0;
-		}
-
-		if (ImGui::BeginCombo("Collider Type", colliderTypeStringList[colliderTypeSelected].c_str()))
-		{
-			for (int n = 0; n < 3; n++)
-			{
-				const bool is_selected = (colliderTypeSelected == n);
-				if (ImGui::Selectable(colliderTypeStringList[n].c_str(), is_selected))
-				{
-					mColliderType = static_cast<ColliderType>(n + 1);
-				}
-
-				// Set the initial focus when opening the combo (scrolling + keyboard navigation focus)
-				if (is_selected)
-				{
-					ImGui::SetItemDefaultFocus();
-				}
-			}
-			ImGui::EndCombo();
-		}
-
-		ImguiVec2Input("Collision Normal", mCollisionNormal);
-		ImguiVec2Input("Min", mMin);
-		ImguiVec2Input("Max", mMax);
-		ImguiVec2Input("Offset", mOffset);
-		ImguiIntInput("Hit", mHit);
-		ImguiFloatInput("Radius", mRadius);
-		ImguiBoolInput("Is Alive", mIsAlive);
 	}
 }

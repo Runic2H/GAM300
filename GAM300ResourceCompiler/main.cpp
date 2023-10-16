@@ -1,3 +1,12 @@
+/*!*****************************************************************************
+ * \file          main.cpp
+ * \author        Eugene Ho Shu Sheng
+ * \par DP email: shushengeugene.ho@digipen.edu
+ * \par Course:   CSD3400
+ * \par Section:  A
+ * \date          01/10/2023
+ * \brief         main function that runs the program
+ *******************************************************************************/
 #include "GeomCompiler.h"
 #include "CommandParse.h"
 

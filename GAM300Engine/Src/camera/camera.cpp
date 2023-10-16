@@ -67,11 +67,11 @@ namespace TDS
 
 			if (!Input::isMouseButtonReleased(TDS_MOUSE_LEFT))
 			{
-				float GetMousex = mouse.x;
-				float GetMousey = mouse.y;
+				float GetMousex = static_cast<float>(mouse.x);
+				float GetMousey = static_cast<float>(mouse.y);
 
-				float getNewMousex = Input::getMousePosition().x;
-				float getNewMousey = Input::getMousePosition().y;
+				float getNewMousex = static_cast<float>(Input::getMousePosition().x);
+				float getNewMousey = static_cast<float>(Input::getMousePosition().y);
 
 				float offsetx = getNewMousex - GetMousex;
 				float offsety = GetMousey - getNewMousey;

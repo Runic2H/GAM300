@@ -5,7 +5,7 @@
 *.slo
 *.lo
 *.o
-//*.obj
+*.obj
 
 # Precompiled Headers
 *.gch
@@ -14,7 +14,7 @@
 # Compiled Dynamic libraries
 *.so
 *.dylib
-//*.dll
+#*.dll
 
 # Fortran module files
 *.mod
@@ -24,10 +24,10 @@
 *.lai
 *.la
 *.a
-//*.lib
+#*.lib
 
 # Executables
-*.exe
+#*.exe
 *.out
 *.app
 *.db
@@ -46,3 +46,7 @@ ScriptApi/x64
 ScriptApi/obj
 ManagedScripts/obj
 /GAM300Engine/bin/Debug-x64/net6.0
+ManagedScripts/obj/ManagedScripts.csproj.nuget.dgspec.json
+ManagedScripts/obj/ManagedScripts.csproj.nuget.dgspec.json
+ManagedScripts/obj/ManagedScripts.csproj.nuget.g.props
+ManagedScripts/obj/project.assets.json

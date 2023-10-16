@@ -8,6 +8,7 @@
 #include <array>
 #include <iostream>
 #include <algorithm>
+#include <filesystem>
 #include <fstream>
 #include <functional>
 #include <sstream>
@@ -23,6 +24,8 @@
 #include <memory>
 #include <random>
 
+#include <Jolt/Jolt.h>
 #include "TDSMath.h"
+
 
 #endif
