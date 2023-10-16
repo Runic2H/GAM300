@@ -24,13 +24,13 @@ namespace TDS
 	template<>
 	class AssetFactory<AssetModel>
 	{
-	private:
+	public:
 		std::mutex m_Mutex;
 		std::unordered_map<std::string, std::int32_t> m_ModelMap;
 		std::vector<std::uint64_t> m_LoadedModelsGUID;
 
 
-	public:
+	
 		/*!*************************************************************************
 		 * Deserialize the model from the file.
 		 ***************************************************************************/

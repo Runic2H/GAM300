@@ -17,57 +17,25 @@
 
 #include "vulkanTools/vulkanSwapChain.h"
 #include "Logger/Logger.h"
-
+#include "vulkanTools/vulkanTexture.h"
 
 namespace TDS
 {
 	VulkanSwapChain::VulkanSwapChain(VulkanInstance& Instance, VkExtent2D WindowExtent) : m_Instance(Instance), m_WindowExtent(WindowExtent) {
+		m_ClearAttachments.resize(2);
 		init();
 	}
 
 	VulkanSwapChain::VulkanSwapChain(VulkanInstance& Instance, VkExtent2D WindowExtent, std::shared_ptr<VulkanSwapChain> prev) :
 		m_Instance(Instance), m_WindowExtent(WindowExtent), m_OldSwapChain(prev) {
+		m_ClearAttachments.resize(2);
 		init();
 		m_OldSwapChain = nullptr;
 	}
 
-	VulkanSwapChain::~VulkanSwapChain() {
-		for (auto IV : m_vSwapChainImageViews) {
-			vkDestroyImageView(m_Instance.getVkLogicalDevice(), IV, nullptr);
-		}
-		m_vSwapChainImageViews.clear();
-
-		if (m_SwapChain) {
-			vkDestroySwapchainKHR(m_Instance.getVkLogicalDevice(), m_SwapChain, nullptr);
-			m_SwapChain = nullptr;
-		}
-
-		for (int i{ 0 }; i < m_vDepthImages.size(); ++i) {
-			vkDestroyImageView(m_Instance.getVkLogicalDevice(), m_vDepthImageViews[i], nullptr);
-			vkDestroyImage(m_Instance.getVkLogicalDevice(), m_vDepthImages[i], nullptr);
-			vkFreeMemory(m_Instance.getVkLogicalDevice(), m_vDepthImageMemory[i], nullptr);
-		}
-
-		for (auto Fb : m_vSwapChainFramebuffers) {
-			vkDestroyFramebuffer(m_Instance.getVkLogicalDevice(), Fb, nullptr);
-		}
-
-		vkDestroyRenderPass(m_Instance.getVkLogicalDevice(), m_RenderPass, nullptr);
-
-		for (size_t i{ 0 }; i < MAX_FRAMES_IN_FLIGHT; ++i) {
-			vkDestroySemaphore(m_Instance.getVkLogicalDevice(), m_vImageAvailableSemaphore[i], nullptr);
-			vkDestroySemaphore(m_Instance.getVkLogicalDevice(), m_vRenderFinishedSemaphore[i], nullptr);
-
-		}
-
-		for (auto& fence : m_vImagesinFlight)
-		{
-			vkDestroyFence(m_Instance.getVkLogicalDevice(), fence, nullptr);
-		}
-		for (auto& fence : m_vInFlightFences)
-		{
-			vkDestroyFence(m_Instance.getVkLogicalDevice(), fence, nullptr);
-		}
+	VulkanSwapChain::~VulkanSwapChain()
+	{
+		ShutDown();
 	}
 
 	void VulkanSwapChain::init() {
@@ -138,6 +106,17 @@ namespace TDS
 		m_currentFrame = (m_currentFrame + 1) % MAX_FRAMES_IN_FLIGHT;
 		return vkQueuePresentKHR(m_Instance.getPresentQueue(), &PresentInfo);
 
+	}
+
+	void VulkanSwapChain::ClearColors(VkCommandBuffer& cmdBuffer, iColor clearColor)
+	{
+		VkClearRect clearRect = {};
+		clearRect.layerCount = 1;
+		clearRect.baseArrayLayer = 0;
+		clearRect.rect.offset = { 0, 0 };
+		clearRect.rect.extent = m_SwapChainExtent;
+
+		vkCmdClearAttachments(cmdBuffer, 2, m_ClearAttachments.data(), 1, &clearRect);
 	}
 
 	void VulkanSwapChain::CreateSwapChain() {
@@ -294,6 +273,12 @@ namespace TDS
 
 			if (vkCreateFramebuffer(m_Instance.getVkLogicalDevice(), &framebufferinfo, nullptr, &m_vSwapChainFramebuffers[i]) != VK_SUCCESS)
 				throw std::runtime_error("failed to create framebuffer");
+			m_ClearAttachments[0].aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
+			m_ClearAttachments[0].clearValue.color = { { 0.1f, 0.1f, 0.1f, 1.0f} };
+			m_ClearAttachments[0].colorAttachment = 0;
+
+			m_ClearAttachments[1].aspectMask = VK_IMAGE_ASPECT_DEPTH_BIT | VK_IMAGE_ASPECT_STENCIL_BIT;
+			m_ClearAttachments[1].clearValue.depthStencil = { 1.0f, 0 };
 		}
 	}
 
@@ -303,7 +288,8 @@ namespace TDS
 		VkExtent2D swapchainExtent = getSwapChainExtent();
 
 		m_vDepthImages.resize(getImageCount());
-		m_vDepthImageMemory.resize(getImageCount());
+		m_vDepthImageAllocation.resize(getImageCount());
+		/*m_vDepthImageMemory.resize(getImageCount());*/
 		m_vDepthImageViews.resize(getImageCount());
 
 		for (int i{ 0 }; i < m_vDepthImages.size(); ++i) {
@@ -323,7 +309,13 @@ namespace TDS
 			imageinfo.sharingMode = VK_SHARING_MODE_EXCLUSIVE;
 			imageinfo.flags = 0;
 
-			m_Instance.createImageWithInfo(imageinfo, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, m_vDepthImages[i], m_vDepthImageMemory[i]);
+			//CreateImageParams params{};
+			//params.m_Format = depthFormat;
+			//params.m_tiling = VK_IMAGE_TILING_OPTIMAL;
+			//params.m_usage = VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT;
+			
+			m_vDepthImageAllocation[i] = GraphicsAllocator::Allocate(&imageinfo, VMA_MEMORY_USAGE_GPU_ONLY, m_vDepthImages[i]);
+			/*m_Instance.createImageWithInfo(imageinfo, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, m_vDepthImages[i], m_vDepthImageMemory[i]);*/
 
 			VkImageViewCreateInfo viewinfo{};
 			viewinfo.sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO;
@@ -363,6 +355,69 @@ namespace TDS
 		}
 	}
 
+	void VulkanSwapChain::ShutDown()
+	{
+		for (auto IV : m_vSwapChainImageViews) {
+			if (IV)
+				vkDestroyImageView(m_Instance.getVkLogicalDevice(), IV, nullptr);
+		}
+		m_vSwapChainImageViews.clear();
+
+		if (m_SwapChain)
+		{
+			vkDestroySwapchainKHR(m_Instance.getVkLogicalDevice(), m_SwapChain, nullptr);
+			m_SwapChain = nullptr;
+		}
+
+		for (int i{ 0 }; i < m_vDepthImages.size(); ++i) {
+			if (m_vDepthImageViews[i])
+			{
+				vkDestroyImageView(m_Instance.getVkLogicalDevice(), m_vDepthImageViews[i], nullptr);
+				m_vDepthImageViews[i] = nullptr;
+			}
+			if (m_vDepthImages[i])
+			{
+				GraphicsAllocator::FreeBuffer(m_vDepthImages[i], m_vDepthImageAllocation[i]);
+				//vkDestroyImage(m_Instance.getVkLogicalDevice(), m_vDepthImages[i], nullptr);
+				m_vDepthImages[i] = nullptr;
+			}
+
+			//Use VMA
+			/*vkFreeMemory(m_Instance.getVkLogicalDevice(), m_vDepthImageMemory[i], nullptr);*/
+		}
+
+		for (auto Fb : m_vSwapChainFramebuffers) {
+			if (Fb)
+			{
+				vkDestroyFramebuffer(m_Instance.getVkLogicalDevice(), Fb, nullptr);
+				Fb = nullptr;
+			}
+		}
+
+		if (m_RenderPass)
+			vkDestroyRenderPass(m_Instance.getVkLogicalDevice(), m_RenderPass, nullptr);
+
+
+		for (size_t i{ 0 }; i < MAX_FRAMES_IN_FLIGHT; ++i) {
+			if (m_vImageAvailableSemaphore[i])
+				vkDestroySemaphore(m_Instance.getVkLogicalDevice(), m_vImageAvailableSemaphore[i], nullptr);
+			if (m_vRenderFinishedSemaphore[i])
+				vkDestroySemaphore(m_Instance.getVkLogicalDevice(), m_vRenderFinishedSemaphore[i], nullptr);
+
+		}
+
+		for (auto& fence : m_vImagesinFlight)
+		{
+			if (fence)
+				vkDestroyFence(m_Instance.getVkLogicalDevice(), fence, nullptr);
+		}
+		for (auto& fence : m_vInFlightFences)
+		{
+			if (fence)
+				vkDestroyFence(m_Instance.getVkLogicalDevice(), fence, nullptr);
+		}
+	}
+
 	VkSurfaceFormatKHR VulkanSwapChain::ChooseSwapSurfaceFormat(const std::vector<VkSurfaceFormatKHR>& availableFormats) {
 		for (const auto& availableFormat : availableFormats) {
 			if (availableFormat.format == VK_FORMAT_B8G8R8A8_SRGB &&
@@ -373,6 +428,14 @@ namespace TDS
 	}
 
 	VkPresentModeKHR VulkanSwapChain::ChooseSwapPresentMode(const std::vector<VkPresentModeKHR>& availablePresentModes) {
+		/*	for (const auto& availablePresentMode : availablePresentModes) {
+				if (availablePresentMode == VK_PRESENT_MODE_MAILBOX_KHR) {
+					std::cout << "Present mode: MailBox\n";
+					return availablePresentMode;
+				}
+			}
+			std::cout << "Present mode: V-Sync\n";
+			return VK_PRESENT_MODE_FIFO_KHR;*/
 		if (m_Instance.getVsync())
 		{
 			std::cout << "Present mode: V-Sync\n";
@@ -385,9 +448,6 @@ namespace TDS
 				return availablePresentMode;
 			}
 		}
-
-		std::cout << "Using default present mode: FIFO\n";
-		return VK_PRESENT_MODE_FIFO_KHR;
 	}
 
 	VkExtent2D VulkanSwapChain::ChooseSwapExtent(const VkSurfaceCapabilitiesKHR& capabilities) {
@@ -407,8 +467,13 @@ namespace TDS
 	}
 
 	VkFormat VulkanSwapChain::findDepthFormat() {
-		return m_Instance.findSupportedFormat({ VK_FORMAT_D32_SFLOAT, VK_FORMAT_D32_SFLOAT_S8_UINT, VK_FORMAT_D24_UNORM_S8_UINT }
+		return m_Instance.findSupportedFormat({VK_FORMAT_D32_SFLOAT_S8_UINT, VK_FORMAT_D32_SFLOAT, VK_FORMAT_D24_UNORM_S8_UINT }
 		, VK_IMAGE_TILING_OPTIMAL, VK_FORMAT_FEATURE_DEPTH_STENCIL_ATTACHMENT_BIT);
+	}
+
+	VkFormat VulkanSwapChain::GetSwapChainImageFormat()
+	{
+		return m_SwapChainImageFormat;
 	}
 
 }//namespace TDS

@@ -25,6 +25,7 @@ namespace TDS
 	System<Transform, RigidBody>				_PhysicsSystem(1);
 	System<Transform, RigidBody, Collider>		_ColliderSystem(1);
 	System<AI>									_AISystem(1);
+	System<Transform, GraphicsComponent>		_RenderSystem(1);
 	//System<Transform, RigidBody> _AISystem(1);
 	//System<Transform> _GraphicsSystem(1);
 }

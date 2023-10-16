@@ -13,14 +13,12 @@
 #include <vector>
 #include "Geometry/Geometry.h"
 #include "vulkanTools/Geom.h"
+#include "vulkanTools/VMATypes/VMABuffer.h"
 namespace TDS
 {
+	class Material;
 	class AssetModel
 	{
-	private:
-		std::vector<VertexData> m_VertexData;
-		std::vector<std::uint32_t> m_IndexData;
-		AABB BoundingBox;
 	public:
 		/*!*************************************************************************
 		 * Constructor & Destructor for AssetModel class
@@ -36,7 +34,12 @@ namespace TDS
 		 ***************************************************************************/
 		DLL_API std::vector<VertexData>& GetVertexData();
 		DLL_API std::vector<std::uint32_t>& GetIndexData();
-
+	private:
+		std::vector<VertexData> m_VertexData;
+		std::vector<std::uint32_t> m_IndexData;
+		std::shared_ptr<VMABuffer> m_VertexBuffer{nullptr};
+		std::shared_ptr<VMABuffer> m_IndexBuffer{nullptr};
+		AABB BoundingBox;
 
 	};
 

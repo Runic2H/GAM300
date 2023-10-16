@@ -37,6 +37,9 @@ namespace TDS
 			return ecs.addComponent<Transform>(entityID);
 		else if (componentName == "Win Data")
 			return ecs.addComponent<WinData>(entityID);
+		else if (componentName == "Graphics Component")
+			return ecs.addComponent<GraphicsComponent>(entityID);
+		
 		else 
 			return nullptr;
 	}

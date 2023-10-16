@@ -12,7 +12,7 @@
 #include "vulkanTools/Pipeline.h"
 #include "vulkanTools/Model.h"
 #ifndef SHADER_DIR
-#define SHADER_DIR "../../assets/shaders/"
+#define SHADER_DIR "../assets/shaders/"
 #endif // !SHADER_DIR
 
 namespace TDS {

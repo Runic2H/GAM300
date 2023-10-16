@@ -138,7 +138,7 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)Libs;$(SolutionDir)Libs\Debug;$(SolutionDir)Libs\fmod;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>vulkan-1.lib;assimp-vc143-mtd.lib;fmodL_vc.lib;fmodstudioL_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>vulkan-1.lib;fmodL_vc.lib;fmodstudioL_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>xcopy /s /r /y /q "$(SolutionDir)Dependencies\dotnet\bin" "$(OutDir)"
@@ -194,6 +194,7 @@ xcopy /y /d "$(SolutionDir)Libs\fmod\*.dll" "$(OutDir)"</Command>
     <ClCompile Include="Src\components\cameraComponent.cpp" />
     <ClCompile Include="Src\components\collider.cpp" />
     <ClCompile Include="Src\components\componentHelperFunctions.cpp" />
+    <ClCompile Include="Src\components\GraphicsComponent.cpp" />
     <ClCompile Include="Src\components\nameTag.cpp" />
     <ClCompile Include="Src\components\playerAttributes.cpp" />
     <ClCompile Include="Src\components\rigidBody.cpp" />
@@ -226,12 +227,21 @@ xcopy /y /d "$(SolutionDir)Libs\fmod\*.dll" "$(OutDir)"</Command>
     </ClCompile>
     <ClCompile Include="Src\Physics\CollisionSystem.cpp" />
     <ClCompile Include="Src\Physics\PhysicsSystem.cpp" />
+    <ClCompile Include="Src\Renderer\GraphicsManager.cpp" />
+    <ClCompile Include="Src\Renderer\RenderDataManager.cpp" />
+    <ClCompile Include="Src\Renderer\Renderer3D.cpp" />
+    <ClCompile Include="Src\Renderer\RendererSystem.cpp" />
     <ClCompile Include="Src\ResourceManagement\ResouceManager.cpp" />
     <ClCompile Include="Src\sceneManager\sceneManager.cpp" />
     <ClCompile Include="Src\sceneManager\serialization.cpp" />
+    <ClCompile Include="Src\Shader\ShaderLoader.cpp" />
     <ClCompile Include="Src\Timestep\Timestep.cpp" />
     <ClCompile Include="Src\vulkanTools\Buffer.cpp" />
+    <ClCompile Include="Src\vulkanTools\CommandManager.cpp" />
     <ClCompile Include="Src\vulkanTools\Descriptor.cpp" />
+    <ClCompile Include="Src\vulkanTools\DirectFrameBuffer.cpp" />
+    <ClCompile Include="Src\vulkanTools\FrameBuffer.cpp" />
+    <ClCompile Include="Src\vulkanTools\GlobalBufferPool.cpp" />
     <ClCompile Include="Src\vulkanTools\GraphicsAllocator.cpp" />
     <ClCompile Include="Src\vulkanTools\Model.cpp" />
     <ClCompile Include="Src\vulkanTools\Pipeline.cpp" />
@@ -239,9 +249,14 @@ xcopy /y /d "$(SolutionDir)Libs\fmod\*.dll" "$(OutDir)"</Command>
     <ClCompile Include="Src\vulkanTools\Renderer.cpp" />
     <ClCompile Include="Src\vulkanTools\RendererManager.cpp" />
     <ClCompile Include="Src\vulkanTools\ShadowMap.cpp" />
+    <ClCompile Include="Src\vulkanTools\VertexTypes.cpp" />
+    <ClCompile Include="Src\vulkanTools\VMATypes\VMABuffer.cpp" />
     <ClCompile Include="Src\vulkanTools\vulkanDebugger.cpp" />
+    <ClCompile Include="Src\vulkanTools\VulkanHelper.cpp" />
     <ClCompile Include="Src\vulkanTools\vulkanInstance.cpp" />
+    <ClCompile Include="Src\vulkanTools\VulkanPipeline.cpp" />
     <ClCompile Include="Src\vulkanTools\vulkanSwapChain.cpp" />
+    <ClCompile Include="Src\vulkanTools\VulkanTexture.cpp" />
     <ClCompile Include="Src\windowswindow.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -267,6 +282,7 @@ xcopy /y /d "$(SolutionDir)Libs\fmod\*.dll" "$(OutDir)"</Command>
     <ClInclude Include="Include\components\cameraComponent.h" />
     <ClInclude Include="Include\components\collider.h" />
     <ClInclude Include="Include\components\components.h" />
+    <ClInclude Include="Include\components\GraphicsComponent.h" />
     <ClInclude Include="Include\components\iComponent.h" />
     <ClInclude Include="Include\components\nameTag.h" />
     <ClInclude Include="Include\components\playerAttributes.h" />
@@ -301,9 +317,24 @@ xcopy /y /d "$(SolutionDir)Libs\fmod\*.dll" "$(OutDir)"</Command>
     <ClInclude Include="Include\Model\Skeleton.h" />
     <ClInclude Include="Include\Physics\CollisionSystem.h" />
     <ClInclude Include="Include\Physics\PhysicsSystem.h" />
+    <ClInclude Include="Include\Rendering\GraphicsManager.h" />
+    <ClInclude Include="Include\Rendering\Material.h" />
+    <ClInclude Include="Include\Rendering\ModelElement.h" />
+    <ClInclude Include="Include\Rendering\PointLightRenderer.h" />
+    <ClInclude Include="Include\Rendering\RenderDataManager.h" />
+    <ClInclude Include="Include\Rendering\Renderer3D.h" />
+    <ClInclude Include="Include\Rendering\RendererSystem.h" />
+    <ClInclude Include="Include\Rendering\RenderLayer.h" />
+    <ClInclude Include="Include\Rendering\Skybox.h" />
+    <ClInclude Include="Include\Shader\ShaderData.h" />
+    <ClInclude Include="Include\Shader\ShaderLoader.h" />
     <ClInclude Include="Include\sceneManager\sceneManager.h" />
     <ClInclude Include="Include\sceneManager\serialization.h" />
+    <ClInclude Include="Include\vulkanTools\BufferInfo.h" />
+    <ClInclude Include="Include\vulkanTools\CommandManager.h" />
+    <ClInclude Include="Include\vulkanTools\DirectFrameBuffer.h" />
     <ClInclude Include="Include\vulkanTools\Geom.h" />
+    <ClInclude Include="Include\vulkanTools\GlobalBufferPool.h" />
     <ClInclude Include="Include\vulkanTools\GraphicsAllocator.h" />
     <ClInclude Include="Include\camera\camera.h" />
     <ClInclude Include="Include\Identifier\GUID.h" />
@@ -323,11 +354,23 @@ xcopy /y /d "$(SolutionDir)Libs\fmod\*.dll" "$(OutDir)"</Command>
     <ClInclude Include="Include\vulkanTools\Renderer.h" />
     <ClInclude Include="Include\vulkanTools\RendererManager.h" />
     <ClInclude Include="Include\vulkanTools\ShadowMap.h" />
+    <ClInclude Include="Include\vulkanTools\VertexTypes.h" />
+    <ClInclude Include="Include\vulkanTools\VMATypes\VMABuffer.h" />
     <ClInclude Include="Include\vulkanTools\vulkanDebugger.h" />
+    <ClInclude Include="Include\vulkanTools\VulkanHelper.h" />
     <ClInclude Include="Include\vulkanTools\vulkanInstance.h" />
+    <ClInclude Include="Include\vulkanTools\VulkanPipeline.h" />
     <ClInclude Include="Include\vulkanTools\vulkanSwapChain.h" />
+    <ClInclude Include="Include\vulkanTools\VulkanTexture.h" />
     <ClInclude Include="Include\windowswindow.h" />
     <ClInclude Include="Include\vulkanTools\Model.h" />
+    <ClInclude Include="Include\vulkanTools\FrameBuffer.h" />
+    <ClInclude Include="Src\Renderer\Material.h" />
+    <ClInclude Include="Src\Renderer\VulkanModel.h" />
+    <ClInclude Include="Src\Renderer\PointLightRenderer.h" />
+    <ClInclude Include="Src\Renderer\RenderDataManager.h" />
+    <ClInclude Include="Src\Renderer\Renderer3D.h" />
+    <ClInclude Include="Src\Renderer\Skybox.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="assimp-vc143-mtd.dll" />

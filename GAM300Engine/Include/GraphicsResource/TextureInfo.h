@@ -19,29 +19,43 @@ namespace TDS
 	 ***************************************************************************/
 	struct TextureData
 	{
-		tinyddsloader::DDSFile m_TextureLoaded;
-		DLL_API void LoadTexture(std::string_view path);
-
+		tinyddsloader::DDSFile			m_TextureLoaded;
+		bool DLL_API LoadTexture(std::string_view path);
 
 	};
 
-	struct TextureSettings
+	struct TextureInfo
 	{
-		bool m_FlipTextureY = true;
-		bool m_UseAnistrophy = true;
+		VkSamplerAddressMode			m_SampleAddressMode = VkSamplerAddressMode::VK_SAMPLER_ADDRESS_MODE_REPEAT;
+		VkBorderColor					m_BorderClr = VkBorderColor::VK_BORDER_COLOR_INT_OPAQUE_WHITE;
+		VkFilter						m_ImageFilter = VkFilter::VK_FILTER_LINEAR;
+		std::uint32_t					mipCount = 1;
+		VkFormat						m_Format;
+		VkImageType						m_ImageType = VK_IMAGE_TYPE_2D;
+		VkExtent2D						m_ExtentDimen = { 50, 50 };
+		size_t							m_ImageSize{ 0 };
+		void* m_Data = nullptr;
+		void* m_CustomTextureID = nullptr;
+		bool							m_IsCubeMap = false;
+		bool							m_UsingMipMaps = false;
+		bool							m_StorageImage = false;
+		bool							m_FlipTextureY = true;
+		bool							m_UseAnistrophy = true;
 	};
-	struct  Texture
-	{
-		DLL_API void LoadTextureData(TextureData& textureData);
-		VkFormat m_Format{};
-		VkImageType m_ImageType = VK_IMAGE_TYPE_2D;
-		VkSamplerAddressMode m_SampleAddressMode = VkSamplerAddressMode::VK_SAMPLER_ADDRESS_MODE_REPEAT;
-		VkBorderColor m_BorderClr = VkBorderColor::VK_BORDER_COLOR_INT_OPAQUE_WHITE;
-		VkFilter m_ImageFilter = VkFilter::VK_FILTER_LINEAR;
-		std::uint32_t m_Width = 0, m_Height = 0;
-		std::uint32_t m_CustomMips = 0;
-		std::uint32_t m_Depth = 1;
 
+	class VulkanTexture;
+
+	struct Texture
+	{
+		void DLL_API					LoadTexture(std::string_view path);
+		bool DLL_API					IsTextureCompressed();
+		VkFormat DLL_API				ConvertToVulkanFormat(tinyddsloader::DDSFile::DXGIFormat format);
+		size_t DLL_API					ComputeImageSize();
+		size_t DLL_API					GetBlockByteSize();
+		size_t DLL_API					GetByteSize();
+		std::shared_ptr<VulkanTexture>	m_VulkanTexture;
+		TextureData						m_Data;
+		TextureInfo						m_TextureInfo;
 	};
 
 

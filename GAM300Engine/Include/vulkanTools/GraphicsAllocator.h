@@ -5,18 +5,13 @@
  * \par Course:   CSD3400
  * \par Section:  A
  * \date          01/10/2023
- * \brief         This file contains the declaration of the 
+ * \brief         This file contains the declaration of the
  *				  GraphicsAllocator class.
  *******************************************************************************/
 #pragma once
-#pragma warning(push)
-#pragma warning(disable: 4100)
-#pragma warning(disable: 4189)
-#pragma warning(disable: 4127)
-#pragma warning(disable: 4324)
 #include <vma/vk_mem_alloc.h>
-#pragma warning(pop)
 #include "dotnet/ImportExport.h"
+#include "vulkanTools/VulkanHelper.h"
 namespace TDS
 {
 	template <typename T>
@@ -40,17 +35,17 @@ namespace TDS
 		/*!*************************************************************************
 		 * Init for GraphicsAllocator class
 		 ***************************************************************************/
-		DLL_API void Init(VulkanInstance& instance);
+		void DLL_API Init(VulkanInstance& instance);
 		/*!*************************************************************************
 		 * Mapping and Unmapping Memory
 		 ***************************************************************************/
 		template <typename T>
-		static void MapMemory(T* RequestSpace, VmaAllocation allocation)
+		static void MapMemory(T*& RequestSpace, VmaAllocation allocation)
 		{
-			vmaMapMemory(GraphicsAllocator::GetInstance().GetAllocator(), allocation, (void**)(RequestSpace));
+			vmaMapMemory(GraphicsAllocator::GetInstance().GetAllocator(), allocation, (void**)(&RequestSpace));
 
 		}
-		DLL_API static void UnMapMemory(VmaAllocation allocation);
+		static void DLL_API UnMapMemory(VmaAllocation allocation);
 		/*!*************************************************************************
 		 * Helper functions
 		 ***************************************************************************/
@@ -70,7 +65,7 @@ namespace TDS
 		 * Allocation and Freeing Memory
 		 ***************************************************************************/
 		template <typename T>
-		/*static */VmaAllocation Allocate(void* CreateInfo, VmaMemoryUsage usage, T*& buffer)
+		static VmaAllocation Allocate(void* CreateInfo, VmaMemoryUsage usage, T& buffer)
 		{
 			static_assert(always_false_v<T>, "Cant allocate is this type");
 			return nullptr;
@@ -78,7 +73,7 @@ namespace TDS
 
 
 		template <>
-		/*static */VmaAllocation Allocate<VkBuffer>(void* CreateInfo, VmaMemoryUsage usage, VkBuffer*& buffer)
+		static VmaAllocation Allocate<VkBuffer>(void* CreateInfo, VmaMemoryUsage usage, VkBuffer& buffer)
 		{
 			VmaAllocationCreateInfo bufferAlocateInfo{};
 
@@ -87,8 +82,8 @@ namespace TDS
 			VmaAllocation newAllocation{};
 			VmaAllocationInfo allocationinfo{};
 
-			vmaCreateBuffer(GraphicsAllocator::GetInstance().GetAllocator(), (VkBufferCreateInfo*)CreateInfo, &bufferAlocateInfo,
-				buffer, &newAllocation, &allocationinfo);
+			VK_ASSERT(vmaCreateBuffer(GraphicsAllocator::GetInstance().GetAllocator(), (VkBufferCreateInfo*)CreateInfo, &bufferAlocateInfo,
+				&buffer, &newAllocation, &allocationinfo), "");
 
 			GraphicsAllocator::GetInstance().AddAllocationBytes(allocationinfo.size);
 			return newAllocation;
@@ -96,7 +91,7 @@ namespace TDS
 		}
 
 		template <>
-		/*static */VmaAllocation Allocate<VkImage>(void* CreateInfo, VmaMemoryUsage usage, VkImage*& buffer)
+		static VmaAllocation Allocate<VkImage>(void* CreateInfo, VmaMemoryUsage usage, VkImage& buffer)
 		{
 			VmaAllocationCreateInfo bufferAlocateInfo{};
 
@@ -105,8 +100,8 @@ namespace TDS
 			VmaAllocation newAllocation{};
 			VmaAllocationInfo allocationinfo{};
 
-			vmaCreateImage(GraphicsAllocator::GetInstance().GetAllocator(), (VkImageCreateInfo*)CreateInfo, &bufferAlocateInfo,
-				buffer, &newAllocation, &allocationinfo);
+			VK_ASSERT(vmaCreateImage(GraphicsAllocator::GetInstance().GetAllocator(), (VkImageCreateInfo*)CreateInfo, &bufferAlocateInfo,
+				&buffer, &newAllocation, &allocationinfo), "");
 
 
 			GraphicsAllocator::GetInstance().AddAllocationBytes(allocationinfo.size);
@@ -116,19 +111,19 @@ namespace TDS
 		static void DLL_API FreeMemory(VmaAllocation alloc);
 
 		template <typename T>
-		void FreeBuffer(T memBuffer, VmaAllocation allocation)
+		static void FreeBuffer(T& memBuffer, VmaAllocation allocation)
 		{
-			static_assert(always_false_v<T>, "Cant allocate is this type");
+			static_assert(always_false_v<T>, "Cant free this type");
 		}
 
 		template <>
-		void FreeBuffer<VkBuffer>(VkBuffer buffer, VmaAllocation allocation)
+		static void FreeBuffer<VkBuffer>(VkBuffer& buffer, VmaAllocation allocation)
 		{
 			vmaDestroyBuffer(GraphicsAllocator::GetInstance().GetAllocator(), buffer, allocation);
 		}
 
 		template <>
-		void FreeBuffer<VkImage>(VkImage image, VmaAllocation allocation)
+		static void FreeBuffer<VkImage>(VkImage& image, VmaAllocation allocation)
 		{
 			vmaDestroyImage(GraphicsAllocator::GetInstance().GetAllocator(), image, allocation);
 		}

@@ -22,49 +22,51 @@
 //#define	VK_USE_PLATFORM_WIN32_KHR
 #include "vulkanInstance.h"
 #include "dotnet/ImportExport.h"
+#include "../GraphicsResource/GraphicsResourceDefines.h"
 
 namespace TDS
 {
 
-	class VulkanSwapChain
+	class DLL_API VulkanSwapChain
 	{
 
 	public:
 		//frames processed concurrently
-		DLL_API static constexpr int MAX_FRAMES_IN_FLIGHT{ 2 };	//maybe set as a macro, will see
+		static constexpr int MAX_FRAMES_IN_FLIGHT{ 2 };	//maybe set as a macro, will see
 
 		//constructor and destructor
-		DLL_API VulkanSwapChain(VulkanInstance& Instance, VkExtent2D WindowExtent);
-		DLL_API VulkanSwapChain(VulkanInstance& Instance, VkExtent2D WindowExtent, std::shared_ptr<VulkanSwapChain> prev);
-		DLL_API ~VulkanSwapChain();
+		VulkanSwapChain(VulkanInstance& Instance, VkExtent2D WindowExtent);
+		VulkanSwapChain(VulkanInstance& Instance, VkExtent2D WindowExtent, std::shared_ptr<VulkanSwapChain> prev);
+		~VulkanSwapChain();
 
 		//no copy constructor
-		DLL_API VulkanSwapChain(const VulkanSwapChain&) = delete;
-		DLL_API VulkanSwapChain& operator=(const VulkanSwapChain&) = delete;
+		VulkanSwapChain(const VulkanSwapChain&) = delete;
+		VulkanSwapChain& operator=(const VulkanSwapChain&) = delete;
 
 		//getters
-		DLL_API VkFramebuffer				getFrameBuffer(int Index)		{ return m_vSwapChainFramebuffers[Index]; }
-		DLL_API VkRenderPass				getRenderPass()					{ return m_RenderPass; }
-		DLL_API VkImageView					getImageView(int Index)			{ return m_vSwapChainImageViews[Index]; }
-		DLL_API size_t						getImageCount()					{ return m_vSwapChainImages.size(); }
-		DLL_API VkFormat					getSwapChainImageFormat()		{ return m_SwapChainImageFormat; }
-		DLL_API VkExtent2D					getSwapChainExtent()			{ return m_SwapChainExtent; }
-		DLL_API uint32_t					width()							{ return m_SwapChainExtent.width; }
-		DLL_API uint32_t					height()						{ return m_SwapChainExtent.height; }
-		DLL_API std::vector	<VkImageView>	getImageViewContainer()const	{ return m_vSwapChainImageViews; }
-		DLL_API float						extentAspectRatio() {
+		VkFramebuffer				getFrameBuffer(int Index) { return m_vSwapChainFramebuffers[Index]; }
+		VkRenderPass				getRenderPass() { return m_RenderPass; }
+		VkImageView					getImageView(int Index) { return m_vSwapChainImageViews[Index]; }
+		size_t						getImageCount() { return m_vSwapChainImages.size(); }
+		VkFormat					getSwapChainImageFormat() { return m_SwapChainImageFormat; }
+		VkExtent2D					getSwapChainExtent() { return m_SwapChainExtent; }
+		uint32_t					width() { return m_SwapChainExtent.width; }
+		uint32_t					height() { return m_SwapChainExtent.height; }
+		const std::vector <VkImageView>& getImageViewContainer()const { return m_vSwapChainImageViews; }
+		float						extentAspectRatio() {
 			return static_cast<float>(m_SwapChainExtent.width) / static_cast<float>(m_SwapChainExtent.height);
 		}
 
-		DLL_API VkFormat findDepthFormat();
+		VkFormat findDepthFormat();
+		VkFormat GetSwapChainImageFormat();
 
-		DLL_API VkResult acquireNextImage(uint32_t* imageIndex);
-		DLL_API VkResult SubmitCommandBuffers(const VkCommandBuffer* Buffers, uint32_t* ImageIndex);
-
-		DLL_API bool compareSwapFormat(const VulkanSwapChain& SwapChain) const {
+		VkResult acquireNextImage(uint32_t* imageIndex);
+		VkResult SubmitCommandBuffers(const VkCommandBuffer* Buffers, uint32_t* ImageIndex);
+		void	 ClearColors(VkCommandBuffer& cmdBuffer, iColor clearColor);
+		bool compareSwapFormat(const VulkanSwapChain& SwapChain) const {
 			return SwapChain.m_SwapChainDepthFormat == m_SwapChainDepthFormat && SwapChain.m_SwapChainImageFormat == m_SwapChainImageFormat;
 		}
-
+		void ShutDown();
 
 	private:
 		//helper functions
@@ -88,7 +90,9 @@ namespace TDS
 		VkRenderPass						m_RenderPass;
 
 		std::vector<VkImage>				m_vDepthImages;
-		std::vector<VkDeviceMemory>			m_vDepthImageMemory;
+		/*std::vector<VkDeviceMemory>			m_vDepthImageMemory;*/
+		std::vector<VkClearAttachment>		m_ClearAttachments;
+		std::vector<VmaAllocation>			m_vDepthImageAllocation;
 		std::vector<VkImageView>			m_vDepthImageViews;
 		std::vector<VkImage>				m_vSwapChainImages;
 		std::vector<VkImageView>			m_vSwapChainImageViews;

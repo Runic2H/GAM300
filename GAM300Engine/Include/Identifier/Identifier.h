@@ -38,6 +38,32 @@ namespace TDS
 		return typeInfoName;
 	}
 
+	template <typename T>
+	std::string getTypeNameViaInput(T input)
+	{
+		std::string typeInfoName = typeid(decltype(input)).name();
+		std::regex re("(class|struct|enum|union) [^ ]+");
+		std::smatch match;
+
+		//Remove mangling
+		if (std::regex_search(typeInfoName, match, re))
+		{
+			typeInfoName = match.str().substr(match.position(1) + match.length(1) + 1);
+		}
+		if (std::isdigit(typeInfoName[0]))
+		{
+			size_t i = 0;
+			while (i < typeInfoName.length() && std::isdigit(typeInfoName[i]))
+			{
+				i++;
+			}
+			typeInfoName = typeInfoName.substr(i);
+		}
+		std::regex ns_re("(.+::)");
+		typeInfoName = std::regex_replace(typeInfoName, ns_re, "");
+
+		return typeInfoName;
+	}
 	struct TypeIdentifier
 	{
 		size_t m_TypeHash{};

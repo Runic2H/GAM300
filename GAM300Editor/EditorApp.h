@@ -44,6 +44,10 @@ namespace TDS
 		bool initImgui();
 		Application(const Application&);
 
+	//Rendering for ImGui
+	private:
+		VkPipelineCache  m_PipelineCache = nullptr;
+		VkDescriptorPool m_ImGuiDescPool = nullptr;
 
 	private:
 		WindowsWin						 m_window;
@@ -51,12 +55,12 @@ namespace TDS
 		AssetManager					 m_AssetManager;
 
 		std::chrono::time_point<std::chrono::high_resolution_clock>Clock{};
-		std::shared_ptr <VulkanInstance> m_pVKInst;
+		//std::shared_ptr <VulkanInstance> m_pVKInst;
 		std::unique_ptr<DescriptorPool>  m_globalPool{};
-		//std::unique_ptr<DescriptorPool>  m_guipool{};
-		std::shared_ptr<Renderer>		 m_Renderer/*{ m_window, * m_pVKInst.get() }*/;
+		std::unique_ptr<DescriptorPool>  m_guipool{};
+		//std::shared_ptr<Renderer>		 m_Renderer/*{ m_window, * m_pVKInst.get() }*/;
 		TDSCamera m_camera{ -90.0f ,0.f };
-		std::shared_ptr<Model> models;
+		//std::shared_ptr<Model> models;
 		//VkSampler sampling;
 		struct UniformBufferObject
 		{

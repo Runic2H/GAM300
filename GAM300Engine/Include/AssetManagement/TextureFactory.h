@@ -1,15 +1,6 @@
-/*!*****************************************************************************
- * \file          TextureFactory.h
- * \author        Eugene Ho Shu Sheng
- * \par DP email: shushengeugene.ho@digipen.edu
- * \par Course:   CSD3400
- * \par Section:  A
- * \date          01/10/2023
- * \brief         This file contains the declaration of the TextureFactory class.
- *******************************************************************************/
 #pragma once
 #include "FactoryBase.h"
-#include "GraphicsResource/TextureInfo.h"
+#include "../GraphicsResource/TextureInfo.h"
 #define TEXTURE_PATH "../assets/textures/"
 namespace TDS
 {
@@ -22,9 +13,11 @@ namespace TDS
 		std::unordered_map<std::string, std::int32_t> m_LoadedTexture;
 		std::vector<std::uint64_t> m_LoadedTextureGUID;
 	public:
-		/*!*************************************************************************
-		 * Preloading from resource manager
-		 ***************************************************************************/
+
+		std::uint64_t GetTextureGUID(std::string_view modelName)
+		{
+			return m_LoadedTextureGUID[m_LoadedTexture[modelName.data()]];
+		}
 		void Preload(ResourceManager& resourceMgr)
 		{
 			std::filesystem::path dir = TEXTURE_PATH;
@@ -53,17 +46,12 @@ namespace TDS
 						std::cout << "Failed to get texture instance!" << std::endl;
 						continue;
 					}
-					TextureData loader{};
-					loader.LoadTexture(path.string());
-					newTexture->LoadTextureData(loader);
-					m_LoadedTexture[fileName] = static_cast<int>(m_LoadedTextureGUID.size());
+					newTexture->LoadTexture(path.string());
+					m_LoadedTexture[fileName] = m_LoadedTextureGUID.size();
 					m_LoadedTextureGUID.emplace_back(TextureInstance.m_GUID.GetUniqueID());
 				}
 			}
 		}
-		/*!*************************************************************************
-		 * Load the texture data from TextureData
-		 ***************************************************************************/
 		static void Load(std::string_view path, SingleTypeReference<Texture>& textureRef, ResourceManager& resourceMgr)
 		{
 			auto texRef = resourceMgr.getResource(textureRef);
@@ -72,9 +60,7 @@ namespace TDS
 				std::cout << "Failed to get texture instance!" << std::endl;
 				return;
 			}
-			TextureData loader{};
-			loader.LoadTexture(path);
-			texRef->LoadTextureData(loader);
+			texRef->LoadTexture(path);
 		}
 
 	};

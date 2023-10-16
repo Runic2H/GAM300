@@ -16,6 +16,7 @@
 #include "ResourceRef.h"
 #include "Identifier/Identifier.h"
 #include <assert.h>
+#include "dotnet/ImportExport.h"
 #include <mutex>
 namespace TDS
 {
@@ -47,8 +48,8 @@ namespace TDS
 		/*!*************************************************************************
 		 * Constructor & Destructor of the resource manager
 		 ***************************************************************************/
-		ResourceManager();
-		~ResourceManager();
+		DLL_API ResourceManager();
+		DLL_API ~ResourceManager();
 		/*!*************************************************************************
 		 * Registering the resource type
 		 ***************************************************************************/
@@ -157,7 +158,7 @@ namespace TDS
 
 		Instance_info& AllocResource();
 
-		void InstanceInfoAlloc(void* pResourceData, UniqueID guid, TypeIdentifier typeID);
+		void DLL_API InstanceInfoAlloc(void* pResourceData, UniqueID guid, TypeIdentifier typeID);
 
 		void InstanceInfoRelease(Instance_info& resourceInfo);
 

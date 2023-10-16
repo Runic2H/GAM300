@@ -51,6 +51,7 @@ namespace TDS
 
 		ImGui_ImplVulkan_Init(&initinfo, RenderPass);
 		ImGui_ImplWin32_Init(inHwnd);
+		Profiler::getVulkanInfo(initinfo);
 	}
 
 	void imguiHelper::CustomDarkTheme()

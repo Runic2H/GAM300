@@ -5,7 +5,7 @@
 namespace TDS
 {
 	template <typename T>
-	inline constexpr bool always_false_v = false;
+	inline constexpr bool wrong_asset_type = false;
 
 	template <typename T>
 	class DLL_API AssetFactory
@@ -13,17 +13,13 @@ namespace TDS
 	public:
 		AssetFactory()
 		{
-			static_assert(always_false_v<T>, "AssetFactory is not available for this type");
+			static_assert(wrong_asset_type<T>, "AssetFactory is not available for this type");
 		}
 		void Preload(ResourceManager& resourceMgr);
 		static void Load(std::string_view path, SingleTypeReference<T>& model, ResourceManager& resourceMgr);
 
 	};
 
-	struct GraphicsComponent
-	{
-		SingleTypeReference<AssetModel> m_Model;
-		SingleTypeReference<Texture> m_Texture;
-	};
+
 
 }

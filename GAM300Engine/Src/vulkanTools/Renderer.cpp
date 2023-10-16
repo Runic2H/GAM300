@@ -10,18 +10,27 @@
 ****************************************************************************
 ***/
 #include <vulkanTools/Renderer.h>
-
+#include "Rendering/GraphicsManager.h"
+#include "vulkanTools/CommandManager.h"
 namespace TDS {
-	
+
 	//Renderer class constructor
-	Renderer::Renderer(WindowsWin& window, VulkanInstance& instance) : m_Window(window), m_Instance(instance) {
+	Renderer::Renderer(WindowsWin& window, VulkanInstance& instance) : m_Window(window), m_Instance(instance)
+	{
 		recreateSwapChain();
 		createCommandBuffers();
 	}
 
 	//Renderer class destructor
-	Renderer::~Renderer() {
+	Renderer::~Renderer()
+	{
+		ShutDown();
+	}
+
+	void Renderer::ShutDown()
+	{
 		freeCommandBuffers();
+		m_SwapChain->ShutDown();
 	}
 
 	//recreates the data from using the previous swapchain
@@ -35,11 +44,13 @@ namespace TDS {
 		if (m_SwapChain == nullptr)
 			m_SwapChain = std::make_unique<VulkanSwapChain>(m_Instance, swapchainextent);
 		else {
+			CommandManager& cmdMgr = GraphicsManager::getInstance().getCommandManager();
 			std::shared_ptr<VulkanSwapChain> oldswapchain = std::move(m_SwapChain);
 			m_SwapChain = std::make_unique<VulkanSwapChain>(m_Instance, swapchainextent, oldswapchain);
 
 			if (!oldswapchain->compareSwapFormat(*m_SwapChain.get()))
 				throw std::runtime_error("Swap Chain image/depth format has changed");
+			cmdMgr.ResetPool(POOLTYPE::GRAPHICS);
 		}
 	}
 
@@ -47,19 +58,26 @@ namespace TDS {
 	void Renderer::createCommandBuffers() {
 		m_vCommandBuffers.resize(VulkanSwapChain::MAX_FRAMES_IN_FLIGHT);
 
-		VkCommandBufferAllocateInfo AllocInfo{};
-		AllocInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
-		AllocInfo.level = VK_COMMAND_BUFFER_LEVEL_PRIMARY;
-		AllocInfo.commandPool = m_Instance.getCommandPool();
-		AllocInfo.commandBufferCount = static_cast<uint32_t>(m_vCommandBuffers.size());
-
-		if (vkAllocateCommandBuffers(m_Instance.getVkLogicalDevice(), &AllocInfo, m_vCommandBuffers.data()) != VK_SUCCESS)
+		CommandManager& cmdMgr = GraphicsManager::getInstance().getCommandManager();
+		if (cmdMgr.CreateCommandBatch(m_vCommandBuffers, POOLTYPE::GRAPHICS) == false)
 			throw std::runtime_error("failed to allocate command buffers");
+
+		//VkCommandBufferAllocateInfo AllocInfo{};
+		//AllocInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
+		//AllocInfo.level = VK_COMMAND_BUFFER_LEVEL_PRIMARY;
+		//AllocInfo.commandPool = m_Instance.getCommandPool();
+		//AllocInfo.commandBufferCount = static_cast<uint32_t>(m_vCommandBuffers.size());
+
+		//if (vkAllocateCommandBuffers(m_Instance.getVkLogicalDevice(), &AllocInfo, m_vCommandBuffers.data()) != VK_SUCCESS)
+		//	throw std::runtime_error("failed to allocate command buffers");
 	}
 
 	//free the command buffers
-	void Renderer::freeCommandBuffers() {
-		vkFreeCommandBuffers(m_Instance.getVkLogicalDevice(), m_Instance.getCommandPool(), static_cast<uint32_t>(m_vCommandBuffers.size()), m_vCommandBuffers.data());
+	void Renderer::freeCommandBuffers()
+	{
+		CommandManager& cmdMgr = GraphicsManager::getInstance().getCommandManager();
+		cmdMgr.DestroyBatch(m_vCommandBuffers, POOLTYPE::GRAPHICS);
+		/*	vkFreeCommandBuffers(m_Instance.getVkLogicalDevice(), m_Instance.getCommandPool(), static_cast<uint32_t>(m_vCommandBuffers.size()), m_vCommandBuffers.data());*/
 		m_vCommandBuffers.clear();
 	}
 
@@ -68,7 +86,8 @@ namespace TDS {
 		assert(!m_isFrameStarted && "cant call beginframe while already in progress");
 
 		auto result = m_SwapChain->acquireNextImage(&m_currentImageIndex);
-		if (result == VK_ERROR_OUT_OF_DATE_KHR) {
+		if (result == VK_ERROR_OUT_OF_DATE_KHR)
+		{
 			recreateSwapChain();
 			return nullptr;
 		}
@@ -144,5 +163,9 @@ namespace TDS {
 		assert(m_isFrameStarted && "cant call endswapchainrenderpass if frame is not in progress");
 		assert(commandbuffer == getCurrentCommandBuffer() && "cant end renderpass on commandbuffer from a different frame");
 		vkCmdEndRenderPass(commandbuffer);
+	}
+	VulkanSwapChain& Renderer::getSwapchain()
+	{
+		return *m_SwapChain;
 	}
 }

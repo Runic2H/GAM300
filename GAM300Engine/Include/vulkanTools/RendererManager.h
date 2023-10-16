@@ -38,6 +38,14 @@ namespace TDS {
 
 		//draws the current frame
 		DLL_API void draw(FrameInfo& frameinfo);
+		inline Pipeline& getPipeline()
+		{
+			return *m_Pipeline;
+		}
+		inline VkPipelineLayout& getpipelinelayout()
+		{
+			return m_PipelineLayout;
+		}
 	private:
 		//helper function
 		void createPipelineLayout(VkDescriptorSetLayout globalsetlayout);

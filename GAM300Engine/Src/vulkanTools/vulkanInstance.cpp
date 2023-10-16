@@ -15,6 +15,8 @@
 
 #include "vulkanTools/vulkanInstance.h"
 #include "Logger/Logger.h"
+#include "Rendering/GraphicsManager.h"
+#include "vulkanTools/CommandManager.h"
 //#include "Input/Input.h"
 //
 //#include "vulkanTools/vmaSetup.h"
@@ -39,7 +41,7 @@ namespace TDS
 		CreateSurface(_Windows);
 		ChoosePhysicalDevice();
 		CreateLogicalDevice(_Windows);
-		CreateCommandPool();
+
 	}
 	void VulkanInstance::CreateSurface(const WindowsWin& _Windows)
 	{
@@ -51,9 +53,8 @@ namespace TDS
 		  )
 		};
 		if (nullptr == pFNVKCreateWin32Surface)
-		{
-			std::cerr << "Vulkan Driver missing the VK_KHR_win32_surface extension\n";
-		}
+			TDS_ERROR("Vulkan Driver missing the VK_KHR_win32_surface extension\n");
+
 
 		VkWin32SurfaceCreateInfoKHR surfaceCreateInfo = {};
 		surfaceCreateInfo.sType = VK_STRUCTURE_TYPE_WIN32_SURFACE_CREATE_INFO_KHR;
@@ -63,7 +64,7 @@ namespace TDS
 		VkResult err = vkCreateWin32SurfaceKHR(m_VKhandler, &surfaceCreateInfo, nullptr, &m_Surface);
 
 		if (err != VK_SUCCESS)
-			throw std::runtime_error("failed to create window surface!");
+			TDS_ERROR("failed to create window surface!");
 	}
 
 	void VulkanInstance::ChoosePhysicalDevice()
@@ -71,12 +72,9 @@ namespace TDS
 		uint32_t deviceCount = 0;
 		vkEnumeratePhysicalDevices(m_VKhandler, &deviceCount, nullptr);
 
-		if (deviceCount == 0) // if there are 0 devices with vulkan support, ggwp
-		{
-			throw std::runtime_error("failed to find GPUs with Vulkan support!");
-		}
+		if (deviceCount == 0)
+			TDS_ERROR("failed to find GPUs with Vulkan support!");
 
-		//otherwise, allocate an array to hold all of the VkPhysicalDevice handles
 		std::vector<VkPhysicalDevice> devices(deviceCount);
 		vkEnumeratePhysicalDevices(m_VKhandler, &deviceCount, devices.data());
 
@@ -99,13 +97,14 @@ namespace TDS
 
 	void VulkanInstance::CreateLogicalDevice(const WindowsWin& _Windows)
 	{
-		QueueFamilyIndices indices = findQueueFamilies(m_PhysDeviceHandle);
+		m_SelectedIndices = findQueueFamilies(m_PhysDeviceHandle);
 
 		std::vector<VkDeviceQueueCreateInfo> queueCreateInfos;
 		std::set<uint32_t> uniqueQueueFamilies =
 		{
-		  indices.graphicsFamily.value(),
-		  indices.presentFamily.value()
+		  m_SelectedIndices.graphicsFamily.value(),
+		  m_SelectedIndices.presentFamily.value(),
+		  m_SelectedIndices.computeFamily.value()
 		};
 
 		float queuePriority = 1.0f;
@@ -145,22 +144,22 @@ namespace TDS
 			throw std::runtime_error("failed to create logical device!");
 		}
 
-		vkGetDeviceQueue(m_logicalDevice, indices.graphicsFamily.value(), 0, &m_graphicQueue);
-		vkGetDeviceQueue(m_logicalDevice, indices.presentFamily.value(), 0, &m_presentQueue);
+		vkGetDeviceQueue(m_logicalDevice, m_SelectedIndices.graphicsFamily.value(), 0, &m_graphicQueue);
+		vkGetDeviceQueue(m_logicalDevice, m_SelectedIndices.presentFamily.value(), 0, &m_presentQueue);
+		vkGetDeviceQueue(m_logicalDevice, m_SelectedIndices.computeFamily.value(), 0, &m_ComputeQueue);
 	}
-	void VulkanInstance::CreateCommandPool()
-	{
-		QueueFamilyIndices queueFamilyIndices = findPhysicalQueueFamilies();
+	//void VulkanInstance::CreateCommandPool()
+	//{
 
-		VkCommandPoolCreateInfo poolInfo{};
-		poolInfo.sType = VK_STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO;
-		poolInfo.flags = VK_COMMAND_POOL_CREATE_RESET_COMMAND_BUFFER_BIT;
-		poolInfo.queueFamilyIndex = queueFamilyIndices.graphicsFamily.value();
+	//	//VkCommandPoolCreateInfo poolInfo{};
+	//	//poolInfo.sType = VK_STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO;
+	//	//poolInfo.flags = VK_COMMAND_POOL_CREATE_RESET_COMMAND_BUFFER_BIT;
+	//	//poolInfo.queueFamilyIndex = m_SelectedIndices.graphicsFamily.value();
 
-		if (vkCreateCommandPool(m_logicalDevice, &poolInfo, nullptr, &m_CommandPool) != VK_SUCCESS) {
-			throw std::runtime_error("failed to create command pool!");
-		}
-	}
+	//	//if (vkCreateCommandPool(m_logicalDevice, &poolInfo, nullptr, &m_CommandPool) != VK_SUCCESS) {
+	//	//	throw std::runtime_error("failed to create command pool!");
+	//	//}
+	//}
 
 	VkResult VulkanInstance::createInstance(bool enableValidation)
 	{
@@ -176,7 +175,7 @@ namespace TDS
 		std::vector<const char*> instanceExtensions
 		{
 			VK_KHR_SURFACE_EXTENSION_NAME,
-			VK_KHR_WIN32_SURFACE_EXTENSION_NAME
+				VK_KHR_WIN32_SURFACE_EXTENSION_NAME
 		};
 
 		// Get extensions supported by the instance and store for later use
@@ -300,15 +299,27 @@ namespace TDS
 
 		int i{ 0 };
 		for (const auto& queueFamily : queueFamilies) {
-			if (queueFamily.queueFlags & VK_QUEUE_GRAPHICS_BIT) {
+			if (queueFamily.queueFlags & VK_QUEUE_GRAPHICS_BIT)
+			{
 				indices.graphicsFamily = i;
+			}
+			else if (queueFamily.queueFlags & VK_QUEUE_COMPUTE_BIT)
+			{
+				indices.computeFamily = i;
 			}
 
 			VkBool32 presentSupport = false;
 			vkGetPhysicalDeviceSurfaceSupportKHR(device, i, m_Surface, &presentSupport);
 
-			if (presentSupport) {
-				indices.presentFamily = i;
+			if (presentSupport)
+			{
+				if (!indices.presentFamily.has_value())
+				{
+					if (indices.graphicsFamily != i)
+						TDS_WARN("Different queue index is being used for presentation vs graphics: %d\n", i);
+					indices.presentFamily = i;
+				}
+
 			}
 
 			if (indices.isComplete()) {
@@ -387,6 +398,29 @@ namespace TDS
 		return details;
 	}
 
+	void VulkanInstance::ShutDown()
+	{
+		if (m_logicalDevice)
+		{
+			vkDestroyDevice(m_logicalDevice, nullptr);
+			m_logicalDevice = nullptr;
+		}
+		if (enableValidate)
+		{
+			TDS::Debug::freeDebugger(m_VKhandler);
+		}
+		if (m_Surface)
+		{
+			vkDestroySurfaceKHR(m_VKhandler, m_Surface, nullptr);
+			m_Surface = nullptr;
+		}
+		if (m_VKhandler)
+		{
+			vkDestroyInstance(m_VKhandler, nullptr);
+			m_VKhandler = nullptr;
+		}
+	}
+
 	uint32_t VulkanInstance::findMemoryType(const uint32_t& typeFiler, VkMemoryPropertyFlags properties)
 	{
 		//query info about the available types of memory 
@@ -420,6 +454,8 @@ namespace TDS
 
 		throw std::runtime_error("failed to find supported format!");
 	}
+
+
 
 	void VulkanInstance::createBuffers(VkDeviceSize size, VkBufferUsageFlags usage, VkMemoryPropertyFlags properties, VkBuffer& buffer,
 		VkDeviceMemory& buffermemory)
@@ -465,7 +501,7 @@ namespace TDS
 		VkCommandBufferAllocateInfo allocInfo{};
 		allocInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
 		allocInfo.level = VK_COMMAND_BUFFER_LEVEL_PRIMARY;
-		allocInfo.commandPool = m_CommandPool;
+		allocInfo.commandPool = GraphicsManager::getInstance().getCommandManager().GetPool(POOLTYPE::GRAPHICS);
 		allocInfo.commandBufferCount = 1;
 
 		VkCommandBuffer commandBuffer;
@@ -492,7 +528,7 @@ namespace TDS
 		vkQueueSubmit(m_graphicQueue, 1, &submitInfo, VK_NULL_HANDLE);
 		vkQueueWaitIdle(m_graphicQueue);
 
-		vkFreeCommandBuffers(m_logicalDevice, m_CommandPool, 1, &commandBuffer);
+		vkFreeCommandBuffers(m_logicalDevice, GraphicsManager::getInstance().getCommandManager().GetPool(POOLTYPE::GRAPHICS), 1, &commandBuffer);
 	}
 
 	//copy contents from one buffer to another
@@ -590,15 +626,8 @@ namespace TDS
 
 
 
-		vkDestroyCommandPool(m_logicalDevice, m_CommandPool, nullptr);// command pool will free command buffers for us.
-
-		vkDestroyDevice(m_logicalDevice, nullptr);
-
-		if (enableValidate)
-			TDS::Debug::freeDebugger(m_VKhandler);
-
-		vkDestroySurfaceKHR(m_VKhandler, m_Surface, nullptr);
-		vkDestroyInstance(m_VKhandler, nullptr);
+		//vkDestroyCommandPool(m_logicalDevice, m_CommandPool, nullptr);// command pool will free command buffers for us.
+		ShutDown();
 	}
 	/*
 

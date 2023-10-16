@@ -20,7 +20,19 @@ namespace TDS
 		{
 			AssetFactory<T>::Load(FilePath, ref, this->m_ResourceManager);
 		}
+		AssetFactory<AssetModel>& GetModelFactory()
+		{
+			return m_ModelFactory;
+		}
 
+		AssetFactory<Texture>& GetTextureFactory()
+		{
+			return m_TextureFactory;
+		}
+		inline ResourceManager& getResourceManager()
+		{
+			return m_ResourceManager;
+		}
 	private:
 		ResourceManager m_ResourceManager;
 		AssetFactory<AssetModel> m_ModelFactory;

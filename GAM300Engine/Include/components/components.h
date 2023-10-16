@@ -21,6 +21,7 @@
 #include "tag.h"
 #include "transform.h"
 #include "winData.h"
+#include "GraphicsComponent.h"
 
 // Helper functions for components
 namespace TDS
