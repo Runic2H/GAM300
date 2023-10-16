@@ -617,8 +617,8 @@ namespace TDS
     // entityId - entityID of the entity
     inline void ECS::removeEntity(const EntityID& entityID)
     {
-        if (!mEntityArchetypeMap.contains(entityID))
-            return; // it doesn't exist
+        //if (!mEntityArchetypeMap.contains(entityID))
+        //    return; // it doesn't exist
 
         Record& record = mEntityArchetypeMap[entityID];
 

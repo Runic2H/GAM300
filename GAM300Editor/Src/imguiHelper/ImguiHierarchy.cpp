@@ -42,7 +42,6 @@ namespace TDS
 				if (ImGui::MenuItem("Empty"))
 				{
 					Entity newEntity;
-	
 					newEntity.add<NameTag>();
 					newEntity.add<Transform>();
 					selectedEntity = newEntity.getID();

@@ -31,6 +31,46 @@ namespace TDS
             return value;
     }
 
+    uint8_t Mathf::ColorFloatToByte(float value)
+    {
+        if (IsNaN(value))
+            return 0;
+        else
+        {
+            value = Clamp01(value);
+			return static_cast<uint8_t>(value * 255.f + 0.5f);
+        }
+    }
+
+    int8_t Mathf::ColorFloatToSignedByte(float value)
+    {
+        if (IsNaN(value))
+            return 0;
+        else
+        {
+            value = Clamp(value, -1.f, 1.f) * 127.0f;
+            if (value >= 0.0f)
+            {
+                value += 0.5f;
+            }
+            else
+            {
+				value -= 0.5f;
+            }
+            return static_cast<int8_t>(value);
+        }
+    }
+
+    float Mathf::ColorByteToFloat(uint8_t value)
+    {
+		return value * (1.f / 255.f);
+    }
+
+    float Mathf::ColorSignedByteToFloat(int8_t value)
+    {
+        return (value == -128) ? -1.0f : value * (1.0f / 127.0f);
+    }
+
     float Mathf::Lerp(float a, float b, float t)
     {
         return a + (b - a) * Clamp01(t);
@@ -71,17 +111,6 @@ namespace TDS
         return to * t + from * (1.f - t);
     }
 
-    float Mathf::Gamma(float value, float absmax, float gamma)
-    {
-        bool negative = value < 0.f;
-        float absval = Abs(value);
-        if (absval > absmax)
-            return negative ? -absval : absval;
-
-        float result = Pow(absval / absmax, gamma) * absmax;
-        return negative ? -result : result;
-    }
-
     bool Mathf::Approximately(float a, float b)
     {
         //return Abs(b - a) < Max(0.000001f * Max(Abs(a), Abs(b)), Mathf::Epsilon * 100);
@@ -113,47 +142,5 @@ namespace TDS
         if (delta > 180.f)
             delta -= 360.f;
         return delta;
-    }
-
-    bool Mathf::LineIntersection(const Vec2& p1, const Vec2& p2, const Vec2& p3, const Vec2& p4, Vec2& result)
-    {
-        float bx = p2.x - p1.x;
-        float by = p2.y - p1.y;
-        float dx = p4.x - p3.x;
-        float dy = p4.y - p3.y;
-        float bDotDPerp = bx * dy - by * dx;
-        if (bDotDPerp == 0)
-            return false;
-
-        float cx = p3.x - p1.x;
-        float cy = p3.y - p1.y;
-        float t = (cx * dy - cy * dx) / bDotDPerp;
-
-        result.Set(p1.x + t * bx, p1.y + t * by);
-        return true;
-    }
-    
-    bool Mathf::LineSegmentIntersection(const Vec2& p1, const Vec2& p2, const Vec2& p3, const Vec2& p4, Vec2& result)
-    {
-        float bx = p2.x - p1.x;
-        float by = p2.y - p1.y;
-        float dx = p4.x - p3.x;
-        float dy = p4.y - p3.y;
-        float bDotDPerp = bx * dy - by * dx;
-        if (bDotDPerp == 0)
-            return false;
-
-        float cx = p3.x - p1.x;
-        float cy = p3.y - p1.y;
-        float t = (cx * dy - cy * dx) / bDotDPerp;
-        if (t < 0 || t > 1)
-            return false;
-
-        float u = (cx * by - cy * bx) / bDotDPerp;
-        if (u < 0 || u > 1)
-            return false;
-
-        result.Set(p1.x + t * bx, p1.y + t * by);
-        return true;
     }
 } // namespace WD

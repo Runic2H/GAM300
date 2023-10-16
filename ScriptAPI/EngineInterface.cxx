@@ -1,4 +1,5 @@
 #include "EngineInterface.hxx"
+#include "Debug.hxx"
 using namespace System;
 using namespace System::Runtime::InteropServices;
 #pragma comment (lib, "GAM300Engine.lib")
@@ -16,12 +17,28 @@ namespace ScriptAPI
     ***************************************************************************/
 	void EngineInterface::Init()
 	{
+        using namespace System::IO;
+        loadContext = gcnew System::Runtime::Loader::AssemblyLoadContext(nullptr, true);
+        // Load assembly
+        FileStream^ managedLibFile = File::Open
+        (
+            "ManagedScripts.dll",
+            FileMode::Open, FileAccess::Read, FileShare::Read
+        );
+        loadContext->LoadFromStream(managedLibFile);
+        managedLibFile->Close();
+
         // Load Assembly
-        System::Reflection::Assembly::LoadFrom("ManagedScripts.dll");
+        /*System::Reflection::Assembly::LoadFrom("ManagedScripts.dll");*/
 
 		scripts = gcnew System::Collections::Generic::SortedList<TDS::EntityID,ScriptList^>();
 
         HelloWorld();
+
+        //for (int i = 0; i < 5/*TDS::ecs.numberOfLiveEntities*/; ++i)
+        //{
+        //    scripts->Add(i, gcnew ScriptList());
+        //}
         
         for (auto i : TDS::ecs.getEntities())
         {
@@ -37,7 +54,8 @@ namespace ScriptAPI
     ***************************************************************************/
     bool EngineInterface::AddScriptViaName(TDS::EntityID entityId, System::String^ scriptName)
     {
-        if (entityId == TDS::NULLENTITY || TDS::ecs.getEntities().size() == 0)
+        SAFE_NATIVE_CALL_BEGIN
+        if (entityId == TDS::NULLENTITY)
             return false;
 
         // Remove any whitespaces
@@ -62,14 +80,33 @@ namespace ScriptAPI
 
         // Create the script
         // Default construct an object of the specified type. 
-        // We have to use this as we can’t use the normal gcnew syntax to create it as 
+        // We have to use this as we canï¿½t use the normal gcnew syntax to create it as 
         // scriptType is a variable that stores a type; it itself is not a type that we can pass to gcnew.
         Script^ script = safe_cast<Script^>(System::Activator::CreateInstance(scriptType));
+        script->SetEntityID(entityId);
 
         // Add script to SortedList
         scripts[entityId]->Add(script);
-
         return true;
+        SAFE_NATIVE_CALL_END
+
+        return false;
+    }
+
+    /*!*************************************************************************
+    * Calls all script start function
+    ***************************************************************************/
+    void EngineInterface::ExecuteStart()
+    {
+        for each (auto i in TDS::ecs.getEntities())
+        {
+            for each (Script ^ script in scripts[i])
+            {
+                SAFE_NATIVE_CALL_BEGIN
+                    script->Start();
+                SAFE_NATIVE_CALL_END
+            }
+        }
     }
 
     /*!*************************************************************************
@@ -77,13 +114,46 @@ namespace ScriptAPI
     ***************************************************************************/
     void EngineInterface::ExecuteUpdate()
     {
-        for (int i = 0; i < scripts->Count; i++)
+        for each (auto i in TDS::ecs.getEntities())
+        {
+            for each (Script^ script in scripts[i])
+            {
+                SAFE_NATIVE_CALL_BEGIN
+                    script->Update();
+                SAFE_NATIVE_CALL_END
+            }
+        }
+    }
+
+    /*!*************************************************************************
+    * Calls all script exit function
+    ***************************************************************************/
+    void EngineInterface::ExecuteOnDestroy()
+    {
+        for each (auto i in TDS::ecs.getEntities())
         {
             for each (Script ^ script in scripts[i])
             {
-                script->Update();
+                SAFE_NATIVE_CALL_BEGIN
+                    script->OnDestroy();
+                SAFE_NATIVE_CALL_END
             }
         }
+    }
+
+    void EngineInterface::Reload()
+    {
+        // Clear all references to types in the script assembly we are going to unload
+        scripts->Clear();
+        scriptTypeList = nullptr;
+        // Unload
+        loadContext->Unload();
+        loadContext = nullptr;
+        // Wait for unloading to finish
+        System::GC::Collect();
+        System::GC::WaitForPendingFinalizers();
+        // Load the assembly again
+        Init();
     }
 
 	namespace

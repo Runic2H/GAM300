@@ -32,8 +32,7 @@ namespace TDS
             initReverb();
         }
 
-        void AudioEngine::deactivate() 
-        {
+        void AudioEngine::deactivate() {
             lowLevelSystem->close();
             lowLevelSystem->release();
             studioSystem->release();

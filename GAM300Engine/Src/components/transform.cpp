@@ -66,10 +66,8 @@ namespace TDS
 		return true;
 	}
 
-	//void Transform::ImGuiDisplay()
-	//{
-	//	ImguiVec3Input("Position", mPosition);
-	//	ImguiVec3Input("Scale", mScale);
-	//	ImguiFloatInput("Rotation", mRotation);
-	//}
+	Transform* GetTransform(EntityID entityID)
+	{
+		return ecs.getComponent<Transform>(entityID);
+	}
 }

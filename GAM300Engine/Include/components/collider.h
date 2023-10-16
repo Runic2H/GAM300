@@ -59,15 +59,19 @@ namespace TDS
 
 		DLL_API Vec3& GetColliderNormal() { return mCollisionNormal; }
 		DLL_API void SetColliderNormal(Vec3 collisionNormal) { mCollisionNormal = collisionNormal; }
+		DLL_API void SetColliderNormal(float x, float y, float z) { mCollisionNormal = Vec3(x, y, z); }
 
 		DLL_API Vec3& GetMin() { return mMin; }
 		DLL_API void SetMin(Vec3 min) { mMin = min; }
+		DLL_API void SetMin(float x, float y, float z) { mMin = Vec3(x, y, z); }
 
 		DLL_API Vec3& GetMax() { return mMax; }
 		DLL_API void SetMax(Vec3 max) { mMax = max; }
+		DLL_API void SetMax(float x, float y, float z) { mMax = Vec3(x, y, z); }
 
 		DLL_API Vec3& GetOffset() { return mOffset; }
 		DLL_API void SetOffset(Vec3 offset) { mOffset = offset; }
+		DLL_API void SetOffset(float x, float y, float z) { mOffset = Vec3(x, y, z); }
 
 		DLL_API int& GetHit() { return mHit; }
 		DLL_API void SetHit(int hit) { mHit = hit; }
@@ -94,6 +98,8 @@ namespace TDS
 		bool mIsAlive;
 		bool mCollision;
 	};
+
+	DLL_API Collider* GetCollider(EntityID entityID);
 }
 
 #endif // COLLIDERCOMPONENT

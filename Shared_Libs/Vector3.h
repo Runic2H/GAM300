@@ -12,13 +12,13 @@ class Vec3
 public:
     // Constructors and destructors
     Vec3();
-    Vec3(const Vec3& v); // Copy constructor
+    //Vec3(const Vec3& v); // Copy constructor
     Vec3(float value); // Constructor with one value
     Vec3(float data[]); // Constructor with array of values
     Vec3(float newX, float newY, float newZ); // Constructor with three values
     Vec3(const Vec2& v, float newZ); // Constructor with Vec2 and one value
     Vec3(const float* newX, const float* newY, const float* newZ); // Constructor with three pointers
-    ~Vec3();
+    //~Vec3();
 
     // Static Properties
     static Vec3 back();

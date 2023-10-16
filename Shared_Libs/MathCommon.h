@@ -17,10 +17,12 @@
 
 namespace TDS
 {
-    class Vec2;
     class Mathf
     {
         public:
+        static bool IsFinite(float f) { return std::isfinite(f); }
+        static bool IsEqual(float lhs, float rhs, float fEpsilon) { return ((rhs >= lhs - fEpsilon) && (rhs <= lhs + fEpsilon)); }
+        static bool IsNaN(float f) { return isnan(f); }
         static float Sin(float f) { return sinf(f); }
         static float Cos(float f) { return cosf(f); }
         static float Tan(float f) { return tanf(f); }
@@ -31,6 +33,7 @@ namespace TDS
         static float Sqrt(float f) { return sqrtf(f); }
         static float Abs(float f) { return fabsf(f); }
         static int Abs(int value) { return abs(value); }
+		static float Mod(float f, float divisor) { return fmodf(f, divisor); }
         static float Min(float a, float b) { return fminf(a, b); }
         static float Min(float count, ...)
         {
@@ -160,6 +163,7 @@ namespace TDS
         static float Exp(float power) { return expf(power); }
         static float Log(float f, float p) { return logf(f) / logf(p); }
         static float Log(float f) { return logf(f); }
+        static float Log2(float f) { return log2f(f); }
         static float Log10(float f) { return log10f(f); }
         static float Ceil(float f) { return ceilf(f); }
         static float Floor(float f) { return floorf(f); }
@@ -174,6 +178,7 @@ namespace TDS
         static constexpr float NegativeInfinity = -std::numeric_limits<float>::infinity();
         static constexpr float Deg2Rad = PI  / 180.0f;
         static constexpr float Rad2Deg = 1.0f / Deg2Rad;
+		static constexpr float NaN = std::numeric_limits<float>::quiet_NaN();
         
         // Max number of decimals to display when converting to string
         const int kMaxDecimals = 15; 
@@ -185,6 +190,13 @@ namespace TDS
         static float Clamp(int value, int min, int max);
         // Clamps value between 0 and 1 and returns value.
         static float Clamp01(float value);
+
+		// Color Conversion Functions
+        static uint8_t ColorFloatToByte(float value);
+        static int8_t ColorFloatToSignedByte(float value);
+
+        static float ColorByteToFloat(uint8_t value);
+        static float ColorSignedByteToFloat(int8_t value);
 
         // Linearly interpolates between a and b by t. t is clamped between 0 and 1.
         static float Lerp(float a, float b, float t);
@@ -204,9 +216,6 @@ namespace TDS
         // Interpolates between min and max with smoothing at the limits.
         static float SmoothStep(float from, float to, float t);
 
-        // undocumented
-        static float Gamma(float value, float absmax, float gamma);
-
         // Compares two floating point values if they are similar.
         static bool Approximately(float a, float b);
 
@@ -222,12 +231,6 @@ namespace TDS
         // Calculates the shortest difference between two given angles given in degrees.
         static float DeltaAngle(float current, float target);
     
-        // Infinite Line Intersection (line1 is p1-p2, line2 is p3-p4)
-        static bool LineIntersection(const Vec2& p1, const Vec2& p2, const Vec2& p3, const Vec2& p4, Vec2& result);
-
-        // Line Segment Intersection (line1 is p1-p2, line2 is p3-p4)
-        static bool LineSegmentIntersection(const Vec2& p1, const Vec2& p2, const Vec2& p3, const Vec2& p4, Vec2& result);
-
     };
 }
 

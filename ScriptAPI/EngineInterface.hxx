@@ -10,7 +10,7 @@
 #pragma once
 
 #include "Script.hxx"
-#include "../GAM300Engine/Include/ecs/ecs.h"
+
 
 namespace ScriptAPI
 {
@@ -27,9 +27,19 @@ namespace ScriptAPI
 		***************************************************************************/
 		static bool AddScriptViaName(TDS::EntityID entityId, System::String^ scriptName);
 		/*!*************************************************************************
+		* Calls all script start function
+		***************************************************************************/
+		static void ExecuteStart();
+		/*!*************************************************************************
 		* Calls all script updates function
 		***************************************************************************/
 		static void ExecuteUpdate();
+		/*!*************************************************************************
+		* Calls all script exit function
+		***************************************************************************/
+		static void ExecuteOnDestroy();
+
+		static void Reload();
 
 	private:
 		//(^)* reference to managed pointer
@@ -40,5 +50,6 @@ namespace ScriptAPI
 		* Updates script Type list
 		***************************************************************************/
 		static void updateScriptTypeList();
+		static System::Runtime::Loader::AssemblyLoadContext^ loadContext;
 	};
 }

@@ -77,17 +77,17 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LibraryPath>$(OutDir);$(LibraryPath)</LibraryPath>
     <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
-    <OutDir>$(SolutionDir).bin\$(Configuration)-$(Platform)</OutDir>
+    <OutDir>$(SolutionDir).bin\$(Configuration)-$(Platform)\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
     <LibraryPath>$(OutDir);$(LibraryPath)</LibraryPath>
-    <OutDir>$(SolutionDir).bin\$(Configuration)-$(Platform)</OutDir>
+    <OutDir>$(SolutionDir).bin\$(Configuration)-$(Platform)\</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)Dependencies;$(SolutionDir)Shared_Libs;$(SolutionDir)GAM300Engine\Include\Geometry;$(SolutionDir)Dependencies\assimp\include;$(SolutionDir)GAM300Engine\Include;$(SolutionDir)GAM300Editor\Include;$(SolutionDir)Dependencies\spdlog\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <ConformanceMode>true</ConformanceMode>
@@ -130,11 +130,22 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Components\ColliderComponent.hxx" />
+    <ClInclude Include="Components\NameTagComponent.hxx" />
+    <ClInclude Include="Components\TransformComponent.hxx" />
+    <ClInclude Include="Debug.hxx" />
     <ClInclude Include="EngineInterface.hxx" />
+    <ClInclude Include="IncludeFromEngine.hxx" />
     <ClInclude Include="Script.hxx" />
+    <ClInclude Include="Vector3.hxx" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Components\ColliderComponent.cxx" />
+    <ClCompile Include="Components\NameTagComponent.cxx" />
+    <ClCompile Include="Components\TransformComponent.cxx" />
     <ClCompile Include="EngineInterface.cxx" />
+    <ClCompile Include="Script.cxx" />
+    <ClCompile Include="Vector3.cxx" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

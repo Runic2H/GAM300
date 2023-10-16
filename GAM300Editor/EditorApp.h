@@ -19,7 +19,6 @@
 #include "dotnet/ImportExport.h"
 #include "dotnet/include/coreclrhost.h" 
 
-
 namespace TDS
 {
 	class Application
@@ -126,6 +125,7 @@ namespace TDS
 		* Function to build TPA list for C++/CLI to function
 		***************************************************************************/
 		std::string buildTpaList(const std::string& directory);
+		void compileScriptAssembly();
 		/*!*************************************************************************
 		* References to CoreCLR key components
 		***************************************************************************/

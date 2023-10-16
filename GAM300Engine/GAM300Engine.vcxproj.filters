@@ -78,6 +78,8 @@
     <ClCompile Include="Src\Renderer\RenderDataManager.cpp" />
     <ClCompile Include="Src\Renderer\Renderer3D.cpp" />
     <ClCompile Include="Src\components\GraphicsComponent.cpp" />
+    <ClCompile Include="..\Shared_Libs\Color.cpp" />
+    <ClCompile Include="..\Shared_Libs\Color8UNorm.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Shared_Libs\MathCommon.h" />
@@ -184,6 +186,8 @@
     <ClInclude Include="Include\Rendering\Skybox.h" />
     <ClInclude Include="Include\components\GraphicsComponent.h" />
     <ClInclude Include="Include\Rendering\RenderLayer.h" />
+    <ClInclude Include="..\Shared_Libs\Color.h" />
+    <ClInclude Include="..\Shared_Libs\Color8UNorm.h" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Include\Logger\Logger.h" />

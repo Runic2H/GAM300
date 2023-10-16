@@ -3,13 +3,13 @@
 namespace TDS
 {
     Vec3::Vec3() : x(0), y(0), z(0) {}
-    Vec3::Vec3(const Vec3& v) : x(v.x), y(v.y), z(v.z) {}
+    //Vec3::Vec3(const Vec3& v) : x(v.x), y(v.y), z(v.z) {}
     Vec3::Vec3(float value) : x(value), y(value), z(value) {}
     Vec3::Vec3(float data[]) : x(data[0]), y(data[1]), z(data[2]) {}
     Vec3::Vec3(float newX, float newY, float newZ) : x(newX), y(newY), z(newZ) {}
     Vec3::Vec3(const Vec2& v, float newZ) : x(v.x), y(v.y), z(newZ) {}
     Vec3::Vec3(const float* newX, const float* newY, const float* newZ) : x(*newX), y(*newY), z(*newZ) {}
-    Vec3::~Vec3() {}
+    //Vec3::~Vec3() {}
 
     Vec3 Vec3::back() { return Vec3(0.f, 0.f, -1.f); }
     Vec3 Vec3::down() { return Vec3(0.f, -1.f, 0.f); }
