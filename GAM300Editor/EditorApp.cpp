@@ -141,8 +141,8 @@ namespace TDS
         {
 
             TimeStep::CalculateDeltaTime();
-			float DeltaTime = TimeStep::GetDeltaTime();
-  
+            float DeltaTime = TimeStep::GetDeltaTime();
+
             GraphicsManager::getInstance().StartFrame();
 
 
@@ -158,26 +158,26 @@ namespace TDS
                 ecs.runSystems(1, DeltaTime);
             }
             auto executeUpdate = GetFunctionPtr<void(*)(void)>
-            (
-                "ScriptAPI",
-                "ScriptAPI.EngineInterface",
-                "ExecuteUpdate"
-            );
+                (
+                    "ScriptAPI",
+                    "ScriptAPI.EngineInterface",
+                    "ExecuteUpdate"
+                );
 
             auto reloadScripts = GetFunctionPtr<void(*)(void)>
-            (
-                "ScriptAPI",
-                "ScriptAPI.EngineInterface",
-                "Reload"
-            );
+                (
+                    "ScriptAPI",
+                    "ScriptAPI.EngineInterface",
+                    "Reload"
+                );
 
             auto addScript = GetFunctionPtr<bool(*)(int, const char*)>
-            (
-                "ScriptAPI",
-                "ScriptAPI.EngineInterface",
-                "AddScriptViaName"
-            );
-            
+                (
+                    "ScriptAPI",
+                    "ScriptAPI.EngineInterface",
+                    "AddScriptViaName"
+                );
+
             imguiHelper::Draw(commandBuffer);
             GraphicsManager::getInstance().GetSwapchainRenderer().EndSwapChainRenderPass(commandBuffer);
             GraphicsManager::getInstance().EndFrame();
@@ -191,7 +191,8 @@ namespace TDS
         vkDeviceWaitIdle(GraphicsManager::getInstance().getVkInstance().getVkLogicalDevice());
         imguiHelper::Exit();
         ecs.destroy();
-        
+        GraphicsManager::getInstance().ShutDown();
+
     }
 
     void Application::Run()
@@ -446,7 +447,7 @@ namespace TDS
 
         imguiHelper::InitializeImgui(initInfo, GraphicsManager::getInstance().GetSwapchainRenderer().getSwapChainRenderPass(), m_window.getWindowHandler());
 
-        if (VkCommandBuffer FCB{ GraphicsManager::getInstance().getVkInstance().beginSingleTimeCommands()}; FCB != nullptr)
+        if (VkCommandBuffer FCB{ GraphicsManager::getInstance().getVkInstance().beginSingleTimeCommands() }; FCB != nullptr)
         {
             imguiHelper::ImguiCreateFont(FCB);
             GraphicsManager::getInstance().getVkInstance().endSingleTimeCommands(FCB);
