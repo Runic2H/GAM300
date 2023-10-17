@@ -117,12 +117,13 @@ namespace TDS
     }
     void Application::Initialize()
     {
-
+        ShaderReflector::GetInstance()->Init("../assets/shaders/", "../assets/shaders/AllShaders.bin");
         GraphicsManager::getInstance().Init(&m_window);
 
         m_AssetManager.Init();
         m_AssetManager.PreloadAssets();
         SceneManager::GetInstance()->Init();
+
         ecs.initializeSystems(1);
         Run();
     }

@@ -28,6 +28,7 @@ namespace TDS
 		m_CommandManager->Init();
 		m_SwapchainRenderer = std::make_shared<Renderer>(*m_pWindow, *m_MainVkContext);
 		DefaultTextures::GetInstance().Init();
+	
 		Renderer3D::Init();
 		FrameBufferEntryInfo entry{};
 		entry.m_AreaDimension = { m_pWindow->getWidth(), m_pWindow->getHeight() };

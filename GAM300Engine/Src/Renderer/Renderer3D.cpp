@@ -26,8 +26,8 @@ namespace TDS
 		/*entry.m_FBTarget = { inst.m_FrameBuffer };*/
 		entry.m_NumDescriptorSets = 1;
 		
-		entry.m_ShaderInputs.m_Shaders.insert(std::make_pair(SHADER_FLAG::VERTEX, "../assets/shaders/vert.spv"));
-		entry.m_ShaderInputs.m_Shaders.insert(std::make_pair(SHADER_FLAG::FRAGMENT, "../assets/shaders/frag.spv"));
+		entry.m_ShaderInputs.m_Shaders.insert(std::make_pair(SHADER_FLAG::VERTEX, "../assets/shaders/shadervert.spv"));
+		entry.m_ShaderInputs.m_Shaders.insert(std::make_pair(SHADER_FLAG::FRAGMENT, "../assets/shaders/shaderfrag.spv"));
 		VertexLayout layout = 
 		VertexLayout(
 		{ 
