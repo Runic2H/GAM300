@@ -28,6 +28,7 @@ namespace TDS
 		m_CommandManager->Init();
 		m_SwapchainRenderer = std::make_shared<Renderer>(*m_pWindow, *m_MainVkContext);
 		DefaultTextures::GetInstance().Init();
+	
 		Renderer3D::Init();
 		FrameBufferEntryInfo entry{};
 		entry.m_AreaDimension = { m_pWindow->getWidth(), m_pWindow->getHeight() };
@@ -85,6 +86,7 @@ namespace TDS
 		DefaultTextures::GetInstance().DestroyDefaultTextures();
 		m_SwapchainRenderer->ShutDown();
 		m_CommandManager->Shutdown();
+		GraphicsAllocator::GetInstance().ShutDown();
 		m_MainVkContext->ShutDown();
 	}
 	void GraphicsManager::ResizeFrameBuffer(std::uint32_t width, std::uint32_t height)

@@ -15,7 +15,7 @@ namespace TDS
 	float RendererSystem::lightPosX = 0.f;
 	void RendererSystem::OnInit()
 	{
-		Renderer3D::getInstance()->models = Model::createModelFromFile(GraphicsManager::getInstance().getVkInstance(), "Test.bin");
+		Renderer3D::getInstance()->models = nullptr;
 	
 	}
 	void RendererSystem::OnUpdate(const float dt, const std::vector<EntityID>& entities, Transform* _TransformComponent, GraphicsComponent* _Graphics)
@@ -56,7 +56,7 @@ namespace TDS
 					pushData.NormalMat = temp;
 
 					ubo.m_View = GraphicsManager::getInstance().GetCamera().GetViewMatrix();
-					ubo.m_vPointLights[0].m_Position= Vec4(lightPosX, 0.5f, 0.f, 0.2f);
+					ubo.m_vPointLights[0].m_Position= Vec4(lightPosX, 1.f, 0.f, 0.2f);
 					ubo.m_vPointLights[0].m_Color = Vec4(1.f, 1.f, 1.f, 1.f);
 					ubo.m_Projection = Mat4::Perspective(GraphicsManager::getInstance().GetCamera().m_Fov * Mathf::Deg2Rad,
 						GraphicsManager::getInstance().GetSwapchainRenderer().getAspectRatio(), 0.1f, 10.f);
@@ -66,7 +66,7 @@ namespace TDS
 					Renderer3D::getPipeline()->UpdateUBO(&ubo, sizeof(GlobalUBO), 0, frame);
 					Renderer3D::getPipeline()->BindDescriptor(frame);
 					Renderer3D::getPipeline()->SubmitPushConstant(&pushData, sizeof(PushConstantData), SHADER_FLAG::VERTEX);
-					Renderer3D::getInstance()->models->bind(commandBuffer);
+					/*Renderer3D::getInstance()->models->bind(commandBuffer);*/
 					Renderer3D::getInstance()->models->draw(commandBuffer);
 
 					
