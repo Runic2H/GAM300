@@ -55,7 +55,7 @@ namespace TDS {
 		pipelineConfig.m_BindingDescriptions.clear();
 		pipelineConfig.m_renderpass = renderpass;
 		pipelineConfig.m_PipelineLayout = m_pipelineLayout;
-		m_Pipeline = std::make_unique<Pipeline>(m_Instance, "vert.spv", "frag.spv", pipelineConfig);
+		m_Pipeline = std::make_unique<Pipeline>(m_Instance, "pointlightvert.spv", "pointlightfrag.spv", pipelineConfig);
 	}
 
 	void PointLightSystem::update(FrameInfo& frameinfo, GlobalUBO& ubo) {

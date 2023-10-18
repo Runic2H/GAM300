@@ -15,7 +15,6 @@ namespace TDS
 	}
 	VulkanPipeline::~VulkanPipeline()
 	{
-		ShutDown();
 	}
 	bool VulkanPipeline::Create(PipelineCreateEntry& createEntry)
 	{
