@@ -135,7 +135,6 @@ namespace TDS
 		}
 		void DLL_API ShutDown();
 
-		void ShutDown();
 	private:
 		VkDeviceSize m_TotalAllocatedBytes;
 		VmaAllocator m_VulkanAllocator = nullptr;
