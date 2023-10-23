@@ -122,7 +122,7 @@
     <ClCompile>
       <WarningLevel>Level4</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;CORE_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions);DLL_API_EXPORT</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;CORE_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions);DLL_API_EXPORT;JPH_PROFILE_ENABLED;JPH_DEBUG_RENDERER;JPH_FLOATING_POINT_EXCEPTIONS_ENABLED;JPH_USE_AVX2;JPH_USE_AVX;JPH_USE_SSE4_1;JPH_USE_SSE4_2;JPH_USE_LZCNT;JPH_USE_TZCNT;JPH_USE_F16C;JPH_USE_FMADD</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <AdditionalIncludeDirectories>$(SolutionDir)..\Dependencies;$(SolutionDir)Include;$(SolutionDir)..\Shared_Libs;$(SolutionDir)Include\Geometry;$(SolutionDir)..\Dependencies\assimp\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
@@ -138,7 +138,7 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)Libs;$(SolutionDir)Libs\Debug;$(SolutionDir)Libs\fmod;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>vulkan-1.lib;fmodL_vc.lib;fmodstudioL_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>vulkan-1.lib;fmodL_vc.lib;fmodstudioL_vc.lib;Jolt.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>xcopy /s /r /y /q "$(SolutionDir)Dependencies\dotnet\bin" "$(OutDir)"
@@ -226,7 +226,9 @@ xcopy /y /d "$(SolutionDir)Libs\fmod\*.dll" "$(OutDir)"</Command>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Src\Physics\CollisionSystem.cpp" />
-    <ClCompile Include="Src\Physics\PhysicsSystem.cpp" />
+    <ClCompile Include="Src\Physics\PhysicsSystem.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Use</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="Src\Renderer\GraphicsManager.cpp" />
     <ClCompile Include="Src\Renderer\RenderDataManager.cpp" />
     <ClCompile Include="Src\Renderer\Renderer3D.cpp" />
@@ -315,7 +317,6 @@ xcopy /y /d "$(SolutionDir)Libs\fmod\*.dll" "$(OutDir)"</Command>
     <ClInclude Include="Include\memoryManager\memoryManager.h" />
     <ClInclude Include="Include\Model\ModelTransform.h" />
     <ClInclude Include="Include\Model\Skeleton.h" />
-    <ClInclude Include="Include\Physics\CollisionSystem.h" />
     <ClInclude Include="Include\Physics\PhysicsSystem.h" />
     <ClInclude Include="Include\Rendering\GraphicsManager.h" />
     <ClInclude Include="Include\Rendering\Material.h" />
