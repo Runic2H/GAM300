@@ -71,17 +71,17 @@ namespace TDS
 		ImGui::SameLine();
 		ImGui::PushStyleColor(ImGuiCol_Button, { 0.8f,0,0,1 });
 		ImGui::PushStyleColor(ImGuiCol_ButtonHovered, { 1,0.2f,0,1 });
-		if (ImGui::Button("STOP", { 40, 19 }))
-		{
-			console->AddLog("Stop button pressed");
-			if (isStopped) {
+		//if (ImGui::Button("STOP", { 40, 19 }))
+		//{
+		//	console->AddLog("Stop button pressed");
+		//	if (isStopped) {
 
-				//stop the app
-				/*App->timeManagement->Stop();
-				App->scene->inGame = false;
-				App->scene->StopScene(App->scene->GetRoot(), App->scene->GetRoot());*/
-			}
-		}
+		//		//stop the app
+		//		/*App->timeManagement->Stop();
+		//		App->scene->inGame = false;
+		//		App->scene->StopScene(App->scene->GetRoot(), App->scene->GetRoot());*/
+		//	}
+		//}
 		ImGui::PopStyleColor();
 		ImGui::PopStyleColor();
 

@@ -55,6 +55,7 @@
     <ClInclude Include="Include\imguiHelper\ImguiHierarchy.h" />
     <ClInclude Include="Include\imguiHelper\ImguiProfiler.h" />
     <ClInclude Include="Include\imguiHelper\ImguiProperties.h" />
+    <ClInclude Include="Include\imguiHelper\ImguiScene.h" />
     <ClInclude Include="Include\imguiHelper\ImguiSceneBrowser.h" />
     <ClInclude Include="Include\imguiHelper\ImguiToolbar.h" />
     <ClInclude Include="Include\imguiHelper\ImGuiViewport.h" />
@@ -91,6 +92,7 @@
     <ClCompile Include="Src\imguiHelper\ImguiHierarchy.cpp" />
     <ClCompile Include="Src\imguiHelper\ImguiProfiler.cpp" />
     <ClCompile Include="Src\imguiHelper\ImguiProperties.cpp" />
+    <ClCompile Include="Src\imguiHelper\ImguiScene.cpp" />
     <ClCompile Include="Src\imguiHelper\ImguiSceneBrowser.cpp" />
     <ClCompile Include="Src\imguiHelper\ImguiToolBar.cpp" />
     <ClCompile Include="Src\Tools\CompilerSettings.cpp" />
@@ -214,7 +216,7 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir).bin\Debug-x64;$(SolutionDir)Libs;$(SolutionDir)ToolsLibs;$(SolutionDir)ToolsLibs\DebugLibs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>GAM300Engine.lib;vulkan-1.lib;meshoptimizer_d.lib;assimp-vc143-mtd.lib;SPIRVd.lib;shadercd.lib;glslangd.lib;glslang-default-resource-limitsd.lib;OGLCompilerd.lib;OSDependentd.lib;spirv-cross-cored.lib;spirv-cross-glsld.lib;SPIRV-Toolsd.lib;SPVRemapperd.lib;MachineIndependentd.lib;GenericCodeGend.lib;DirectXTexd.lib;rttr_core_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>GAM300Engine.lib;vulkan-1.lib;meshoptimizer_d.lib;assimp-vc143-mtd.lib;SPIRVd.lib;shadercd.lib;glslangd.lib;glslang-default-resource-limitsd.lib;OGLCompilerd.lib;OSDependentd.lib;spirv-cross-cored.lib;spirv-cross-glsld.lib;SPIRV-Toolsd.lib;SPVRemapperd.lib;MachineIndependentd.lib;GenericCodeGend.lib;DirectXTexd.lib;rttr_core_d.lib;Jolt.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>

@@ -14,7 +14,7 @@ namespace TDS
 		void update();
 		static inline std::filesystem::path m_curr_path;
 	private:
-		float thumbnail_size = 80;
+		float thumbnail_size = 60;
 		float padding = 10.f;
 		std::string path1;
 		std::string selectedpath;

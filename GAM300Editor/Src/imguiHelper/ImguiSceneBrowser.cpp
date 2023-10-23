@@ -12,8 +12,11 @@
 #include "imguiHelper/ImguiSceneBrowser.h"
 #include "imguiHelper/ImguiHierarchy.h"
 
+
 namespace TDS
 {
+	
+	
 	/*!*************************************************************************
 	This function initializes the Scene Broswer panel
 	****************************************************************************/
@@ -27,6 +30,7 @@ namespace TDS
 		deleteSceneConfirmation = false;
 		renameFileID = -1;
 		renameFileOldName = "";
+
 	}
 
 	/*!*************************************************************************
@@ -167,6 +171,6 @@ namespace TDS
 		}
 
 		ImGui::Columns(1);
-		ImGui::SliderFloat("Thumbnail Size", &buttonSize, 16, 512);
+
 	}
 }

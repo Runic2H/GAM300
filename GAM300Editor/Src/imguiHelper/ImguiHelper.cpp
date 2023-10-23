@@ -11,6 +11,7 @@
 #include "imguiHelper/ImguiToolbar.h"
 #include "imguiHelper/ImguiProfiler.h"
 #include "ImguiHelper/ImguiFunctionHelper.h"
+#include "imguiHelper/ImguiScene.h"
 
 namespace TDS
 {
@@ -32,6 +33,7 @@ namespace TDS
 			m_instance->panels[PanelTypes::TOOLBAR] = std::make_shared<Toolbar>();
 			m_instance->panels[PanelTypes::PROFILER] = std::make_shared<Profiler>();
 			m_instance->panels[PanelTypes::BEHAVIOURTREEEDITOR] = std::make_shared<BehaviourTreePanel>();
+			m_instance->panels[PanelTypes::SCENE] = std::make_shared<EditorScene>();
 		}
 		return m_instance;
 	}
