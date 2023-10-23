@@ -10,7 +10,7 @@ namespace TDS
 	public:
 		EditorScene();
 
-		
+		void init() {}
 		void update();
 
 	private:
