@@ -16,6 +16,20 @@
 #include "components/transform.h"
 #include "dotnet/ImportExport.h"
 #include "Timestep/Timestep.h"
+#include "Logger/Logger.h"
+
+ // Jolt includes
+#include <Jolt/RegisterTypes.h>
+#include <Jolt/Core/Factory.h>
+#include <Jolt/Core/TempAllocator.h>
+#include <Jolt/Core/JobSystemThreadPool.h>
+#include <Jolt/Physics/PhysicsSettings.h>
+#include <Jolt/Physics/PhysicsSystem.h>
+#include <Jolt/Physics/Collision/Shape/BoxShape.h>
+#include <Jolt/Physics/Collision/Shape/SphereShape.h>
+#include <Jolt/Physics/Body/BodyCreationSettings.h>
+#include <Jolt/Physics/Body/BodyActivationListener.h>
+
 
 // X = moving left, right
 // Y = moving up, down
@@ -45,9 +59,13 @@ namespace TDS
 		 * Set the object direction based on the force
 		 ***************************************************************************/
 		static void SettingObjectDirection(Vec3& totalForce, RigidBody& _rigidbody);
+
+		void JoltPhysicsSystemInit();
+
 	private:
 		static const double fixedDt;
 		static double accumulatedTime;
+		std::unique_ptr<JPH::PhysicsSystem> m_physicsSystem;
 	};
 }
 
