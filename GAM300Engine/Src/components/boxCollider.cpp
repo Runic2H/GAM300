@@ -11,6 +11,24 @@
 
 #include "components/boxCollider.h"
 
+RTTR_REGISTRATION
+{
+	using namespace TDS;
+
+	rttr::registration::class_<BoxCollider>("Box Collider")
+		.method("GetIsTrigger", &BoxCollider::GetIsTrigger)
+		.method("SetIsTrigger", &BoxCollider::SetIsTrigger)
+		.property("IsTrigger", &BoxCollider::mIsTrigger)
+		.method("GetCenter", &BoxCollider::GetCenter)
+		.method("SetCenter", rttr::select_overload<void(Vec3)>(&BoxCollider::SetCenter))
+		.method("SetCenter", rttr::select_overload<void(float, float, float)>(&BoxCollider::SetCenter))
+		.property("Center", &BoxCollider::mCenter)
+		.method("GetSize", &BoxCollider::GetSize)
+		.method("SetSize", rttr::select_overload<void(Vec3)>(&BoxCollider::SetSize))
+		.method("SetSize", rttr::select_overload<void(float, float, float)>(&BoxCollider::SetSize))
+		.property("Size", &BoxCollider::mSize);
+}
+
 namespace TDS
 {
 	/*!*************************************************************************
@@ -29,43 +47,6 @@ namespace TDS
 															  mCenter		(toMove.mCenter),
 															  mSize			(toMove.mSize)
 	{ }
-
-	/*!*************************************************************************
-	Deserializes the Collider component
-	****************************************************************************/
-	bool BoxCollider::Deserialize(const rapidjson::Value& obj)
-	{
-		mIsTrigger = obj["isTrigger"].GetBool();
-		mCenter = Vec3(obj["centerX"].GetFloat(), obj["centerY"].GetFloat(), obj["centerZ"].GetFloat());
-		mSize = Vec3(obj["sizeX"].GetFloat(), obj["sizeY"].GetFloat(), obj["sizeZ"].GetFloat());
-
-		return true;
-	}
-
-	/*!*************************************************************************
-	Serializes the Collider component
-	****************************************************************************/
-	bool BoxCollider::Serialize(rapidjson::PrettyWriter<rapidjson::StringBuffer>* writer) const
-	{
-		writer->Key("isTrigger");
-		writer->Bool(mIsTrigger);
-
-		writer->Key("centerX");
-		writer->Double(mCenter.x);
-		writer->Key("centerY");
-		writer->Double(mCenter.y);
-		writer->Key("centerZ");
-		writer->Double(mCenter.z);
-
-		writer->Key("sizeX");
-		writer->Double(mSize.x);
-		writer->Key("sizeY");
-		writer->Double(mSize.y);
-		writer->Key("sizeZ");
-		writer->Double(mSize.z);
-
-		return true;
-	}
 
 	BoxCollider* GetBoxCollider(EntityID entityID)
 	{

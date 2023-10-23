@@ -142,8 +142,13 @@
     </Link>
     <PostBuildEvent>
       <Command>xcopy /s /r /y /q "$(SolutionDir)Dependencies\dotnet\bin" "$(OutDir)"
-xcopy /y /d "$(SolutionDir)Libs\fmod\*.dll" "$(OutDir)"</Command>
+xcopy /y /d "$(SolutionDir)Libs\fmod\*.dll" "$(OutDir)"
+xcopy /y /d "$(SolutionDir)Libs\rttr_core_d.dll" "$(OutDir)"</Command>
     </PostBuildEvent>
+    <PreBuildEvent>
+      <Command>
+      </Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -198,7 +203,6 @@ xcopy /y /d "$(SolutionDir)Libs\fmod\*.dll" "$(OutDir)"</Command>
     <ClCompile Include="Src\components\componentHelperFunctions.cpp" />
     <ClCompile Include="Src\components\graphicsComponent.cpp" />
     <ClCompile Include="Src\components\nameTag.cpp" />
-    <ClCompile Include="Src\components\playerAttributes.cpp" />
     <ClCompile Include="Src\components\rigidBody.cpp" />
     <ClCompile Include="Src\components\sphereCollider.cpp" />
     <ClCompile Include="Src\components\sprite.cpp" />
@@ -237,6 +241,7 @@ xcopy /y /d "$(SolutionDir)Libs\fmod\*.dll" "$(OutDir)"</Command>
     <ClCompile Include="Src\ResourceManagement\ResouceManager.cpp" />
     <ClCompile Include="Src\sceneManager\sceneManager.cpp" />
     <ClCompile Include="Src\sceneManager\serialization.cpp" />
+    <ClCompile Include="Src\sceneManager\serializationHelperFunctions.cpp" />
     <ClCompile Include="Src\Shader\ShaderLoader.cpp" />
     <ClCompile Include="Src\Timestep\Timestep.cpp" />
     <ClCompile Include="Src\vulkanTools\Buffer.cpp" />
@@ -290,7 +295,6 @@ xcopy /y /d "$(SolutionDir)Libs\fmod\*.dll" "$(OutDir)"</Command>
     <ClInclude Include="Include\components\graphicsComponent.h" />
     <ClInclude Include="Include\components\iComponent.h" />
     <ClInclude Include="Include\components\nameTag.h" />
-    <ClInclude Include="Include\components\playerAttributes.h" />
     <ClInclude Include="Include\components\rigidBody.h" />
     <ClInclude Include="Include\components\sphereCollider.h" />
     <ClInclude Include="Include\components\sprite.h" />
@@ -331,6 +335,7 @@ xcopy /y /d "$(SolutionDir)Libs\fmod\*.dll" "$(OutDir)"</Command>
     <ClInclude Include="Include\Rendering\RendererSystem.h" />
     <ClInclude Include="Include\Rendering\RenderLayer.h" />
     <ClInclude Include="Include\Rendering\Skybox.h" />
+    <ClInclude Include="Include\sceneManager\serializationHelperFunctions.h" />
     <ClInclude Include="Include\Shader\ShaderData.h" />
     <ClInclude Include="Include\Shader\ShaderLoader.h" />
     <ClInclude Include="Include\sceneManager\sceneManager.h" />

@@ -10,6 +10,25 @@
 
 #include "components/transform.h"
 
+RTTR_REGISTRATION
+{
+	using namespace TDS;
+
+	rttr::registration::class_<Transform>("Transform")
+		.method("GetPosition", &Transform::GetPosition)
+		.method("SetPosition", rttr::select_overload<void(Vec3)>(&Transform::SetPosition))
+		.method("SetPosition", rttr::select_overload<void(float, float, float)>(&Transform::SetPosition))
+		.property("Position", &Transform::mPosition)//, rttr::registration::private_access)
+		.method("GetScale", &Transform::GetScale)
+		.method("SetScale", rttr::select_overload<void(Vec3)>(&Transform::SetScale))
+		.method("SetScale", rttr::select_overload<void(float, float, float)>(&Transform::SetScale))
+		.property("Scale", &Transform::mScale)//, rttr::registration::private_access)
+		.method("GetRotation", &Transform::GetRotation)
+		.method("SetRotation", rttr::select_overload<void(Vec3)>(&Transform::SetRotation))
+		.method("SetRotation", rttr::select_overload<void(float, float, float)>(&Transform::SetRotation))
+		.property("Rotation", &Transform::mRotation);//, rttr::registration::private_access);
+}
+
 namespace TDS
 {
 	/*!*************************************************************************
@@ -30,47 +49,6 @@ namespace TDS
 														mRotation			(toMove.mRotation),
 														mTransformMatrix	(toMove.mTransformMatrix)
 	{ }
-
-	/*!*************************************************************************
-	Deserializes the WinData component
-	****************************************************************************/
-	bool Transform::Deserialize(const rapidjson::Value& obj)
-	{
-		mPosition = Vec3(obj["positionX"].GetFloat(), obj["positionY"].GetFloat(), obj["positionZ"].GetFloat());
-		mScale = Vec3(obj["scaleX"].GetFloat(), obj["scaleY"].GetFloat(), obj["scaleZ"].GetFloat());
-		mRotation = Vec3(obj["rotationX"].GetFloat(), obj["rotationY"].GetFloat(), obj["rotationZ"].GetFloat());
-
-		return true;
-	}
-
-	/*!*************************************************************************
-	Serializes the Transform component
-	****************************************************************************/
-	bool Transform::Serialize(rapidjson::PrettyWriter<rapidjson::StringBuffer>* writer) const
-	{
-		writer->Key("positionX");
-		writer->Double(mPosition.x);
-		writer->Key("positionY");
-		writer->Double(mPosition.y);
-		writer->Key("positionZ");
-		writer->Double(mPosition.z);
-
-		writer->Key("scaleX");
-		writer->Double(mScale.x);
-		writer->Key("scaleY");
-		writer->Double(mScale.y);
-		writer->Key("scaleZ");
-		writer->Double(mScale.z);
-
-		writer->Key("rotationX");
-		writer->Double(mRotation.x);
-		writer->Key("rotationY");
-		writer->Double(mRotation.y);
-		writer->Key("rotationZ");
-		writer->Double(mRotation.z);
-
-		return true;
-	}
 
 	Transform* GetTransform(EntityID entityID)
 	{

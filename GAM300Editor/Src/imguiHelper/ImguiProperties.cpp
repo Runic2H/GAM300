@@ -53,7 +53,9 @@ namespace TDS
 
 				if (componentName == "Name Tag" && ImGui::BeginTable("###", 2))
 				{
-					ImguiComponentDisplay(componentName, componentBase);
+					auto nameTagComponent = reinterpret_cast<NameTag*>(componentBase);
+					nameTagComponent->SetNameTag(ImguiInput("", nameTagComponent->GetNameTag()));
+
 					ImGui::EndTable();
 
 					continue;
@@ -141,146 +143,134 @@ namespace TDS
 	****************************************************************************/
 	void Properties::ImguiComponentDisplay(std::string componentName, IComponent* componentBase)
 	{
+		rttr::type type = rttr::type::get_by_name(componentName);
+		rttr::instance componentInstance = componentBase;
 
-		//std::cout << "test" << std::endl;
-		//for (auto member : componentBase->getTypeClass()->members)
-		//{
-		//	std::cout << member.name;
-		//	if (member.type)
-		//	{
-		//		std::cout << "\t" << member.type->name << std::endl;
-		//	}
-		//	else
-		//	{
-		//		std::cout << "\thmm not sure what type" << std::endl;
-		//	}
-		//}
+		for (rttr::property propertyName : type.get_properties())
+		{
+			if (propertyName.get_type() == rttr::type::get<int>())
+			{
+				propertyName.set_value(componentInstance, ImguiInput(propertyName.get_name().to_string(), propertyName.get_value(componentInstance).convert<int>()));
+			}
+			else if (propertyName.get_type() == rttr::type::get<float>())
+			{
+				propertyName.set_value(componentInstance, ImguiInput(propertyName.get_name().to_string(), propertyName.get_value(componentInstance).convert<float>()));
+			}
+			else if (propertyName.get_type() == rttr::type::get<bool>())
+			{
+				propertyName.set_value(componentInstance, ImguiInput(propertyName.get_name().to_string(), propertyName.get_value(componentInstance).convert<bool>()));
+			}
+			else if (propertyName.get_type() == rttr::type::get<std::string>())
+			{
+				propertyName.set_value(componentInstance, ImguiInput(propertyName.get_name().to_string(), propertyName.get_value(componentInstance).convert<std::string>()));
+			}
+			else if (propertyName.get_type() == rttr::type::get<Vec2>())
+			{
+				propertyName.set_value(componentInstance, ImguiInput(propertyName.get_name().to_string(), propertyName.get_value(componentInstance).convert<Vec2>()));
+			}
+			else if (propertyName.get_type() == rttr::type::get<Vec3>())
+			{
+				propertyName.set_value(componentInstance, ImguiInput(propertyName.get_name().to_string(), propertyName.get_value(componentInstance).convert<Vec3>()));
+			}
+		}
+	}
 
-		//if (componentName == "Name Tag")
-		//{
-		//	auto nameTagComponent = dynamic_cast<NameTag*>(componentBase);
+	/*!*************************************************************************
+	This function is a helper function for draw TEXT variables
+	****************************************************************************/
+	std::string ImguiInput(std::string variableName, std::string textVariable)
+	{
+		ImGui::TableNextRow();
+		ImGui::TableNextColumn();
+		ImGui::Text(variableName.c_str());
 
-		//	ImGui::Indent();
-		//	ImGui::TableNextRow();
-		//	ImGui::TableNextColumn();
-		//	ImGui::Text("Name");
-		//	ImGui::Unindent();
+		ImGui::TableNextColumn();
+		char temp[100];
+		strcpy_s(temp, textVariable.c_str());
+		ImGui::InputText(("##" + variableName).c_str(), temp, 100);
 
-		//	ImGui::TableNextColumn();
-		//	char temp[100];
-		//	strcpy_s(temp, nameTagComponent->GetNameTag().c_str());
-		//	ImGui::InputText("##name", temp, 100);
-		//	nameTagComponent->SetNameTag(std::string(temp));
+		return std::string(temp);
+	}
 
-		//	//nameTagComponent->SetNameTag(ImguiTextInput("Name", nameTagComponent->GetNameTag()));
-		//}
-		//else if (componentName == "Transform")
-		//{
+	/*!*************************************************************************
+	This function is a helper function for draw BOOl variables
+	****************************************************************************/
+	bool ImguiInput(std::string variableName, bool boolVariable)
+	{
+		ImGui::TableNextRow();
+		ImGui::TableNextColumn();
+		ImGui::Text(variableName.c_str());
 
+		ImGui::TableNextColumn();
+		ImGui::Checkbox(("##" + variableName).c_str(), &boolVariable);
 
-		//	auto transformComponent = dynamic_cast<Transform*>(componentBase);
+		return boolVariable;
+	}
 
-		//	transformComponent->SetPosition(ImguiVec3Input("Position", transformComponent->GetPosition()));
-		//	transformComponent->SetScale(ImguiVec3Input("Scale", transformComponent->GetScale()));
-		//	transformComponent->SetRotation(ImguiFloatInput("Rotation", transformComponent->GetRotation()));
-		//}
-		//else if (componentName == "AI")
-		//{
-		//	//auto aiComponent = dynamic_cast<AI*>(componentBase);
-		//}
-		//else if (componentName == "Camera Component")
-		//{
-		//	//auto cameraComponent = dynamic_cast<CameraComponent*>(componentBase);
-		//}
-		//else if (componentName == "Collider")
-		//{
-		//	auto colliderComponent = dynamic_cast<Collider*>(componentBase);
+	/*!*************************************************************************
+	This function is a helper function for draw INT variables
+	****************************************************************************/
+	int ImguiInput(std::string variableName, int intVariable, float speed, int min, int max)
+	{
+		ImGui::TableNextRow();
+		ImGui::TableNextColumn();
+		ImGui::Text(variableName.c_str());
 
-		//	ImGui::TableNextRow();
-		//	ImGui::TableNextColumn();
-		//	ImGui::Text("Collider Type");
+		ImGui::TableNextColumn();
+		ImGui::DragInt(("##" + variableName).c_str(), &intVariable, speed, min, max);
 
-		//	ImGui::TableNextColumn();
+		return intVariable;
+	}
 
-		//	//// Collider Type
-		//	//static std::string colliderTypeStringList[3]{ "None", "Circle", "Rectangle" };
-		//	//int colliderTypeSelected = static_cast<int>(colliderComponent->GetColliderType()) - 1;
+	/*!*************************************************************************
+	This function is a helper function for draw FLOAT variables
+	****************************************************************************/
+	float ImguiInput(std::string variableName, float floatVariable, float speed, float min, float max)
+	{
+		ImGui::TableNextRow();
+		ImGui::TableNextColumn();
+		ImGui::Text(variableName.c_str());
 
-		//	//// Uninitialized
-		//	//if (colliderTypeSelected == -1)
-		//	//{
-		//	//	colliderComponent->SetColliderType(Collider::ColliderType::NONE);
-		//	//	colliderTypeSelected = 0;
-		//	//}
+		ImGui::TableNextColumn();
+		ImGui::DragFloat(("##" + variableName).c_str(), &floatVariable, speed, min, max);
 
-		//	//if (ImGui::BeginCombo("##", colliderTypeStringList[colliderTypeSelected].c_str()))
-		//	//{
-		//	//	for (int n = 0; n < 3; n++)
-		//	//	{
-		//	//		const bool is_selected = (colliderTypeSelected == n);
-		//	//		if (ImGui::Selectable(colliderTypeStringList[n].c_str(), is_selected))
-		//	//		{
-		//	//			colliderComponent->SetColliderType(static_cast<Collider::ColliderType>(n + 1));
-		//	//		}
+		return floatVariable;
+	}
 
-		//	//		// Set the initial focus when opening the combo (scrolling + keyboard navigation focus)
-		//	//		if (is_selected)
-		//	//		{
-		//	//			ImGui::SetItemDefaultFocus();
-		//	//		}
-		//	//	}
-		//	//	ImGui::EndCombo();
-		//	//}
+	/*!*************************************************************************
+	This function is a helper function for draw VEC2 variables
+	****************************************************************************/
+	Vec2 ImguiInput(std::string variableName, Vec2 Vec2Variable)
+	{
+		ImGui::TableNextRow();
+		ImGui::TableNextColumn();
+		ImGui::Text(variableName.c_str());
 
-		//	colliderComponent->SetColliderNormal(ImguiVec3Input("Collider Normal", colliderComponent->GetColliderNormal()));
-		//	colliderComponent->SetMin(ImguiVec3Input("Min", colliderComponent->GetMin()));
-		//	colliderComponent->SetMax(ImguiVec3Input("Max", colliderComponent->GetMax()));
-		//	colliderComponent->SetOffset(ImguiVec3Input("Offset", colliderComponent->GetOffset()));
-		//	colliderComponent->SetHit(ImguiIntInput("Hit", colliderComponent->GetHit()));
-		//	colliderComponent->SetRadius(ImguiFloatInput("Radius", colliderComponent->GetRadius()));
-		//	colliderComponent->SetAlive(ImguiBoolInput("Alive", colliderComponent->GetAlive()));
+		ImGui::TableNextColumn();
+		float temp[2]{ Vec2Variable.x, Vec2Variable.y };
+		ImGui::DragFloat2(("##" + variableName).c_str(), temp, 1.0f);
+		Vec2Variable.x = temp[0];
+		Vec2Variable.y = temp[1];
 
-		//}
-		//else if (componentName == "Player Attributes")
-		//{
-		//	//auto playerAttributesComponent = dynamic_cast<PlayerAttributes*>(componentBase);
-		//}
-		//else if (componentName == "Rigid Body")
-		//{
-		//	auto rigidBodyComponent = dynamic_cast<RigidBody*>(componentBase);
-		//	rigidBodyComponent->SetInputForce(ImguiVec3Input("Input Force", rigidBodyComponent->GetInputForce()));
-		//	rigidBodyComponent->SetLinearVel(ImguiVec3Input("Linear Velocity", rigidBodyComponent->GetLinearVel()));
-		//	rigidBodyComponent->SetAngularVel(ImguiVec3Input("Angular Velocity", rigidBodyComponent->GetAngularVel()));
-		//	rigidBodyComponent->SetAcceleration(ImguiVec3Input("Acceleration", rigidBodyComponent->GetAcceleration()));
-		//	rigidBodyComponent->SetDirection(ImguiVec3Input("Direction", rigidBodyComponent->GetDirection()));
-		//	rigidBodyComponent->SetNextPosition(ImguiVec3Input("Next Position", rigidBodyComponent->GetNextPosition()));
-		//	rigidBodyComponent->SetFrictionCoefficient(ImguiFloatInput("Friction Coefficient", rigidBodyComponent->GetFriction()));
-		//	rigidBodyComponent->SetRestitution(ImguiFloatInput("Restitution", rigidBodyComponent->GetRestitution()));
-		//	rigidBodyComponent->SetMass(ImguiFloatInput("Mass", rigidBodyComponent->GetMass()));
-		//	rigidBodyComponent->SetGravity(ImguiFloatInput("Gravity", rigidBodyComponent->GetGravity()));
-		//}
-		//else if (componentName == "Sprite")
-		//{
-		//	auto spriteComponent = dynamic_cast<Sprite*>(componentBase);
-		//	spriteComponent->SetIndex(ImguiVec2Input("Index", spriteComponent->GetIndex()));
-		//	spriteComponent->SetIsSpriteSheet(ImguiBoolInput("Is Spritesheet", spriteComponent->GetIsSpriteSheet()));
-		//	spriteComponent->SetIsAnimated(ImguiBoolInput("Is Animated", spriteComponent->GetIsAnimated()));
-		//	spriteComponent->SetInternalTimer(ImguiFloatInput("Internal Timer", spriteComponent->GetInternalTimer()));
-		//	spriteComponent->SetLayerOrder(ImguiIntInput("Layer Order", spriteComponent->GetLayerOrder()));
-		//	spriteComponent->SetTextureName(ImguiTextInput("Texture Name", spriteComponent->GetTextureName()));
-		//	spriteComponent->SetUVcooridnates(ImguiVec2Input("UV Coordinate", spriteComponent->GetUVcooridnates()));
-		//	spriteComponent->SetAlpha(ImguiFloatInput("Alpha", spriteComponent->GetAlpha()));
-		//	spriteComponent->SetMaxIndex(ImguiIntInput("Max Index", spriteComponent->GetMaxIndex()));
-		//}
-		//else if (componentName == "Tag")
-		//{
-		//	auto tagComponent = dynamic_cast<Tag*>(componentBase);
-		//	tagComponent->SetTag(ImguiTextInput("Tag", tagComponent->GetTag()));
-		//	tagComponent->SetTargetTag(ImguiTextInput("Target Tag", tagComponent->GetTargetTag()));
-		//}
-		//else if (componentName == "Win Data")
-		//{
-		//	//auto transform = dynamic_cast<WinData*>(componentBase);
-		//}
+		return Vec2Variable;
+	}
+
+	/*!*************************************************************************
+	This function is a helper function for draw VEC3 variables
+	****************************************************************************/
+	Vec3 ImguiInput(std::string variableName, Vec3 Vec3Variable)
+	{
+		ImGui::TableNextRow();
+		ImGui::TableNextColumn();
+		ImGui::Text(variableName.c_str());
+
+		ImGui::TableNextColumn();
+		float temp[3]{ Vec3Variable.x, Vec3Variable.y, Vec3Variable.z };
+		ImGui::DragFloat3(("##" + variableName).c_str(), temp, 1.0f);
+		Vec3Variable.x = temp[0];
+		Vec3Variable.y = temp[1];
+		Vec3Variable.z = temp[2];
+
+		return Vec3Variable;
 	}
 }

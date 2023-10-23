@@ -41,15 +41,6 @@ namespace TDS
 		****************************************************************************/
 		DLL_API ~SphereCollider() = default;
 		/*!*************************************************************************
-		Deserializes the Collider component
-		****************************************************************************/
-		DLL_API virtual bool Deserialize(const rapidjson::Value& obj);
-		/*!*************************************************************************
-		Serializes the Collider component
-		****************************************************************************/
-		DLL_API virtual bool Serialize(rapidjson::PrettyWriter<rapidjson::StringBuffer>* writer) const;
-
-		/*!*************************************************************************
 		Getter and setter functions for the variables in the Collider component class
 		****************************************************************************/
 		DLL_API bool& GetIsTrigger() { return mIsTrigger; }
@@ -61,6 +52,9 @@ namespace TDS
 
 		DLL_API float& GetRadius() { return mRadius; }
 		DLL_API void SetRadius(float radius) { mRadius = radius; }
+
+		RTTR_ENABLE(IComponent);
+		RTTR_REGISTRATION_FRIEND
 
 	private:
 		bool mIsTrigger;

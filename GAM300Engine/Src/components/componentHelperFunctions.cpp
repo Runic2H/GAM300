@@ -15,7 +15,7 @@ namespace TDS
 	/*!*************************************************************************
 	This function is a helper function to add components by string name
 	****************************************************************************/
-	IComponent* addComponentByName(std::string componentName, EntityID entityID)
+	IComponent* addComponentByName(std::string componentName, const EntityID& entityID)
 	{
 		if (componentName == "AI")
 			return ecs.addComponent<AI>(entityID);
@@ -29,8 +29,6 @@ namespace TDS
 			return ecs.addComponent<GraphicsComponent>(entityID);
 		else if (componentName == "Name Tag")
 			return ecs.addComponent<NameTag>(entityID);
-		else if (componentName == "Player Attributes")
-			return ecs.addComponent<PlayerAttributes>(entityID);
 		else if (componentName == "Rigid Body")
 			return ecs.addComponent<RigidBody>(entityID);
 		else if (componentName == "Sphere Collider")
@@ -49,9 +47,40 @@ namespace TDS
 	}
 
 	/*!*************************************************************************
+	This function is a helper function to add components by string name
+	(overloaded for rttr)
+	****************************************************************************/
+	rttr::instance addComponentByName(rttr::type& componentName, const EntityID& entityID)
+	{
+		if (componentName == rttr::type::get<AI>())
+			return *(ecs.addComponent<AI>(entityID));
+		else if (componentName == rttr::type::get<BoxCollider>())
+			return *(ecs.addComponent<BoxCollider>(entityID));
+		else if (componentName == rttr::type::get<CameraComponent>())
+			return *(ecs.addComponent<CameraComponent>(entityID));
+		else if (componentName == rttr::type::get<CapsuleCollider>())
+			return *(ecs.addComponent<CapsuleCollider>(entityID));
+		else if (componentName == rttr::type::get<GraphicsComponent>())
+			return *(ecs.addComponent<GraphicsComponent>(entityID));
+		else if (componentName == rttr::type::get<NameTag>())
+			return *(ecs.addComponent<NameTag>(entityID));
+		else if (componentName == rttr::type::get<RigidBody>())
+			return *(ecs.addComponent<RigidBody>(entityID));
+		else if (componentName == rttr::type::get<SphereCollider>())
+			return *(ecs.addComponent<SphereCollider>(entityID));
+		else if (componentName == rttr::type::get<Sprite>())
+			return *(ecs.addComponent<Sprite>(entityID));
+		else if (componentName == rttr::type::get<Tag>())
+			return *(ecs.addComponent<Tag>(entityID));
+		else if (componentName == rttr::type::get<Transform>())
+			return *(ecs.addComponent<Transform>(entityID));
+		return *(ecs.addComponent<WinData>(entityID));
+	}
+
+	/*!*************************************************************************
 	This function is a helper function to get components by string name
 	****************************************************************************/
-	IComponent* getComponentByName(std::string componentName, EntityID entityID)
+	IComponent* getComponentByName(std::string componentName, const EntityID& entityID)
 	{
 		if (componentName == "AI")
 			return ecs.getComponent<AI>(entityID);
@@ -65,8 +94,6 @@ namespace TDS
 			return ecs.getComponent<GraphicsComponent>(entityID);
 		else if (componentName == "Name Tag")
 			return ecs.getComponent<NameTag>(entityID);
-		else if (componentName == "Player Attributes")
-			return ecs.getComponent<PlayerAttributes>(entityID);
 		else if (componentName == "Rigid Body")
 			return ecs.getComponent<RigidBody>(entityID);
 		else if (componentName == "Sphere Collider")
@@ -84,9 +111,40 @@ namespace TDS
 	}
 
 	/*!*************************************************************************
+	This function is a helper function to get components by string name
+	(overloaded for rttr)
+	****************************************************************************/
+	rttr::instance getComponentByName(rttr::type& componentName, const EntityID& entityID)
+	{
+		if (componentName == rttr::type::get<AI>())
+			return *(ecs.getComponent<AI>(entityID));
+		else if (componentName == rttr::type::get<BoxCollider>())
+			return *(ecs.getComponent<BoxCollider>(entityID));
+		else if (componentName == rttr::type::get<CameraComponent>())
+			return *(ecs.getComponent<CameraComponent>(entityID));
+		else if (componentName == rttr::type::get<CapsuleCollider>())
+			return *(ecs.getComponent<CapsuleCollider>(entityID));
+		else if (componentName == rttr::type::get<GraphicsComponent>())
+			return *(ecs.getComponent<GraphicsComponent>(entityID));
+		else if (componentName == rttr::type::get<NameTag>())
+			return *(ecs.getComponent<NameTag>(entityID));
+		else if (componentName == rttr::type::get<RigidBody>())
+			return *(ecs.getComponent<RigidBody>(entityID));
+		else if (componentName == rttr::type::get<SphereCollider>())
+			return *(ecs.getComponent<SphereCollider>(entityID));
+		else if (componentName == rttr::type::get<Sprite>())
+			return *(ecs.getComponent<Sprite>(entityID));
+		else if (componentName == rttr::type::get<Tag>())
+			return *(ecs.getComponent<Tag>(entityID));
+		else if (componentName == rttr::type::get<Transform>())
+			return *(ecs.getComponent<Transform>(entityID));
+		return *(ecs.getComponent<WinData>(entityID));
+	}
+
+	/*!*************************************************************************
 	This function is a helper function to remove components by string name
 	****************************************************************************/
-	void removeComponentByName(std::string componentName, EntityID entityID)
+	void removeComponentByName(std::string componentName, const EntityID& entityID)
 	{
 		if (componentName == "AI")
 			ecs.removeComponent<AI>(entityID);
@@ -100,8 +158,6 @@ namespace TDS
 			ecs.removeComponent<GraphicsComponent>(entityID);
 		else if (componentName == "Name Tag")
 			ecs.removeComponent<NameTag>(entityID);
-		else if (componentName == "Player Attributes")
-			ecs.removeComponent<PlayerAttributes>(entityID);
 		else if (componentName == "Rigid Body")
 			ecs.removeComponent<RigidBody>(entityID);
 		else if (componentName == "Sphere Collider")

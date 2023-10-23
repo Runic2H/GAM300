@@ -22,6 +22,7 @@
 #include "rapidJSON/stringbuffer.h"
 #include "rapidJSON/prettywriter.h"
 #include "dotnet/ImportExport.h"
+
 namespace TDS
 {
 	class Serializer
@@ -48,11 +49,11 @@ namespace TDS
 		/*!*************************************************************************
 		Virtual deserialize function for derived classes to overload
 		****************************************************************************/
-		DLL_API virtual bool Deserialize(const rapidjson::Value& obj) = 0;
+		DLL_API virtual bool Deserialize(const rapidjson::Value& obj, rapidjson::Document& doc) { return false; };
 		/*!*************************************************************************
 		Virtual serialize function for derived classes to overload
 		****************************************************************************/
-		DLL_API virtual bool Serialize(rapidjson::PrettyWriter<rapidjson::StringBuffer>* writer) const = 0;
+		DLL_API virtual bool Serialize(rapidjson::PrettyWriter<rapidjson::StringBuffer>* writer) const { return false; };
 
 		DLL_API virtual ~Serializer() = default;
 

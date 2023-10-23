@@ -32,15 +32,6 @@ namespace TDS
 		****************************************************************************/
 		DLL_API ~Tag() = default;
 		/*!*************************************************************************
-		Deserializes the Tag component
-		****************************************************************************/
-		DLL_API virtual bool Deserialize(const rapidjson::Value& obj);
-		/*!*************************************************************************
-		Serializes the Tag component
-		****************************************************************************/
-		DLL_API virtual bool Serialize(rapidjson::PrettyWriter<rapidjson::StringBuffer>* writer) const;
-
-		/*!*************************************************************************
 		Getter and setter functions for the variables in the Tag component class
 		****************************************************************************/
 		DLL_API std::string GetTag() { return mTag; }
@@ -49,7 +40,7 @@ namespace TDS
 		DLL_API std::string GetTargetTag() { return mTargetTag; }
 		DLL_API void SetTargetTag(std::string target) { mTargetTag = target; }
 
-		RTTR_ENABLE();
+		RTTR_ENABLE(IComponent);
 		RTTR_REGISTRATION_FRIEND
 
 	private:

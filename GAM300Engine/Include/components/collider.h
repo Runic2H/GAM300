@@ -33,15 +33,6 @@ namespace TDS
 		****************************************************************************/
 		DLL_API ~Collider() = default;
 		/*!*************************************************************************
-		Deserializes the Collider component
-		****************************************************************************/
-		DLL_API virtual bool Deserialize(const rapidjson::Value& obj);
-		/*!*************************************************************************
-		Serializes the Collider component
-		****************************************************************************/
-		DLL_API virtual bool Serialize(rapidjson::PrettyWriter<rapidjson::StringBuffer>* writer) const;
-
-		/*!*************************************************************************
 		Getter and setter functions for the variables in the Collider component class
 		****************************************************************************/
 		DLL_API Vec3& GetColliderNormal() { return mCollisionNormal; }
@@ -71,6 +62,9 @@ namespace TDS
 
 		DLL_API bool& GetCollision() { return mCollision; }
 		DLL_API void SetCollision(bool collision) { mCollision = collision; }
+
+		RTTR_ENABLE(IComponent);
+		RTTR_REGISTRATION_FRIEND
 
 	private:
 		Vec3 mCollisionNormal;

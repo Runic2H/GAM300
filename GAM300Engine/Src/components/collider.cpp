@@ -38,67 +38,6 @@ namespace TDS
 													 mIsAlive(toMove.mIsAlive)
 	{ }
 
-	/*!*************************************************************************
-	Deserializes the Collider component
-	****************************************************************************/
-	bool Collider::Deserialize(const rapidjson::Value& obj)
-	{
-		mCollisionNormal	= Vec3(obj["collisionNormalX"].GetFloat(), obj["collisionNormalY"].GetFloat(), obj["collisionNormalZ"].GetFloat());
-		mMin				= Vec3(obj["minX"].GetFloat(), obj["minY"].GetFloat(), obj["minZ"].GetFloat());
-		mMax				= Vec3(obj["maxX"].GetFloat(), obj["maxY"].GetFloat(), obj["maxZ"].GetFloat());
-		mOffset				= Vec3(obj["offsetX"].GetFloat(), obj["offsetY"].GetFloat(), obj["offsetZ"].GetFloat());
-		mHit				= obj["hit"].GetInt();
-		mRadius				= obj["radius"].GetFloat();
-		mIsAlive			= obj["isAlive"].GetBool();
-
-		return true;
-	}
-
-	/*!*************************************************************************
-	Serializes the Collider component
-	****************************************************************************/
-	bool Collider::Serialize(rapidjson::PrettyWriter<rapidjson::StringBuffer>* writer) const
-	{
-		writer->Key("collisionNormalX");
-		writer->Double(mCollisionNormal.x);
-		writer->Key("collisionNormalY");
-		writer->Double(mCollisionNormal.y);
-		writer->Key("collisionNormalZ");
-		writer->Double(mCollisionNormal.z);
-
-		writer->Key("minX");
-		writer->Double(mMin.x);
-		writer->Key("minY");
-		writer->Double(mMin.y);
-		writer->Key("minZ");
-		writer->Double(mMin.z);
-
-		writer->Key("maxX");
-		writer->Double(mMax.x);
-		writer->Key("maxY");
-		writer->Double(mMax.y);
-		writer->Key("maxZ");
-		writer->Double(mMax.z);
-
-		writer->Key("offsetX");
-		writer->Double(mOffset.x);
-		writer->Key("offsetY");
-		writer->Double(mOffset.y);
-		writer->Key("offsetZ");
-		writer->Double(mOffset.z);
-
-		writer->Key("hit");
-		writer->Int(mHit);
-
-		writer->Key("radius");
-		writer->Double(mRadius);
-
-		writer->Key("isAlive");
-		writer->Bool(mIsAlive);
-
-		return true;
-	}
-
 	Collider* GetCollider(EntityID entityID)
 	{
 		return ecs.getComponent<Collider>(entityID);

@@ -11,6 +11,24 @@
 
 #include "components/sphereCollider.h"
 
+RTTR_REGISTRATION
+{
+	using namespace TDS;
+
+	rttr::registration::class_<SphereCollider>("Sphere Collider")
+		.method("GetIsTrigger", &SphereCollider::GetIsTrigger)
+		.method("SetIsTrigger", &SphereCollider::SetIsTrigger)
+		.property("IsTrigger", &SphereCollider::mIsTrigger)
+		.method("GetCenter", &SphereCollider::GetCenter)
+		.method("SetCenter", rttr::select_overload<void(Vec3)>(&SphereCollider::SetCenter))
+		.method("SetCenter", rttr::select_overload<void(float, float, float)>(&SphereCollider::SetCenter))
+		.property("Center", &SphereCollider::mCenter)
+		.method("GetRadius", &SphereCollider::GetRadius)
+		.method("SetRadius", &SphereCollider::SetRadius)
+		.property("Radius", &SphereCollider::mRadius);
+
+}
+
 namespace TDS
 {
 	/*!*************************************************************************
@@ -29,39 +47,6 @@ namespace TDS
 																	   mCenter		(toMove.mCenter),
 																	   mRadius		(toMove.mRadius)
 	{ }
-
-	/*!*************************************************************************
-	Deserializes the Collider component
-	****************************************************************************/
-	bool SphereCollider::Deserialize(const rapidjson::Value& obj)
-	{
-		mIsTrigger = obj["isTrigger"].GetBool();
-		mCenter = Vec3(obj["centerX"].GetFloat(), obj["centerY"].GetFloat(), obj["centerZ"].GetFloat());
-		mRadius = obj["radius"].GetFloat();
-
-		return true;
-	}
-
-	/*!*************************************************************************
-	Serializes the Collider component
-	****************************************************************************/
-	bool SphereCollider::Serialize(rapidjson::PrettyWriter<rapidjson::StringBuffer>* writer) const
-	{
-		writer->Key("isTrigger");
-		writer->Bool(mIsTrigger);
-
-		writer->Key("centerX");
-		writer->Double(mCenter.x);
-		writer->Key("centerY");
-		writer->Double(mCenter.y);
-		writer->Key("centerZ");
-		writer->Double(mCenter.z);
-
-		writer->Key("radius");
-		writer->Double(mRadius);
-
-		return true;
-	}
 
 	SphereCollider* GetSphereCollider(EntityID entityID)
 	{

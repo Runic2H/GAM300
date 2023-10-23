@@ -31,16 +31,8 @@ namespace TDS
 		Destructor for the CameraComponent class
 		****************************************************************************/
 		DLL_API ~CameraComponent() = default;
-		/*!*************************************************************************
-		Deserializes the CameraComponent
-		****************************************************************************/
-		DLL_API virtual bool Deserialize(const rapidjson::Value& obj);
-		/*!*************************************************************************
-		Serializes the CameraComponent
-		****************************************************************************/
-		DLL_API virtual bool Serialize(rapidjson::PrettyWriter<rapidjson::StringBuffer>* writer) const;
 
-		RTTR_ENABLE();
+		RTTR_ENABLE(IComponent);
 		RTTR_REGISTRATION_FRIEND
 
 	private:

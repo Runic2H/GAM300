@@ -33,17 +33,11 @@ namespace TDS
 		****************************************************************************/
 		DLL_API ~RigidBody() = default;
 		/*!*************************************************************************
-		Deserializes the RigidBody component
-		****************************************************************************/
-		DLL_API virtual bool Deserialize(const rapidjson::Value& obj);
-		/*!*************************************************************************
-		Serializes the RigidBody component
-		****************************************************************************/
-		DLL_API virtual bool Serialize(rapidjson::PrettyWriter<rapidjson::StringBuffer>* writer) const;
-
-		/*!*************************************************************************
 		Getter and setter functions for the variables in the RigidBody component class
 		****************************************************************************/
+		DLL_API float& GetMass() { return mMass; }
+		DLL_API void SetMass(float mass) { mMass = mass; }
+
 		DLL_API Vec3& GetAcceleration() { return mAcceleration; }
 		DLL_API void SetAcceleration(Vec3 acceleration) { mAcceleration = acceleration; }
 
@@ -76,19 +70,18 @@ namespace TDS
 		DLL_API float& GetRestitution() { return mRestitution; }
 		DLL_API void SetRestitution(float restitution) { mRestitution = restitution; }
 
-		DLL_API float& GetMass() { return mMass; }
-		DLL_API void SetMass(float mass) { mMass = mass; }
-		
 		DLL_API float& GetInverseMass() { return mInverseMass; }
 		DLL_API void setInverseMass(float mass) { mInverseMass = 1.0f / mass; }
 
 		DLL_API float& GetGravity() { return mGravity; }
 		DLL_API void SetGravity(float gravity) { mGravity = gravity; }
 
-		RTTR_ENABLE();
+		RTTR_ENABLE(IComponent);
 		RTTR_REGISTRATION_FRIEND
 
 	private:
+		float mMass;
+
 		Vec3 mAcceleration;
 		Vec3 mLinearVelocity;
 		Vec3 mAngularVelocity;
@@ -100,7 +93,6 @@ namespace TDS
 		
 		float mFriction;
 		float mRestitution;
-		float mMass;
 		float mInverseMass;
 		float mGravity;
 	};

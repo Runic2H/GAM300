@@ -89,6 +89,10 @@ namespace ScriptAPI
     {
         for each (auto i in TDS::ecs.getEntities())
         {
+            if (!scripts->ContainsKey(i))
+            {
+                continue;
+            }
             for each (Script ^ script in scripts[i])
             {
                 SAFE_NATIVE_CALL_BEGIN
@@ -104,6 +108,10 @@ namespace ScriptAPI
     {
         for each (auto i in TDS::ecs.getEntities())
         {
+            if (!scripts->ContainsKey(i))
+            {
+                continue;
+            }
             for each (Script ^ script in scripts[i])
             {
                 SAFE_NATIVE_CALL_BEGIN
@@ -159,6 +167,10 @@ namespace ScriptAPI
     {
         for each (auto i in TDS::ecs.getEntities())
         {
+            if (!scripts->ContainsKey(i))
+            {
+                continue;
+            }
             for each (Script ^ script in scripts[i])
             {
                 SAFE_NATIVE_CALL_BEGIN
@@ -175,6 +187,10 @@ namespace ScriptAPI
     {
         for each (auto i in TDS::ecs.getEntities())
         {
+            if (!scripts->ContainsKey(i))
+            {
+                continue;
+            }
             for each (Script^ script in scripts[i])
             {
                 SAFE_NATIVE_CALL_BEGIN
@@ -194,6 +210,10 @@ namespace ScriptAPI
     {
         for each (auto i in TDS::ecs.getEntities())
         {
+            if (!scripts->ContainsKey(i))
+            {
+                continue;
+            }
             for each (Script ^ script in scripts[i])
             {
                 SAFE_NATIVE_CALL_BEGIN
@@ -210,6 +230,10 @@ namespace ScriptAPI
     {
         for each (auto i in TDS::ecs.getEntities())
         {
+            if (!scripts->ContainsKey(i))
+            {
+                continue;
+            }
             for each (Script ^ script in scripts[i])
             {
                 SAFE_NATIVE_CALL_BEGIN
@@ -226,6 +250,10 @@ namespace ScriptAPI
     {
         for each (auto i in TDS::ecs.getEntities())
         {
+            if (!scripts->ContainsKey(i))
+            {
+                continue;
+            }
             for each (Script ^ script in scripts[i])
             {
                 SAFE_NATIVE_CALL_BEGIN

@@ -29,6 +29,99 @@ namespace TDS
 		//insertEntities();
 	}
 
+	void Hierarchy::insetOnHoldEntities(EntityID newParent)
+	{
+		auto found = entitiesInputted.find(newParent);
+		if (found != entitiesInputted.end()) // Means its found
+		{
+			for (auto entity : entitiesOnHold[newParent])
+			{
+				found->second->children.emplace_back(entity);
+				insetOnHoldEntities(entity);
+			}
+		}
+	}
+
+	void Hierarchy::init()
+	{
+		//auto allEntities = ecs.getEntities();
+
+		//for (EntityID& entity : allEntities)
+		//{
+		//	if (NameTag* nameTagComponent = ecs.getComponent<NameTag>(entity))
+		//	{
+		//		EntityID parent = nameTagComponent->GetHierarchyParent();
+
+		//		// Means no parent (parent = 0)
+		//		if (!parent)
+		//		{
+		//			if (hierarchyEntities.size() <= nameTagComponent->GetHierarchyIndex())
+		//			{
+		//				ImguiHierarchyEntity newHierarchyEntity;
+		//				newHierarchyEntity.parent = entity;
+		//				hierarchyEntities.emplace_back(newHierarchyEntity);
+		//				entitiesInputted[entity] = &hierarchyEntities[hierarchyEntities.size() - 1];
+
+		//				inputEntitiesOnHold(entity);
+		//			}
+		//			else // Means its in the middle 
+		//			{
+		//				for (int i = 0; i < hierarchyEntities.size(); ++i)
+		//				{
+		//					if (ecs.getComponent<NameTag>(hierarchyEntities[i].parent)->GetHierarchyIndex() > nameTagComponent->GetHierarchyIndex())
+		//					{
+		//						ImguiHierarchyEntity newHierarchyEntity;
+		//						newHierarchyEntity.parent = entity;
+		//						hierarchyEntities.emplace(hierarchyEntities.begin() + i, newHierarchyEntity);
+		//						entitiesInputted[entity] = &hierarchyEntities[i];
+
+		//						inputEntitiesOnHold(entity);
+		//						break;
+		//					}
+		//				}
+		//			}
+		//		}
+		//		else // Will try to find the parent, if cannot find, then put it into on hold
+		//		{
+		//			//entitiesOnHold
+		//			if (parent > entity) // Parent wont be inputted yet
+		//			{
+		//				entitiesOnHold[parent].emplace_back(entity);
+		//			}
+		//			else
+		//			{
+		//				ImguiHierarchyEntity newHierarchyEntity;
+		//				newHierarchyEntity.parent = entity;
+
+		//				if ((*entitiesInputted[parent]).children.size() <= nameTagComponent->GetHierarchyIndex())
+		//				{
+		//					ImguiHierarchyEntity newHierarchyEntity;
+		//					newHierarchyEntity.parent = entity;
+		//					(*entitiesInputted[parent]).children.emplace_back(newHierarchyEntity);
+		//					entitiesInputted[entity] = &entitiesInputted[parent][(*entitiesInputted[parent]).children.size() - 1];
+		//				}
+		//				else // Means its in the middle 
+		//				{
+		//					for (int i = 0; i < (*entitiesInputted[parent]).children.size(); ++i)
+		//					{
+		//						if (ecs.getComponent<NameTag>(entitiesInputted[parent][i].parent)->GetHierarchyIndex() > nameTagComponent->GetHierarchyIndex())
+		//						{
+		//							ImguiHierarchyEntity newHierarchyEntity;
+		//							newHierarchyEntity.parent = entity;
+		//							(*entitiesInputted[parent]).children.emplace((*entitiesInputted[parent]).children.begin() + i, newHierarchyEntity);
+		//							entitiesInputted[entity] = &entitiesInputted[parent][i];
+
+		//							inputEntitiesOnHold(entity);
+		//							break;
+		//						}
+		//					}
+		//				}
+		//			}
+		//		}
+		//	}
+		//}
+	}
+
 	/*!*************************************************************************
 	This function is the update function for Hierarchy panel
 	****************************************************************************/

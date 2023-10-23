@@ -34,15 +34,6 @@ namespace TDS
 		****************************************************************************/
 		DLL_API ~BoxCollider() = default;
 		/*!*************************************************************************
-		Deserializes the Collider component
-		****************************************************************************/
-		DLL_API virtual bool Deserialize(const rapidjson::Value& obj);
-		/*!*************************************************************************
-		Serializes the Collider component
-		****************************************************************************/
-		DLL_API virtual bool Serialize(rapidjson::PrettyWriter<rapidjson::StringBuffer>* writer) const;
-
-		/*!*************************************************************************
 		Getter and setter functions for the variables in the Collider component class
 		****************************************************************************/
 		DLL_API bool& GetIsTrigger() { return mIsTrigger; }
@@ -55,6 +46,9 @@ namespace TDS
 		DLL_API Vec3& GetSize() { return mSize; }
 		DLL_API void SetSize(Vec3 size) { mSize = size; }
 		DLL_API void SetSize(float x, float y, float z) { mSize = Vec3(x, y, z); }
+
+		RTTR_ENABLE(IComponent);
+		RTTR_REGISTRATION_FRIEND
 
 	private:
 		bool mIsTrigger;

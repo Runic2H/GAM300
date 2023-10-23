@@ -11,6 +11,33 @@
 
 #include "components/capsuleCollider.h"
 
+RTTR_REGISTRATION
+{
+	using namespace TDS;
+
+	rttr::registration::enumeration<CapsuleCollider::Direction>("Direction")
+	(
+		rttr::value("X_AXIS", CapsuleCollider::Direction::X_AXIS),
+		rttr::value("Y_AXIS", CapsuleCollider::Direction::Y_AXIS),
+		rttr::value("Z_AXIS", CapsuleCollider::Direction::Z_AXIS)
+	);
+
+	rttr::registration::class_<CapsuleCollider>("Capsule Collider")
+		.method("GetIsTrigger", &CapsuleCollider::GetIsTrigger)
+		.method("SetIsTrigger", &CapsuleCollider::SetIsTrigger)
+		.property("IsTrigger", &CapsuleCollider::mIsTrigger)
+		.method("GetCenter", &CapsuleCollider::GetCenter)
+		.method("SetCenter", rttr::select_overload<void(Vec3)>(&CapsuleCollider::SetCenter))
+		.method("SetCenter", rttr::select_overload<void(float, float, float)>(&CapsuleCollider::SetCenter))
+		.property("Center", &CapsuleCollider::mCenter)
+		.method("GetRadius", &CapsuleCollider::GetRadius)
+		.method("SetRadius", &CapsuleCollider::SetRadius)
+		.property("Radius", &CapsuleCollider::mRadius)
+		.method("GetHeight", &CapsuleCollider::GetHeight)
+		.method("SetHeight", &CapsuleCollider::SetHeight)
+		.property("Height", &CapsuleCollider::mHeight);
+}
+
 namespace TDS
 {
 	/*!*************************************************************************
@@ -33,47 +60,6 @@ namespace TDS
 																		  mHeight		(toMove.mHeight),
 																		  mDirection	(toMove.mDirection)
 	{ }
-
-	/*!*************************************************************************
-	Deserializes the Collider component
-	****************************************************************************/
-	bool CapsuleCollider::Deserialize(const rapidjson::Value& obj)
-	{
-		mIsTrigger = obj["isTrigger"].GetBool();
-		mCenter = Vec3(obj["centerX"].GetFloat(), obj["centerY"].GetFloat(), obj["centerZ"].GetFloat());
-		mRadius = obj["radius"].GetFloat();
-		mHeight = obj["height"].GetFloat();
-		mDirection = static_cast<Direction>(obj["height"].GetInt());
-
-		return true;
-	}
-
-	/*!*************************************************************************
-	Serializes the Collider component
-	****************************************************************************/
-	bool CapsuleCollider::Serialize(rapidjson::PrettyWriter<rapidjson::StringBuffer>* writer) const
-	{
-		writer->Key("isTrigger");
-		writer->Bool(mIsTrigger);
-
-		writer->Key("centerX");
-		writer->Double(mCenter.x);
-		writer->Key("centerY");
-		writer->Double(mCenter.y);
-		writer->Key("centerZ");
-		writer->Double(mCenter.z);
-
-		writer->Key("radius");
-		writer->Double(mRadius);
-
-		writer->Key("height");
-		writer->Double(mHeight);
-
-		writer->Key("direction");
-		writer->Int(static_cast<int>(mDirection));
-
-		return true;
-	}
 
 	CapsuleCollider* GetCapsuleCollider(EntityID entityID)
 	{

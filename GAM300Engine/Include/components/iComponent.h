@@ -25,14 +25,6 @@ namespace TDS
 		Destructor of the abstract IComponent class
 		****************************************************************************/
 		DLL_API virtual ~IComponent() = default;
-		/*!*************************************************************************
-		Deserialize function of the abstract IComponent class
-		****************************************************************************/
-		DLL_API virtual bool Deserialize(const rapidjson::Value& obj) = 0;
-		/*!*************************************************************************
-		Serialize function of the abstract IComponent class
-		****************************************************************************/
-		DLL_API virtual bool Serialize(rapidjson::PrettyWriter<rapidjson::StringBuffer>* writer) const = 0;
 
 		RTTR_ENABLE();
 	};

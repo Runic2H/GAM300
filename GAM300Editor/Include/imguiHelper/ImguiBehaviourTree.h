@@ -87,6 +87,11 @@ namespace TDS
 		BehaviourTreePanel();
 
 		/*!*************************************************************************
+		This function is the init function for Behaviour Tree panel
+		****************************************************************************/
+		void init() {}
+
+		/*!*************************************************************************
 		This function is the update function for Behaviour Tree panel
 		****************************************************************************/
 		void update();

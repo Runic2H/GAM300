@@ -19,7 +19,6 @@
 #include "capsuleCollider.h"
 #include "graphicsComponent.h"
 #include "nameTag.h"
-#include "playerAttributes.h"
 #include "rigidBody.h"
 #include "sphereCollider.h"
 #include "sprite.h"
@@ -33,15 +32,25 @@ namespace TDS
 	/*!*************************************************************************
 	This function is a helper function to add components by string name
 	****************************************************************************/
-	DLL_API IComponent* addComponentByName(std::string componentName, EntityID entityID);
+	DLL_API IComponent* addComponentByName(std::string componentName, const EntityID& entityID);
+	/*!*************************************************************************
+	This function is a helper function to add components by string name
+	(overloaded for rttr)
+	****************************************************************************/
+	rttr::instance addComponentByName(rttr::type& componentName, const EntityID& entityID);
 	/*!*************************************************************************
 	This function is a helper function to get components by string name
 	****************************************************************************/
-	DLL_API IComponent* getComponentByName(std::string componentName, EntityID entityID);
+	DLL_API IComponent* getComponentByName(std::string componentName, const EntityID& entityID);
+	/*!*************************************************************************
+	This function is a helper function to get components by string name
+	(overloaded for rttr)
+	****************************************************************************/
+	rttr::instance getComponentByName(rttr::type& componentName, const EntityID& entityID);
 	/*!*************************************************************************
 	This function is a helper function to remove components by string name
 	****************************************************************************/
-	DLL_API void removeComponentByName(std::string componentName, EntityID entityID);
+	DLL_API void removeComponentByName(std::string componentName, const EntityID& entityID);
 }
 
 #endif

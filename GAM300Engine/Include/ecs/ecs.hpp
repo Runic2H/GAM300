@@ -911,7 +911,7 @@ namespace TDS
 
         for (int i = 0; i < record.archetype->type.size(); ++i)
         {
-            if (!(record.archetype->type[i]))
+            if (record.archetype->type[i] == '0')
             {
                 continue;
             }

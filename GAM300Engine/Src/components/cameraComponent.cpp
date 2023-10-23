@@ -10,6 +10,13 @@
 
 #include "components/cameraComponent.h"
 
+RTTR_REGISTRATION
+{
+	using namespace TDS;
+
+	rttr::registration::class_<CameraComponent>("Camera Component");
+}
+
 namespace TDS 
 {
 	/*!*************************************************************************
@@ -25,25 +32,5 @@ namespace TDS
 	CameraComponent::CameraComponent(CameraComponent&& toMove) noexcept
 	{
 		(void)toMove;//TODO 
-	}
-
-	/*!*************************************************************************
-	Deserializes the CameraComponent
-	****************************************************************************/
-	bool CameraComponent::Deserialize(const rapidjson::Value& obj)
-	{
-		//UNREFERENCED_PARAMETER(obj);
-		obj;
-		return false;
-	}
-
-	/*!*************************************************************************
-	Serializes the CameraComponent
-	****************************************************************************/
-	bool CameraComponent::Serialize(rapidjson::PrettyWriter<rapidjson::StringBuffer>* writer) const
-	{
-		//UNREFERENCED_PARAMETER(writer);
-		writer;
-		return false;
 	}
 }

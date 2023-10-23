@@ -46,7 +46,6 @@
     <ClCompile Include="Src\components\collider.cpp" />
     <ClCompile Include="Src\components\componentHelperFunctions.cpp" />
     <ClCompile Include="Src\components\nameTag.cpp" />
-    <ClCompile Include="Src\components\playerAttributes.cpp" />
     <ClCompile Include="Src\components\rigidBody.cpp" />
     <ClCompile Include="Src\components\sprite.cpp" />
     <ClCompile Include="Src\components\tag.cpp" />
@@ -88,6 +87,7 @@
     <ClCompile Include="Src\components\sphereCollider.cpp" />
     <ClCompile Include="Src\components\capsuleCollider.cpp" />
     <ClCompile Include="Src\components\boxCollider.cpp" />
+    <ClCompile Include="Src\sceneManager\serializationHelperFunctions.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Shared_Libs\MathCommon.h" />
@@ -138,7 +138,6 @@
     <ClInclude Include="Include\components\components.h" />
     <ClInclude Include="Include\components\iComponent.h" />
     <ClInclude Include="Include\components\nameTag.h" />
-    <ClInclude Include="Include\components\playerAttributes.h" />
     <ClInclude Include="Include\components\rigidBody.h" />
     <ClInclude Include="Include\components\sprite.h" />
     <ClInclude Include="Include\components\tag.h" />
@@ -203,6 +202,7 @@
     <ClInclude Include="Include\components\boxCollider.h" />
     <ClInclude Include="Include\components\capsuleCollider.h" />
     <ClInclude Include="Include\components\sphereCollider.h" />
+    <ClInclude Include="Include\sceneManager\serializationHelperFunctions.h" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Include\Logger\Logger.h" />

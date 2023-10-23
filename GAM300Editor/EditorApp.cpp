@@ -4,8 +4,10 @@
 #include <vector>
 #include <array>
 #include <sstream>
+#include <imgui/imgui.h>
 
 #include "EditorApp.h"
+
 #include "Logger/Logger.h"
 #include "Input/Input.h"
 #include "vulkanTools/Model.h"
@@ -15,7 +17,6 @@
 #include "sceneManager/sceneManager.h"
 #include "Tools/ShaderReflector.h"
 #include "Shader/ShaderLoader.h"
-#include <imgui/imgui.h>
 #include "Rendering/GraphicsManager.h"
 #include "components/components.h"
 #include "Rendering/RendererSystem.h"

@@ -25,6 +25,8 @@ namespace TDS
 		****************************************************************************/
 		Hierarchy();
 
+		void init();
+
 		/*!*************************************************************************
 		This function is the update function for Hierarchy panel
 		****************************************************************************/
@@ -39,7 +41,21 @@ namespace TDS
 		****************************************************************************/
 		void setSelectedEntity(EntityID _selectedEntity) { selectedEntity = _selectedEntity; }
 
+		void insetOnHoldEntities(EntityID newParent);
+
 	private:
+		struct ImguiHierarchyEntity
+		{
+			EntityID parent;
+			std::vector<ImguiHierarchyEntity> children;
+		};
+
+		std::vector<ImguiHierarchyEntity> hierarchyEntities;
+
+		// parent - list of children
+		std::map<EntityID, std::vector<EntityID>> entitiesOnHold;
+		std::map<EntityID, ImguiHierarchyEntity*> entitiesInputted;
+
 		EntityID selectedEntity;
 	};
 }

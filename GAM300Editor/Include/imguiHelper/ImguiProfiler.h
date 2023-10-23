@@ -11,6 +11,7 @@ namespace TDS
 		Profiler();
 
 		static void getVulkanInfo(ImGui_ImplVulkan_InitInfo& vulkanInfo);
+		void init() {}
 		void update();
 		std::string GPU_name = "GPU: ";
 		std::string Vulkan_API_version = "API Version: ";

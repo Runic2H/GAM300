@@ -33,15 +33,6 @@ namespace TDS
 		****************************************************************************/
 		DLL_API ~Transform() = default;
 		/*!*************************************************************************
-		Deserializes the WinData component
-		****************************************************************************/
-		DLL_API virtual bool Deserialize(const rapidjson::Value& obj);
-		/*!*************************************************************************
-		Serializes the Transform component
-		****************************************************************************/
-		DLL_API virtual bool Serialize(rapidjson::PrettyWriter<rapidjson::StringBuffer>* writer) const;
-
-		/*!*************************************************************************
 		Getter and setter functions for the variables in the Transform component 
 		class
 		****************************************************************************/
