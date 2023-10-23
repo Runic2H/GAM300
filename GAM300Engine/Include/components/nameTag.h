@@ -45,7 +45,10 @@ namespace TDS
 		****************************************************************************/
 		DLL_API std::string& GetNameTag() { return mName; }
 		DLL_API void SetNameTag(std::string name) { mName = name; }
-		
+
+		RTTR_ENABLE();
+		RTTR_REGISTRATION_FRIEND
+
 	private:
 		std::string mName;
 	};

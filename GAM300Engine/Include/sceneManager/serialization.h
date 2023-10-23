@@ -11,6 +11,12 @@
 #ifndef SERIALIZATION
 #define SERIALIZATION
 
+#undef max
+#undef min
+#include <rttr/registration>
+#include <rttr/registration_friend>
+#include <rttr/type> 
+
 #include "rapidJSON/rapidjson.h"
 #include "rapidJSON/document.h"
 #include "rapidJSON/stringbuffer.h"

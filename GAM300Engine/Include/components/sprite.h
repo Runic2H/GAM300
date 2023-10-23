@@ -72,7 +72,10 @@ namespace TDS
 		DLL_API void SetMaxIndex(int maxIndex) { mMaxIndex = maxIndex; }
 		
 		DLL_API std::vector<float>& GetDisplayTime() { return mDisplayTime; }
-		
+
+		RTTR_ENABLE();
+		RTTR_REGISTRATION_FRIEND
+
 	private:
 		Vec2 mIndex;
 

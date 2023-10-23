@@ -66,6 +66,10 @@ namespace TDS
 			Mat4 transM4 = Mat4::Translate(translate);
 			mTransformMatrix = transM4 * rotM4 * scaleM4;
 		}
+
+		RTTR_ENABLE(IComponent);
+		RTTR_REGISTRATION_FRIEND
+
 	private:
 		Vec3 mPosition;
 		Vec3 mScale;

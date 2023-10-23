@@ -15,18 +15,20 @@ namespace TDS
 	/*!*************************************************************************
 	Initializes the Transform component when created
 	****************************************************************************/
-	Transform::Transform() : mPosition	(Vec3(0.0f, 0.0f, 0.0f)), 
-							 mScale		(Vec3(1.0f, 1.0f, 0.0f)),
-							 mRotation	(Vec3(0.0f, 0.f,0.0f))
+	Transform::Transform() : mPosition			(Vec3(0.0f, 0.0f, 0.0f)), 
+							 mScale				(Vec3(1.0f, 1.0f, 0.0f)),
+							 mRotation			(Vec3(0.0f, 0.f,0.0f)),
+							 mTransformMatrix	(Mat4::zero())
 	{ }
 
 	/*!*************************************************************************
 	Initializes the Transform component when created, given another Transform
 	component to move (for ECS)
 	****************************************************************************/
-	Transform::Transform(Transform&& toMove) noexcept : mPosition	(toMove.mPosition),
-														mScale		(toMove.mScale),
-														mRotation	(toMove.mRotation)
+	Transform::Transform(Transform&& toMove) noexcept : mPosition			(toMove.mPosition),
+														mScale				(toMove.mScale),
+														mRotation			(toMove.mRotation),
+														mTransformMatrix	(toMove.mTransformMatrix)
 	{ }
 
 	/*!*************************************************************************
@@ -36,7 +38,7 @@ namespace TDS
 	{
 		mPosition = Vec3(obj["positionX"].GetFloat(), obj["positionY"].GetFloat(), obj["positionZ"].GetFloat());
 		mScale = Vec3(obj["scaleX"].GetFloat(), obj["scaleY"].GetFloat(), obj["scaleZ"].GetFloat());
-		mRotation = obj["rotation"].GetFloat();
+		mRotation = Vec3(obj["rotationX"].GetFloat(), obj["rotationY"].GetFloat(), obj["rotationZ"].GetFloat());
 
 		return true;
 	}

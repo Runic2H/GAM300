@@ -55,6 +55,9 @@ namespace TDS
 		DLL_API float GetTimer() { return mTimer; }
 		DLL_API void SetTimer(float timer) { mTimer = timer; }
 
+		RTTR_ENABLE();
+		RTTR_REGISTRATION_FRIEND
+
 	private:
 		int mBehaviourTreeIndex;
 		NodeStatus mEntityCurrentStatus;

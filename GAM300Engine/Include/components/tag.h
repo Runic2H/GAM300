@@ -49,6 +49,9 @@ namespace TDS
 		DLL_API std::string GetTargetTag() { return mTargetTag; }
 		DLL_API void SetTargetTag(std::string target) { mTargetTag = target; }
 
+		RTTR_ENABLE();
+		RTTR_REGISTRATION_FRIEND
+
 	private:
 		std::string mTag;
 		std::string mTargetTag;

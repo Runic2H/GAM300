@@ -138,7 +138,7 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)Libs;$(SolutionDir)Libs\Debug;$(SolutionDir)Libs\fmod;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>vulkan-1.lib;fmodL_vc.lib;fmodstudioL_vc.lib;Jolt.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>vulkan-1.lib;fmodL_vc.lib;fmodstudioL_vc.lib;Jolt.lib;rttr_core_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>xcopy /s /r /y /q "$(SolutionDir)Dependencies\dotnet\bin" "$(OutDir)"
@@ -191,13 +191,16 @@ xcopy /y /d "$(SolutionDir)Libs\fmod\*.dll" "$(OutDir)"</Command>
     <ClCompile Include="Src\AI\behaviourTree.cpp" />
     <ClCompile Include="Src\AudioEngine.cpp" />
     <ClCompile Include="Src\components\ai.cpp" />
+    <ClCompile Include="Src\components\boxCollider.cpp" />
     <ClCompile Include="Src\components\cameraComponent.cpp" />
+    <ClCompile Include="Src\components\capsuleCollider.cpp" />
     <ClCompile Include="Src\components\collider.cpp" />
     <ClCompile Include="Src\components\componentHelperFunctions.cpp" />
-    <ClCompile Include="Src\components\GraphicsComponent.cpp" />
+    <ClCompile Include="Src\components\graphicsComponent.cpp" />
     <ClCompile Include="Src\components\nameTag.cpp" />
     <ClCompile Include="Src\components\playerAttributes.cpp" />
     <ClCompile Include="Src\components\rigidBody.cpp" />
+    <ClCompile Include="Src\components\sphereCollider.cpp" />
     <ClCompile Include="Src\components\sprite.cpp" />
     <ClCompile Include="Src\components\tag.cpp" />
     <ClCompile Include="Src\components\transform.cpp" />
@@ -284,14 +287,17 @@ xcopy /y /d "$(SolutionDir)Libs\fmod\*.dll" "$(OutDir)"</Command>
     <ClInclude Include="Include\AssetManagement\ModelFactory.h" />
     <ClInclude Include="Include\AssetManagement\TextureFactory.h" />
     <ClInclude Include="Include\components\ai.h" />
+    <ClInclude Include="Include\components\boxCollider.h" />
     <ClInclude Include="Include\components\cameraComponent.h" />
+    <ClInclude Include="Include\components\capsuleCollider.h" />
     <ClInclude Include="Include\components\collider.h" />
     <ClInclude Include="Include\components\components.h" />
-    <ClInclude Include="Include\components\GraphicsComponent.h" />
+    <ClInclude Include="Include\components\graphicsComponent.h" />
     <ClInclude Include="Include\components\iComponent.h" />
     <ClInclude Include="Include\components\nameTag.h" />
     <ClInclude Include="Include\components\playerAttributes.h" />
     <ClInclude Include="Include\components\rigidBody.h" />
+    <ClInclude Include="Include\components\sphereCollider.h" />
     <ClInclude Include="Include\components\sprite.h" />
     <ClInclude Include="Include\components\tag.h" />
     <ClInclude Include="Include\components\transform.h" />

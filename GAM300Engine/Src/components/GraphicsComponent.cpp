@@ -1,4 +1,5 @@
-#include "components/GraphicsComponent.h"
+#include "components/graphicsComponent.h"
+
 namespace TDS
 {
 	GraphicsComponent::GraphicsComponent():m_AssetReference(),m_TextureReference(), m_ShowMesh(true)

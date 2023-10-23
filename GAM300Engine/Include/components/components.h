@@ -11,17 +11,21 @@
 #ifndef COMPONENTS
 #define COMPONENTS
 
-#include "ai.h"
-#include "cameraComponent.h"
 #include "collider.h"
+
+#include "ai.h"
+#include "boxCollider.h"
+#include "cameraComponent.h"
+#include "capsuleCollider.h"
+#include "graphicsComponent.h"
 #include "nameTag.h"
 #include "playerAttributes.h"
 #include "rigidBody.h"
+#include "sphereCollider.h"
 #include "sprite.h"
 #include "tag.h"
 #include "transform.h"
 #include "winData.h"
-#include "GraphicsComponent.h"
 
 // Helper functions for components
 namespace TDS

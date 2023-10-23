@@ -20,16 +20,6 @@ namespace TDS
 	{
 	public:
 		/*!*************************************************************************
-		This is the list of collider types. Collider type also informs response behavior
-		****************************************************************************/
-		enum class ColliderType
-		{
-			NONE,
-			CIRCLE,			// Circle
-			RECTANGLE		// AABB
-		};
-
-		/*!*************************************************************************
 		Initializes the Collider component when created
 		****************************************************************************/
 		DLL_API Collider();
@@ -54,9 +44,6 @@ namespace TDS
 		/*!*************************************************************************
 		Getter and setter functions for the variables in the Collider component class
 		****************************************************************************/
-		DLL_API ColliderType& GetColliderType() { return mColliderType; }
-		DLL_API void SetColliderType(ColliderType colliderType) { mColliderType = colliderType; }
-
 		DLL_API Vec3& GetColliderNormal() { return mCollisionNormal; }
 		DLL_API void SetColliderNormal(Vec3 collisionNormal) { mCollisionNormal = collisionNormal; }
 		DLL_API void SetColliderNormal(float x, float y, float z) { mCollisionNormal = Vec3(x, y, z); }
@@ -86,7 +73,6 @@ namespace TDS
 		DLL_API void SetCollision(bool collision) { mCollision = collision; }
 
 	private:
-		ColliderType mColliderType;
 		Vec3 mCollisionNormal;
 		Vec3 mMin;
 		Vec3 mMax;

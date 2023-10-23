@@ -77,7 +77,7 @@
     <ClCompile Include="Src\Renderer\RendererSystem.cpp" />
     <ClCompile Include="Src\Renderer\RenderDataManager.cpp" />
     <ClCompile Include="Src\Renderer\Renderer3D.cpp" />
-    <ClCompile Include="Src\components\GraphicsComponent.cpp" />
+    <ClCompile Include="Src\components\graphicsComponent.cpp" />
     <ClCompile Include="..\Shared_Libs\Color.cpp" />
     <ClCompile Include="..\Shared_Libs\Color8UNorm.cpp" />
     <ClCompile Include="Src\JoltPhysics\Bodies\JoltBodyComponent.cpp" />
@@ -85,6 +85,9 @@
     <ClCompile Include="Src\JoltPhysics\Bodies\JoltQueryShapeBodyComponent.cpp" />
     <ClCompile Include="Src\JoltPhysics\Bodies\JoltStaticBodyComponent.cpp" />
     <ClCompile Include="Src\JoltPhysics\Bodies\JoltTriggerComponent.cpp" />
+    <ClCompile Include="Src\components\sphereCollider.cpp" />
+    <ClCompile Include="Src\components\capsuleCollider.cpp" />
+    <ClCompile Include="Src\components\boxCollider.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Shared_Libs\MathCommon.h" />
@@ -188,7 +191,7 @@
     <ClInclude Include="Include\Rendering\Renderer3D.h" />
     <ClInclude Include="Include\Rendering\RendererSystem.h" />
     <ClInclude Include="Include\Rendering\Skybox.h" />
-    <ClInclude Include="Include\components\GraphicsComponent.h" />
+    <ClInclude Include="Include\components\graphicsComponent.h" />
     <ClInclude Include="Include\Rendering\RenderLayer.h" />
     <ClInclude Include="..\Shared_Libs\Color.h" />
     <ClInclude Include="..\Shared_Libs\Color8UNorm.h" />
@@ -197,6 +200,9 @@
     <ClInclude Include="Include\JoltPhysics\Bodies\JoltQueryShapeBodyComponent.h" />
     <ClInclude Include="Include\JoltPhysics\Bodies\JoltStaticBodyComponent.h" />
     <ClInclude Include="Include\JoltPhysics\Bodies\JoltTriggerComponent.h" />
+    <ClInclude Include="Include\components\boxCollider.h" />
+    <ClInclude Include="Include\components\capsuleCollider.h" />
+    <ClInclude Include="Include\components\sphereCollider.h" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Include\Logger\Logger.h" />

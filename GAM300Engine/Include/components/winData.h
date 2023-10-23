@@ -67,6 +67,9 @@ namespace TDS
 		DLL_API float GetSFXVolume() { return mSFXVolume; }
 		DLL_API void SetSFXVolume(float SFXVolume) { mSFXVolume = SFXVolume; }
 
+		RTTR_ENABLE();
+		RTTR_REGISTRATION_FRIEND
+
 	private:
 		std::string mTitle;
 		std::uint32_t mWidth;

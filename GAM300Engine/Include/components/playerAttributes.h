@@ -41,6 +41,9 @@ namespace TDS
 		****************************************************************************/
 		DLL_API virtual bool Serialize(rapidjson::PrettyWriter<rapidjson::StringBuffer>* writer) const;
 
+		RTTR_ENABLE();
+		RTTR_REGISTRATION_FRIEND
+
 	private:
 	};
 }

@@ -217,7 +217,7 @@ namespace TDS
 	/*!*************************************************************************
 	This function is a helper function for draw TEXT variables
 	****************************************************************************/
-	std::string ImguiTextInput(std::string variableName, std::string textVariable)
+	std::string ImguiInput(std::string variableName, std::string textVariable)
 	{
 		ImGui::TableNextRow();
 		ImGui::TableNextColumn();
@@ -234,7 +234,7 @@ namespace TDS
 	/*!*************************************************************************
 	This function is a helper function for draw BOOl variables
 	****************************************************************************/
-	bool ImguiBoolInput(std::string variableName, bool boolVariable)
+	bool ImguiInput(std::string variableName, bool boolVariable)
 	{
 		ImGui::TableNextRow();
 		ImGui::TableNextColumn();
@@ -249,7 +249,7 @@ namespace TDS
 	/*!*************************************************************************
 	This function is a helper function for draw INT variables
 	****************************************************************************/
-	int ImguiIntInput(std::string variableName, int intVariable, float speed, int min, int max)
+	int ImguiInput(std::string variableName, int intVariable, float speed, int min, int max)
 	{
 		ImGui::TableNextRow();
 		ImGui::TableNextColumn();
@@ -271,7 +271,7 @@ namespace TDS
 	/*!*************************************************************************
 	This function is a helper function for draw FLOAT variables
 	****************************************************************************/
-	float ImguiFloatInput(std::string variableName, float floatVariable, float speed, float min, float max)
+	float ImguiInput(std::string variableName, float floatVariable, float speed, float min, float max)
 	{
 		ImGui::TableNextRow();
 		ImGui::TableNextColumn();
@@ -286,7 +286,7 @@ namespace TDS
 	/*!*************************************************************************
 	This function is a helper function for draw VEC2 variables
 	****************************************************************************/
-	Vec2 ImguiVec2Input(std::string variableName, Vec2 Vec2Variable)
+	Vec2 ImguiInput(std::string variableName, Vec2 Vec2Variable)
 	{
 		ImGui::TableNextRow();
 		ImGui::TableNextColumn();
@@ -304,7 +304,7 @@ namespace TDS
 	/*!*************************************************************************
 	This function is a helper function for draw VEC3 variables
 	****************************************************************************/
-	Vec3 ImguiVec3Input(std::string variableName, Vec3 Vec3Variable)
+	Vec3 ImguiInput(std::string variableName, Vec3 Vec3Variable)
 	{
 		ImGui::TableNextRow();
 		ImGui::TableNextColumn();

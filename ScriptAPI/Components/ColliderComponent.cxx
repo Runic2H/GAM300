@@ -2,41 +2,6 @@
 
 namespace ScriptAPI
 {
-	// COLLIDER TYPE =========================================================================
-	// Private
-	TDS::Collider::ColliderType ColliderComponent::ColliderType::get()
-	{
-		// May wanna change to a function
-		if (!TDS::GetCollider(entityID))
-		{
-			// throw error instead (not sure how)
-			return TDS::Collider::ColliderType::NONE;
-		}
-
-		return TDS::GetCollider(entityID)->GetColliderType();
-	}
-	void ColliderComponent::ColliderType::set(TDS::Collider::ColliderType value)
-	{
-		// May wanna change to a function
-		if (!TDS::GetCollider(entityID))
-		{
-			// throw error instead (not sure how)
-			return;
-		}
-
-		TDS::GetCollider(entityID)->SetColliderType(value);
-	}
-
-	// Public
-	TDS::Collider::ColliderType ColliderComponent::GetCollisionType()
-	{
-		return ColliderType;
-	}
-	void ColliderComponent::SetCollisionType(TDS::Collider::ColliderType value)
-	{
-		ColliderType = value;
-	}
-
 	// COLLIDER NORMAL =======================================================================
 	// Private
 	Vector3 ColliderComponent::CollisionNormal::get()

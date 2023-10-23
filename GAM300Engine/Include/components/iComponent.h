@@ -16,7 +16,6 @@
 
 #include "sceneManager/serialization.h"
 
-
 namespace TDS
 {
 	class IComponent : public Serializer
@@ -34,6 +33,8 @@ namespace TDS
 		Serialize function of the abstract IComponent class
 		****************************************************************************/
 		DLL_API virtual bool Serialize(rapidjson::PrettyWriter<rapidjson::StringBuffer>* writer) const = 0;
+
+		RTTR_ENABLE();
 	};
 }
 

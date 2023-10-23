@@ -1,14 +1,14 @@
 {
     "Archetype Sizes": {
-        "1110000000": {
+        "1100001000000": {
             "0": 192,
-            "1": 160,
-            "2": 1024
+            "1": 448,
+            "6": 1024
         }
     },
     "Entity Data": {
         "0": {
-            "ArchetypeID": "1110000000",
+            "ArchetypeID": "1100001000000",
             "Name Tag": {
                 "name": "New Entity"
             },
@@ -19,12 +19,14 @@
                 "scaleX": 1.0,
                 "scaleY": 1.0,
                 "scaleZ": 0.0,
-                "rotation": 0.0
+                "rotationX": 0.0,
+                "rotationY": 0.0,
+                "rotationZ": 0.0
             },
             "Graphics Component": {}
         },
         "1": {
-            "ArchetypeID": "1110000000",
+            "ArchetypeID": "1100001000000",
             "Name Tag": {
                 "name": "New Entity"
             },
@@ -35,12 +37,14 @@
                 "scaleX": 1.0,
                 "scaleY": 1.0,
                 "scaleZ": 0.0,
-                "rotation": 0.0
+                "rotationX": 0.0,
+                "rotationY": 0.0,
+                "rotationZ": 0.0
             },
             "Graphics Component": {}
         },
         "2": {
-            "ArchetypeID": "1110000000",
+            "ArchetypeID": "1100001000000",
             "Name Tag": {
                 "name": "New Entity"
             },
@@ -51,12 +55,14 @@
                 "scaleX": 1.0,
                 "scaleY": 1.0,
                 "scaleZ": 0.0,
-                "rotation": 0.0
+                "rotationX": 0.0,
+                "rotationY": 0.0,
+                "rotationZ": 0.0
             },
             "Graphics Component": {}
         },
         "3": {
-            "ArchetypeID": "1110000000",
+            "ArchetypeID": "1100001000000",
             "Name Tag": {
                 "name": "New Entity"
             },
@@ -67,7 +73,9 @@
                 "scaleX": 1.0,
                 "scaleY": 1.0,
                 "scaleZ": 0.0,
-                "rotation": 0.0
+                "rotationX": 0.0,
+                "rotationY": 0.0,
+                "rotationZ": 0.0
             },
             "Graphics Component": {}
         }

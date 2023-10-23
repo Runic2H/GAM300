@@ -84,7 +84,9 @@ namespace TDS
 
 		DLL_API float& GetGravity() { return mGravity; }
 		DLL_API void SetGravity(float gravity) { mGravity = gravity; }
-		
+
+		RTTR_ENABLE();
+		RTTR_REGISTRATION_FRIEND
 
 	private:
 		Vec3 mAcceleration;

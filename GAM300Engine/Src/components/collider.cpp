@@ -15,8 +15,7 @@ namespace TDS
 	/*!*************************************************************************
 	Initializes the Collider component when created
 	****************************************************************************/
-	Collider::Collider() : mColliderType	(ColliderType::NONE),
-						   mCollisionNormal (Vec3(0.0f, 0.0f, 0.0f)),
+	Collider::Collider() : mCollisionNormal (Vec3(0.0f, 0.0f, 0.0f)),
 						   mMin				(Vec3(0.0f, 0.0f, 0.0f)),
 						   mMax				(Vec3(0.0f, 0.0f, 0.0f)),
 						   mOffset			(Vec3(0.0f, 0.0f, 0.0f)),
@@ -30,8 +29,7 @@ namespace TDS
 	Initializes the Collider component when created, given another Collider
 	component to move (for ECS)
 	****************************************************************************/
-	Collider::Collider(Collider&& toMove) noexcept : mColliderType(toMove.mColliderType),
-													 mCollisionNormal(toMove.mCollisionNormal),
+	Collider::Collider(Collider&& toMove) noexcept : mCollisionNormal(toMove.mCollisionNormal),
 													 mMin(toMove.mMin),
 													 mMax(toMove.mMax),
 													 mOffset(toMove.mOffset),
@@ -45,7 +43,6 @@ namespace TDS
 	****************************************************************************/
 	bool Collider::Deserialize(const rapidjson::Value& obj)
 	{
-		mColliderType		= static_cast<ColliderType>(obj["colliderType"].GetInt());
 		mCollisionNormal	= Vec3(obj["collisionNormalX"].GetFloat(), obj["collisionNormalY"].GetFloat(), obj["collisionNormalZ"].GetFloat());
 		mMin				= Vec3(obj["minX"].GetFloat(), obj["minY"].GetFloat(), obj["minZ"].GetFloat());
 		mMax				= Vec3(obj["maxX"].GetFloat(), obj["maxY"].GetFloat(), obj["maxZ"].GetFloat());
@@ -62,9 +59,6 @@ namespace TDS
 	****************************************************************************/
 	bool Collider::Serialize(rapidjson::PrettyWriter<rapidjson::StringBuffer>* writer) const
 	{
-		writer->Key("colliderType");
-		writer->Int(static_cast<int>(mColliderType));
-
 		writer->Key("collisionNormalX");
 		writer->Double(mCollisionNormal.x);
 		writer->Key("collisionNormalY");

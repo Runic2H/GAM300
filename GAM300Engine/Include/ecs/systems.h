@@ -22,10 +22,10 @@ namespace TDS
 
 	//std::unique_ptr<ECS> ECS::m_instance;
 
-	System<Transform, RigidBody>				_PhysicsSystem(1);
-	System<Transform, RigidBody, Collider>		_ColliderSystem(1);
-	System<AI>									_AISystem(1);
-	System<Transform, GraphicsComponent>		_RenderSystem(1);
+	ECSSystem<Transform, RigidBody>					_PhysicsSystem(1);
+	ECSSystem<Transform, RigidBody, SphereCollider>	_ColliderSystem(1);
+	ECSSystem<AI>									_AISystem(1);
+	ECSSystem<Transform, GraphicsComponent>			_RenderSystem(1);
 	//System<Transform, RigidBody> _AISystem(1);
 	//System<Transform> _GraphicsSystem(1);
 }
