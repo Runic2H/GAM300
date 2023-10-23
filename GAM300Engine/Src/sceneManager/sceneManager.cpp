@@ -49,7 +49,7 @@ namespace TDS
 	{
 		ecs.registerComponent<NameTag>("Name Tag");
 		ecs.registerComponent<Transform>("Transform");
-		ecs.registerComponent<GraphicsComponent>("Graphics Component");
+
 		ecs.registerComponent<AI>("AI");
 		ecs.registerComponent<CameraComponent>("Camera Component");
 		ecs.registerComponent<Collider>("Collider");
@@ -58,6 +58,7 @@ namespace TDS
 		ecs.registerComponent<Sprite>("Sprite");
 		ecs.registerComponent<Tag>("Tag");
 		ecs.registerComponent<WinData>("Win Data");
+		ecs.registerComponent<GraphicsComponent>("Graphics Component");
 
 		startScene = "";
 

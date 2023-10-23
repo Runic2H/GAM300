@@ -13,7 +13,7 @@ namespace TDS
 		flags = ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoCollapse;
 		panelTitle = "Asset Browser";
 		windowPadding = ImVec2(0.f, 0.f);
-		m_curr_path = std::filesystem::current_path();
+		m_curr_path = "../../assets";
 
 		//insertEntities();
 	}
@@ -70,7 +70,7 @@ namespace TDS
 		}
 	}
 
-	static const std::filesystem::path s_TextureDirectory = std::filesystem::current_path();
+	static const std::filesystem::path s_TextureDirectory = "../../assets";
 	void AssetBrowser::update()
 	{
 		if (m_curr_path != std::filesystem::path(s_TextureDirectory))
@@ -80,10 +80,10 @@ namespace TDS
 				m_curr_path = m_curr_path.parent_path();
 			}
 		}
-		//float cellSize = thumbnail_size + padding;
+		float cellSize = thumbnail_size + padding;
 
-		//float panelWidth = ImGui::GetContentRegionAvail().x;
-		//float columnCount = (int)(panelWidth / cellSize);
+		float panelWidth = ImGui::GetContentRegionAvail().x;
+		float columnCount = (int)(panelWidth / cellSize);
 		ImGui::Columns(4, 0, false);
 
 		for (auto& directory_entry : std::filesystem::directory_iterator(m_curr_path))
