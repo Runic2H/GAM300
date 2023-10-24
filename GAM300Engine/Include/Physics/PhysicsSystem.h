@@ -38,7 +38,7 @@ JPH_SUPPRESS_WARNINGS
 
 namespace TDS
 {
-	class DLL_API PhysicsSystem : public JPH::PhysicsSystem
+	class DLL_API PhysicsSystem
 	{
 	public:
 		/*!*************************************************************************
