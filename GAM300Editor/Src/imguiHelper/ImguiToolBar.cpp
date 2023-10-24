@@ -8,7 +8,7 @@
 namespace TDS
 {
 	/*EditorConsole console;*/ //Wrong method of getting instance
-	std::shared_ptr<EditorConsole> console = static_pointer_cast<EditorConsole>(LevelEditorManager::GetInstance()->panels[PanelTypes::CONSOLE]);
+	//std::shared_ptr<EditorConsole> console = static_pointer_cast<EditorConsole>(LevelEditorManager::GetInstance()->panels[PanelTypes::CONSOLE]);
 
 	Toolbar::Toolbar()
 	{
@@ -32,7 +32,7 @@ namespace TDS
 		ImGui::SetItemDefaultFocus();
 		if (ImGui::ArrowButton("Play", ImGuiDir_Right))
 		{
-			console->AddLog("Play button pressed");
+			//console->AddLog("Play button pressed");
 			//console->AddLog("Play button pressed");
 			//if (isPlay) {
 			//	//App->timeManagement->Play();
@@ -59,7 +59,7 @@ namespace TDS
 		ImGui::SameLine();
 		if (ImGui::Button("||", { 23, 19 }))
 		{
-			console->AddLog("Pause button pressed");
+			//console->AddLog("Pause button pressed");
 			//if (isPause) {
 			//	//pause
 			//	console->AddLog("Pause button pressed");
@@ -92,7 +92,7 @@ namespace TDS
 		if (ImGui::Button("Open FMOD Studio", { 120, 19 }))
 		{
 
-			console->AddLog("Opening fmod");
+			//console->AddLog("Opening fmod");
 			if (isOpenFMOD) {
 
 				/*const char* fmodStudioPath = "..\\Dependencies\\FMOD_Studio_2.02.17\\FMOD_Studio.exe";
@@ -122,7 +122,7 @@ namespace TDS
 		ImGui::PushStyleColor(ImGuiCol_ButtonHovered, { 1,0.1f,0,1 });
 		if (ImGui::Button("Save Scene", { 100, 19 }))
 		{
-			console->AddLog("Save Scene Button Pressed");
+			//console->AddLog("Save Scene Button Pressed");
 			if (isSaveScene) {
 
 				SceneManager::GetInstance()->saveCurrentScene();
