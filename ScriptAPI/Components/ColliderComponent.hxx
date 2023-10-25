@@ -8,9 +8,6 @@ namespace ScriptAPI
 	public value class ColliderComponent
 	{
 	public:
-		TDS::Collider::ColliderType GetCollisionType();
-		void SetCollisionType(TDS::Collider::ColliderType value);
-
 		Vector3 GetCollisionNormal();
 		void SetCollisionNormal(Vector3 value);
 		void SetCollisionNormalX(float valueX);
@@ -51,11 +48,6 @@ namespace ScriptAPI
 		ColliderComponent(TDS::EntityID ID);
 
 	private:
-		property TDS::Collider::ColliderType ColliderType
-		{
-			TDS::Collider::ColliderType get();
-			void set(TDS::Collider::ColliderType value);
-		}
 		property Vector3 CollisionNormal
 		{
 			Vector3 get();

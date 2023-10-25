@@ -11,7 +11,7 @@
 #define COLLISIONSYSTEM_H
 
 #include "ecs/ecs.h"
-#include "components/collider.h"
+#include "components/sphereCollider.h"
 #include "components/transform.h"
 #include "components/rigidBody.h"
 #include "dotnet/ImportExport.h"
@@ -25,13 +25,13 @@ namespace TDS
 		 * Collision System Init and Update (Will be used by the ECS)
 		 ***************************************************************************/
 		static void CollisionSystemInit();
-		static void CollisionSystemUpdate(const float dt, const std::vector<EntityID>& entities, Transform* _transform, RigidBody* _rigidbody, Collider* _collider);
+		static void CollisionSystemUpdate(const float dt, const std::vector<EntityID>& entities, Transform* _transform, RigidBody* _rigidbody, SphereCollider* _collider);
 		
 	private:
 		/*!*************************************************************************
 		 * Sphere to Sphere Collision Check
 		 ***************************************************************************/
-		static bool SphereSphereCollision(Transform& trans1, RigidBody& body1, Collider& collider1, Transform& trans2, RigidBody& body2, Collider& collider2);
+		static bool SphereSphereCollision(Transform& trans1, RigidBody& body1, SphereCollider& collider1, Transform& trans2, RigidBody& body2, SphereCollider& collider2);
 		/*!*************************************************************************
 		 * Sphere to Sphere Collision Response
 		 ***************************************************************************/

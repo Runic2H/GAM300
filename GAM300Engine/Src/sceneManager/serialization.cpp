@@ -71,7 +71,7 @@ namespace TDS
 			return false;
 		}
 
-		Deserialize(doc);
+		Deserialize(doc, doc);
 		return true;
 	}
 

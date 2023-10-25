@@ -14,6 +14,8 @@ namespace TDS
 
 		void AddLog(const char* fmt, ...) IM_FMTARGS(2);
 
+		void init() {}
+
 		void update();
 
 	private:

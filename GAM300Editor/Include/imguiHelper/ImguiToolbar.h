@@ -10,7 +10,7 @@ namespace TDS
 	public:
 		Toolbar();
 
-		
+		void init() {}
 		void update();
 
 	private:

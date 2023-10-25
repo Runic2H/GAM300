@@ -13,7 +13,7 @@ namespace TDS
 		flags = ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoCollapse;
 		panelTitle = "Asset Browser";
 		windowPadding = ImVec2(0.f, 0.f);
-		m_curr_path = std::filesystem::current_path();
+		m_curr_path = "../../assets/textures";
 
 		//insertEntities();
 	}
@@ -70,7 +70,7 @@ namespace TDS
 		}
 	}
 
-	static const std::filesystem::path s_TextureDirectory = std::filesystem::current_path();
+	static const std::filesystem::path s_TextureDirectory = "../../assets";
 	void AssetBrowser::update()
 	{
 		if (m_curr_path != std::filesystem::path(s_TextureDirectory))
@@ -80,11 +80,11 @@ namespace TDS
 				m_curr_path = m_curr_path.parent_path();
 			}
 		}
-		//float cellSize = thumbnail_size + padding;
+		float cellSize = thumbnail_size + padding;
 
-		//float panelWidth = ImGui::GetContentRegionAvail().x;
-		//float columnCount = (int)(panelWidth / cellSize);
-		ImGui::Columns(4, 0, false);
+		float panelWidth = ImGui::GetContentRegionAvail().x;
+		int columnCount = (int)(panelWidth / cellSize);
+		ImGui::Columns(std::max(columnCount, 1), 0, false);
 
 		for (auto& directory_entry : std::filesystem::directory_iterator(m_curr_path))
 		{
@@ -96,10 +96,23 @@ namespace TDS
 			std::string filename;
 			getFileNameFromPath(path1.c_str(), nullptr, nullptr, &filename, nullptr);
 
-
-
+			
+			ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0, 0, 0, 0));
 			ImGui::Button(filename.c_str(), { thumbnail_size, thumbnail_size });
 			
+			//do drag drop
+			if (ImGui::BeginDragDropSource())
+			{
+				std::filesystem::path relativePath(path1);
+				const wchar_t* itemPath = relativePath.c_str();
+				ImGui::Text(filename.c_str());
+				ImGui::SetDragDropPayload("CONTENT_BROWSER_ITEM", itemPath, (wcslen(itemPath) + 1) * sizeof(wchar_t));
+				ImGui::EndDragDropSource();
+			}
+
+			ImGui::PopStyleColor();
+
+
 			if (ImGui::IsItemClicked(0))
 			{
 				

@@ -121,7 +121,7 @@ namespace TDS
     // Setting the update function in the mFunc function pointer 
     // func - update function as function pointer 
     template<class... Cs>
-    void System<Cs...>::action(InitFunc initFunc, RunFunc runFunc)
+    void ECSSystem<Cs...>::action(InitFunc initFunc, RunFunc runFunc)
     {
         mInitFunc = initFunc;
         mRunFunc = runFunc;
@@ -133,7 +133,7 @@ namespace TDS
     // ecs - THE ecs
     // layer - layer to put the system under
     template<class... Cs>
-    System<Cs...>::System(const int layer) : mFuncSet(false)
+    ECSSystem<Cs...>::ECSSystem(const int layer) : mFuncSet(false)
     {
         ecs.registerSystem(layer, this);
         key = "";
@@ -143,7 +143,7 @@ namespace TDS
     // Getting the archetype ID based on the components given
     // Return - archetype ID
     template<class... Cs>
-    ArchetypeID System<Cs...>::getKey()
+    ArchetypeID ECSSystem<Cs...>::getKey()
     {
         if (key == "")
         {
@@ -168,7 +168,7 @@ namespace TDS
     // elapsedMilliseconds - dt
     // archetype - archetype to be selected out for the function pointer to run
     template<class... Cs>
-    void System<Cs...>::doAction(const float elapsedMilliseconds, Archetype* archetype)
+    void ECSSystem<Cs...>::doAction(const float elapsedMilliseconds, Archetype* archetype)
     {
         if (mFuncSet)
             doAction<0>(elapsedMilliseconds,
@@ -186,7 +186,7 @@ namespace TDS
     template<class... Cs>
     template<std::uint32_t Index, typename T, typename... Ts>
     std::enable_if_t<Index != sizeof...(Cs)>
-        System<Cs...>::doAction(const float elapsedMilliseconds,
+        ECSSystem<Cs...>::doAction(const float elapsedMilliseconds,
             const ArchetypeID& archeTypeIds,
             const std::vector<EntityID>& entityIDs,
             T& t,
@@ -219,7 +219,7 @@ namespace TDS
     template<class... Cs>
     template<std::uint32_t Index, typename T, typename... Ts>
     std::enable_if_t<Index == sizeof...(Cs)>
-        System<Cs...>::doAction(const float elapsedMilliseconds,
+        ECSSystem<Cs...>::doAction(const float elapsedMilliseconds,
             const ArchetypeID& archeTypeIds,
             const std::vector<EntityID>& entityIDs,
             T& t,
@@ -231,7 +231,7 @@ namespace TDS
     }
 
     template<class... Cs>
-    void System<Cs...>::initialiseAction()
+    void ECSSystem<Cs...>::initialiseAction()
     {
         if (mFuncSet)
             mInitFunc();
@@ -911,7 +911,7 @@ namespace TDS
 
         for (int i = 0; i < record.archetype->type.size(); ++i)
         {
-            if (!(record.archetype->type[i]))
+            if (record.archetype->type[i] == '0')
             {
                 continue;
             }

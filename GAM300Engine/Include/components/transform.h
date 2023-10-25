@@ -33,15 +33,6 @@ namespace TDS
 		****************************************************************************/
 		DLL_API ~Transform() = default;
 		/*!*************************************************************************
-		Deserializes the WinData component
-		****************************************************************************/
-		DLL_API virtual bool Deserialize(const rapidjson::Value& obj);
-		/*!*************************************************************************
-		Serializes the Transform component
-		****************************************************************************/
-		DLL_API virtual bool Serialize(rapidjson::PrettyWriter<rapidjson::StringBuffer>* writer) const;
-
-		/*!*************************************************************************
 		Getter and setter functions for the variables in the Transform component 
 		class
 		****************************************************************************/
@@ -66,6 +57,10 @@ namespace TDS
 			Mat4 transM4 = Mat4::Translate(translate);
 			mTransformMatrix = transM4 * rotM4 * scaleM4;
 		}
+
+		RTTR_ENABLE(IComponent);
+		RTTR_REGISTRATION_FRIEND
+
 	private:
 		Vec3 mPosition;
 		Vec3 mScale;

@@ -40,6 +40,11 @@ namespace TDS
 		void deactivate_audio_controls();
 
 		/**
+		 * @brief Initialize
+		*/
+		void init() {}
+
+		/**
 		 * @brief Update loop.
 		*/
 		void update();

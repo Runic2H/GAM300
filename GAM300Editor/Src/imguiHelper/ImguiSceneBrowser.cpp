@@ -12,8 +12,11 @@
 #include "imguiHelper/ImguiSceneBrowser.h"
 #include "imguiHelper/ImguiHierarchy.h"
 
+
 namespace TDS
 {
+	
+	
 	/*!*************************************************************************
 	This function initializes the Scene Broswer panel
 	****************************************************************************/
@@ -23,10 +26,11 @@ namespace TDS
 		panelTitle = "Scene Browser";
 		windowPadding = ImVec2(10.f, 10.f);
 
-		buttonSize = 90.f;
+		buttonSize = 60.f;
 		deleteSceneConfirmation = false;
 		renameFileID = -1;
 		renameFileOldName = "";
+
 	}
 
 	/*!*************************************************************************
@@ -71,7 +75,7 @@ namespace TDS
             ImGui::EndMenuBar();
         }
 
-		ImGui::Columns(6, 0, false);
+		ImGui::Columns(3, 0, false);
 		int i = 0;
 		for (std::string& scene : sceneManager->getScenes())
 		{
@@ -80,6 +84,7 @@ namespace TDS
 			{
 				hierarchyPanel->setSelectedEntity(0);
 				sceneManager->loadScene(scene);
+				hierarchyPanel->init();
 			}
 
 			if (rightClick && ImGui::IsItemHovered())
@@ -167,6 +172,6 @@ namespace TDS
 		}
 
 		ImGui::Columns(1);
-		ImGui::SliderFloat("Thumbnail Size", &buttonSize, 16, 512);
+
 	}
 }

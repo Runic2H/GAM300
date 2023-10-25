@@ -96,11 +96,11 @@ namespace TDS
 
     // SYSTEM CLASS =======================================================================================
     template<class... Cs>
-    class System : public SystemBase
+    class ECSSystem : public SystemBase
     {
     public:
         // Making a new system
-        System(const int layer);
+        ECSSystem(const int layer);
 
         // Getting the archetype ID based on the components given
         virtual ArchetypeID                 getKey() override;

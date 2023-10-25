@@ -4,8 +4,10 @@
 #include <vector>
 #include <array>
 #include <sstream>
+#include <imgui/imgui.h>
 
 #include "EditorApp.h"
+
 #include "Logger/Logger.h"
 #include "Input/Input.h"
 #include "vulkanTools/Model.h"
@@ -15,14 +17,14 @@
 #include "sceneManager/sceneManager.h"
 #include "Tools/ShaderReflector.h"
 #include "Shader/ShaderLoader.h"
-#include <imgui/imgui.h>
 #include "Rendering/GraphicsManager.h"
 #include "components/components.h"
 #include "Rendering/RendererSystem.h"
 #include "vulkanTools/VulkanHelper.h"
 #include "EditorRenderer/ImguiLayer.h"
 #include "vulkanTools/CommandManager.h"
-
+#include "GraphicsResource/TextureInfo.h"
+#include "vulkanTools/VulkanTexture.h"
 
 bool isPlaying = false;
 
@@ -32,6 +34,7 @@ namespace TDS
         :m_window(hinstance, nCmdShow, classname)
     {
         m_window.createWindow(wndproc, 1280, 800);
+
         //m_pVKInst = std::make_shared<VulkanInstance>(m_window);
         //m_Renderer = std::make_shared<Renderer>(m_window, *m_pVKInst.get());
         Log::Init();
@@ -161,8 +164,18 @@ namespace TDS
         RendererSystem::assetManager = &m_AssetManager;
         initImgui();
         float lightx = 0.f;
-        GraphicsManager::getInstance().setCamera(m_camera);
 
+
+       /* Texture data{};
+        data.LoadTexture("../../assets/textures/texture.dds");
+        VulkanTexture vkTexture{};
+        vkTexture.CreateBasicTexture(data.m_TextureInfo);
+        
+        vkTexture.m_DescSet = ImGui_ImplVulkan_AddTexture(vkTexture.getInfo().sampler, vkTexture.getInfo().imageView, vkTexture.getInfo().imageLayout);
+        ImGui::Image(vkTexture.m_DescSet, { 500.f,500.f });*/
+
+
+        GraphicsManager::getInstance().setCamera(m_camera);
         while (m_window.processInputEvent())
         {
 
@@ -176,7 +189,10 @@ namespace TDS
             lightx = lightx < -1.f ? 1.f : lightx - 0.005f;
             RendererSystem::lightPosX = lightx;
             VkCommandBuffer commandBuffer = GraphicsManager::getInstance().getCommandBuffer();
+            
             imguiHelper::Update();
+            //loading the imgui image 
+           // ImGui::Image(vkTexture.m_DescSet, { 500.f,500.f });
 
             GraphicsManager::getInstance().GetSwapchainRenderer().BeginSwapChainRenderPass(commandBuffer);
 
@@ -243,9 +259,17 @@ namespace TDS
                 "AddScriptViaName"
             );
 
+        auto awake = GetFunctionPtr<void(*)(void)>
+            (
+                "ScriptAPI",
+                "ScriptAPI.EngineInterface",
+                "ExecuteAwake"
+            );
+
         // Step 2: Initialize
         init();
         addScript(1, "Test");
+        awake();
     }
 
     Application::~Application()
@@ -408,7 +432,7 @@ namespace TDS
             // Copy out files
             std::filesystem::copy_file
             (
-                "..\\..\\scriptDLL/ManagedScripts.dll",
+                "..\\..\\scriptDLL\\ManagedScripts.dll",
                 "ManagedScripts.dll",
                 std::filesystem::copy_options::overwrite_existing
             );

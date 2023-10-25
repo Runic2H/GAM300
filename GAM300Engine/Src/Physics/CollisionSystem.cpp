@@ -15,7 +15,7 @@ namespace TDS
 	{
 	}
 	
-	void CollisionSystem::CollisionSystemUpdate(const float dt, const std::vector<EntityID>& entities, Transform* _transform, RigidBody* _rigidbody, Collider* _collider)
+	void CollisionSystem::CollisionSystemUpdate(const float dt, const std::vector<EntityID>& entities, Transform* _transform, RigidBody* _rigidbody, SphereCollider* _collider)
 	{
 		(void)dt;
 		for (int i = 0; i < entities.size(); ++i)
@@ -24,26 +24,26 @@ namespace TDS
 			{
 				if (i == j)
 					continue;
-				if (_collider[i].GetColliderType() == Collider::ColliderType::CIRCLE && _collider[j].GetColliderType() == Collider::ColliderType::CIRCLE)
-				{
-					if (SphereSphereCollision(_transform[i], _rigidbody[i], _collider[i],_transform[j], _rigidbody[j], _collider[j]))
-					{
-						SphereSphereResolution(_transform[i], _rigidbody[i], _transform[j], _rigidbody[j]);
-					
-					}
-				}
-				else if (_collider[i].GetColliderType() == Collider::ColliderType::CIRCLE && _collider[j].GetColliderType() == Collider::ColliderType::RECTANGLE ||
-					_collider[i].GetColliderType() == Collider::ColliderType::RECTANGLE && _collider[j].GetColliderType() == Collider::ColliderType::CIRCLE)
-				{
-					// TODO: Implement Circle-Rectangle collision
-				}
+				//if (_collider[i].GetColliderType() == Collider::ColliderType::CIRCLE && _collider[j].GetColliderType() == Collider::ColliderType::CIRCLE)
+				//{
+				//	if (SphereSphereCollision(_transform[i], _rigidbody[i], _collider[i],_transform[j], _rigidbody[j], _collider[j]))
+				//	{
+				//		SphereSphereResolution(_transform[i], _rigidbody[i], _transform[j], _rigidbody[j]);
+				//	
+				//	}
+				//}
+				//else if (_collider[i].GetColliderType() == Collider::ColliderType::CIRCLE && _collider[j].GetColliderType() == Collider::ColliderType::RECTANGLE ||
+				//	_collider[i].GetColliderType() == Collider::ColliderType::RECTANGLE && _collider[j].GetColliderType() == Collider::ColliderType::CIRCLE)
+				//{
+				//	// TODO: Implement Circle-Rectangle collision
+				//}
 			}
 		}
 	}
 
 
 	/*Helper Function*/
-	bool CollisionSystem::SphereSphereCollision(Transform& trans1, RigidBody& body1, Collider& collider1, Transform& trans2, RigidBody& body2, Collider& collider2)
+	bool CollisionSystem::SphereSphereCollision(Transform& trans1, RigidBody& body1, SphereCollider& collider1, Transform& trans2, RigidBody& body2, SphereCollider& collider2)
 	{
 		(void)body2, (void)body1;
 		// get the distance between the two objects

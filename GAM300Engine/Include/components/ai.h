@@ -32,15 +32,6 @@ namespace TDS
 		****************************************************************************/
 		DLL_API ~AI() = default;
 		/*!*************************************************************************
-		Deserializes the AI component
-		****************************************************************************/
-		DLL_API virtual bool Deserialize(const rapidjson::Value& obj);
-		/*!*************************************************************************
-		Serializes the AI component
-		****************************************************************************/
-		DLL_API virtual bool Serialize(rapidjson::PrettyWriter<rapidjson::StringBuffer>* writer) const;
-
-		/*!*************************************************************************
 		Getter and setter functions for the variables in the AI component class
 		****************************************************************************/
 		DLL_API int& GetBehaviourTreeIndex() { return mBehaviourTreeIndex; }
@@ -54,6 +45,9 @@ namespace TDS
 		
 		DLL_API float GetTimer() { return mTimer; }
 		DLL_API void SetTimer(float timer) { mTimer = timer; }
+
+		RTTR_ENABLE(IComponent);
+		RTTR_REGISTRATION_FRIEND
 
 	private:
 		int mBehaviourTreeIndex;

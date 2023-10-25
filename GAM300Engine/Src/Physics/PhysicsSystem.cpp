@@ -8,6 +8,24 @@
  * \brief         Implementation of the physics system.
  *******************************************************************************/
 #include "Physics/PhysicsSystem.h"
+
+
+
+//for threadpool
+#include <thread>
+#include <cstdarg>
+
+#include <Jolt/RegisterTypes.h>
+#include <Jolt/Core/Factory.h>
+#include <Jolt/Core/TempAllocator.h>
+#include <Jolt/Core/JobSystemThreadPool.h>
+#include <Jolt/Physics/PhysicsSettings.h>
+#include <Jolt/Physics/PhysicsSystem.h> //jolt physics system
+#include <Jolt/Physics/Collision/Shape/BoxShape.h>
+#include <Jolt/Physics/Collision/Shape/SphereShape.h>
+#include <Jolt/Physics/Body/BodyCreationSettings.h>
+#include <Jolt/Physics/Body/BodyActivationListener.h>
+
 namespace TDS
 {
 	const double PhysicsSystem::fixedDt = 0.0166666f;
@@ -196,5 +214,15 @@ namespace TDS
 		_rigidbody.SetNextPosition(position);
 	}
 
+	//need to put this in a future destructor
+	// Remove the sphere from the physics system. Note that the sphere itself keeps all of its state and can be re-added at any time.
+	//body_interface.RemoveBody(sphere_id);
+
+	//// Destroy the sphere. After this the sphere ID is no longer valid.
+	//body_interface.DestroyBody(sphere_id);
+
+	//// Remove and destroy the floor
+	//body_interface.RemoveBody(floor->GetID());
+	//body_interface.DestroyBody(floor->GetID());
 	
 }

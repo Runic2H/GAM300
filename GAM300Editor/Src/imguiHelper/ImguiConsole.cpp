@@ -1,6 +1,7 @@
 #include "imguiHelper/ImguiConsole.h"
 #include "imguiHelper/ImguiAssetBrowser.h"
 #include "Logger/Logger.h"
+#include <windows.h>
 
 namespace TDS
 {
@@ -61,6 +62,7 @@ namespace TDS
 		for (int i = 0; i < Items.Size; i++)
 		{
 			const char* item = Items[i];
+
 			//if (!Filter.PassFilter(item))
 			//continue;
 
@@ -79,35 +81,35 @@ namespace TDS
 		ImGui::SetScrollHereY(1.0f);
 		//ScrollToBottom = false;
 
-		for (int i = 0; i < Items.Size; i++) {
-			const char* item = Items[i];
+		//for (int i = 0; i < Items.Size; i++) {
+		//	const char* item = Items[i];
 
-			ImVec4 color;
-			bool   has_color = false;
-			if (strstr(item, "[info]")) {
-				color = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
-				has_color = true;
-			}
-			else if (strstr(item, "[warning]")) {
-				color = ImVec4(1.0f, 0.8f, 0.0f, 1.0f);
-				has_color = true;
-			}
-			else if (strstr(item, "[error]")) {
-				color = ImVec4(0.8f, 0.2f, 0.0f, 1.0f);
-				has_color = true;
-			}
-			else {
-				color = ImVec4(1.0f, 0.8f, 0.6f, 1.0f);
-				has_color = true;
-			}
-			if (has_color)
-				ImGui::PushStyleColor(ImGuiCol_Text, color);
-			ImGui::TextUnformatted(item);
-			if (has_color)
-				ImGui::PopStyleColor();
-		}
+		//	ImVec4 color;
+		//	bool   has_color = false;
+		//	if (strstr(item, "[info]")) {
+		//		color = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
+		//		has_color = true;
+		//	}
+		//	else if (strstr(item, "[warning]")) {
+		//		color = ImVec4(1.0f, 0.8f, 0.0f, 1.0f);
+		//		has_color = true;
+		//	}
+		//	else if (strstr(item, "[error]")) {
+		//		color = ImVec4(0.8f, 0.2f, 0.0f, 1.0f);
+		//		has_color = true;
+		//	}
+		//	else {
+		//		color = ImVec4(1.0f, 0.8f, 0.6f, 1.0f);
+		//		has_color = true;
+		//	}
+		//	if (has_color)
+		//		ImGui::PushStyleColor(ImGuiCol_Text, color);
+		//	ImGui::TextUnformatted(item);
+		//	if (has_color)
+		//		ImGui::PopStyleColor();
+		//}
 
-		ImGui::SetScrollHereY(1.0f);
+		//ImGui::SetScrollHereY(1.0f);
 
 		//ImGui::SetCursorPos({ pos.x + size.x - 66, pos.x + size.y - 36 });
 

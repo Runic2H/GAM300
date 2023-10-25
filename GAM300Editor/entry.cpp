@@ -38,6 +38,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
     g_Application = new TDS::Application(hInstance, nCmdShow, classname, WndProc);
     g_Application->Initialize();
+    g_Application->Run();
     g_Application->Update();
     g_Application->~Application();
 

@@ -11,6 +11,7 @@
 #include <fstream>
 
 #include "sceneManager/sceneManager.h"
+#include "propertyManager/registration.h"
 
 namespace TDS
 {
@@ -49,17 +50,65 @@ namespace TDS
 	{
 		ecs.registerComponent<NameTag>("Name Tag");
 		ecs.registerComponent<Transform>("Transform");
-		ecs.registerComponent<GraphicsComponent>("Graphics Component");
+
 		ecs.registerComponent<AI>("AI");
+		ecs.registerComponent<BoxCollider>("Box Collider");
 		ecs.registerComponent<CameraComponent>("Camera Component");
-		ecs.registerComponent<Collider>("Collider");
-		ecs.registerComponent<PlayerAttributes>("Player Attributes");
+		ecs.registerComponent<CapsuleCollider>("Capsule Collider");
+		ecs.registerComponent<GraphicsComponent>("Graphics Component");
 		ecs.registerComponent<RigidBody>("Rigid Body");
+		ecs.registerComponent<SphereCollider>("Sphere Collider");
 		ecs.registerComponent<Sprite>("Sprite");
 		ecs.registerComponent<Tag>("Tag");
 		ecs.registerComponent<WinData>("Win Data");
+		ecs.registerComponent<GraphicsComponent>("Graphics Component");
 
 		startScene = "";
+		//startScene = "MainMenu";
+
+		//Entity entity1;
+		//ecs.addComponent<NameTag>(entity1.getID());
+		//ecs.addComponent<Transform>(entity1.getID());
+		//ecs.addComponent<GraphicsComponent>(entity1.getID());
+		//Entity entity2;
+		//ecs.addComponent<NameTag>(entity2.getID());
+		//ecs.addComponent<Transform>(entity2.getID());
+		//ecs.addComponent<GraphicsComponent>(entity2.getID());
+		//Entity entity3;
+		//ecs.addComponent<NameTag>(entity3.getID());
+		//ecs.addComponent<Transform>(entity3.getID());
+		//ecs.addComponent<GraphicsComponent>(entity3.getID());
+		//Entity entity4;
+		//ecs.addComponent<NameTag>(entity4.getID());
+		//ecs.addComponent<Transform>(entity4.getID());
+		//ecs.addComponent<GraphicsComponent>(entity4.getID());
+
+		//SerializeToFile(filePath + "MainMenu.json");
+
+		//ecs.removeEntity(entity4.getID());
+		//SerializeToFile(filePath + "Game.json");
+
+		//Entity entity1;
+		//ecs.addComponent<NameTag>(entity1.getID());
+		//ecs.addComponent<Transform>(entity1.getID());
+		//ecs.addComponent<GraphicsComponent>(entity1.getID());
+		//Entity entity2;
+		//ecs.addComponent<NameTag>(entity2.getID());
+		//ecs.addComponent<Transform>(entity2.getID());
+		//ecs.addComponent<GraphicsComponent>(entity2.getID());
+		//Entity entity3;
+		//ecs.addComponent<NameTag>(entity3.getID());
+		//ecs.addComponent<Transform>(entity3.getID());
+		//ecs.addComponent<GraphicsComponent>(entity3.getID());
+		//Entity entity4;
+		//ecs.addComponent<NameTag>(entity4.getID());
+		//ecs.addComponent<Transform>(entity4.getID());
+		//ecs.addComponent<GraphicsComponent>(entity4.getID());
+
+		//SerializeToFile(filePath + "MainMenu.json");
+
+		//ecs.removeEntity(entity4.getID());
+		//SerializeToFile(filePath + "Game.json");
 
 		bindSystemFunctions();
 		// Setting default scene
@@ -69,8 +118,9 @@ namespace TDS
 	/*!*************************************************************************
 	Deserializes ECS entities and data from JSON file to build ECS (File loading)
 	****************************************************************************/
-	bool SceneManager::Deserialize(const rapidjson::Value& obj)
+	bool SceneManager::Deserialize(const rapidjson::Value& obj, rapidjson::Document& doc)
 	{
+		obj.GetObject();
 		for (rapidjson::Value::ConstMemberIterator itr = obj["Archetype Sizes"].MemberBegin(); itr != obj["Archetype Sizes"].MemberEnd(); ++itr)
 		{
 			std::string archetypeID = itr->name.GetString();
@@ -103,7 +153,6 @@ namespace TDS
 			for (auto& m : itr->value.GetObject())
 			{
 				std::string componentName = m.name.GetString();
-
 				if (componentName == "ArchetypeID") // First "componentName" to immediately find the archetype of entity
 				{
 					// Add all components at once
@@ -112,14 +161,14 @@ namespace TDS
 					continue;
 				}
 
-				auto componentData = m.value.GetObject();
+				rapidjson::Value componentData;
+				componentData.CopyFrom(m.value, doc.GetAllocator());
 
-				if (auto componentPointer = getComponentByName(componentName, newEntity))
-				{
-					componentPointer->Deserialize(componentData);
-				}
+				rttr::type component = rttr::type::get_by_name(componentName);
+
+				rttr::instance addedComponent = getComponentByName(component, newEntity);
+				fromJsonRecur(addedComponent, componentData);
 			}
-
 		}
 
 		return true;
@@ -184,21 +233,12 @@ namespace TDS
 			writer->Key("ArchetypeID");
 			writer->String(archetype.c_str());
 
-			std::vector<std::string> componentStrings = ecs.getEntityComponents(entityList[i]);
-			int j = 0;
-			for (IComponent* component : ecs.getEntityComponentsBase(entityList[i]))
+			for (std::string j : ecs.getEntityComponents(entityList[i]))
 			{
-				while (archetype[j] == '0' && j < archetype.length())
-				{
-					++j;
-				}
+				writer->String(j.c_str(), static_cast<rapidjson::SizeType>(j.length()), false);
 
-				writer->String(componentStrings[j].c_str(), static_cast<rapidjson::SizeType>(componentStrings[j].length()), false);
-
-				writer->StartObject();
-				component->Serialize(writer);
-				writer->EndObject();
-				++j;
+				rttr::type type = rttr::type::get_by_name(j);
+				ToJsonRecur(getComponentByName(type, entityList[i]), *writer);
 			}
 
 			writer->EndObject();

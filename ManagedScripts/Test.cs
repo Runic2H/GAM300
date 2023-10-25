@@ -1,5 +1,6 @@
 ﻿using ScriptAPI;
 using System;
+using System.Threading.Tasks;
 
 public class Test : Script
 {
@@ -8,6 +9,7 @@ public class Test : Script
     public override void OnEnable() 
     {
         Console.WriteLine("Enabled");
+        ExampleAsync();
     }
 
     public override void Start()
@@ -17,7 +19,7 @@ public class Test : Script
 
     public override void Update()
     {
-        Console.WriteLine("Aye Lmao");
+        //Console.WriteLine("Aye Lmao");
         TransformComponent tf = GetTransformComponent();
         tf.SetPositionX(3.0f);
     }
@@ -33,4 +35,32 @@ public class Test : Script
     {
         Console.WriteLine("Exit");
     }
+
+
+    // Example Usecase (Coroutine Example)
+    public async IAsyncEnumerable<int> MyCoroutineAsync()
+    {
+        for (int i = 0; i < 5; i++)
+        {
+            Console.WriteLine("Coroutine step " + i);
+            await Task.Delay(1000); // Simulate some work asynchronously
+            yield return i;
+        }
+    }
+
+    // Example Usecase
+    async Task<int> ExampleAsync()
+    {
+        Console.WriteLine("Starting Unity Coroutine with IEnumerable result");
+
+        await foreach (var value in Coroutine(() => MyCoroutineAsync(), 1000))
+        {
+            Console.WriteLine("Yielded Value: " + value);
+        }
+
+        Console.WriteLine("Unity Coroutine finished");
+
+        return 0;
+    }
+
 }

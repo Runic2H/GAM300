@@ -12,8 +12,6 @@ namespace TDS
 		DLL_API GraphicsComponent();
 		DLL_API GraphicsComponent(GraphicsComponent&& toMove) noexcept;
 		DLL_API ~GraphicsComponent() = default;
-		DLL_API virtual bool Deserialize(const rapidjson::Value& obj);
-		DLL_API virtual bool Serialize(rapidjson::PrettyWriter<rapidjson::StringBuffer>* writer) const;
 
 		inline void ToggleRender(bool condition)
 		{
@@ -31,6 +29,10 @@ namespace TDS
 		{
 			return m_TextureReference;
 		}
+
+		RTTR_ENABLE(IComponent);
+		RTTR_REGISTRATION_FRIEND
+
 	private:
 		SingleTypeReference<AssetModel> m_AssetReference;
 		SingleTypeReference<Texture>	m_TextureReference;

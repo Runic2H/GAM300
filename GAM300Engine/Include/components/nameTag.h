@@ -32,22 +32,25 @@ namespace TDS
 		****************************************************************************/
 		DLL_API ~NameTag() = default;
 		/*!*************************************************************************
-		Deserializes the NameTag component
-		****************************************************************************/
-		DLL_API virtual bool Deserialize(const rapidjson::Value& obj);
-		/*!*************************************************************************
-		Serializes the NameTag component
-		****************************************************************************/
-		DLL_API virtual bool Serialize(rapidjson::PrettyWriter<rapidjson::StringBuffer>* writer) const;
-
-		/*!*************************************************************************
 		Getter and setter functions for the variables in the NameTag component class
 		****************************************************************************/
 		DLL_API std::string& GetNameTag() { return mName; }
 		DLL_API void SetNameTag(std::string name) { mName = name; }
+
+		DLL_API EntityID& GetHierarchyParent() { return mHierarchyParent; }
+		DLL_API void SetHierarchyParent(EntityID hierarchyParent) { mHierarchyParent = hierarchyParent; }
 		
+		DLL_API int& GetHierarchyIndex() { return mHierarchyIndex; }
+		DLL_API void SetHierarchyIndex(int hierarchyIndex) { mHierarchyIndex = hierarchyIndex; }
+
+		RTTR_ENABLE(IComponent);
+		RTTR_REGISTRATION_FRIEND
+
 	private:
 		std::string mName;
+
+		EntityID mHierarchyParent;
+		int mHierarchyIndex;
 	};
 }
 

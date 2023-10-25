@@ -18,6 +18,12 @@
 
 namespace TDS
 {
+	void fromJsonRecur(rttr::instance& obj, rapidjson::Value& jsonObj);
+
+	void ToJsonRecur(const rttr::instance& obj, rapidjson::PrettyWriter<rapidjson::StringBuffer>& writer);
+
+	bool writeVariant(const rttr::variant& var, rapidjson::PrettyWriter<rapidjson::StringBuffer>& writer);
+
 	class SceneManager : public Serializer
 	{
 	public:
@@ -33,7 +39,7 @@ namespace TDS
 		/*!*************************************************************************
 		Deserializes ECS entities and data from JSON file to build ECS (File loading)
 		****************************************************************************/
-		DLL_API virtual bool Deserialize(const rapidjson::Value& obj);
+		DLL_API virtual bool Deserialize(const rapidjson::Value& obj, rapidjson::Document& doc);
 		/*!*************************************************************************
 		Serializes ECS entities and data to JSON file to save ECS (File saving)
 		****************************************************************************/

@@ -31,14 +31,6 @@ namespace TDS
 		Destructor for the WinData component class
 		****************************************************************************/
 		DLL_API ~WinData() = default;
-		/*!*************************************************************************
-		Deserializes the WinData component
-		****************************************************************************/
-		DLL_API virtual bool Deserialize(const rapidjson::Value& obj);
-		/*!*************************************************************************
-		Serializes the WinData component
-		****************************************************************************/
-		DLL_API virtual bool Serialize(rapidjson::PrettyWriter<rapidjson::StringBuffer>* writer) const;
 
 		/*!*************************************************************************
 		Getter and setter functions for the variables in the WinData component class
@@ -66,6 +58,9 @@ namespace TDS
 		
 		DLL_API float GetSFXVolume() { return mSFXVolume; }
 		DLL_API void SetSFXVolume(float SFXVolume) { mSFXVolume = SFXVolume; }
+
+		RTTR_ENABLE(IComponent);
+		RTTR_REGISTRATION_FRIEND
 
 	private:
 		std::string mTitle;

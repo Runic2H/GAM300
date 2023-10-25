@@ -33,15 +33,6 @@ namespace TDS
 		****************************************************************************/
 		DLL_API ~Sprite() = default;
 		/*!*************************************************************************
-		Deserializes the Sprite component
-		****************************************************************************/
-		DLL_API virtual bool Deserialize(const rapidjson::Value& obj);
-		/*!*************************************************************************
-		Serializes the Sprite component
-		****************************************************************************/
-		DLL_API virtual bool Serialize(rapidjson::PrettyWriter<rapidjson::StringBuffer>* writer) const;
-
-		/*!*************************************************************************
 		Getter and setter functions for the variables in the Sprite component class
 		****************************************************************************/
 		DLL_API Vec2& GetIndex() { return mIndex; }
@@ -72,7 +63,10 @@ namespace TDS
 		DLL_API void SetMaxIndex(int maxIndex) { mMaxIndex = maxIndex; }
 		
 		DLL_API std::vector<float>& GetDisplayTime() { return mDisplayTime; }
-		
+
+		RTTR_ENABLE(IComponent);
+		RTTR_REGISTRATION_FRIEND
+
 	private:
 		Vec2 mIndex;
 

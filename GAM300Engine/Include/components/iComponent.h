@@ -16,6 +16,16 @@
 
 #include "sceneManager/serialization.h"
 
+// Macro to define a serialized field
+#define SerializeField(type, name)					\
+private:											\
+    type name##_;									\
+public:												\
+    property type name {							\
+        type get() { return name##_; }				\
+        void set(type value) { name##_ = value; }	\
+    }
+
 
 namespace TDS
 {
@@ -26,14 +36,8 @@ namespace TDS
 		Destructor of the abstract IComponent class
 		****************************************************************************/
 		DLL_API virtual ~IComponent() = default;
-		/*!*************************************************************************
-		Deserialize function of the abstract IComponent class
-		****************************************************************************/
-		DLL_API virtual bool Deserialize(const rapidjson::Value& obj) = 0;
-		/*!*************************************************************************
-		Serialize function of the abstract IComponent class
-		****************************************************************************/
-		DLL_API virtual bool Serialize(rapidjson::PrettyWriter<rapidjson::StringBuffer>* writer) const = 0;
+
+		RTTR_ENABLE();
 	};
 }
 

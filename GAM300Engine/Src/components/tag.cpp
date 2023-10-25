@@ -10,6 +10,20 @@
 
 #include "components/tag.h"
 
+RTTR_REGISTRATION
+{
+	using namespace TDS;
+
+	rttr::registration::class_<Tag>("Tag")
+		.method("GetTag", &Tag::GetTag)
+		.method("SetTag", &Tag::SetTag)
+		.property("Tag", &Tag::mTag)
+		.method("GetTargetTag", &Tag::GetTargetTag)
+		.method("SetTargetTag", &Tag::SetTargetTag)
+		.property("mTargetTag", &Tag::mTargetTag);
+
+}
+
 namespace TDS
 {
 	/*!*************************************************************************
@@ -26,29 +40,4 @@ namespace TDS
 	Tag::Tag(Tag&& toMove) noexcept : mTag			(toMove.mTag),
 									  mTargetTag	(toMove.mTargetTag)
 	{ }
-
-	/*!*************************************************************************
-	Deserializes the Tag component
-	****************************************************************************/
-	bool Tag::Deserialize(const rapidjson::Value& obj)
-	{
-		mTag = obj["tag"].GetString();
-		mTargetTag = obj["targetTag"].GetString();
-
-		return true;
-	}
-
-	/*!*************************************************************************
-	Serializes the Tag component
-	****************************************************************************/
-	bool Tag::Serialize(rapidjson::PrettyWriter<rapidjson::StringBuffer>* writer) const
-	{
-		writer->Key("tag");
-		writer->String(mTag.c_str());
-		
-		writer->Key("target");
-		writer->String(mTargetTag.c_str());
-
-		return true;
-	}
 }
