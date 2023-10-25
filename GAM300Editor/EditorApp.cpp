@@ -128,7 +128,6 @@ namespace TDS
         m_AssetManager.PreloadAssets();
         SceneManager::GetInstance()->Init();
         ecs.initializeSystems(1);
-
         //Run();
     }
 
