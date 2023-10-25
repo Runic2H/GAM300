@@ -9,8 +9,6 @@
  *******************************************************************************/
 #include "Physics/PhysicsSystem.h"
 
-
-
 //for threadpool
 #include <thread>
 #include <cstdarg>
@@ -31,69 +29,57 @@ namespace TDS
 	const double PhysicsSystem::fixedDt = 0.0166666f;
 	double PhysicsSystem::accumulatedTime = 0.0f;
 
+	PhysicsSystem JPH_pSystem;
+	/*!*************************************************************************
+	 * Configuration
+	 ***************************************************************************/
+	const unsigned int cMaxBodies = 10240;				// Maximum number of bodies in the physics system
+	const unsigned int cNumBodyMutexes = 0;				// Autodetect
+	const unsigned int cMaxBodyPairs = 65536;			// Max amount of body pair for broadphrase detection
+	const unsigned int cMaxContactConstraints = 20480;	// Maximum number of contact constraints
+
 	void PhysicsSystem::JoltPhysicsSystemInit()
 	{
-		// Register allocation hook
-		RegisterDefaultAllocator();
-
-		// Install callbacks
-		Trace = TraceImpl;
-		JPH_IF_ENABLE_ASSERTS(AssertFailed = AssertFailedImpl;)
-
-			// Create a factory
-			Factory::sInstance = new Factory();
-
-		// Register all Jolt physics types
-		RegisterTypes();
-
+		// Initialize the Jolt Core
+		JoltCore::Init();
 		// We need a temp allocator for temporary allocations during the physics update. We're
 		// pre-allocating 10 MB to avoid having to do allocations during the physics update.
 		// B.t.w. 10 MB is way too much for this example but it is a typical value you can use.
 		// If you don't want to pre-allocate you can also use TempAllocatorMalloc to fall back to
 		// malloc / free.
-		m_tempAllocator = std::make_unique<TempAllocatorImpl>(10 * 1024 * 1024);
-
+		m_pTempAllocator = std::make_unique<TempAllocatorImpl>(10 * 1024 * 1024);
+		
 		// We need a job system that will execute physics jobs on multiple threads. Typically
 		// you would implement the JobSystem interface yourself and let Jolt Physics run on top
 		// of your own job scheduler. JobSystemThreadPool is an example implementation.
-		m_jobSystemThreadPool = std::make_unique<JobSystemThreadPool>(cMaxPhysicsJobs, cMaxPhysicsBarriers, thread::hardware_concurrency() - 1);
+		m_pJobSystem = std::make_unique<JobSystemThreadPool>(cMaxPhysicsJobs, cMaxPhysicsBarriers, thread::hardware_concurrency() - 1);
 		// Create mapping table from object layer to broadphase layer
-		// Note: As this is an interface, PhysicsSystem will take a reference to this so this instance needs to stay alive!
-		BPLayerInterfaceImpl broad_phase_layer_interface;
 
-		// Create class that filters object vs broadphase layers
-		// Note: As this is an interface, PhysicsSystem will take a reference to this so this instance needs to stay alive!
-		ObjectVsBroadPhaseLayerFilterImpl object_vs_broadphase_layer_filter;
-
-		// Create class that filters object vs object layers
-		// Note: As this is an interface, PhysicsSystem will take a reference to this so this instance needs to stay alive!
-		ObjectLayerPairFilterImpl object_vs_object_layer_filter;
-
-		m_physicsSystem = std::make_unique<JPH::PhysicsSystem>();
-		m_physicsSystem->Init(	PhysicsSystem::cMaxBodies,
-								PhysicsSystem::cNumBodyMutexes,
-								PhysicsSystem::cMaxBodyPairs, 
-								PhysicsSystem::cMaxContactConstraints, 
-								broad_phase_layer_interface, 
-								object_vs_broadphase_layer_filter, 
-								object_vs_object_layer_filter);
+		m_pSystem = std::make_unique<JPH::PhysicsSystem>();
+		m_pSystem->Init(cMaxBodies,
+						cNumBodyMutexes,
+						cMaxBodyPairs, 
+						cMaxContactConstraints, 
+						broad_phase_layer_interface, 
+						object_vs_broadphase_layer_filter, 
+						object_vs_object_layer_filter);
 
 		// A body activation listener gets notified when bodies activate and go to sleep
 		// Note that this is called from a job so whatever you do here needs to be thread safe.
 		// Registering one is entirely optional.
 		MyBodyActivationListener body_activation_listener;
-		m_physicsSystem->SetBodyActivationListener(&body_activation_listener);
+		m_pSystem->SetBodyActivationListener(&body_activation_listener);
 
 		// A contact listener gets notified when bodies (are about to) collide, and when they separate again.
 		// Note that this is called from a job so whatever you do here needs to be thread safe.
 		// Registering one is entirely optional.
 		MyContactListener contact_listener;
-		m_physicsSystem->SetContactListener(&contact_listener);
+		m_pSystem->SetContactListener(&contact_listener);
 
 		// The main way to interact with the bodies in the physics system is through the body interface. There is a locking and a non-locking
 		// variant of this. We're going to use the locking version (even though we're not planning to access bodies from multiple threads)
 
-		JPH::BodyInterface& body_interface = m_physicsSystem->GetBodyInterface();
+		JPH::BodyInterface& body_interface = m_pSystem->GetBodyInterface();
 
 		// Next we can create a rigid body to serve as the floor, we make a large box
 		// Create the settings for the collision volume (the shape).
@@ -109,7 +95,6 @@ namespace TDS
 
 		// Create the actual rigid body
 		Body* floor = body_interface.CreateBody(floor_settings); // Note that if we run out of bodies this can return nullptr
-
 		// Add it to the world
 		body_interface.AddBody(floor->GetID(), EActivation::DontActivate);
 
@@ -125,7 +110,8 @@ namespace TDS
 		// Optional step: Before starting the physics simulation you can optimize the broad phase. This improves collision detection performance (it's pointless here because we only have 2 bodies).
 		// You should definitely not call this every frame or when e.g. streaming in a new level section as it is an expensive operation.
 		// Instead insert all new objects in batches instead of 1 at a time to keep the broad phase efficient.
-		m_physicsSystem->OptimizeBroadPhase();
+		m_pSystem->OptimizeBroadPhase();
+		
 		std::cout << "successfully init Jolt Physics" << '\n';
 
 	}
@@ -134,27 +120,23 @@ namespace TDS
 	{
 		// Next step
 		// Now we're ready to simulate the body, keep simulating until it goes to sleep
-		uint step = 0;
 
-		++step;
-
+		JPH::BodyInterface& body_interface = m_pSystem->GetBodyInterface();
+		++m_stepNumber;
 		// Output current position and velocity of the sphere
-		JPH::BodyInterface& body_interface = m_physicsSystem->GetBodyInterface();
 		RVec3 position = body_interface.GetCenterOfMassPosition(sphere_id);
 		JPH::Vec3 velocity = body_interface.GetLinearVelocity(sphere_id);
-		std::cout << "Step " << step << ": Position = (" << position.GetX() << ", " << position.GetY() << ", " << position.GetZ() << "), Velocity = (" << velocity.GetX() << ", " << velocity.GetY() << ", " << velocity.GetZ() << ")" << std::endl;
-
-		// If you take larger steps than 1 / 60th of a second you need to do multiple collision steps in order to keep the simulation stable. Do 1 collision step per 1 / 60th of a second (round up).
-		const int cCollisionSteps = 1;
+		std::cout << "Step " << m_stepNumber << ": Position = (" << position.GetX() << ", " << position.GetY() << ", " << position.GetZ() << "), Velocity = (" << velocity.GetX() << ", " << velocity.GetY() << ", " << velocity.GetZ() << ")" << std::endl;
 
 		// Step the world
-		m_physicsSystem->Update(cDeltaTime, cCollisionSteps, m_tempAllocator.get(), m_jobSystemThreadPool.get());
+		m_pSystem->Update(TimeStep::GetFixedDeltaTime(), 1, m_pTempAllocator.get(), m_pJobSystem.get());
 
 	}
 
+
 	void PhysicsSystem::PhysicsSystemInit()
 	{
-		PhysicsSystem JPH_pSystem;
+		//PhysicsSystem JPH_pSystem;
 		JPH_pSystem.JoltPhysicsSystemInit();
 	}
 
@@ -172,8 +154,12 @@ namespace TDS
 		//	}
 		//	accumulatedTime -= TimeStep::GetFixedDeltaTime();
 		//}	
-		PhysicsSystem JPH_pSystem;
 		JPH_pSystem.JoltPhysicsSystemUpdate();
+	}
+
+	void PhysicsSystem::JoltPhysicsSystemShutdown()
+	{
+		
 	}
 
 	Vec3 PhysicsSystem::CalculateTotalForce(RigidBody& _rigidbody)

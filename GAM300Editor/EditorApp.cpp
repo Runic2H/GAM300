@@ -129,7 +129,7 @@ namespace TDS
         SceneManager::GetInstance()->Init();
         ecs.initializeSystems(1);
 
-        Run();
+        //Run();
     }
 
     void Application::Update()
