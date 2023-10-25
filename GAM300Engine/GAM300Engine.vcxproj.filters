@@ -79,6 +79,11 @@
     <ClCompile Include="Src\components\graphicsComponent.cpp" />
     <ClCompile Include="..\Shared_Libs\Color.cpp" />
     <ClCompile Include="..\Shared_Libs\Color8UNorm.cpp" />
+    <ClCompile Include="Src\JoltPhysics\Bodies\JoltBodyComponent.cpp" />
+    <ClCompile Include="Src\JoltPhysics\Bodies\JoltDynamicBodyComponent.cpp" />
+    <ClCompile Include="Src\JoltPhysics\Bodies\JoltQueryShapeBodyComponent.cpp" />
+    <ClCompile Include="Src\JoltPhysics\Bodies\JoltStaticBodyComponent.cpp" />
+    <ClCompile Include="Src\JoltPhysics\Bodies\JoltTriggerComponent.cpp" />
     <ClCompile Include="Src\components\sphereCollider.cpp" />
     <ClCompile Include="Src\components\capsuleCollider.cpp" />
     <ClCompile Include="Src\components\boxCollider.cpp" />
@@ -189,6 +194,11 @@
     <ClInclude Include="Include\Rendering\RenderLayer.h" />
     <ClInclude Include="..\Shared_Libs\Color.h" />
     <ClInclude Include="..\Shared_Libs\Color8UNorm.h" />
+    <ClInclude Include="Include\JoltPhysics\Bodies\JoltBodyComponent.h" />
+    <ClInclude Include="Include\JoltPhysics\Bodies\JoltDynamicBodyComponent.h" />
+    <ClInclude Include="Include\JoltPhysics\Bodies\JoltQueryShapeBodyComponent.h" />
+    <ClInclude Include="Include\JoltPhysics\Bodies\JoltStaticBodyComponent.h" />
+    <ClInclude Include="Include\JoltPhysics\Bodies\JoltTriggerComponent.h" />
     <ClInclude Include="Include\components\boxCollider.h" />
     <ClInclude Include="Include\components\capsuleCollider.h" />
     <ClInclude Include="Include\components\sphereCollider.h" />
