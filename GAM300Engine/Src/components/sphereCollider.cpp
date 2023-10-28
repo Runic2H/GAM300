@@ -36,8 +36,11 @@ namespace TDS
 	****************************************************************************/
 	SphereCollider::SphereCollider() : mIsTrigger	(false),
 									   mCenter		(Vec3(0.0f, 0.0f, 0.0f)),
-									   mRadius		(0.0f)
-	{ }
+									   mRadius		(5.0f)
+	{ 
+		CreateJPHSphereCollider(mRadius);
+	
+	}
 
 	/*!*************************************************************************
 	Initializes the Collider component when created, given another Collider
@@ -48,8 +51,35 @@ namespace TDS
 																	   mRadius		(toMove.mRadius)
 	{ }
 
+
+
 	SphereCollider* GetSphereCollider(EntityID entityID)
 	{
 		return ecs.getComponent<SphereCollider>(entityID);
 	}
+
+	/*!***********************************************************************
+		Takes values from RTTR or updated values from imGui and uses it to construct
+		a JPH Box Shape
+	***************************************************************************/
+	JPH::SphereShape& SphereCollider::CreateJPHSphereCollider(float inRadius)
+	{
+		JPH::SphereShape result = JPH::SphereShape(inRadius, nullptr);
+		std::cout << "JPH Sphere created with radius: " << inRadius <<
+			std::endl;
+		return result;
+	}
+
+	/*!***********************************************************************
+		Takes values from RTTR or updated values from imGui and uses it to construct
+		a JPH Box Shape
+	***************************************************************************/
+	JPH::SphereShape& SphereCollider::CreateJPHSphereCollider(JPH::SphereShape& input)
+	{
+		JPH::SphereShape result = JPH::SphereShape(input.GetRadius(), nullptr);
+		std::cout << "JPH Sphere created with radius: " << input.GetRadius() <<
+			std::endl;
+		return result;
+	}
+
 }

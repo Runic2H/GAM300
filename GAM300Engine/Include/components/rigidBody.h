@@ -19,6 +19,12 @@ namespace TDS
 	class RigidBody : public IComponent
 	{
 	public:
+		//body motion type
+		static inline const char* current_motion_type;
+		//simple function to update body motion type
+		static inline void UpdateMotionType();
+
+		static inline void SetAllFalse();
 		/*!*************************************************************************
 		Initializes the RigidBody component when created
 		****************************************************************************/
@@ -79,6 +85,10 @@ namespace TDS
 		RTTR_ENABLE(IComponent);
 		RTTR_REGISTRATION_FRIEND
 
+	public:	
+		
+	
+
 	private:
 		float mMass;
 
@@ -95,6 +105,9 @@ namespace TDS
 		float mRestitution;
 		float mInverseMass;
 		float mGravity;
+
+		//for Body (EMotion) types
+		static inline bool isStatic , isDynamic , isKinematic ;
 	};
 
 }

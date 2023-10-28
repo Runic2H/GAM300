@@ -14,6 +14,7 @@
 
 #include "Vector3.h"
 #include "ecs/ecs.h"
+#include<Jolt/Physics/Collision/Shape/SphereShape.h>
 
 namespace TDS
 {
@@ -55,6 +56,10 @@ namespace TDS
 
 		RTTR_ENABLE(IComponent);
 		RTTR_REGISTRATION_FRIEND
+
+		//for Jolt Physics Capsule Collider creation
+		DLL_API JPH::SphereShape& CreateJPHSphereCollider(float inRadius);
+		DLL_API JPH::SphereShape& CreateJPHSphereCollider(JPH::SphereShape& input);
 
 	private:
 		bool mIsTrigger;
