@@ -6,6 +6,8 @@
 #include "vulkanTools/VulkanPipeline.h"
 #include "vulkanTools/vulkanSwapChain.h"
 #include "vulkanTools/Renderer.h"
+#include "Rendering/renderPass.h"
+#include "vulkanTools/FrameBuffer.h"
 namespace TDS
 {
 	struct PushConstantData {
@@ -22,7 +24,7 @@ namespace TDS
 		std::uint32_t frame = GraphicsManager::getInstance().GetSwapchainRenderer().getFrameIndex();
 
 		VkCommandBuffer commandBuffer = GraphicsManager::getInstance().getCommandBuffer();
-		//GraphicsManager::getInstance().GetSwapchainRenderer().BeginSwapChainRenderPass(commandBuffer);
+
 		for (size_t i = 0; i < entities.size(); ++i)
 		{
 			Renderer3D::getPipeline()->SetCommandBuffer(commandBuffer);
@@ -40,18 +42,17 @@ namespace TDS
 					GlobalUBO ubo = RendererDataManager::GetUBO(_Graphics->GetAsset().m_GUID.GetUniqueID());
 					ModelElement elem = RendererDataManager::GetModelElement(_Graphics->GetAsset().m_GUID.GetUniqueID(), _Graphics->GetAsset().m_Reference);
 					PushConstantData pushData{};
-					Mat4 temp{ 1.0f, 0.f, 0.f, 0.f,
-							0.f, 1.f, 0.f, 0.f,
-							0.f, 0.f, 1.f, 0.f,
-							0.f, 0.f, 0.f, 1.f };
 
-
-					Vec3 Position = _TransformComponent[i].GetPosition();
-					temp = temp.Translate(Position);
+					if (Vec3 Scale = _TransformComponent[i].GetScale(); Scale.x <= 0.f || Scale.y <= 0.f || Scale.z <= 0.f) {
+					}
+					else {
+						_TransformComponent[i].GenerateTransfom();
+					}
+					Mat4 temp = _TransformComponent[i].GetTransformMatrix();
 					pushData.ModelMat = temp;
 
 					temp.transpose();
-					temp.inverse();
+					//temp.inverse();
 					pushData.NormalMat = temp;
 
 					ubo.m_View = GraphicsManager::getInstance().GetCamera().GetViewMatrix();
@@ -61,22 +62,16 @@ namespace TDS
 						GraphicsManager::getInstance().GetSwapchainRenderer().getAspectRatio(), 0.1f, 10.f);
 					ubo.m_Projection.m[1][1] *= -1;
 
+					
 					Renderer3D::getPipeline()->BindPipeline();
 					Renderer3D::getPipeline()->UpdateUBO(&ubo, sizeof(GlobalUBO), 0, frame);
 					Renderer3D::getPipeline()->BindDescriptor(frame);
 					Renderer3D::getPipeline()->SubmitPushConstant(&pushData, sizeof(PushConstantData), SHADER_FLAG::VERTEX);
-					/*Renderer3D::getInstance()->models->bind(commandBuffer);
-					Renderer3D::getInstance()->models->draw(commandBuffer);*/
+				
 					Renderer3D::getPipeline()->BindVertexBuffer(*elem.m_VertexBuffer);
 					Renderer3D::getPipeline()->BindIndexBuffer(*elem.m_IndexBuffer);
 					Renderer3D::getPipeline()->DrawIndexed(*elem.m_VertexBuffer, *elem.m_IndexBuffer, frame);
-
-
-
-
-
-
-
+					
 				}
 
 

@@ -1,5 +1,6 @@
 #include "imguiHelper/ImguiToolbar.h"
 #include "imguiHelper/ImguiConsole.h"
+#include "imguiHelper/ImguiHierarchy.h"
 
 #include "sceneManager/sceneManager.h"
 #include <Windows.h>
@@ -125,6 +126,8 @@ namespace TDS
 			//console->AddLog("Save Scene Button Pressed");
 			if (isSaveScene) {
 
+				std::shared_ptr<Hierarchy> hierarchyPanel = static_pointer_cast<Hierarchy>(LevelEditorManager::GetInstance()->panels[PanelTypes::HIERARCHY]);
+				hierarchyPanel->changeIndexInEntity();
 				SceneManager::GetInstance()->saveCurrentScene();
 			}
 		}

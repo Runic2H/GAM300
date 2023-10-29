@@ -43,20 +43,20 @@ namespace TDS
 		/*!*************************************************************************
 		Getter and setter functions for the variables in the Collider component class
 		****************************************************************************/
-		DLL_API bool& GetIsTrigger() { return mIsTrigger; }
+		DLL_API bool GetIsTrigger() { return mIsTrigger; }
 		DLL_API void SetIsTrigger(bool isTrigger) { mIsTrigger = isTrigger; }
 
-		DLL_API Vec3& GetCenter() { return mCenter; }
+		DLL_API Vec3 GetCenter() { return mCenter; }
 		DLL_API void SetCenter(Vec3 center) { mCenter = center; }
 		DLL_API void SetCenter(float x, float y, float z) { mCenter = Vec3(x, y, z); }
 
-		DLL_API float& GetRadius() { return mRadius; }
+		DLL_API float GetRadius() { return mRadius; }
 		DLL_API void SetRadius(float radius) { mRadius = radius; }
 		
-		DLL_API float& GetHeight() { return mHeight; }
+		DLL_API float GetHeight() { return mHeight; }
 		DLL_API void SetHeight(float height) { mHeight = height; }
 		
-		DLL_API Direction& GetDirection() { return mDirection; }
+		DLL_API Direction GetDirection() { return mDirection; }
 		DLL_API void SetDirection(Direction direction) { mDirection = direction; }
 
 		RTTR_ENABLE(IComponent);

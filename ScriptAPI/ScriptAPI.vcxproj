@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -130,21 +130,28 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Components\ColliderComponent.hxx" />
+    <ClInclude Include="Components\BoxColliderComponent.hxx" />
+    <ClInclude Include="Components\CapsuleColliderComponent.hxx" />
     <ClInclude Include="Components\NameTagComponent.hxx" />
+    <ClInclude Include="Components\SphereColliderComponent.hxx" />
     <ClInclude Include="Components\TransformComponent.hxx" />
     <ClInclude Include="Debug.hxx" />
     <ClInclude Include="EngineInterface.hxx" />
+    <ClInclude Include="HelperFunctions.hxx" />
     <ClInclude Include="IncludeFromEngine.hxx" />
     <ClInclude Include="Script.hxx" />
+    <ClInclude Include="TypeConversion.hxx" />
     <ClInclude Include="Vector3.hxx" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Components\ColliderComponent.cxx" />
+    <ClCompile Include="Components\BoxColliderComponent.cxx" />
+    <ClCompile Include="Components\CapsuleColliderComponent.cxx" />
     <ClCompile Include="Components\NameTagComponent.cxx" />
+    <ClCompile Include="Components\SphereColliderComponent.cxx" />
     <ClCompile Include="Components\TransformComponent.cxx" />
     <ClCompile Include="EngineInterface.cxx" />
     <ClCompile Include="Script.cxx" />
+    <ClCompile Include="TypeConversion.cxx" />
     <ClCompile Include="Vector3.cxx" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

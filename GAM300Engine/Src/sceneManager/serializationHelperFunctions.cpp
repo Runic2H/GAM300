@@ -1,11 +1,3 @@
-/*!
-@file    serializationHelperFunctions.cpp
-@author  p.jiankai@digipen.edu(50%), ruoyan.go@digipen.edu(50%)
-@date    10/9/2022
-
-This file includes the serialisation helper function definitions.
-
-*//*__________________________________________________________________________*/
 
 #include <cstdio>
 #include <string>

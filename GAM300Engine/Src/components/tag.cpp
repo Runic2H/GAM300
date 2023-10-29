@@ -15,12 +15,8 @@ RTTR_REGISTRATION
 	using namespace TDS;
 
 	rttr::registration::class_<Tag>("Tag")
-		.method("GetTag", &Tag::GetTag)
-		.method("SetTag", &Tag::SetTag)
-		.property("Tag", &Tag::mTag)
-		.method("GetTargetTag", &Tag::GetTargetTag)
-		.method("SetTargetTag", &Tag::SetTargetTag)
-		.property("mTargetTag", &Tag::mTargetTag);
+		.property("Tag", &Tag::GetTag, &Tag::SetTag)
+		.property("mTargetTag", &Tag::GetTargetTag, &Tag::SetTargetTag);
 
 }
 

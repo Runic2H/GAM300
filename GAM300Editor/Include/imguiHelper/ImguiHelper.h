@@ -59,6 +59,8 @@ namespace TDS
 		static std::unique_ptr<LevelEditorManager>& GetInstance();
 
 		std::map<PanelTypes, std::shared_ptr<LevelEditorPanel>> panels;	// cant be unique pointer for some reason
+
+		bool (*getScript)(EntityID, std::string, rttr::variant&);
 	private:
 		// Unique pointer to SceneManager
 		static std::unique_ptr<LevelEditorManager> m_instance;

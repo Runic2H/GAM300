@@ -27,9 +27,6 @@
     <ClInclude Include="Vector3.hxx">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Components\ColliderComponent.hxx">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="IncludeFromEngine.hxx">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -37,6 +34,21 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Debug.hxx">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Components\BoxColliderComponent.hxx">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Components\CapsuleColliderComponent.hxx">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Components\SphereColliderComponent.hxx">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TypeConversion.hxx">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="HelperFunctions.hxx">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -53,10 +65,19 @@
     <ClCompile Include="Vector3.cxx">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Components\ColliderComponent.cxx">
+    <ClCompile Include="Components\NameTagComponent.cxx">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Components\NameTagComponent.cxx">
+    <ClCompile Include="Components\BoxColliderComponent.cxx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Components\CapsuleColliderComponent.cxx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Components\SphereColliderComponent.cxx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TypeConversion.cxx">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

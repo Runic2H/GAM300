@@ -34,13 +34,19 @@ namespace TDS
 		/*!*************************************************************************
 		Getter and setter functions for the variables in the NameTag component class
 		****************************************************************************/
-		DLL_API std::string& GetNameTag() { return mName; }
-		DLL_API void SetNameTag(std::string name) { mName = name; }
+		DLL_API std::string GetName() { return mName; }
+		DLL_API void SetName(std::string name) { mName = name; }
 
-		DLL_API EntityID& GetHierarchyParent() { return mHierarchyParent; }
+		DLL_API std::string GetTag() { return mTag; }
+		DLL_API void SetTag(std::string tag) { mTag = tag; }
+
+		DLL_API bool GetIsActive() { return mIsActive; }
+		DLL_API void SetIsActive(bool isActive) { mIsActive = isActive; }
+
+		DLL_API EntityID GetHierarchyParent() { return mHierarchyParent; }
 		DLL_API void SetHierarchyParent(EntityID hierarchyParent) { mHierarchyParent = hierarchyParent; }
 		
-		DLL_API int& GetHierarchyIndex() { return mHierarchyIndex; }
+		DLL_API int GetHierarchyIndex() { return mHierarchyIndex; }
 		DLL_API void SetHierarchyIndex(int hierarchyIndex) { mHierarchyIndex = hierarchyIndex; }
 
 		RTTR_ENABLE(IComponent);
@@ -48,10 +54,14 @@ namespace TDS
 
 	private:
 		std::string mName;
+		std::string mTag;
+		bool mIsActive;
 
 		EntityID mHierarchyParent;
 		int mHierarchyIndex;
 	};
+
+	DLL_API NameTag* GetNameTag(EntityID entityID);
 }
 
 #endif // NAMETAGCOMPONENT

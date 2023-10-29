@@ -12,6 +12,7 @@
 #include <vulkanTools/Renderer.h>
 #include "Rendering/GraphicsManager.h"
 #include "vulkanTools/CommandManager.h"
+#include "vulkanTools/FrameBuffer.h"
 namespace TDS {
 
 	//Renderer class constructor
@@ -133,12 +134,11 @@ namespace TDS {
 		renderpassinfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
 		renderpassinfo.renderPass = m_SwapChain->getRenderPass();
 		renderpassinfo.framebuffer = m_SwapChain->getFrameBuffer(m_currentImageIndex);
-
 		renderpassinfo.renderArea.offset = { 0,0 };
 		renderpassinfo.renderArea.extent = m_SwapChain->getSwapChainExtent();
 
 		std::array<VkClearValue, 2> clearValues{};
-		clearValues[0].color = { 0.01f,0.01f,0.01f,1.f };
+		clearValues[0].color = { 1.f,0.01f,0.01f,1.f };
 		clearValues[1].depthStencil = { 1.f,0 };
 		renderpassinfo.clearValueCount = static_cast<uint32_t>(clearValues.size());
 		renderpassinfo.pClearValues = clearValues.data();

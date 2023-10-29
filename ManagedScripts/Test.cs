@@ -2,9 +2,39 @@
 using System;
 using System.Threading.Tasks;
 
+public class Testing : Script
+{
+    [SerializeField]
+    public bool hihi = true;
+}
+
 public class Test : Script
 {
-    public override void Awake() { }
+    [SerializeField]
+    public Script script;
+
+    [SerializeField]
+    public Testing test;
+
+    [SerializeField]
+    private bool hmm = false;
+
+    [SerializeField]
+    private double testt;
+
+    [SerializeField]
+    private int testtt;
+
+    [SerializeField]
+    private float testttt;
+
+    [SerializeField]
+    private char testtttt;
+
+    public override void Awake() 
+    {
+        script = GameObjectScriptFind("entity1", "test");
+    }
 
     public override void OnEnable() 
     {
@@ -62,5 +92,4 @@ public class Test : Script
 
         return 0;
     }
-
 }

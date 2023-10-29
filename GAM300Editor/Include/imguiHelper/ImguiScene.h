@@ -2,7 +2,7 @@
 #define IMGUI_SCENE
 
 #include "ImguiHelper.h"
-
+#include "imguiHelper/ImguiHierarchy.h"
 namespace TDS 
 {
 	class EditorScene : public LevelEditorPanel
@@ -15,7 +15,8 @@ namespace TDS
 
 	private:
 		
-
+		int m_gizmoType = 14463;
+		bool m_gizmoActive = false;
 	};
 }
 

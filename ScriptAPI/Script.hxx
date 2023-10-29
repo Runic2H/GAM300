@@ -9,8 +9,11 @@
  *******************************************************************************/
 #pragma once
 #include "IncludeFromEngine.hxx"
+#include "Components/BoxColliderComponent.hxx"
+#include "Components/CapsuleColliderComponent.hxx"
+#include "Components/NameTagComponent.hxx"
+#include "Components/SphereColliderComponent.hxx"
 #include "Components/TransformComponent.hxx"
-#include "Components/ColliderComponent.hxx"
 #include <iostream>
 #include <chrono>
 #include <thread>
@@ -20,8 +23,11 @@ using namespace System;
 using namespace System::Collections::Generic;
 using namespace System::Threading;
 using namespace System::Threading::Tasks;
+using namespace System::Reflection;
 using namespace concurrency;
 
+[AttributeUsage(AttributeTargets::Field)]
+public ref class SerializeFieldAttribute : public Attribute { };
 
 namespace ScriptAPI
 {
@@ -39,9 +45,17 @@ namespace ScriptAPI
 
         generic <typename TResult>
         IAsyncEnumerable<TResult>^ Coroutine(Func<IAsyncEnumerable<TResult>^>^ func, int duration);
+        
+        //TDS::EntityID findGameObject(System::String^ gameObjectName);
 
+        BoxColliderComponent GetBoxColliderComponent();
+        CapsuleColliderComponent GetCapsuleColliderComponent();
+        NameTagComponent GetNameTagComponent();
+        SphereColliderComponent GetSphereColliderComponent();
         TransformComponent GetTransformComponent();
-        ColliderComponent GetColliderComponent();
+
+        int GetEntityID();
+        Script^ GameObjectScriptFind(System::String^ name, System::String^ script);
 
     internal:
         void SetEntityID(TDS::EntityID ID);
@@ -82,7 +96,7 @@ namespace ScriptAPI
         // Define a function that simulates an async operation and returns the result in a Task
         // Task<IAsyncEnumerable<TResult>^>^
         generic <typename TResult>
-        static IAsyncEnumerable<TResult>^ UnityCoroutineC(Func<IAsyncEnumerable<TResult>^>^ func, std::chrono::milliseconds duration) 
+        static IAsyncEnumerable<TResult>^ UnityCoroutineC(Func<IAsyncEnumerable<TResult>^>^ func, std::chrono::milliseconds duration)
         {
             auto startTime = std::chrono::steady_clock::now();
             auto endTime = startTime + duration;
@@ -97,9 +111,13 @@ namespace ScriptAPI
 
             // Wrap the result in a Task
             /*return Task::FromResult(result);*/
-
             return func();
         }
+
+        //static TDS::EntityID findGameObject(System::String^ entityName)
+        //{
+        //    return EngineInterface::GetGameObjectList()[entityName];
+        //}
 
     };
 }

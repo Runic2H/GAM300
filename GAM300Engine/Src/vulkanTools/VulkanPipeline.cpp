@@ -7,7 +7,7 @@
 #include "vulkanTools/FrameBuffer.h"
 #include "vulkanTools/GlobalBufferPool.h"
 #include "vulkanTools/VulkanTexture.h"
-
+#include "Rendering/renderPass.h"
 namespace TDS
 {
 	VulkanPipeline::VulkanPipeline()
@@ -45,11 +45,11 @@ namespace TDS
 
 		if (!m_PipelineEntry.m_FBTarget.empty())
 		{
-			m_RenderTarget = m_PipelineEntry.m_FBTarget[m_CurrentFBIndex]->GetRenderPass();
+			//m_RenderTarget = m_PipelineEntry.m_FBTarget[m_CurrentFBIndex]->GetRenderPass();
 		}
 		else
 		{
-			m_RenderTarget = GraphicsManager::getInstance().GetSwapchainRenderer().getSwapChainRenderPass();
+			m_RenderTarget = GraphicsManager::getInstance().getRenderPass().getRenderPass();
 		}
 		CreateDescriptors(m_PipelineEntry.m_ShaderInputs, m_PipelineEntry.m_NumDescriptorSets);
 
@@ -95,10 +95,10 @@ namespace TDS
 		std::uint32_t count = 0;
 		if (!m_PipelineEntry.m_FBTarget.empty())
 		{
-			std::uint32_t count = std::uint32_t(
+			/*std::uint32_t count = std::uint32_t(
 				m_PipelineEntry.m_FBTarget[GraphicsManager::getInstance().GetSwapchainRenderer().getFrameIndex()]->
 				getFBEntryInfo().m_AttachmentRequirememnts.size());
-
+*/
 
 		}
 		else
@@ -234,52 +234,51 @@ namespace TDS
 	}
 	void VulkanPipeline::SetClearColor(iColor clearColor)
 	{
-		m_PipelineEntry.m_FBTarget[m_CurrentFBIndex]->SetClearColor(clearColor);
+		//m_PipelineEntry.m_FBTarget[m_CurrentFBIndex]->SetClearColor(clearColor);
 
 		VkClearRect clearRect = {};
 		clearRect.layerCount = 1;
 		clearRect.baseArrayLayer = 0;
 		clearRect.rect.offset = { 0, 0 };
-		clearRect.rect.extent = { (uint32_t)m_PipelineEntry.m_FBTarget[m_CurrentFBIndex]->getFBEntryInfo().m_AreaDimension.width, (uint32_t)m_PipelineEntry.m_FBTarget[m_CurrentFBIndex]->getFBEntryInfo().m_AreaDimension.height };
-		vkCmdClearAttachments(m_CommandBuffer, static_cast<uint32_t>(m_PipelineEntry.m_FBTarget[m_CurrentFBIndex]->GetClearAttachments().size()), m_PipelineEntry.m_FBTarget[m_CurrentFBIndex]->GetClearAttachments().data(), 1, &clearRect);
+		//clearRect.rect.extent = { (uint32_t)m_PipelineEntry.m_FBTarget[m_CurrentFBIndex]->getFBEntryInfo().m_AreaDimension.width, (uint32_t)m_PipelineEntry.m_FBTarget[m_CurrentFBIndex]->getFBEntryInfo().m_AreaDimension.height };
+		//vkCmdClearAttachments(m_CommandBuffer, static_cast<uint32_t>(m_PipelineEntry.m_FBTarget[m_CurrentFBIndex]->GetClearAttachments().size()), m_PipelineEntry.m_FBTarget[m_CurrentFBIndex]->GetClearAttachments().data(), 1, &clearRect);
 
 	}
 	void VulkanPipeline::StartRenderPass()
 	{
-		const VkFramebuffer framebuffer = m_CurrentFBAttachmentIndex == 0 ? m_PipelineEntry.m_FBTarget[m_CurrentFBIndex]->GetCurrentFrameBuffer() : m_PipelineEntry.m_FBTarget[m_CurrentFBIndex]->GetFrameBuffer(m_CurrentFBAttachmentIndex);
-
-		VkExtent2D extent = m_PipelineEntry.m_FBTarget[m_CurrentFBIndex]->getFBEntryInfo().m_AreaDimension;
+		//const VkFramebuffer framebuffer = m_CurrentFBAttachmentIndex == 0 ? m_PipelineEntry.m_FBTarget[m_CurrentFBIndex]->GetCurrentFrameBuffer() : m_PipelineEntry.m_FBTarget[m_CurrentFBIndex]->GetFrameBuffer(m_CurrentFBAttachmentIndex);
+		//VkExtent2D extent = m_PipelineEntry.m_FBTarget[m_CurrentFBIndex]->getFBEntryInfo().m_AreaDimension;
 		VkRenderPassBeginInfo renderPassBegin = { VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO };
-		renderPassBegin.renderPass = m_PipelineEntry.m_FBTarget[m_CurrentFBIndex]->GetRenderPass();
-		renderPassBegin.framebuffer = framebuffer;
+		//renderPassBegin.renderPass = m_PipelineEntry.m_FBTarget[m_CurrentFBIndex]->GetRenderPass();
+		//renderPassBegin.framebuffer = framebuffer;
 		renderPassBegin.renderArea.offset.x = 0;
 		renderPassBegin.renderArea.offset.y = 0;
-		renderPassBegin.renderArea.extent = extent;
-		renderPassBegin.clearValueCount = static_cast<uint32_t>(m_PipelineEntry.m_FBTarget[m_CurrentFBIndex]->GetClearValues().size());
-		renderPassBegin.pClearValues = m_PipelineEntry.m_FBTarget[m_CurrentFBIndex]->GetClearValues().data();
+		//renderPassBegin.renderArea.extent = extent;
+		//renderPassBegin.clearValueCount = static_cast<uint32_t>(m_PipelineEntry.m_FBTarget[m_CurrentFBIndex]->GetClearValues().size());
+		//renderPassBegin.pClearValues = m_PipelineEntry.m_FBTarget[m_CurrentFBIndex]->GetClearValues().data();
 
 		vkCmdBeginRenderPass(m_CommandBuffer, &renderPassBegin, VK_SUBPASS_CONTENTS_INLINE);
 		VkViewport viewport = {};
 		if (m_FlipViewport)
 		{
-			viewport.height = (float)extent.height;
-			viewport.width = (float)extent.width;
+			//viewport.height = (float)extent.height;
+			//viewport.width = (float)extent.width;
 			viewport.minDepth = (float)0.0f;
 			viewport.maxDepth = (float)1.0f;
 		}
 		else
 		{
 			viewport.x = 0;
-			viewport.y = (float)extent.height;
-			viewport.height = -(float)extent.height;
-			viewport.width = (float)extent.width;
+			//viewport.y = (float)extent.height;
+			//viewport.height = -(float)extent.height;
+			//viewport.width = (float)extent.width;
 			viewport.minDepth = (float)0.0f;
 			viewport.maxDepth = (float)1.0f;
 		}
 		vkCmdSetViewport(m_CommandBuffer, 0, 1, &viewport);
 		VkRect2D scissor = {};
-		scissor.extent.width = extent.height;
-		scissor.extent.height = extent.height;
+		//scissor.extent.width = extent.height;
+		//scissor.extent.height = extent.height;
 		scissor.offset.x = 0;
 		scissor.offset.y = 0;
 		vkCmdSetScissor(m_CommandBuffer, 0, 1, &scissor);
@@ -442,7 +441,7 @@ namespace TDS
 			vkDestroyDescriptorPool(device, m_DescriptorPool, nullptr);
 		}
 		VK_ASSERT(vkCreateDescriptorPool(device, &descriptorPoolInfo, nullptr, &m_DescriptorPool), "Failed to create descriptor Pool!");
-
+		m_PipelineDescriptor.m_ImageInfo = GraphicsManager::getInstance().getFinalImage().getImageInfoDescriptor();
 
 		CreateDescriptorSet(shaderInputs, m_PipelineDescriptor);
 		CreateUniformBuffers(shaderInputs, m_PipelineDescriptor);

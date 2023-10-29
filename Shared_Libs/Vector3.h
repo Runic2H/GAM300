@@ -90,7 +90,8 @@ public:
     static Vec3 Slerp(Vec3 a, Vec3 b, float t);
     // Spherically interpolates between two vectors.
     static Vec3 SlerpUnclamped(Vec3 a, Vec3 b, float t);
-    
+    static float* Vec3Value_ptr(const Vec3& vec);
+   
     // Operators
 
     Vec3& operator=(const Vec3& v);

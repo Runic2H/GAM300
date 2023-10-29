@@ -53,6 +53,11 @@ namespace TDS
 		This function deserializes scenes from JSON files
 		****************************************************************************/
 		DLL_API bool sceneDeserialize();
+		
+		/*!*************************************************************************
+		This function finds scripts in project
+		****************************************************************************/
+		DLL_API void scriptsDeserialize(std::string filepath = "");
 
 		/*!*************************************************************************
 		This function adds a new scene into the Scene Manager
@@ -102,10 +107,23 @@ namespace TDS
 
 		bool isGameplay;
 
+		// Function pointers from scriptAPI
+		std::vector<TDS::ScriptValues>(*getScriptVariables)(EntityID entityID, std::string scriptName);
+		bool(*hasScript)(EntityID entityID, std::string scriptName);
+		std::vector<std::string>(*getAllScripts)();
+
+		bool (*addScript)(EntityID entityID, std::string scriptName);
+
+		void (*setBool)(EntityID entityID, std::string script, std::string variableName, bool value);
+		void (*setInt)(EntityID entityID, std::string script, std::string variableName, int value);
+		void (*setDouble)(EntityID entityID, std::string script, std::string variableName, double value);
+		void (*setFloat)(EntityID entityID, std::string script, std::string variableName, float value);
+
 	private:
 		// Unique pointer to SceneManager
 		static std::unique_ptr<SceneManager> m_instance;
 
+		// For Scenes
 		std::vector<std::string> allScenes;
 		std::string startScene;
 
@@ -114,6 +132,10 @@ namespace TDS
 
 		std::string parentFilePath;
 		std::string filePath;
+
+		// For scripts
+		std::vector<std::string> allScripts;
+		std::string scriptFilePath;
 	};
 }
 

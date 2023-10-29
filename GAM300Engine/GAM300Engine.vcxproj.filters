@@ -43,7 +43,6 @@
     <ClCompile Include="Src\Geometry\Triangle.cpp" />
     <ClCompile Include="Src\components\ai.cpp" />
     <ClCompile Include="Src\components\cameraComponent.cpp" />
-    <ClCompile Include="Src\components\collider.cpp" />
     <ClCompile Include="Src\components\componentHelperFunctions.cpp" />
     <ClCompile Include="Src\components\nameTag.cpp" />
     <ClCompile Include="Src\components\rigidBody.cpp" />
@@ -68,26 +67,23 @@
     <ClCompile Include="Src\vulkanTools\VertexTypes.cpp" />
     <ClCompile Include="Src\vulkanTools\GlobalBufferPool.cpp" />
     <ClCompile Include="Src\vulkanTools\CommandManager.cpp" />
-    <ClCompile Include="Src\Renderer\GraphicsManager.cpp" />
+    <ClCompile Include="Src\Rendering\GraphicsManager.cpp" />
     <ClCompile Include="Src\vulkanTools\FrameBuffer.cpp" />
     <ClCompile Include="Src\vulkanTools\DirectFrameBuffer.cpp" />
     <ClCompile Include="Src\vulkanTools\VMATypes\VMABuffer.cpp" />
     <ClCompile Include="Src\vulkanTools\VulkanPipeline.cpp" />
-    <ClCompile Include="Src\Renderer\RendererSystem.cpp" />
-    <ClCompile Include="Src\Renderer\RenderDataManager.cpp" />
-    <ClCompile Include="Src\Renderer\Renderer3D.cpp" />
+    <ClCompile Include="Src\Rendering\RendererSystem.cpp" />
+    <ClCompile Include="Src\Rendering\RenderDataManager.cpp" />
+    <ClCompile Include="Src\Rendering\Renderer3D.cpp" />
     <ClCompile Include="Src\components\graphicsComponent.cpp" />
     <ClCompile Include="..\Shared_Libs\Color.cpp" />
     <ClCompile Include="..\Shared_Libs\Color8UNorm.cpp" />
-    <ClCompile Include="Src\JoltPhysics\Bodies\JoltBodyComponent.cpp" />
-    <ClCompile Include="Src\JoltPhysics\Bodies\JoltDynamicBodyComponent.cpp" />
-    <ClCompile Include="Src\JoltPhysics\Bodies\JoltQueryShapeBodyComponent.cpp" />
-    <ClCompile Include="Src\JoltPhysics\Bodies\JoltStaticBodyComponent.cpp" />
-    <ClCompile Include="Src\JoltPhysics\Bodies\JoltTriggerComponent.cpp" />
     <ClCompile Include="Src\components\sphereCollider.cpp" />
     <ClCompile Include="Src\components\capsuleCollider.cpp" />
     <ClCompile Include="Src\components\boxCollider.cpp" />
     <ClCompile Include="Src\sceneManager\serializationHelperFunctions.cpp" />
+    <ClCompile Include="Src\Rendering\RenderTarget.cpp" />
+    <ClCompile Include="Src\Rendering\renderPass.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Shared_Libs\MathCommon.h" />
@@ -134,7 +130,6 @@
     <ClInclude Include="Include\memoryManager\memoryManager.h" />
     <ClInclude Include="Include\components\ai.h" />
     <ClInclude Include="Include\components\cameraComponent.h" />
-    <ClInclude Include="Include\components\collider.h" />
     <ClInclude Include="Include\components\components.h" />
     <ClInclude Include="Include\components\iComponent.h" />
     <ClInclude Include="Include\components\nameTag.h" />
@@ -194,15 +189,13 @@
     <ClInclude Include="Include\Rendering\RenderLayer.h" />
     <ClInclude Include="..\Shared_Libs\Color.h" />
     <ClInclude Include="..\Shared_Libs\Color8UNorm.h" />
-    <ClInclude Include="Include\JoltPhysics\Bodies\JoltBodyComponent.h" />
-    <ClInclude Include="Include\JoltPhysics\Bodies\JoltDynamicBodyComponent.h" />
-    <ClInclude Include="Include\JoltPhysics\Bodies\JoltQueryShapeBodyComponent.h" />
-    <ClInclude Include="Include\JoltPhysics\Bodies\JoltStaticBodyComponent.h" />
-    <ClInclude Include="Include\JoltPhysics\Bodies\JoltTriggerComponent.h" />
     <ClInclude Include="Include\components\boxCollider.h" />
     <ClInclude Include="Include\components\capsuleCollider.h" />
     <ClInclude Include="Include\components\sphereCollider.h" />
     <ClInclude Include="Include\sceneManager\serializationHelperFunctions.h" />
+    <ClInclude Include="Include\Rendering\RenderTarget.h" />
+    <ClInclude Include="Include\Rendering\renderPass.h" />
+    <ClInclude Include="Include\propertyManager\registration.h" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Include\Logger\Logger.h" />

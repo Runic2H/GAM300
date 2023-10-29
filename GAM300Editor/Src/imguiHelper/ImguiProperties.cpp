@@ -33,6 +33,7 @@ namespace TDS
 	void Properties::update()
 	{
 		std::shared_ptr<Hierarchy> hierarchyPanel = static_pointer_cast<Hierarchy>(LevelEditorManager::GetInstance()->panels[PanelTypes::HIERARCHY]);
+		auto& sceneManagerInstance = SceneManager::GetInstance();
 
 		// If there is a selected entity
 		if (EntityID selectedEntity = hierarchyPanel->getSelectedEntity())
@@ -54,7 +55,9 @@ namespace TDS
 				if (componentName == "Name Tag" && ImGui::BeginTable("###", 2))
 				{
 					auto nameTagComponent = reinterpret_cast<NameTag*>(componentBase);
-					nameTagComponent->SetNameTag(ImguiInput("", nameTagComponent->GetNameTag()));
+					nameTagComponent->SetName(ImguiInput("", nameTagComponent->GetName()));
+					//ImguiInput("", static_cast<int>(hierarchyPanel->hierarchyMap[selectedEntity].parent));
+					//ImguiInput("", hierarchyPanel->hierarchyMap[selectedEntity].indexInParent);
 
 					ImGui::EndTable();
 
@@ -71,7 +74,7 @@ namespace TDS
 				ImGui::PushID(i);
 				if (ImGui::BeginPopupContextItem("componentEditPopup"))
 				{
-					if (ImGui::Selectable("Remove Component"))
+					if (componentName != "Name Tag" && componentName != "Transform" && ImGui::Selectable("Remove Component"))
 					{
 						removeComponentByName(componentName, selectedEntity);
 						TDS_INFO("Removed Component");
@@ -97,8 +100,6 @@ namespace TDS
 						ImGui::TableNextColumn();
 						ImGui::PushItemWidth(-FLT_MIN); // Right-aligned
 
-						rttr::type type = rttr::type::get_by_name(componentName);
-						std::cout << type.get_name() << std::endl;
 						ImguiComponentDisplay(componentName, componentBase);
 
 						ImGui::PopItemWidth();
@@ -107,6 +108,76 @@ namespace TDS
 					ImGui::TreePop();
 				}
 			}
+
+			for (auto scriptName : sceneManagerInstance->getAllScripts())
+			{
+				if (!sceneManagerInstance->hasScript(selectedEntity, scriptName))
+				{
+					continue;
+				}
+
+				if (ImGui::TreeNodeEx(scriptName.c_str(), nodeFlags))
+				{
+					//ImGui::PushID(selectedEntity);
+					if (ImGui::BeginTable("###", 2, /*ImGuiTableFlags_Borders |*/ ImGuiTableFlags_NoPadInnerX, ImVec2(0.0f, 5.5f)))
+					{
+						ImGui::TableNextRow();
+
+						ImGui::TableNextColumn();
+						ImGui::TableNextColumn();
+						ImGui::PushItemWidth(-FLT_MIN); // Right-aligned
+
+						std::vector<ScriptValues> allValues = sceneManagerInstance->getScriptVariables(selectedEntity, scriptName);
+
+						for (ScriptValues scriptValue : allValues)
+						{
+							if (scriptValue.type == "System.Boolean")
+							{
+								bool value = scriptValue.value == "False" ? false : true;
+								value = ImguiInput(scriptValue.name, value);
+								sceneManagerInstance->setBool(selectedEntity, scriptName, scriptValue.name, value);
+							}
+							else if (scriptValue.type == "System.Int16"
+								|| scriptValue.type == "System.Int32"
+								|| scriptValue.type == "System.Int64"
+								|| scriptValue.type == "System.UInt16"
+								|| scriptValue.type == "System.UInt32"
+								|| scriptValue.type == "System.UInt64"
+								|| scriptValue.type == "System.Byte"
+								|| scriptValue.type == "System.SByte")
+							{
+								int value = std::stoi(scriptValue.value);
+								value = ImguiInput(scriptValue.name, value);
+								sceneManagerInstance->setInt(selectedEntity, scriptName, scriptValue.name, value);
+							}
+							else if (scriptValue.type == "System.Double")
+							{
+								float value = std::stod(scriptValue.value);
+								value = ImguiInput(scriptValue.name, value);
+								sceneManagerInstance->setDouble(selectedEntity, scriptName, scriptValue.name, static_cast<double>(value));
+							}
+							else if (scriptValue.type == "System.Single")
+							{
+								float value = std::stod(scriptValue.value);
+								value = ImguiInput(scriptValue.name, value);
+								sceneManagerInstance->setFloat(selectedEntity, scriptName, scriptValue.name, value);
+							}
+							else // scripts
+							{
+								// To Do 
+
+							}
+						}
+
+						ImGui::PopItemWidth();
+						ImGui::EndTable();
+					}
+					ImGui::TreePop();
+				}
+			}
+
+			// all script names
+			// call manage side to gimme variables that the script has
 
 			// Add component button
 			ImGuiStyle& style = ImGui::GetStyle();
@@ -123,6 +194,16 @@ namespace TDS
 				ImGui::OpenPopup("componentAddPopup");
 			}
 
+			if (ImGui::GetCursorPosY() < ImGui::GetWindowHeight())
+			{
+				ImGui::SetNextWindowPos(ImVec2(ImGui::GetContentRegionAvail().x / 2 + ImGui::GetWindowPos().x + style.FramePadding.x * 2.0f, ImGui::GetCursorPosY()), ImGuiCond_Appearing, ImVec2(0.5f, 0.0f));
+			}
+			else
+			{
+				ImGui::SetNextWindowPos(ImVec2(ImGui::GetContentRegionAvail().x / 2 + ImGui::GetWindowPos().x + style.FramePadding.x * 2.0f, ImGui::GetWindowHeight()), ImGuiCond_Appearing, ImVec2(0.5f, 0.0f));
+			}
+			ImGui::SetNextWindowSize(ImVec2(150.f, 0.f));
+			
 			if (ImGui::BeginPopupContextItem("componentAddPopup"))
 			{
 				for (auto componentName : allComponentNames)
@@ -131,6 +212,13 @@ namespace TDS
 					{
 						addComponentByName(componentName, selectedEntity);
 						TDS_INFO("Added Component");
+					}
+				}
+				for (auto scriptName : sceneManagerInstance->getAllScripts())
+				{
+					if (!sceneManagerInstance->hasScript(selectedEntity, scriptName) && ImGui::Selectable(scriptName.c_str()))
+					{
+						sceneManagerInstance->addScript(selectedEntity, scriptName);
 					}
 				}
 				ImGui::EndPopup();
@@ -149,6 +237,10 @@ namespace TDS
 		for (rttr::property propertyName : type.get_properties())
 		{
 			if (propertyName.get_type() == rttr::type::get<int>())
+			{
+				propertyName.set_value(componentInstance, ImguiInput(propertyName.get_name().to_string(), propertyName.get_value(componentInstance).convert<int>()));
+			}
+			if (propertyName.get_type() == rttr::type::get<EntityID>())
 			{
 				propertyName.set_value(componentInstance, ImguiInput(propertyName.get_name().to_string(), propertyName.get_value(componentInstance).convert<int>()));
 			}
@@ -248,7 +340,7 @@ namespace TDS
 
 		ImGui::TableNextColumn();
 		float temp[2]{ Vec2Variable.x, Vec2Variable.y };
-		ImGui::DragFloat2(("##" + variableName).c_str(), temp, 1.0f);
+		ImGui::DragFloat2(("##" + variableName).c_str(), temp, 0.1f);
 		Vec2Variable.x = temp[0];
 		Vec2Variable.y = temp[1];
 
@@ -266,7 +358,7 @@ namespace TDS
 
 		ImGui::TableNextColumn();
 		float temp[3]{ Vec3Variable.x, Vec3Variable.y, Vec3Variable.z };
-		ImGui::DragFloat3(("##" + variableName).c_str(), temp, 1.0f);
+		ImGui::DragFloat3(("##" + variableName).c_str(), temp, 0.1f);
 		Vec3Variable.x = temp[0];
 		Vec3Variable.y = temp[1];
 		Vec3Variable.z = temp[2];

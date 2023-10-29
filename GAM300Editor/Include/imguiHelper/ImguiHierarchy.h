@@ -20,6 +20,13 @@ namespace TDS
 	class Hierarchy : public LevelEditorPanel
 	{
 	public:
+		struct HierarchyInfo
+		{
+			EntityID parent;
+			int indexInParent;
+			std::vector<EntityID> children;
+		};
+
 		/*!*************************************************************************
 		This function initializes the Hierarchy panel
 		****************************************************************************/
@@ -32,6 +39,14 @@ namespace TDS
 		****************************************************************************/
 		void update();
 
+		void changeIndexInEntity();
+
+		void reorderingHierarchy(EntityID payloadEntity, EntityID acceptEntity, bool acceptEntityTreeNode = false);
+
+		void makingChildHierarchy(EntityID payloadEntity, EntityID acceptEntity);
+
+		bool searchForChild(EntityID parentEntity, EntityID entityToFind);
+
 		/*!*************************************************************************
 		This function is the getter function for selected entity
 		****************************************************************************/
@@ -41,20 +56,13 @@ namespace TDS
 		****************************************************************************/
 		void setSelectedEntity(EntityID _selectedEntity) { selectedEntity = _selectedEntity; }
 
-		void insetOnHoldEntities(EntityID newParent);
+		void drawHierarchy(EntityID entityID);
 
+		std::map<EntityID, HierarchyInfo> hierarchyMap;
 	private:
-		struct ImguiHierarchyEntity
-		{
-			EntityID parent;
-			std::vector<ImguiHierarchyEntity> children;
-		};
 
-		std::vector<ImguiHierarchyEntity> hierarchyEntities;
-
-		// parent - list of children
-		std::map<EntityID, std::vector<EntityID>> entitiesOnHold;
-		std::map<EntityID, ImguiHierarchyEntity*> entitiesInputted;
+		bool anyItemHovered;
+		bool popupOpened;
 
 		EntityID selectedEntity;
 	};

@@ -149,6 +149,14 @@ namespace TDS
 			resizePage(archetypeID, componentID);
 		}
 	}
+	/*!*************************************************************************
+	Getting all the component data in the given book (Archetypes) using
+	ArchetypeID
+	****************************************************************************/
+	DLL_API std::vector<unsigned char*>& MemoryManager::getComponents(ArchetypeID archetypeID)
+	{
+		return books[archetypeID].startOfComponent;
+	}
 
 	/*!*************************************************************************
 	Getting the component data in the given book (Archetypes) using ArchetypeID 

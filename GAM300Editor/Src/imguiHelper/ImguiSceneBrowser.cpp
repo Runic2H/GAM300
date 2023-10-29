@@ -68,6 +68,7 @@ namespace TDS
 				}
 				if (ImGui::MenuItem("Save")) 
 				{
+					hierarchyPanel->changeIndexInEntity();
 					sceneManager->saveCurrentScene();
 				}
                 ImGui::EndMenu();
@@ -75,9 +76,9 @@ namespace TDS
             ImGui::EndMenuBar();
         }
 
-		ImGui::Columns(3, 0, false);
+		ImGui::Columns(6, 0, false);
 		int i = 0;
-		for (std::string& scene : sceneManager->getScenes())
+		for (std::string scene : sceneManager->getScenes())
 		{
 			ImGui::PushID(i);
 			if (ImGui::Button(scene.c_str(), { buttonSize , buttonSize }) && scene != sceneManager->getCurrentScene())

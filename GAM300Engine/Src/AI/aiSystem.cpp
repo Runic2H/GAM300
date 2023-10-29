@@ -61,7 +61,7 @@ namespace TDS
 
 		for (int i = 0; i < entities.size(); ++i)
 		{
-			int& behaviourTreeIndex = _ai[i].GetBehaviourTreeIndex();
+			int behaviourTreeIndex = _ai[i].GetBehaviourTreeIndex();
 			if (behaviourTreeIndex != -1 && behaviourTreeIndex < behaviourTrees.size() && behaviourTrees[behaviourTreeIndex].rootChild)
 			{
 				if (!_ai[i].GetCurrentNode())

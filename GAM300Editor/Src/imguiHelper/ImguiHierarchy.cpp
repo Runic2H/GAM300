@@ -26,100 +26,335 @@ namespace TDS
 		panelTitle = "Hierarchy";
 		windowPadding = ImVec2(0.f, 0.f);
 
-		//insertEntities();
-	}
-
-	void Hierarchy::insetOnHoldEntities(EntityID newParent)
-	{
-		auto found = entitiesInputted.find(newParent);
-		if (found != entitiesInputted.end()) // Means its found
-		{
-			for (auto entity : entitiesOnHold[newParent])
-			{
-				found->second->children.emplace_back(entity);
-				insetOnHoldEntities(entity);
-			}
-		}
+		anyItemHovered = false;
+		popupOpened = false;
 	}
 
 	void Hierarchy::init()
 	{
-		//auto allEntities = ecs.getEntities();
+		hierarchyMap.clear();
+		auto allEntities = ecs.getEntities();
 
-		//for (EntityID& entity : allEntities)
-		//{
-		//	if (NameTag* nameTagComponent = ecs.getComponent<NameTag>(entity))
-		//	{
-		//		EntityID parent = nameTagComponent->GetHierarchyParent();
+		for (EntityID& entity : allEntities)
+		{
+			EntityID parentEntity = ecs.getComponent<NameTag>(entity)->GetHierarchyParent();
+			int hierarchyIndex = ecs.getComponent<NameTag>(entity)->GetHierarchyIndex();
 
-		//		// Means no parent (parent = 0)
-		//		if (!parent)
-		//		{
-		//			if (hierarchyEntities.size() <= nameTagComponent->GetHierarchyIndex())
-		//			{
-		//				ImguiHierarchyEntity newHierarchyEntity;
-		//				newHierarchyEntity.parent = entity;
-		//				hierarchyEntities.emplace_back(newHierarchyEntity);
-		//				entitiesInputted[entity] = &hierarchyEntities[hierarchyEntities.size() - 1];
+			hierarchyMap[entity].parent = parentEntity; 
+			hierarchyMap[entity].indexInParent = hierarchyIndex;
 
-		//				inputEntitiesOnHold(entity);
-		//			}
-		//			else // Means its in the middle 
-		//			{
-		//				for (int i = 0; i < hierarchyEntities.size(); ++i)
-		//				{
-		//					if (ecs.getComponent<NameTag>(hierarchyEntities[i].parent)->GetHierarchyIndex() > nameTagComponent->GetHierarchyIndex())
-		//					{
-		//						ImguiHierarchyEntity newHierarchyEntity;
-		//						newHierarchyEntity.parent = entity;
-		//						hierarchyEntities.emplace(hierarchyEntities.begin() + i, newHierarchyEntity);
-		//						entitiesInputted[entity] = &hierarchyEntities[i];
+			bool inserted = false;
+			for (int i = 0; i < hierarchyMap[parentEntity].children.size(); ++i)
+			{
+				NameTag* childEntity = ecs.getComponent<NameTag>(hierarchyMap[parentEntity].children[i]);
 
-		//						inputEntitiesOnHold(entity);
-		//						break;
-		//					}
-		//				}
-		//			}
-		//		}
-		//		else // Will try to find the parent, if cannot find, then put it into on hold
-		//		{
-		//			//entitiesOnHold
-		//			if (parent > entity) // Parent wont be inputted yet
-		//			{
-		//				entitiesOnHold[parent].emplace_back(entity);
-		//			}
-		//			else
-		//			{
-		//				ImguiHierarchyEntity newHierarchyEntity;
-		//				newHierarchyEntity.parent = entity;
+				if (childEntity->GetHierarchyIndex() > hierarchyIndex) // Found the slot to insert current entity
+				{
+					hierarchyMap[parentEntity].children.emplace(hierarchyMap[parentEntity].children.begin() + i, entity);
+					inserted = true;
 
-		//				if ((*entitiesInputted[parent]).children.size() <= nameTagComponent->GetHierarchyIndex())
-		//				{
-		//					ImguiHierarchyEntity newHierarchyEntity;
-		//					newHierarchyEntity.parent = entity;
-		//					(*entitiesInputted[parent]).children.emplace_back(newHierarchyEntity);
-		//					entitiesInputted[entity] = &entitiesInputted[parent][(*entitiesInputted[parent]).children.size() - 1];
-		//				}
-		//				else // Means its in the middle 
-		//				{
-		//					for (int i = 0; i < (*entitiesInputted[parent]).children.size(); ++i)
-		//					{
-		//						if (ecs.getComponent<NameTag>(entitiesInputted[parent][i].parent)->GetHierarchyIndex() > nameTagComponent->GetHierarchyIndex())
-		//						{
-		//							ImguiHierarchyEntity newHierarchyEntity;
-		//							newHierarchyEntity.parent = entity;
-		//							(*entitiesInputted[parent]).children.emplace((*entitiesInputted[parent]).children.begin() + i, newHierarchyEntity);
-		//							entitiesInputted[entity] = &entitiesInputted[parent][i];
+					break;
+				}
+			}
+			if (!inserted)
+			{
+				hierarchyMap[parentEntity].children.emplace_back(entity);
+			}
+		}
+	}
 
-		//							inputEntitiesOnHold(entity);
-		//							break;
-		//						}
-		//					}
-		//				}
-		//			}
-		//		}
-		//	}
-		//}
+	void Hierarchy::changeIndexInEntity()
+	{
+		for (EntityID entity : ecs.getEntities())
+		{
+			ecs.getComponent<NameTag>(entity)->SetHierarchyIndex(hierarchyMap[entity].indexInParent);
+			ecs.getComponent<NameTag>(entity)->SetHierarchyParent(hierarchyMap[entity].parent);
+		}
+	}
+
+	void Hierarchy::reorderingHierarchy(EntityID payloadEntity, EntityID acceptEntity, bool acceptEntityTreeNode)
+	{
+		auto& currEntityIDHierarchyInfo = hierarchyMap[acceptEntity];
+		auto& payloadEntityIDHierarchyInfo = hierarchyMap[payloadEntity];
+
+		if (searchForChild(payloadEntity, acceptEntity)) // Making sure parent / grandparent cannot be moved to the child
+		{
+			return;
+		}
+
+		if (acceptEntity != payloadEntity &&
+			!(currEntityIDHierarchyInfo.parent == payloadEntityIDHierarchyInfo.parent
+				&& (currEntityIDHierarchyInfo.indexInParent + 1) == payloadEntityIDHierarchyInfo.indexInParent) || acceptEntityTreeNode)
+		{
+			if (payloadEntity == currEntityIDHierarchyInfo.parent &&
+				payloadEntityIDHierarchyInfo.children.size() - 1 == currEntityIDHierarchyInfo.indexInParent) // check if the payload is the last child of the parent
+			{
+				return;
+			}
+
+			hierarchyMap[payloadEntityIDHierarchyInfo.parent].children.erase(
+				hierarchyMap[payloadEntityIDHierarchyInfo.parent].children.begin() + payloadEntityIDHierarchyInfo.indexInParent);
+
+			if (acceptEntityTreeNode) // true means currEntity is a parent and the tree node is open, make it the first child
+			{
+				hierarchyMap[payloadEntity].parent = acceptEntity;
+				hierarchyMap[acceptEntity].children.emplace(hierarchyMap[acceptEntity].children.begin(), payloadEntity);
+
+				for (int index = 0; index < hierarchyMap[acceptEntity].children.size(); ++index)
+				{
+					hierarchyMap[hierarchyMap[acceptEntity].children[index]].indexInParent = index;
+				}
+			}
+			// Just shifting around without changing parent
+			else if (payloadEntityIDHierarchyInfo.parent == currEntityIDHierarchyInfo.parent)
+			{
+				if (payloadEntityIDHierarchyInfo.indexInParent < currEntityIDHierarchyInfo.indexInParent)
+				{
+					hierarchyMap[currEntityIDHierarchyInfo.parent].children.emplace(
+						hierarchyMap[currEntityIDHierarchyInfo.parent].children.begin() + currEntityIDHierarchyInfo.indexInParent,
+						payloadEntity);
+				}
+				else if (currEntityIDHierarchyInfo.indexInParent + 1 == hierarchyMap[currEntityIDHierarchyInfo.parent].children.size())
+				{
+					hierarchyMap[currEntityIDHierarchyInfo.parent].children.emplace_back(payloadEntity);
+				}
+				else
+				{
+					hierarchyMap[currEntityIDHierarchyInfo.parent].children.emplace(
+						hierarchyMap[currEntityIDHierarchyInfo.parent].children.begin() + currEntityIDHierarchyInfo.indexInParent + 1,
+						payloadEntity);
+				}
+			}
+			else // Different parent
+			{
+				for (int index = 0; index < hierarchyMap[payloadEntityIDHierarchyInfo.parent].children.size(); ++index)
+				{
+					hierarchyMap[hierarchyMap[payloadEntityIDHierarchyInfo.parent].children[index]].indexInParent = index;
+				}
+
+				payloadEntityIDHierarchyInfo.parent = currEntityIDHierarchyInfo.parent;
+				hierarchyMap[currEntityIDHierarchyInfo.parent].children.emplace(hierarchyMap[currEntityIDHierarchyInfo.parent].children.begin() + hierarchyMap[acceptEntity].indexInParent + 1, payloadEntity);
+			}
+
+			for (int index = 0; index < hierarchyMap[currEntityIDHierarchyInfo.parent].children.size(); ++index)
+			{
+				hierarchyMap[hierarchyMap[currEntityIDHierarchyInfo.parent].children[index]].indexInParent = index;
+			}
+		}
+	}
+
+	void Hierarchy::makingChildHierarchy(EntityID payloadEntity, EntityID acceptEntity)
+	{
+		auto& currEntityIDHierarchyInfo = hierarchyMap[acceptEntity];
+		auto& payloadEntityIDHierarchyInfo = hierarchyMap[payloadEntity];
+
+		if (currEntityIDHierarchyInfo.parent != payloadEntity)
+		{
+			if (searchForChild(payloadEntity, acceptEntity)) // Making sure parent / grandparent cannot be moved to the child
+			{
+				return;
+			}
+
+			hierarchyMap[payloadEntityIDHierarchyInfo.parent].children.erase(
+				hierarchyMap[payloadEntityIDHierarchyInfo.parent].children.begin() + payloadEntityIDHierarchyInfo.indexInParent);
+
+			for (int index = 0; index < hierarchyMap[payloadEntityIDHierarchyInfo.parent].children.size(); ++index)
+			{
+				hierarchyMap[hierarchyMap[payloadEntityIDHierarchyInfo.parent].children[index]].indexInParent = index;
+			}
+
+			payloadEntityIDHierarchyInfo.parent = acceptEntity;
+			currEntityIDHierarchyInfo.children.emplace_back(payloadEntity);
+
+			for (int index = 0; index < hierarchyMap[acceptEntity].children.size(); ++index)
+			{
+				hierarchyMap[hierarchyMap[acceptEntity].children[index]].indexInParent = index;
+			}
+		}
+	}
+
+	bool Hierarchy::searchForChild(EntityID parentEntity, EntityID entityToFind)
+	{
+		for (auto childEntity : hierarchyMap[parentEntity].children)
+		{
+			if (childEntity == entityToFind)
+			{
+				return true;
+			}
+			if (hierarchyMap[childEntity].children.size())
+			{
+				return searchForChild(childEntity, entityToFind);
+			}
+		}
+		return false;
+	}
+
+	void Hierarchy::drawHierarchy(EntityID entityID)
+	{
+		ImGuiTreeNodeFlags nodeFlags =
+			ImGuiTreeNodeFlags_DefaultOpen |
+			ImGuiTreeNodeFlags_FramePadding |
+			ImGuiTreeNodeFlags_SpanFullWidth | 
+			ImGuiTreeNodeFlags_OpenOnArrow;
+
+		ImGui::PushID(entityID);
+		bool selected = false;
+
+		// Get Name Tag component
+		NameTag* nameTagComponent = ecs.getComponent<NameTag>(entityID);
+
+		// Checking if entity has children
+		if (!hierarchyMap[entityID].children.size()) // No children
+		{
+			ImGui::Indent();
+
+			// Entity will be a selectable as there are no children
+			bool currentItemHovered = false;
+			selected = ImGui::Selectable(nameTagComponent->GetName().c_str(), selectedEntity == entityID, ImGuiSelectableFlags_SpanAllColumns);
+
+			if (ImGui::IsItemHovered())
+			{
+				anyItemHovered = true;
+				currentItemHovered = true;
+			}
+			if (ImGui::BeginDragDropSource())
+			{
+				ImGui::SetDragDropPayload("draggedEntity", &entityID, sizeof(int));
+				ImGui::EndDragDropSource();
+			}
+			if (ImGui::BeginDragDropTarget())
+			{
+				if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("draggedEntity"))
+				{
+					// Making into child
+					EntityID payloadEntityID = *(static_cast<EntityID*>(payload->Data));
+
+					makingChildHierarchy(payloadEntityID, entityID);
+				}
+				ImGui::EndDragDropTarget();
+			}
+			if (selected)
+			{
+				selectedEntity = entityID;
+			}
+
+			if (ImGui::BeginPopupContextItem())
+			{
+				selectedEntity = entityID;
+				popupOpened = true;
+				if (ImGui::Selectable("Remove Entity"))
+				{
+					ecs.removeEntity(selectedEntity);
+					hierarchyMap[hierarchyMap[selectedEntity].parent].children.erase(
+						std::find(hierarchyMap[hierarchyMap[selectedEntity].parent].children.begin(), 
+								  hierarchyMap[hierarchyMap[selectedEntity].parent].children.end(), selectedEntity));
+					hierarchyMap.erase(selectedEntity);
+					selectedEntity = 0;
+				}
+
+				ImGui::EndPopup();
+			}
+
+			ImGui::Unindent();
+
+			ImGui::PopID();
+
+			ImGui::Separator();
+			if (ImGui::BeginDragDropTarget())
+			{
+				if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("draggedEntity"))
+				{
+					EntityID payloadEntityID = *(static_cast<EntityID*>(payload->Data));
+
+					// Reordering
+					reorderingHierarchy(payloadEntityID, entityID);
+				}
+				ImGui::EndDragDropTarget();
+			}
+
+			return;
+		}
+
+		// Means there are children
+		if (selectedEntity == entityID)
+		{
+			nodeFlags |= ImGuiTreeNodeFlags_Selected;
+		}
+
+		bool currentItemHovered = false;
+		selected = ImGui::TreeNodeEx(nameTagComponent->GetName().c_str(), nodeFlags);
+
+		if (ImGui::IsItemHovered())
+		{
+			anyItemHovered = true;
+			currentItemHovered = true;
+		}
+		if (ImGui::BeginDragDropSource())
+		{
+			ImGui::SetDragDropPayload("draggedEntity", &entityID, sizeof(int));
+			ImGui::EndDragDropSource();
+		}
+		if (ImGui::BeginDragDropTarget())
+		{
+			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("draggedEntity"))
+			{
+				// Making into child
+				EntityID payloadEntityID = *(static_cast<EntityID*>(payload->Data));
+
+				makingChildHierarchy(payloadEntityID, entityID);
+			}
+			ImGui::EndDragDropTarget();
+		}
+		if (ImGui::IsMouseClicked(ImGuiMouseButton_Left) && currentItemHovered)
+		{
+			selectedEntity = entityID;
+		}
+
+		if (ImGui::BeginPopupContextItem())
+		{
+			selectedEntity = entityID;
+			popupOpened = true;
+			if (ImGui::Selectable("Remove Entity"))
+			{
+				ecs.removeEntity(selectedEntity);
+				hierarchyMap.erase(selectedEntity);
+				selectedEntity = 0;
+			}
+
+			ImGui::EndPopup();
+		}
+
+		ImGui::PopID();
+
+		ImGui::Separator();
+		if (ImGui::BeginDragDropTarget())
+		{
+			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("draggedEntity"))
+			{
+				EntityID payloadEntityID = *(static_cast<EntityID*>(payload->Data));
+
+				// Reordering
+				reorderingHierarchy(payloadEntityID, entityID, selected);
+			}
+			ImGui::EndDragDropTarget();
+		}
+
+		if (selected)
+		{
+			std::uint32_t originalSize = hierarchyMap[entityID].children.size();
+			for (auto childEntity : hierarchyMap[entityID].children)
+			{
+				drawHierarchy(childEntity);
+
+				if (originalSize != hierarchyMap[entityID].children.size())
+				{
+					ImGui::TreePop();
+
+					return;
+				}
+			}
+			ImGui::TreePop();
+		}
 	}
 
 	/*!*************************************************************************
@@ -135,9 +370,14 @@ namespace TDS
 				if (ImGui::MenuItem("Empty"))
 				{
 					Entity newEntity;
+					EntityID newEntityID = newEntity.getID();
 					newEntity.add<NameTag>();
 					newEntity.add<Transform>();
-					selectedEntity = newEntity.getID();
+					selectedEntity = newEntityID;
+
+					hierarchyMap[newEntityID].parent = 0;
+					hierarchyMap[newEntityID].indexInParent = hierarchyMap[0].children.size();
+					hierarchyMap[0].children.emplace_back(newEntityID);
 
 					TDS_INFO("New Entity Created");
 				}
@@ -145,9 +385,14 @@ namespace TDS
 				{
 					// Add Sprite or smth to render a square
 					Entity newEntity;
+					EntityID newEntityID = newEntity.getID();
 					newEntity.add<NameTag>();
 					newEntity.add<Transform>();
-					selectedEntity = newEntity.getID();
+					selectedEntity = newEntityID;
+
+					hierarchyMap[newEntityID].parent = 0;
+					hierarchyMap[newEntityID].indexInParent = hierarchyMap[0].children.size();
+					hierarchyMap[0].children.emplace_back(newEntityID);
 
 					TDS_INFO("New Entity Created");
 				}
@@ -159,52 +404,44 @@ namespace TDS
 		ImGuiTreeNodeFlags nodeFlags =
 			ImGuiTreeNodeFlags_DefaultOpen |
 			ImGuiTreeNodeFlags_FramePadding |
-			ImGuiTreeNodeFlags_SpanAvailWidth |
-			ImGuiTreeNodeFlags_SpanFullWidth;
+			ImGuiTreeNodeFlags_SpanFullWidth | 
+			ImGuiTreeNodeFlags_OpenOnArrow;
 
-		ImGui::PushID(0);
+		anyItemHovered = false;
+		popupOpened = false;
+
 		if (ImGui::TreeNodeEx(SceneManager::GetInstance()->getCurrentScene().c_str(), nodeFlags))
 		{
-			for (auto entityID : ecs.getEntities())
+			ImGui::Separator();
+			if (ImGui::BeginDragDropTarget())
 			{
-				if (NameTag* nameTagComponent = ecs.getComponent<NameTag>(entityID))
+				if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("draggedEntity"))
 				{
-					bool itemHovered = false;
+					EntityID payloadEntityID = *(static_cast<EntityID*>(payload->Data));
 
-					ImGui::PushID(entityID);
+					// Reordering
+					reorderingHierarchy(payloadEntityID, 0, true);
+				}
+				ImGui::EndDragDropTarget();
+			}
 
-					bool selectable = ImGui::Selectable(nameTagComponent->GetNameTag().c_str(), selectedEntity == entityID);
-					if (ImGui::IsItemHovered())
-					{
-						itemHovered = true;
-					}
-					if (selectable)
-					{
-						selectedEntity = entityID;
-					}
+			std::uint32_t originalSize = hierarchyMap[0].children.size();
+			for (auto childEntity : hierarchyMap[0].children)
+			{
+				drawHierarchy(childEntity);
 
-					if (ImGui::BeginPopupContextItem("entityPopup"))
-					{
-						if (ImGui::Selectable("Remove Entity"))
-						{
-							ecs.removeEntity(selectedEntity);
-							selectedEntity = 0;
-						}
-
-						ImGui::EndPopup();
-					}
-
-					if (rightClick && itemHovered)
-					{
-						selectedEntity = entityID;
-						ImGui::OpenPopup("componentsPopup");
-					}
-
-					ImGui::PopID();
+				if (originalSize != hierarchyMap[0].children.size())
+				{
+					ImGui::TreePop();
+					return;
 				}
 			}
 			ImGui::TreePop();
 		}
-		ImGui::PopID();
+
+		if (ImGui::IsWindowHovered() && !popupOpened && !anyItemHovered && ImGui::IsMouseClicked(ImGuiMouseButton_Left))
+		{
+			selectedEntity = 0;
+		}
 	}
 }

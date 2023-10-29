@@ -40,7 +40,7 @@ namespace TDS
 		entry.m_ShaderInputs.m_InputVertex.push_back(VertexBufferInfo(false, layout, sizeof(VertexData)));
 		inst.m_DefaultPipeline = std::make_shared<VulkanPipeline>();
 		inst.m_DefaultPipeline->Create(entry);
-	
+		
 
 	}
 	void Renderer3D::Update(RendererDataManager& renderData)
@@ -99,6 +99,6 @@ namespace TDS
 	void Renderer3D::ShutDown()
 	{
 		m_DefaultPipeline->ShutDown();
-		m_FrameBuffer = nullptr;
+		//m_FrameBuffer = nullptr;
 	}
 }
