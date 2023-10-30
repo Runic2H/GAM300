@@ -27,6 +27,7 @@ namespace TDS
 	ECSSystem<Transform, RigidBody, SphereCollider>	_ColliderSystem(1);
 	ECSSystem<AI>									_AISystem(1);
 	ECSSystem<Transform, GraphicsComponent>			_RenderSystem(2);
+	ECSSystem<RigidBody>							_JoltSystem(2);
 }
 
 #endif // SYSTEMS

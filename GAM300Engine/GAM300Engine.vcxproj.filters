@@ -84,6 +84,8 @@
     <ClCompile Include="Src\sceneManager\serializationHelperFunctions.cpp" />
     <ClCompile Include="Src\Rendering\RenderTarget.cpp" />
     <ClCompile Include="Src\Rendering\renderPass.cpp" />
+    <ClCompile Include="Src\JoltPhysics\System\JoltCore.cpp" />
+    <ClCompile Include="Src\JoltPhysics\System\JoltSystem.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Shared_Libs\MathCommon.h" />
@@ -155,7 +157,6 @@
     <ClInclude Include="Include\Geometry\Ray.h" />
     <ClInclude Include="Include\Geometry\Sphere.h" />
     <ClInclude Include="Include\Geometry\Triangle.h" />
-    <ClInclude Include="Include\Physics\CollisionSystem.h" />
     <ClInclude Include="Include\Physics\PhysicsSystem.h" />
     <ClInclude Include="Include\sceneManager\sceneManager.h" />
     <ClInclude Include="Include\sceneManager\serialization.h" />
@@ -196,6 +197,9 @@
     <ClInclude Include="Include\Rendering\RenderTarget.h" />
     <ClInclude Include="Include\Rendering\renderPass.h" />
     <ClInclude Include="Include\propertyManager\registration.h" />
+    <ClInclude Include="Include\JoltPhysics\System\JoltCore.h" />
+    <ClInclude Include="Include\Physics\JPHLayers.h" />
+    <ClInclude Include="Include\JoltPhysics\System\JoltSystem.h" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Include\Logger\Logger.h" />

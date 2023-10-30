@@ -10,19 +10,18 @@
 #include "Physics/PhysicsSystem.h"
 
 //for threadpool
-#include <thread>
-#include <cstdarg>
 
-#include <Jolt/RegisterTypes.h>
-#include <Jolt/Core/Factory.h>
-#include <Jolt/Core/TempAllocator.h>
-#include <Jolt/Core/JobSystemThreadPool.h>
-#include <Jolt/Physics/PhysicsSettings.h>
-#include <Jolt/Physics/PhysicsSystem.h> //jolt physics system
-#include <Jolt/Physics/Collision/Shape/BoxShape.h>
-#include <Jolt/Physics/Collision/Shape/SphereShape.h>
-#include <Jolt/Physics/Body/BodyCreationSettings.h>
-#include <Jolt/Physics/Body/BodyActivationListener.h>
+
+//#include <Jolt/RegisterTypes.h>
+//#include <Jolt/Core/Factory.h>
+//#include <Jolt/Core/TempAllocator.h>
+//#include <Jolt/Core/JobSystemThreadPool.h>
+//#include <Jolt/Physics/PhysicsSettings.h>
+//#include <Jolt/Physics/PhysicsSystem.h> //jolt physics system
+//#include <Jolt/Physics/Collision/Shape/BoxShape.h>
+//#include <Jolt/Physics/Collision/Shape/SphereShape.h>
+//#include <Jolt/Physics/Body/BodyCreationSettings.h>
+//#include <Jolt/Physics/Body/BodyActivationListener.h>
 
 namespace TDS
 {
@@ -49,12 +48,6 @@ namespace TDS
 		// malloc / free.
 		m_pTempAllocator = std::make_unique<TempAllocatorImpl>(10 * 1024 * 1024);
 		
-		// We need a job system that will execute physics jobs on multiple threads. Typically
-		// you would implement the JobSystem interface yourself and let Jolt Physics run on top
-		// of your own job scheduler. JobSystemThreadPool is an example implementation.
-		m_pJobSystem = std::make_unique<JobSystemThreadPool>(cMaxPhysicsJobs, cMaxPhysicsBarriers, thread::hardware_concurrency() - 1);
-		// Create mapping table from object layer to broadphase layer
-
 		m_pSystem = std::make_unique<JPH::PhysicsSystem>();
 		m_pSystem->Init(cMaxBodies,
 						cNumBodyMutexes,
@@ -78,35 +71,36 @@ namespace TDS
 
 		// The main way to interact with the bodies in the physics system is through the body interface. There is a locking and a non-locking
 		// variant of this. We're going to use the locking version (even though we're not planning to access bodies from multiple threads)
+		{
+			JPH::BodyInterface* pBodies = &m_pSystem->GetBodyInterface();
+			//JPH::BodyInterface& body_interface = m_pSystem->GetBodyInterface();
+			// Next we can create a rigid body to serve as the floor, we make a large box
+			// Create the settings for the collision volume (the shape).
+			// Note that for simple shapes (like boxes) you can also directly construct a BoxShape.
+			BoxShapeSettings floor_shape_settings(JPH::Vec3(100.0f, 1.0f, 100.0f));
 
-		JPH::BodyInterface& body_interface = m_pSystem->GetBodyInterface();
+			// Create the shape
+			ShapeSettings::ShapeResult floor_shape_result = floor_shape_settings.Create();
+			ShapeRefC floor_shape = floor_shape_result.Get(); // We don't expect an error here, but you can check floor_shape_result for HasError() / GetError()
 
-		// Next we can create a rigid body to serve as the floor, we make a large box
-		// Create the settings for the collision volume (the shape).
-		// Note that for simple shapes (like boxes) you can also directly construct a BoxShape.
-		BoxShapeSettings floor_shape_settings(JPH::Vec3(100.0f, 1.0f, 100.0f));
+			// Create the settings for the body itself. Note that here you can also set other properties like the restitution / friction.
+			BodyCreationSettings floor_settings(floor_shape, RVec3(0.0_r, -1.0_r, 0.0_r), JPH::Quat::sIdentity(), EMotionType::Static, Layers::NON_MOVING);
 
-		// Create the shape
-		ShapeSettings::ShapeResult floor_shape_result = floor_shape_settings.Create();
-		ShapeRefC floor_shape = floor_shape_result.Get(); // We don't expect an error here, but you can check floor_shape_result for HasError() / GetError()
+			// Create the actual rigid body
+			//Body* floor = mBodyInterface.CreateBody(floor_settings); // Note that if we run out of bodies this can return nullptr
+			Body* floor = pBodies->CreateBody(floor_settings);// Note that if we run out of bodies this can return nullptr
+			// Add it to the world
+			pBodies->AddBody(floor->GetID(), EActivation::DontActivate);
 
-		// Create the settings for the body itself. Note that here you can also set other properties like the restitution / friction.
-		BodyCreationSettings floor_settings(floor_shape, RVec3(0.0_r, -1.0_r, 0.0_r), JPH::Quat::sIdentity(), EMotionType::Static, Layers::NON_MOVING);
+			// Now create a dynamic body to bounce on the floor
+			// Note that this uses the shorthand version of creating and adding a body to the world
+			BodyCreationSettings sphere_settings(new SphereShape(0.5f), RVec3(0.0_r, 2.0_r, 0.0_r), JPH::Quat::sIdentity(), EMotionType::Dynamic, Layers::MOVING);
+			sphere_id = pBodies->CreateAndAddBody(sphere_settings, EActivation::Activate);
 
-		// Create the actual rigid body
-		Body* floor = body_interface.CreateBody(floor_settings); // Note that if we run out of bodies this can return nullptr
-		// Add it to the world
-		body_interface.AddBody(floor->GetID(), EActivation::DontActivate);
-
-		// Now create a dynamic body to bounce on the floor
-		// Note that this uses the shorthand version of creating and adding a body to the world
-		BodyCreationSettings sphere_settings(new SphereShape(0.5f), RVec3(0.0_r, 2.0_r, 0.0_r), JPH::Quat::sIdentity(), EMotionType::Dynamic, Layers::MOVING);
-		sphere_id = body_interface.CreateAndAddBody(sphere_settings, EActivation::Activate);
-
-		// Now you can interact with the dynamic body, in this case we're going to give it a velocity.
-		// (note that if we had used CreateBody then we could have set the velocity straight on the body before adding it to the physics system)
-		body_interface.SetLinearVelocity(sphere_id, JPH::Vec3(0.0f, -5.0f, 0.0f));
-
+			// Now you can interact with the dynamic body, in this case we're going to give it a velocity.
+			// (note that if we had used CreateBody then we could have set the velocity straight on the body before adding it to the physics system)
+			pBodies->SetLinearVelocity(sphere_id, JPH::Vec3(0.0f, -5.0f, 0.0f));
+		}
 		// Optional step: Before starting the physics simulation you can optimize the broad phase. This improves collision detection performance (it's pointless here because we only have 2 bodies).
 		// You should definitely not call this every frame or when e.g. streaming in a new level section as it is an expensive operation.
 		// Instead insert all new objects in batches instead of 1 at a time to keep the broad phase efficient.
@@ -121,15 +115,15 @@ namespace TDS
 		// Next step
 		// Now we're ready to simulate the body, keep simulating until it goes to sleep
 
-		JPH::BodyInterface& body_interface = m_pSystem->GetBodyInterface();
+		JPH::BodyInterface* body_interface = &m_pSystem->GetBodyInterface();
 		++m_stepNumber;
 		// Output current position and velocity of the sphere
-		RVec3 position = body_interface.GetCenterOfMassPosition(sphere_id);
-		JPH::Vec3 velocity = body_interface.GetLinearVelocity(sphere_id);
+		RVec3 position = body_interface->GetCenterOfMassPosition(sphere_id);
+		JPH::Vec3 velocity = body_interface->GetLinearVelocity(sphere_id);
 		std::cout << "Step " << m_stepNumber << ": Position = (" << position.GetX() << ", " << position.GetY() << ", " << position.GetZ() << "), Velocity = (" << velocity.GetX() << ", " << velocity.GetY() << ", " << velocity.GetZ() << ")" << std::endl;
 
 		// Step the world
-		m_pSystem->Update(TimeStep::GetFixedDeltaTime(), 1, m_pTempAllocator.get(), m_pJobSystem.get());
+		m_pSystem->Update(TimeStep::GetFixedDeltaTime(), 1, m_pTempAllocator.get(), JoltCore::s_pJobSystem.get());
 
 	}
 

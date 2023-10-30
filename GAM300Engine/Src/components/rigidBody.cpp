@@ -9,6 +9,7 @@
 ***/
 
 #include "components/rigidBody.h"
+#include <Jolt/Physics/Body/Body.h>
 
 RTTR_REGISTRATION
 {
@@ -33,7 +34,8 @@ namespace TDS
 							 mRestitution		(0.0f),
 						     mMass				(1.0f),
 							 mInverseMass		(0.0f),
-							 mGravity			(0.0f)
+							 mGravity			(0.0f),
+							 mBodyID			(JPH::BodyID::cInvalidBodyID)
 	{ }
 
 
@@ -52,7 +54,8 @@ namespace TDS
 														mRestitution		(toMove.mRestitution),
 														mMass				(toMove.mMass),
 														mInverseMass		(toMove.mInverseMass),
-														mGravity			(toMove.mGravity)
+														mGravity			(toMove.mGravity),
+														mBodyID				(toMove.mBodyID)
 		
 	{ }
 }

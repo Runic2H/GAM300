@@ -17,8 +17,8 @@ namespace TDS
 		static void Init();
 		static void Shutdown();
 
-	private:
 		static std::unique_ptr<JPH::JobSystemThreadPool> s_pJobSystem;
+	private:
 
 	};
 }

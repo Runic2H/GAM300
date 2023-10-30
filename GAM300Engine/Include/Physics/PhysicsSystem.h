@@ -46,6 +46,7 @@ namespace TDS
 		static void PhysicsSystemInit();
 		static void PhysicsSystemUpdate(const float dt, const std::vector<EntityID>& entities, Transform* _transform, RigidBody* _rigidbody);
 
+		JPH::PhysicsSystem* GetPhysicsSystem() { return m_pSystem.get(); }
 	private:
 		/*!*************************************************************************
 		 * Calculate the total force acting on the object.
@@ -74,7 +75,7 @@ namespace TDS
 		JPH::BodyID sphere_id;
 		std::unique_ptr<JPH::PhysicsSystem>			m_pSystem;
 		std::unique_ptr<JPH::TempAllocatorImpl>		m_pTempAllocator;
-		std::unique_ptr<JPH::JobSystemThreadPool>	m_pJobSystem;
+		//std::unique_ptr<JPH::JobSystemThreadPool>	m_pJobSystem;
 
 		BPLayerInterfaceImpl						broad_phase_layer_interface;
 		ObjectVsBroadPhaseLayerFilterImpl			object_vs_broadphase_layer_filter;

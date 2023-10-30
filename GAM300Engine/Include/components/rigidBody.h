@@ -13,7 +13,6 @@
 
 #include "Vector3.h"
 #include "ecs/ecs.h"
-
 namespace TDS
 {
 	class RigidBody : public IComponent
@@ -73,8 +72,11 @@ namespace TDS
 		DLL_API float GetInverseMass() { return mInverseMass; }
 		DLL_API void setInverseMass(float mass) { mInverseMass = 1.0f / mass; }
 
-		DLL_API float GetGravity() { return mGravity; } //
+		DLL_API float GetGravity() { return mGravity; } 
 		DLL_API void SetGravity(float gravity) { mGravity = gravity; }
+
+		DLL_API uint32_t GetBodyID() { return mBodyID; }
+		DLL_API void SetBodyID(uint32_t bodyID) { mBodyID = bodyID; }
 
 		RTTR_ENABLE(IComponent);
 		RTTR_REGISTRATION_FRIEND
@@ -95,6 +97,8 @@ namespace TDS
 		float mRestitution;
 		float mInverseMass;
 		float mGravity;
+
+		uint32_t mBodyID; //ID of the body (Use for Jolt Physics)
 	};
 
 }
