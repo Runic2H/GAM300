@@ -194,12 +194,14 @@ xcopy /y /d "$(SolutionDir)Libs\fmod\*.dll" "$(OutDir)"</Command>
     <ClCompile Include="Include\ecs\ecs.cpp" />
     <ClCompile Include="Src\AI\aiSystem.cpp" />
     <ClCompile Include="Src\AI\behaviourTree.cpp" />
+    <ClCompile Include="Src\AssetManagement\ResourceAllocator.cpp" />
     <ClCompile Include="Src\AudioEngine.cpp" />
     <ClCompile Include="Src\components\ai.cpp" />
     <ClCompile Include="Src\components\boxCollider.cpp" />
     <ClCompile Include="Src\components\cameraComponent.cpp" />
     <ClCompile Include="Src\components\capsuleCollider.cpp" />
     <ClCompile Include="Src\components\componentHelperFunctions.cpp" />
+    <ClCompile Include="Src\components\FontComponent.cpp" />
     <ClCompile Include="Src\components\graphicsComponent.cpp" />
     <ClCompile Include="Src\components\nameTag.cpp" />
     <ClCompile Include="Src\components\rigidBody.cpp" />
@@ -216,6 +218,8 @@ xcopy /y /d "$(SolutionDir)Libs\fmod\*.dll" "$(OutDir)"</Command>
     <ClCompile Include="Src\Geometry\Ray.cpp" />
     <ClCompile Include="Src\Geometry\Sphere.cpp" />
     <ClCompile Include="Src\Geometry\Triangle.cpp" />
+    <ClCompile Include="Src\GraphicsResource\FontInfo.cpp" />
+    <ClCompile Include="Src\GridManager\GridManager.cpp" />
     <ClCompile Include="Src\Identifier\GUID.cpp" />
     <ClCompile Include="Src\AssetManagement\AssetManager.cpp" />
     <ClCompile Include="Src\GraphicsResource\AssetModel.cpp" />
@@ -235,7 +239,9 @@ xcopy /y /d "$(SolutionDir)Libs\fmod\*.dll" "$(OutDir)"</Command>
     </ClCompile>
     <ClCompile Include="Src\Physics\CollisionSystem.cpp" />
     <ClCompile Include="Src\Physics\PhysicsSystem.cpp" />
+    <ClCompile Include="Src\Rendering\FontRenderer.cpp" />
     <ClCompile Include="Src\Rendering\GraphicsManager.cpp" />
+    <ClCompile Include="Src\Rendering\GridRenderer.cpp" />
     <ClCompile Include="Src\Rendering\RenderDataManager.cpp" />
     <ClCompile Include="Src\Rendering\Renderer3D.cpp" />
     <ClCompile Include="Src\Rendering\RendererSystem.cpp" />
@@ -288,12 +294,14 @@ xcopy /y /d "$(SolutionDir)Libs\fmod\*.dll" "$(OutDir)"</Command>
     <ClInclude Include="Include\AssetManagement\AssetManager.h" />
     <ClInclude Include="Include\AssetManagement\FactoryBase.h" />
     <ClInclude Include="Include\AssetManagement\ModelFactory.h" />
+    <ClInclude Include="Include\AssetManagement\ResourceAllocator.h" />
     <ClInclude Include="Include\AssetManagement\TextureFactory.h" />
     <ClInclude Include="Include\components\ai.h" />
     <ClInclude Include="Include\components\boxCollider.h" />
     <ClInclude Include="Include\components\cameraComponent.h" />
     <ClInclude Include="Include\components\capsuleCollider.h" />
     <ClInclude Include="Include\components\components.h" />
+    <ClInclude Include="Include\components\FontComponent.h" />
     <ClInclude Include="Include\components\graphicsComponent.h" />
     <ClInclude Include="Include\components\iComponent.h" />
     <ClInclude Include="Include\components\nameTag.h" />
@@ -319,10 +327,12 @@ xcopy /y /d "$(SolutionDir)Libs\fmod\*.dll" "$(OutDir)"</Command>
     <ClInclude Include="Include\Geometry\Sphere.h" />
     <ClInclude Include="Include\Geometry\Triangle.h" />
     <ClInclude Include="Include\GraphicsResource\AssetModel.h" />
+    <ClInclude Include="Include\GraphicsResource\FontInfo.h" />
     <ClInclude Include="Include\GraphicsResource\GraphicsResourceDefines.h" />
     <ClInclude Include="Include\GraphicsResource\Material.h" />
     <ClInclude Include="Include\GraphicsResource\TextureInfo.h" />
     <ClInclude Include="Include\GraphicsResource\VertexInfo.h" />
+    <ClInclude Include="Include\GridManager\GridManager.h" />
     <ClInclude Include="Include\Input\Input.h" />
     <ClInclude Include="Include\JoltPhysics\System\JoltCore.h" />
     <ClInclude Include="Include\JoltPhysics\System\JoltSystem.h" />
@@ -332,7 +342,9 @@ xcopy /y /d "$(SolutionDir)Libs\fmod\*.dll" "$(OutDir)"</Command>
     <ClInclude Include="Include\Physics\JPHLayers.h" />
     <ClInclude Include="Include\Physics\PhysicsSystem.h" />
     <ClInclude Include="Include\propertyManager\registration.h" />
+    <ClInclude Include="Include\Rendering\FontRenderer.h" />
     <ClInclude Include="Include\Rendering\GraphicsManager.h" />
+    <ClInclude Include="Include\Rendering\GridRenderer.h" />
     <ClInclude Include="Include\Rendering\Material.h" />
     <ClInclude Include="Include\Rendering\ModelElement.h" />
     <ClInclude Include="Include\Rendering\RenderDataManager.h" />
@@ -359,7 +371,6 @@ xcopy /y /d "$(SolutionDir)Libs\fmod\*.dll" "$(OutDir)"</Command>
     <ClInclude Include="Include\dotnet\ImportExport.h" />
     <ClInclude Include="Include\Logger\Logger.h" />
     <ClInclude Include="Include\pch.h" />
-    <ClInclude Include="Include\ResourceManagement\ResourceManager.h" />
     <ClInclude Include="Include\ResourceManagement\ResourceRef.h" />
     <ClInclude Include="Include\Timestep\Timestep.h" />
     <ClInclude Include="Include\vulkanTools\Buffer.h" />

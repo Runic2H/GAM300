@@ -15,7 +15,7 @@
 #include <fstream>
 #include <iostream>
 
-#define MODEL_PATH "../assets/models/"
+#define MODEL_PATH "../../assets/models/"
 #define MAX_PRELOAD_MODELS 5
 
 namespace TDS
@@ -27,16 +27,16 @@ namespace TDS
 	class AssetFactory<AssetModel>
 	{
 	public:
-		std::mutex m_Mutex;
-		std::unordered_map<std::string, std::int32_t> m_ModelMap;
-		std::vector<std::uint64_t> m_LoadedModelsGUID;
+		std::array<const char*, 6> m_PrimitiveModels = { "capsule_bin.bin", "cube_bin.bin", "Quad1_bin.bin",
+			"Quad2_bin.bin","sphere_bin.bin", "torus_bin.bin" };
+
 
 
 
 		/*!*************************************************************************
 		 * Deserialize the model from the file.
 		 ***************************************************************************/
-		DLL_API static void DeserializeGeom(GeomCompiled& geomOut, std::string_view PathData)
+		static void DeserializeGeom(Geom& geomOut, std::string_view PathData)
 		{
 			std::ifstream inFile(PathData.data(), std::ios::binary);
 			if (!inFile)
@@ -58,12 +58,12 @@ namespace TDS
 				in.read(reinterpret_cast<char*>(&vec.y), sizeof(vec.y));
 			};
 
-			auto deserializeMesh = [](std::ifstream& in, GeomCompiled::Mesh& mesh)
+			auto deserializeMesh = [](std::ifstream& in, Geom::Mesh& mesh)
 			{
 				in.read(reinterpret_cast<char*>(&mesh.m_Name), sizeof(mesh.m_Name));
 			};
 
-			auto deserializeSubMesh = [](std::ifstream& in, GeomCompiled::SubMesh& subMesh)
+			auto deserializeSubMesh = [](std::ifstream& in, Geom::SubMesh& subMesh)
 			{
 				in.read(reinterpret_cast<char*>(&subMesh.m_nFaces), sizeof(subMesh.m_nFaces));
 				in.read(reinterpret_cast<char*>(&subMesh.m_iIndices), sizeof(subMesh.m_iIndices));
@@ -72,7 +72,7 @@ namespace TDS
 				in.read(reinterpret_cast<char*>(&subMesh.m_iMaterial), sizeof(subMesh.m_iMaterial));
 			};
 
-			auto deserializeExtraVertices = [&](std::ifstream& in, GeomCompiled::ExtraVertices& extraVertices)
+			auto deserializeExtraVertices = [&](std::ifstream& in, Geom::ExtraVertices& extraVertices)
 			{
 				deserializeVec2(in, extraVertices.m_UV);
 				deserializeVec3(in, extraVertices.m_Normal);
@@ -120,12 +120,31 @@ namespace TDS
 
 			inFile.close();
 		}
+
+		void PreloadDefaultPrimitives(ResourceAllocator& resourceMgr)
+		{
+			for (auto& primitive : m_PrimitiveModels)
+			{
+				Geom newGeom{};
+				TypeReference<AssetModel> modelInstance{};
+				std::string Path = MODEL_PATH;
+				Path += primitive;
+				DeserializeGeom(newGeom, Path);
+				modelInstance.m_AssetName = primitive;
+				auto newModel = resourceMgr.LoadResource(modelInstance);
+				if (newModel == nullptr)
+				{
+					TDS_ERROR("Failed to load default primitive!");
+					continue;
+				}
+				newModel->LoadGeomData(newGeom);
+			}
+		}
 		/*!*************************************************************************
 		 * Preload the model from the file.
 		 ***************************************************************************/
-		void Preload(ResourceManager& resourceMgr)
+		void Preload(ResourceAllocator& resourceMgr)
 		{
-			m_LoadedModelsGUID.reserve(20);
 			std::filesystem::path dir = MODEL_PATH;
 
 			if (!std::filesystem::exists(dir) || !std::filesystem::is_directory(dir))
@@ -144,24 +163,20 @@ namespace TDS
 
 				if (path.extension() == ".bin")
 				{
-					GeomCompiled newGeom{};
-					SingleTypeReference<AssetModel> modelInstance{};
+					Geom newGeom{};
+					TypeReference<AssetModel> modelInstance{};
 
 					DeserializeGeom(newGeom, entry.path().string());
 					std::string fileName = path.filename().string();
-					modelInstance.m_Identifier.GetTypeName<AssetModel>();
-					modelInstance.m_Identifier.CreateTypeIDByName(fileName);
-					modelInstance.m_GUID = UniqueID::CreateUniqueGuid();
-
-					auto newModel = resourceMgr.getResource(modelInstance);
+					modelInstance.m_AssetName = fileName;
+					auto newModel = resourceMgr.LoadResource(modelInstance);
 					if (newModel == nullptr)
 					{
 						std::cout << "Failed to create model instance!" << std::endl;
 						continue;
 					}
 					newModel->LoadGeomData(newGeom);
-					m_ModelMap[fileName] = static_cast<int>(m_LoadedModelsGUID.size());
-					m_LoadedModelsGUID.emplace_back(modelInstance.m_GUID.GetUniqueID());
+
 
 					++numLoadedModels;
 
@@ -173,16 +188,27 @@ namespace TDS
 		/*!*************************************************************************
 		 * Loading the model from the file.
 		 ***************************************************************************/
-		DLL_API  static void Load(std::string_view path, SingleTypeReference<AssetModel>& model, ResourceManager& resourceMgr)
+		static void Load(std::string_view path, TypeReference<AssetModel>& model, ResourceAllocator& resourceMgr)
 		{
-			GeomCompiled geom{};
-			DeserializeGeom(geom, path);
-			if (resourceMgr.getResource(model) == nullptr)
+
+			std::filesystem::path FilePath(path);
+			std::string fileName = FilePath.filename().string();
+			model.m_AssetName = fileName;
+			if (!resourceMgr.GetResource(model))
 			{
-				std::cout << "Failed to load resource!" << std::endl;
-				return;
+				if (!resourceMgr.LoadResource(model))
+				{
+					TDS_WARN("Failed to load resource!");
+					return;
+				}
 			}
-			model.m_Reference->LoadGeomData(geom);
+
+
+			Geom geom{};
+			DeserializeGeom(geom, path);
+
+			model.m_ResourcePtr->LoadGeomData(geom);
+
 
 		}
 

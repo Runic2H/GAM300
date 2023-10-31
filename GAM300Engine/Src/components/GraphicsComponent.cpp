@@ -4,14 +4,22 @@ RTTR_REGISTRATION
 {
 	using namespace TDS;
 
-	rttr::registration::class_<GraphicsComponent>("Graphics Component");
+	rttr::registration::class_<GraphicsComponent>("Graphics Component")
+		.method("IsPointLight", &GraphicsComponent::IsPointLight)
+		.method("TogglePointLight", &GraphicsComponent::TogglePointLight)
+		.property("PointLight", &GraphicsComponent::m_Pointlight)
+		.method("SetColor", rttr::select_overload<void(Vec4)>(&GraphicsComponent::SetColor))
+		.method("SetColor", rttr::select_overload<void(float, float, float, float)>(&GraphicsComponent::SetColor))
+		.method("GetColor", &GraphicsComponent::GetColor)
+		.property("Color", &GraphicsComponent::m_Color);
 }
 
 namespace TDS
 {
 	GraphicsComponent::GraphicsComponent(): m_AssetReference(),
 											m_TextureReference(),
-											m_ShowMesh(true)
+											m_ShowMesh(true),
+											m_Color(1.f,1.f,1.f,1.f)
 	{ }
 
 	GraphicsComponent::GraphicsComponent(GraphicsComponent&& toMove) noexcept: m_AssetReference(toMove.m_AssetReference), 

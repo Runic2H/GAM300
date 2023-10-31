@@ -69,18 +69,22 @@ namespace TDS
 
 		//Entity entity1;
 		//ecs.addComponent<NameTag>(entity1.getID());
+		//ecs.getComponent<NameTag>(entity1.getID())->SetName("entity1");
 		//ecs.addComponent<Transform>(entity1.getID());
 		//ecs.addComponent<GraphicsComponent>(entity1.getID());
 		//Entity entity2;
 		//ecs.addComponent<NameTag>(entity2.getID());
+		//ecs.getComponent<NameTag>(entity1.getID())->SetName("entity2");
 		//ecs.addComponent<Transform>(entity2.getID());
 		//ecs.addComponent<GraphicsComponent>(entity2.getID());
 		//Entity entity3;
 		//ecs.addComponent<NameTag>(entity3.getID());
+		//ecs.getComponent<NameTag>(entity1.getID())->SetName("entity3");
 		//ecs.addComponent<Transform>(entity3.getID());
 		//ecs.addComponent<GraphicsComponent>(entity3.getID());
 		//Entity entity4;
 		//ecs.addComponent<NameTag>(entity4.getID());
+		//ecs.getComponent<NameTag>(entity1.getID())->SetName("entity4");
 		//ecs.addComponent<Transform>(entity4.getID());
 		//ecs.addComponent<GraphicsComponent>(entity4.getID());
 
@@ -134,7 +138,7 @@ namespace TDS
 			lastEntity = static_cast<EntityID>(std::stoi(itr->name.GetString()));
 			ecs.registerEntity(lastEntity);
 
-			for (auto& m : itr->value.GetObject())
+			for (auto& m : itr->value.GetObject())	
 			{
 				std::string componentName = m.name.GetString();
 				if (componentName == "ArchetypeID") // First "componentName" to immediately find the archetype of entity
@@ -153,10 +157,13 @@ namespace TDS
 				rttr::instance addedComponent = getComponentByName(component, lastEntity);
 				fromJsonRecur(addedComponent, componentData);
 			}
+
+			updateName(lastEntity, ecs.getComponent<NameTag>(lastEntity)->GetName());
 		}
 
 		ecs.setIDCounter(lastEntity + 1);
 
+		std::vector<ScriptReferenceVariable> scriptReferences;
 		for (rapidjson::Value::ConstMemberIterator itr = obj["Scripts"].MemberBegin(); itr != obj["Scripts"].MemberEnd(); ++itr, ++i)
 		{
 			EntityID currentEntity = static_cast<EntityID>(std::stoi(itr->name.GetString()));
@@ -195,11 +202,38 @@ namespace TDS
 						float value = variableTypeValue.MemberBegin()->value.GetDouble();
 						setFloat(currentEntity, scriptName, variableName, value);
 					}
-					//else // scripts
-					//{
-					//}
+					else if (variableType == "String")
+					{
+						std::string value = variableTypeValue.MemberBegin()->value.GetString();
+						setString(currentEntity, scriptName, variableName, value);
+					}
+					else if (variableType == "Char")
+					{
+						//std::string value = variableTypeValue.MemberBegin()->value.GetString();
+						//if (value != "")
+						//{
+						//	setChar(currentEntity, scriptName, variableName, value[0]);
+						//}
+					}
+					else if (variableType == "GameObject")
+					{
+						EntityID value = variableTypeValue.MemberBegin()->value.GetDouble();
+						if (value > 0)
+						{
+							setGameObject(currentEntity, scriptName, variableName, value);
+						}
+					}
+					else if (variableTypeValue.MemberBegin()->value.GetInt() > 0) // scripts (saving to add later)
+					{
+						scriptReferences.emplace_back(ScriptReferenceVariable(currentEntity, scriptName, variableName, variableTypeValue.MemberBegin()->value.GetInt(), variableType));
+					}
 				}
 			}
+		}
+
+		for (auto reference : scriptReferences)
+		{
+			setScriptReference(reference.entityHoldingScript, reference.scriptName, reference.variableName, reference.entityScriptReference, reference.scriptReference);
 		}
 
 		return true;
@@ -329,11 +363,26 @@ namespace TDS
 							writer->String("Float", static_cast<rapidjson::SizeType>(std::string("Float").length()), false);
 							scriptValues.value == "" ? writer->Double(0) : writer->Double(std::stod(scriptValues.value));
 						}
-						else // scripts
+						else if (scriptValues.type == "System.String")
+						{
+							writer->String("String", static_cast<rapidjson::SizeType>(std::string("String").length()), false);
+							writer->String(scriptValues.value.c_str(), static_cast<rapidjson::SizeType>(scriptValues.value.length()), false);
+						}
+						else if (scriptValues.type == "ScriptAPI.GameObject")
+						{
+							writer->String("GameObject", static_cast<rapidjson::SizeType>(std::string("GameObject").length()), false);
+							writer->Int(scriptValues.referenceEntityID);
+						}
+						else if (scriptValues.type == "System.Char")
+						{
+							writer->String("Char", static_cast<rapidjson::SizeType>(std::string("Char").length()), false);
+							writer->String(scriptValues.value.c_str(), static_cast<rapidjson::SizeType>(scriptValues.value.length()), false);
+						}
+						else // scripts 
 						{
 							// To Do 
-							writer->String("ScriptName", static_cast<rapidjson::SizeType>(std::string("ScriptName").length()), false);
-							writer->String(scriptValues.value.c_str(), static_cast<rapidjson::SizeType>(scriptValues.value.length()), false);
+							writer->String(scriptValues.type.c_str(), static_cast<rapidjson::SizeType>(scriptValues.type.length()), false);
+							writer->Int(scriptValues.referenceEntityID);
 						}
 						writer->EndObject();
 					}

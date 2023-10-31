@@ -1,16 +1,16 @@
 {
     "Archetype Sizes": {
         "110000100000": {
-            "0": 1248,
-            "1": 1344,
-            "6": 3072
+            "0": 416,
+            "1": 448,
+            "6": 1024
         }
     },
     "Entity Data": {
         "1": {
             "ArchetypeID": "110000100000",
             "Name Tag": {
-                "Name": "New Entity",
+                "Name": "entity1",
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 0,
@@ -38,7 +38,7 @@
         "2": {
             "ArchetypeID": "110000100000",
             "Name Tag": {
-                "Name": "New Entity",
+                "Name": "entity2",
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 0,
@@ -66,7 +66,7 @@
         "3": {
             "ArchetypeID": "110000100000",
             "Name Tag": {
-                "Name": "New Entity",
+                "Name": "entity3",
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 0,
@@ -74,7 +74,7 @@
             },
             "Transform": {
                 "Position": {
-                    "x": 0.0,
+                    "x": 20.0,
                     "y": 0.0,
                     "z": 0.0
                 },
@@ -94,7 +94,7 @@
         "4": {
             "ArchetypeID": "110000100000",
             "Name Tag": {
-                "Name": "New Entity",
+                "Name": "entity4",
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 0,
@@ -123,26 +123,26 @@
     "Scripts": {
         "1": {
             "Test": {
-                "script": {
-                    "ScriptName": ""
+                "gameObjectTest": {
+                    "GameObject": 4
                 },
-                "test": {
-                    "ScriptName": ""
+                "scriptTest": {
+                    "Testing": 2
                 },
-                "hmm": {
+                "stringTest": {
+                    "String": ""
+                },
+                "boolTest": {
                     "Bool": true
                 },
-                "testt": {
-                    "Double": 9.0
+                "doubleTest": {
+                    "Double": 2.0
                 },
-                "testtt": {
+                "intTest": {
                     "Int": 8
                 },
-                "testttt": {
+                "floatTest": {
                     "Float": 0.0
-                },
-                "testtttt": {
-                    "ScriptName": "\u0000"
                 }
             }
         },

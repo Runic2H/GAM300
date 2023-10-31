@@ -60,6 +60,7 @@ namespace TDS
 
 		std::map<EntityID, HierarchyInfo> hierarchyMap;
 	private:
+		ImGuiTextFilter filter;
 
 		bool anyItemHovered;
 		bool popupOpened;

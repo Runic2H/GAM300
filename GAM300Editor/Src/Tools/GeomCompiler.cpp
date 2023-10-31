@@ -10,7 +10,7 @@
 #include "Tools/GeomCompiler.h"
 #include "meshoptimizer-master/src/meshoptimizer.h"
 
-const std::string OutPath = "../assets/models";
+
 
 std::shared_ptr<TDS::GeomCompiler> TDS::GeomCompiler::m_Instance{};
 TDS::GeomCompiler::GeomCompiler()
@@ -28,21 +28,20 @@ void TDS::GeomCompiler::LoadAndCompile()
 {
 	ImportData(m_InputMeshes);
 	MergeData(m_InputMeshes);
-	//Optimize(m_InputMeshes);
+	GenerateLOD(m_InputMeshes);
+	Optimize(m_InputMeshes);
 	std::vector<OptimizedMesh> optiseMesh;
 	CreateOptimizeForm(m_InputMeshes, optiseMesh);
 	CreateFinalGeom(optiseMesh);
 	ConvertToGeom();
-
-
 }
 
-void TDS::GeomCompiler::LoadModel(std::string_view path)
+std::string TDS::GeomCompiler::LoadModel()
 {
-	m_CurrDesc.m_Descriptor.m_MeshFileName = path.data();
 	ClearAllData();
 	LoadDescriptor();
-	OutputGeom(OutPath);
+	return OutputGeom(OutPath);
+
 }
 
 void TDS::GeomCompiler::ImportData(std::vector<InputMesh>& InputNodes)
@@ -139,6 +138,8 @@ void TDS::GeomCompiler::CreateOptimizeForm(std::vector<InputMesh>& InputNodes, s
 		compressed[i].m_Name = InputNodes[i].m_Name;
 		compressed[i].m_MeshName = InputNodes[i].m_MeshName;
 
+
+
 	}
 	output = compressed;
 }
@@ -162,12 +163,41 @@ void TDS::GeomCompiler::Optimize(std::vector<InputMesh>& InputNodes)
 		meshopt_remapVertexBuffer(compressedSubMesh.m_RawVertices.data(), mesh.m_RawVertices.data(), mesh.m_InputIndices.size(), sizeof(RawVertex), &remappedIndices[0]);
 		meshopt_optimizeVertexCache(compressedSubMesh.m_InputIndices.data(), compressedSubMesh.m_InputIndices.data(), compressedSubMesh.m_InputIndices.size(), VtxCnt);
 		meshopt_optimizeOverdraw(compressedSubMesh.m_InputIndices.data(), compressedSubMesh.m_InputIndices.data(), indxCnt, &compressedSubMesh.m_RawVertices[0].m_Pos.x, VtxCnt, sizeof(RawVertex), 1.05f);
-
 		compressedSubMesh.m_RawVertices.resize(meshopt_optimizeVertexFetch(compressedSubMesh.m_RawVertices.data(), compressedSubMesh.m_InputIndices.data(), indxCnt, compressedSubMesh.m_RawVertices.data(), VtxCnt, sizeof(RawVertex)));
-
+		for (auto& Lod : mesh.m_GeneratedLODS)
+		{
+			meshopt_optimizeVertexCache(Lod.m_Indices.data(), Lod.m_Indices.data(), Lod.m_Indices.size(), mesh.m_RawVertices.size());
+			meshopt_optimizeOverdraw(Lod.m_Indices.data(), Lod.m_Indices.data(), Lod.m_Indices.size(), &mesh.m_RawVertices[0].m_Pos.x, mesh.m_RawVertices.size(), sizeof(RawVertex), 1.05f);
+		}
 		out.push_back(compressedSubMesh);
 	}
 	InputNodes = out;
+}
+
+void TDS::GeomCompiler::GenerateLOD(std::vector<InputMesh>& InputNodes)
+{
+	if (m_CurrDesc.m_LodOptions.m_CreateLOD)
+	{
+		for (auto& Mesh : InputNodes)
+		{
+			for (size_t i = 1; i < m_CurrDesc.m_LodOptions.m_Max_num_lods; ++i)
+			{
+				const float threshold = std::powf(m_CurrDesc.m_LodOptions.ReductionFactor, float(i));
+				const size_t targetIndexCount = size_t(Mesh.m_InputIndices.size() * threshold) / 3 * 3;
+				const float target_error = 1e-2f;
+				const auto& S = (Mesh.m_GeneratedLODS.size()) ? Mesh.m_GeneratedLODS.back().m_Indices : Mesh.m_InputIndices;
+
+				if (S.size() < targetIndexCount)
+					break;
+
+				auto& newLOD = Mesh.m_GeneratedLODS.emplace_back();
+				newLOD.m_Indices.resize(S.size());
+				newLOD.m_Indices.resize(meshopt_simplify(newLOD.m_Indices.data(), S.data(), S.size(), &Mesh.m_RawVertices[0].m_Pos.x, Mesh.m_RawVertices.size(), sizeof(RawVertex), targetIndexCount, target_error));
+
+
+			}
+		}
+	}
 }
 
 void TDS::GeomCompiler::ClearAllData()
@@ -230,9 +260,9 @@ void TDS::GeomCompiler::ProcessMesh(const aiMesh& AssimpMesh, const aiMatrix4x4&
 
 		if (iColors == -1)
 		{
-			Vec4 RGBA(255.f, 255.f, 255.f, 255.f);
+			Vec4 RGBA(255.f, 0.f, 0.f, 1.f);
 
-			Vertex.m_Color = iColor(RGBA);
+			Vertex.m_Color.m_RGBA = RGBA;
 		}
 		else
 		{
@@ -293,13 +323,12 @@ void TDS::GeomCompiler::ProcessMesh(const aiMesh& AssimpMesh, const aiMatrix4x4&
 			Vertex.m_Normal.m_RGBA.z = static_cast<std::uint8_t>(static_cast<std::int8_t>(Vertex.m_fNormal.z < 0 ? std::max(-128, static_cast<int>(Vertex.m_fNormal.z * 128)) : std::min(127, static_cast<int>(Vertex.m_fNormal.z * 127))));
 			Vertex.m_Normal.m_RGBA.w = 127;
 		}
-
-		for (std::uint32_t i = 0; i < AssimpMesh.mNumFaces; ++i)
+	}
+	for (std::uint32_t k = 0; k < AssimpMesh.mNumFaces; ++k)
+	{
+		for (std::uint32_t j = 0; j < AssimpMesh.mFaces[k].mNumIndices; ++j)
 		{
-			for (std::uint32_t j = 0; j < AssimpMesh.mFaces[i].mNumIndices; ++j)
-			{
-				MeshPart.m_InputIndices.push_back(AssimpMesh.mFaces[i].mIndices[j]);
-			}
+			MeshPart.m_InputIndices.push_back(AssimpMesh.mFaces[k].mIndices[j]);
 		}
 	}
 }
@@ -417,20 +446,25 @@ void TDS::GeomCompiler::ConvertToGeom()
 			output->m_Extra.insert(output->m_Extra.end(), inputSubMesh.m_Extra.begin(), inputSubMesh.m_Extra.end());
 
 			output->m_SubMesh.push_back(outputSubMesh);
+
 		}
+
 	}
 
 }
 
 
 
-void TDS::GeomCompiler::OutputGeom(std::string_view outPath)
+std::string TDS::GeomCompiler::OutputGeom(std::string_view outPath)
 {
-	std::ofstream outFile(outPath.data(), std::ios::binary);
+	std::string out = OutPath;
+	out += "_Bin";
+	out += ".bin";
+	std::ofstream outFile(out, std::ios::binary);
 	if (!outFile)
 	{
 		std::cerr << "ERROR : Could not open file for writing!\n";
-		return;
+		return out;
 	}
 
 	const std::size_t bufferSize = 1024 * 1024;
@@ -469,6 +503,9 @@ void TDS::GeomCompiler::OutputGeom(std::string_view outPath)
 		out.write(reinterpret_cast<const char*>(&extraVertices.m_Colour), sizeof(extraVertices.m_Colour));
 	};
 
+
+
+
 	uint32_t meshSize = output->m_Mesh.size();
 	outFile.write(reinterpret_cast<const char*>(&meshSize), sizeof(meshSize));
 	for (const auto& mesh : output->m_Mesh)
@@ -502,6 +539,7 @@ void TDS::GeomCompiler::OutputGeom(std::string_view outPath)
 	outFile.write(reinterpret_cast<const char*>(output->m_Indices.data()), indicesSize * sizeof(uint32_t));
 
 	outFile.close();
+	return out;
 }
 
 
@@ -511,6 +549,11 @@ void TDS::GeomCompiler::OutputGeom(std::string_view outPath)
 void TDS::GeomCompiler::Init(std::string_view descSettings)
 {
 	m_CurrDesc.Serialize(descSettings, true);
+}
+
+void TDS::GeomCompiler::InitDesc(GeomDescriptor desc)
+{
+	m_CurrDesc = desc;
 }
 
 bool TDS::GeomCompiler::LoadDescriptor()
@@ -526,13 +569,13 @@ bool TDS::GeomCompiler::LoadDescriptor()
 		| aiProcess_PreTransformVertices
 		// aiProcess_TransformUVCoords          
 		//| aiProcess_FindInstances             
-/*		| aiProcess_GenNormals    */
-| aiProcess_CalcTangentSpace
-| aiProcess_RemoveRedundantMaterials
-//| aiProcess_FindInvalidData           
-| aiProcess_FlipUVs
-;
-	std::string filePath = "../assets/models/" + m_CurrDesc.m_Descriptor.m_FilePath;
+		| aiProcess_GenNormals
+		| aiProcess_CalcTangentSpace
+		| aiProcess_RemoveRedundantMaterials
+		//| aiProcess_FindInvalidData           
+		| aiProcess_FlipUVs
+		;
+	std::string filePath = "../../assets/models/" + m_CurrDesc.m_Descriptor.m_FilePath;
 	m_Scene = importer.ReadFile(filePath, AssimpFlag);
 
 	if (!m_Scene)
@@ -544,7 +587,7 @@ bool TDS::GeomCompiler::LoadDescriptor()
 
 
 
-	std::cout << m_InputMeshes.size() << std::endl;
+
 	for (std::uint32_t i = 0u; i < m_Scene->mNumMeshes; ++i)
 	{
 		const aiMesh& AssimpMesh = *m_Scene->mMeshes[i];

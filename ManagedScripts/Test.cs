@@ -11,29 +11,33 @@ public class Testing : Script
 public class Test : Script
 {
     [SerializeField]
-    public Script script;
+    public GameObject gameObjectTest;
 
     [SerializeField]
-    public Testing test;
+    public Testing scriptTest;
+    
+    [SerializeField]
+    public String stringTest;
 
     [SerializeField]
-    private bool hmm = false;
+    private bool boolTest = false;
 
     [SerializeField]
-    private double testt;
+    private double doubleTest;
 
     [SerializeField]
-    private int testtt;
+    private int intTest;
 
     [SerializeField]
-    private float testttt;
-
-    [SerializeField]
-    private char testtttt;
+    private float floatTest;
 
     public override void Awake() 
     {
-        script = GameObjectScriptFind("entity1", "test");
+        //otherEntity = GameObjectScriptFind("entity3");
+        //Console.WriteLine(otherEntity);
+        //otherEntity.GetComponent<TransformComponent>().SetPositionX(20);
+        //Console.WriteLine(script.gameObject);
+        //gameObject.GetTransformComponent();
     }
 
     public override void OnEnable() 
@@ -50,8 +54,9 @@ public class Test : Script
     public override void Update()
     {
         //Console.WriteLine("Aye Lmao");
-        TransformComponent tf = GetTransformComponent();
-        tf.SetPositionX(3.0f);
+        gameObject.GetComponent<TransformComponent>().SetPositionX(3);
+        //TransformComponent tf = gameObject.GetTransformComponent();
+        //tf.SetPositionX(3.0f);
     }
 
     public override void LateUpdate() { }

@@ -1,9 +1,19 @@
 #include "imguiHelper/ImguiAssetBrowser.h"
+#include "Tools/FontLoader.h"
+#include "Tools/FileExtensions.h"
+#include "Tools/TextureCompressor.h"
+#include "Tools/DDSConverter.h"
+#include "Tools/GeomCompiler.h"
+#include "imguiHelper/ImguiHierarchy.h"
+#include "AssetManagement/AssetManager.h"
 #include "vulkanTools/vulkanInstance.h"
 #include <string>
 
+
+#define ASSET_PATH "../../assets"
 namespace TDS
 {
+	bool lookUp = false;
 	AssetBrowser::AssetBrowser()
 	{
 		//selected = 0;
@@ -13,7 +23,7 @@ namespace TDS
 		flags = ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoCollapse;
 		panelTitle = "Asset Browser";
 		windowPadding = ImVec2(0.f, 0.f);
-		m_curr_path = "../../assets/textures";
+		m_curr_path = std::filesystem::path(ASSET_PATH);
 
 		//insertEntities();
 	}
@@ -133,8 +143,86 @@ namespace TDS
 				//use the rest of the checks below to handle what happens when u press different kinds of file extensions
 
 				//if .jpg/.PNG, load 2d texture...
-				if (strstr(filename.c_str(), ".jpg")|| strstr(filename.c_str(), ".png"))
+				if (strstr(filename.c_str(), ".jpg") || strstr(filename.c_str(), ".png") || strstr(filename.c_str(), ".dds"))
 				{
+					lookUp = false;
+
+
+
+					std::shared_ptr<Hierarchy> panel = static_pointer_cast<Hierarchy>(LevelEditorManager::GetInstance()->panels[HIERARCHY]);
+
+					EntityID currEntity = panel->getSelectedEntity();
+					IComponent* Graph = getComponentByName("Graphics Component", panel->getSelectedEntity());
+					if (Graph == nullptr)
+						Graph = addComponentByName("Graphics Component", panel->getSelectedEntity());
+					GraphicsComponent* graphComp = reinterpret_cast<GraphicsComponent*>(Graph);
+
+					std::string OutPath = ASSET_PATH;
+					OutPath += "/textures/";
+					OutPath += filename.c_str();
+					std::string inPath = OutPath;
+					if (strstr(filename.c_str(), ".jpg"))
+						OutPath = RemoveFileExtension(OutPath, ".jpg");
+					else if (strstr(filename.c_str(), ".png"))
+						OutPath = RemoveFileExtension(OutPath, ".png");
+
+
+					if (strstr(filename.c_str(), ".dds"))
+						lookUp = true;
+					else
+						OutPath += ".dds";
+
+
+					if (lookUp == false)
+						TextureCompressor::GetInstance().Run(inPath, OutPath);
+
+
+
+					AssetManager::GetInstance()->LoadAsset(OutPath, graphComp->GetTexture());
+
+
+
+
+
+				}
+				if (strstr(filename.c_str(), ".obj") || strstr(filename.c_str(), ".fbx") || strstr(filename.c_str(), ".gltf") || strstr(filename.c_str(), ".bin"))
+				{
+					lookUp = false;
+					std::string& OutPath = GeomCompiler::GetInstance()->OutPath;
+					OutPath = MODEL_PATH;
+					OutPath += filename.c_str();
+					if (strstr(filename.c_str(), ".fbx"))
+						OutPath = RemoveFileExtension(OutPath, ".fbx");
+					else if (strstr(filename.c_str(), ".gltf"))
+						OutPath = RemoveFileExtension(OutPath, ".gltf");
+					else if (strstr(filename.c_str(), ".obj"))
+						OutPath = RemoveFileExtension(OutPath, ".obj");
+					else if (strstr(filename.c_str(), ".bin"))
+					{
+						lookUp = true;
+						/*OutPath = std::filesystem::path(OutPath).filename().string();*/
+					}
+
+					std::shared_ptr<Hierarchy> panel = static_pointer_cast<Hierarchy>(LevelEditorManager::GetInstance()->panels[HIERARCHY]);
+
+					EntityID currEntity = panel->getSelectedEntity();
+					IComponent* Graph = getComponentByName("Graphics Component", panel->getSelectedEntity());
+					if (Graph == nullptr)
+						Graph = addComponentByName("Graphics Component", panel->getSelectedEntity());
+					GraphicsComponent* graphComp = reinterpret_cast<GraphicsComponent*>(Graph);
+
+					if (lookUp == false)
+					{
+						GeomDescriptor m_GeomDescriptor{};
+						m_GeomDescriptor.m_Descriptor.m_FilePath = std::filesystem::path(filename).filename().string();
+						GeomCompiler::GetInstance()->InitDesc(m_GeomDescriptor);
+						std::string OutputFile = GeomCompiler::GetInstance()->LoadModel();
+						AssetManager::GetInstance()->LoadAsset(OutputFile, graphComp->GetAsset());
+					}
+					else
+						AssetManager::GetInstance()->LoadAsset(OutPath, graphComp->GetAsset());
+
+
 
 				}
 				//if .json, load scene...
@@ -142,11 +230,7 @@ namespace TDS
 				{
 
 				}
-				//if .dds, do something...
-				if (strstr(filename.c_str(), ".dds"))
-				{
 
-				}
 				//if .wav, play audio...
 				if (strstr(filename.c_str(), ".wav"))
 				{

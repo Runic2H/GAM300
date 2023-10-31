@@ -125,6 +125,8 @@ namespace TDS
 		VkSurfaceFormatKHR surfaceFormat = ChooseSwapSurfaceFormat(swapChainSupport.formats);
 		VkPresentModeKHR presentMode = ChooseSwapPresentMode(swapChainSupport.presentModes);
 		VkExtent2D extent = ChooseSwapExtent(swapChainSupport.capabilities);
+		if (extent.width <= 0 || extent.height <= 0)
+			extent = m_WindowExtent;
 
 		uint32_t imagecount = swapChainSupport.capabilities.minImageCount + 1;
 		if (swapChainSupport.capabilities.maxImageCount > 0 && imagecount > swapChainSupport.capabilities.maxImageCount)
@@ -313,7 +315,7 @@ namespace TDS
 			//params.m_Format = depthFormat;
 			//params.m_tiling = VK_IMAGE_TILING_OPTIMAL;
 			//params.m_usage = VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT;
-			
+
 			m_vDepthImageAllocation[i] = GraphicsAllocator::Allocate(&imageinfo, VMA_MEMORY_USAGE_GPU_ONLY, m_vDepthImages[i]);
 			/*m_Instance.createImageWithInfo(imageinfo, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, m_vDepthImages[i], m_vDepthImageMemory[i]);*/
 
@@ -384,7 +386,7 @@ namespace TDS
 				//vkDestroyImage(m_Instance.getVkLogicalDevice(), m_vDepthImages[i], nullptr);
 				m_vDepthImages[i] = nullptr;
 			}
-			
+
 			//Use VMA
 			/*vkFreeMemory(m_Instance.getVkLogicalDevice(), m_vDepthImageMemory[i], nullptr);*/
 		}
@@ -473,7 +475,7 @@ namespace TDS
 	}
 
 	VkFormat VulkanSwapChain::findDepthFormat() {
-		return m_Instance.findSupportedFormat({VK_FORMAT_D32_SFLOAT_S8_UINT, VK_FORMAT_D32_SFLOAT, VK_FORMAT_D24_UNORM_S8_UINT }
+		return m_Instance.findSupportedFormat({ VK_FORMAT_D32_SFLOAT_S8_UINT, VK_FORMAT_D32_SFLOAT, VK_FORMAT_D24_UNORM_S8_UINT }
 		, VK_IMAGE_TILING_OPTIMAL, VK_FORMAT_FEATURE_DEPTH_STENCIL_ATTACHMENT_BIT);
 	}
 

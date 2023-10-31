@@ -9,11 +9,7 @@
  *******************************************************************************/
 #pragma once
 #include "IncludeFromEngine.hxx"
-#include "Components/BoxColliderComponent.hxx"
-#include "Components/CapsuleColliderComponent.hxx"
-#include "Components/NameTagComponent.hxx"
-#include "Components/SphereColliderComponent.hxx"
-#include "Components/TransformComponent.hxx"
+#include "GameObject.hxx"
 #include <iostream>
 #include <chrono>
 #include <thread>
@@ -46,19 +42,11 @@ namespace ScriptAPI
         generic <typename TResult>
         IAsyncEnumerable<TResult>^ Coroutine(Func<IAsyncEnumerable<TResult>^>^ func, int duration);
         
-        //TDS::EntityID findGameObject(System::String^ gameObjectName);
-
-        BoxColliderComponent GetBoxColliderComponent();
-        CapsuleColliderComponent GetCapsuleColliderComponent();
-        NameTagComponent GetNameTagComponent();
-        SphereColliderComponent GetSphereColliderComponent();
-        TransformComponent GetTransformComponent();
-
-        int GetEntityID();
-        Script^ GameObjectScriptFind(System::String^ name, System::String^ script);
+        GameObject^ GameObjectScriptFind(System::String^ name);
+        GameObject^ gameObject;
 
     internal:
-        void SetEntityID(TDS::EntityID ID);
+        void SetFlags();
         bool isScriptEnabled();
 
         void setAwakeFlag();
@@ -68,8 +56,6 @@ namespace ScriptAPI
         bool getStartFlag();
 
     private:
-        //entityID and is_Enabled set at SetEntityID
-        TDS::EntityID entityID;
         bool is_Enabled;
         bool is_Awake;
         bool is_Start;

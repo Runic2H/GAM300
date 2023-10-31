@@ -18,12 +18,12 @@ namespace TDS
 		BYTE
 	};
 
-	enum class SHADER_FLAG : std::int32_t
+	enum SHADER_FLAG : std::int32_t
 	{
 		NONE = 0,
-		VERTEX = 1,
-		FRAGMENT = 2,
-		COMPUTE = 4
+		VERTEX = 1 << 0,
+		FRAGMENT = 1 << 1,
+		COMPUTE_SHADER = 1 << 2
 	};
 
 	enum class BUFFER_TYPE

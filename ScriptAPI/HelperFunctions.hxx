@@ -2,5 +2,5 @@
 
 namespace ScriptAPI
 {
-	Script^ FindGameObjectViaName(String^ name, String^ scriptName);
+	GameObject^ FindGameObjectViaName(String^ name);
 }

@@ -121,31 +121,7 @@
         }
     },
     "Scripts": {
-        "1": {
-            "Test": {
-                "script": {
-                    "ScriptName": ""
-                },
-                "test": {
-                    "ScriptName": ""
-                },
-                "hmm": {
-                    "Bool": true
-                },
-                "testt": {
-                    "Double": 4.0
-                },
-                "testtt": {
-                    "Int": 3
-                },
-                "testttt": {
-                    "Float": 7.0
-                },
-                "testtttt": {
-                    "ScriptName": ""
-                }
-            }
-        },
+        "1": {},
         "2": {
             "Testing": {}
         },

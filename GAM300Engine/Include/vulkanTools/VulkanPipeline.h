@@ -5,18 +5,19 @@
 #include "GraphicsResource/GraphicsResourceDefines.h"
 #include "VertexTypes.h"
 #include "dotnet/ImportExport.h"
-#include "Rendering/GraphicsManager.h"
-#include "Rendering/RenderTarget.h"
+
 namespace TDS
 {
+	VkShaderStageFlags GetShaderFlag(std::int32_t flags);
+
 	struct PipelineConfig
 	{
 		VkBlendOp			m_ColorBlend{ VkBlendOp::VK_BLEND_OP_ADD },
 			m_AlphaBlend{ VkBlendOp::VK_BLEND_OP_ADD };
 
-		VkBlendFactor		m_SrcClrBlend{ VkBlendFactor::VK_BLEND_FACTOR_ZERO },
-			m_DstClrBlend{ VkBlendFactor::VK_BLEND_FACTOR_ZERO },
-			m_SrcAlphaBlend{ VkBlendFactor::VK_BLEND_FACTOR_ZERO },
+		VkBlendFactor		m_SrcClrBlend{ VkBlendFactor::VK_BLEND_FACTOR_SRC_ALPHA },
+			m_DstClrBlend{ VkBlendFactor::VK_BLEND_FACTOR_ONE_MINUS_SRC_ALPHA },
+			m_SrcAlphaBlend{ VkBlendFactor::VK_BLEND_FACTOR_ONE },
 			m_DstAlphaBlend{ VkBlendFactor::VK_BLEND_FACTOR_ZERO };
 
 		VkCullModeFlags		m_CullMode = VkCullModeFlagBits::VK_CULL_MODE_BACK_BIT;
@@ -25,7 +26,7 @@ namespace TDS
 		float				m_MinDepth{ 0.f },
 			m_MaxDepth{ 1.f };
 
-		bool				m_EnableDepthTest{ false },
+		bool				m_EnableDepthTest{ true },
 			m_EnableDepthWrite{ true },
 			m_EnableDepthBiased{ false },
 			m_EnablePrimitiveRestart{ false };
@@ -38,7 +39,7 @@ namespace TDS
 	{
 		std::unordered_map<std::string, std::uint32_t>							m_LocalBufferNames;
 		std::unordered_map<std::uint32_t, std::vector<std::shared_ptr<UBO>>>	m_UpdateBufferFrames;
-		//This one is for texture
+		std::unordered_map<std::uint32_t, std::vector<std::shared_ptr<UBO>>>	m_StaticBuffers; //Only update here when u need to
 		std::unordered_map<std::uint32_t, VkWriteDescriptorSet>					m_WriteSetFrames;
 		std::vector<VkDescriptorSet>											m_DescriptorSets;
 		std::uint32_t															descContainerSize = 0;
@@ -51,7 +52,7 @@ namespace TDS
 		//The shaders u want to use for this pipeline
 		std::map<SHADER_FLAG, std::string>			m_Shaders;
 
-		std::map<std::uint32_t, BufferInfo>			m_StaticBuffers;
+		std::map<std::uint32_t, BufferInfo>			m_InputBuffers; //This is if lets say you have a runtime array data in your uniform buffers or SSBO. You need this to define your size.
 		std::vector<VertexBufferInfo>				m_InputVertex;
 		std::int32_t								m_StageCnt = -1;
 	};
@@ -102,10 +103,10 @@ namespace TDS
 		void									DrawIndexed(VMABuffer& vertexBuffer, VMABuffer& indexBuffer, std::uint32_t frameIndex = 0);
 		void									DrawInstanced(VMABuffer& vertexBuffer, std::uint32_t instance = 1, std::uint32_t frameIndex = 0);
 		void									DrawInstancedIndexed(VMABuffer& vertexBuffer, VMABuffer& indexBuffer, std::uint32_t instance = 1, std::uint32_t frameIndex = 0);
-		void									SubmitPushConstant(void* data, size_t size, SHADER_FLAG shaderStage);
+		void									SubmitPushConstant(void* data, size_t size, std::int32_t flags);
 		void									UpdateUBO(void* data, size_t size, std::uint32_t binding, std::uint32_t frameIndex = 0, std::uint32_t offset = 0);
-		void									UpdateTextureArray(std::uint32_t binding, VkDescriptorType descriptorType, std::vector<std::shared_ptr<VulkanTexture>>& texture);
-		void									UpdateTexture(std::uint32_t binding, VkDescriptorType descriptorType, std::shared_ptr<VulkanTexture>& texture);
+		void									UpdateTextureArray(std::uint32_t binding, VkDescriptorType descriptorType, std::vector<VulkanTexture*>& texture);
+		void									UpdateTexture(std::uint32_t binding, VkDescriptorType descriptorType, VulkanTexture& texture);
 
 		void									BindPipeline(VkPrimitiveTopology drawMode = VkPrimitiveTopology::VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST);
 		void									BindDescriptor(std::int32_t DescIndex = 0);
@@ -120,6 +121,7 @@ namespace TDS
 		std::uint32_t							GetTextureBinding(std::string_view textureBinding);
 		VulkanPipelineDescriptor& GetPipelineDescriptor();
 		PipelineCreateEntry& GetCreateEntry();
+		VkCommandBuffer& GetCommandBuffer();
 
 		void									SetFlipViewport(bool condition);
 		bool									IsFlipViewport() const;
@@ -132,7 +134,7 @@ namespace TDS
 		void									UpdateDescriptor(VkDescriptorImageInfo& imageInfo, VkDescriptorType type, std::uint32_t bindingPoint);
 		VkDescriptorSetLayout					GetLayout(std::uint32_t index = 0) const;
 		const std::vector<VkDescriptorSet>& GetDescriptorSets(std::uint32_t index = 0) const;
-
+		void									SetRenderTarget(VkRenderPass& renderTarget );
 	private:
 
 

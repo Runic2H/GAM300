@@ -13,7 +13,7 @@ namespace TDS
 	{
 		size_t m_Size;
 		void* m_Data = nullptr;
-		bool m_Shared = false;
+		bool m_Static = false;
 	};
 
 

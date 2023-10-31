@@ -135,9 +135,6 @@
     <ClInclude Include="Include\Tools\GeomStructures.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Include\Tools\TextureCompiler.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Include\Tools\ShaderReflector.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -148,6 +145,18 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Include\imguiHelper\ImguiScene.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Tools\FileExtensions.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Tools\DDSConverter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Tools\TextureCompressor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Tools\FontLoader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -239,9 +248,6 @@
     <ClCompile Include="Src\Tools\GeomCompiler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Src\Tools\TextureCompiler.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Src\Tools\CompilerSettings.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -252,6 +258,18 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\Dependencies\imgui\ImGuizmo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Tools\FileExtensions.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Tools\DDSConverter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Tools\TextureCompressor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Tools\FontLoader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

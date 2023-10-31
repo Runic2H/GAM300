@@ -56,6 +56,7 @@ namespace TDS
 				{
 					auto nameTagComponent = reinterpret_cast<NameTag*>(componentBase);
 					nameTagComponent->SetName(ImguiInput("", nameTagComponent->GetName()));
+					sceneManagerInstance->updateName(selectedEntity, ecs.getComponent<NameTag>(selectedEntity)->GetName());
 					//ImguiInput("", static_cast<int>(hierarchyPanel->hierarchyMap[selectedEntity].parent));
 					//ImguiInput("", hierarchyPanel->hierarchyMap[selectedEntity].indexInParent);
 
@@ -109,6 +110,7 @@ namespace TDS
 				}
 			}
 
+			int buttonID = 0;
 			for (auto scriptName : sceneManagerInstance->getAllScripts())
 			{
 				if (!sceneManagerInstance->hasScript(selectedEntity, scriptName))
@@ -119,7 +121,7 @@ namespace TDS
 				if (ImGui::TreeNodeEx(scriptName.c_str(), nodeFlags))
 				{
 					//ImGui::PushID(selectedEntity);
-					if (ImGui::BeginTable("###", 2, /*ImGuiTableFlags_Borders |*/ ImGuiTableFlags_NoPadInnerX, ImVec2(0.0f, 5.5f)))
+					if (ImGui::BeginTable("components", 2, /*ImGuiTableFlags_Borders |*/ ImGuiTableFlags_NoPadInnerX, ImVec2(0.0f, 5.5f)))
 					{
 						ImGui::TableNextRow();
 
@@ -162,10 +164,129 @@ namespace TDS
 								value = ImguiInput(scriptValue.name, value);
 								sceneManagerInstance->setFloat(selectedEntity, scriptName, scriptValue.name, value);
 							}
-							else // scripts
+							else if (scriptValue.type == "System.String")
+							{
+								std::string value = scriptValue.value;
+								value = ImguiInput(scriptValue.name, value);
+								sceneManagerInstance->setString(selectedEntity, scriptName, scriptValue.name, value);
+							}
+							else if (scriptValue.type == "System.Char")
+							{
+								//char value = scriptValue.value[0];
+								//value = ImguiInput(scriptValue.name, value);
+								//sceneManagerInstance->setChar(selectedEntity, scriptName, scriptValue.name, value);
+							}
+							else // scripts & game object
 							{
 								// To Do 
+								ImGui::TableNextRow();
+								ImGui::TableNextColumn();
+								ImGui::Text(scriptValue.name.c_str());
 
+								ImGui::TableNextColumn();
+
+								// Game Object
+								ImGui::PushItemWidth(-ImGui::GetContentRegionAvail().x * 0.15f);
+
+								if (scriptValue.referenceEntityID) // there is a entity reference 
+								{
+									ImGui::BeginDisabled();
+									char temp[100];
+									strcpy_s(temp, ecs.getComponent<NameTag>(scriptValue.referenceEntityID)->GetName().c_str());
+									ImGui::InputText("###", temp, 100, ImGuiInputTextFlags_ReadOnly);
+									ImGui::EndDisabled();
+								}
+								else
+								{
+									ImGui::BeginDisabled();
+									char temp[100] = "None";
+									ImGui::InputText("###", temp, 100, ImGuiInputTextFlags_ReadOnly);
+									ImGui::EndDisabled();
+								}
+
+								ImGui::PushID(buttonID++);
+								ImGui::SameLine();
+								if (ImGui::Button("O"))
+								{
+									popupPosition = ImGui::GetCursorPos();
+									popupPosition.x += ImGui::GetWindowPos().x;
+									ImGui::SetNextWindowPos(popupPosition);
+									ImGui::SetNextWindowSize(ImVec2(300.f, 175.f));
+
+									ImVec4* colors = ImGui::GetStyle().Colors;
+									colors[ImGuiCol_ModalWindowDimBg] = ImVec4(1.00f, 0.00f, 0.00f, 0.00f);
+
+									std::cout << "test" << std::endl;
+
+									ImGui::OpenPopup(("selectGameObject" + scriptValue.name).c_str());
+								}
+
+								bool unused_open = true;
+								if (ImGui::BeginPopupModal(("selectGameObject" + scriptValue.name).c_str(), &unused_open, ImGuiWindowFlags_AlwaysVerticalScrollbar))
+								{
+									if (scriptValue.type == "ScriptAPI.GameObject")
+									{
+										for (EntityID entityID : ecs.getEntities())
+										{
+											if (entityID == selectedEntity)
+											{
+												continue;
+											}
+
+											if (ImGui::Selectable(ecs.getComponent<NameTag>(entityID)->GetName().c_str(), entityID == selectedEntity, ImGuiSelectableFlags_SpanAllColumns))
+											{
+												sceneManagerInstance->setGameObject(selectedEntity, scriptName, scriptValue.name, entityID);
+												ImGui::CloseCurrentPopup();
+											}
+										}
+									}
+									else // Script
+									{
+										for (EntityID entityID : ecs.getEntities())
+										{
+											if (entityID == selectedEntity)
+											{
+												continue;
+											}
+											if (sceneManagerInstance->hasScript(entityID, scriptValue.type) && ImGui::Selectable(ecs.getComponent<NameTag>(entityID)->GetName().c_str(), entityID == selectedEntity, ImGuiSelectableFlags_SpanAllColumns))
+											{
+												sceneManagerInstance->setScriptReference(selectedEntity, scriptName, scriptValue.name, entityID, scriptValue.type);
+												ImGui::CloseCurrentPopup();
+											}
+										}
+									}
+
+									ImGui::EndPopup();
+								}
+								ImGui::PopID();
+
+								ImGui::PopItemWidth();
+
+								//if (ImGui::BeginTable("test", 2/*, ImGuiTableFlags_NoPadOuterX*/))
+								//{
+								//	ImGui::TableNextRow();
+
+								//	ImGui::TableNextColumn();
+								//	ImGui::PushItemWidth(-ImGui::GetContentRegionAvail().x * 0.1f);
+								//	ImGui::TableNextColumn();
+								//	//ImGui::PushItemWidth(-FLT_MIN); // Right-aligned
+
+
+								//	ImGui::TableNextRow();
+								//	ImGui::TableNextColumn();
+
+								//	char temp[100];
+								//	strcpy_s(temp, scriptValue.name.c_str());
+								//	ImGui::InputText(std::string("##test").c_str(), temp, 100);
+
+								//	ImGui::TableNextColumn();
+								//	if (ImGui::Button(("##" + scriptValue.name).c_str()))
+								//	{
+								//		std::cout << "hmm" << std::endl;
+								//	}
+								//	
+								//	ImGui::EndTable();
+								//}
 							}
 						}
 
@@ -263,6 +384,10 @@ namespace TDS
 			else if (propertyName.get_type() == rttr::type::get<Vec3>())
 			{
 				propertyName.set_value(componentInstance, ImguiInput(propertyName.get_name().to_string(), propertyName.get_value(componentInstance).convert<Vec3>()));
+			}
+			else if (propertyName.get_type() == rttr::type::get<Vec4>())
+			{
+				propertyName.set_value(componentInstance, ImguiInput(propertyName.get_name().to_string(), propertyName.get_value(componentInstance).convert<Vec4>()));
 			}
 		}
 	}
@@ -364,5 +489,25 @@ namespace TDS
 		Vec3Variable.z = temp[2];
 
 		return Vec3Variable;
+	}
+
+	/*!*************************************************************************
+	This function is a helper function for draw VEC4 variables
+	****************************************************************************/
+	Vec4 ImguiInput(std::string variableName, Vec4 Vec4Variable)
+	{
+		ImGui::TableNextRow();
+		ImGui::TableNextColumn();
+		ImGui::Text(variableName.c_str());
+
+		ImGui::TableNextColumn();
+		float temp[4]{ Vec4Variable.x, Vec4Variable.y, Vec4Variable.z, Vec4Variable.w };
+		ImGui::DragFloat4(("##" + variableName).c_str(), temp, 1.0f);
+		Vec4Variable.x = temp[0];
+		Vec4Variable.y = temp[1];
+		Vec4Variable.z = temp[2];
+		Vec4Variable.w = temp[3];
+
+		return Vec4Variable;
 	}
 }

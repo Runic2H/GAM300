@@ -61,6 +61,8 @@ namespace TDS
 				hierarchyMap[parentEntity].children.emplace_back(entity);
 			}
 		}
+
+		filter.Clear();
 	}
 
 	void Hierarchy::changeIndexInEntity()
@@ -410,33 +412,91 @@ namespace TDS
 		anyItemHovered = false;
 		popupOpened = false;
 
-		if (ImGui::TreeNodeEx(SceneManager::GetInstance()->getCurrentScene().c_str(), nodeFlags))
+		filter.Draw("##filter");
+		ImGui::SameLine();
+		if (ImGui::Button("Clear", ImVec2(-FLT_MIN, 0)))
 		{
-			ImGui::Separator();
-			if (ImGui::BeginDragDropTarget())
+			filter.Clear();
+		}
+		if (filter.InputBuf[0] == 0)
+		{
+			if (ImGui::TreeNodeEx(SceneManager::GetInstance()->getCurrentScene().c_str(), nodeFlags))
 			{
-				if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("draggedEntity"))
+				ImGui::Separator();
+				if (ImGui::BeginDragDropTarget())
 				{
-					EntityID payloadEntityID = *(static_cast<EntityID*>(payload->Data));
+					if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("draggedEntity"))
+					{
+						EntityID payloadEntityID = *(static_cast<EntityID*>(payload->Data));
 
-					// Reordering
-					reorderingHierarchy(payloadEntityID, 0, true);
+						// Reordering
+						reorderingHierarchy(payloadEntityID, 0, true);
+					}
+					ImGui::EndDragDropTarget();
 				}
-				ImGui::EndDragDropTarget();
-			}
 
-			std::uint32_t originalSize = hierarchyMap[0].children.size();
-			for (auto childEntity : hierarchyMap[0].children)
+				std::uint32_t originalSize = hierarchyMap[0].children.size();
+				for (auto childEntity : hierarchyMap[0].children)
+				{
+					drawHierarchy(childEntity);
+
+					if (originalSize != hierarchyMap[0].children.size())
+					{
+						ImGui::TreePop();
+						return;
+					}
+				}
+				ImGui::TreePop();
+			}
+		}
+		else
+		{
+			for (EntityID entityID : ecs.getEntities())
 			{
-				drawHierarchy(childEntity);
-
-				if (originalSize != hierarchyMap[0].children.size())
+				NameTag* nameTagComponent = ecs.getComponent<NameTag>(entityID);
+				if (filter.PassFilter(nameTagComponent->GetName().c_str()))
 				{
-					ImGui::TreePop();
-					return;
+					ImGui::PushID(entityID);
+					bool selected = false;
+
+					ImGui::Indent();
+
+					// Entity will be a selectable as there are no children
+					bool currentItemHovered = false;
+					selected = ImGui::Selectable(nameTagComponent->GetName().c_str(), selectedEntity == entityID, ImGuiSelectableFlags_SpanAllColumns);
+
+					if (ImGui::IsItemHovered())
+					{
+						anyItemHovered = true;
+						currentItemHovered = true;
+					}
+					if (selected)
+					{
+						selectedEntity = entityID;
+					}
+
+					if (ImGui::BeginPopupContextItem())
+					{
+						selectedEntity = entityID;
+						popupOpened = true;
+						if (ImGui::Selectable("Remove Entity"))
+						{
+							ecs.removeEntity(selectedEntity);
+							hierarchyMap[hierarchyMap[selectedEntity].parent].children.erase(
+								std::find(hierarchyMap[hierarchyMap[selectedEntity].parent].children.begin(),
+									hierarchyMap[hierarchyMap[selectedEntity].parent].children.end(), selectedEntity));
+							hierarchyMap.erase(selectedEntity);
+							selectedEntity = 0;
+						}
+
+						ImGui::EndPopup();
+					}
+
+					ImGui::Unindent();
+
+					ImGui::PopID();
 				}
 			}
-			ImGui::TreePop();
 		}
 
 		if (ImGui::IsWindowHovered() && !popupOpened && !anyItemHovered && ImGui::IsMouseClicked(ImGuiMouseButton_Left))

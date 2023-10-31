@@ -39,6 +39,7 @@ namespace TDS
 		GlobalBufferPool::GetInstance()->AddToGlobalPool(sizeof(GlobalUBO), 0, VkBufferUsageFlagBits::VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT, "PL");
 		entry.m_ShaderInputs.m_InputVertex.push_back(VertexBufferInfo(false, layout, sizeof(VertexData)));
 		inst.m_DefaultPipeline = std::make_shared<VulkanPipeline>();
+
 		inst.m_DefaultPipeline->Create(entry);
 		
 

@@ -10,10 +10,14 @@
 #include "GraphicsResource/AssetModel.h"
 #include <fstream>
 #include <iostream>
+#include "Rendering/GraphicsManager.h"
+#include "vulkanTools/vulkanSwapChain.h"
+#include "vulkanTools/vulkanInstance.h"
+#include "vulkanTools/Renderer.h"
 namespace TDS
 {
 
-	void AssetModel::LoadGeomData(GeomCompiled& geom)
+	void AssetModel::LoadGeomData(Geom& geom)
 	{
 		iColor color{};
 		m_VertexData.resize(geom.m_Pos.size());
@@ -31,26 +35,78 @@ namespace TDS
 				//m_VertexData[i].m_fTanget = geom.m_Extra[i].m_Tanget;
 				//m_VertexData[i].m_fBitangent = geom.m_Extra[i].m_Bitangent;
 
-				
-				color = iColor(geom.m_Extra[i].m_Colour);
-				m_VertexData[i].m_Color = { color.m_RGBA.x, color.m_RGBA.y, color.m_RGBA.z};
+
+
+				m_VertexData[i].m_Color = { 255.f, 0.f, 0.f };
 				/*m_VertexData[i].m_Tangent = iColor(Vec4(geom.m_Extra[i].m_Tanget.x, geom.m_Extra[i].m_Tanget.y, geom.m_Extra[i].m_Tanget.z, 1.0f));
 				m_VertexData[i].m_Bitangent = iColor(Vec4(geom.m_Extra[i].m_Bitangent.x, geom.m_Extra[i].m_Bitangent.y, geom.m_Extra[i].m_Bitangent.z, 1.0f));
 				m_VertexData[i].m_Normal = iColor(Vec4(geom.m_Extra[i].m_Normal.x, geom.m_Extra[i].m_Normal.y, geom.m_Extra[i].m_Normal.z, 1.0f));*/
 			}
 		}
-		//m_VertexBuffer = std::make_shared<VMABuffer>();
-		//m_IndexBuffer = std::make_shared<VMABuffer>();
-		
-		//m_VertexBuffer->CreateVertexBuffer(m_VertexData.size(), false, m_VertexData.data());
-		//m_IndexBuffer->CreateIndexBuffer(m_IndexData.size(), false, m_IndexData.data());
-		
+
+
+		Vec3 centroid(0.0f, 0.0f, 0.0f);
+		for (const auto& vertex : m_VertexData)
+		{
+			centroid += vertex.m_Pos;
+		}
+		centroid /= static_cast<float>(m_VertexData.size());
+
+		BoundingBox.setNull();
+
+		for (const auto& vertex : m_VertexData)
+		{
+			BoundingBox.extend(vertex.m_Pos - centroid);
+		}
+
+
+
+	}
+	void DLL_API AssetModel::CreateBuffers()
+	{
+		if (m_VertexData.empty() && m_IndexData.empty())
+		{
+			return;
+		}
+		if (m_VertexBuffer == nullptr)
+			m_VertexBuffer = new VMABuffer();
+		if (m_IndexBuffer == nullptr)
+			m_IndexBuffer = new VMABuffer();
+
+		m_VertexBuffer->MappedStaging(m_VertexData.size() * sizeof(VertexData), VkBufferUsageFlagBits::VK_BUFFER_USAGE_VERTEX_BUFFER_BIT, GraphicsManager::getInstance().getVkInstance(), m_VertexData.data());
+		//m_VertexBuffer->CreateVertexBuffer(m_VertexData.size() * sizeof(VertexData), false, m_VertexData.data());
+		m_VertexBuffer->SetDataCnt(m_VertexData.size());
+		/*	m_IndexBuffer->CreateIndexBuffer(m_IndexData.size() * sizeof(std::uint32_t), false, m_IndexData.data());*/
+		m_IndexBuffer->MappedStaging(m_IndexData.size() * sizeof(std::uint32_t), VkBufferUsageFlagBits::VK_BUFFER_USAGE_INDEX_BUFFER_BIT, GraphicsManager::getInstance().getVkInstance(), m_IndexData.data());
+		m_IndexBuffer->SetDataCnt(m_IndexData.size());
+	}
+	void DLL_API AssetModel::DestroyBuffers()
+	{
+		//This is not efficient but since we not really multithreading. Just do this for now
+		vkQueueWaitIdle(GraphicsManager::getInstance().getVkInstance().getGraphicsQueue());
+		if (m_VertexBuffer)
+		{
+			m_VertexBuffer->DestroyBuffer();
+			delete m_VertexBuffer;
+			m_VertexBuffer = nullptr;
+		}
+
+		if (m_IndexBuffer)
+		{
+
+			m_IndexBuffer->DestroyBuffer();
+			delete m_IndexBuffer;
+			m_IndexBuffer = nullptr;
+		}
+
+
 	}
 	AssetModel::AssetModel()
 	{
 	}
 	AssetModel::~AssetModel()
 	{
+
 	}
 
 	std::vector<VertexData>& AssetModel::GetVertexData()
@@ -61,4 +117,28 @@ namespace TDS
 	{
 		return m_IndexData;
 	}
+
+	DLL_API VMABuffer* AssetModel::GetIndexBuffer()
+	{
+		return m_IndexBuffer;
+	}
+
+	DLL_API VMABuffer* AssetModel::GetVertexBuffer()
+	{
+		return m_VertexBuffer;
+	}
+
+	DLL_API bool AssetModel::BufferIsNull()
+	{
+		return (m_IndexBuffer == nullptr && m_VertexBuffer == nullptr);
+	}
+
+	DLL_API void AssetModel::Destroy()
+	{
+		if (BufferIsNull() == false)
+		{
+			DestroyBuffers();
+		}
+	}
+
 }

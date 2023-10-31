@@ -60,6 +60,7 @@ namespace TDS
 				return graphicsFamily.has_value() &&
 					presentFamily.has_value() && computeFamily.has_value();
 			}
+
 		};
 
 		struct SwapChainSupportDetails
@@ -85,6 +86,7 @@ namespace TDS
 		VkInstance       getInstance() const { return m_VKhandler; }
 		VkPhysicalDevice getVkPhysicalDevice()const { return m_PhysDeviceHandle; }
 		VkDevice		 getVkLogicalDevice()const { return m_logicalDevice; }
+		/*VkCommandPool	 getCommandPool() const { return m_CommandPool; }*/
 		VkQueue          getGraphicsQueue() { return  m_graphicQueue; }
 		VkQueue          getPresentQueue() { return m_presentQueue; }
 		VkQueue			 getComputeQueue() { return m_ComputeQueue; }
@@ -169,13 +171,8 @@ namespace TDS
 		QueueFamilyIndices findQueueFamilies(VkPhysicalDevice device);
 		bool checkDeviceExtensionSupport(VkPhysicalDevice device);
 		SwapChainSupportDetails  querySwapChainSupport(const VkPhysicalDevice& device);
+
 	};
-
-
-
-
-
-
 
 
 }//namespace TDS

@@ -29,7 +29,7 @@ namespace ScriptAPI
         /*System::Reflection::Assembly::LoadFrom("ManagedScripts.dll");*/
 
         scripts = gcnew System::Collections::Generic::SortedList<TDS::EntityID, ScriptList^>();
-        gameObjectList = gcnew System::Collections::Generic::SortedList<System::String^, TDS::EntityID>();
+        gameObjectList = gcnew System::Collections::Generic::SortedList<TDS::EntityID, Tuple<System::String^, GameObject^>^>();
 
         //for (auto i : TDS::ecs.getEntities())
         //{
@@ -40,11 +40,13 @@ namespace ScriptAPI
         System::Console::WriteLine("Hello Engine Interface Init!");
     }
 
-    void EngineInterface::AddScriptList(TDS::EntityID entityID)
+    void EngineInterface::AddScriptList(TDS::EntityID entityID) // New entity
     {
         if (!scripts->ContainsKey(entityID))
         {
             scripts->Add(entityID, gcnew ScriptList());
+            gameObjectList->Add(entityID, gcnew Tuple<String^, GameObject^>("", gcnew GameObject()));
+            gameObjectList[entityID]->Item2->SetEntityID(entityID);
         }
     }
 
@@ -84,7 +86,8 @@ namespace ScriptAPI
         // We have to use this as we can�t use the normal gcnew syntax to create it as 
         // scriptType is a variable that stores a type; it itself is not a type that we can pass to gcnew.
         Script^ script = safe_cast<Script^>(System::Activator::CreateInstance(scriptType));
-        script->SetEntityID(entityId);
+        script->SetFlags();
+        script->gameObject = gameObjectList[entityId]->Item2;
 
         // Add script to SortedList
         scripts[entityId]->Add(script->GetType()->FullName, script);
@@ -101,33 +104,30 @@ namespace ScriptAPI
     /*!*************************************************************************
     * Add GameObject to List
     ***************************************************************************/
-    bool EngineInterface::AddGameObjectViaName(TDS::EntityID entityId, System::String^ entityName)
-    {
-        SAFE_NATIVE_CALL_BEGIN
-            if (entityId == TDS::NULLENTITY)
-                return false;
+    //bool EngineInterface::AddGameObjectViaName(TDS::EntityID entityId, System::String^ entityName)
+    //{
+    //    SAFE_NATIVE_CALL_BEGIN
+    //        if (entityId == TDS::NULLENTITY)
+    //            return false;
 
-        entityName = entityName->Trim();
+    //    entityName = entityName->Trim();
 
-        gameObjectList->Add(entityName, entityId);
+    //    gameObjectList->Add(entityName, entityId);
 
-        return true;
-            SAFE_NATIVE_CALL_END
-            return false;
-    }
+    //    return true;
+    //        SAFE_NATIVE_CALL_END
+    //        return false;
+    //}
     /*!*************************************************************************
     * Updates GameObject Name
     ***************************************************************************/
-    bool EngineInterface::UpdateGameObjectName(System::String^ oldName, System::String^ newName)
+    bool EngineInterface::UpdateGameObjectName(TDS::EntityID entityID, std::string newName)
     {
         SAFE_NATIVE_CALL_BEGIN
-            oldName = oldName->Trim();
-            if (gameObjectList->ContainsKey(oldName))
+            if (gameObjectList->ContainsKey(entityID))
             {
-                TDS::EntityID entity = gameObjectList[oldName];
-                gameObjectList->Remove(oldName);
-                newName = newName->Trim();
-                gameObjectList->Add(newName, entity);
+                GameObject^ thisGameObject = gameObjectList[entityID]->Item2;
+                gameObjectList[entityID] = gcnew Tuple<String^, GameObject^>(toSystemString(newName), thisGameObject);
                 return true;
             }
         return false;
@@ -135,7 +135,7 @@ namespace ScriptAPI
             return false;
     }
 
-    System::Collections::Generic::SortedList<System::String^, TDS::EntityID>^ EngineInterface::GetGameObjectList()
+    System::Collections::Generic::SortedList<TDS::EntityID, Tuple<System::String^, GameObject^>^>^ EngineInterface::GetGameObjectList()
     {
         return gameObjectList;
     }
@@ -333,6 +333,7 @@ namespace ScriptAPI
     {
         // Clear all references to types in the script assembly we are going to unload
         scripts->Clear();
+        gameObjectList->Clear();
         scriptTypeList = nullptr;
         // Unload
         loadContext->Unload();
@@ -397,15 +398,6 @@ namespace ScriptAPI
 
         scriptName = scriptName->Trim();
 
-        //Object^ obj = nullptr;
-        //for each (Script ^ script in scripts[entityId])
-        //{
-        //    if (script->GetType()->FullName == scriptName || script->GetType()->Name == scriptName)
-        //    {
-        //        obj = script;
-        //        break;
-        //    }
-        //}
         Object^ obj = scripts[entityId][scriptName];
 
         // Failed to get any script
@@ -432,11 +424,30 @@ namespace ScriptAPI
 
                 if (field->GetValue(obj) != nullptr)
                 {
-                    newScriptValue.value = toStdString(field->GetValue(obj)->ToString());
-                }
-                else
-                {
-                    // scripts
+                    if (field->FieldType->ToString() == "ScriptAPI.GameObject")
+                    {
+                        newScriptValue.referenceEntityID = safe_cast<GameObject^>(field->GetValue(obj))->GetEntityID();
+                    }
+                    else if (field->FieldType->ToString() == "System.Boolean"
+                        || field->FieldType->ToString() == "System.Int16"
+                        || field->FieldType->ToString() == "System.Int32"
+                        || field->FieldType->ToString() == "System.Int64"
+                        || field->FieldType->ToString() == "System.UInt16"
+                        || field->FieldType->ToString() == "System.UInt32"
+                        || field->FieldType->ToString() == "System.UInt64"
+                        || field->FieldType->ToString() == "System.Byte"
+                        || field->FieldType->ToString() == "System.SByte"
+                        || field->FieldType->ToString() == "System.Double"
+                        || field->FieldType->ToString() == "System.Single"
+                        || field->FieldType->ToString() == "System.Char"
+                        || field->FieldType->ToString() == "System.String")
+                    {
+                        newScriptValue.value = toStdString(field->GetValue(obj)->ToString());
+                    }
+                    else // Script
+                    {
+                        newScriptValue.referenceEntityID = safe_cast<Script^>(field->GetValue(obj))->gameObject->GetEntityID();
+                    }
                 }
 
                 scriptValues.emplace_back(newScriptValue);
@@ -558,11 +569,133 @@ namespace ScriptAPI
         }
     }
 
+    void EngineInterface::SetValueString(TDS::EntityID entityId, std::string script, std::string variableName, std::string value)
+    {
+        String^ variable = toSystemString(variableName);
+
+        Object^ currentObject = scripts[entityId][toSystemString(script)];
+
+        if (currentObject == nullptr)
+        {
+            return;
+        }
+
+        array<FieldInfo^>^ currentFieldArray = currentObject->GetType()->GetFields(BindingFlags::Public | BindingFlags::Instance | BindingFlags::NonPublic);
+
+        if (currentFieldArray == nullptr)
+        {
+            return;
+        }
+
+        for each (FieldInfo^ field in currentFieldArray)
+        {
+            if (field->GetCustomAttributes(SerializeFieldAttribute::typeid, true)->Length > 0 && field->Name == variable)
+            {
+                field->SetValue(currentObject, toSystemString(value));
+                return;
+            }
+        }
+    }
+
+    //void EngineInterface::SetValueChar(TDS::EntityID entityId, std::string script, std::string variableName, char value)
+    //{
+    //    String^ variable = toSystemString(variableName);
+
+    //    Object^ currentObject = scripts[entityId][toSystemString(script)];
+
+    //    if (currentObject == nullptr)
+    //    {
+    //        return;
+    //    }
+
+    //    array<FieldInfo^>^ currentFieldArray = currentObject->GetType()->GetFields(BindingFlags::Public | BindingFlags::Instance | BindingFlags::NonPublic);
+
+    //    if (currentFieldArray == nullptr)
+    //    {
+    //        return;
+    //    }
+
+    //    for each (FieldInfo^ field in currentFieldArray)
+    //    {
+    //        if (field->GetCustomAttributes(SerializeFieldAttribute::typeid, true)->Length > 0 && field->Name == variable)
+    //        {
+    //            if (value == '\0')
+    //            {
+    //                value = 'a';
+    //            }
+    //            System::Console::WriteLine(value);
+    //            field->SetValue(currentObject, value);
+    //            System::Console::WriteLine(value);
+    //            return;
+    //        }
+    //    }
+    //}
+
+    void EngineInterface::SetGameObject(TDS::EntityID entityId, std::string script, std::string variableName, TDS::EntityID gameObjectEntityID)
+    {
+        String^ variable = toSystemString(variableName);
+
+        Object^ currentObject = scripts[entityId][toSystemString(script)];
+
+        if (currentObject == nullptr)
+        {
+            return;
+        }
+
+        array<FieldInfo^>^ currentFieldArray = currentObject->GetType()->GetFields(BindingFlags::Public | BindingFlags::Instance | BindingFlags::NonPublic);
+
+        if (currentFieldArray == nullptr)
+        {
+            return;
+        }
+
+        for each (FieldInfo^ field in currentFieldArray)
+        {
+            if (field->GetCustomAttributes(SerializeFieldAttribute::typeid, true)->Length > 0 && field->Name == variable)
+            {
+                field->SetValue(currentObject, gameObjectList[gameObjectEntityID]->Item2);
+                return;
+            }
+        }
+    }
+
+    void EngineInterface::SetScript(TDS::EntityID entityId, std::string script, std::string variableName, TDS::EntityID gameObjectEntityID, std::string scriptReference)
+    {
+        String^ variable = toSystemString(variableName);
+
+        Object^ currentObject = scripts[entityId][toSystemString(script)];
+
+        if (currentObject == nullptr)
+        {
+            return;
+        }
+
+        array<FieldInfo^>^ currentFieldArray = currentObject->GetType()->GetFields(BindingFlags::Public | BindingFlags::Instance | BindingFlags::NonPublic);
+
+        if (currentFieldArray == nullptr)
+        {
+            return;
+        }
+
+        for each (FieldInfo^ field in currentFieldArray)
+        {
+            if (field->GetCustomAttributes(SerializeFieldAttribute::typeid, true)->Length > 0 && field->Name == variable)
+            {
+                field->SetValue(currentObject, scripts[gameObjectEntityID][toSystemString(scriptReference)]);
+                System::Console::WriteLine(field->GetValue(currentObject));
+                return;
+            }
+        }
+    }
+
     void EngineInterface::RemoveEntity(TDS::EntityID entityId)
     {
         SAFE_NATIVE_CALL_BEGIN
-        scripts->Remove(entityId);
-        gameObjectList->RemoveAt(gameObjectList->IndexOfValue(entityId));
+            if (scripts->ContainsKey(entityId))
+            {
+                scripts->Remove(entityId);
+                gameObjectList->RemoveAt(gameObjectList->IndexOfKey(entityId));
+            }
         SAFE_NATIVE_CALL_END
 
         return;
@@ -627,20 +760,14 @@ namespace ScriptAPI
     }
 
     // To do
-    Script^ FindGameObjectViaName(String^ name, String^ scriptName)
+    GameObject^ FindGameObjectViaName(String^ name)
     {
-        System::Console::WriteLine("called in engine interfacee");
+        //System::Console::WriteLine("called in engine interfacee");
         for each (auto entityNameID in EngineInterface::GetGameObjectList())
         {
-            if (entityNameID.Key == name)
+            if (entityNameID.Value->Item1 == name)
             {
-                for each (EngineInterface::NameScriptPair^ script in EngineInterface::GetScriptList()[entityNameID.Value])
-                {
-                    if (script->Key == scriptName)
-                    {
-                        return script->Value;
-                    }
-                }
+                return entityNameID.Value->Item2;
             }
         }
 

@@ -448,7 +448,12 @@ namespace TDS
         record.archetype = newArchetype;
 
         record.archetype->componentDataSize[componentID] += componentSize;
-        
+
+        if (oldArchetype && oldArchetype->entityIds.size() == 0) // no more entities
+        {
+            mArchetypes.erase(std::find(mArchetypes.begin(), mArchetypes.end(), oldArchetype));
+        }
+
         return new(MemoryManager::GetInstance()->addComponentData(newArchetypeId, componentID, componentSize, record.index)) C();
     }
 
@@ -596,6 +601,12 @@ namespace TDS
         newArchetype->entityIds.emplace_back(entityID);
         record.index = static_cast<uint32_t>(newArchetype->entityIds.size() - 1);
         record.archetype = newArchetype;
+
+        if (oldArchetype->entityIds.size() == 0) // no more entities
+        {
+            mArchetypes.erase(std::find(mArchetypes.begin(), mArchetypes.end(), oldArchetype));
+        }
+
     }
 
     // --getComponent--
@@ -690,6 +701,11 @@ namespace TDS
         }
 
         oldArchetype->entityIds.erase(willBeRemoved);
+
+        if (oldArchetype->entityIds.size() == 0) // no more entities
+        {
+            mArchetypes.erase(std::find(mArchetypes.begin(), mArchetypes.end(), oldArchetype));
+        }
 
         mEntityArchetypeMap.erase(entityID);
 

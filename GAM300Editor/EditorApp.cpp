@@ -27,6 +27,7 @@
 #include "vulkanTools/VulkanTexture.h"
 #include "Rendering/renderPass.h"
 #include "vulkanTools/FrameBuffer.h"
+#include "Tools/DDSConverter.h"
 bool isPlaying = false;
 
 namespace TDS
@@ -119,13 +120,14 @@ namespace TDS
 
         ShaderReflector::GetInstance()->Init(SHADER_DIRECTORY, REFLECTED_BIN);
         GraphicsManager::getInstance().Init(&m_window);
-        m_AssetManager.Init();
-        m_AssetManager.PreloadAssets();
+        AssetManager::GetInstance()->Init();
+        AssetManager::GetInstance()->PreloadAssets();
         //Run();
     }
 
     void Application::Update()
     {
+        DDSConverter::Init();
         auto executeUpdate = GetFunctionPtr<void(*)(void)>
             (
                 "ScriptAPI",
@@ -153,7 +155,6 @@ namespace TDS
                 "ToggleScriptViaName"
             );
 
-        RendererSystem::assetManager = &m_AssetManager;
         initImgui();
         float lightx = 0.f;
     
@@ -226,6 +227,7 @@ namespace TDS
         stopScriptEngine();
         /*vkDeviceWaitIdle(m_pVKInst.get()->getVkLogicalDevice());*/
 
+        AssetManager::GetInstance()->ShutDown();
         vkDeviceWaitIdle(GraphicsManager::getInstance().getVkInstance().getVkLogicalDevice());
         if (m_ImGuiDescPool)
         {
@@ -235,6 +237,7 @@ namespace TDS
         imguiHelper::Exit();
         ecs.destroy();
         GraphicsManager::getInstance().ShutDown();
+        DDSConverter::Destroy();
     }
 
     void Application::Run()
@@ -338,18 +341,46 @@ namespace TDS
                 "SetValueFloat"
             );
 
+        SceneManager::GetInstance()->setString = GetFunctionPtr<void(*)(EntityID, std::string, std::string, std::string)>
+            (
+                "ScriptAPI",
+                "ScriptAPI.EngineInterface",
+                "SetValueString"
+            );
+
+        //SceneManager::GetInstance()->setChar = GetFunctionPtr<void(*)(EntityID, std::string, std::string, char)>
+        //    (
+        //        "ScriptAPI",
+        //        "ScriptAPI.EngineInterface",
+        //        "SetValueChar"
+        //    );
+
+        SceneManager::GetInstance()->setGameObject = GetFunctionPtr<void(*)(EntityID, std::string, std::string, EntityID)>
+            (
+                "ScriptAPI",
+                "ScriptAPI.EngineInterface",
+                "SetGameObject"
+            );
+
+        SceneManager::GetInstance()->setScriptReference = GetFunctionPtr<void(*)(EntityID, std::string, std::string, EntityID, std::string)>
+            (
+                "ScriptAPI",
+                "ScriptAPI.EngineInterface",
+                "SetScript"
+            );
+
+        SceneManager::GetInstance()->updateName = GetFunctionPtr<bool(*)(EntityID, std::string)>
+            (
+                "ScriptAPI",
+                "ScriptAPI.EngineInterface",
+                "UpdateGameObjectName"
+            );
+
         SceneManager::GetInstance()->Init();
         ecs.initializeSystems(1);
         ecs.initializeSystems(2);
 
-        //addScript(1, "Test");
-        //addScript(2, "Testing");
         awake();
-
-        // test
-        SceneManager::GetInstance()->setCurrentScene("Test");
-        SceneManager::GetInstance()->saveCurrentScene();
-        SceneManager::GetInstance()->setCurrentScene("MainMenu");
     }
 
     Application::~Application()

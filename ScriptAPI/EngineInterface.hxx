@@ -30,16 +30,16 @@ namespace ScriptAPI
 		* Add GameObject to List
 		* Add this function to new Entities being Created
 		***************************************************************************/
-		static bool AddGameObjectViaName(TDS::EntityID entityId, System::String^ scriptName);
+		//static bool AddGameObjectViaName(TDS::EntityID entityId, System::String^ scriptName);
 		/*!*************************************************************************
 		* Updates GameObject Name
 		* Call this function if User changes the name of Entities
 		***************************************************************************/
-		static bool UpdateGameObjectName(System::String^ oldName, System::String^ newName);
+		static bool UpdateGameObjectName(TDS::EntityID entityID, std::string newName);
 		/*!*************************************************************************
 		* Gets Game Object List
 		***************************************************************************/
-		static System::Collections::Generic::SortedList<System::String^, TDS::EntityID>^ GetGameObjectList();
+		static System::Collections::Generic::SortedList<TDS::EntityID, Tuple<System::String^, GameObject^>^>^ GetGameObjectList();
 		/*!*************************************************************************
 		* Calls all script awake function
 		***************************************************************************/
@@ -98,6 +98,10 @@ namespace ScriptAPI
 		static void SetValueInt(TDS::EntityID entityId, std::string script, std::string variableName, int value);
 		static void SetValueDouble(TDS::EntityID entityId, std::string script, std::string variableName, double value);
 		static void SetValueFloat(TDS::EntityID entityId, std::string script, std::string variableName, float value);
+		static void SetValueString(TDS::EntityID entityId, std::string script, std::string variableName, std::string value);
+		//static void SetValueChar(TDS::EntityID entityId, std::string script, std::string variableName, char value);
+		static void SetGameObject(TDS::EntityID entityId, std::string script, std::string variableName, TDS::EntityID gameObjectEntityID);
+		static void SetScript(TDS::EntityID entityId, std::string script, std::string variableName, TDS::EntityID gameObjectEntityID, std::string scriptReference);
 		
 		using ScriptList = System::Collections::Generic::Dictionary<String^, Script^>;
 		using NameScriptPair = System::Collections::Generic::KeyValuePair<String^, Script^>;
@@ -105,7 +109,7 @@ namespace ScriptAPI
 
 	private:
 		//(^)* reference to managed pointer
-		static System::Collections::Generic::SortedList<System::String^, TDS::EntityID>^ gameObjectList;
+		static System::Collections::Generic::SortedList<TDS::EntityID, Tuple<System::String^, GameObject^>^>^ gameObjectList;
 		static System::Collections::Generic::SortedList<TDS::EntityID, ScriptList^>^ scripts;
 		static System::Collections::Generic::IEnumerable<System::Type^>^ scriptTypeList;
 		/*!*************************************************************************

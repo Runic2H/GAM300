@@ -27,6 +27,15 @@ namespace TDS
 	class SceneManager : public Serializer
 	{
 	public:
+		struct ScriptReferenceVariable
+		{
+			EntityID entityHoldingScript;
+			std::string scriptName;
+			std::string variableName;
+			EntityID entityScriptReference;
+			std::string scriptReference;
+		};
+
 		/*!*************************************************************************
 		Returns an instance of the SceneManager
 		****************************************************************************/
@@ -118,6 +127,12 @@ namespace TDS
 		void (*setInt)(EntityID entityID, std::string script, std::string variableName, int value);
 		void (*setDouble)(EntityID entityID, std::string script, std::string variableName, double value);
 		void (*setFloat)(EntityID entityID, std::string script, std::string variableName, float value);
+		void (*setString)(EntityID entityID, std::string script, std::string variableName, std::string value);
+		//void (*setChar)(EntityID entityID, std::string script, std::string variableName, char value);
+		void (*setGameObject)(EntityID entityID, std::string script, std::string variableName, EntityID gameObjectEntityID);
+		void (*setScriptReference)(EntityID entityID, std::string script, std::string variableName, EntityID gameObjectEntityID, std::string scriptReference);
+
+		bool (*updateName)(EntityID entityID, std::string newName);
 
 	private:
 		// Unique pointer to SceneManager

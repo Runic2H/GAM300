@@ -4,13 +4,17 @@
             "0": 416,
             "1": 448,
             "6": 1024
+        },
+        "110000000000": {
+            "0": 208,
+            "1": 224
         }
     },
     "Entity Data": {
         "1": {
             "ArchetypeID": "110000100000",
             "Name Tag": {
-                "Name": "New Entity",
+                "Name": "entity1",
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 0,
@@ -25,7 +29,7 @@
                 "Scale": {
                     "x": 1.0,
                     "y": 1.0,
-                    "z": 0.0
+                    "z": 1.0
                 },
                 "Rotation": {
                     "x": 0.0,
@@ -38,7 +42,7 @@
         "2": {
             "ArchetypeID": "110000100000",
             "Name Tag": {
-                "Name": "New Entity",
+                "Name": "entity2",
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 0,
@@ -53,7 +57,7 @@
                 "Scale": {
                     "x": 1.0,
                     "y": 1.0,
-                    "z": 0.0
+                    "z": 1.0
                 },
                 "Rotation": {
                     "x": 0.0,
@@ -66,7 +70,7 @@
         "3": {
             "ArchetypeID": "110000100000",
             "Name Tag": {
-                "Name": "New Entity",
+                "Name": "entity3",
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 0,
@@ -74,14 +78,14 @@
             },
             "Transform": {
                 "Position": {
-                    "x": 0.0,
+                    "x": 15.0,
                     "y": 0.0,
                     "z": 0.0
                 },
                 "Scale": {
                     "x": 1.0,
                     "y": 1.0,
-                    "z": 0.0
+                    "z": 1.0
                 },
                 "Rotation": {
                     "x": 0.0,
@@ -94,7 +98,7 @@
         "4": {
             "ArchetypeID": "110000100000",
             "Name Tag": {
-                "Name": "New Entity",
+                "Name": "entity4",
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 0,
@@ -109,7 +113,7 @@
                 "Scale": {
                     "x": 1.0,
                     "y": 1.0,
-                    "z": 0.0
+                    "z": 1.0
                 },
                 "Rotation": {
                     "x": 0.0,
@@ -118,31 +122,85 @@
                 }
             },
             "Graphics Component": {}
+        },
+        "5": {
+            "ArchetypeID": "110000000000",
+            "Name Tag": {
+                "Name": "New Entity",
+                "Tag": "",
+                "IsActive": true,
+                "HierarchyParent": 0,
+                "HierarchyIndex": 4
+            },
+            "Transform": {
+                "Position": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "Scale": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                },
+                "Rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                }
+            }
+        },
+        "6": {
+            "ArchetypeID": "110000000000",
+            "Name Tag": {
+                "Name": "New Entity",
+                "Tag": "",
+                "IsActive": true,
+                "HierarchyParent": 0,
+                "HierarchyIndex": 5
+            },
+            "Transform": {
+                "Position": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "Scale": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                },
+                "Rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                }
+            }
         }
     },
     "Scripts": {
         "1": {
             "Test": {
-                "script": {
-                    "ScriptName": ""
+                "gameObjectTest": {
+                    "GameObject": 4
                 },
-                "test": {
-                    "ScriptName": ""
+                "scriptTest": {
+                    "Testing": 2
                 },
-                "hmm": {
+                "stringTest": {
+                    "String": ""
+                },
+                "boolTest": {
                     "Bool": true
                 },
-                "testt": {
-                    "Double": 9.0
+                "doubleTest": {
+                    "Double": 2.0
                 },
-                "testtt": {
+                "intTest": {
                     "Int": 8
                 },
-                "testttt": {
+                "floatTest": {
                     "Float": 0.0
-                },
-                "testtttt": {
-                    "ScriptName": "\u0000"
                 }
             }
         },
@@ -154,6 +212,8 @@
             }
         },
         "3": {},
-        "4": {}
+        "4": {},
+        "5": {},
+        "6": {}
     }
 }

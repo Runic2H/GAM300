@@ -40,7 +40,7 @@ namespace TDS {
 			//create model
 			DLL_API void LoadModel(const std::string& filepath);
 			//load data from the Deserialized geom
-			DLL_API void LoadGeomData(GeomCompiled& geom);
+			DLL_API void LoadGeomData(Geom& geom);
 		};
 		//Constructor and destructor
 		DLL_API Model(VulkanInstance& Instance, const Builder& build);
@@ -59,7 +59,7 @@ namespace TDS {
 		DLL_API void draw(VkCommandBuffer cmdbuffer);
 
 		//deserialize the data in the geom file
-		DLL_API static void DeserializeGeom(GeomCompiled& geomOut, std::string_view PathData);
+		DLL_API static void DeserializeGeom(Geom& geomOut, std::string_view PathData);
 	private:
 		//create vertex and indexbuffer for the model
 		void createVertexBuffer(const std::vector<Vertex>& Vertices);

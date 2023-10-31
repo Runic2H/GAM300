@@ -5,9 +5,6 @@ using System.Threading.Tasks;
 public class YES : Script
 {
     [SerializeField]
-    public Script script;
-
-    [SerializeField]
     public Testing test;
 
     [SerializeField]
@@ -27,7 +24,7 @@ public class YES : Script
 
     public override void Awake() 
     {
-        script = GameObjectScriptFind("entity1", "test");
+
     }
 
     public override void OnEnable() 
@@ -43,9 +40,7 @@ public class YES : Script
 
     public override void Update()
     {
-        //Console.WriteLine("Aye Lmao");
-        TransformComponent tf = GetTransformComponent();
-        tf.SetPositionX(3.0f);
+
     }
 
     public override void LateUpdate() { }

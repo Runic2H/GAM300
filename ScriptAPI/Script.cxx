@@ -3,9 +3,8 @@
 
 namespace ScriptAPI
 {
-	void Script::SetEntityID(TDS::EntityID ID)
+	void Script::SetFlags()
 	{
-		entityID = ID;
 		is_Enabled = true;
 		is_Awake = false;
 		is_Start = false;
@@ -55,41 +54,10 @@ namespace ScriptAPI
 		return ScriptSystem::UnityCoroutineC<TResult>(func, std::chrono::milliseconds(duration));
 	}
 
-	BoxColliderComponent Script::GetBoxColliderComponent()
-	{
-		return BoxColliderComponent(entityID);
-	}
-	CapsuleColliderComponent Script::GetCapsuleColliderComponent()
-	{
-		return CapsuleColliderComponent(entityID);
-	}
-	NameTagComponent Script::GetNameTagComponent()
-	{
-		return NameTagComponent(entityID);
-	}
-	SphereColliderComponent Script::GetSphereColliderComponent()
-	{
-		return SphereColliderComponent(entityID);
-	}
-	//TDS::EntityID Script::findGameObject(System::String^ gameObjectName)
-	//{
-	//	gameObjectName = gameObjectName->Trim();
-	//	return ScriptSystem::findGameObject(gameObjectName);
-	//}
 
-	TransformComponent Script::GetTransformComponent()
+	GameObject^ Script::GameObjectScriptFind(System::String^ name)
 	{
-		return TransformComponent(entityID);
-	}
-
-	int Script::GetEntityID()
-	{
-		return entityID;
-	}
-
-	Script^ Script::GameObjectScriptFind(System::String^ name, System::String^ script)
-	{
-		System::Console::WriteLine("called");
-		return FindGameObjectViaName(name, script);
+		//System::Console::WriteLine("called");
+		return FindGameObjectViaName(name);
 	}
 }
