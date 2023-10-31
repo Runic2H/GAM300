@@ -27,7 +27,7 @@ namespace TDS
 {
 	const double PhysicsSystem::fixedDt = 0.0166666f;
 	double PhysicsSystem::accumulatedTime = 0.0f;
-
+	std::unique_ptr<JPH::PhysicsSystem>			PhysicsSystem::m_pSystem;
 	PhysicsSystem JPH_pSystem;
 	/*!*************************************************************************
 	 * Configuration
@@ -71,7 +71,7 @@ namespace TDS
 
 		// The main way to interact with the bodies in the physics system is through the body interface. There is a locking and a non-locking
 		// variant of this. We're going to use the locking version (even though we're not planning to access bodies from multiple threads)
-		{
+		/* {
 			JPH::BodyInterface* pBodies = &m_pSystem->GetBodyInterface();
 			//JPH::BodyInterface& body_interface = m_pSystem->GetBodyInterface();
 			// Next we can create a rigid body to serve as the floor, we make a large box
@@ -100,7 +100,7 @@ namespace TDS
 			// Now you can interact with the dynamic body, in this case we're going to give it a velocity.
 			// (note that if we had used CreateBody then we could have set the velocity straight on the body before adding it to the physics system)
 			pBodies->SetLinearVelocity(sphere_id, JPH::Vec3(0.0f, -5.0f, 0.0f));
-		}
+		}*/
 		// Optional step: Before starting the physics simulation you can optimize the broad phase. This improves collision detection performance (it's pointless here because we only have 2 bodies).
 		// You should definitely not call this every frame or when e.g. streaming in a new level section as it is an expensive operation.
 		// Instead insert all new objects in batches instead of 1 at a time to keep the broad phase efficient.
