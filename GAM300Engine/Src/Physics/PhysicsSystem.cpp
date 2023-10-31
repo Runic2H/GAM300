@@ -153,7 +153,8 @@ namespace TDS
 
 	void PhysicsSystem::JoltPhysicsSystemShutdown()
 	{
-		
+		m_pTempAllocator = nullptr;
+		m_pSystem = nullptr;
 	}
 
 	Vec3 PhysicsSystem::CalculateTotalForce(RigidBody& _rigidbody)
