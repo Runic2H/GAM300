@@ -5,6 +5,8 @@
 namespace TDS
 {
 	PhysicsSystem* mPhysicsSystem;
+	// b_xxx -> bodycreationsetting xxx
+	// s_xxx -> xxx Shape setting
 	void JoltSystem::Init()
 	{
 	}
@@ -18,24 +20,25 @@ namespace TDS
 			if (GetSphereCollider(entities[i]) && _rigidbody->GetBodyID() == JPH::BodyID::cInvalidBodyID)
 			{
 				auto* vSphere = GetSphereCollider(entities[i]);
-				//JPH::BodyCreationSettings sphereSetting((new JPH::SphereShape(vSphere->GetRadius())), // -> this one need convert from TDS to JPH
-				//										vSphere->GetCenter(), JPH::Quat::sIdentity(),
-				//										_rigidbody->get_type(),
-				//										Layers::MOVING);
-				//JPH::BodyID sphereID = pBodies->CreateAndAddBody(sphereSetting, EActivation::Activate);
-				// // At this pt, pBodies have a bodyID and a collision shape, ready to be simulate in physicsSystem::update
-				//_rigidbody->SetBodyID(sphereID);
+				JPH::SphereShapeSettings s_sphereSettings(vSphere->GetRadius());
+				JPH::ShapeSettings::ShapeResult result = s_sphereSettings.Create(); // can check result for HasError()/ GetError()
+				JPH::ShapeRefC sphereShape = result.Get();
+				// Argument need to change with IMGUI settings
+				JPH::BodyCreationSettings b_SphereSetting(sphereShape, RVec3(0.0, -1.0, 0.0), JPH::Quat::sIdentity(), JPH::EMotionType::Static, Layers::NON_MOVING);
+				JPH::BodyID sphereID = pBodies->CreateAndAddBody(b_SphereSetting, JPH::EActivation::Activate);
+				_rigidbody->SetBodyID(sphereID.GetIndex());
 			}
+
 			else if (GetBoxCollider(entities[i]) && _rigidbody->GetBodyID() == JPH::BodyID::cInvalidBodyID)
 			{
-				auto* vBox = GetBoxCollider(entities[i]);
-				JPH::BoxShapeSettings boxSettings(vBox->GetSize());
-				ShapeSettings::ShapeResult boxResult = boxSettings.Create();
-				ShapeRefC boxShape = boxResult.Get();
-				BodyCreationSettings boxSetting(boxShape, vBox->GetCenter(), JPH::Quat::sIdentity(), _rigidbody->get_type(), Layers::MOVING);
-				Body* bodyID = pBodies->CreateBody(boxSetting);
-				pBodies->AddBody(bodyID->GetID(), EActivation::Activate);
-				_rigidbody->SetBodyID(bodyID->GetID());
+				//auto* vBox = GetBoxCollider(entities[i]);
+				//JPH::BoxShapeSettings boxSettings(vBox->GetSize());
+				//ShapeSettings::ShapeResult boxResult = boxSettings.Create();
+				//ShapeRefC boxShape = boxResult.Get();
+				//BodyCreationSettings boxSetting(boxShape, vBox->GetCenter(), JPH::Quat::sIdentity(), _rigidbody->get_type(), Layers::MOVING);
+				//Body* bodyID = pBodies->CreateBody(boxSetting);
+				//pBodies->AddBody(bodyID->GetID(), EActivation::Activate);
+				//_rigidbody->SetBodyID(bodyID->GetID());
 			}
 		}
 	}
