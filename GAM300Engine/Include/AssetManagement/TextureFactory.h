@@ -2,7 +2,7 @@
 #include "FactoryBase.h"
 #include "../GraphicsResource/TextureInfo.h"
 #define MAX_NUM_PRELOAD_TEXTURE 10
-#define TEXTURE_PATH "../assets/textures/"
+#define TEXTURE_PATH "../../assets/textures/"
 namespace TDS
 {
 
