@@ -1,6 +1,9 @@
 #include "JoltPhysics/System/JoltSystem.h"
 
 #include "Physics/PhysicsSystem.h"
+#include <Jolt/Physics/Collision/Shape/BoxShape.h>
+#include <Jolt/Physics/Collision/Shape/SphereShape.h>
+#include <Jolt/Physics/Collision/Shape/CapsuleShape.h>
 
 namespace TDS
 {
@@ -17,7 +20,6 @@ namespace TDS
 			if (GetSphereCollider(entities[i]) && _rigidbody->GetBodyID() == JPH::BodyID::cInvalidBodyID)
 			{
 				JPH::BodyInterface* pBodies = &PhysicsSystem::m_pSystem->GetBodyInterface(); // use pBodies to set velocity, mass etc.
-				PhysicsSystem::m_pSystem->GetBodyActivationListener();
 				auto* vSphere = GetSphereCollider(entities[i]);
 				JPH::SphereShapeSettings s_sphereSettings(vSphere->GetRadius());
 				JPH::ShapeSettings::ShapeResult result = s_sphereSettings.Create(); 
@@ -31,14 +33,30 @@ namespace TDS
 
 			else if (GetBoxCollider(entities[i]) && _rigidbody->GetBodyID() == JPH::BodyID::cInvalidBodyID)
 			{
-				//auto* vBox = GetBoxCollider(entities[i]);
-				//JPH::BoxShapeSettings boxSettings(vBox->GetSize());
-				//ShapeSettings::ShapeResult boxResult = boxSettings.Create();
-				//ShapeRefC boxShape = boxResult.Get();
-				//BodyCreationSettings boxSetting(boxShape, vBox->GetCenter(), JPH::Quat::sIdentity(), _rigidbody->get_type(), Layers::MOVING);
-				//Body* bodyID = pBodies->CreateBody(boxSetting);
-				//pBodies->AddBody(bodyID->GetID(), EActivation::Activate);
-				//_rigidbody->SetBodyID(bodyID->GetID());
+				JPH::BodyInterface* pBodies = &PhysicsSystem::m_pSystem->GetBodyInterface(); // use pBodies to set velocity, mass etc.
+				auto* vBox = GetBoxCollider(entities[i]);
+				JPH::Vec3 halfExtents (vBox->GetSize().x, vBox->GetSize().y, vBox->GetSize().z);
+				halfExtents *= 0.5f;
+				JPH::BoxShapeSettings s_boxSettings(halfExtents);
+				JPH::ShapeSettings::ShapeResult result = s_boxSettings.Create();
+				JPH::ShapeRefC boxShape = result.Get();
+				JPH::BodyCreationSettings b_BoxSetting(boxShape, RVec3(0.0, -1.0, 0.0), JPH::Quat::sIdentity(), JPH::EMotionType::Static, Layers::NON_MOVING);
+				JPH::BodyID boxID = pBodies->CreateAndAddBody(b_BoxSetting, JPH::EActivation::Activate);
+				TDS_INFO("Box Created!");
+				_rigidbody->SetBodyID(boxID.GetIndex());
+			}
+
+			else if (GetCapsuleCollider(entities[i]) && _rigidbody->GetBodyID() == JPH::BodyID::cInvalidBodyID)
+			{
+				JPH::BodyInterface* pBodies = &PhysicsSystem::m_pSystem->GetBodyInterface(); // use pBodies to set velocity, mass etc.
+				auto* vCapsule = GetCapsuleCollider(entities[i]);
+				JPH::CapsuleShapeSettings s_capsuleSettings(vCapsule->GetHeight(), vCapsule->GetRadius());
+				JPH::ShapeSettings::ShapeResult result = s_capsuleSettings.Create();
+				JPH::ShapeRefC capsuleShape = result.Get();
+				JPH::BodyCreationSettings b_CapsuleSetting(capsuleShape, RVec3(0.0, -1.0, 0.0), JPH::Quat::sIdentity(), JPH::EMotionType::Static, Layers::NON_MOVING);
+				JPH::BodyID capsuleID = pBodies->CreateAndAddBody(b_CapsuleSetting, JPH::EActivation::Activate);
+				TDS_INFO("Capsule Created!");
+				_rigidbody->SetBodyID(capsuleID.GetIndex());
 			}
 		}
 	}
