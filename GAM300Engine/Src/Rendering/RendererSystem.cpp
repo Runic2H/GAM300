@@ -28,6 +28,7 @@ namespace TDS
 		for (size_t i = 0; i < entities.size(); ++i)
 		{
 			Renderer3D::getPipeline()->SetCommandBuffer(commandBuffer);
+			GraphicsManager::getInstance().m_PointLightRenderer->GetPipeline().SetCommandBuffer(commandBuffer);
 			_Graphics[i].GetAsset().m_GUID = *assetManager->GetModelFactory().m_LoadedModelsGUID.begin();
 			_Graphics[i].GetAsset().m_Identifier.CreateTypeIDByName(assetManager->GetModelFactory().m_ModelMap.begin()->first);
 			_Graphics[i].GetAsset().m_Identifier.GetTypeName<AssetModel>();
@@ -39,7 +40,7 @@ namespace TDS
 				if (Renderer3D::getPipeline()->GetCreateEntry().m_EnableDoubleBuffering)
 				{
 
-					GlobalUBO ubo = RendererDataManager::GetUBO(_Graphics->GetAsset().m_GUID.GetUniqueID());
+					GlobalUBO& ubo = RendererDataManager::GetUBO(_Graphics->GetAsset().m_GUID.GetUniqueID());
 					ModelElement elem = RendererDataManager::GetModelElement(_Graphics->GetAsset().m_GUID.GetUniqueID(), _Graphics->GetAsset().m_Reference);
 					PushConstantData pushData{};
 
@@ -50,20 +51,34 @@ namespace TDS
 					}
 					Mat4 temp = _TransformComponent[i].GetTransformMatrix();
 					pushData.ModelMat = temp;
-
 					temp.transpose();
-					//temp.inverse();
+					temp.inverse();
 					pushData.NormalMat = temp;
 
 					ubo.m_View = GraphicsManager::getInstance().GetCamera().GetViewMatrix();
-					ubo.m_vPointLights[0].m_Position = Vec4(lightPosX, 0.5f, 0.f, 0.2f);
-					ubo.m_vPointLights[0].m_Color = Vec4(1.f, 1.f, 1.f, 1.f);
+					GraphicsManager::getInstance().m_PointLightRenderer->update(ubo, &_Graphics[i], &_TransformComponent[i]);
 					ubo.m_Projection = Mat4::Perspective(GraphicsManager::getInstance().GetCamera().m_Fov * Mathf::Deg2Rad,
 						GraphicsManager::getInstance().GetSwapchainRenderer().getAspectRatio(), 0.1f, 10.f);
 					ubo.m_Projection.m[1][1] *= -1;
 
-					
-					Renderer3D::getPipeline()->BindPipeline();
+					if (_Graphics[i].IsPointLight()) { //if point light, use the use lights pipeline to render
+						//GraphicsManager::getInstance().m_PointLightRenderer->GetPipeline().BindPipeline();
+						GraphicsManager::getInstance().m_PointLightRenderer->GetPipeline().BindDescriptor(frame);
+						//TDS_INFO("number of lights {}", ubo.m_activelights);
+						GraphicsManager::getInstance().m_PointLightRenderer->GetPipeline().UpdateUBO(&ubo, sizeof(GlobalUBO), 1, frame);
+						GraphicsManager::getInstance().m_PointLightRenderer->render(&_Graphics[i], &_TransformComponent[i]);
+					}
+					else {//if not point light render using model
+						Renderer3D::getPipeline()->BindPipeline();
+						Renderer3D::getPipeline()->BindDescriptor(frame);
+						Renderer3D::getPipeline()->UpdateUBO(&ubo, sizeof(GlobalUBO), 0, frame);
+						Renderer3D::getPipeline()->SubmitPushConstant(&pushData, sizeof(PushConstantData), SHADER_FLAG::VERTEX);
+
+						Renderer3D::getPipeline()->BindVertexBuffer(*elem.m_VertexBuffer);
+						Renderer3D::getPipeline()->BindIndexBuffer(*elem.m_IndexBuffer);
+						Renderer3D::getPipeline()->DrawIndexed(*elem.m_VertexBuffer, *elem.m_IndexBuffer, frame);
+					}
+					/*Renderer3D::getPipeline()->BindPipeline();
 					Renderer3D::getPipeline()->UpdateUBO(&ubo, sizeof(GlobalUBO), 0, frame);
 					Renderer3D::getPipeline()->BindDescriptor(frame);
 					Renderer3D::getPipeline()->SubmitPushConstant(&pushData, sizeof(PushConstantData), SHADER_FLAG::VERTEX);
@@ -71,7 +86,7 @@ namespace TDS
 					Renderer3D::getPipeline()->BindVertexBuffer(*elem.m_VertexBuffer);
 					Renderer3D::getPipeline()->BindIndexBuffer(*elem.m_IndexBuffer);
 					Renderer3D::getPipeline()->DrawIndexed(*elem.m_VertexBuffer, *elem.m_IndexBuffer, frame);
-					
+					*/
 				}
 
 

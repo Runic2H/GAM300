@@ -21,7 +21,7 @@ namespace TDS
 		static void Destroy();
 		static ModelElement& GetModelElement(std::uint32_t guid, AssetModel* model);
 		/*static void SubmitMesh(std::uint32_t guid, Transform* trasform, AssetModel* model, float LightPos);*/
-		static GlobalUBO GetUBO(std::uint32_t guid);
+		static GlobalUBO& GetUBO(std::uint32_t guid);
 
 		/*static void EndSubmit();*/
 

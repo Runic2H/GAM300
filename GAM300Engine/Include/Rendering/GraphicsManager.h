@@ -3,6 +3,7 @@
 #include "dotnet/ImportExport.h"
 #include "vulkan/vulkan.h"
 #include "camera/camera.h"
+#include "vulkanTools/PointLightSystem.h"
 namespace TDS
 {
 
@@ -14,6 +15,7 @@ namespace TDS
 	class RenderTarget;
 	class RenderPass;
 	class FrameBuffer;
+	class PointLightSystem;
 	class DLL_API GraphicsManager
 	{
 	private:
@@ -49,6 +51,7 @@ namespace TDS
 		RenderTarget& getFinalImage() { return *m_RenderingAttachment; }
 		FrameBuffer& getFrameBuffer() { return *m_Framebuffer; }
 		RenderPass& getRenderPass() { return *m_Renderpass; }
+		std::unique_ptr<PointLightSystem> m_PointLightRenderer;
 	};
 
 

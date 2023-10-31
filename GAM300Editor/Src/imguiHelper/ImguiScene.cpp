@@ -24,7 +24,7 @@ namespace TDS
 		flags = ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoCollapse;
 		panelTitle = "Scene";
 		windowPadding = ImVec2(0.f, 0.f);
-		
+
 	}
 
 	std::string tempPath = "../../assets/textures/texture.dds";
@@ -74,7 +74,7 @@ namespace TDS
 		ImGui::Text("xx u can render the frame \n buffer here to replace the ImGui::Image");
 		ImGui::Text("so in future we will drag \n and rendering multiple images onto the scene");*/
 
-		
+
 		std::shared_ptr<Hierarchy> hierarchyPanel = static_pointer_cast<Hierarchy>(LevelEditorManager::GetInstance()->panels[PanelTypes::HIERARCHY]);
 		if (EntityID selectedEntity = hierarchyPanel->getSelectedEntity())
 		{
@@ -95,7 +95,10 @@ namespace TDS
 			float* _view = Mat4::Mat4Value_ptr(view);
 			float* _trans = Mat4::Mat4Value_ptr(trans->GetTransformMatrix());
 			float* _snap = Vec3::Vec3Value_ptr(snap);
-			bool val =  ImGuizmo::Manipulate(
+			if (TDS::Input::isKeyPressed(TDS_1)) { m_gizmoType = static_cast<int>(ImGuizmo::OPERATION::TRANSLATE); }
+			else if (TDS::Input::isKeyPressed(TDS_2)) { m_gizmoType = static_cast<int>(ImGuizmo::OPERATION::SCALE); }
+			else if (TDS::Input::isKeyPressed(TDS_3)) { m_gizmoType = static_cast<int>(ImGuizmo::OPERATION::ROTATE); }
+			bool val = ImGuizmo::Manipulate(
 				_view, _proj, (ImGuizmo::OPERATION)m_gizmoType, ImGuizmo::WORLD, _trans,
 				nullptr, false ? _snap : nullptr
 			);
@@ -116,9 +119,10 @@ namespace TDS
 				ImGuizmo::DecomposeMatrixToComponents(_trans, _transl, _rotat, _scal);
 
 				trans->SetPosition(_transl[0], _transl[1], _transl[2]);
-				trans->SetRotation(_rotat[0]*Mathf::Deg2Rad, _rotat[1] * Mathf::Deg2Rad, _rotat[2] * Mathf::Deg2Rad);
-				trans->SetScale(_scal[0], _scal[1], _scal[2]);
-				
+				trans->SetRotation(_rotat[0] * Mathf::Deg2Rad, _rotat[1] * Mathf::Deg2Rad, _rotat[2] * Mathf::Deg2Rad);
+				if (_scal[0] > 0.f && _scal[1] > 0.f && _scal[2] > 0.f)
+					trans->SetScale(_scal[0], _scal[1], _scal[2]);
+
 
 				delete[] _transl;
 				delete[] _rotat;

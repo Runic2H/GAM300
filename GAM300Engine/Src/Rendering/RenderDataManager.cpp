@@ -36,7 +36,7 @@ namespace TDS
 		return findItr->second;
 
 	}
-	GlobalUBO RendererDataManager::GetUBO(std::uint32_t guid)
+	GlobalUBO& RendererDataManager::GetUBO(std::uint32_t guid)
 	{
 		RendererDataManager& inst = *GetInstance();
 		return inst.m_UBO[guid];

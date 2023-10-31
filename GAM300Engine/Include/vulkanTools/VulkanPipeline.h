@@ -14,9 +14,9 @@ namespace TDS
 		VkBlendOp			m_ColorBlend{ VkBlendOp::VK_BLEND_OP_ADD },
 			m_AlphaBlend{ VkBlendOp::VK_BLEND_OP_ADD };
 
-		VkBlendFactor		m_SrcClrBlend{ VkBlendFactor::VK_BLEND_FACTOR_ZERO },
-			m_DstClrBlend{ VkBlendFactor::VK_BLEND_FACTOR_ZERO },
-			m_SrcAlphaBlend{ VkBlendFactor::VK_BLEND_FACTOR_ZERO },
+		VkBlendFactor		m_SrcClrBlend{ VkBlendFactor::VK_BLEND_FACTOR_SRC_ALPHA },
+			m_DstClrBlend{ VkBlendFactor::VK_BLEND_FACTOR_ONE_MINUS_SRC_ALPHA },
+			m_SrcAlphaBlend{ VkBlendFactor::VK_BLEND_FACTOR_ONE },
 			m_DstAlphaBlend{ VkBlendFactor::VK_BLEND_FACTOR_ZERO };
 
 		VkCullModeFlags		m_CullMode = VkCullModeFlagBits::VK_CULL_MODE_BACK_BIT;
@@ -25,7 +25,7 @@ namespace TDS
 		float				m_MinDepth{ 0.f },
 			m_MaxDepth{ 1.f };
 
-		bool				m_EnableDepthTest{ false },
+		bool				m_EnableDepthTest{ true },
 			m_EnableDepthWrite{ true },
 			m_EnableDepthBiased{ false },
 			m_EnablePrimitiveRestart{ false };
@@ -120,6 +120,7 @@ namespace TDS
 		std::uint32_t							GetTextureBinding(std::string_view textureBinding);
 		VulkanPipelineDescriptor& GetPipelineDescriptor();
 		PipelineCreateEntry& GetCreateEntry();
+		VkCommandBuffer& GetCommandBuffer();
 
 		void									SetFlipViewport(bool condition);
 		bool									IsFlipViewport() const;

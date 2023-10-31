@@ -385,6 +385,10 @@ namespace TDS
 			{
 				propertyName.set_value(componentInstance, ImguiInput(propertyName.get_name().to_string(), propertyName.get_value(componentInstance).convert<Vec3>()));
 			}
+			else if (propertyName.get_type() == rttr::type::get<Vec4>())
+			{
+				propertyName.set_value(componentInstance, ImguiInput(propertyName.get_name().to_string(), propertyName.get_value(componentInstance).convert<Vec4>()));
+			}
 		}
 	}
 
@@ -485,5 +489,25 @@ namespace TDS
 		Vec3Variable.z = temp[2];
 
 		return Vec3Variable;
+	}
+
+	/*!*************************************************************************
+	This function is a helper function for draw VEC4 variables
+	****************************************************************************/
+	Vec4 ImguiInput(std::string variableName, Vec4 Vec4Variable)
+	{
+		ImGui::TableNextRow();
+		ImGui::TableNextColumn();
+		ImGui::Text(variableName.c_str());
+
+		ImGui::TableNextColumn();
+		float temp[4]{ Vec4Variable.x, Vec4Variable.y, Vec4Variable.z, Vec4Variable.w };
+		ImGui::DragFloat4(("##" + variableName).c_str(), temp, 1.0f);
+		Vec4Variable.x = temp[0];
+		Vec4Variable.y = temp[1];
+		Vec4Variable.z = temp[2];
+		Vec4Variable.w = temp[3];
+
+		return Vec4Variable;
 	}
 }

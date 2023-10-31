@@ -15,7 +15,7 @@ namespace TDS
 
 	private:
 		
-		int m_gizmoType = 14463;
+		int m_gizmoType = 7;
 		bool m_gizmoActive = false;
 	};
 }

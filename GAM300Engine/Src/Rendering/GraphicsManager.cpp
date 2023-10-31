@@ -56,6 +56,7 @@ namespace TDS
 		m_Framebuffer = new FrameBuffer(m_MainVkContext->getVkLogicalDevice(), m_Renderpass->getRenderPass(), attachments);
 		
 		Renderer3D::Init();
+		m_PointLightRenderer = std::make_unique<PointLightSystem>(*m_MainVkContext);
 		for (auto& renderLayer : m_RenderLayer)
 		{
 			renderLayer->Setup(m_pWindow);

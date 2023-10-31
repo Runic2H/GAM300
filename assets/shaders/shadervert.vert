@@ -13,6 +13,7 @@ layout(location = 3) out vec3 fragNormalWorld;
 struct PointLight{
     vec4 Position;
     vec4 Color;
+    vec4 pad[2];
 };
 
 //for the scene
@@ -21,7 +22,9 @@ layout(set = 0, binding = 0) uniform GlobalUBO{
     mat4 view;
     //mat4 InvView;
     vec4 ambientlightcolor;
-    PointLight pointlights[10];    
+    PointLight pointlights[10];
+    int activelights;
+    vec4 pad[15];    
 }PL;
 
 //updated per frame per model

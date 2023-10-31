@@ -628,6 +628,9 @@ namespace TDS
 	{
 		return m_PipelineEntry;
 	}
+	VkCommandBuffer& VulkanPipeline::GetCommandBuffer() {
+		return m_CommandBuffer;
+	}
 	void VulkanPipeline::SetFlipViewport(bool condition)
 	{
 		m_FlipViewport = condition;
