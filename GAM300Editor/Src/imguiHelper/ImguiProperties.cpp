@@ -389,6 +389,12 @@ namespace TDS
 			{
 				propertyName.set_value(componentInstance, ImguiInput(propertyName.get_name().to_string(), propertyName.get_value(componentInstance).convert<Vec4>()));
 			}
+			else if (propertyName.get_type() == rttr::type::get<RigidBody::MotionType>())
+			{
+				static std::vector<std::string> rigidbodyMotionTypeString = { "NONE", "STATIC", "KINEMATIC", "DYNAMIC" };
+				int temp = propertyName.get_value(componentInstance).convert<int>();
+				propertyName.set_value(componentInstance, static_cast<RigidBody::MotionType>(ImguiInput(propertyName.get_name().to_string(), rigidbodyMotionTypeString, propertyName.get_value(componentInstance).convert<int>())));
+			}
 		}
 	}
 
@@ -509,5 +515,44 @@ namespace TDS
 		Vec4Variable.w = temp[3];
 
 		return Vec4Variable;
+	}
+
+	/*!*************************************************************************
+	This function is a helper function for draw VEC4 variables
+	****************************************************************************/
+	int ImguiInput(std::string variableName, std::vector<std::string>& enumString, int enumVariable)
+	{
+		ImGui::TableNextRow();
+		ImGui::TableNextColumn();
+		ImGui::Text(variableName.c_str());
+
+		ImGui::TableNextColumn();
+
+		// Uninitialized
+		if (enumVariable == -1)
+		{
+			enumVariable = 0;
+		}
+
+		if (ImGui::BeginCombo(("##" + variableName).c_str(), enumString[enumVariable].c_str()))
+		{
+			for (int n = 0; n < enumString.size(); n++)
+			{
+				const bool is_selected = (enumVariable == n);
+				if (ImGui::Selectable(enumString[n].c_str(), is_selected))
+				{
+					enumVariable = n;
+				}
+
+				// Set the initial focus when opening the combo (scrolling + keyboard navigation focus)
+				if (is_selected)
+				{
+					ImGui::SetItemDefaultFocus();
+				}
+			}
+			ImGui::EndCombo();
+		}
+
+		return enumVariable;
 	}
 }
