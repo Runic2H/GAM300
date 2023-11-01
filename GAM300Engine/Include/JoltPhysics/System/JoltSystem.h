@@ -16,6 +16,9 @@
 #include "components/sphereCollider.h"
 #include "components/capsuleCollider.h"
 #include "components/rigidBody.h"
+#include "components/transform.h"
+
+#include "JoltPhysics/Utils/JoltConversionUtils.h"
 
 
 namespace TDS
@@ -26,7 +29,8 @@ namespace TDS
 
 		static void Init();
 		static void Update(const float dt, const std::vector<EntityID>& entities, 
-							RigidBody* _rigidbody);
+							Transform* _transform, RigidBody* _rigidbody);
+
 	};
 }
 

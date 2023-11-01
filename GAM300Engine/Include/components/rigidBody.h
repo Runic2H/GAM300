@@ -19,10 +19,9 @@ namespace TDS
 	class RigidBody : public IComponent
 	{
 	public:
-		enum class MotionType //EMotionType in Jolt/.../MotionType.h
+		enum class MotionType : uint8_t//EMotionType in Jolt/.../MotionType.h
 		{
-			NONE,		//when type is not set
-			STATIC,		///< Non movable
+			STATIC = 0,		///< Non movable
 			KINEMATIC,  ///< Movable using velocities only, does not respond to forces
 			DYNAMIC		///< Responds to forces as a normal physics object
 		};
@@ -85,6 +84,7 @@ namespace TDS
 		DLL_API void SetGravity(float gravity) { mGravity = gravity; }
 		
 		DLL_API MotionType& GetMotionType() { return mMotionType; }
+		DLL_API int GetMotionTypeInt() { return static_cast<int>(mMotionType); }
 		DLL_API void SetMotionType(MotionType motionType) { mMotionType = motionType; }
 
 		DLL_API uint32_t GetBodyID() { return mBodyID; }

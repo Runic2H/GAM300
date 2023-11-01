@@ -212,6 +212,7 @@
     <ClInclude Include="Include\AssetManagement\ResourceAllocator.h" />
     <ClInclude Include="Include\Rendering\FontRenderer.h" />
     <ClInclude Include="Include\Rendering\GridRenderer.h" />
+    <ClInclude Include="Include\JoltPhysics\Utils\JoltConversionUtils.h" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Include\Logger\Logger.h" />

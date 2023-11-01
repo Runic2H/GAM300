@@ -391,7 +391,7 @@ namespace TDS
 			}
 			else if (propertyName.get_type() == rttr::type::get<RigidBody::MotionType>())
 			{
-				static std::vector<std::string> rigidbodyMotionTypeString = { "NONE", "STATIC", "KINEMATIC", "DYNAMIC" };
+				static std::vector<std::string> rigidbodyMotionTypeString = { "STATIC", "KINEMATIC", "DYNAMIC" };
 				int temp = propertyName.get_value(componentInstance).convert<int>();
 				propertyName.set_value(componentInstance, static_cast<RigidBody::MotionType>(ImguiInput(propertyName.get_name().to_string(), rigidbodyMotionTypeString, propertyName.get_value(componentInstance).convert<int>())));
 			}
@@ -518,7 +518,7 @@ namespace TDS
 	}
 
 	/*!*************************************************************************
-	This function is a helper function for draw VEC4 variables
+	This function is a helper function for draw ENUM variables
 	****************************************************************************/
 	int ImguiInput(std::string variableName, std::vector<std::string>& enumString, int enumVariable)
 	{

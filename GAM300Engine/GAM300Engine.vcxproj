@@ -336,6 +336,7 @@ xcopy /y /d "$(SolutionDir)Libs\fmod\*.dll" "$(OutDir)"</Command>
     <ClInclude Include="Include\Input\Input.h" />
     <ClInclude Include="Include\JoltPhysics\System\JoltCore.h" />
     <ClInclude Include="Include\JoltPhysics\System\JoltSystem.h" />
+    <ClInclude Include="Include\JoltPhysics\Utils\JoltConversionUtils.h" />
     <ClInclude Include="Include\memoryManager\memoryManager.h" />
     <ClInclude Include="Include\Model\ModelTransform.h" />
     <ClInclude Include="Include\Model\Skeleton.h" />

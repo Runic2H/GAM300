@@ -61,7 +61,6 @@ RTTR_REGISTRATION
 
 	rttr::registration::enumeration<RigidBody::MotionType>("MotionType")
 		(
-			rttr::value("NONE", RigidBody::MotionType::NONE),
 			rttr::value("STATIC", RigidBody::MotionType::STATIC),
 			rttr::value("DYNAMIC", RigidBody::MotionType::DYNAMIC),
 			rttr::value("KINEMATIC", RigidBody::MotionType::KINEMATIC)
@@ -86,7 +85,7 @@ namespace TDS
 							 mInverseMass(0.0f),
 							 mGravity(0.0f),
 							 mBodyID(JPH::BodyID::cInvalidBodyID),
-							 mMotionType(MotionType::NONE)
+							 mMotionType(MotionType::STATIC)
 	{ }
 
 
