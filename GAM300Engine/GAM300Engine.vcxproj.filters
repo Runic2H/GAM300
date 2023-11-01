@@ -213,6 +213,8 @@
     <ClInclude Include="Include\Rendering\FontRenderer.h" />
     <ClInclude Include="Include\Rendering\GridRenderer.h" />
     <ClInclude Include="Include\JoltPhysics\Utils\JoltConversionUtils.h" />
+    <ClInclude Include="Include\JoltPhysics\Implementation\Body\JoltBodyID.h" />
+    <ClInclude Include="Include\JoltPhysics\Implementation\Body\JoltHashCombine.h" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Include\Logger\Logger.h" />

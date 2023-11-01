@@ -20,12 +20,15 @@
 
 #include "Physics/JPHLayers.h"
 #include "JoltPhysics/System/JoltCore.h"
+#include "JoltPhysics/Utils/JoltConversionUtils.h"
 
  // Jolt includes
 #include <Jolt/Core/JobSystemThreadPool.h>
 #include <Jolt/Physics/PhysicsSettings.h>
 #include <Jolt/Physics/PhysicsSystem.h>
 #include <Jolt/Physics/Body/BodyCreationSettings.h>
+#include <Jolt/Physics/Collision/Shape/BoxShape.h>
+
 
 JPH_SUPPRESS_WARNINGS
 
@@ -61,7 +64,7 @@ namespace TDS
 		static void SettingObjectDirection(Vec3& totalForce, RigidBody& _rigidbody);
 
 		void JoltPhysicsSystemInit();
-		void JoltPhysicsSystemUpdate();
+		void JoltPhysicsSystemUpdate(Transform& _transform, RigidBody& _rigidbody);
 		void JoltPhysicsSystemShutdown();
 
 	private:
@@ -71,7 +74,6 @@ namespace TDS
 	
 	private:
 		// Jolt Physics Global Settings
-		JPH::BodyID sphere_id;
 		std::unique_ptr<JPH::TempAllocatorImpl>		m_pTempAllocator;
 		//std::unique_ptr<JPH::JobSystemThreadPool>	m_pJobSystem;
 

@@ -1,7 +1,13 @@
 #ifndef JOLTCONVERSIONUTILS_H
 #define JOLTCONVERSIONUTILS_H
 
+#include "components/rigidBody.h"
+
 #include <Jolt/Core/Color.h>
+#include <Jolt/Physics/Body/MotionType.h>
+#include <Jolt/Physics/Body/BodyID.h>
+
+#include "JoltPhysics/Implementation/Body/JoltBodyID.h"
 
 namespace TDS::JoltConversionUtils
 {
@@ -22,6 +28,26 @@ namespace TDS::JoltConversionUtils
 	inline Quat ToQuat(const JPH::Quat& q) { return Quat(q.GetX(), q.GetY(), q.GetZ(), q.GetW()); }
 	
 	inline JPH::Quat ToQuat(const Quat& q) { return JPH::Quat(q.x, q.y, q.z, q.w); }
+
+	inline JPH::EMotionType ToEMotionType(const RigidBody::MotionType& e)
+	{
+		switch (e)
+		{
+		case RigidBody::MotionType::STATIC:
+			return JPH::EMotionType::Static;
+		case RigidBody::MotionType::DYNAMIC:
+			return JPH::EMotionType::Dynamic;
+		case RigidBody::MotionType::KINEMATIC:
+			return JPH::EMotionType::Kinematic;
+		default:
+			return JPH::EMotionType::Static;
+		}
+	}
+
+	inline JPH::BodyID ToBodyID(RigidBody* body)
+	{
+		return JPH::BodyID(body->GetBodyID().GetIndexAndSequenceNumber());
+	}
 }
 
 

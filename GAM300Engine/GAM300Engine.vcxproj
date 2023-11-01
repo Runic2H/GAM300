@@ -334,6 +334,8 @@ xcopy /y /d "$(SolutionDir)Libs\fmod\*.dll" "$(OutDir)"</Command>
     <ClInclude Include="Include\GraphicsResource\VertexInfo.h" />
     <ClInclude Include="Include\GridManager\GridManager.h" />
     <ClInclude Include="Include\Input\Input.h" />
+    <ClInclude Include="Include\JoltPhysics\Implementation\Body\JoltBodyID.h" />
+    <ClInclude Include="Include\JoltPhysics\Implementation\Body\JoltHashCombine.h" />
     <ClInclude Include="Include\JoltPhysics\System\JoltCore.h" />
     <ClInclude Include="Include\JoltPhysics\System\JoltSystem.h" />
     <ClInclude Include="Include\JoltPhysics\Utils\JoltConversionUtils.h" />

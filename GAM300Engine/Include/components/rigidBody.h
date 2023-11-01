@@ -13,7 +13,7 @@
 
 #include "Vector3.h"
 #include "ecs/ecs.h"
-
+#include "JoltPhysics/Implementation/Body/JoltBodyID.h"
 namespace TDS
 {
 	class RigidBody : public IComponent
@@ -22,8 +22,8 @@ namespace TDS
 		enum class MotionType : uint8_t//EMotionType in Jolt/.../MotionType.h
 		{
 			STATIC = 0,		///< Non movable
-			KINEMATIC,  ///< Movable using velocities only, does not respond to forces
-			DYNAMIC		///< Responds to forces as a normal physics object
+			KINEMATIC,		///< Movable using velocities only, does not respond to forces
+			DYNAMIC			///< Responds to forces as a normal physics object
 		};
 
 		/*!*************************************************************************
@@ -70,7 +70,7 @@ namespace TDS
 
 		DLL_API Vec3& GetNextPosition() { return mNextPosition; }
 		DLL_API void SetNextPosition(Vec3 nextPosition) { mNextPosition = nextPosition; }
-
+		
 		DLL_API float& GetFriction() { return mFriction; }
 		DLL_API void SetFrictionCoefficient(float friction) { mFriction = friction; }
 
@@ -83,12 +83,19 @@ namespace TDS
 		DLL_API float& GetGravity() { return mGravity; }
 		DLL_API void SetGravity(float gravity) { mGravity = gravity; }
 		
+		DLL_API float& GetLinearDamping() { return mLinearDamping; }
+		DLL_API void SetLinearDamping(float damping) { mLinearDamping = damping; }
+		
+		DLL_API float& GetAngularDamping() { return mAngularDamping; }
+		DLL_API void SetAngularDamping(float damping) { mAngularDamping = damping; }
+
+
 		DLL_API MotionType& GetMotionType() { return mMotionType; }
 		DLL_API int GetMotionTypeInt() { return static_cast<int>(mMotionType); }
 		DLL_API void SetMotionType(MotionType motionType) { mMotionType = motionType; }
 
-		DLL_API uint32_t GetBodyID() { return mBodyID; }
-		DLL_API void SetBodyID(uint32_t bodyID) { mBodyID = bodyID; }
+		DLL_API JoltBodyID GetBodyID() { return mBodyID; }
+		DLL_API void SetBodyID(JoltBodyID bodyID) { mBodyID = bodyID; }
 
 		RTTR_ENABLE(IComponent);
 		RTTR_REGISTRATION_FRIEND
@@ -113,9 +120,11 @@ namespace TDS
 		float mRestitution;
 		float mInverseMass;
 		float mGravity;
+		float mLinearDamping;
+		float mAngularDamping;
 		
 		MotionType	mMotionType;
-		uint32_t	mBodyID;
+		JoltBodyID	mBodyID;
 	};
 
 }

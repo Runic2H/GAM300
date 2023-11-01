@@ -18,7 +18,6 @@
 //#include <Jolt/Core/JobSystemThreadPool.h>
 //#include <Jolt/Physics/PhysicsSettings.h>
 //#include <Jolt/Physics/PhysicsSystem.h> //jolt physics system
-//#include <Jolt/Physics/Collision/Shape/BoxShape.h>
 //#include <Jolt/Physics/Collision/Shape/SphereShape.h>
 //#include <Jolt/Physics/Body/BodyCreationSettings.h>
 //#include <Jolt/Physics/Body/BodyActivationListener.h>
@@ -71,7 +70,7 @@ namespace TDS
 
 		// The main way to interact with the bodies in the physics system is through the body interface. There is a locking and a non-locking
 		// variant of this. We're going to use the locking version (even though we're not planning to access bodies from multiple threads)
-		/* {
+		 {
 			JPH::BodyInterface* pBodies = &m_pSystem->GetBodyInterface();
 			//JPH::BodyInterface& body_interface = m_pSystem->GetBodyInterface();
 			// Next we can create a rigid body to serve as the floor, we make a large box
@@ -91,16 +90,7 @@ namespace TDS
 			Body* floor = pBodies->CreateBody(floor_settings);// Note that if we run out of bodies this can return nullptr
 			// Add it to the world
 			pBodies->AddBody(floor->GetID(), EActivation::DontActivate);
-
-			// Now create a dynamic body to bounce on the floor
-			// Note that this uses the shorthand version of creating and adding a body to the world
-			BodyCreationSettings sphere_settings(new SphereShape(0.5f), RVec3(0.0_r, 2.0_r, 0.0_r), JPH::Quat::sIdentity(), EMotionType::Dynamic, Layers::MOVING);
-			sphere_id = pBodies->CreateAndAddBody(sphere_settings, EActivation::Activate);
-
-			// Now you can interact with the dynamic body, in this case we're going to give it a velocity.
-			// (note that if we had used CreateBody then we could have set the velocity straight on the body before adding it to the physics system)
-			pBodies->SetLinearVelocity(sphere_id, JPH::Vec3(0.0f, -5.0f, 0.0f));
-		}*/
+		}
 		// Optional step: Before starting the physics simulation you can optimize the broad phase. This improves collision detection performance (it's pointless here because we only have 2 bodies).
 		// You should definitely not call this every frame or when e.g. streaming in a new level section as it is an expensive operation.
 		// Instead insert all new objects in batches instead of 1 at a time to keep the broad phase efficient.
@@ -110,18 +100,17 @@ namespace TDS
 
 	}
 	
-	void PhysicsSystem::JoltPhysicsSystemUpdate()
+	void PhysicsSystem::JoltPhysicsSystemUpdate(Transform& _tranform, RigidBody& _rigidbody)
 	{
 		// Next step
 		// Now we're ready to simulate the body, keep simulating until it goes to sleep
 
-		JPH::BodyInterface* body_interface = &m_pSystem->GetBodyInterface();
+		JPH::BodyInterface* pBodies = &m_pSystem->GetBodyInterface();
 		++m_stepNumber;
 		// Output current position and velocity of the sphere
-		RVec3 position = body_interface->GetCenterOfMassPosition(sphere_id);
-		JPH::Vec3 velocity = body_interface->GetLinearVelocity(sphere_id);
+		JPH::Vec3 position = pBodies->GetCenterOfMassPosition((JoltConversionUtils::ToBodyID(&_rigidbody)));
+		JPH::Vec3 velocity = pBodies->GetLinearVelocity(JoltConversionUtils::ToBodyID(&_rigidbody));
 		std::cout << "Step " << m_stepNumber << ": Position = (" << position.GetX() << ", " << position.GetY() << ", " << position.GetZ() << "), Velocity = (" << velocity.GetX() << ", " << velocity.GetY() << ", " << velocity.GetZ() << ")" << std::endl;
-
 		// Step the world
 		m_pSystem->Update(TimeStep::GetFixedDeltaTime(), 1, m_pTempAllocator.get(), JoltCore::s_pJobSystem.get());
 
@@ -148,7 +137,13 @@ namespace TDS
 		//	}
 		//	accumulatedTime -= TimeStep::GetFixedDeltaTime();
 		//}	
-		JPH_pSystem.JoltPhysicsSystemUpdate();
+		JPH::BodyInterface* pBodies = &m_pSystem->GetBodyInterface();
+		for (int i = 0; i < entities.size(); ++i)
+		{
+			//pBodies->SetLinearVelocity(JoltConversionUtils::ToBodyID(&_rigidbody[i]), JPH::Vec3(0, -2, 0));
+			JPH_pSystem.JoltPhysicsSystemUpdate(_transform[i], _rigidbody[i]);
+			
+		}
 	}
 
 	void PhysicsSystem::JoltPhysicsSystemShutdown()
