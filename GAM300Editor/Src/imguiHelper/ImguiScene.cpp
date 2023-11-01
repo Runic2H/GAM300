@@ -12,7 +12,7 @@
 namespace TDS
 {
 	Texture data{};
-	VkDescriptorSet m_DescSet{};
+	VkDescriptorSet m_DescSet = nullptr;
 	std::shared_ptr<EditorConsole> consolelog = static_pointer_cast<EditorConsole>(LevelEditorManager::GetInstance()->panels[PanelTypes::CONSOLE]);
 
 	EditorScene::EditorScene()
@@ -28,6 +28,10 @@ namespace TDS
 	}
 
 	std::string tempPath = "../../assets/textures/texture.dds";
+	void EditorScene::init()
+	{
+		m_DescSet = ImGui_ImplVulkan_AddTexture(GraphicsManager::getInstance().getFinalImage().getSampler(), GraphicsManager::getInstance().getFinalImage().getImageView(), VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL);
+	}
 	void EditorScene::update()
 	{
 		//ImGui::Image(reinterpret_cast<void*>(vkTexture.m_DescSet), ImVec2{ 200, 200 }, ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
@@ -63,7 +67,7 @@ namespace TDS
 		//data.LoadTexture(tempPath);
 		//vkTexture.CreateBasicTexture(data.m_TextureInfo);
 		ImVec2 vSize = ImGui::GetContentRegionAvail();
-		m_DescSet = ImGui_ImplVulkan_AddTexture(GraphicsManager::getInstance().getFinalImage().getSampler(), GraphicsManager::getInstance().getFinalImage().getImageView(), VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL);
+	
 		ImGui::Image((ImTextureID)m_DescSet, vSize);
 		//ImGui::End();
 		//code above is currently commented out due to how images are infinitely rendered in update loop and not freed, just for testing
@@ -133,6 +137,15 @@ namespace TDS
 			delete[] _view;
 			delete[] _trans;
 			delete[] _snap;
+		}
+	}
+	void EditorScene::Resize()
+	{
+		if (m_DescSet)
+		{
+			ImGui_ImplVulkan_RemoveTexture(m_DescSet);
+			m_DescSet = ImGui_ImplVulkan_AddTexture(GraphicsManager::getInstance().getFinalImage().getSampler(), GraphicsManager::getInstance().getFinalImage().getImageView(), VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL);
+
 		}
 	}
 }
