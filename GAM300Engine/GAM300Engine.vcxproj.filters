@@ -85,7 +85,6 @@
     <ClCompile Include="Src\Rendering\RenderTarget.cpp" />
     <ClCompile Include="Src\Rendering\renderPass.cpp" />
     <ClCompile Include="Src\JoltPhysics\System\JoltCore.cpp" />
-    <ClCompile Include="Src\JoltPhysics\System\JoltSystem.cpp" />
     <ClCompile Include="Src\AssetManagement\ResourceAllocator.cpp" />
     <ClCompile Include="Src\components\FontComponent.cpp" />
     <ClCompile Include="Src\GridManager\GridManager.cpp" />
@@ -205,7 +204,6 @@
     <ClInclude Include="Include\propertyManager\registration.h" />
     <ClInclude Include="Include\JoltPhysics\System\JoltCore.h" />
     <ClInclude Include="Include\Physics\JPHLayers.h" />
-    <ClInclude Include="Include\JoltPhysics\System\JoltSystem.h" />
     <ClInclude Include="Include\GraphicsResource\FontInfo.h" />
     <ClInclude Include="Include\GridManager\GridManager.h" />
     <ClInclude Include="Include\components\FontComponent.h" />

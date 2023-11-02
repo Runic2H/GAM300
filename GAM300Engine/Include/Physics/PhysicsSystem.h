@@ -13,21 +13,26 @@
 
 #include "ecs/ecs.h"
 #include "components/rigidBody.h"
+#include "components/boxCollider.h"
+#include "components/sphereCollider.h"
+#include "components/capsuleCollider.h"
 #include "components/transform.h"
 #include "dotnet/ImportExport.h"
 #include "Timestep/Timestep.h"
 #include "Logger/Logger.h"
-
 #include "Physics/JPHLayers.h"
+
+
 #include "JoltPhysics/System/JoltCore.h"
 #include "JoltPhysics/Utils/JoltConversionUtils.h"
 
  // Jolt includes
-#include <Jolt/Core/JobSystemThreadPool.h>
 #include <Jolt/Physics/PhysicsSettings.h>
 #include <Jolt/Physics/PhysicsSystem.h>
 #include <Jolt/Physics/Body/BodyCreationSettings.h>
 #include <Jolt/Physics/Collision/Shape/BoxShape.h>
+#include <Jolt/Physics/Collision/Shape/SphereShape.h>
+#include <Jolt/Physics/Collision/Shape/CapsuleShape.h>
 
 
 JPH_SUPPRESS_WARNINGS
@@ -46,7 +51,6 @@ namespace TDS
 		 ***************************************************************************/
 		static void PhysicsSystemInit();
 		static void PhysicsSystemUpdate(const float dt, const std::vector<EntityID>& entities, Transform* _transform, RigidBody* _rigidbody);
-		static std::unique_ptr<JPH::PhysicsSystem>			m_pSystem;
 
 		//std::unique_ptr<JPH::PhysicsSystem>& getPhysicsSystem() { return m_pSystem; }
 	private:
@@ -63,25 +67,26 @@ namespace TDS
 		 ***************************************************************************/
 		static void SettingObjectDirection(Vec3& totalForce, RigidBody& _rigidbody);
 
-		void JoltPhysicsSystemInit();
-		void JoltPhysicsSystemUpdate(Transform& _transform, RigidBody& _rigidbody);
-		void JoltPhysicsSystemShutdown();
+		void JPH_SystemShutdown();
+
+		static void JPH_SystemUpdate(Transform* _transform, RigidBody* _rigidbody);
+		static void JPH_CreateBodyID(const EntityID& entities, Transform* _transform, RigidBody* _rigidbody);
 
 	private:
 		// TDS Physics System
 		static const double fixedDt;
 		static double accumulatedTime;
+		//PhysicsSystem* pSystem_ptr;
+
 	
 	private:
 		// Jolt Physics Global Settings
-		std::unique_ptr<JPH::TempAllocatorImpl>		m_pTempAllocator;
-		//std::unique_ptr<JPH::JobSystemThreadPool>	m_pJobSystem;
+		static std::unique_ptr<JPH::PhysicsSystem>			m_pSystem;
+		static std::unique_ptr<JPH::TempAllocatorImpl>		m_pTempAllocator;
 
-		BPLayerInterfaceImpl						broad_phase_layer_interface;
-		ObjectVsBroadPhaseLayerFilterImpl			object_vs_broadphase_layer_filter;
-		ObjectLayerPairFilterImpl					object_vs_object_layer_filter;
-
-		PhysicsSettings								m_physicsSettings;
+		static BPLayerInterfaceImpl							broad_phase_layer_interface;
+		static ObjectVsBroadPhaseLayerFilterImpl			object_vs_broadphase_layer_filter;
+		static ObjectLayerPairFilterImpl					object_vs_object_layer_filter;
 
 		unsigned int								m_stepNumber = 0;
 	};

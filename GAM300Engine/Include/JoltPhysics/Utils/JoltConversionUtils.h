@@ -9,10 +9,10 @@
 
 #include "JoltPhysics/Implementation/Body/JoltBodyID.h"
 
-namespace TDS::JoltConversionUtils
+namespace TDS::JoltToTDS
 {
 	inline Vec3 ToVec3(const JPH::Vec3& v) { return Vec3(v.GetX(), v.GetY(), v.GetZ()); }
-	
+
 	inline Vec3 ToVec3(const JPH::Float3& v) { return Vec3(v.x, v.y, v.z); }
 	
 	inline Color ToColor(const JPH::ColorArg& c)

@@ -9,25 +9,21 @@
  *******************************************************************************/
 #include "Physics/PhysicsSystem.h"
 
-//for threadpool
 
-
-//#include <Jolt/RegisterTypes.h>
-//#include <Jolt/Core/Factory.h>
-//#include <Jolt/Core/TempAllocator.h>
-//#include <Jolt/Core/JobSystemThreadPool.h>
-//#include <Jolt/Physics/PhysicsSettings.h>
-//#include <Jolt/Physics/PhysicsSystem.h> //jolt physics system
-//#include <Jolt/Physics/Collision/Shape/SphereShape.h>
-//#include <Jolt/Physics/Body/BodyCreationSettings.h>
-//#include <Jolt/Physics/Body/BodyActivationListener.h>
 
 namespace TDS
 {
-	const double PhysicsSystem::fixedDt = 0.0166666f;
-	double PhysicsSystem::accumulatedTime = 0.0f;
+	/*!*************************************************************************
+	 * Static variables
+	 ***************************************************************************/
+	const double								PhysicsSystem::fixedDt = 0.0166666f;
+	double										PhysicsSystem::accumulatedTime = 0.0f;
 	std::unique_ptr<JPH::PhysicsSystem>			PhysicsSystem::m_pSystem;
-	PhysicsSystem JPH_pSystem;
+	std::unique_ptr<JPH::TempAllocatorImpl>		PhysicsSystem::m_pTempAllocator;
+
+	BPLayerInterfaceImpl						PhysicsSystem::broad_phase_layer_interface;
+	ObjectVsBroadPhaseLayerFilterImpl			PhysicsSystem::object_vs_broadphase_layer_filter;
+	ObjectLayerPairFilterImpl					PhysicsSystem::object_vs_object_layer_filter;
 	/*!*************************************************************************
 	 * Configuration
 	 ***************************************************************************/
@@ -36,7 +32,8 @@ namespace TDS
 	const unsigned int cMaxBodyPairs = 65536;			// Max amount of body pair for broadphrase detection
 	const unsigned int cMaxContactConstraints = 20480;	// Maximum number of contact constraints
 
-	void PhysicsSystem::JoltPhysicsSystemInit()
+
+	void PhysicsSystem::PhysicsSystemInit()
 	{
 		// Initialize the Jolt Core
 		JoltCore::Init();
@@ -46,15 +43,15 @@ namespace TDS
 		// If you don't want to pre-allocate you can also use TempAllocatorMalloc to fall back to
 		// malloc / free.
 		m_pTempAllocator = std::make_unique<TempAllocatorImpl>(10 * 1024 * 1024);
-		
+
 		m_pSystem = std::make_unique<JPH::PhysicsSystem>();
 		m_pSystem->Init(cMaxBodies,
-						cNumBodyMutexes,
-						cMaxBodyPairs, 
-						cMaxContactConstraints, 
-						broad_phase_layer_interface, 
-						object_vs_broadphase_layer_filter, 
-						object_vs_object_layer_filter);
+			cNumBodyMutexes,
+			cMaxBodyPairs,
+			cMaxContactConstraints,
+			broad_phase_layer_interface,
+			object_vs_broadphase_layer_filter,
+			object_vs_object_layer_filter);
 
 		// A body activation listener gets notified when bodies activate and go to sleep
 		// Note that this is called from a job so whatever you do here needs to be thread safe.
@@ -70,7 +67,7 @@ namespace TDS
 
 		// The main way to interact with the bodies in the physics system is through the body interface. There is a locking and a non-locking
 		// variant of this. We're going to use the locking version (even though we're not planning to access bodies from multiple threads)
-		 {
+		 /*{
 			JPH::BodyInterface* pBodies = &m_pSystem->GetBodyInterface();
 			//JPH::BodyInterface& body_interface = m_pSystem->GetBodyInterface();
 			// Next we can create a rigid body to serve as the floor, we make a large box
@@ -90,44 +87,20 @@ namespace TDS
 			Body* floor = pBodies->CreateBody(floor_settings);// Note that if we run out of bodies this can return nullptr
 			// Add it to the world
 			pBodies->AddBody(floor->GetID(), EActivation::DontActivate);
-		}
+		}*/
 		// Optional step: Before starting the physics simulation you can optimize the broad phase. This improves collision detection performance (it's pointless here because we only have 2 bodies).
 		// You should definitely not call this every frame or when e.g. streaming in a new level section as it is an expensive operation.
 		// Instead insert all new objects in batches instead of 1 at a time to keep the broad phase efficient.
 		m_pSystem->OptimizeBroadPhase();
-		
+
 		std::cout << "successfully init Jolt Physics" << '\n';
-
-	}
-	
-	void PhysicsSystem::JoltPhysicsSystemUpdate(Transform& _tranform, RigidBody& _rigidbody)
-	{
-		// Next step
-		// Now we're ready to simulate the body, keep simulating until it goes to sleep
-
-		JPH::BodyInterface* pBodies = &m_pSystem->GetBodyInterface();
-		++m_stepNumber;
-		// Output current position and velocity of the sphere
-		JPH::Vec3 position = pBodies->GetCenterOfMassPosition((JoltConversionUtils::ToBodyID(&_rigidbody)));
-		JPH::Vec3 velocity = pBodies->GetLinearVelocity(JoltConversionUtils::ToBodyID(&_rigidbody));
-		std::cout << "Step " << m_stepNumber << ": Position = (" << position.GetX() << ", " << position.GetY() << ", " << position.GetZ() << "), Velocity = (" << velocity.GetX() << ", " << velocity.GetY() << ", " << velocity.GetZ() << ")" << std::endl;
-		// Step the world
-		m_pSystem->Update(TimeStep::GetFixedDeltaTime(), 1, m_pTempAllocator.get(), JoltCore::s_pJobSystem.get());
-
-	}
-
-
-	void PhysicsSystem::PhysicsSystemInit()
-	{
-		//PhysicsSystem JPH_pSystem;
-		JPH_pSystem.JoltPhysicsSystemInit();
 	}
 
 	void PhysicsSystem::PhysicsSystemUpdate(const float dt, const std::vector<EntityID>& entities, Transform* _transform, RigidBody* _rigidbody)
 	{
 		//TDS_INFO(entities.size());
 		// Physics loop
-		//accumulatedTime += dt;
+		accumulatedTime += dt;
 		//while (accumulatedTime >= TimeStep::GetFixedDeltaTime())
 		//{
 		//	for (int i = 0; i < entities.size(); ++i)
@@ -136,22 +109,125 @@ namespace TDS
 		//		NewtonianPhysics(_transform[i], _rigidbody[i]);
 		//	}
 		//	accumulatedTime -= TimeStep::GetFixedDeltaTime();
-		//}	
-		JPH::BodyInterface* pBodies = &m_pSystem->GetBodyInterface();
-		for (int i = 0; i < entities.size(); ++i)
+		//}			
+		 while (accumulatedTime >= TimeStep::GetFixedDeltaTime())
 		{
-			//pBodies->SetLinearVelocity(JoltConversionUtils::ToBodyID(&_rigidbody[i]), JPH::Vec3(0, -2, 0));
-			JPH_pSystem.JoltPhysicsSystemUpdate(_transform[i], _rigidbody[i]);
-			
-		}
+			for (int i = 0; i < entities.size(); ++i)
+			{
+				if (_rigidbody->GetBodyID().IsInvalid())
+				{
+					JPH_CreateBodyID(entities[i], &_transform[i], &_rigidbody[i]);
+				}
+				// JPH physics simulation
+				m_pSystem->Update(TimeStep::GetFixedDeltaTime(), 1, m_pTempAllocator.get(), JoltCore::s_pJobSystem.get());
+				// Update back to the ECS
+				JPH_SystemUpdate(&_transform[i], &_rigidbody[i]);
+			}
+			accumulatedTime -= TimeStep::GetFixedDeltaTime();
+		}	
+		
 	}
-
-	void PhysicsSystem::JoltPhysicsSystemShutdown()
+	void PhysicsSystem::JPH_SystemUpdate(Transform* _transform, RigidBody* _rigidbody)
+	{
+		JPH::BodyID JPHBodyID = JoltToTDS::ToBodyID(_rigidbody);
+		JPH::BodyInterface* pBodies = &m_pSystem->GetBodyInterface();
+		_transform->SetPosition(JoltToTDS::ToVec3(pBodies->GetPosition(JPHBodyID)));
+		_transform->SetRotation(JoltToTDS::ToVec3(pBodies->GetRotation(JPHBodyID).GetXYZ()));
+		_rigidbody->SetLinearVel(JoltToTDS::ToVec3(pBodies->GetLinearVelocity(JPHBodyID)));
+		_rigidbody->SetAngularVel(JoltToTDS::ToVec3(pBodies->GetAngularVelocity(JPHBodyID)));
+		//pBodies->GetWorldTransform
+	}
+	void PhysicsSystem::JPH_SystemShutdown()
 	{
 		m_pTempAllocator = nullptr;
 		m_pSystem = nullptr;
 	}
 
+	void PhysicsSystem::JPH_CreateBodyID(const EntityID& _entityID, Transform* _transform, RigidBody* _rigidbody)
+	{
+		EMotionType vMotionType = JoltToTDS::ToEMotionType(_rigidbody->GetMotionType());
+		if (GetSphereCollider(_entityID))
+		{
+			SphereCollider* vSphere = GetSphereCollider(_entityID);
+			JPH::SphereShapeSettings s_sphereSettings(vSphere->GetRadius());
+			JPH::ShapeSettings::ShapeResult result = s_sphereSettings.Create();
+			JPH::ShapeRefC sphereShape = result.Get(); // if error, high chance is how the shape is created, radius cannot be 0!
+			JPH::BodyCreationSettings b_SphereSetting
+			(
+				sphereShape,
+				JoltToTDS::ToVec3(_transform->GetPosition()),
+				JoltToTDS::ToQuat((_transform->GetRotation())),
+				vMotionType,
+				JoltLayers::GetObjectLayer(_rigidbody->GetMotionTypeInt())
+			);
+			b_SphereSetting.mFriction = _rigidbody->GetFriction();
+			b_SphereSetting.mRestitution = _rigidbody->GetRestitution();
+			b_SphereSetting.mLinearVelocity = JoltToTDS::ToVec3(_rigidbody->GetLinearVel());
+			b_SphereSetting.mAngularVelocity = JoltToTDS::ToVec3(_rigidbody->GetAngularVel());
+			
+			JPH::BodyID sphereID = m_pSystem->GetBodyInterface().CreateAndAddBody(b_SphereSetting, JPH::EActivation::Activate);
+			JoltBodyID vJoltBodyID(sphereID.GetIndexAndSequenceNumber());
+			TDS_INFO("Sphere Created!");
+			_rigidbody->SetBodyID(vJoltBodyID);	
+		}
+		else if (GetBoxCollider(_entityID))
+		{
+			BoxCollider* vBox = GetBoxCollider(_entityID);
+			JPH::Vec3 halfExtents = JoltToTDS::ToVec3(vBox->GetSize());
+			halfExtents *= 0.5f;
+			JPH::BoxShapeSettings s_boxSettings(halfExtents);
+			JPH::ShapeSettings::ShapeResult result = s_boxSettings.Create();
+			JPH::ShapeRefC boxShape = result.Get();
+			JPH::BodyCreationSettings b_BoxSetting
+				(
+					boxShape,
+					JoltToTDS::ToVec3(_transform->GetPosition()),
+					JoltToTDS::ToQuat((_transform->GetRotation())),
+					vMotionType,
+					JoltLayers::GetObjectLayer(_rigidbody->GetMotionTypeInt())
+				);
+			b_BoxSetting.mFriction = _rigidbody->GetFriction();
+			b_BoxSetting.mRestitution = _rigidbody->GetRestitution();
+			b_BoxSetting.mLinearVelocity = JoltToTDS::ToVec3(_rigidbody->GetLinearVel());
+			b_BoxSetting.mAngularVelocity = JoltToTDS::ToVec3(_rigidbody->GetAngularVel());
+
+			JPH::BodyID boxID = m_pSystem->GetBodyInterface().CreateAndAddBody(b_BoxSetting, JPH::EActivation::Activate);
+			JoltBodyID vJoltBodyID(boxID.GetIndexAndSequenceNumber());
+			TDS_INFO("Box Created!");
+			_rigidbody->SetBodyID(vJoltBodyID);
+		}
+		else if (GetCapsuleCollider(_entityID))
+		{
+			CapsuleCollider* vCapsule = GetCapsuleCollider(_entityID);
+			JPH::CapsuleShapeSettings s_capsuleSettings(vCapsule->GetHeight(), vCapsule->GetRadius());
+			JPH::ShapeSettings::ShapeResult result = s_capsuleSettings.Create();
+			JPH::ShapeRefC capsuleShape = result.Get();
+			JPH::BodyCreationSettings b_capsuleSetting
+			(
+				capsuleShape,
+				JoltToTDS::ToVec3(_transform->GetPosition()),
+				JoltToTDS::ToQuat((_transform->GetRotation())),
+				vMotionType,
+				JoltLayers::GetObjectLayer(_rigidbody->GetMotionTypeInt())
+			);
+			b_capsuleSetting.mFriction = _rigidbody->GetFriction();
+			b_capsuleSetting.mRestitution = _rigidbody->GetRestitution();
+			b_capsuleSetting.mLinearVelocity = JoltToTDS::ToVec3(_rigidbody->GetLinearVel());
+			b_capsuleSetting.mAngularVelocity = JoltToTDS::ToVec3(_rigidbody->GetAngularVel());
+
+			JPH::BodyID capsuleID = m_pSystem->GetBodyInterface().CreateAndAddBody(b_capsuleSetting, JPH::EActivation::Activate);
+			JoltBodyID vJoltBodyID(capsuleID.GetIndexAndSequenceNumber());
+			TDS_INFO("Capsule Created!");
+			_rigidbody->SetBodyID(vJoltBodyID);
+
+		}
+		else
+		{
+			TDS_ASSERT(false, "No collider found for entity, for now rigidbody need to have collider")
+		}
+		
+	}
+	/*
 	Vec3 PhysicsSystem::CalculateTotalForce(RigidBody& _rigidbody)
 	{
 		Vec3 totalForce		= Vec3(0.0f);
@@ -200,5 +276,5 @@ namespace TDS
 	//// Remove and destroy the floor
 	//body_interface.RemoveBody(floor->GetID());
 	//body_interface.DestroyBody(floor->GetID());
-	
+	*/
 }
