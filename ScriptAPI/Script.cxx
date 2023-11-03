@@ -1,10 +1,10 @@
 #include "Script.hxx"
+#include "HelperFunctions.hxx"
 
 namespace ScriptAPI
 {
-	void Script::SetEntityID(TDS::EntityID ID)
+	void Script::SetFlags()
 	{
-		entityID = ID;
 		is_Enabled = true;
 		is_Awake = false;
 		is_Start = false;
@@ -54,12 +54,10 @@ namespace ScriptAPI
 		return ScriptSystem::UnityCoroutineC<TResult>(func, std::chrono::milliseconds(duration));
 	}
 
-	TransformComponent Script::GetTransformComponent()
+
+	GameObject^ Script::GameObjectScriptFind(System::String^ name)
 	{
-		return TransformComponent(entityID);
-	}
-	ColliderComponent Script::GetColliderComponent()
-	{
-		return ColliderComponent(entityID);
+		//System::Console::WriteLine("called");
+		return FindGameObjectViaName(name);
 	}
 }

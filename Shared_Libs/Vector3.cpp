@@ -270,6 +270,18 @@ namespace TDS
         return newVec * (magA + (magB - magA) * t);
     }
 
+    float* Vec3::Vec3Value_ptr(const Vec3& vec)
+    {
+        float* ptr = new float[3];
+
+        for (int i{ 0 }; i < 3; ++i)
+        {
+            ptr[i] = vec[i];
+        }
+
+        return  ptr;
+    }
+
     Vec3& Vec3::operator=(const Vec3& v) 
     {
         x = v.x;

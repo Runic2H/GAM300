@@ -16,6 +16,18 @@
 #include "components/transform.h"
 #include "dotnet/ImportExport.h"
 #include "Timestep/Timestep.h"
+#include "Logger/Logger.h"
+
+#include "Physics/JPHLayers.h"
+#include "JoltPhysics/System/JoltCore.h"
+
+ // Jolt includes
+#include <Jolt/Core/JobSystemThreadPool.h>
+#include <Jolt/Physics/PhysicsSettings.h>
+#include <Jolt/Physics/PhysicsSystem.h>
+#include <Jolt/Physics/Body/BodyCreationSettings.h>
+
+JPH_SUPPRESS_WARNINGS
 
 // X = moving left, right
 // Y = moving up, down
@@ -31,7 +43,9 @@ namespace TDS
 		 ***************************************************************************/
 		static void PhysicsSystemInit();
 		static void PhysicsSystemUpdate(const float dt, const std::vector<EntityID>& entities, Transform* _transform, RigidBody* _rigidbody);
+		static std::unique_ptr<JPH::PhysicsSystem>			m_pSystem;
 
+		//std::unique_ptr<JPH::PhysicsSystem>& getPhysicsSystem() { return m_pSystem; }
 	private:
 		/*!*************************************************************************
 		 * Calculate the total force acting on the object.
@@ -45,10 +59,31 @@ namespace TDS
 		 * Set the object direction based on the force
 		 ***************************************************************************/
 		static void SettingObjectDirection(Vec3& totalForce, RigidBody& _rigidbody);
+
+		void JoltPhysicsSystemInit();
+		void JoltPhysicsSystemUpdate();
+		void JoltPhysicsSystemShutdown();
+
 	private:
+		// TDS Physics System
 		static const double fixedDt;
 		static double accumulatedTime;
+	
+	private:
+		// Jolt Physics Global Settings
+		JPH::BodyID sphere_id;
+		std::unique_ptr<JPH::TempAllocatorImpl>		m_pTempAllocator;
+		//std::unique_ptr<JPH::JobSystemThreadPool>	m_pJobSystem;
+
+		BPLayerInterfaceImpl						broad_phase_layer_interface;
+		ObjectVsBroadPhaseLayerFilterImpl			object_vs_broadphase_layer_filter;
+		ObjectLayerPairFilterImpl					object_vs_object_layer_filter;
+
+		PhysicsSettings								m_physicsSettings;
+
+		unsigned int								m_stepNumber = 0;
 	};
+
 }
 
 

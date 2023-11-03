@@ -52,7 +52,6 @@ namespace TDS
 	private:
 		WindowsWin						 m_window;
 		bool							 m_isRunning{ true };
-		AssetManager					 m_AssetManager;
 
 		std::chrono::time_point<std::chrono::high_resolution_clock>Clock{};
 		//std::shared_ptr <VulkanInstance> m_pVKInst;

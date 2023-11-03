@@ -170,11 +170,16 @@ namespace TDS
     template<class... Cs>
     void ECSSystem<Cs...>::doAction(const float elapsedMilliseconds, Archetype* archetype)
     {
+        //if (mFuncSet)
+        //    doAction<0>(elapsedMilliseconds,
+        //        archetype->type,
+        //        archetype->entityIds,
+        //        archetype->componentData);
         if (mFuncSet)
             doAction<0>(elapsedMilliseconds,
                 archetype->type,
                 archetype->entityIds,
-                archetype->componentData);
+                MemoryManager::GetInstance()->getComponents(archetype->type));
     }
 
     // --doAction--
@@ -310,6 +315,12 @@ namespace TDS
         dummyRecord.index = 0;
         dummyRecord.is_Enabled = true;
         mEntityArchetypeMap[entityId] = dummyRecord;
+
+        //ScriptAPI
+        if (addScriptList)
+        {
+            addScriptList(entityId);
+        }
     }
 
     // --addComponent--
@@ -437,7 +448,12 @@ namespace TDS
         record.archetype = newArchetype;
 
         record.archetype->componentDataSize[componentID] += componentSize;
-        
+
+        if (oldArchetype && oldArchetype->entityIds.size() == 0) // no more entities
+        {
+            mArchetypes.erase(std::find(mArchetypes.begin(), mArchetypes.end(), oldArchetype));
+        }
+
         return new(MemoryManager::GetInstance()->addComponentData(newArchetypeId, componentID, componentSize, record.index)) C();
     }
 
@@ -585,6 +601,12 @@ namespace TDS
         newArchetype->entityIds.emplace_back(entityID);
         record.index = static_cast<uint32_t>(newArchetype->entityIds.size() - 1);
         record.archetype = newArchetype;
+
+        if (oldArchetype->entityIds.size() == 0) // no more entities
+        {
+            mArchetypes.erase(std::find(mArchetypes.begin(), mArchetypes.end(), oldArchetype));
+        }
+
     }
 
     // --getComponent--
@@ -680,7 +702,14 @@ namespace TDS
 
         oldArchetype->entityIds.erase(willBeRemoved);
 
+        if (oldArchetype->entityIds.size() == 0) // no more entities
+        {
+            mArchetypes.erase(std::find(mArchetypes.begin(), mArchetypes.end(), oldArchetype));
+        }
+
         mEntityArchetypeMap.erase(entityID);
+
+        removeScriptList(entityID);
     }
 
     // --removeAllEntities--
@@ -804,17 +833,18 @@ namespace TDS
         {
             if (id[i] == '1')
             {
-                newArchetype->componentData.emplace_back(MemoryManager::GetInstance()->newPage(id, i));
+                MemoryManager::GetInstance()->newPage(id, i);
+                //newArchetype->componentData.emplace_back(MemoryManager::GetInstance()->newPage(id, i));
 
                 if (commit)
                 {
                     MemoryManager::GetInstance()->reserveComponentSpace(id, i, mComponentMap[i]->getSize());
                 }
             }
-            else
-            {
-                newArchetype->componentData.emplace_back(nullptr);
-            }
+            //else
+            //{
+            //    newArchetype->componentData.emplace_back(nullptr);
+            //}
             newArchetype->componentDataSize.emplace_back(0);
         }
         if (commit)

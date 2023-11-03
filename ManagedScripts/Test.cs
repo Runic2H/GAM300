@@ -2,9 +2,43 @@
 using System;
 using System.Threading.Tasks;
 
+public class Testing : Script
+{
+    [SerializeField]
+    public bool hihi = true;
+}
+
 public class Test : Script
 {
-    public override void Awake() { }
+    [SerializeField]
+    public GameObject gameObjectTest;
+
+    [SerializeField]
+    public Testing scriptTest;
+    
+    [SerializeField]
+    public String stringTest;
+
+    [SerializeField]
+    private bool boolTest = false;
+
+    [SerializeField]
+    private double doubleTest;
+
+    [SerializeField]
+    private int intTest;
+
+    [SerializeField]
+    private float floatTest;
+
+    public override void Awake() 
+    {
+        //otherEntity = GameObjectScriptFind("entity3");
+        //Console.WriteLine(otherEntity);
+        //otherEntity.GetComponent<TransformComponent>().SetPositionX(20);
+        //Console.WriteLine(script.gameObject);
+        //gameObject.GetTransformComponent();
+    }
 
     public override void OnEnable() 
     {
@@ -20,8 +54,9 @@ public class Test : Script
     public override void Update()
     {
         //Console.WriteLine("Aye Lmao");
-        TransformComponent tf = GetTransformComponent();
-        tf.SetPositionX(3.0f);
+        gameObject.GetComponent<TransformComponent>().SetPositionX(3);
+        //TransformComponent tf = gameObject.GetTransformComponent();
+        //tf.SetPositionX(3.0f);
     }
 
     public override void LateUpdate() { }
@@ -62,5 +97,4 @@ public class Test : Script
 
         return 0;
     }
-
 }

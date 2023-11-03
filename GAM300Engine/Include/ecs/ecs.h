@@ -70,7 +70,7 @@ namespace TDS
 
         // vector of pointers to the start of the data of each component
         // (data is stored by component, then entity ID, not by entityID first)
-        std::vector<ComponentData>          componentData;
+        //std::vector<ComponentData>          componentData;
 
         // vector of sizes of each component total data used
         std::vector<std::uint32_t>          componentDataSize;
@@ -322,6 +322,9 @@ namespace TDS
         bool                         getEnabledEntity(const EntityID& entityId);
 
         void                         toggleEnabledEntity(const EntityID& entityId);
+
+        void (*addScriptList)(EntityID);
+        void (*removeScriptList)(EntityID);
 
     private:
         // Unique pointer to ECS

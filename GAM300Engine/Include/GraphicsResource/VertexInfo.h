@@ -14,7 +14,7 @@ namespace TDS
 		//iColor m_Tangent;
 		//iColor m_Bitangent;
 		//iColor m_Normal;
-		
+
 	};
 
 

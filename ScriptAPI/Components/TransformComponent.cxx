@@ -158,7 +158,6 @@ namespace ScriptAPI
 		Rotation = Vector3(oldRotation.X, oldRotation.Y, valueZ);
 	}
 
-
 	// CONSTRUCTOR ===========================================================================
 	TransformComponent::TransformComponent(TDS::EntityID ID) : entityID (ID)
 	{ }

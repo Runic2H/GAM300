@@ -41,6 +41,15 @@ namespace TDS
 	This function is a helper function for draw VEC3 variables
 	****************************************************************************/
 	Vec3 ImguiInput(std::string variableName, Vec3 Vec3Variable);
+	/*!*************************************************************************
+	This function is a helper function for draw VEC4 variables
+	****************************************************************************/
+	Vec4 ImguiInput(std::string variableName, Vec4 Vec4Variable);
+	/*!*************************************************************************
+	This function is a helper function for draw ENUM variables
+	****************************************************************************/
+	int ImguiInput(std::string variableName, std::vector<std::string>& enumString, int enumVariable);
+
 }
 
 #endif // !TDS_IMGUI_FUNCTION_HELPER

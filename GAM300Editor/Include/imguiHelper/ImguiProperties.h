@@ -45,6 +45,7 @@ namespace TDS
 		void ImguiComponentPropertyDisplay(rttr::property& propertyName, rttr::instance& componentInstance);
 
 	private:
+		ImVec2 popupPosition;
 	};
 }
 

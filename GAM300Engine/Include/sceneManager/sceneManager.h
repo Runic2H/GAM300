@@ -27,6 +27,15 @@ namespace TDS
 	class SceneManager : public Serializer
 	{
 	public:
+		struct ScriptReferenceVariable
+		{
+			EntityID entityHoldingScript;
+			std::string scriptName;
+			std::string variableName;
+			EntityID entityScriptReference;
+			std::string scriptReference;
+		};
+
 		/*!*************************************************************************
 		Returns an instance of the SceneManager
 		****************************************************************************/
@@ -53,6 +62,11 @@ namespace TDS
 		This function deserializes scenes from JSON files
 		****************************************************************************/
 		DLL_API bool sceneDeserialize();
+		
+		/*!*************************************************************************
+		This function finds scripts in project
+		****************************************************************************/
+		DLL_API void scriptsDeserialize(std::string filepath = "");
 
 		/*!*************************************************************************
 		This function adds a new scene into the Scene Manager
@@ -98,14 +112,48 @@ namespace TDS
 		/*!*************************************************************************
 		This function is the getter function for all scenes in Scene Browser
 		****************************************************************************/
-		DLL_API std::vector<std::string>& getScenes();
+		//DLL_API std::vector<std::string>& getScenes();
+
+		/*!*************************************************************************
+		This function is the getter function for the path to scenes
+		****************************************************************************/
+		DLL_API std::string getScenePath();
+
+		/*!*************************************************************************
+		This function is the setter function to reset starting scene
+		****************************************************************************/
+		DLL_API std::string getStartingScene();
+
+		/*!*************************************************************************
+		This function is the setter function to reset starting scene
+		****************************************************************************/
+		DLL_API void setStartingScene(std::string newStartScene);
 
 		bool isGameplay;
+
+		// Function pointers from scriptAPI
+		std::vector<TDS::ScriptValues>(*getScriptVariables)(EntityID entityID, std::string scriptName);
+		bool(*hasScript)(EntityID entityID, std::string scriptName);
+		std::vector<std::string>(*getAllScripts)();
+
+		bool (*addScript)(EntityID entityID, std::string scriptName);
+
+		void (*setBool)(EntityID entityID, std::string script, std::string variableName, bool value);
+		void (*setInt)(EntityID entityID, std::string script, std::string variableName, int value);
+		void (*setDouble)(EntityID entityID, std::string script, std::string variableName, double value);
+		void (*setFloat)(EntityID entityID, std::string script, std::string variableName, float value);
+		void (*setString)(EntityID entityID, std::string script, std::string variableName, std::string value);
+		//void (*setChar)(EntityID entityID, std::string script, std::string variableName, char value);
+		void (*setGameObject)(EntityID entityID, std::string script, std::string variableName, EntityID gameObjectEntityID);
+		void (*setScriptReference)(EntityID entityID, std::string script, std::string variableName, EntityID gameObjectEntityID, std::string scriptReference);
+
+		bool (*updateName)(EntityID entityID, std::string newName);
 
 	private:
 		// Unique pointer to SceneManager
 		static std::unique_ptr<SceneManager> m_instance;
 
+		// For Scenes
 		std::vector<std::string> allScenes;
 		std::string startScene;
 
@@ -114,6 +162,10 @@ namespace TDS
 
 		std::string parentFilePath;
 		std::string filePath;
+
+		// For scripts
+		std::vector<std::string> allScripts;
+		std::string scriptFilePath;
 	};
 }
 

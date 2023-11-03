@@ -54,6 +54,7 @@ namespace TDS
 	{
 		VMABuffer Staging = CreateStagingBuffer(size, instance, data);
 
+		usage |= VkBufferUsageFlagBits::VK_BUFFER_USAGE_TRANSFER_DST_BIT;
 		CreateBuffer(size, usage, VMA_MEMORY_USAGE_GPU_ONLY);
 		CommandManager& cmdMgr = GraphicsManager::getInstance().getCommandManager();
 		CommandBufferInfo cmdBufferInfo = {};

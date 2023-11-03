@@ -5,14 +5,22 @@
 #include "../vulkanTools/vulkanInstance.h"
 #include "Rendering/GraphicsManager.h"
 #include "vulkanTools/CommandManager.h"
+#include "GraphicsResource/FontInfo.h"
 namespace TDS
 {
 	VulkanTexture::VulkanTexture()
 	{
+
 	}
 	VulkanTexture::~VulkanTexture()
 	{
-		Destroy();
+		/*if (GraphicsManager::getInstance().getVkInstance().getVkLogicalDevice())
+		{
+			if (m_Allocation)
+			{
+				Destroy();
+			}
+		}*/
 	}
 
 	void VulkanTexture::CreateTexture(TextureInfo& textureinfo)
@@ -135,7 +143,13 @@ namespace TDS
 				SetImageMemoryBarrier(cmdBufferInfo.m_CommandBuffer.m_CmdBuffer, paramsLayout);
 
 			}
-
+			inputLayout.m_srcStageFlags = VK_PIPELINE_STAGE_TRANSFER_BIT;
+			inputLayout.m_dstStageFlags = VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT;
+			inputLayout.m_srcAccessFlags = VK_ACCESS_TRANSFER_WRITE_BIT;
+			inputLayout.m_dstAccessFlags = VK_ACCESS_SHADER_READ_BIT;
+			inputLayout.m_oldLayout = VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL;
+			inputLayout.m_NewLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
+			SetImageMemoryBarrier(cmdBufferInfo.m_CommandBuffer.m_CmdBuffer, inputLayout);
 		}
 		else
 		{
@@ -163,6 +177,9 @@ namespace TDS
 
 		CreateSampler(textureinfo);
 		CreateImageView(textureinfo.m_Format);
+		m_DescriptorImageInfo.imageLayout = m_ImageLayout;
+		m_DescriptorImageInfo.imageView = m_BaseImageView;
+		m_DescriptorImageInfo.sampler = m_Sampler;
 		stagingBuffer.DestroyBuffer();
 
 	}
@@ -301,6 +318,135 @@ namespace TDS
 
 		return texture;
 	}
+
+	//std::shared_ptr<VulkanTexture> VulkanTexture::CreateFontTextures(FontData& fontBatch)
+	//{
+	//	VulkanInstance& instance = GraphicsManager::getInstance().getVkInstance();
+	//	CommandManager& cmdMgr = GraphicsManager::getInstance().getCommandManager();
+	//	TextureInfo textureInfo{};
+	//	
+	//	std::uint32_t width{fontBatch.m_Info.begin()->second.m_GlympDimensions.x}, height{ fontBatch.m_Info.begin()->second.m_GlympDimensions.y }, mips{ 1 };
+	//	std::uint32_t size = width * height * 4;
+	//	textureInfo.m_ExtentDimen = { width , height };
+	//	textureInfo.m_Format = VK_FORMAT_R32G32B32_SFLOAT;
+
+	//	std::shared_ptr<VulkanTexture> texture = std::make_shared<VulkanTexture>();
+	//	texture->m_ImageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
+	//	VkImageUsageFlags usage = VK_IMAGE_USAGE_SAMPLED_BIT | VK_IMAGE_USAGE_TRANSFER_SRC_BIT | VK_IMAGE_USAGE_TRANSFER_DST_BIT;
+	//	CreateImageParams params{ VK_FORMAT_R32G32B32_SFLOAT, VkImageTiling::VK_IMAGE_TILING_OPTIMAL, usage };
+	//	texture->m_ImageHdl = VulkanTexture::CreateVulkanImage(VkExtent2D{ width, height }, 1, VK_SAMPLE_COUNT_1_BIT, params, texture->m_Allocation, std::uint32_t(fontBatch.m_Info.size()));
+
+	//	std::uint32_t numOfArrayLayers = std::uint32_t(fontBatch.m_Info.size());
+
+
+	//	std::vector<unsigned char> combinedImageData;
+	//	std::vector<VkBufferImageCopy> copyBuffers;
+
+	//	uint32_t offset = 0;
+	//	uint32_t layer = 0;
+	//	for (auto& [character, fontInfo] : fontBatch.m_Info) 
+	//	{
+	//		combinedImageData.insert(combinedImageData.end(), fontInfo.m_PixelData.pixels.begin(), fontInfo.m_PixelData.pixels.end());
+
+	//		VkBufferImageCopy bufferCopyInfo = {};
+	//		bufferCopyInfo.bufferOffset = offset;
+	//		bufferCopyInfo.imageSubresource.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
+	//		bufferCopyInfo.imageSubresource.mipLevel = 0;
+	//		bufferCopyInfo.imageSubresource.baseArrayLayer = layer;
+	//		bufferCopyInfo.imageSubresource.layerCount = 1;
+	//		bufferCopyInfo.imageOffset = { 0, 0, 0 };
+	//		bufferCopyInfo.imageExtent = { static_cast<uint32_t>(fontInfo.m_PixelData.m_width), static_cast<uint32_t>(fontInfo.m_PixelData.m_height), 1 };
+
+	//		copyBuffers.push_back(bufferCopyInfo);
+
+	//		offset += std::uint32_t(fontInfo.m_PixelData.pixels.size());
+	//		layer++;
+	//	}
+
+	//	VMABuffer stagingBuffer = VMABuffer::CreateStagingBuffer(combinedImageData.size(), instance, combinedImageData.data());
+	//
+	//	VkImageSubresourceRange subresourceRange{};
+	//	subresourceRange.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
+	//	subresourceRange.baseMipLevel = 0;
+	//	subresourceRange.levelCount = 1;
+	//	subresourceRange.layerCount = layer;
+
+	//	CommandBufferInfo cmdInfo{};
+	//	cmdMgr.CreateSingleUseCommandBuffer(cmdInfo);
+	//	ImageMemoryLayoutInput transferToDestination{};
+	//	transferToDestination.m_oldLayout = VK_IMAGE_LAYOUT_UNDEFINED;
+	//	transferToDestination.m_NewLayout = VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL;
+	//	transferToDestination.m_dstStageFlags = VK_PIPELINE_STAGE_ALL_COMMANDS_BIT;
+	//	transferToDestination.m_srcStageFlags = VK_PIPELINE_STAGE_ALL_COMMANDS_BIT;
+	//	transferToDestination.m_subResourceRange = subresourceRange;
+	//	transferToDestination.m_Image = texture->m_ImageHdl;
+	//	setTextureLayout(cmdInfo.m_CommandBuffer.m_CmdBuffer, transferToDestination);
+	//	vkCmdCopyBufferToImage(cmdInfo.m_CommandBuffer.m_CmdBuffer, stagingBuffer.GetBuffer(), texture->m_ImageHdl, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, std::uint32_t(copyBuffers.size()), copyBuffers.data());
+
+	//	transferToDestination.m_oldLayout = VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL;
+	//	transferToDestination.m_NewLayout = texture->m_ImageLayout;
+	//	transferToDestination.m_dstStageFlags = VK_PIPELINE_STAGE_ALL_COMMANDS_BIT;
+	//	transferToDestination.m_srcStageFlags = VK_PIPELINE_STAGE_ALL_COMMANDS_BIT;
+	//	transferToDestination.m_subResourceRange = subresourceRange;
+	//	transferToDestination.m_Image = texture->m_ImageHdl;
+	//	setTextureLayout(cmdInfo.m_CommandBuffer.m_CmdBuffer, transferToDestination);
+
+	//	VkDevice deviceRef = GraphicsManager::getInstance().getVkInstance().getVkLogicalDevice();
+	//	VkPhysicalDevice physical = GraphicsManager::getInstance().getVkInstance().getVkPhysicalDevice();
+
+	//	VkSamplerCreateInfo samplerCreateInfo = { VK_STRUCTURE_TYPE_SAMPLER_CREATE_INFO };
+	//	samplerCreateInfo.sType = VK_STRUCTURE_TYPE_SAMPLER_CREATE_INFO;
+	//	samplerCreateInfo.magFilter = textureInfo.m_ImageFilter;
+	//	samplerCreateInfo.minFilter = textureInfo.m_ImageFilter;
+	//	samplerCreateInfo.mipmapMode = VK_SAMPLER_MIPMAP_MODE_LINEAR;
+	//	samplerCreateInfo.addressModeU = textureInfo.m_SampleAddressMode;
+	//	samplerCreateInfo.addressModeV = textureInfo.m_SampleAddressMode;
+	//	samplerCreateInfo.addressModeW = textureInfo.m_SampleAddressMode;
+	//	samplerCreateInfo.compareOp = VK_COMPARE_OP_NEVER;
+	//	samplerCreateInfo.borderColor = textureInfo.m_BorderClr;
+	//	samplerCreateInfo.mipLodBias = 0.0f;
+	//	samplerCreateInfo.minLod = 0.0f;
+	//	samplerCreateInfo.maxLod = 0.f;
+	//	//Check if we support anisotrophy
+	//	VkPhysicalDeviceFeatures features{};
+	//	vkGetPhysicalDeviceFeatures(physical, &features);
+	//	if (textureInfo.m_UseAnistrophy && features.samplerAnisotropy)
+	//	{
+	//		VkPhysicalDeviceProperties properties{};
+	//		vkGetPhysicalDeviceProperties(physical, &properties);
+	//		samplerCreateInfo.maxAnisotropy = properties.limits.maxSamplerAnisotropy;
+	//		samplerCreateInfo.anisotropyEnable = VK_TRUE;
+	//	}
+	//	else
+	//	{
+	//		samplerCreateInfo.maxAnisotropy = 1.0f;
+	//		samplerCreateInfo.anisotropyEnable = VK_FALSE;
+	//	}
+	//	VkResult result = vkCreateSampler(deviceRef, &samplerCreateInfo, 0, &texture->m_Sampler);
+	//	VK_ASSERT(result, "Failed to create sampler");
+
+	//	VkImageViewCreateInfo viewCreateInfo = { VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO };
+	//	viewCreateInfo.viewType = VK_IMAGE_VIEW_TYPE_2D_ARRAY;
+	//	viewCreateInfo.format = textureInfo.m_Format;
+	//	viewCreateInfo.components = { VK_COMPONENT_SWIZZLE_R, VK_COMPONENT_SWIZZLE_G, VK_COMPONENT_SWIZZLE_B, VK_COMPONENT_SWIZZLE_A };
+	//	viewCreateInfo.subresourceRange.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
+	//	viewCreateInfo.subresourceRange.baseMipLevel = 0;
+	//	viewCreateInfo.subresourceRange.baseArrayLayer = 0;
+	//	viewCreateInfo.subresourceRange.layerCount = numOfArrayLayers;
+	//	viewCreateInfo.subresourceRange.levelCount = 1;
+	//	viewCreateInfo.image = texture->m_ImageHdl;
+
+	//	VkResult result = vkCreateImageView(deviceRef, &viewCreateInfo, 0, &texture->m_BaseImageView);
+	//	VK_ASSERT(result, "Failed to create texture view");
+
+	//	texture->m_DescriptorImageInfo.imageLayout = texture->m_ImageLayout;
+	//	texture->m_DescriptorImageInfo.imageView = texture->m_BaseImageView;
+	//	texture->m_DescriptorImageInfo.sampler = texture->m_Sampler;
+
+	//	stagingBuffer.DestroyBuffer();
+
+	//
+	//}
 	void VulkanTexture::CreateCubeMapTexture(TextureInfo& textureAssetData, TextureData& textureData)
 	{
 
@@ -644,19 +790,27 @@ namespace TDS
 	{
 
 		VkDevice deviceRef = GraphicsManager::getInstance().getVkInstance().getVkLogicalDevice();
+		vkQueueWaitIdle(GraphicsManager::getInstance().getVkInstance().getGraphicsQueue());
 		if (deviceRef == nullptr)
 			return;
 
 		if (m_BaseImageView)
+		{
 			vkDestroyImageView(deviceRef, m_BaseImageView, 0);
+			m_BaseImageView = nullptr;
+		}
 
 		if (m_Sampler)
+		{
 			vkDestroySampler(deviceRef, m_Sampler, 0);
-		m_Sampler = 0;
+			m_Sampler = nullptr;
+		}
 		if (m_ImageHdl)
+		{
 			GraphicsAllocator::FreeBuffer(m_ImageHdl, m_Allocation);
-		m_ImageHdl = 0;
-		m_Allocation = 0;
+			m_ImageHdl = nullptr;
+		}
+		m_Allocation = nullptr;
 
 
 	}
@@ -716,6 +870,8 @@ namespace TDS
 		return newImageHdl;
 	}
 
+
+	
 
 	VkExtent2D VulkanTexture::GenMipsExtent(TextureData& data, std::uint32_t mip)
 	{

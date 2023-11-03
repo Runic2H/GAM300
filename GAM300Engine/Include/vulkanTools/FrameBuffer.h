@@ -1,88 +1,54 @@
-#pragma once
-#include "vulkanTools/GraphicsAllocator.h"
-#include "GraphicsResource/GraphicsResourceDefines.h"
+#ifndef VKFRAMEBUFFER
+#define VKFRAMEBUFFER
+
+#include "Rendering/RenderTarget.h"
 #include "dotnet/ImportExport.h"
 namespace TDS
 {
 	//Dear Xing Xiang, please ignore this and use ur frame buffer class with my pipeline. THis is just for to test my pipeline
 
-	//THIS IS FOR DIRECT RENDERING
-
-
-
-	struct AttachmentSetting
-	{
-		VkFormat			m_Format;
-		iColor				m_ClearColor = Vec4(0.0f, 0.0f, 0.0f, 1.0f);
-		bool				m_ClearOp = true;;
-
-	};
-
-	struct FrameBufferEntryInfo
-	{
-		VkFilter						m_Filter = VkFilter::VK_FILTER_NEAREST;
-		VkExtent2D						m_AreaDimension;
-		std::vector<AttachmentSetting>	m_AttachmentRequirememnts;
-
-	};
-
-
-	struct FBAttachment
-	{
-		VkImage					m_Image;
-		VmaAllocation			m_Allocation;
-		VkImageView				m_View;
-		VkDescriptorImageInfo	m_ImageInfo;
-	};
-
-
-
-	class DirectFrameBuffer;
-	class DLL_API FrameBuffer
+	//THIS IS FOR DIRECT RENDERING 
+	//OK
+	class RenderPass;
+	class FrameBuffer
 	{
 	public:
-		virtual bool									Init(FrameBufferEntryInfo& entryInfo) = 0;
-		virtual void									Destroy() = 0;
-		virtual bool									CreateFrameBuffer(std::uint32_t width, std::uint32_t height) = 0;
+		DLL_API FrameBuffer(VkDevice _device, VkRenderPass _renderPass, const std::vector<RenderTarget*>& _attachments, uint32_t _layer = 0, uint32_t _mipLevel = 0 );
+		DLL_API FrameBuffer(VkDevice _device, VkRenderPass _renderPass, bool _imageless, Vec3 _ImageLessDim);
+		DLL_API ~FrameBuffer();
 
-	public:
-		void											Resize(VkExtent2D newExtent);
-		void											SetClearColor(const iColor& color);
-		void											CreateSampler(VkFilter filter);
-		void											DestroyAttachment(FBAttachment& fbAttachmnet);
+		//no copy or move ctor
+		FrameBuffer(const FrameBuffer&) = delete;
+		FrameBuffer& operator=(const FrameBuffer&) = delete;
+		FrameBuffer(FrameBuffer&&) = delete;
+		FrameBuffer& operator=(FrameBuffer&&) = delete;
 
-		void											CreateAttachment(VkFormat format, FBAttachment& attachment, VkExtent2D extent, VkSampleCountFlagBits sampleCnt,
-														VkImageUsageFlags usage, VkImageAspectFlags imageAspect);
-		
-		void											CreateRenderPass(VkRenderPass& output, VkFormat clrFormat, VkFormat depthFormat, VkSampleCountFlagBits sampleCnt,
-														std::uint32_t numOfAttachments, std::uint32_t numOfResolveAttachments = 0, std::uint32_t numOfDepthAttachments = 1);
-		//Getters
-		FBAttachment&									GetDepthAttachment();
+		DLL_API Vec3 getDimensions() { return { static_cast<float>(m_Width), static_cast<float>(m_Height), static_cast<float>(m_Depth) }; }
+		DLL_API VkFramebuffer getVKFrameBuffer() { return m_FrameBuffer; }
+		DLL_API VkRenderPass getVKRenderPass() { return m_renderPass; }
+		DLL_API void resize(Vec3 _newdim, VkRenderPass _renderPass);
 
-		const std::uint32_t								GetNumberOfAttachments() const;
-		VkRenderPass									GetRenderPass()			 const;
-		VkFramebuffer									GetCurrentFrameBuffer()  const;
-		VkFramebuffer									GetFrameBuffer(std::uint32_t index)  const;
-		std::vector<VkClearValue>&						GetClearValues();
-		std::vector<VkClearAttachment>&					GetClearAttachments();
-		FrameBufferEntryInfo&							getFBEntryInfo();
+	private:
+		void create(VkDevice _device, VkRenderPass _renderPass, const std::vector<RenderTarget*>& _attachments);
+		void createImageless(VkDevice& _device, VkRenderPass _renderPass);
+		void destroy();
 
-	protected:
-		FrameBufferEntryInfo							m_Entry{};
-		VkSampler										m_Sampler = nullptr;
-		VkRenderPass									m_RenderPass = nullptr;
-		VkFormat										m_ColorFormat,
-			m_DepthFormat;
-		std::uint32_t									m_FrameIndex = 0;
-		FBAttachment									m_DepthAttachment;
-		std::vector<VkFramebuffer>						m_FrameBuffers;
-		std::vector<VkClearAttachment>					m_ClearAttachments;
-		std::vector<VkClearValue>						m_ClearValues;
-		std::vector<FBAttachment>						m_Attachments;
-		//Ignore this unless you dont multisampling + offscreen
-		std::vector<FBAttachment>						m_ResolveAttachment;
-		std::unordered_map<std::string, std::uint32_t>	m_AttachmentNameMap;
+
+		VkDevice& m_device;
+
+		uint32_t m_Width{};
+		uint32_t m_Height{};
+		uint32_t m_Depth{};
+		uint32_t m_UseMipLevel{ 0 };
+		uint32_t m_UseLayer{ 0 };
+
+		VkFramebuffer m_FrameBuffer{};
+		VkRenderPass m_renderPass{};
+		std::vector<RenderTarget*> m_Attachments;
+	
+
 
 	};
 
 }
+#endif // !VKFRAMEBUFFER

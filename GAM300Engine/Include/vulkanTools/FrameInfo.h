@@ -19,6 +19,7 @@ namespace TDS {
 	struct PointLight {
 		Vec4 m_Position;
 		Vec4 m_Color;
+		Vec4 pad[2] = { {0.f,0.f,0.f,0.f},{0.f,0.f,0.f,0.f} };
 	};
 
 	struct GlobalUBO {
@@ -27,7 +28,8 @@ namespace TDS {
 		//Mat4			m_InverseView{1.f}; 
 		Vec4			m_AmbientLightColor{ 1.f, 1.f,1.f,0.02f };
 		PointLight		m_vPointLights[Max_Lights];
-		//int				m_activelights;
+		alignas(16)int	m_activelights;
+		Vec4			pad[15];
 	};
 
 	struct FrameInfo {

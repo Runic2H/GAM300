@@ -2,13 +2,15 @@
 #include<iostream>
 namespace TDS
 {
-	TDSCamera::TDSCamera(float Yaw, float pitch, Vec3 position, Vec3 up)
+	TDSCamera::TDSCamera(float Yaw, float pitch, /*float aspectRatio,*/ float zNear, float zFar, Vec3 position, Vec3 up)
 	{
 
 		m_Position = position;
 		m_WorldUp = up;
 		m_Yaw = Yaw;
 		m_Pitch = pitch;
+		//m_ProjMatrix = Mat4::Perspective(m_Fov
+
 		updateViewMatrix();
 	}
 
@@ -58,14 +60,14 @@ namespace TDS
 
 		static Input::mousePosition mouse = Input::mousePosition(std::numeric_limits<int>::max(), std::numeric_limits<int>::max());
 		
-		if (Input::isMouseButtonPressed(TDS_MOUSE_LEFT))
+		if (Input::isMouseButtonPressed(TDS_MOUSE_RIGHT))
 		{
 			if (mouse.x == std::numeric_limits<int>::max() && mouse.y == std::numeric_limits<int>::max())
 			{
 				mouse = Input::getMousePosition();
 			}
 
-			if (!Input::isMouseButtonReleased(TDS_MOUSE_LEFT))
+			if (!Input::isMouseButtonReleased(TDS_MOUSE_RIGHT))
 			{
 				float GetMousex = static_cast<float>(mouse.x);
 				float GetMousey = static_cast<float>(mouse.y);

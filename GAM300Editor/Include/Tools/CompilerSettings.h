@@ -11,7 +11,7 @@
 #include <pch.h>
 namespace TDS
 {
-	struct Descriptor
+	struct GeomDescriptor
 	{
 		/*!*************************************************************************
 		 * Transform struct
@@ -25,15 +25,23 @@ namespace TDS
 		/*!*************************************************************************
 		 * Desc struct contain all the information for the command parser
 		 ***************************************************************************/
+		struct GenerateLOD
+		{
+			bool m_CreateLOD = false;
+			std::uint32_t m_Max_num_lods = 3;
+			float ReductionFactor = 0.7f;
+		};
+
 		struct Desc
 		{
 			std::string m_FilePath;
 			Transform m_L2W;
 			bool MergeMesh = false;
-			std::string m_MeshFileName;
-			std::string m_RenamedMesh;
 		};
+
+
 		Desc m_Descriptor;
+		GenerateLOD m_LodOptions;
 		bool Serialize(std::string_view FilePath, bool Read);
 	};
 

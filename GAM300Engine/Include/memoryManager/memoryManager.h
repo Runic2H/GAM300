@@ -84,6 +84,11 @@ namespace TDS
 		DLL_API void reserveComponentSpace(const ArchetypeID& archetypeID, std::uint32_t componentID, std::uint32_t componentSize);
 
 		/*!*************************************************************************
+		Getting all the component data in the given book (Archetypes) using 
+		ArchetypeID
+		****************************************************************************/
+		DLL_API std::vector<unsigned char*>& getComponents(ArchetypeID archetypeID);
+		/*!*************************************************************************
 		Getting the component data in the given book (Archetypes) using ArchetypeID
 		& ComponentID
 		****************************************************************************/

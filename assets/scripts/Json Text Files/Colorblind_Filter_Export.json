@@ -1,0 +1,108 @@
+{
+"filter": [
+ {
+   "ID": "CBF001",
+   "Name": "Achromatomaly",
+   "Red_R": 61.8,
+   "Red_G": 32,
+   "Red_B": 6.2,
+   "Green_R": 16.3,
+   "Green_G": 77.5,
+   "Green_B": 6.2,
+   "Blue_R": 16.3,
+   "Blue_G": 32,
+   "Blue_B": 51.6
+ },
+ {
+   "ID": "CBF002",
+   "Name": "Archromatopsia",
+   "Red_R": 29.9,
+   "Red_G": 58.7,
+   "Red_B": 11.4,
+   "Green_R": 29.9,
+   "Green_G": 58.7,
+   "Green_B": 11.4,
+   "Blue_R": 29.9,
+   "Blue_G": 58.7,
+   "Blue_B": 11.4
+ },
+ {
+   "ID": "CBF003",
+   "Name": "Deuteranomaly",
+   "Red_R": 80,
+   "Red_G": 20,
+   "Red_B": 0,
+   "Green_R": 0,
+   "Green_G": 25.833,
+   "Green_B": 74.167,
+   "Blue_R": 0,
+   "Blue_G": 14.167,
+   "Blue_B": 85.833
+ },
+ {
+   "ID": "CBF004",
+   "Name": "Deuteranopia",
+   "Red_R": 62.5,
+   "Red_G": 37.5,
+   "Red_B": 0,
+   "Green_R": 70,
+   "Green_G": 30,
+   "Green_B": 0,
+   "Blue_R": 0,
+   "Blue_G": 30,
+   "Blue_B": 70
+ },
+ {
+   "ID": "CBF005",
+   "Name": "Protanomaly",
+   "Red_R": 81.667,
+   "Red_G": 18.333,
+   "Red_B": 0,
+   "Green_R": 33.333,
+   "Green_G": 66.667,
+   "Green_B": 0,
+   "Blue_R": 0,
+   "Blue_G": 12.5,
+   "Blue_B": 87.5
+ },
+ {
+   "ID": "CBF006",
+   "Name": "Protanopia",
+   "Red_R": 56.667,
+   "Red_G": 43.333,
+   "Red_B": 0,
+   "Green_R": 55.833,
+   "Green_G": 44.167,
+   "Green_B": 0,
+   "Blue_R": 0,
+   "Blue_G": 24.167,
+   "Blue_B": 75.833
+ },
+ {
+   "ID": "CBF007",
+   "Name": "Tritanomaly",
+   "Red_R": 96.667,
+   "Red_G": 3.333,
+   "Red_B": 0,
+   "Green_R": 0,
+   "Green_G": 73.333,
+   "Green_B": 26.667,
+   "Blue_R": 0,
+   "Blue_G": 18.333,
+   "Blue_B": 81.667
+ },
+ {
+   "ID": "CBF008",
+   "Name": "Tritanopia",
+   "Red_R": 95,
+   "Red_G": 5,
+   "Red_B": 0,
+   "Green_R": 0,
+   "Green_G": 43.333,
+   "Green_B": 56.667,
+   "Blue_R": 0,
+   "Blue_G": 47.5,
+   "Blue_B": 52.5
+ }
+]
+}

@@ -29,18 +29,10 @@ RTTR_REGISTRATION
 		.property("name", &Node::name);
 
 	rttr::registration::class_<AI>("AI")
-		.method("GetBehaviourTreeIndex", &AI::GetBehaviourTreeIndex)
-		.method("SetBehaviourTreeIndex", &AI::SetBehaviourTreeIndex)
-		.property("BehaviourTreeIndex", &AI::mBehaviourTreeIndex)
-		.method("GetEntityCurrentStatus", &AI::GetEntityCurrentStatus)
-		.method("SetEntityCurrentStatus", &AI::SetEntityCurrentStatus)
-		.property("EntityCurrentStatus", &AI::mEntityCurrentStatus)
-		.method("GetCurrentNode", &AI::GetCurrentNode)
-		.method("SetCurrentNode", &AI::SetCurrentNode)
-		.property("CurrentNode", &AI::mCurrentNode)
-		.method("GetTimer", &AI::GetTimer)
-		.method("SetTimer", &AI::SetTimer)
-		.property("Timer", &AI::mTimer);
+		.property("BehaviourTreeIndex", &AI::GetBehaviourTreeIndex, &AI::SetBehaviourTreeIndex)
+		.property("EntityCurrentStatus", &AI::GetEntityCurrentStatus, &AI::SetEntityCurrentStatus)
+		.property("CurrentNode", &AI::GetCurrentNode, &AI::SetCurrentNode)
+		.property("Timer", &AI::GetTimer, &AI::SetTimer);
 }
 
 namespace TDS

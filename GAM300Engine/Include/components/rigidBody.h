@@ -19,6 +19,14 @@ namespace TDS
 	class RigidBody : public IComponent
 	{
 	public:
+		enum class MotionType //EMotionType in Jolt/.../MotionType.h
+		{
+			NONE,		//when type is not set
+			STATIC,		///< Non movable
+			KINEMATIC,  ///< Movable using velocities only, does not respond to forces
+			DYNAMIC		///< Responds to forces as a normal physics object
+		};
+
 		/*!*************************************************************************
 		Initializes the RigidBody component when created
 		****************************************************************************/
@@ -44,7 +52,7 @@ namespace TDS
 		DLL_API Vec3& GetLinearVel() { return mLinearVelocity; }
 		DLL_API void SetLinearVel(Vec3 velocity) { mLinearVelocity = velocity; }
 		DLL_API void SetLinearVel(float velocityX, float velocityY, float velocityZ) { mLinearVelocity = Vec3(velocityX, velocityY, velocityZ); }
-		
+
 		DLL_API Vec3& GetAngularVel() { return mAngularVelocity; }
 		DLL_API void SetAngularVel(Vec3 velocity) { mAngularVelocity = velocity; }
 		DLL_API void SetAngularVel(float velocityX, float velocityY, float velocityZ) { mAngularVelocity = Vec3(velocityX, velocityY, velocityZ); }
@@ -63,7 +71,7 @@ namespace TDS
 
 		DLL_API Vec3& GetNextPosition() { return mNextPosition; }
 		DLL_API void SetNextPosition(Vec3 nextPosition) { mNextPosition = nextPosition; }
-		
+
 		DLL_API float& GetFriction() { return mFriction; }
 		DLL_API void SetFrictionCoefficient(float friction) { mFriction = friction; }
 
@@ -75,9 +83,19 @@ namespace TDS
 
 		DLL_API float& GetGravity() { return mGravity; }
 		DLL_API void SetGravity(float gravity) { mGravity = gravity; }
+		
+		DLL_API MotionType& GetMotionType() { return mMotionType; }
+		DLL_API void SetMotionType(MotionType motionType) { mMotionType = motionType; }
+
+		DLL_API uint32_t GetBodyID() { return mBodyID; }
+		DLL_API void SetBodyID(uint32_t bodyID) { mBodyID = bodyID; }
 
 		RTTR_ENABLE(IComponent);
 		RTTR_REGISTRATION_FRIEND
+
+	public:
+
+
 
 	private:
 		float mMass;
@@ -90,11 +108,14 @@ namespace TDS
 		Vec3 mInputForce;
 		Vec3 mNormalizedForce;
 		Vec3 mTotalForce;
-		
+
 		float mFriction;
 		float mRestitution;
 		float mInverseMass;
 		float mGravity;
+		
+		MotionType	mMotionType;
+		uint32_t	mBodyID;
 	};
 
 }

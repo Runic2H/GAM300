@@ -4,6 +4,23 @@
 namespace TDS
 {
 	template <typename T>
+	struct TypeReference
+	{
+		std::string m_AssetName;
+		T* m_ResourcePtr = nullptr;
+
+	};
+
+	struct AllocationInfo
+	{
+		void* m_pData = nullptr;
+		std::optional<std::function<void()>> m_Destroyfunc;
+		std::string m_AssetName;
+		std::uint32_t ReferenceCnt = 0;
+	};
+
+	//ALL THESE IS NOT USED ANYMORE
+	template <typename T>
 	struct TypeLoader
 	{
 		static T* Create()
@@ -19,7 +36,7 @@ namespace TDS
 
 	struct Resource_Ref
 	{
-		UniqueID m_GUID;
+		UniqueID m_GUID; // NOT IN USED ANYMORE
 		TypeIdentifier m_Identifier;
 		virtual bool IsPointer() = 0;
 		virtual void SetNullGUID() = 0;
@@ -66,6 +83,16 @@ namespace TDS
 
 	};
 
+	struct IdentifierHash
+	{
+		std::size_t operator()(TypeIdentifier key) const
+		{
+			std::size_t hash1 = key.m_NameHash;
+			std::size_t hash2 = key.m_TypeHash;
+
+			return hash1 ^ (hash2 << 1);
+		}
+	};
 	struct CombineHash
 	{
 		std::size_t operator()(GuidTypeIDKey key) const

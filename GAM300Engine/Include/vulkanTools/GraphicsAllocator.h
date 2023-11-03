@@ -81,11 +81,12 @@ namespace TDS
 
 			VmaAllocation newAllocation{};
 			VmaAllocationInfo allocationinfo{};
-
-			VK_ASSERT(vmaCreateBuffer(GraphicsAllocator::GetInstance().GetAllocator(), (VkBufferCreateInfo*)CreateInfo, &bufferAlocateInfo,
-				&buffer, &newAllocation, &allocationinfo), "");
+			VkResult result = vmaCreateBuffer(GraphicsAllocator::GetInstance().GetAllocator(), (VkBufferCreateInfo*)CreateInfo, &bufferAlocateInfo,
+				&buffer, &newAllocation, &allocationinfo);
+			VK_ASSERT(result, "");
 
 			GraphicsAllocator::GetInstance().AddAllocationBytes(allocationinfo.size);
+			TDS_INFO("Current Allocation {}", GraphicsAllocator::GetInstance().m_TotalAllocatedBytes);
 			return newAllocation;
 
 		}
@@ -99,9 +100,9 @@ namespace TDS
 
 			VmaAllocation newAllocation{};
 			VmaAllocationInfo allocationinfo{};
-
-			VK_ASSERT(vmaCreateImage(GraphicsAllocator::GetInstance().GetAllocator(), (VkImageCreateInfo*)CreateInfo, &bufferAlocateInfo,
-				&buffer, &newAllocation, &allocationinfo), "");
+			VkResult result = vmaCreateImage(GraphicsAllocator::GetInstance().GetAllocator(), (VkImageCreateInfo*)CreateInfo, &bufferAlocateInfo,
+				&buffer, &newAllocation, &allocationinfo);
+			VK_ASSERT(result, "Failed to allocate Image");
 
 
 			GraphicsAllocator::GetInstance().AddAllocationBytes(allocationinfo.size);
@@ -131,12 +132,13 @@ namespace TDS
 			VmaAllocationInfo allocationinfo{};
 			vmaGetAllocationInfo(GraphicsAllocator::GetInstance().m_VulkanAllocator, allocation, &allocationinfo);
 			GraphicsAllocator::GetInstance().m_TotalAllocatedBytes -= allocationinfo.size;
+			TDS_INFO("Current Allocation left {}", GraphicsAllocator::GetInstance().m_TotalAllocatedBytes);
 			vmaDestroyImage(GraphicsAllocator::GetInstance().GetAllocator(), image, allocation);
 		}
 		void DLL_API ShutDown();
 
 	private:
-		VkDeviceSize m_TotalAllocatedBytes;
+		VkDeviceSize m_TotalAllocatedBytes = 0;
 		VmaAllocator m_VulkanAllocator = nullptr;
 
 	};

@@ -15,15 +15,11 @@ RTTR_REGISTRATION
 	using namespace TDS;
 
 	rttr::registration::class_<NameTag>("Name Tag")
-		.method("GetNameTag", &NameTag::GetNameTag)
-		.method("SetNameTag", &NameTag::SetNameTag)
-		.property("Name", &NameTag::mName)
-		.method("GetHierarchyParent", &NameTag::GetHierarchyParent)
-		.method("SetHierarchyParent", &NameTag::SetHierarchyParent)
-		.property("HierarchyParent", &NameTag::mHierarchyParent)
-		.method("GetHierarchyIndex", &NameTag::GetHierarchyIndex)
-		.method("SetHierarchyIndex", &NameTag::SetHierarchyIndex)
-		.property("HierarchyIndex", &NameTag::mHierarchyIndex);
+		.property("Name", &NameTag::GetName, &NameTag::SetName)
+		.property("Tag", &NameTag::GetTag, &NameTag::SetTag)
+		.property("IsActive", &NameTag::GetIsActive, &NameTag::SetIsActive)
+		.property("HierarchyParent", &NameTag::GetHierarchyParent, &NameTag::SetHierarchyParent)
+		.property("HierarchyIndex", &NameTag::GetHierarchyIndex, &NameTag::SetHierarchyIndex);
 }
 
 namespace TDS
@@ -32,6 +28,8 @@ namespace TDS
 	Initializes the NameTag component when created
 	****************************************************************************/
 	NameTag::NameTag() : mName				("New Entity"),
+						 mTag				(""),
+						 mIsActive			(true),
 						 mHierarchyParent	(0),
 						 mHierarchyIndex	(0)
 	{ }
@@ -41,7 +39,14 @@ namespace TDS
 	component to move (for ECS)
 	****************************************************************************/
 	NameTag::NameTag(NameTag&& toMove) noexcept : mName				(toMove.mName),
+												  mTag				(toMove.mTag),
+												  mIsActive			(toMove.mIsActive),
 												  mHierarchyParent	(toMove.mHierarchyParent),
 												  mHierarchyIndex	(toMove.mHierarchyIndex)
 	{ }
+
+	NameTag* GetNameTag(EntityID entityID)
+	{
+		return ecs.getComponent<NameTag>(entityID);
+	}
 }

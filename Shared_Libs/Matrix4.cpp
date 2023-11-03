@@ -385,6 +385,22 @@ namespace TDS
 
         return result;
     }
+    float* Mat4::Mat4Value_ptr(const Mat4& mat)
+    {
+        float* ptr = new float[16];
+
+        for (int i{ 0 }; i < 4; ++i)
+        {
+            for (int j{ 0 }; j < 4; ++j)
+            {
+                ptr[i * 4 + j] = mat.m[i][j];
+            }
+        }
+
+
+
+        return  ptr;
+    }
 #if 0 // unsure if correct implementation
   	Quat Mat4::toQuat(Mat4 const& m4)
 	{

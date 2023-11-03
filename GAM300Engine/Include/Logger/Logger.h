@@ -63,7 +63,7 @@ namespace TDS
 #define TDS_CRITICAL(...) ::TDS::Log::GetCoreLogger()->critical(__VA_ARGS__)
 
 //Assertion failed, it will track where it happened and print it in console (for debug)
-#define TDS_EXO_ASSERT(x, ...) {if((x)) { TDS_EXO_CRITICAL("Assert Failed: {} {}\n\tIn File:{}\n\tLine: {}",x, __VA_ARGS__,__FILE__,__LINE__);__debugbreak();}}
+#define TDS_ASSERT(x, ...) {if((x)) { TDS_CRITICAL("Assert Failed: {} {}\n\tIn File:{}\n\tLine: {}",x, __VA_ARGS__,__FILE__,__LINE__);__debugbreak();}}
 
 //Client 
 //#define TDS_TRACE(...) ::TDS::Log::GetClientLogger()->trace(__VA_ARGS__)

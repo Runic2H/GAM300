@@ -34,10 +34,10 @@ namespace TDS
 		/*!*************************************************************************
 		Getter and setter functions for the variables in the AI component class
 		****************************************************************************/
-		DLL_API int& GetBehaviourTreeIndex() { return mBehaviourTreeIndex; }
+		DLL_API int GetBehaviourTreeIndex() { return mBehaviourTreeIndex; }
 		DLL_API void SetBehaviourTreeIndex(int behaviourTreeIndex) { mBehaviourTreeIndex = behaviourTreeIndex; }
 
-		DLL_API NodeStatus& GetEntityCurrentStatus() { return mEntityCurrentStatus; }
+		DLL_API NodeStatus GetEntityCurrentStatus() { return mEntityCurrentStatus; }
 		DLL_API void SetEntityCurrentStatus(NodeStatus entityCurrentStatus) { mEntityCurrentStatus = entityCurrentStatus; }
 
 		DLL_API std::shared_ptr<Node> GetCurrentNode() { return mCurrentNode; }

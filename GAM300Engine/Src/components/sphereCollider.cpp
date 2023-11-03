@@ -4,7 +4,7 @@
 \author Go Ruo Yan
 \par DP email: ruoyan.go@digipen.edu
 \date 21-10-2023
-\brief  This program defines the functions in the Sphere Collider component 
+\brief  This program defines the functions in the Sphere Collider component
 		class
 ****************************************************************************
 ***/
@@ -34,22 +34,28 @@ namespace TDS
 	/*!*************************************************************************
 	Initializes the Collider component when created
 	****************************************************************************/
-	SphereCollider::SphereCollider() : mIsTrigger	(false),
-									   mCenter		(Vec3(0.0f, 0.0f, 0.0f)),
-									   mRadius		(0.0f)
-	{ }
+	SphereCollider::SphereCollider() : mIsTrigger(false),
+		mCenter(Vec3(0.0f, 0.0f, 0.0f)),
+		mRadius(0.5f)
+	{
+		//CreateJPHSphereCollider(mRadius);
+
+	}
 
 	/*!*************************************************************************
 	Initializes the Collider component when created, given another Collider
 	component to move (for ECS)
 	****************************************************************************/
-	SphereCollider::SphereCollider(SphereCollider&& toMove) noexcept : mIsTrigger	(toMove.mIsTrigger),
-																	   mCenter		(toMove.mCenter),
-																	   mRadius		(toMove.mRadius)
+	SphereCollider::SphereCollider(SphereCollider&& toMove) noexcept : mIsTrigger(toMove.mIsTrigger),
+		mCenter(toMove.mCenter),
+		mRadius(toMove.mRadius)
 	{ }
+
+
 
 	SphereCollider* GetSphereCollider(EntityID entityID)
 	{
 		return ecs.getComponent<SphereCollider>(entityID);
 	}
+	
 }

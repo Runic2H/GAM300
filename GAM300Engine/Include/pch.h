@@ -23,6 +23,8 @@
 #include <assert.h>
 #include <memory>
 #include <random>
+#include <thread>
+#include <cstdarg>
 
 #include <Jolt/Jolt.h>
 #include "TDSMath.h"

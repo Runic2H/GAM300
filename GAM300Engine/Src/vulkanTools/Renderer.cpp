@@ -38,9 +38,16 @@ namespace TDS {
 		vkDeviceWaitIdle(m_Instance.getVkLogicalDevice());
 
 		VkExtent2D swapchainextent;
-		swapchainextent.width = m_Window.getWidth();
-		swapchainextent.height = m_Window.getHeight();
-
+		if (m_Window.getHeight() == 0 || m_Window.getWidth() == 0)
+		{
+			swapchainextent.width = m_SwapChain->getSwapChainExtent().width;
+			swapchainextent.height = m_SwapChain->getSwapChainExtent().height;
+		}
+		else
+		{
+			swapchainextent.width = m_Window.getWidth();
+			swapchainextent.height = m_Window.getHeight();
+		}
 		if (m_SwapChain == nullptr)
 			m_SwapChain = std::make_unique<VulkanSwapChain>(m_Instance, swapchainextent);
 		else {
@@ -51,6 +58,7 @@ namespace TDS {
 			if (!oldswapchain->compareSwapFormat(*m_SwapChain.get()))
 				throw std::runtime_error("Swap Chain image/depth format has changed");
 			cmdMgr.ResetPool(POOLTYPE::GRAPHICS);
+			oldswapchain->ShutDown();
 		}
 	}
 

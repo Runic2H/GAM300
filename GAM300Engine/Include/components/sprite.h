@@ -35,34 +35,34 @@ namespace TDS
 		/*!*************************************************************************
 		Getter and setter functions for the variables in the Sprite component class
 		****************************************************************************/
-		DLL_API Vec2& GetIndex() { return mIndex; }
+		DLL_API Vec2 GetIndex() { return mIndex; }
 		DLL_API void SetIndex(Vec2 index) { mIndex = index; }
 
-		DLL_API bool& GetIsSpriteSheet() { return mIsSpriteSheet; }
+		DLL_API bool GetIsSpriteSheet() { return mIsSpriteSheet; }
 		DLL_API void SetIsSpriteSheet(bool isSpriteSheet) { mIsSpriteSheet = isSpriteSheet; }
 		
-		DLL_API bool& GetIsAnimated() { return mIsAnimated; }
+		DLL_API bool GetIsAnimated() { return mIsAnimated; }
 		DLL_API void SetIsAnimated(bool isAnimated) { mIsAnimated = isAnimated; }
 		
-		DLL_API float& GetInternalTimer() { return mInternalTimer; }
+		DLL_API float GetInternalTimer() { return mInternalTimer; }
 		DLL_API void SetInternalTimer(float internalTimer) { mInternalTimer = internalTimer; }
 		
-		DLL_API int& GetLayerOrder() { return mLayerOrder; }
+		DLL_API int GetLayerOrder() { return mLayerOrder; }
 		DLL_API void SetLayerOrder(int layerOrder) { mLayerOrder = layerOrder; }
 		
-		DLL_API std::string& GetTextureName() { return mTextureName; }
+		DLL_API std::string GetTextureName() { return mTextureName; }
 		DLL_API void SetTextureName(std::string textureName) { mTextureName = textureName; }
 		
-		DLL_API Vec2& GetUVcooridnates() { return mUVcooridnates; }
+		DLL_API Vec2 GetUVcooridnates() { return mUVcooridnates; }
 		DLL_API void SetUVcooridnates(Vec2 UVcooridnates) { mUVcooridnates = UVcooridnates; }
 		
-		DLL_API float& GetAlpha() { return mAlpha; }
+		DLL_API float GetAlpha() { return mAlpha; }
 		DLL_API void SetAlpha(float alpha) { mAlpha = alpha; }
 
-		DLL_API int& GetMaxIndex() { return mMaxIndex; }
+		DLL_API int GetMaxIndex() { return mMaxIndex; }
 		DLL_API void SetMaxIndex(int maxIndex) { mMaxIndex = maxIndex; }
 		
-		DLL_API std::vector<float>& GetDisplayTime() { return mDisplayTime; }
+		DLL_API std::vector<float> GetDisplayTime() { return mDisplayTime; }
 
 		RTTR_ENABLE(IComponent);
 		RTTR_REGISTRATION_FRIEND

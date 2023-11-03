@@ -9,8 +9,7 @@
  *******************************************************************************/
 #pragma once
 #include "IncludeFromEngine.hxx"
-#include "Components/TransformComponent.hxx"
-#include "Components/ColliderComponent.hxx"
+#include "GameObject.hxx"
 #include <iostream>
 #include <chrono>
 #include <thread>
@@ -20,8 +19,11 @@ using namespace System;
 using namespace System::Collections::Generic;
 using namespace System::Threading;
 using namespace System::Threading::Tasks;
+using namespace System::Reflection;
 using namespace concurrency;
 
+[AttributeUsage(AttributeTargets::Field)]
+public ref class SerializeFieldAttribute : public Attribute { };
 
 namespace ScriptAPI
 {
@@ -39,12 +41,12 @@ namespace ScriptAPI
 
         generic <typename TResult>
         IAsyncEnumerable<TResult>^ Coroutine(Func<IAsyncEnumerable<TResult>^>^ func, int duration);
-
-        TransformComponent GetTransformComponent();
-        ColliderComponent GetColliderComponent();
+        
+        GameObject^ GameObjectScriptFind(System::String^ name);
+        GameObject^ gameObject;
 
     internal:
-        void SetEntityID(TDS::EntityID ID);
+        void SetFlags();
         bool isScriptEnabled();
 
         void setAwakeFlag();
@@ -54,8 +56,6 @@ namespace ScriptAPI
         bool getStartFlag();
 
     private:
-        //entityID and is_Enabled set at SetEntityID
-        TDS::EntityID entityID;
         bool is_Enabled;
         bool is_Awake;
         bool is_Start;
@@ -82,7 +82,7 @@ namespace ScriptAPI
         // Define a function that simulates an async operation and returns the result in a Task
         // Task<IAsyncEnumerable<TResult>^>^
         generic <typename TResult>
-        static IAsyncEnumerable<TResult>^ UnityCoroutineC(Func<IAsyncEnumerable<TResult>^>^ func, std::chrono::milliseconds duration) 
+        static IAsyncEnumerable<TResult>^ UnityCoroutineC(Func<IAsyncEnumerable<TResult>^>^ func, std::chrono::milliseconds duration)
         {
             auto startTime = std::chrono::steady_clock::now();
             auto endTime = startTime + duration;
@@ -97,9 +97,13 @@ namespace ScriptAPI
 
             // Wrap the result in a Task
             /*return Task::FromResult(result);*/
-
             return func();
         }
+
+        //static TDS::EntityID findGameObject(System::String^ entityName)
+        //{
+        //    return EngineInterface::GetGameObjectList()[entityName];
+        //}
 
     };
 }

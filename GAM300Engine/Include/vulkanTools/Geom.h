@@ -6,7 +6,7 @@
 #include "MathCommon.h"
 namespace TDS
 {
-	struct GeomCompiled
+	struct Geom
 	{
 		struct Mesh
 		{
@@ -28,11 +28,11 @@ namespace TDS
 			Vec3 m_Normal;
 			Vec3 m_Tanget;
 			Vec3 m_Bitangent;
-			std::uint32_t m_Colour{};
+			std::uint32_t m_Colour;
 		};
-		std::vector<Vec3> m_Pos;
 		std::vector<Mesh> m_Mesh;
 		std::vector<SubMesh> m_SubMesh;
+		std::vector<Vec3> m_Pos;
 		std::vector<ExtraVertices> m_Extra;
 		std::vector<std::uint32_t> m_Indices;
 	};
