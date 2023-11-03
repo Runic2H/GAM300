@@ -515,7 +515,7 @@ namespace TDS
 			{
 				static std::vector<std::string> rigidbodyMotionTypeString = { "STATIC", "KINEMATIC", "DYNAMIC" };
 				int newValue = propertyName.get_value(componentInstance).convert<int>();
-				ImguiInput(propertyName.get_name().to_string(), newValue);
+				ImguiInput(propertyName.get_name().to_string(), rigidbodyMotionTypeString, newValue);
 				propertyName.set_value(componentInstance, static_cast<RigidBody::MotionType>(newValue));
 			}
 		}
