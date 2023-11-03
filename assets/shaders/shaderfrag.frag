@@ -3,7 +3,7 @@
 
 //layout(binding = 4) uniform sampler2D texSampler;
 
-layout(set = 1, binding = 4) uniform sampler2D texArraySampler[2000];
+layout(set = 1, binding = 4) uniform sampler2D texArraySampler[500];
 
 layout(location = 0) in vec3 fragColor;
 layout(location = 1) in vec2 fragTexCoord;

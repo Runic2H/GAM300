@@ -180,6 +180,16 @@ namespace TDS
 	}
 
 	/*!*************************************************************************
+	This function clears a queue
+	****************************************************************************/
+	template<typename U>
+	inline void EventManager::clearQueue(U systemID)
+	{
+		char system = static_cast<char>(systemID);
+		masterQueue[system].clear();
+	}
+
+	/*!*************************************************************************
 	This function clears all queues
 	****************************************************************************/
 	inline void EventManager::clearQueues()

@@ -31,18 +31,20 @@ namespace TDS
 						 mTag				(""),
 						 mIsActive			(true),
 						 mHierarchyParent	(0),
-						 mHierarchyIndex	(0)
+						 mHierarchyIndex	(0),
+						 mHierarchyChildren	({})
 	{ }
 
 	/*!*************************************************************************
 	Initializes the NameTag component when created, given another NameTag
 	component to move (for ECS)
 	****************************************************************************/
-	NameTag::NameTag(NameTag&& toMove) noexcept : mName				(toMove.mName),
-												  mTag				(toMove.mTag),
-												  mIsActive			(toMove.mIsActive),
-												  mHierarchyParent	(toMove.mHierarchyParent),
-												  mHierarchyIndex	(toMove.mHierarchyIndex)
+	NameTag::NameTag(NameTag&& toMove) noexcept : mName					(toMove.mName),
+												  mTag					(toMove.mTag),
+												  mIsActive				(toMove.mIsActive),
+												  mHierarchyParent		(toMove.mHierarchyParent),
+												  mHierarchyIndex		(toMove.mHierarchyIndex),
+												  mHierarchyChildren	(toMove.mHierarchyChildren)
 	{ }
 
 	NameTag* GetNameTag(EntityID entityID)

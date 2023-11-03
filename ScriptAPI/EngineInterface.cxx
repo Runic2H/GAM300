@@ -147,7 +147,7 @@ namespace ScriptAPI
     {
         for each (auto i in TDS::ecs.getEntities())
         {
-            if (scripts->ContainsKey(i) && TDS::ecs.getEnabledEntity(i))
+            if (scripts->ContainsKey(i) && TDS::ecs.getEntityIsEnabled(i))
             {
                 for each (NameScriptPair ^ script in scripts[i])
                 {
@@ -169,7 +169,7 @@ namespace ScriptAPI
     {
         for each (auto i in TDS::ecs.getEntities())
         {
-            if (scripts->ContainsKey(i) && TDS::ecs.getEnabledEntity(i))
+            if (scripts->ContainsKey(i) && TDS::ecs.getEntityIsEnabled(i))
             {
                 for each (NameScriptPair ^ script in scripts[i])
                 {
@@ -227,7 +227,7 @@ namespace ScriptAPI
     {
         for each (auto i in TDS::ecs.getEntities())
         {
-            if (scripts->ContainsKey(i) && TDS::ecs.getEnabledEntity(i))
+            if (scripts->ContainsKey(i) && TDS::ecs.getEntityIsEnabled(i))
             {
                 for each (NameScriptPair ^ script in scripts[i])
                 {
@@ -250,7 +250,7 @@ namespace ScriptAPI
     {
         for each (auto i in TDS::ecs.getEntities())
         {
-            if (scripts->ContainsKey(i) && TDS::ecs.getEnabledEntity(i))
+            if (scripts->ContainsKey(i) && TDS::ecs.getEntityIsEnabled(i))
             {
                 for each (NameScriptPair ^ script in scripts[i])
                 {
@@ -272,7 +272,7 @@ namespace ScriptAPI
     {
         for each (auto i in TDS::ecs.getEntities())
         {
-            if (scripts->ContainsKey(i) && TDS::ecs.getEnabledEntity(i))
+            if (scripts->ContainsKey(i) && TDS::ecs.getEntityIsEnabled(i))
             {
                 for each (NameScriptPair ^ script in scripts[i])
                 {
@@ -382,6 +382,20 @@ namespace ScriptAPI
         }
 
         return allScripts;
+    }
+
+    bool EngineInterface::IsScriptEnabled(TDS::EntityID entityId, std::string script)
+    {
+        if (entityId == TDS::NULLENTITY)
+        {
+            return false;
+        }
+
+        auto scriptName = toSystemString(script);
+
+        scriptName = scriptName->Trim();
+
+        return scripts[entityId][scriptName]->isScriptEnabled();
     }
 
     std::vector<TDS::ScriptValues> EngineInterface::GetScriptVariables(TDS::EntityID entityId, std::string script)

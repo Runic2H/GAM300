@@ -149,7 +149,7 @@ namespace TDS
 		VkPipelineDepthStencilStateCreateInfo depthStencilState = { VK_STRUCTURE_TYPE_PIPELINE_DEPTH_STENCIL_STATE_CREATE_INFO };
 		depthStencilState.depthTestEnable = m_PipelineEntry.m_PipelineConfig.m_EnableDepthTest ? VK_TRUE : VK_FALSE;
 		depthStencilState.depthWriteEnable = m_PipelineEntry.m_PipelineConfig.m_EnableDepthWrite ? VK_TRUE : VK_FALSE;
-		depthStencilState.depthCompareOp = VK_COMPARE_OP_LESS;
+		depthStencilState.depthCompareOp = VK_COMPARE_OP_LESS_OR_EQUAL;
 		depthStencilState.depthBoundsTestEnable = m_PipelineEntry.m_PipelineConfig.m_EnableDepthBiased ? VK_TRUE : VK_FALSE;
 		depthStencilState.back.compareOp = VK_COMPARE_OP_ALWAYS;
 		depthStencilState.stencilTestEnable = VK_FALSE;
@@ -406,7 +406,7 @@ namespace TDS
 				}
 				VkDescriptorPoolSize poolSize{};
 				if (m_PipelineEntry.m_EnableDoubleBuffering)
-					poolSize.descriptorCount = NumSamplers * VulkanSwapChain::MAX_FRAMES_IN_FLIGHT;
+					poolSize.descriptorCount = NumSamplers /** VulkanSwapChain::MAX_FRAMES_IN_FLIGHT*/;
 				else
 					poolSize.descriptorCount = NumSamplers;
 				poolSize.type = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
@@ -424,7 +424,7 @@ namespace TDS
 				}
 				VkDescriptorPoolSize poolSize{};
 				if (m_PipelineEntry.m_EnableDoubleBuffering)
-					poolSize.descriptorCount = storageImagesSamplers * VulkanSwapChain::MAX_FRAMES_IN_FLIGHT;
+					poolSize.descriptorCount = storageImagesSamplers/* * VulkanSwapChain::MAX_FRAMES_IN_FLIGHT*/;
 				else
 					poolSize.descriptorCount = storageImagesSamplers;
 				poolSize.type = VK_DESCRIPTOR_TYPE_STORAGE_IMAGE;
@@ -438,7 +438,7 @@ namespace TDS
 		descriptorPoolInfo.poolSizeCount = static_cast<uint32_t>(poolSizes.size());
 		descriptorPoolInfo.pPoolSizes = poolSizes.data();
 		if (m_PipelineEntry.m_EnableDoubleBuffering)
-			descriptorPoolInfo.maxSets = 4 * numDescriptorSets * VulkanSwapChain::MAX_FRAMES_IN_FLIGHT;
+			descriptorPoolInfo.maxSets = 2 * numDescriptorSets * VulkanSwapChain::MAX_FRAMES_IN_FLIGHT;
 		else
 			descriptorPoolInfo.maxSets = numDescriptorSets;
 		VkDevice device = GraphicsManager::getInstance().getVkInstance().getVkLogicalDevice();
@@ -584,7 +584,7 @@ namespace TDS
 				, 1, &findItr->second, 0, 0);
 		}
 	}
-	void VulkanPipeline::UpdateTextureArray(std::uint32_t binding, VkDescriptorType descriptorType, std::array<Texture, 2000>& texture)
+	void VulkanPipeline::UpdateTextureArray(std::uint32_t binding, VkDescriptorType descriptorType, std::array<Texture, 500>& texture)
 	{
 		std::int32_t frame = GraphicsManager::getInstance().GetSwapchainRenderer().getFrameIndex();
 		bool invalid = false;
@@ -593,7 +593,7 @@ namespace TDS
 		{
 			VkWriteDescriptorSet write{};
 			std::uint32_t ArrayCnt = std::uint32_t(texture.size());
-			std::array<VkDescriptorImageInfo,2000> Infos;
+			std::array<VkDescriptorImageInfo,500> Infos;
 			for (std::uint32_t i = 0; i < ArrayCnt; ++i)
 			{
 				if (texture[i].m_VulkanTexture == nullptr)
@@ -607,7 +607,7 @@ namespace TDS
 
 			}
 
-			for (int i = 0; i < VulkanSwapChain::MAX_FRAMES_IN_FLIGHT; ++i)
+			for (int i = 0; i < 1; ++i)
 			{
 				findItr->second.dstSet = m_PipelineDescriptor.m_TextureOrBindless[i];
 				findItr->second.descriptorType = descriptorType;
@@ -872,7 +872,7 @@ namespace TDS
 		{
 			descriptor.m_DescriptorSets.resize(VulkanSwapChain::MAX_FRAMES_IN_FLIGHT);
 			if (UseTextureArrayLayout)
-				descriptor.m_TextureOrBindless.resize(VulkanSwapChain::MAX_FRAMES_IN_FLIGHT);
+				descriptor.m_TextureOrBindless.resize(1);
 		}
 		else
 		{

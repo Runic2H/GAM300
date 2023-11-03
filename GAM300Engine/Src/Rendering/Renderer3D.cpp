@@ -28,6 +28,11 @@ namespace TDS
 		
 		entry.m_ShaderInputs.m_Shaders.insert(std::make_pair(SHADER_FLAG::VERTEX, "../assets/shaders/shadervert.spv"));
 		entry.m_ShaderInputs.m_Shaders.insert(std::make_pair(SHADER_FLAG::FRAGMENT, "../assets/shaders/shaderfrag.spv"));
+		entry.m_PipelineConfig.m_SrcClrBlend = VkBlendFactor::VK_BLEND_FACTOR_ZERO;
+		entry.m_PipelineConfig.m_DstClrBlend = VkBlendFactor::VK_BLEND_FACTOR_ZERO;
+		entry.m_PipelineConfig.m_SrcAlphaBlend = VkBlendFactor::VK_BLEND_FACTOR_ZERO;
+		entry.m_PipelineConfig.m_DstAlphaBlend = VkBlendFactor::VK_BLEND_FACTOR_ZERO;
+
 		VertexLayout layout = 
 		VertexLayout(
 		{ 
@@ -35,11 +40,11 @@ namespace TDS
 		  VertexBufferElement(VAR_TYPE::VEC3, "vColor"),
 		  VertexBufferElement(VAR_TYPE::VEC2, "inTexCoord"),
 		  VertexBufferElement(VAR_TYPE::VEC4, "vNormals"),
-		  VertexBufferElement(VAR_TYPE::Float, "vFloat")
 		});
 		GlobalBufferPool::GetInstance()->AddToGlobalPool(sizeof(GlobalUBO), 0, VkBufferUsageFlagBits::VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT, "PL");
 		entry.m_ShaderInputs.m_InputVertex.push_back(VertexBufferInfo(false, layout, sizeof(VertexData)));
 		inst.m_DefaultPipeline = std::make_shared<VulkanPipeline>();
+		
 
 		inst.m_DefaultPipeline->Create(entry);
 		

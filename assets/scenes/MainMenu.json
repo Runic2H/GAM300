@@ -1,9 +1,9 @@
 {
     "Archetype Sizes": {
         "110000100000": {
-            "0": 416,
+            "0": 544,
             "1": 448,
-            "6": 544
+            "6": 864
         }
     },
     "Entity Data": {
@@ -35,6 +35,8 @@
             },
             "Graphics Component": {
                 "PointLight": false,
+                "TextureName": "",
+                "ModelName": "capsule_Bin.bin",
                 "Color": {
                     "x": 1.0,
                     "y": 0.0,
@@ -54,8 +56,8 @@
             },
             "Transform": {
                 "Position": {
-                    "x": 0.0,
-                    "y": 0.0,
+                    "x": -1.1244041919708252,
+                    "y": -0.985723614692688,
                     "z": 0.0
                 },
                 "Scale": {
@@ -65,12 +67,14 @@
                 },
                 "Rotation": {
                     "x": 0.0,
-                    "y": 0.0,
+                    "y": -0.0,
                     "z": 0.0
                 }
             },
             "Graphics Component": {
                 "PointLight": false,
+                "TextureName": "pumpkin.dds",
+                "ModelName": "capsule_Bin.bin",
                 "Color": {
                     "x": 1.0,
                     "y": 1.0,
@@ -90,9 +94,9 @@
             },
             "Transform": {
                 "Position": {
-                    "x": 20.0,
-                    "y": 0.0,
-                    "z": 0.0
+                    "x": 3.360485553741455,
+                    "y": 1.9889261722564697,
+                    "z": -8.026918411254883
                 },
                 "Scale": {
                     "x": 1.0,
@@ -101,12 +105,14 @@
                 },
                 "Rotation": {
                     "x": 0.0,
-                    "y": 0.0,
+                    "y": -0.0,
                     "z": 0.0
                 }
             },
             "Graphics Component": {
                 "PointLight": false,
+                "TextureName": "",
+                "ModelName": "cube_Bin.bin",
                 "Color": {
                     "x": 1.0,
                     "y": 1.0,
@@ -126,9 +132,9 @@
             },
             "Transform": {
                 "Position": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
+                    "x": 0.6938570737838745,
+                    "y": -1.3435213565826416,
+                    "z": 0.48901987075805664
                 },
                 "Scale": {
                     "x": 1.0,
@@ -137,12 +143,14 @@
                 },
                 "Rotation": {
                     "x": 0.0,
-                    "y": 0.0,
+                    "y": -0.0,
                     "z": 0.0
                 }
             },
             "Graphics Component": {
                 "PointLight": false,
+                "TextureName": "",
+                "ModelName": "capsule_Bin.bin",
                 "Color": {
                     "x": 1.0,
                     "y": 1.0,

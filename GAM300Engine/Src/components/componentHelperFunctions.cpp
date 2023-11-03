@@ -171,4 +171,68 @@ namespace TDS
 		else if (componentName == "Win Data")
 			ecs.removeComponent<WinData>(entityID);
 	}
+
+	/*!*************************************************************************
+	This function is a helper function to toggle components
+	****************************************************************************/
+	void setComponentIsEnable(std::string componentName, const EntityID& entityID, bool isEnabled)
+	{
+		if (componentName == "AI")
+			ecs.setComponentIsEnabled<AI>(entityID, isEnabled);
+		else if (componentName == "Box Collider")
+			ecs.setComponentIsEnabled<BoxCollider>(entityID, isEnabled);
+		else if (componentName == "Camera Component")
+			ecs.setComponentIsEnabled<CameraComponent>(entityID, isEnabled);
+		else if (componentName == "Capsule Collider")
+			ecs.setComponentIsEnabled<CapsuleCollider>(entityID, isEnabled);
+		else if (componentName == "Graphics Component")
+			ecs.setComponentIsEnabled<GraphicsComponent>(entityID, isEnabled);
+		else if (componentName == "Name Tag")
+			ecs.setComponentIsEnabled<NameTag>(entityID, isEnabled);
+		else if (componentName == "Rigid Body")
+			ecs.setComponentIsEnabled<RigidBody>(entityID, isEnabled);
+		else if (componentName == "Sphere Collider")
+			ecs.setComponentIsEnabled<SphereCollider>(entityID, isEnabled);
+		else if (componentName == "Sprite")
+			ecs.setComponentIsEnabled<Sprite>(entityID, isEnabled);
+		else if (componentName == "Tag")
+			ecs.setComponentIsEnabled<Tag>(entityID, isEnabled);
+		else if (componentName == "Transform")
+			ecs.setComponentIsEnabled<Transform>(entityID, isEnabled);
+		else if (componentName == "Win Data")
+			ecs.setComponentIsEnabled<WinData>(entityID, isEnabled);
+	}
+
+	/*!*************************************************************************
+	This function is a helper function to return if component is enabled
+	****************************************************************************/
+	bool getComponentIsEnable(std::string componentName, const EntityID& entityID)
+	{
+		if (componentName == "AI")
+			return ecs.getComponentIsEnabled<AI>(entityID);
+		else if (componentName == "Box Collider")
+			return ecs.getComponentIsEnabled<BoxCollider>(entityID);
+		else if (componentName == "Camera Component")
+			return ecs.getComponentIsEnabled<CameraComponent>(entityID);
+		else if (componentName == "Capsule Collider")
+			return ecs.getComponentIsEnabled<CapsuleCollider>(entityID);
+		else if (componentName == "Graphics Component")
+			return ecs.getComponentIsEnabled<GraphicsComponent>(entityID);
+		else if (componentName == "Name Tag")
+			return ecs.getComponentIsEnabled<NameTag>(entityID);
+		else if (componentName == "Rigid Body")
+			return ecs.getComponentIsEnabled<RigidBody>(entityID);
+		else if (componentName == "Sphere Collider")
+			return ecs.getComponentIsEnabled<SphereCollider>(entityID);
+		else if (componentName == "Sprite")
+			return ecs.getComponentIsEnabled<Sprite>(entityID);
+		else if (componentName == "Tag")
+			return ecs.getComponentIsEnabled<Tag>(entityID);
+		else if (componentName == "Transform")
+			return ecs.getComponentIsEnabled<Transform>(entityID);
+		else if (componentName == "Win Data")
+			return ecs.getComponentIsEnabled<WinData>(entityID);
+		else
+			return false;
+	}
 }

@@ -11,7 +11,7 @@ namespace TDS
 	{
 
 	public:
-		std::array<Texture, 2000> m_TextureArray;
+		std::array<Texture, 500> m_TextureArray;
 		std::unordered_map<std::string, std::uint32_t> m_TextureIndices;
 		std::uint32_t m_CurrentIndex = 0;
 		bool m_UpdateTextureArray = false;
@@ -49,7 +49,7 @@ namespace TDS
 				}
 			}
 		}*/
-		std::array<Texture, 2000>& GetTextureArray()
+		std::array<Texture, 500>& GetTextureArray()
 		{
 			return m_TextureArray;
 		}

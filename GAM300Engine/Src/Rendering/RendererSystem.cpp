@@ -14,7 +14,7 @@ namespace TDS
 	struct PushConstantData {
 		Mat4 ModelMat{ 1.f };
 		Mat4 NormalMat{ 1.f };
-		unsigned int textureIndex = 1999;
+		unsigned int textureIndex = 499;
 		float padding[3];
 	};
 
@@ -51,7 +51,7 @@ namespace TDS
 			
 			if (textureID == -1)
 			{
-				pushData.textureIndex = 1999;
+				pushData.textureIndex = 499;
 			}
 			else
 			{
@@ -130,7 +130,7 @@ namespace TDS
 						Renderer3D::getPipeline()->BindVertexBuffer(*_Graphics[i].m_AssetReference.m_ResourcePtr->GetVertexBuffer());
 						Renderer3D::getPipeline()->BindIndexBuffer(*_Graphics[i].m_AssetReference.m_ResourcePtr->GetIndexBuffer());
 						Renderer3D::getPipeline()->BindDescriptor(frame, 1);
-						Renderer3D::getPipeline()->BindArrayDescriptorSet(frame, 1, 1);
+						Renderer3D::getPipeline()->BindArrayDescriptorSet(0, 1, 1);
 						Renderer3D::getPipeline()->DrawIndexed(*_Graphics[i].m_AssetReference.m_ResourcePtr->GetVertexBuffer(),
 							*_Graphics[i].m_AssetReference.m_ResourcePtr->GetIndexBuffer(),
 							frame);

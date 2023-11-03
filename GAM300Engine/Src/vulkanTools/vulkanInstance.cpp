@@ -87,15 +87,28 @@ namespace TDS
 			}
 		}
 
-		if (m_PhysDeviceHandle == VK_NULL_HANDLE) {
-			throw std::runtime_error("failed to find a suitable GPU!");
+		if (m_PhysDeviceHandle == nullptr)
+		{
+			//Just get the first physical device if discrete is not supported.
+			m_PhysDeviceHandle = devices[0];
+			VkPhysicalDeviceProperties2 properties2 = { VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PROPERTIES_2 };
+
+			vkGetPhysicalDeviceProperties2(m_PhysDeviceHandle, &properties2);
+
+			VkPhysicalDeviceFeatures2 features2 = { VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_FEATURES_2 };
+			vkGetPhysicalDeviceFeatures2(m_PhysDeviceHandle, &features2);
+
+			m_Features = features2.features;
+			m_Properties = properties2.properties;
 		}
 
-		vkGetPhysicalDeviceProperties(m_PhysDeviceHandle, &m_Properties);
-		VkPhysicalDeviceProperties2 properties2 = { VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PROPERTIES_2 };
-		m_Properties = properties2.properties;
+		//if (m_PhysDeviceHandle == VK_NULL_HANDLE)
+		//{
+		//	throw std::runtime_error("failed to find a suitable GPU!");
+		//}
 
 		std::cout << "physical device: " << m_Properties.deviceName << std::endl;
+		m_Properties.deviceType;
 	}
 
 	void VulkanInstance::CreateLogicalDevice(const WindowsWin& _Windows)
@@ -134,7 +147,7 @@ namespace TDS
 		createInfo.sType = VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO;
 		createInfo.queueCreateInfoCount = static_cast<uint32_t>(queueCreateInfos.size());
 		createInfo.pQueueCreateInfos = queueCreateInfos.data();
-		createInfo.pEnabledFeatures = &deviceFeatures;
+		createInfo.pEnabledFeatures = &m_Features;
 		createInfo.enabledExtensionCount = static_cast<uint32_t>(deviceExtensions.size());
 		createInfo.ppEnabledExtensionNames = deviceExtensions.data();
 
@@ -312,7 +325,7 @@ namespace TDS
 			{
 				indices.graphicsFamily = i;
 			}
-			else if (queueFamily.queueFlags & VK_QUEUE_COMPUTE_BIT)
+			if (queueFamily.queueFlags & VK_QUEUE_COMPUTE_BIT)
 			{
 				indices.computeFamily = i;
 			}
@@ -371,10 +384,18 @@ namespace TDS
 			swapChainAdequate = !swapChainSupport.formats.empty() && !swapChainSupport.presentModes.empty();
 		}
 
-		VkPhysicalDeviceFeatures supportedFeatures;
-		vkGetPhysicalDeviceFeatures(device, &supportedFeatures);
+		VkPhysicalDeviceProperties2 properties2 = { VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PROPERTIES_2 };
 
-		return indices.isComplete() && extensionsSupported && swapChainAdequate && supportedFeatures.samplerAnisotropy;
+		vkGetPhysicalDeviceProperties2(device, &properties2);
+
+		VkPhysicalDeviceFeatures2 features2 = { VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_FEATURES_2 };
+		vkGetPhysicalDeviceFeatures2(device, &features2);
+
+		m_Features = features2.features;
+		m_Properties = properties2.properties;
+		return indices.isComplete() && extensionsSupported && swapChainAdequate && features2.features.samplerAnisotropy &&
+			features2.features.shaderSampledImageArrayDynamicIndexing
+			&& properties2.properties.deviceType == VkPhysicalDeviceType::VK_PHYSICAL_DEVICE_TYPE_DISCRETE_GPU;
 	}
 
 	VulkanInstance::SwapChainSupportDetails VulkanInstance::querySwapChainSupport(const VkPhysicalDevice& device)

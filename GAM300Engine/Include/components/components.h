@@ -58,6 +58,14 @@ namespace TDS
 	This function is a helper function to remove components by string name
 	****************************************************************************/
 	DLL_API void removeComponentByName(std::string componentName, const EntityID& entityID);
+	/*!*************************************************************************
+	This function is a helper function to toggle components
+	****************************************************************************/
+	DLL_API void setComponentIsEnable(std::string componentName, const EntityID& entityID, bool isEnabled);
+	/*!*************************************************************************
+	This function is a helper function to return if component is enabled
+	****************************************************************************/
+	DLL_API bool getComponentIsEnable(std::string componentName, const EntityID& entityID);
 }
 
 #endif

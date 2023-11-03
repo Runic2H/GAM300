@@ -90,6 +90,7 @@
     <ClCompile Include="Src\Rendering\FontRenderer.cpp" />
     <ClCompile Include="Src\Rendering\GridRenderer.cpp" />
     <ClCompile Include="Src\GraphicsResource\FontInfo.cpp" />
+    <ClCompile Include="Src\eventManager\eventHandler.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Shared_Libs\MathCommon.h" />

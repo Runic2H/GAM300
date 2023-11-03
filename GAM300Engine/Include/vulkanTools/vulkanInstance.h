@@ -142,7 +142,8 @@ namespace TDS
 		/*VkCommandPool		m_CommandPool{ nullptr };*/
 
 		VkPhysicalDeviceProperties m_Properties;
-
+		VkPhysicalDeviceFeatures   m_Features;
+		
 		std::vector<std::string> supportedInstanceExtensions{};
 		std::vector<const char*> enabledInstanceExtensions{};
 

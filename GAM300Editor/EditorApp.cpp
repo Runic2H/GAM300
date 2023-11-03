@@ -152,7 +152,7 @@ namespace TDS
                 "ScriptAPI.EngineInterface",
                 "AddScriptViaName"
             );
-        auto toggleScript = GetFunctionPtr<bool(*)(int, const char*)>
+        SceneManager::GetInstance()->toggleScript = GetFunctionPtr<bool(*)(int, const char*)>
             (
                 "ScriptAPI",
                 "ScriptAPI.EngineInterface",
@@ -199,7 +199,7 @@ namespace TDS
 			
             if (isPlaying)
             {
-                ecs.runSystems(1, DeltaTime);
+                ecs.runSystems(1, DeltaTime); // Other systems
             }
             else
             {
@@ -209,13 +209,16 @@ namespace TDS
                 }
             }
 
-            ecs.runSystems(2, DeltaTime);
+            ecs.runSystems(2, DeltaTime); // Event handler
+            ecs.runSystems(3, DeltaTime); // Graphics
          
-            
             imguiHelper::Update();
+
+            // event handling systems 
+
+
             GraphicsManager::getInstance().getRenderPass().endRenderPass(commandBuffer);
             GraphicsManager::getInstance().GetSwapchainRenderer().BeginSwapChainRenderPass(commandBuffer);
-
 
             imguiHelper::Draw(commandBuffer);
 
@@ -229,13 +232,8 @@ namespace TDS
                 SceneManager::GetInstance()->saveCurrentScene();
                 reloadScripts();
                 SceneManager::GetInstance()->loadScene(SceneManager::GetInstance()->getCurrentScene());
-                //addScript(1, "Test");
             }
 
-            if (GetKeyState(VK_SPACE) & 0x8000)
-            {
-                toggleScript(1, "Test");
-            }
             executeUpdate();
             Input::scrollStop();
         }
@@ -391,9 +389,17 @@ namespace TDS
                 "UpdateGameObjectName"
             );
 
+        SceneManager::GetInstance()->isScriptEnabled = GetFunctionPtr<bool(*)(EntityID, std::string)>
+            (
+                "ScriptAPI",
+                "ScriptAPI.EngineInterface",
+                "IsScriptEnabled"
+            );
+
         SceneManager::GetInstance()->Init();
         ecs.initializeSystems(1);
         ecs.initializeSystems(2);
+        ecs.initializeSystems(3);
 
         awake();
     }
