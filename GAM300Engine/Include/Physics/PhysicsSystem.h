@@ -22,17 +22,20 @@
 #include "Logger/Logger.h"
 #include "Physics/JPHLayers.h"
 
-
-#include "JoltPhysics/System/JoltCore.h"
 #include "JoltPhysics/Utils/JoltConversionUtils.h"
 
  // Jolt includes
+#include <Jolt/RegisterTypes.h>
+#include <Jolt/Core/Factory.h>
+#include <Jolt/Core/TempAllocator.h>
+#include <Jolt/Core/JobSystemThreadPool.h>
 #include <Jolt/Physics/PhysicsSettings.h>
 #include <Jolt/Physics/PhysicsSystem.h>
-#include <Jolt/Physics/Body/BodyCreationSettings.h>
 #include <Jolt/Physics/Collision/Shape/BoxShape.h>
 #include <Jolt/Physics/Collision/Shape/SphereShape.h>
 #include <Jolt/Physics/Collision/Shape/CapsuleShape.h>
+#include <Jolt/Physics/Body/BodyCreationSettings.h>
+#include <Jolt/Physics/Body/BodyActivationListener.h>
 
 
 JPH_SUPPRESS_WARNINGS
@@ -51,7 +54,10 @@ namespace TDS
 		 ***************************************************************************/
 		static void PhysicsSystemInit();
 		static void PhysicsSystemUpdate(const float dt, const std::vector<EntityID>& entities, Transform* _transform, RigidBody* _rigidbody);
-
+		
+		// potentially need move somewhere
+		static void SetUpdate(bool input) { m_oneTimeInit = input; }
+		static bool GetUpdate() { return m_oneTimeInit; }
 		//std::unique_ptr<JPH::PhysicsSystem>& getPhysicsSystem() { return m_pSystem; }
 	private:
 		/*!*************************************************************************
@@ -83,12 +89,11 @@ namespace TDS
 		// Jolt Physics Global Settings
 		static std::unique_ptr<JPH::PhysicsSystem>			m_pSystem;
 		static std::unique_ptr<JPH::TempAllocatorImpl>		m_pTempAllocator;
+		static std::unique_ptr<JPH::JobSystemThreadPool>	m_pJobSystem;
+		inline static bool m_oneTimeInit					= false;
 
-		static BPLayerInterfaceImpl							broad_phase_layer_interface;
-		static ObjectVsBroadPhaseLayerFilterImpl			object_vs_broadphase_layer_filter;
-		static ObjectLayerPairFilterImpl					object_vs_object_layer_filter;
-
-		unsigned int								m_stepNumber = 0;
+		// Container that holds all the bodyID
+		static std::vector<JoltBodyID>					    m_pBodyIDVector;
 	};
 
 }

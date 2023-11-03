@@ -48,6 +48,12 @@ namespace TDS::JoltToTDS
 	{
 		return JPH::BodyID(body->GetBodyID().GetIndexAndSequenceNumber());
 	}
+
+	inline JPH::BodyID* ToBodyID(JoltBodyID* bodyID)
+	{
+		return reinterpret_cast<JPH::BodyID*>(bodyID);
+	}
+
 }
 
 

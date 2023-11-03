@@ -29,6 +29,9 @@
 #include "vulkanTools/FrameBuffer.h"
 #include "Tools/DDSConverter.h"
 #include "imguiHelper/ImguiScene.h"
+#include "Physics/PhysicsSystem.h"
+
+
 bool isPlaying = false;
 
 namespace TDS
@@ -190,16 +193,24 @@ namespace TDS
             }
             GraphicsManager::getInstance().StartFrame();
             VkCommandBuffer commandBuffer = GraphicsManager::getInstance().getCommandBuffer();
-             GraphicsManager::getInstance().getRenderPass().beginRenderPass(commandBuffer, &GraphicsManager::getInstance().getFrameBuffer());
+            GraphicsManager::getInstance().getRenderPass().beginRenderPass(commandBuffer, &GraphicsManager::getInstance().getFrameBuffer());
+            
 
+			
             if (isPlaying)
             {
                 ecs.runSystems(1, DeltaTime);
             }
+            else
+            {
+                if (PhysicsSystem::GetUpdate()) // consider moving it to another seperate system (EditorApp?)
+                {
+                    PhysicsSystem::SetUpdate(false);
+                }
+            }
 
             ecs.runSystems(2, DeltaTime);
          
-        
             
             imguiHelper::Update();
             GraphicsManager::getInstance().getRenderPass().endRenderPass(commandBuffer);

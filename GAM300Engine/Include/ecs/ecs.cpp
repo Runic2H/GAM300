@@ -14,7 +14,6 @@
 #include "physics/physicsSystem.h"
 #include "AI/aiSystem.h"
 #include "Rendering/RendererSystem.h"
-#include "JoltPhysics/System/JoltSystem.h"
 
 namespace TDS
 {
@@ -26,6 +25,5 @@ namespace TDS
 		_PhysicsSystem.action(PhysicsSystem::PhysicsSystemInit, PhysicsSystem::PhysicsSystemUpdate);
 		_AISystem.action(AISystem::AISystemInit, AISystem::AISystemUpdate);
 		_RenderSystem.action(RendererSystem::OnInit, RendererSystem::OnUpdate);
-		_JoltSystem.action(JoltSystem::Init, JoltSystem::Update);
 	}
 }
