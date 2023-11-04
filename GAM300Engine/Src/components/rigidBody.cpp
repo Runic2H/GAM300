@@ -51,7 +51,7 @@ RTTR_REGISTRATION
 		.method("SetRestitution", &RigidBody::SetRestitution)
 		.property("Restitution", &RigidBody::mRestitution)
 		.method("GetInverseMass", &RigidBody::GetInverseMass)
-		.method("setInverseMass", &RigidBody::setInverseMass)
+		.method("setInverseMass", &RigidBody::SetInverseMass)
 		.property("Inverse Mass", &RigidBody::mInverseMass)
 		.method("GetGravity", &RigidBody::GetGravity)
 		.method("SetGravity", &RigidBody::SetGravity)

@@ -78,7 +78,7 @@ namespace TDS
 		DLL_API void SetRestitution(float restitution) { mRestitution = restitution; }
 
 		DLL_API float& GetInverseMass() { return mInverseMass; }
-		DLL_API void setInverseMass(float mass) { mInverseMass = 1.0f / mass; }
+		DLL_API void SetInverseMass(float mass) { mInverseMass = 1.0f / mass; }
 
 		DLL_API float& GetGravity() { return mGravity; }
 		DLL_API void SetGravity(float gravity) { mGravity = gravity; }
