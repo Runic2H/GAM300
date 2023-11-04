@@ -14,6 +14,7 @@
 #include "physics/physicsSystem.h"
 #include "AI/aiSystem.h"
 #include "Rendering/RendererSystem.h"
+#include "camera/Camerasystem/CameraSystem.h"
 #include "eventManager/eventHandler.h"
 
 namespace TDS
@@ -26,6 +27,7 @@ namespace TDS
 		_PhysicsSystem.action(PhysicsSystem::PhysicsSystemInit, PhysicsSystem::PhysicsSystemUpdate);
 		_AISystem.action(AISystem::AISystemInit, AISystem::AISystemUpdate);
 		_RenderSystem.action(RendererSystem::OnInit, RendererSystem::OnUpdate);
+		_CameraSystem.action(CameraSystem::CameraSystemInit, CameraSystem::CameraSystemUpdate);
 		_EventHandler_ChildTransform.action(EventHandler::childTransformationHandlerInit, EventHandler::childTransformationHandlerUpdate);
 	}
 }
