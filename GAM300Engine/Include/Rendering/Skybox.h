@@ -2,19 +2,37 @@
 #include "vulkanTools/VulkanPipeline.h"
 #include "MathCommon.h"
 #include "GraphicsResource/TextureInfo.h"
+#include "vulkanTools/VulkanTexture.h"
+#include "AssetManagement/AssetManager.h"
+#include "dotnet/ImportExport.h"
 namespace TDS
 {
 
-	class StaticSkyBoxRenderer
+	class SkyBoxRenderer
 	{
 		private:
+			struct SkyBoxUBO
+			{
+				Mat4			m_Projection{};
+				Mat4			m_View{};
+			}skyboxubo;
+			struct SkyBoxVertexData
+			{
+				Vec3 m_Pos{1.f,0.f,0.f};
+			};
+			//inline static std::shared_ptr<SkyBoxRenderer> m_Instance = nullptr;
 			Texture							m_SkyBoxTexture;
-			std::shared_ptr<VulkanPipeline> m_SkyBoxPipeline;
-			std::vector<Vec3>				m_SkylinePositions;
+			std::shared_ptr<VulkanPipeline> m_SkyBoxPipeline = nullptr;
+			Vec3				m_SkylinePositions{};
+			Vec3				m_SkylineScale{30.f,30.f,30.f};
+			Vec3				m_SkylineRot{};
+			TypeReference<AssetModel>		m_CubeMapModel;
+			std::shared_ptr<VMABuffer>		m_CubeMapVertexBuffer = nullptr;
+			std::shared_ptr<VMABuffer>		m_CubeMapIndexBuffer = nullptr;
 		public:
-			void Init();
-			void RenderSkyBox(VkCommandBuffer commandBuffer);
-
+			static std::shared_ptr<SkyBoxRenderer> getInstance();
+			DLL_API void Init();
+			DLL_API void RenderSkyBox(VkCommandBuffer commandBuffer, uint32_t frameIndex);
 
 
 	};

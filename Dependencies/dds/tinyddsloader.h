@@ -333,6 +333,7 @@ public:
     uint32_t GetDepth() const { return m_depth; }
     uint32_t GetMipCount() const { return m_mipCount; }
     uint32_t GetArraySize() const { return m_arraySize; }
+    uint32_t GetSize() const { return m_dds.size(); }
     DXGIFormat GetFormat() const { return m_format; }
     bool IsCubemap() const { return m_isCubemap; }
     TextureDimension GetTextureDimension() const { return m_texDim; }

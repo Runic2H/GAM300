@@ -98,18 +98,9 @@ namespace TDS
 		rasterizationState.lineWidth = 1.0f;
 
 		std::uint32_t count = 0;
-		/*if (!m_PipelineEntry.m_FBTarget.empty())
-		{
-			std::uint32_t count = std::uint32_t(
-				m_PipelineEntry.m_FBTarget[GraphicsManager::getInstance().GetSwapchainRenderer().getFrameIndex()]->
-				getFBEntryInfo().m_AttachmentRequirememnts.size());
-
-
-		}
-		else
-		{*/
-			count = 1;
-		/*}*/
+	
+		count = 1;
+	
 		std::vector<VkPipelineColorBlendAttachmentState> blendAttachmentState(count);
 		for (auto& blendAttState : blendAttachmentState)
 		{

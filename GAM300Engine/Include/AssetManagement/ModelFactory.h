@@ -16,7 +16,7 @@
 #include <iostream>
 
 #define MODEL_PATH "../assets/models/"
-#define MAX_PRELOAD_MODELS 5
+#define MAX_PRELOAD_MODELS 1000
 
 namespace TDS
 {

@@ -17,8 +17,8 @@ namespace TDS
 {
 	bool TextureData::LoadTexture(std::string_view path)
 	{
-		tinyddsloader::Result result = m_TextureLoaded.Load(path.data());
 
+		tinyddsloader::Result result = m_TextureLoaded.Load(path.data());
 		return (result == tinyddsloader::Result::Success);
 
 	}
@@ -45,9 +45,16 @@ namespace TDS
 
 		m_VulkanTexture = new VulkanTexture();
 		if (m_TextureInfo.m_IsCubeMap)
+		{
+			uint32_t size = m_Data.m_TextureLoaded.GetSize();
+			m_TextureInfo.m_ImageSize = m_Data.m_TextureLoaded.GetSize();
 			m_VulkanTexture->CreateCubeMapTexture(m_TextureInfo, m_Data);
+		}
 		else
+		{
+			m_TextureInfo.m_FlipTextureY = m_Data.m_TextureLoaded.Flip();
 			m_VulkanTexture->CreateTexture(m_TextureInfo);
+		}
 
 	}
 	bool DLL_API Texture::IsTextureCompressed()

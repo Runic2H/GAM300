@@ -1,10 +1,10 @@
 
 #include "ImguiHelper/ImguiSceneBrowser.h"
-#include "ImguiHelper/ImguiScriptBrowser.h"
 #include "imguiHelper/ImguiHelper.h"
 #include "imguiHelper/ImguiHierarchy.h"
 #include "imguiHelper/ImguiProperties.h"
 #include "imguiHelper/ImguiAssetBrowser.h"
+#include "imguiHelper/ImguiScriptBrowser.h"
 #include "imguiHelper/ImguiAudio.h"
 #include "imguiHelper/ImguiBehaviourTree.h"
 
@@ -225,5 +225,6 @@ namespace TDS
 		ImGui_ImplVulkan_Shutdown();
 		ImGui_ImplWin32_Shutdown();
 		ImGui::DestroyContext();
+		AssetBrowser::destroyIcons(); //temp to prevent mem leak
 	}
 }

@@ -66,7 +66,7 @@ namespace TDS
 		size_t DLL_API					GetByteSize();
 		void DLL_API					LoadCubeMapTexture();
 		void DLL_API					Destroy();
-		VulkanTexture* m_VulkanTexture = nullptr;
+		VulkanTexture*					m_VulkanTexture = nullptr;
 
 		TextureData						m_Data;
 		TextureInfo						m_TextureInfo;
