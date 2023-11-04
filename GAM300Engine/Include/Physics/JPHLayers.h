@@ -150,6 +150,25 @@ namespace TDS
 			std::cout << "A body went to sleep" << std::endl;
 		}
 	};
+
+	class JoltLayers
+	{
+	public:
+		static ObjectLayer GetObjectLayer(int inLayer)
+		{
+			switch (inLayer)
+			{
+			case 0:
+				return Layers::NON_MOVING;
+			case 1:
+			case 2:
+				return Layers::MOVING;
+			default:
+				JPH_ASSERT(false);
+				return Layers::NON_MOVING;
+			}
+		}
+	};
 }
 
 #endif // !JPHLAYERS_H

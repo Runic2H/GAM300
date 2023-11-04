@@ -17,7 +17,7 @@
 #include "vulkanTools/PointLightSystem.h"
 #include "imguiHelper/ImguiHelper.h"
 #include "dotnet/ImportExport.h"
-#include "dotnet/include/coreclrhost.h" 
+#include "dotnet/include/coreclrhost.h"
 
 namespace TDS
 {

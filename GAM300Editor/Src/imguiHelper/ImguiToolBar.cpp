@@ -127,7 +127,6 @@ namespace TDS
 			if (isSaveScene) {
 
 				std::shared_ptr<Hierarchy> hierarchyPanel = static_pointer_cast<Hierarchy>(LevelEditorManager::GetInstance()->panels[PanelTypes::HIERARCHY]);
-				hierarchyPanel->changeIndexInEntity();
 				SceneManager::GetInstance()->saveCurrentScene();
 			}
 		}

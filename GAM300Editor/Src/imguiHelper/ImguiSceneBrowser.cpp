@@ -67,7 +67,6 @@ namespace TDS
 				}
 				if (ImGui::MenuItem("Save")) 
 				{
-					hierarchyPanel->changeIndexInEntity();
 					sceneManager->saveCurrentScene();
 				}
                 ImGui::EndMenu();

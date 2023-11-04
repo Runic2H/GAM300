@@ -20,6 +20,13 @@ namespace TDS
 	class SphereCollider : public IComponent
 	{
 	public:
+		enum class Direction
+		{
+			X_AXIS,
+			Y_AXIS,
+			Z_AXIS
+		};
+
 		/*!*************************************************************************
 		Initializes the Collider component when created
 		****************************************************************************/

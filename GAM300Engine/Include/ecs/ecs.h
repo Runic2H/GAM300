@@ -198,9 +198,10 @@ namespace TDS
         //track which entity is which archetype
         struct Record
         {
-            Archetype* archetype;
+            Archetype*                      archetype;
+            Archetype*                      activeArchetype; // used in systems
             std::uint32_t                   index;
-            bool                            is_Enabled;
+            bool                            isEnabled;
         };
 
         // TYPEDEFS
@@ -287,10 +288,6 @@ namespace TDS
         template<typename C>
         C*                           getComponent(const EntityID& entityId);
 
-        // Get a component data from the entity
-        template<class C>
-        C*                           getComponent(const EntityID& entityId, Record& record);
-
         // Get entities with a certain component in the angle bracket
         template<typename C>
         std::vector<EntityID>        getEntitiesWith();
@@ -319,9 +316,17 @@ namespace TDS
         // Getting all registered entities
         std::vector<EntityID>        getEntities();
 
-        bool                         getEnabledEntity(const EntityID& entityId);
+        bool                         getEntityIsEnabled(const EntityID& entityId);
 
-        void                         toggleEnabledEntity(const EntityID& entityId);
+        void                         setEntityIsEnabled(const EntityID& entityId, bool _isEnabled);
+
+        ArchetypeID                  getActiveArchetype(const EntityID& entityID);
+
+        template<typename C>
+        void                         setComponentIsEnabled(const EntityID& entityId, bool _isEnabled);
+
+        template<typename C>
+        bool                         getComponentIsEnabled(const EntityID& entityId);
 
         void (*addScriptList)(EntityID);
         void (*removeScriptList)(EntityID);

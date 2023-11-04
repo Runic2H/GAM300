@@ -94,6 +94,11 @@ namespace ScriptAPI
 		***************************************************************************/
 		static std::vector<std::string> GetAllScripts();
 
+		/*!*************************************************************************
+		* Getting script isEnabled
+		***************************************************************************/
+		static bool IsScriptEnabled(TDS::EntityID entityId, std::string script);
+
 		static void SetValueBool(TDS::EntityID entityId, std::string script, std::string variableName, bool value);
 		static void SetValueInt(TDS::EntityID entityId, std::string script, std::string variableName, int value);
 		static void SetValueDouble(TDS::EntityID entityId, std::string script, std::string variableName, double value);

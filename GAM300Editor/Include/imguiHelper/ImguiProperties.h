@@ -39,11 +39,6 @@ namespace TDS
 		****************************************************************************/
 		void ImguiComponentDisplay(std::string componentName, IComponent* componentBase);
 
-		/*!*************************************************************************
-		This function is the helper function for Properties panel
-		****************************************************************************/
-		void ImguiComponentPropertyDisplay(rttr::property& propertyName, rttr::instance& componentInstance);
-
 	private:
 		ImVec2 popupPosition;
 	};

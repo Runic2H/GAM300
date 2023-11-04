@@ -1,0 +1,54 @@
+#include "eventManager/eventHandler.h"
+
+namespace TDS
+{
+	EventManager eventManager;
+
+	void EventHandler::childTransformationHandlerInit()
+	{
+		eventManager.subscribe(EventTypes::CHILD_TRANSFORMATION);
+	}
+	void EventHandler::childTransformationHandlerUpdate(const float dt, const std::vector<EntityID>& entities, Transform* transform)
+	{
+		auto theQueue = eventManager.findQueue(EventTypes::CHILD_TRANSFORMATION);
+
+		for (auto event : theQueue)
+		{
+			NameTag* nameTagComponent = ecs.getComponent<NameTag>(event->id);
+		
+			std::shared_ptr<ChildTransformationEvent> currentEvent = static_pointer_cast<ChildTransformationEvent>(event);
+			
+			for (auto childID : nameTagComponent->GetHierarchyChildren())
+			{
+				changeChildTransformation(childID, currentEvent->positionChange, currentEvent->scaleChange, currentEvent->rotationChange);
+			}
+		}
+		eventManager.clearQueue(EventTypes::CHILD_TRANSFORMATION);
+	}
+	void EventHandler::changeChildTransformation(EntityID childEntity, Vec3& positionChange, Vec3& scaleChange, Vec3& rotationChange)
+	{
+		Transform* childTransform = GetTransform(childEntity);
+		childTransform->SetPosition(childTransform->GetPosition() + positionChange);
+		childTransform->SetScale(childTransform->GetScale() + scaleChange);
+		childTransform->SetRotation(childTransform->GetRotation() + rotationChange);
+
+		NameTag* childNameTag = GetNameTag(childEntity);
+
+		for (auto childID : childNameTag->GetHierarchyChildren())
+		{
+			changeChildTransformation(childID, positionChange, scaleChange, rotationChange);
+		}
+	}
+	void EventHandler::postChildTransformationEvent(EntityID entityID, Vec3 oldPosition, Vec3 oldScale, Vec3 oldRotation)
+	{
+		Transform* transformComponent =  ecs.getComponent<Transform>(entityID);
+
+		ChildTransformationEvent newEvent;
+		newEvent.id = entityID;
+		newEvent.positionChange = transformComponent->GetPosition() - oldPosition;
+		newEvent.scaleChange = transformComponent->GetScale() - oldRotation;
+		newEvent.rotationChange = transformComponent->GetRotation() - oldScale;
+
+		eventManager.post(newEvent, EventTypes::CHILD_TRANSFORMATION);
+	}
+}

@@ -61,6 +61,11 @@ namespace TDS
 
 		for (int i = 0; i < entities.size(); ++i)
 		{
+			if (!ecs.getEntityIsEnabled(entities[i]) || !ecs.getComponentIsEnabled<AI>(entities[i]))
+			{
+				continue;
+			}
+
 			int behaviourTreeIndex = _ai[i].GetBehaviourTreeIndex();
 			if (behaviourTreeIndex != -1 && behaviourTreeIndex < behaviourTrees.size() && behaviourTrees[behaviourTreeIndex].rootChild)
 			{

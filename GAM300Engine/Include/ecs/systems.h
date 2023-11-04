@@ -21,13 +21,16 @@ namespace TDS
 	DLL_API ECS ecs;
 
 	// Layer 1 - Run only on play
-	// Layer 2 - Always running
+	// Layer 3 - Event Handler (always running)
+	// Layer 3 - Graphics (always running)
 
 	ECSSystem<Transform, RigidBody>					_PhysicsSystem(1);
 	ECSSystem<Transform, RigidBody, SphereCollider>	_ColliderSystem(1);
 	ECSSystem<AI>									_AISystem(1);
-	ECSSystem<Transform, GraphicsComponent>			_RenderSystem(2);
-	ECSSystem<RigidBody>							_JoltSystem(2);
+
+	ECSSystem<Transform>							_EventHandler_ChildTransform(2);
+
+	ECSSystem<Transform, GraphicsComponent>			_RenderSystem(3);
 }
 
 #endif // SYSTEMS

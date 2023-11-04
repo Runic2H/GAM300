@@ -9,7 +9,6 @@
 ***/
 
 #include "components/rigidBody.h"
-#include <Jolt/Physics/Body/Body.h>
 
 RTTR_REGISTRATION
 {
@@ -57,11 +56,16 @@ RTTR_REGISTRATION
 		.method("GetGravity", &RigidBody::GetGravity)
 		.method("SetGravity", &RigidBody::SetGravity)
 		.property("Gravity", &RigidBody::mGravity)
+		.method("GetLinearDamping", &RigidBody::GetLinearDamping)
+		.method("SetLinearDamping", &RigidBody::SetLinearDamping)
+		.property("LinearDamping", &RigidBody::mLinearDamping)
+		.method("GetAngularDamping", &RigidBody::GetAngularDamping)
+		.method("GetAngularDamping", &RigidBody::SetAngularDamping)
+		.property("AngularDamping", &RigidBody::mAngularDamping)
 		.property("MotionType", &RigidBody::mMotionType);
 
 	rttr::registration::enumeration<RigidBody::MotionType>("MotionType")
 		(
-			rttr::value("NONE", RigidBody::MotionType::NONE),
 			rttr::value("STATIC", RigidBody::MotionType::STATIC),
 			rttr::value("DYNAMIC", RigidBody::MotionType::DYNAMIC),
 			rttr::value("KINEMATIC", RigidBody::MotionType::KINEMATIC)
@@ -80,13 +84,15 @@ namespace TDS
 							 mNextPosition(Vec3(0.0f, 0.0f, 0.0f)),
 							 mInputForce(Vec3(0.0f, 0.0f, 0.0f)),
 							 mNormalizedForce(Vec3(0.0f, 0.0f, 0.0f)),
-							 mFriction(0.0f),
+							 mFriction(0.2f),
 							 mRestitution(0.0f),
 							 mMass(1.0f),
 							 mInverseMass(0.0f),
 							 mGravity(0.0f),
-							 mBodyID(JPH::BodyID::cInvalidBodyID),
-							 mMotionType(MotionType::NONE)
+							 mLinearDamping(0.05f),
+							 mAngularDamping(0.05f),
+							 mBodyID(JoltBodyID()),
+							 mMotionType(MotionType::STATIC)
 	{ }
 
 

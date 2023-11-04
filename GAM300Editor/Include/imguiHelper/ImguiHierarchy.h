@@ -20,12 +20,12 @@ namespace TDS
 	class Hierarchy : public LevelEditorPanel
 	{
 	public:
-		struct HierarchyInfo
-		{
-			EntityID parent;
-			int indexInParent;
-			std::vector<EntityID> children;
-		};
+		//struct HierarchyInfo
+		//{
+		//	EntityID parent;
+		//	int indexInParent;
+		//	std::vector<EntityID> children;
+		//};
 
 		/*!*************************************************************************
 		This function initializes the Hierarchy panel
@@ -38,8 +38,6 @@ namespace TDS
 		This function is the update function for Hierarchy panel
 		****************************************************************************/
 		void update();
-
-		void changeIndexInEntity();
 
 		void reorderingHierarchy(EntityID payloadEntity, EntityID acceptEntity, bool acceptEntityTreeNode = false);
 
@@ -58,7 +56,8 @@ namespace TDS
 
 		void drawHierarchy(EntityID entityID);
 
-		std::map<EntityID, HierarchyInfo> hierarchyMap;
+		//std::map<EntityID, HierarchyInfo> hierarchyMap;
+		std::vector<EntityID> hierarchyList;
 	private:
 		ImGuiTextFilter filter;
 
