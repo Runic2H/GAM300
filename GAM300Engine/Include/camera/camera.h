@@ -19,10 +19,6 @@ namespace TDS
 
 		DLL_API bool moving();
 
-	/*	DLL_API Mat4 GetProjMatrix()
-		{
-
-		}*/
 		float m_Fov{45.f};
 	private:
 		

@@ -14,6 +14,7 @@
 #include "Rendering/RenderTarget.h"
 #include "Rendering/renderPass.h"
 #include "vulkanTools/FrameBuffer.h"
+
 namespace TDS
 {
 	GraphicsManager::GraphicsManager()
@@ -32,7 +33,9 @@ namespace TDS
 		m_CommandManager->Init();
 		m_SwapchainRenderer = std::make_shared<Renderer>(*m_pWindow, *m_MainVkContext);
 		DefaultTextures::GetInstance().Init();
-	
+		
+
+
 		Vec3 size = { static_cast<float>(window->getWidth()), static_cast<float>(window->getHeight()), 1.f };
 		std::vector<AttachmentInfo> attachmentInfos{};
 		std::vector<RenderTarget*> attachments{};
@@ -47,10 +50,23 @@ namespace TDS
 			false,
 			VK_SAMPLE_COUNT_1_BIT
 		};
-	
+		RenderTargetCI rendertargetCI2{
+		VK_FORMAT_D32_SFLOAT,
+		VK_IMAGE_ASPECT_DEPTH_BIT,
+		VK_IMAGE_VIEW_TYPE_2D,
+		size,
+		VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT,
+		VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL,
+		RenderTargetType::DEPTH,
+		false,
+		VK_SAMPLE_COUNT_1_BIT
+		};
 		m_RenderingAttachment = new RenderTarget(m_MainVkContext, rendertargetCI);
+		m_RenderingDepthAttachment = new RenderTarget(m_MainVkContext, rendertargetCI2);
 		attachmentInfos.push_back({ m_RenderingAttachment, VK_ATTACHMENT_LOAD_OP_CLEAR, VK_ATTACHMENT_STORE_OP_STORE });
+		attachmentInfos.push_back({ m_RenderingDepthAttachment, VK_ATTACHMENT_LOAD_OP_CLEAR, VK_ATTACHMENT_STORE_OP_STORE });
 		attachments.push_back(m_RenderingAttachment);
+		attachments.push_back(m_RenderingDepthAttachment);
 		
 		m_Renderpass = new RenderPass(m_MainVkContext->getVkLogicalDevice(), attachmentInfos);
 		m_Framebuffer = new FrameBuffer(m_MainVkContext->getVkLogicalDevice(), m_Renderpass->getRenderPass(), attachments);
@@ -103,6 +119,7 @@ namespace TDS
 		Renderer3D::getInstance()->ShutDown();
 		GlobalBufferPool::GetInstance()->Destroy();
 		m_RenderingAttachment->~RenderTarget();
+		m_RenderingDepthAttachment->~RenderTarget();
 		m_Renderpass->~RenderPass();
 		m_Framebuffer->~FrameBuffer();
 		DefaultTextures::GetInstance().DestroyDefaultTextures();

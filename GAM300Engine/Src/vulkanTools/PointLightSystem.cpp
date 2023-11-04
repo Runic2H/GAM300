@@ -46,13 +46,16 @@ namespace TDS {
 	void PointLightSystem::update(GlobalUBO& ubo, GraphicsComponent* Gp, Transform* Transform) {
 		//if entity is not a pointlight, return
 		if (!Gp->IsPointLight()) { //if not a pointlight
-			if (Gp->GetPointLightID() != -1) {//check if it was a point light before
-				m_vPointLightBoolMap[Gp->GetPointLightID()] = false;
-				Gp->SetPointLightID(-1);//reset ID
-				--m_pointlightcount;
-			}
-			return;
+		if (Gp->GetPointLightID() != -1) {//check if it was a point light before
+			m_vPointLightBoolMap[Gp->GetPointLightID()] = false;
+			//reset value of light and color
+			ubo.m_vPointLights[Gp->GetPointLightID()].m_Position = { FLT_MAX };
+			ubo.m_vPointLights[Gp->GetPointLightID()].m_Color = { FLT_MIN };
+			Gp->SetPointLightID(-1);//reset ID
+			--m_pointlightcount;
 		}
+		return;
+	}
 
 		if (ubo.m_activelights >= Max_Lights) { //if number of active lights is more than allowed, no change of bool
 			//assert that theres too many pointlights than allowed 

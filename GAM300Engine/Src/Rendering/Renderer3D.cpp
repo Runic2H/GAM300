@@ -20,18 +20,15 @@ namespace TDS
 	void Renderer3D::Init()
 	{
 		Renderer3D& inst = *getInstance();
-
-		/*inst.m_FrameBuffer = GraphicsManager::getInstance().GetMainFrameBuffer();*/
 		PipelineCreateEntry entry{};
-		/*entry.m_FBTarget = { inst.m_FrameBuffer };*/
 		entry.m_NumDescriptorSets = 1;
 		
 		entry.m_ShaderInputs.m_Shaders.insert(std::make_pair(SHADER_FLAG::VERTEX, "../assets/shaders/shadervert.spv"));
 		entry.m_ShaderInputs.m_Shaders.insert(std::make_pair(SHADER_FLAG::FRAGMENT, "../assets/shaders/shaderfrag.spv"));
-		entry.m_PipelineConfig.m_SrcClrBlend = VkBlendFactor::VK_BLEND_FACTOR_ZERO;
-		entry.m_PipelineConfig.m_DstClrBlend = VkBlendFactor::VK_BLEND_FACTOR_ZERO;
-		entry.m_PipelineConfig.m_SrcAlphaBlend = VkBlendFactor::VK_BLEND_FACTOR_ZERO;
-		entry.m_PipelineConfig.m_DstAlphaBlend = VkBlendFactor::VK_BLEND_FACTOR_ZERO;
+		entry.m_PipelineConfig.m_DstClrBlend = VK_BLEND_FACTOR_ZERO;
+		entry.m_PipelineConfig.m_SrcClrBlend = VK_BLEND_FACTOR_ZERO;
+		entry.m_PipelineConfig.m_SrcAlphaBlend = VK_BLEND_FACTOR_ZERO;
+		entry.m_PipelineConfig.m_DstAlphaBlend = VK_BLEND_FACTOR_ZERO;
 
 		VertexLayout layout = 
 		VertexLayout(
@@ -47,7 +44,7 @@ namespace TDS
 		
 
 		inst.m_DefaultPipeline->Create(entry);
-		
+	
 
 	}
 	std::shared_ptr<VulkanPipeline>& Renderer3D::getPipeline()

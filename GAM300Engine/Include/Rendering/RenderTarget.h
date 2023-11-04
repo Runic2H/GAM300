@@ -77,7 +77,7 @@ namespace TDS {
 
 		void resize(Vec3 newDim);
 		
-
+		VkDescriptorSet m_DescSet{};
 	private:
 
 		void destroy(); //for resize or destroy

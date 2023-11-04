@@ -450,58 +450,41 @@ namespace TDS
 	void VulkanTexture::CreateCubeMapTexture(TextureInfo& textureAssetData, TextureData& textureData)
 	{
 
-		if (textureAssetData.m_UsingMipMaps)
-		{
-			if (textureAssetData.mipCount == 0)
-			{
-				std::uint32_t maxDimen = std::max(textureAssetData.m_ExtentDimen.width, textureAssetData.m_ExtentDimen.height);
-
-				while (maxDimen > 0)
-				{
-					maxDimen >>= 1;
-					textureAssetData.mipCount++;
-				}
-			}
-
-		}
-		else
-			textureAssetData.mipCount = 1;
-
 		VkImageUsageFlags usage = VK_IMAGE_USAGE_TRANSFER_DST_BIT | VK_IMAGE_USAGE_SAMPLED_BIT;
 		CreateImageParams params{ textureAssetData.m_Format, VkImageTiling::VK_IMAGE_TILING_OPTIMAL, usage };
 		m_ImageHdl = CreateCubeImage(textureAssetData.m_ExtentDimen, textureAssetData.mipCount, VK_SAMPLE_COUNT_1_BIT, params, m_Allocation);
 		VulkanInstance& instance = GraphicsManager::getInstance().getVkInstance();
 
-		VMABuffer staging{};
-		staging.CreateStagingBuffer(textureAssetData.m_ImageSize, instance, textureAssetData.m_Data);
+		VMABuffer staging = VMABuffer::CreateStagingBuffer(textureAssetData.m_ImageSize, instance, textureAssetData.m_Data);
 
 		std::vector<VkBufferImageCopy> CopyBuffers;
-		std::uint32_t offset = 0;
+		
+		std::uint32_t offset {};
+		
 		for (uint32_t face = 0; face < 6; face++)
 		{
 			for (uint32_t level = 0; level < textureAssetData.mipCount; level++)
 			{
-				const tinyddsloader::DDSFile::ImageData* imageData = textureData.m_TextureLoaded.GetImageData(level, face);
+				auto imageData = textureData.m_TextureLoaded.GetImageData(level, face);
 				if (imageData == nullptr)
 				{
 					TDS_ERROR("This sectioned is null for some reason... \n Double check your texture loading");
 					continue;
 				}
+
 				VkBufferImageCopy& CopyBuffer = CopyBuffers.emplace_back();
 				CopyBuffer.imageSubresource.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
 				CopyBuffer.imageSubresource.mipLevel = level;
 				CopyBuffer.imageSubresource.baseArrayLayer = face;
 				CopyBuffer.imageSubresource.layerCount = 1;
-				CopyBuffer.imageExtent.width = imageData->m_width;
-				CopyBuffer.imageExtent.height = imageData->m_height;
+				CopyBuffer.imageExtent.width = imageData->m_width >> level;
+				CopyBuffer.imageExtent.height = imageData->m_height >> level;
 				CopyBuffer.imageExtent.depth = 1;
 				CopyBuffer.bufferOffset = offset;
-				//This might be wrong.
 				offset += imageData->m_memSlicePitch;
 			}
 		}
-
-
+		
 
 		CommandBufferInfo cmdInfo{};
 		CommandManager& cmdMgr = GraphicsManager::getInstance().getCommandManager();
@@ -513,7 +496,6 @@ namespace TDS
 		imageMemLayout.m_subResourceRange.baseMipLevel = 0;
 		imageMemLayout.m_subResourceRange.levelCount = textureAssetData.mipCount;
 		imageMemLayout.m_subResourceRange.layerCount = 6;
-		imageMemLayout.m_subResourceRange.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
 		imageMemLayout.m_oldLayout = VK_IMAGE_LAYOUT_UNDEFINED;
 		imageMemLayout.m_NewLayout = VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL;
 
@@ -642,9 +624,9 @@ namespace TDS
 		samplerCreateInfo.magFilter = textureInfo.m_ImageFilter;
 		samplerCreateInfo.minFilter = textureInfo.m_ImageFilter;
 		samplerCreateInfo.mipmapMode = VK_SAMPLER_MIPMAP_MODE_LINEAR;
-		samplerCreateInfo.addressModeU = textureInfo.m_SampleAddressMode;
-		samplerCreateInfo.addressModeV = textureInfo.m_SampleAddressMode;
-		samplerCreateInfo.addressModeW = textureInfo.m_SampleAddressMode;
+		samplerCreateInfo.addressModeU = VK_SAMPLER_ADDRESS_MODE_CLAMP_TO_EDGE;// VK_SAMPLER_ADDRESS_MODE_REPEAT
+		samplerCreateInfo.addressModeV = VK_SAMPLER_ADDRESS_MODE_CLAMP_TO_EDGE;
+		samplerCreateInfo.addressModeW = VK_SAMPLER_ADDRESS_MODE_CLAMP_TO_EDGE;
 		samplerCreateInfo.mipLodBias = 0.0f;
 		samplerCreateInfo.compareOp = VK_COMPARE_OP_NEVER;
 		samplerCreateInfo.minLod = 0.0f;

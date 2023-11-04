@@ -126,7 +126,7 @@ namespace TDS
         GraphicsManager::getInstance().Init(&m_window);
         AssetManager::GetInstance()->Init();
         AssetManager::GetInstance()->PreloadAssets();
-        //Run();
+        skyboxrender.Init();
     }
 
     void Application::Update()
@@ -161,16 +161,7 @@ namespace TDS
 
         initImgui();
         float lightx = 0.f;
-    
-      /*  Texture data{};
-        data.LoadTexture("../../assets/textures/texture.dds");
-        VulkanTexture vkTexture{};
-        vkTexture.CreateBasicTexture(data.m_TextureInfo);
-        
-        vkTexture.m_DescSet = ImGui_ImplVulkan_AddTexture(vkTexture.getInfo().sampler, vkTexture.getInfo().imageView, vkTexture.getInfo().imageLayout);
-       */
 
-        VkDescriptorSet  m_DescSet{};
         GraphicsManager::getInstance().setCamera(m_camera);
         while (m_window.processInputEvent())
         {
@@ -194,9 +185,9 @@ namespace TDS
             GraphicsManager::getInstance().StartFrame();
             VkCommandBuffer commandBuffer = GraphicsManager::getInstance().getCommandBuffer();
             GraphicsManager::getInstance().getRenderPass().beginRenderPass(commandBuffer, &GraphicsManager::getInstance().getFrameBuffer());
-            
-
-			
+            std::uint32_t frame = GraphicsManager::getInstance().GetSwapchainRenderer().getFrameIndex();
+            skyboxrender.RenderSkyBox(commandBuffer, frame);
+           
             if (isPlaying)
             {
                 ecs.runSystems(1, DeltaTime); // Other systems
@@ -208,7 +199,6 @@ namespace TDS
                     PhysicsSystem::SetUpdate(false);
                 }
             }
-
             ecs.runSystems(2, DeltaTime); // Event handler
             ecs.runSystems(3, DeltaTime); // Graphics
          
@@ -224,7 +214,6 @@ namespace TDS
 
             GraphicsManager::getInstance().GetSwapchainRenderer().EndSwapChainRenderPass(commandBuffer);
             GraphicsManager::getInstance().EndFrame();
-            
             // Reloading
             if (GetKeyState(VK_F5) & 0x8000)
             {
@@ -236,9 +225,10 @@ namespace TDS
 
             executeUpdate();
             Input::scrollStop();
+            
         }
         stopScriptEngine();
-        /*vkDeviceWaitIdle(m_pVKInst.get()->getVkLogicalDevice());*/
+      
 
         AssetManager::GetInstance()->ShutDown();
         vkDeviceWaitIdle(GraphicsManager::getInstance().getVkInstance().getVkLogicalDevice());
