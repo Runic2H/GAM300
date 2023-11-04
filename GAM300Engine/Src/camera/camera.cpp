@@ -43,7 +43,7 @@ namespace TDS
 	
 		if (moving())
 		{
-			float CameraSpeed = m_Speed * deltaTime;
+			float CameraSpeed = m_Speed;
 			if (keys.up)
 			{
 				m_Position += m_Front * CameraSpeed;

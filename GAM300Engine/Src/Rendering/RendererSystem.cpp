@@ -98,7 +98,7 @@ namespace TDS
 				ubo.m_View = GraphicsManager::getInstance().GetCamera().GetViewMatrix();
 				GraphicsManager::getInstance().m_PointLightRenderer->update(ubo, &_Graphics[i], &_TransformComponent[i]);
 				ubo.m_Projection = Mat4::Perspective(GraphicsManager::getInstance().GetCamera().m_Fov * Mathf::Deg2Rad,
-					GraphicsManager::getInstance().GetSwapchainRenderer().getAspectRatio(), 0.1f, 10.f);
+					GraphicsManager::getInstance().GetSwapchainRenderer().getAspectRatio(), 0.1f, 100.f);
 				ubo.m_Projection.m[1][1] *= -1;
 
 				if (_Graphics[i].IsPointLight())

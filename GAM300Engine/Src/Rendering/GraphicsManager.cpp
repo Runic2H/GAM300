@@ -51,15 +51,15 @@ namespace TDS
 			VK_SAMPLE_COUNT_1_BIT
 		};
 		RenderTargetCI rendertargetCI2{
-		VK_FORMAT_D32_SFLOAT,
-		VK_IMAGE_ASPECT_DEPTH_BIT,
-		VK_IMAGE_VIEW_TYPE_2D,
-		size,
-		VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT,
-		VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL,
-		RenderTargetType::DEPTH,
-		false,
-		VK_SAMPLE_COUNT_1_BIT
+			VK_FORMAT_D32_SFLOAT,
+			VK_IMAGE_ASPECT_DEPTH_BIT,
+			VK_IMAGE_VIEW_TYPE_2D,
+			size,
+			VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT,
+			VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL,
+			RenderTargetType::DEPTH,
+			false,
+			VK_SAMPLE_COUNT_1_BIT
 		};
 		m_RenderingAttachment = new RenderTarget(m_MainVkContext, rendertargetCI);
 		m_RenderingDepthAttachment = new RenderTarget(m_MainVkContext, rendertargetCI2);

@@ -564,7 +564,6 @@ bool TDS::GeomCompiler::LoadDescriptor()
 	std::uint32_t AssimpFlag = aiProcess_Triangulate
 		/*		| aiProcess_LimitBoneWeights   */
 		| aiProcess_GenUVCoords
-		| aiProcess_Triangulate
 		| aiProcess_JoinIdenticalVertices
 		| aiProcess_PreTransformVertices
 		// aiProcess_TransformUVCoords          
