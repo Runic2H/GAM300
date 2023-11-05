@@ -91,6 +91,7 @@
     <ClCompile Include="Src\Rendering\GridRenderer.cpp" />
     <ClCompile Include="Src\GraphicsResource\FontInfo.cpp" />
     <ClCompile Include="Src\eventManager\eventHandler.cpp" />
+    <ClCompile Include="Src\camera\camerasystem\CameraSystem.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Shared_Libs\MathCommon.h" />
@@ -212,6 +213,7 @@
     <ClInclude Include="Include\JoltPhysics\Utils\JoltConversionUtils.h" />
     <ClInclude Include="Include\JoltPhysics\Implementation\Body\JoltBodyID.h" />
     <ClInclude Include="Include\JoltPhysics\Implementation\Body\JoltHashCombine.h" />
+    <ClInclude Include="Include\camera\Camerasystem\CameraSystem.h" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Include\Logger\Logger.h" />

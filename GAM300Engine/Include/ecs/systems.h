@@ -31,6 +31,7 @@ namespace TDS
 	ECSSystem<Transform>							_EventHandler_ChildTransform(2);
 
 	ECSSystem<Transform, GraphicsComponent>			_RenderSystem(3);
+	ECSSystem<Transform, CameraComponent>			_CameraSystem(1);
 }
 
 #endif // SYSTEMS

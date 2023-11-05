@@ -137,7 +137,6 @@ namespace TDS
 	{
 		m_Camera = &camera;
 	}
-
 	TDSCamera& GraphicsManager::GetCamera()
 	{
 		return *m_Camera;
