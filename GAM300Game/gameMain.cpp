@@ -1,6 +1,6 @@
 
-#include "../GAM300Engine/Include/application.h"
+//#include "../GAM300Engine/Include/application.h"
 int main()
 {
-	TDS::Application* app{nullptr};
+	//TDS::Application* app{nullptr};
 }

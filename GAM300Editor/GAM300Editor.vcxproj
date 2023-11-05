@@ -255,8 +255,8 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir).bin\Release-x64;$(SolutionDir)Libs\Jolt\Release;$(SolutionDir)Libs;$(SolutionDir)ToolsLibs;$(SolutionDir)ToolsLibs\DebugLibs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>GAM300Engine.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir).bin\Release-x64;$(SolutionDir)Libs\Jolt\Release;$(SolutionDir)Libs;$(SolutionDir)ToolsLibs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>GAM300Engine.lib;assimp-vc143-mt.lib;DirectXTex.lib;GenericCodeGen.lib;glslang.lib;glslang-default-resource-limits.lib;ispc_texcomp.lib;MachineIndependent.lib;meshoptimizer.lib;OGLCompiler.lib;OSDependent.lib;shaderc.lib;SPIRV.lib;spirv-cross-core.lib;spirv-cross-glsl.lib;SPIRV-Tools.lib;SPIRV-Tools-opt.lib;SPVRemapper.lib;vulkan-1.lib;Jolt.lib;rttr_core.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>

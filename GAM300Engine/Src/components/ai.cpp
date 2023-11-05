@@ -14,25 +14,25 @@ RTTR_REGISTRATION
 {
 	using namespace TDS;
 
-	rttr::registration::enumeration<NodeStatus>("NodeStatus")
-	(
-		rttr::value("READY", NodeStatus::READY),
-		rttr::value("RUNNING", NodeStatus::RUNNING),
-		rttr::value("SUCCESS", NodeStatus::SUCCESS),
-		rttr::value("FAILED", NodeStatus::FAILED)
-	);
+	//rttr::registration::enumeration<NodeStatus>("NodeStatus")
+	//(
+	//	rttr::value("READY", NodeStatus::READY),
+	//	rttr::value("RUNNING", NodeStatus::RUNNING),
+	//	rttr::value("SUCCESS", NodeStatus::SUCCESS),
+	//	rttr::value("FAILED", NodeStatus::FAILED)
+	//);
 
-	rttr::registration::class_<Node>("Node")
-		.property("parent", &Node::parent)
-		.property("children", &Node::children)
-		.property("childIndex", &Node::childIndex)
-		.property("name", &Node::name);
+	//rttr::registration::class_<Node>("Node")
+	//	.property("parent", &Node::parent)
+	//	.property("children", &Node::children)
+	//	.property("childIndex", &Node::childIndex)
+	//	.property("name", &Node::name);
 
-	rttr::registration::class_<AI>("AI")
-		.property("BehaviourTreeIndex", &AI::GetBehaviourTreeIndex, &AI::SetBehaviourTreeIndex)
-		.property("EntityCurrentStatus", &AI::GetEntityCurrentStatus, &AI::SetEntityCurrentStatus)
-		.property("CurrentNode", &AI::GetCurrentNode, &AI::SetCurrentNode)
-		.property("Timer", &AI::GetTimer, &AI::SetTimer);
+rttr::registration::class_<AI>("AI");
+		//.property("BehaviourTreeIndex", &AI::GetBehaviourTreeIndex, &AI::SetBehaviourTreeIndex)
+		//.property("EntityCurrentStatus", &AI::GetEntityCurrentStatus, &AI::SetEntityCurrentStatus)
+		//.property("CurrentNode", &AI::GetCurrentNode, &AI::SetCurrentNode)
+		//.property("Timer", &AI::GetTimer, &AI::SetTimer);
 }
 
 namespace TDS
