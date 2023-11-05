@@ -161,12 +161,14 @@ namespace TDS
 		
 			for (int j = 0; j < entities.size(); ++j)
 			{
+				
 				JPH_SystemUpdate(&_transform[j], &_rigidbody[j]);
 			}
 			accumulatedTime -= TimeStep::GetFixedDeltaTime();
 		}	
 		
 	}
+
 	void PhysicsSystem::JPH_SystemUpdate(Transform* _transform, RigidBody* _rigidbody)
 	{
 		JPH::BodyID JPHBodyID = JoltToTDS::ToBodyID(_rigidbody);
@@ -202,6 +204,9 @@ namespace TDS
 			);
 			b_sphereSetting.mFriction = _rigidbody->GetFriction();
 			b_sphereSetting.mRestitution = _rigidbody->GetRestitution();
+			b_sphereSetting.mGravityFactor = (_rigidbody->GetUseGravity()) ? _rigidbody->GetGravityFactor() : 0.0f;
+			b_sphereSetting.mLinearDamping = _rigidbody->GetLinearDamping();
+			b_sphereSetting.mAngularDamping = _rigidbody->GetAngularDamping();
 			b_sphereSetting.mLinearVelocity = JoltToTDS::ToVec3(_rigidbody->GetLinearVel());
 			b_sphereSetting.mAngularVelocity = JoltToTDS::ToVec3(_rigidbody->GetAngularVel());
 
@@ -229,8 +234,12 @@ namespace TDS
 				);
 			b_BoxSetting.mFriction = _rigidbody->GetFriction();
 			b_BoxSetting.mRestitution = _rigidbody->GetRestitution();
+			b_BoxSetting.mGravityFactor = _rigidbody->GetGravityFactor();
+			b_BoxSetting.mLinearDamping = _rigidbody->GetLinearDamping();
+			b_BoxSetting.mAngularDamping = _rigidbody->GetAngularDamping();
 			b_BoxSetting.mLinearVelocity = JoltToTDS::ToVec3(_rigidbody->GetLinearVel());
 			b_BoxSetting.mAngularVelocity = JoltToTDS::ToVec3(_rigidbody->GetAngularVel());
+
 
 			JPH::BodyID boxID = m_pSystem->GetBodyInterface().CreateAndAddBody(b_BoxSetting, JPH::EActivation::Activate);
 			JoltBodyID vJoltBodyID(boxID.GetIndexAndSequenceNumber());
@@ -254,9 +263,12 @@ namespace TDS
 			);
 			b_capsuleSetting.mFriction = _rigidbody->GetFriction();
 			b_capsuleSetting.mRestitution = _rigidbody->GetRestitution();
+			b_capsuleSetting.mGravityFactor = _rigidbody->GetGravityFactor();
+			b_capsuleSetting.mLinearDamping = _rigidbody->GetLinearDamping();
+			b_capsuleSetting.mAngularDamping = _rigidbody->GetAngularDamping();
 			b_capsuleSetting.mLinearVelocity = JoltToTDS::ToVec3(_rigidbody->GetLinearVel());
 			b_capsuleSetting.mAngularVelocity = JoltToTDS::ToVec3(_rigidbody->GetAngularVel());
-
+			
 			JPH::BodyID capsuleID = m_pSystem->GetBodyInterface().CreateAndAddBody(b_capsuleSetting, JPH::EActivation::Activate);
 			
 			JoltBodyID vJoltBodyID(capsuleID.GetIndexAndSequenceNumber());

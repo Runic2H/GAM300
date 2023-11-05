@@ -80,8 +80,8 @@ namespace TDS
 		DLL_API float& GetInverseMass() { return mInverseMass; }
 		DLL_API void setInverseMass(float mass) { mInverseMass = 1.0f / mass; }
 
-		DLL_API float& GetGravity() { return mGravity; }
-		DLL_API void SetGravity(float gravity) { mGravity = gravity; }
+		DLL_API float& GetGravityFactor() { return mGravityFactor; }
+		DLL_API void SetGravityFactor(float gravityFactor) { mGravityFactor = gravityFactor; }
 		
 		DLL_API float& GetLinearDamping() { return mLinearDamping; }
 		DLL_API void SetLinearDamping(float damping) { mLinearDamping = damping; }
@@ -97,6 +97,9 @@ namespace TDS
 		DLL_API JoltBodyID GetBodyID() { return mBodyID; }
 		DLL_API void SetBodyID(JoltBodyID bodyID) { mBodyID = bodyID; }
 
+		DLL_API bool GetUseGravity() { return mUseGravity; }
+		DLL_API void SetUseGravity(bool useGravity) { mUseGravity = useGravity; }
+		
 		RTTR_ENABLE(IComponent);
 		RTTR_REGISTRATION_FRIEND
 
@@ -119,10 +122,12 @@ namespace TDS
 		float mFriction;
 		float mRestitution;
 		float mInverseMass;
-		float mGravity;
+		float mGravityFactor;
 		float mLinearDamping;
 		float mAngularDamping;
 		
+		bool mUseGravity;
+
 		MotionType	mMotionType;
 		JoltBodyID	mBodyID;
 	};

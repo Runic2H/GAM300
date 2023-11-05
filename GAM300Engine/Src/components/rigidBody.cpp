@@ -53,16 +53,19 @@ RTTR_REGISTRATION
 		.method("GetInverseMass", &RigidBody::GetInverseMass)
 		.method("setInverseMass", &RigidBody::setInverseMass)
 		.property("Inverse Mass", &RigidBody::mInverseMass)
-		.method("GetGravity", &RigidBody::GetGravity)
-		.method("SetGravity", &RigidBody::SetGravity)
-		.property("Gravity", &RigidBody::mGravity)
+		.method("GetGravity", &RigidBody::GetGravityFactor)
+		.method("SetGravity", &RigidBody::SetGravityFactor)
+		.property("GravityFactor", &RigidBody::mGravityFactor)
 		.method("GetLinearDamping", &RigidBody::GetLinearDamping)
 		.method("SetLinearDamping", &RigidBody::SetLinearDamping)
 		.property("LinearDamping", &RigidBody::mLinearDamping)
 		.method("GetAngularDamping", &RigidBody::GetAngularDamping)
 		.method("GetAngularDamping", &RigidBody::SetAngularDamping)
 		.property("AngularDamping", &RigidBody::mAngularDamping)
-		.property("MotionType", &RigidBody::mMotionType);
+		.property("MotionType", &RigidBody::mMotionType)
+		.method("GetUseGravity", &RigidBody::GetUseGravity)
+		.method("SetUseGravity", &RigidBody::SetUseGravity)
+		.property("UseGravity", &RigidBody::mUseGravity);
 
 	rttr::registration::enumeration<RigidBody::MotionType>("MotionType")
 		(
@@ -88,11 +91,12 @@ namespace TDS
 							 mRestitution(0.0f),
 							 mMass(1.0f),
 							 mInverseMass(0.0f),
-							 mGravity(0.0f),
+							 mGravityFactor(1.0f),
 							 mLinearDamping(0.05f),
 							 mAngularDamping(0.05f),
 							 mBodyID(JoltBodyID()),
-							 mMotionType(MotionType::STATIC)
+							 mMotionType(MotionType::STATIC),
+							 mUseGravity(true)
 	{ }
 
 
@@ -111,9 +115,12 @@ namespace TDS
 														mRestitution(toMove.mRestitution),
 														mMass(toMove.mMass),
 														mInverseMass(toMove.mInverseMass),
-														mGravity(toMove.mGravity),
+														mGravityFactor(toMove.mGravityFactor),
+														mLinearDamping(toMove.mLinearDamping),
+														mAngularDamping(toMove.mAngularDamping),
 														mBodyID(toMove.mBodyID),
-														mMotionType(toMove.mMotionType)
+														mMotionType(toMove.mMotionType),
+														mUseGravity(toMove.mUseGravity)
 
 	{ }
 

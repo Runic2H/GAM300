@@ -302,7 +302,7 @@ namespace TDS
 
     Mat4 Mat4::Ortho(float left, float right, float bottom, float top, float zNear, float zFar)
     {
-        Mat4 result(1.f);
+        Mat4 result = Mat4::identity();
         result.m[0][0] = 2.0f / (right - left);
         result.m[1][1] = 2.0f / (top - bottom);
         result.m[2][2] = -2.0f / (zFar - zNear);

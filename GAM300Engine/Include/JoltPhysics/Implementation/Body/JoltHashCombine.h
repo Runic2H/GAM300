@@ -4,7 +4,7 @@
 
 #ifndef JOLTHASHCOMBINE_H
 #define JOLTHASHCOMBINE_H
-
+#include <Jolt/Core/Core.h>
 namespace TDS
 {
 	/// Implements the FNV-1a hash algorithm
@@ -83,11 +83,15 @@ namespace TDS
     };
 
 #define JOLT_MAKE_HASHABLE(type, ...)						\
-    namespace std											\
+	JPH_SUPPRESS_WARNING_PUSH								\
+	JPH_SUPPRESS_WARNINGS									\
+	namespace std											\
 	{														\
         template<>											\
-		JOLT_MAKE_HASH_STRUCT(type, hash<type>, __VA_ARGS__)	\
+		JOLT_MAKE_HASH_STRUCT(type, hash<type>, __VA_ARGS__)\
     }														\
+	JPH_SUPPRESS_WARNING_POP
 
+JPH_SUPPRESS_WARNING_POP
 
 #endif // !JOLTHASHCOMBINE_H
