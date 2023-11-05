@@ -89,9 +89,6 @@ namespace TDS
 		Vec3 mOffsetScale;
 		Vec3 mOffsetPos;
 
-		Vec3 mOffsetScale;
-		Vec3 mOffsetPos;
-
 		Mat4 mTransformMatrix;
 		Mat4 mOffsetMatrix;
 	};
