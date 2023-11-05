@@ -40,15 +40,24 @@ namespace TDS
 		DLL_API void SetPosition(Vec3 position) { mPosition = position; }
 		DLL_API void SetPosition(float positionX, float positionY, float positionZ) { mPosition = Vec3(positionX, positionY, positionZ); }
 
+		DLL_API Vec3& GetOffsetPos() { return mOffsetPos; };
+		DLL_API void SetOffSetPos(Vec3 Pos) { mOffsetPos = Pos; }
+		DLL_API void SetOffSetPos(float posX, float posY, float posZ) { mOffsetPos = { posX, posY, posZ }; }
+		
 		DLL_API Vec3 GetScale() { return mScale; }
 		DLL_API void SetScale(Vec3 scale) { mScale = scale; }
 		DLL_API void SetScale(float scaleX, float scaleY, float scaleZ) { mScale = Vec3(scaleX, scaleY, scaleZ); }
+
+		DLL_API Vec3& GetOffsetScale() { return mOffsetScale; }
+		DLL_API void SetOffSetScale(Vec3 Scale) { mOffsetScale = Scale; }
+		DLL_API void SetOffSetScale(float scaleX, float scaleY, float scaleZ) { mOffsetScale = { scaleX, scaleY, scaleZ }; }
 
 		DLL_API Vec3 GetRotation() { return mRotation; }
 		DLL_API void SetRotation(Vec3 rotation) { mRotation = rotation; }
 		DLL_API void SetRotation(float rotationX, float rotationY, float rotationZ) { mRotation = Vec3(rotationX, rotationY, rotationZ); }
 
 		DLL_API Mat4 GetTransformMatrix() const { return mTransformMatrix; }
+		DLL_API Mat4 GetOffsetMatrix() const { return mOffsetMatrix; }
 		DLL_API void SetTransform(Vec3 translate, Vec3 rotate, Vec3 scale)
 		{
 			Quat qRot = Quat(rotate);
@@ -63,6 +72,10 @@ namespace TDS
 			Mat4 rotM4 = Mat4(Quat::toMat4(qRot));
 			Mat4 transM4 = Mat4::Translate(mPosition);
 			mTransformMatrix = transM4 * rotM4 * scaleM4;
+
+			scaleM4 = Mat4::Scale(mScale + mOffsetScale);
+			transM4 = Mat4::Translate(mPosition - mOffsetPos);
+			mOffsetMatrix = transM4 * rotM4 * scaleM4;
 		}
 
 		RTTR_ENABLE(IComponent);
@@ -72,8 +85,12 @@ namespace TDS
 		Vec3 mPosition;
 		Vec3 mScale;
 		Vec3 mRotation;
+		
+		Vec3 mOffsetScale;
+		Vec3 mOffsetPos;
 
 		Mat4 mTransformMatrix;
+		Mat4 mOffsetMatrix;
 	};
 
 	DLL_API Transform* GetTransform(EntityID entityID);

@@ -78,6 +78,7 @@ namespace TDS
 
 			Renderer3D::getPipeline()->SetCommandBuffer(commandBuffer);
 			GraphicsManager::getInstance().m_PointLightRenderer->GetPipeline().SetCommandBuffer(commandBuffer);
+			GraphicsManager::getInstance().m_DebugRenderer->GetPipeline().SetCommandBuffer(commandBuffer);
 
 
 			if (Renderer3D::getPipeline()->GetCreateEntry().m_EnableDoubleBuffering)
@@ -134,6 +135,14 @@ namespace TDS
 						Renderer3D::getPipeline()->DrawIndexed(*_Graphics[i].m_AssetReference.m_ResourcePtr->GetVertexBuffer(),
 							*_Graphics[i].m_AssetReference.m_ResourcePtr->GetIndexBuffer(),
 							frame);
+						if (_Graphics[i].IsDebugOn()) {
+							GraphicsManager::getInstance().m_DebugRenderer->GetPipeline().BindDescriptor(frame, 1);
+							GraphicsManager::getInstance().m_DebugRenderer->GetPipeline().UpdateUBO(&ubo, sizeof(GlobalUBO), 0, frame);
+							GraphicsManager::getInstance().m_DebugRenderer->Render(&_Graphics[i], &_TransformComponent[i]);
+							GraphicsManager::getInstance().m_DebugRenderer->GetPipeline().DrawIndexed(*_Graphics[i].m_AssetReference.m_ResourcePtr->GetVertexBuffer(),
+								*_Graphics[i].m_AssetReference.m_ResourcePtr->GetIndexBuffer(),
+								frame);
+						}
 					}
 				}
 

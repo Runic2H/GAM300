@@ -1,0 +1,469 @@
+﻿  Color.cpp
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color.h(26,13): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color.h(26,13): error C3646: 'GetAsVec4': unknown override specifier
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color.h(26,23): error C2059: syntax error: ')'
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color.h(26,30): error C2238: unexpected token(s) preceding ';'
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color.h(31,14): error C3646: 'GammaToLinear': unknown override specifier
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color.h(31,28): error C2059: syntax error: 'const'
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color.h(31,47): error C2238: unexpected token(s) preceding ';'
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color.h(32,14): error C3646: 'LinearToGamma': unknown override specifier
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color.h(32,28): error C2059: syntax error: 'const'
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color.h(32,48): error C2238: unexpected token(s) preceding ';'
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color.h(64,28): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color.h(64,28): error C2143: syntax error: missing ',' before '&'
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color.h(97,33): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color.h(97,33): error C2143: syntax error: missing ',' before '&'
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color.h(97,13): error C2803: 'operator *' must have at least one formal parameter of class type
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color.cpp(7,25): error C2653: 'Mathf': is not a class or namespace name
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color.cpp(7,32): error C2065: 'NaN': undeclared identifier
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color.cpp(52,25): error C2653: 'Mathf': is not a class or namespace name
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color.cpp(52,32): error C2065: 'NaN': undeclared identifier
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color.cpp(59,25): error C2653: 'Mathf': is not a class or namespace name
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color.cpp(59,36): error C2653: 'Mathf': is not a class or namespace name
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color.cpp(59,43): error C3861: 'Mod': identifier not found
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color.cpp(59,32): error C3861: 'Abs': identifier not found
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color.cpp(116,10): error C2653: 'Mathf': is not a class or namespace name
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color.cpp(116,17): error C3861: 'Max': identifier not found
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color.cpp(118,14): error C2653: 'Mathf': is not a class or namespace name
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color.cpp(118,21): error C2065: 'Epsilon': undeclared identifier
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color.cpp(130,19): error C2653: 'Mathf': is not a class or namespace name
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color.cpp(130,26): error C3861: 'Min': identifier not found
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color.cpp(131,19): error C2653: 'Mathf': is not a class or namespace name
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color.cpp(131,26): error C3861: 'Max': identifier not found
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color.cpp(146,13): error C2653: 'Mathf': is not a class or namespace name
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color.cpp(146,20): error C3861: 'Max': identifier not found
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color.cpp(167,13): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color.cpp(167,20): error C2039: 'GetAsVec4': is not a member of 'TDS::Color'
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color.h(8,7): message : see declaration of 'TDS::Color'
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color.cpp(167,20): error C2146: syntax error: missing ';' before identifier 'GetAsVec4'
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color.cpp(167,20): error C2270: 'GetAsVec4': modifiers not allowed on nonmember functions
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color.cpp(168,2): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color.cpp(169,15): error C2065: 'r': undeclared identifier
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color.cpp(169,17): error C2065: 'g': undeclared identifier
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color.cpp(169,19): error C2065: 'b': undeclared identifier
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color.cpp(169,21): error C2065: 'a': undeclared identifier
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color.cpp(169,3): warning C4508: 'TDS::GetAsVec4': function should return a value; 'void' return type assumed
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color.cpp(170,2): error C2617: 'TDS::GetAsVec4': inconsistent return statement
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color.cpp(167,20): message : see declaration of 'TDS::GetAsVec4'
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color.cpp(174,52): error C2653: 'Mathf': is not a class or namespace name
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color.cpp(174,59): error C3861: 'Pow': identifier not found
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color.cpp(180,65): error C2653: 'Mathf': is not a class or namespace name
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color.cpp(180,72): error C3861: 'Pow': identifier not found
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color.cpp(183,14): error C2143: syntax error: missing ';' before 'TDS::Color::GammaToLinear'
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color.cpp(183,27): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color.cpp(183,38): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color.cpp(183,38): error C2143: syntax error: missing ',' before '&'
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color.cpp(184,2): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color.cpp(183,14): error C2511: 'int TDS::Color::GammaToLinear(const int)': overloaded member function not found in 'TDS::Color'
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color.h(8,7): message : see declaration of 'TDS::Color'
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color.cpp(185,29): error C2065: 'vGamma': undeclared identifier
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color.cpp(185,54): error C2065: 'vGamma': undeclared identifier
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color.cpp(185,79): error C2065: 'vGamma': undeclared identifier
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color.cpp(185,10): error C2064: term does not evaluate to a function taking 1 arguments
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color.cpp(188,14): error C2143: syntax error: missing ';' before 'TDS::Color::LinearToGamma'
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color.cpp(188,27): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color.cpp(188,2): error C2086: 'int TDS::Vec3': redefinition
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color.cpp(183,2): message : see declaration of 'TDS::Vec3'
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color.cpp(188,38): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color.cpp(188,38): error C2143: syntax error: missing ',' before '&'
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color.cpp(189,2): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color.cpp(188,14): error C2511: 'int TDS::Color::LinearToGamma(const int)': overloaded member function not found in 'TDS::Color'
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color.h(8,7): message : see declaration of 'TDS::Color'
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color.cpp(190,29): error C2065: 'vLinear': undeclared identifier
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color.cpp(190,55): error C2065: 'vLinear': undeclared identifier
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color.cpp(190,81): error C2065: 'vLinear': undeclared identifier
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color.cpp(190,10): error C2064: term does not evaluate to a function taking 1 arguments
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color.cpp(221,34): error C2039: 'exception': is not a member of 'std'
+D:\OneDrive\Desktop\GAM300\GAM300Engine\predefined C++ types (compiler internal)(346,11): message : see declaration of 'std'
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color.cpp(221,34): error C3861: 'exception': identifier not found
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color.cpp(230,33): error C2653: 'Mathf': is not a class or namespace name
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color.cpp(230,40): error C3861: 'Mod': identifier not found
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color.cpp(245,10): error C2653: 'Mathf': is not a class or namespace name
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color.cpp(245,17): error C3861: 'Max': identifier not found
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color.cpp(250,10): error C2653: 'Mathf': is not a class or namespace name
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color.cpp(250,17): error C3861: 'Log2': identifier not found
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color.cpp(255,24): error C2653: 'Mathf': is not a class or namespace name
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color.cpp(255,31): error C3861: 'Pow': identifier not found
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color.cpp(275,7): error C2653: 'Mathf': is not a class or namespace name
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color.cpp(275,14): error C2660: 'TDS::Color::IsNaN': function does not take 1 arguments
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color.cpp(273,14): message : see declaration of 'TDS::Color::IsNaN'
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color.cpp(275,14): message : while trying to match the argument list '(const float)'
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color.cpp(277,7): error C2653: 'Mathf': is not a class or namespace name
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color.cpp(277,14): error C2660: 'TDS::Color::IsNaN': function does not take 1 arguments
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color.cpp(273,14): message : see declaration of 'TDS::Color::IsNaN'
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color.cpp(277,14): message : while trying to match the argument list '(const float)'
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color.cpp(279,7): error C2653: 'Mathf': is not a class or namespace name
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color.cpp(279,14): error C2660: 'TDS::Color::IsNaN': function does not take 1 arguments
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color.cpp(273,14): message : see declaration of 'TDS::Color::IsNaN'
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color.cpp(279,14): message : while trying to match the argument list '(const float)'
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color.cpp(281,7): error C2653: 'Mathf': is not a class or namespace name
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color.cpp(281,14): error C2660: 'TDS::Color::IsNaN': function does not take 1 arguments
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color.cpp(273,14): message : see declaration of 'TDS::Color::IsNaN'
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color.cpp(281,14): message : while trying to match the argument list '(const float)'
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color.cpp(288,8): error C2653: 'Mathf': is not a class or namespace name
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color.cpp(288,15): error C3861: 'IsFinite': identifier not found
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color.cpp(290,8): error C2653: 'Mathf': is not a class or namespace name
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color.cpp(290,15): error C3861: 'IsFinite': identifier not found
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color.cpp(292,8): error C2653: 'Mathf': is not a class or namespace name
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color.cpp(292,15): error C3861: 'IsFinite': identifier not found
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color.cpp(294,8): error C2653: 'Mathf': is not a class or namespace name
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color.cpp(294,15): error C3861: 'IsFinite': identifier not found
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color.cpp(301,11): error C2027: use of undefined type 'TDS::ColorLinear'
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color.h(6,7): message : see declaration of 'TDS::ColorLinear'
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color.cpp(306,11): error C2027: use of undefined type 'TDS::ColorGamma'
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color.h(7,7): message : see declaration of 'TDS::ColorGamma'
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color.cpp(351,35): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color.cpp(351,35): error C2143: syntax error: missing ',' before '&'
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color.cpp(353,8): error C2146: syntax error: missing ';' before identifier 'v'
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color.cpp(353,8): error C3861: 'v': identifier not found
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color.cpp(354,8): error C2146: syntax error: missing ';' before identifier 'tmp'
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color.cpp(354,8): error C2065: 'tmp': undeclared identifier
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color.cpp(354,14): error C2825: 'TDS::Vec3': must be a class or namespace when followed by '::'
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color.cpp(354,20): error C2510: 'Vec3': left of '::' must be a class/struct/union
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color.cpp(354,20): error C3861: 'zero': identifier not found
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color.cpp(356,3): error C2065: 'tmp': undeclared identifier
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color.cpp(356,11): error C2065: 'v': undeclared identifier
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color.cpp(356,17): error C2065: 'rhs': undeclared identifier
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color.cpp(356,31): error C2065: 'v': undeclared identifier
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color.cpp(356,37): error C2065: 'rhs': undeclared identifier
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color.cpp(356,51): error C2065: 'v': undeclared identifier
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color.cpp(356,57): error C2065: 'rhs': undeclared identifier
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color.cpp(356,71): error C2065: 'rhs': undeclared identifier
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color.cpp(356,74): fatal  error C1003: error count exceeds 100; stopping compilation
+  Color8UNorm.cpp
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color.h(26,13): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color.h(26,13): error C3646: 'GetAsVec4': unknown override specifier
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color.h(26,23): error C2059: syntax error: ')'
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color.h(26,30): error C2238: unexpected token(s) preceding ';'
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color.h(31,14): error C3646: 'GammaToLinear': unknown override specifier
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color.h(31,28): error C2059: syntax error: 'const'
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color.h(31,47): error C2238: unexpected token(s) preceding ';'
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color.h(32,14): error C3646: 'LinearToGamma': unknown override specifier
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color.h(32,28): error C2059: syntax error: 'const'
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color.h(32,48): error C2238: unexpected token(s) preceding ';'
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color.h(64,28): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color.h(64,28): error C2143: syntax error: missing ',' before '&'
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color.h(97,33): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color.h(97,33): error C2143: syntax error: missing ',' before '&'
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color.h(97,13): error C2803: 'operator *' must have at least one formal parameter of class type
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color8UNorm.h(13,12): error C2061: syntax error: identifier 'uint8_t'
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color8UNorm.h(13,2): error C2535: 'TDS::ColorBase::ColorBase(void)': member function already defined or declared
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color8UNorm.h(12,2): message : see declaration of 'TDS::ColorBase::ColorBase'
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color8UNorm.h(15,9): error C2143: syntax error: missing ';' before '&'
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color8UNorm.h(15,9): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color8UNorm.h(15,32): error C2238: unexpected token(s) preceding ';'
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color8UNorm.h(16,15): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color8UNorm.h(16,15): error C2143: syntax error: missing ';' before '&'
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color8UNorm.h(16,44): error C2238: unexpected token(s) preceding ';'
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color8UNorm.h(19,10): error C3646: 'r': unknown override specifier
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color8UNorm.h(19,11): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color8UNorm.h(20,10): error C3646: 'g': unknown override specifier
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color8UNorm.h(20,11): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color8UNorm.h(21,10): error C3646: 'b': unknown override specifier
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color8UNorm.h(21,11): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color8UNorm.h(22,10): error C3646: 'a': unknown override specifier
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color8UNorm.h(22,11): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color8UNorm.h(30,14): error C2061: syntax error: identifier 'uint8_t'
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color8UNorm.h(30,2): error C2535: 'TDS::ColorLinear::ColorLinear(void)': member function already defined or declared
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color8UNorm.h(29,2): message : see declaration of 'TDS::ColorLinear::ColorLinear'
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color8UNorm.h(43,13): error C2061: syntax error: identifier 'uint8_t'
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color8UNorm.h(43,2): error C2535: 'TDS::ColorGamma::ColorGamma(void)': member function already defined or declared
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color8UNorm.h(42,2): message : see declaration of 'TDS::ColorGamma::ColorGamma'
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color8UNorm.cpp(5,13): error C7550: 'TDS::ColorBase::{ctor}': the qualified name in this context names a constructor, not a type
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color8UNorm.cpp(5,23): error C2597: illegal reference to non-static member 'TDS::ColorBase::uint8_t'
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color8UNorm.h(16,8): message : see declaration of 'TDS::ColorBase::uint8_t'
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color8UNorm.cpp(5,31): error C2146: syntax error: missing ')' before identifier 'r'
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color8UNorm.cpp(6,2): error C2143: syntax error: missing ';' before '{'
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color8UNorm.cpp(6,2): error C2447: '{': missing function header (old-style formal list?)
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color8UNorm.cpp(12,9): error C2143: syntax error: missing ';' before '&'
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color8UNorm.cpp(12,9): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color8UNorm.cpp(12,22): error C2039: '[]': is not a member of 'TDS::ColorBase'
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color8UNorm.h(8,7): message : see declaration of 'TDS::ColorBase'
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color8UNorm.cpp(13,2): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color8UNorm.cpp(13,2): error C2059: syntax error: '{'
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color8UNorm.cpp(13,2): error C2143: syntax error: missing ';' before '{'
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color8UNorm.cpp(13,2): error C2447: '{': missing function header (old-style formal list?)
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color8UNorm.cpp(16,15): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color8UNorm.cpp(16,15): error C2143: syntax error: missing ';' before '&'
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color8UNorm.cpp(16,8): error C2373: 'TDS::uint8_t': redefinition; different type modifiers
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color8UNorm.cpp(12,2): message : see declaration of 'TDS::uint8_t'
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color8UNorm.cpp(16,28): error C2039: '[]': is not a member of 'TDS::ColorBase'
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color8UNorm.h(8,7): message : see declaration of 'TDS::ColorBase'
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color8UNorm.cpp(16,28): error C2270: '[]': modifiers not allowed on nonmember functions
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color8UNorm.cpp(17,2): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color8UNorm.cpp(17,2): error C2059: syntax error: '{'
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color8UNorm.cpp(17,2): error C2143: syntax error: missing ';' before '{'
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color8UNorm.cpp(17,2): error C2447: '{': missing function header (old-style formal list?)
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color8UNorm.cpp(20,15): error C7550: 'TDS::ColorLinear::{ctor}': the qualified name in this context names a constructor, not a type
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color8UNorm.cpp(20,27): error C2597: illegal reference to non-static member 'TDS::ColorBase::uint8_t'
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color8UNorm.h(16,8): message : see declaration of 'TDS::ColorBase::uint8_t'
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color8UNorm.cpp(20,35): error C2146: syntax error: missing ')' before identifier 'r'
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color8UNorm.cpp(21,16): error C2143: syntax error: missing ')' before ','
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color8UNorm.cpp(21,15): error C2280: 'TDS::ColorBase::ColorBase(void)': attempting to reference a deleted function
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color8UNorm.h(12,2): message : see declaration of 'TDS::ColorBase::ColorBase'
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color8UNorm.h(12,2): message : 'TDS::ColorBase::ColorBase(void)': function was implicitly deleted because 'TDS::ColorBase' has an uninitialized const-qualified data member 'TDS::ColorBase::uint8_t'
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color8UNorm.h(16,8): message : see declaration of 'TDS::ColorBase::uint8_t'
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color8UNorm.cpp(21,18): error C2280: 'TDS::ColorBase::ColorBase(void)': attempting to reference a deleted function
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color8UNorm.h(12,2): message : see declaration of 'TDS::ColorBase::ColorBase'
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color8UNorm.h(12,2): message : 'TDS::ColorBase::ColorBase(void)': function was implicitly deleted because 'TDS::ColorBase' has an uninitialized const-qualified data member 'TDS::ColorBase::uint8_t'
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color8UNorm.h(16,8): message : see declaration of 'TDS::ColorBase::uint8_t'
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color8UNorm.cpp(21,21): error C2280: 'TDS::ColorBase::ColorBase(void)': attempting to reference a deleted function
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color8UNorm.h(12,2): message : see declaration of 'TDS::ColorBase::ColorBase'
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color8UNorm.h(12,2): message : 'TDS::ColorBase::ColorBase(void)': function was implicitly deleted because 'TDS::ColorBase' has an uninitialized const-qualified data member 'TDS::ColorBase::uint8_t'
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color8UNorm.h(16,8): message : see declaration of 'TDS::ColorBase::uint8_t'
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color8UNorm.cpp(21,25): error C2059: syntax error: ')'
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color8UNorm.cpp(24,15): error C2143: syntax error: missing ';' before 'TDS::ColorLinear::{ctor}'
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color8UNorm.cpp(25,2): error C2280: 'TDS::ColorBase::ColorBase(void)': attempting to reference a deleted function
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color8UNorm.h(12,2): message : see declaration of 'TDS::ColorBase::ColorBase'
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color8UNorm.h(12,2): message : 'TDS::ColorBase::ColorBase(void)': function was implicitly deleted because 'TDS::ColorBase' has an uninitialized const-qualified data member 'TDS::ColorBase::uint8_t'
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color8UNorm.h(16,8): message : see declaration of 'TDS::ColorBase::uint8_t'
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color8UNorm.cpp(30,7): error C2653: 'Mathf': is not a class or namespace name
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color8UNorm.cpp(30,14): error C3861: 'ColorFloatToByte': identifier not found
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color8UNorm.cpp(31,7): error C2653: 'Mathf': is not a class or namespace name
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color8UNorm.cpp(31,14): error C3861: 'ColorFloatToByte': identifier not found
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color8UNorm.cpp(32,7): error C2653: 'Mathf': is not a class or namespace name
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color8UNorm.cpp(32,14): error C3861: 'ColorFloatToByte': identifier not found
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color8UNorm.cpp(33,7): error C2653: 'Mathf': is not a class or namespace name
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color8UNorm.cpp(33,14): error C3861: 'ColorFloatToByte': identifier not found
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color8UNorm.cpp(37,16): error C2653: 'Mathf': is not a class or namespace name
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color8UNorm.cpp(37,23): error C3861: 'ColorByteToFloat': identifier not found
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color8UNorm.cpp(37,44): error C2653: 'Mathf': is not a class or namespace name
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color8UNorm.cpp(37,51): error C3861: 'ColorByteToFloat': identifier not found
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color8UNorm.cpp(37,72): error C2653: 'Mathf': is not a class or namespace name
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color8UNorm.cpp(37,79): error C3861: 'ColorByteToFloat': identifier not found
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color8UNorm.cpp(37,100): error C2653: 'Mathf': is not a class or namespace name
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color8UNorm.cpp(37,107): error C3861: 'ColorByteToFloat': identifier not found
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color8UNorm.cpp(40,14): error C7550: 'TDS::ColorGamma::{ctor}': the qualified name in this context names a constructor, not a type
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color8UNorm.cpp(40,25): error C2597: illegal reference to non-static member 'TDS::ColorBase::uint8_t'
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color8UNorm.h(16,8): message : see declaration of 'TDS::ColorBase::uint8_t'
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color8UNorm.cpp(40,33): error C2146: syntax error: missing ')' before identifier 'uiGammaRed'
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color8UNorm.cpp(41,25): error C2143: syntax error: missing ')' before ','
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color8UNorm.cpp(41,15): error C2280: 'TDS::ColorBase::ColorBase(void)': attempting to reference a deleted function
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color8UNorm.h(12,2): message : see declaration of 'TDS::ColorBase::ColorBase'
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color8UNorm.h(12,2): message : 'TDS::ColorBase::ColorBase(void)': function was implicitly deleted because 'TDS::ColorBase' has an uninitialized const-qualified data member 'TDS::ColorBase::uint8_t'
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color8UNorm.h(16,8): message : see declaration of 'TDS::ColorBase::uint8_t'
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color8UNorm.cpp(41,27): error C2280: 'TDS::ColorBase::ColorBase(void)': attempting to reference a deleted function
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color8UNorm.h(12,2): message : see declaration of 'TDS::ColorBase::ColorBase'
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color8UNorm.h(12,2): message : 'TDS::ColorBase::ColorBase(void)': function was implicitly deleted because 'TDS::ColorBase' has an uninitialized const-qualified data member 'TDS::ColorBase::uint8_t'
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color8UNorm.h(16,8): message : see declaration of 'TDS::ColorBase::uint8_t'
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color8UNorm.cpp(41,41): error C2280: 'TDS::ColorBase::ColorBase(void)': attempting to reference a deleted function
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color8UNorm.h(12,2): message : see declaration of 'TDS::ColorBase::ColorBase'
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color8UNorm.h(12,2): message : 'TDS::ColorBase::ColorBase(void)': function was implicitly deleted because 'TDS::ColorBase' has an uninitialized const-qualified data member 'TDS::ColorBase::uint8_t'
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color8UNorm.h(16,8): message : see declaration of 'TDS::ColorBase::uint8_t'
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color8UNorm.cpp(41,66): error C2059: syntax error: ')'
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color8UNorm.cpp(45,14): error C2143: syntax error: missing ';' before 'TDS::ColorGamma::{ctor}'
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color8UNorm.cpp(46,2): error C2280: 'TDS::ColorBase::ColorBase(void)': attempting to reference a deleted function
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color8UNorm.h(12,2): message : see declaration of 'TDS::ColorBase::ColorBase'
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color8UNorm.h(12,2): message : 'TDS::ColorBase::ColorBase(void)': function was implicitly deleted because 'TDS::ColorBase' has an uninitialized const-qualified data member 'TDS::ColorBase::uint8_t'
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color8UNorm.h(16,8): message : see declaration of 'TDS::ColorBase::uint8_t'
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color8UNorm.cpp(52,14): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color8UNorm.cpp(52,14): error C2146: syntax error: missing ';' before identifier 'gamma'
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color8UNorm.cpp(52,14): error C2065: 'gamma': undeclared identifier
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color8UNorm.cpp(52,43): error C2064: term does not evaluate to a function taking 3 arguments
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color8UNorm.cpp(53,7): error C2653: 'Mathf': is not a class or namespace name
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color8UNorm.cpp(53,31): error C2065: 'gamma': undeclared identifier
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color8UNorm.cpp(53,14): error C3861: 'ColorFloatToByte': identifier not found
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color8UNorm.cpp(54,7): error C2653: 'Mathf': is not a class or namespace name
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color8UNorm.cpp(54,31): error C2065: 'gamma': undeclared identifier
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color8UNorm.cpp(54,14): error C3861: 'ColorFloatToByte': identifier not found
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color8UNorm.cpp(55,7): error C2653: 'Mathf': is not a class or namespace name
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color8UNorm.cpp(55,31): error C2065: 'gamma': undeclared identifier
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color8UNorm.cpp(55,14): error C3861: 'ColorFloatToByte': identifier not found
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color8UNorm.cpp(56,7): error C2653: 'Mathf': is not a class or namespace name
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color8UNorm.cpp(56,14): error C3861: 'ColorFloatToByte': identifier not found
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color8UNorm.cpp(61,3): error C2065: 'Vec3': undeclared identifier
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color8UNorm.cpp(61,8): error C2146: syntax error: missing ';' before identifier 'gamma'
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color8UNorm.cpp(61,8): error C2065: 'gamma': undeclared identifier
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color8UNorm.cpp(62,3): error C2065: 'gamma': undeclared identifier
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color8UNorm.cpp(62,13): error C2653: 'Mathf': is not a class or namespace name
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color8UNorm.cpp(62,20): error C3861: 'ColorByteToFloat': identifier not found
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color8UNorm.cpp(63,3): error C2065: 'gamma': undeclared identifier
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color8UNorm.cpp(63,13): error C2653: 'Mathf': is not a class or namespace name
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Color8UNorm.cpp(63,36): fatal  error C1003: error count exceeds 100; stopping compilation
+  MathCommon.cpp
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Vector2.h(5,10): fatal  error C1083: Cannot open include file: 'dotnet/ImportExport.h': No such file or directory
+  Matrix2.cpp
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Vector3.h(5,10): fatal  error C1083: Cannot open include file: 'dotnet/ImportExport.h': No such file or directory
+  Matrix3.cpp
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Vector2.h(5,10): fatal  error C1083: Cannot open include file: 'dotnet/ImportExport.h': No such file or directory
+  Matrix4.cpp
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Vector2.h(5,10): fatal  error C1083: Cannot open include file: 'dotnet/ImportExport.h': No such file or directory
+  Quaternion.cpp
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Vector2.h(5,10): fatal  error C1083: Cannot open include file: 'dotnet/ImportExport.h': No such file or directory
+  Vector2.cpp
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Vector3.h(5,10): fatal  error C1083: Cannot open include file: 'dotnet/ImportExport.h': No such file or directory
+  Vector3.cpp
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Vector2.h(5,10): fatal  error C1083: Cannot open include file: 'dotnet/ImportExport.h': No such file or directory
+  Vector4.cpp
+D:\OneDrive\Desktop\GAM300\Shared_Libs\Vector2.h(5,10): fatal  error C1083: Cannot open include file: 'dotnet/ImportExport.h': No such file or directory
+  ecs.cpp
+D:\OneDrive\Desktop\GAM300\GAM300Engine\Include\ecs\ecs.cpp(12,10): fatal  error C1083: Cannot open include file: 'ecs/systems.h': No such file or directory
+  aiSystem.cpp
+D:\OneDrive\Desktop\GAM300\GAM300Engine\Src\AI\aiSystem.cpp(11,10): fatal  error C1083: Cannot open include file: 'AI/aiSystem.h': No such file or directory
+  behaviourTree.cpp
+D:\OneDrive\Desktop\GAM300\GAM300Engine\Src\AI\behaviourTree.cpp(11,10): fatal  error C1083: Cannot open include file: 'AI/behaviourTree.h': No such file or directory
+  ResourceAllocator.cpp
+D:\OneDrive\Desktop\GAM300\GAM300Engine\Src\AssetManagement\ResourceAllocator.cpp(1,10): fatal  error C1083: Cannot open include file: 'AssetManagement/ResourceAllocator.h': No such file or directory
+  AudioEngine.cpp
+D:\OneDrive\Desktop\GAM300\GAM300Engine\Src\AudioEngine.cpp(12,10): fatal  error C1083: Cannot open include file: 'fmod/fmod_errors.h': No such file or directory
+  CameraSystem.cpp
+D:\OneDrive\Desktop\GAM300\GAM300Engine\Src\camera\camerasystem\CameraSystem.cpp(11,10): fatal  error C1083: Cannot open include file: 'camera/Camerasystem/CameraSystem.h': No such file or directory
+  ai.cpp
+D:\OneDrive\Desktop\GAM300\GAM300Engine\Src\components\ai.cpp(11,10): fatal  error C1083: Cannot open include file: 'components/ai.h': No such file or directory
+  boxCollider.cpp
+D:\OneDrive\Desktop\GAM300\GAM300Engine\Src\components\boxCollider.cpp(12,10): fatal  error C1083: Cannot open include file: 'components/boxCollider.h': No such file or directory
+  cameraComponent.cpp
+D:\OneDrive\Desktop\GAM300\GAM300Engine\Src\components\cameraComponent.cpp(11,10): fatal  error C1083: Cannot open include file: 'components/cameraComponent.h': No such file or directory
+  capsuleCollider.cpp
+D:\OneDrive\Desktop\GAM300\GAM300Engine\Src\components\capsuleCollider.cpp(12,10): fatal  error C1083: Cannot open include file: 'components/capsuleCollider.h': No such file or directory
+  Generating Code...
+  Compiling...
+  componentHelperFunctions.cpp
+D:\OneDrive\Desktop\GAM300\GAM300Engine\Src\components\componentHelperFunctions.cpp(11,10): fatal  error C1083: Cannot open include file: 'components/components.h': No such file or directory
+  FontComponent.cpp
+D:\OneDrive\Desktop\GAM300\GAM300Engine\Src\components\FontComponent.cpp(1,10): fatal  error C1083: Cannot open include file: 'components/FontComponent.h': No such file or directory
+  graphicsComponent.cpp
+D:\OneDrive\Desktop\GAM300\GAM300Engine\Src\components\graphicsComponent.cpp(1,10): fatal  error C1083: Cannot open include file: 'components/graphicsComponent.h': No such file or directory
+  nameTag.cpp
+D:\OneDrive\Desktop\GAM300\GAM300Engine\Src\components\nameTag.cpp(11,10): fatal  error C1083: Cannot open include file: 'components/nameTag.h': No such file or directory
+  rigidBody.cpp
+D:\OneDrive\Desktop\GAM300\GAM300Engine\Src\components\rigidBody.cpp(11,10): fatal  error C1083: Cannot open include file: 'components/rigidBody.h': No such file or directory
+  sphereCollider.cpp
+D:\OneDrive\Desktop\GAM300\GAM300Engine\Src\components\sphereCollider.cpp(12,10): fatal  error C1083: Cannot open include file: 'components/sphereCollider.h': No such file or directory
+  sprite.cpp
+D:\OneDrive\Desktop\GAM300\GAM300Engine\Src\components\sprite.cpp(11,10): fatal  error C1083: Cannot open include file: 'components/sprite.h': No such file or directory
+  tag.cpp
+D:\OneDrive\Desktop\GAM300\GAM300Engine\Src\components\tag.cpp(11,10): fatal  error C1083: Cannot open include file: 'components/tag.h': No such file or directory
+  transform.cpp
+D:\OneDrive\Desktop\GAM300\GAM300Engine\Src\components\transform.cpp(11,10): fatal  error C1083: Cannot open include file: 'components/transform.h': No such file or directory
+  winData.cpp
+D:\OneDrive\Desktop\GAM300\GAM300Engine\Src\components\winData.cpp(11,10): fatal  error C1083: Cannot open include file: 'components/winData.h': No such file or directory
+  eventHandler.cpp
+D:\OneDrive\Desktop\GAM300\GAM300Engine\Src\eventManager\eventHandler.cpp(1,10): fatal  error C1083: Cannot open include file: 'eventManager/eventHandler.h': No such file or directory
+  ExceptionHandler.cpp
+  AABB.cpp
+D:\OneDrive\Desktop\GAM300\GAM300Engine\Src\Geometry\AABB.cpp(1,10): fatal  error C1083: Cannot open include file: 'AABB.h': No such file or directory
+  Geometry.cpp
+D:\OneDrive\Desktop\GAM300\GAM300Engine\Src\Geometry\Geometry.cpp(1,10): fatal  error C1083: Cannot open include file: 'Geometry.h': No such file or directory
+  Line.cpp
+D:\OneDrive\Desktop\GAM300\GAM300Engine\Src\Geometry\Line.cpp(1,10): fatal  error C1083: Cannot open include file: 'Line.h': No such file or directory
+  Plane.cpp
+D:\OneDrive\Desktop\GAM300\GAM300Engine\Src\Geometry\Plane.cpp(1,10): fatal  error C1083: Cannot open include file: 'Plane.h': No such file or directory
+  Ray.cpp
+D:\OneDrive\Desktop\GAM300\GAM300Engine\Src\Geometry\Ray.cpp(1,10): fatal  error C1083: Cannot open include file: 'Ray.h': No such file or directory
+  Sphere.cpp
+D:\OneDrive\Desktop\GAM300\GAM300Engine\Src\Geometry\Sphere.cpp(1,10): fatal  error C1083: Cannot open include file: 'Sphere.h': No such file or directory
+  Triangle.cpp
+D:\OneDrive\Desktop\GAM300\GAM300Engine\Src\Geometry\Triangle.cpp(1,10): fatal  error C1083: Cannot open include file: 'Triangle.h': No such file or directory
+  FontInfo.cpp
+D:\OneDrive\Desktop\GAM300\GAM300Engine\Src\GraphicsResource\FontInfo.cpp(1,10): fatal  error C1083: Cannot open include file: 'GraphicsResource/FontInfo.h': No such file or directory
+  Generating Code...
+  Compiling...
+  GridManager.cpp
+D:\OneDrive\Desktop\GAM300\GAM300Engine\Src\GridManager\GridManager.cpp(3,10): fatal  error C1083: Cannot open include file: 'GridManager/GridManager.h': No such file or directory
+  GUID.cpp
+D:\OneDrive\Desktop\GAM300\GAM300Engine\Src\Identifier\GUID.cpp(10,10): fatal  error C1083: Cannot open include file: 'Identifier/GUID.h': No such file or directory
+  AssetManager.cpp
+D:\OneDrive\Desktop\GAM300\GAM300Engine\Src\AssetManagement\AssetManager.cpp(1,10): fatal  error C1083: Cannot open include file: 'AssetManagement/AssetManager.h': No such file or directory
+  AssetModel.cpp
+D:\OneDrive\Desktop\GAM300\GAM300Engine\Src\GraphicsResource\AssetModel.cpp(10,10): fatal  error C1083: Cannot open include file: 'GraphicsResource/AssetModel.h': No such file or directory
+  TextureInfo.cpp
+D:\OneDrive\Desktop\GAM300\GAM300Engine\Src\GraphicsResource\TextureInfo.cpp(11,10): fatal  error C1083: Cannot open include file: 'GraphicsResource/TextureInfo.h': No such file or directory
+  Input.cpp
+D:\OneDrive\Desktop\GAM300\GAM300Engine\Src\Input\Input.cpp(15,10): fatal  error C1083: Cannot open include file: 'Input/Input.h': No such file or directory
+  Pose.cpp
+D:\OneDrive\Desktop\GAM300\GAM300Engine\Src\Animation\Pose.cpp(1,10): fatal  error C1083: Cannot open include file: 'Animation/Pose.h': No such file or directory
+  camera.cpp
+D:\OneDrive\Desktop\GAM300\GAM300Engine\Src\camera\camera.cpp(1,10): fatal  error C1083: Cannot open include file: 'camera/camera.h': No such file or directory
+  Logger.cpp
+D:\OneDrive\Desktop\GAM300\GAM300Engine\Src\Logger\Logger.cpp(16,10): fatal  error C1083: Cannot open include file: 'Logger/Logger.h': No such file or directory
+  memoryManager.cpp
+D:\OneDrive\Desktop\GAM300\GAM300Engine\Src\memoryManager\memoryManager.cpp(13,10): fatal  error C1083: Cannot open include file: 'memoryManager/memoryManager.h': No such file or directory
+  ModelTransform.cpp
+D:\OneDrive\Desktop\GAM300\GAM300Engine\Src\Model\ModelTransform.cpp(1,10): fatal  error C1083: Cannot open include file: 'Model/ModelTransform.h': No such file or directory
+  Skeleton.cpp
+D:\OneDrive\Desktop\GAM300\GAM300Engine\Src\Model\Skeleton.cpp(1,10): fatal  error C1083: Cannot open include file: 'Model/Skeleton.h': No such file or directory
+  pch.cpp
+D:\OneDrive\Desktop\GAM300\GAM300Engine\Src\pch.cpp(1,10): fatal  error C1083: Cannot open include file: '../GAM300Engine/Include/pch.h': No such file or directory
+  CollisionSystem.cpp
+D:\OneDrive\Desktop\GAM300\GAM300Engine\Src\Physics\CollisionSystem.cpp(10,10): fatal  error C1083: Cannot open include file: 'Physics/CollisionSystem.h': No such file or directory
+  PhysicsSystem.cpp
+D:\OneDrive\Desktop\GAM300\GAM300Engine\Src\Physics\PhysicsSystem.cpp(10,10): fatal  error C1083: Cannot open include file: 'Physics/PhysicsSystem.h': No such file or directory
+  FontRenderer.cpp
+D:\OneDrive\Desktop\GAM300\GAM300Engine\Src\Rendering\FontRenderer.cpp(1,10): fatal  error C1083: Cannot open include file: 'Rendering/FontRenderer.h': No such file or directory
+  GraphicsManager.cpp
+D:\OneDrive\Desktop\GAM300\GAM300Engine\Src\Rendering\GraphicsManager.cpp(1,10): fatal  error C1083: Cannot open include file: 'Rendering/GraphicsManager.h': No such file or directory
+  GridRenderer.cpp
+D:\OneDrive\Desktop\GAM300\GAM300Engine\Src\Rendering\GridRenderer.cpp(1,10): fatal  error C1083: Cannot open include file: 'Rendering/GridRenderer.h': No such file or directory
+  RenderDataManager.cpp
+D:\OneDrive\Desktop\GAM300\GAM300Engine\Src\Rendering\RenderDataManager.cpp(1,10): fatal  error C1083: Cannot open include file: 'Rendering/RenderDataManager.h': No such file or directory
+  Renderer3D.cpp
+D:\OneDrive\Desktop\GAM300\GAM300Engine\Src\Rendering\Renderer3D.cpp(1,10): fatal  error C1083: Cannot open include file: 'Rendering/Renderer3D.h': No such file or directory
+  Generating Code...
+  Compiling...
+  RendererSystem.cpp
+D:\OneDrive\Desktop\GAM300\GAM300Engine\Src\Rendering\RendererSystem.cpp(1,10): fatal  error C1083: Cannot open include file: 'Rendering/RendererSystem.h': No such file or directory
+  renderPass.cpp
+D:\OneDrive\Desktop\GAM300\GAM300Engine\Src\Rendering\renderPass.cpp(1,9): fatal  error C1083: Cannot open include file: 'Rendering/renderPass.h': No such file or directory
+  RenderTarget.cpp
+D:\OneDrive\Desktop\GAM300\GAM300Engine\Src\Rendering\RenderTarget.cpp(1,10): fatal  error C1083: Cannot open include file: 'Rendering/RenderTarget.h': No such file or directory
+  Skybox.cpp
+D:\OneDrive\Desktop\GAM300\GAM300Engine\Src\Rendering\Skybox.cpp(1,10): fatal  error C1083: Cannot open include file: 'Rendering/Skybox.h': No such file or directory
+  ResouceManager.cpp
+D:\OneDrive\Desktop\GAM300\GAM300Engine\Src\ResourceManagement\ResouceManager.cpp(11,10): fatal  error C1083: Cannot open include file: 'ResourceManagement/ResourceManager.h': No such file or directory
+  sceneManager.cpp
+D:\OneDrive\Desktop\GAM300\GAM300Engine\Src\sceneManager\sceneManager.cpp(13,10): fatal  error C1083: Cannot open include file: 'sceneManager/sceneManager.h': No such file or directory
+  serialization.cpp
+D:\OneDrive\Desktop\GAM300\GAM300Engine\Src\sceneManager\serialization.cpp(14,10): fatal  error C1083: Cannot open include file: 'sceneManager/serialization.h': No such file or directory
+  serializationHelperFunctions.cpp
+D:\OneDrive\Desktop\GAM300\GAM300Engine\Src\sceneManager\serializationHelperFunctions.cpp(9,10): fatal  error C1083: Cannot open include file: 'sceneManager\serialization.h': No such file or directory
+  ShaderLoader.cpp
+D:\OneDrive\Desktop\GAM300\GAM300Engine\Src\Shader\ShaderLoader.cpp(1,10): fatal  error C1083: Cannot open include file: 'Shader/ShaderLoader.h': No such file or directory
+  Timestep.cpp
+D:\OneDrive\Desktop\GAM300\GAM300Engine\Src\Timestep\Timestep.cpp(10,10): fatal  error C1083: Cannot open include file: 'Timestep/Timestep.h': No such file or directory
+  Buffer.cpp
+D:\OneDrive\Desktop\GAM300\GAM300Engine\Src\vulkanTools\Buffer.cpp(12,10): fatal  error C1083: Cannot open include file: 'vulkanTools/Buffer.h': No such file or directory
+  CommandManager.cpp
+D:\OneDrive\Desktop\GAM300\GAM300Engine\Src\vulkanTools\CommandManager.cpp(1,10): fatal  error C1083: Cannot open include file: 'vulkanTools/CommandManager.h': No such file or directory
+  Descriptor.cpp
+D:\OneDrive\Desktop\GAM300\GAM300Engine\Src\vulkanTools\Descriptor.cpp(12,10): fatal  error C1083: Cannot open include file: 'vulkanTools/Descriptor.h': No such file or directory
+  DirectFrameBuffer.cpp
+  FrameBuffer.cpp
+D:\OneDrive\Desktop\GAM300\GAM300Engine\Src\vulkanTools\FrameBuffer.cpp(1,10): fatal  error C1083: Cannot open include file: 'vulkanTools/FrameBuffer.h': No such file or directory
+  GlobalBufferPool.cpp
+D:\OneDrive\Desktop\GAM300\GAM300Engine\Src\vulkanTools\GlobalBufferPool.cpp(1,10): fatal  error C1083: Cannot open include file: 'vulkanTools/GlobalBufferPool.h': No such file or directory
+  GraphicsAllocator.cpp
+D:\OneDrive\Desktop\GAM300\GAM300Engine\Src\vulkanTools\GraphicsAllocator.cpp(2,10): fatal  error C1083: Cannot open include file: 'vulkanTools/GraphicsAllocator.h': No such file or directory
+  Model.cpp
+D:\OneDrive\Desktop\GAM300\GAM300Engine\Src\vulkanTools\Model.cpp(12,10): fatal  error C1083: Cannot open include file: 'vulkanTools/Model.h': No such file or directory
+  Pipeline.cpp
+D:\OneDrive\Desktop\GAM300\GAM300Engine\Src\vulkanTools\Pipeline.cpp(12,10): fatal  error C1083: Cannot open include file: 'vulkanTools/Pipeline.h': No such file or directory
+  PointLightSystem.cpp
+D:\OneDrive\Desktop\GAM300\GAM300Engine\Src\vulkanTools\PointLightSystem.cpp(12,10): fatal  error C1083: Cannot open include file: 'vulkanTools/PointLightSystem.h': No such file or directory
+  Generating Code...
+  Compiling...
+  Renderer.cpp
+D:\OneDrive\Desktop\GAM300\GAM300Engine\Src\vulkanTools\Renderer.cpp(12,10): fatal  error C1083: Cannot open include file: 'vulkanTools/Renderer.h': No such file or directory
+  RendererManager.cpp
+D:\OneDrive\Desktop\GAM300\GAM300Engine\Src\vulkanTools\RendererManager.cpp(12,10): fatal  error C1083: Cannot open include file: 'vulkanTools/RendererManager.h': No such file or directory
+  ShadowMap.cpp
+D:\OneDrive\Desktop\GAM300\GAM300Engine\Src\vulkanTools\ShadowMap.cpp(12,10): fatal  error C1083: Cannot open include file: 'vulkanTools/ShadowMap.h': No such file or directory
+  VertexTypes.cpp
+D:\OneDrive\Desktop\GAM300\GAM300Engine\Src\vulkanTools\VertexTypes.cpp(1,10): fatal  error C1083: Cannot open include file: 'vulkanTools/VertexTypes.h': No such file or directory
+  VMABuffer.cpp
+D:\OneDrive\Desktop\GAM300\GAM300Engine\Src\vulkanTools\VMATypes\VMABuffer.cpp(1,10): fatal  error C1083: Cannot open include file: 'vulkanTools/VMATypes/VMABuffer.h': No such file or directory
+  vulkanDebugger.cpp
+D:\OneDrive\Desktop\GAM300\GAM300Engine\Src\vulkanTools\vulkanDebugger.cpp(1,10): fatal  error C1083: Cannot open include file: 'vulkanTools/vulkanDebugger.h': No such file or directory
+  VulkanHelper.cpp
+D:\OneDrive\Desktop\GAM300\GAM300Engine\Src\vulkanTools\VulkanHelper.cpp(1,10): fatal  error C1083: Cannot open include file: 'vulkanTools/VulkanHelper.h': No such file or directory
+  vulkanInstance.cpp
+D:\OneDrive\Desktop\GAM300\GAM300Engine\Src\vulkanTools\vulkanInstance.cpp(16,10): fatal  error C1083: Cannot open include file: 'vulkanTools/vulkanInstance.h': No such file or directory
+  VulkanPipeline.cpp
+D:\OneDrive\Desktop\GAM300\GAM300Engine\Src\vulkanTools\VulkanPipeline.cpp(1,10): fatal  error C1083: Cannot open include file: 'vulkanTools/VulkanPipeline.h': No such file or directory
+  vulkanSwapChain.cpp
+D:\OneDrive\Desktop\GAM300\GAM300Engine\Src\vulkanTools\vulkanSwapChain.cpp(18,10): fatal  error C1083: Cannot open include file: 'vulkanTools/vulkanSwapChain.h': No such file or directory
+  VulkanTexture.cpp
+D:\OneDrive\Desktop\GAM300\GAM300Engine\Src\vulkanTools\VulkanTexture.cpp(1,10): fatal  error C1083: Cannot open include file: 'pch.h': No such file or directory
+  windowswindow.cpp
+D:\OneDrive\Desktop\GAM300\GAM300Engine\Src\windowswindow.cpp(1,10): fatal  error C1083: Cannot open include file: 'windowswindow.h': No such file or directory
+  Generating Code...
