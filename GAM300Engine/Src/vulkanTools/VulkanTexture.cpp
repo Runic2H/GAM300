@@ -477,8 +477,8 @@ namespace TDS
 				CopyBuffer.imageSubresource.mipLevel = level;
 				CopyBuffer.imageSubresource.baseArrayLayer = face;
 				CopyBuffer.imageSubresource.layerCount = 1;
-				CopyBuffer.imageExtent.width = imageData->m_width >> level;
-				CopyBuffer.imageExtent.height = imageData->m_height >> level;
+				CopyBuffer.imageExtent.width = imageData->m_width;
+				CopyBuffer.imageExtent.height = imageData->m_height;
 				CopyBuffer.imageExtent.depth = 1;
 				CopyBuffer.bufferOffset = offset;
 				offset += imageData->m_memSlicePitch;

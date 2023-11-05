@@ -54,7 +54,7 @@ namespace TDS
 	void SkyBoxRenderer::RenderSkyBox(VkCommandBuffer commandBuffer, uint32_t frameIndex)
 	{
 
-		//m_SkylinePositions = GraphicsManager::getInstance().GetCamera().getPosition();
+		m_SkylinePositions = GraphicsManager::getInstance().GetCamera().getPosition();
 		Quat qRot = Quat(m_SkylineRot);
 		Mat4 scaleM4 = Mat4::Scale(m_SkylineScale);
 		Mat4 rotM4 = Mat4(Quat::toMat4(qRot));
@@ -66,7 +66,7 @@ namespace TDS
 		m_SkyBoxPipeline->SetCommandBuffer(commandBuffer);
 		skyboxubo.m_View = GraphicsManager::getInstance().GetCamera().GetViewMatrix() * TransformMatrix;
 		skyboxubo.m_Projection = Mat4::Perspective(GraphicsManager::getInstance().GetCamera().m_Fov * Mathf::Deg2Rad,
-			GraphicsManager::getInstance().GetSwapchainRenderer().getAspectRatio(), 0.1f, 10.f);
+			GraphicsManager::getInstance().GetSwapchainRenderer().getAspectRatio(), 0.1f, 1000.f);
 		skyboxubo.m_Projection.m[1][1] *= -1;
 		
 		m_SkyBoxPipeline->BindPipeline();

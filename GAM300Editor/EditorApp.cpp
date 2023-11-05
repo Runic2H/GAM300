@@ -29,6 +29,7 @@
 #include "vulkanTools/FrameBuffer.h"
 #include "Tools/DDSConverter.h"
 #include "imguiHelper/ImguiScene.h"
+#include "imguiHelper/ImguiGamePlayScene.h"
 #include "Physics/PhysicsSystem.h"
 
 
@@ -162,25 +163,35 @@ namespace TDS
         initImgui();
         float lightx = 0.f;
 
-        GraphicsManager::getInstance().setCamera(m_camera);
         while (m_window.processInputEvent())
         {
 
             TimeStep::CalculateDeltaTime();
             float DeltaTime = TimeStep::GetDeltaTime();
-            
-
-            
+             if (std::shared_ptr<GamePlayScene> pGamePlatScene = static_pointer_cast<GamePlayScene>(LevelEditorManager::GetInstance()->panels[GAMEPLAYSCENE]); pGamePlatScene->isFocus)
+            {
+                GraphicsManager::getInstance().setCamera(m_GameCamera);
+            }
+             else
+            {
+                GraphicsManager::getInstance().setCamera(m_camera);
+            }
+       
             m_camera.UpdateCamera(DeltaTime);
             lightx = lightx < -1.f ? 1.f : lightx - 0.005f;
             RendererSystem::lightPosX = lightx;
 
-            Vec3 m_windowdimension{ static_cast<float>(m_window.getWidth()), static_cast<float>(m_window.getHeight()), 1.f };
-            if (GraphicsManager::getInstance().getFrameBuffer().getDimensions() != m_windowdimension)
+            Vec3 m_windowdimension{ static_cast<float>(m_window.getWidth()), static_cast<float>(m_window.getHeight(), 1.f)};
+            if (GraphicsManager::getInstance().getFrameBuffer().getDimensions() != m_windowdimension && m_windowdimension.x >0 && m_windowdimension.y > 0)
             {
                 GraphicsManager::getInstance().getFrameBuffer().resize(m_windowdimension, GraphicsManager::getInstance().getRenderPass().getRenderPass());
                 std::shared_ptr<EditorScene> pScene = static_pointer_cast<EditorScene>(LevelEditorManager::GetInstance()->panels[SCENE]);
                 pScene->Resize();
+
+                std::shared_ptr<GamePlayScene> pGamePlatScene = static_pointer_cast<GamePlayScene>(LevelEditorManager::GetInstance()->panels[GAMEPLAYSCENE]);
+                pGamePlatScene->Resize();
+
+
             }
             GraphicsManager::getInstance().StartFrame();
             VkCommandBuffer commandBuffer = GraphicsManager::getInstance().getCommandBuffer();

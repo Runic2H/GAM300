@@ -25,10 +25,13 @@ namespace TDS
 	/*!*************************************************************************
 	Initializes the Transform component when created
 	****************************************************************************/
-	Transform::Transform() : mPosition			(Vec3(0.0f, 0.0f, 0.0f)), 
-							 mScale				(Vec3(1.0f, 1.0f, 1.0f)),
-							 mRotation			(Vec3(0.0f, 0.f,0.0f)),
-							 mTransformMatrix	(Mat4::zero())
+	Transform::Transform() : mPosition(Vec3(0.0f, 0.0f, 0.0f)),
+							mScale(Vec3(1.0f, 1.0f, 1.0f)),
+							mRotation(Vec3(0.0f, 0.f, 0.0f)),
+							mTransformMatrix(Mat4::zero()),
+							mOffsetScale(Vec3(0.f, 0.f, 0.f)),
+							mOffsetPos(Vec3(0.f, 0.f, 0.f)),
+							mOffsetMatrix(Mat4::zero())
 	{ }
 
 	/*!*************************************************************************

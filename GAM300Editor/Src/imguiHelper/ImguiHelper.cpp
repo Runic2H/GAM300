@@ -13,6 +13,7 @@
 #include "imguiHelper/ImguiProfiler.h"
 #include "ImguiHelper/ImguiFunctionHelper.h"
 #include "imguiHelper/ImguiScene.h"
+#include "imguiHelper/ImguiGamePlayScene.h"
 
 namespace TDS
 {
@@ -36,6 +37,7 @@ namespace TDS
 			m_instance->panels[PanelTypes::PROFILER] = std::make_shared<Profiler>();
 			m_instance->panels[PanelTypes::BEHAVIOURTREEEDITOR] = std::make_shared<BehaviourTreePanel>();
 			m_instance->panels[PanelTypes::SCENE] = std::make_shared<EditorScene>();
+			m_instance->panels[PanelTypes::GAMEPLAYSCENE] = std::make_shared<GamePlayScene>();
 		}
 		return m_instance;
 	}
@@ -199,7 +201,7 @@ namespace TDS
 				{
 					currentPanel.second->rightClick = false;
 				}
-
+			
 				currentPanel.second->update();
 			}
 			ImGui::End();

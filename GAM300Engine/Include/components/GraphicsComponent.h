@@ -19,6 +19,7 @@ namespace TDS
 		inline void								SetColor(Vec4 Color) { m_Color = Color; }
 		inline void								SetColor(float r, float g, float b, float a) { m_Color = { r,g,b,a }; }
 		inline void								SetTextureName(std::string input) { m_TextureName = input; }
+		inline void								ToggleDebug(bool status) { m_Debug = status; }
 
 		
 		inline bool								ShowMesh() { return m_ShowMesh; }
@@ -28,6 +29,7 @@ namespace TDS
 		inline int&								GetPointLightID() { return m_PointLightID; }
 		inline Vec4&							GetColor() { return m_Color; }
 		inline std::string&						GetTextureName() { return m_TextureName; }
+		inline bool&							IsDebugOn() { return m_Debug; }
 
 		RTTR_ENABLE(IComponent);
 		RTTR_REGISTRATION_FRIEND

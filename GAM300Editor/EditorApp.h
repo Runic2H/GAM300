@@ -58,6 +58,7 @@ namespace TDS
 
 		//std::shared_ptr<Renderer>		 m_Renderer/*{ m_window, * m_pVKInst.get() }*/;
 		TDSCamera m_camera{ -90.0f ,0.f };
+		TDSCamera m_GameCamera{ -90.0f, 0.f, 0.1f, 100.f, {0.0f,0.f, 0.f} };
 		//std::shared_ptr<Model> models;
 		//VkSampler sampling;
 		struct UniformBufferObject

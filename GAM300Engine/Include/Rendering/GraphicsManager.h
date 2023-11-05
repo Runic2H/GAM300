@@ -5,6 +5,7 @@
 #include "camera/camera.h"
 #include "vulkanTools/PointLightSystem.h"
 #include "camera/Camerasystem/CameraSystem.h"
+#include "DebugRenderer.h"
 
 namespace TDS
 {
@@ -56,6 +57,7 @@ namespace TDS
 		FrameBuffer& getFrameBuffer() { return *m_Framebuffer; }
 		RenderPass& getRenderPass() { return *m_Renderpass; }
 		std::unique_ptr<PointLightSystem> m_PointLightRenderer;
+		std::unique_ptr<DebugRenderer> m_DebugRenderer;
 	};
 
 

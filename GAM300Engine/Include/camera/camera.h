@@ -25,6 +25,8 @@ namespace TDS
 		{
 
 		}*/
+		DLL_API Vec3 getPosition()const { return m_Position; }
+
 		float m_Fov{45.f};
 	private:
 		

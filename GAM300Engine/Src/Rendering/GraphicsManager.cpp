@@ -73,6 +73,7 @@ namespace TDS
 		
 		Renderer3D::Init();
 		m_PointLightRenderer = std::make_unique<PointLightSystem>(*m_MainVkContext);
+		m_DebugRenderer = std::make_unique<DebugRenderer>(*m_MainVkContext);
 		for (auto& renderLayer : m_RenderLayer)
 		{
 			renderLayer->Setup(m_pWindow);

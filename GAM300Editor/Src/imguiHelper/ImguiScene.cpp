@@ -66,7 +66,9 @@ namespace TDS
 		//}
 		//data.LoadTexture(tempPath);
 		//vkTexture.CreateBasicTexture(data.m_TextureInfo);
+		isFocus = ImGui::IsWindowFocused();
 		ImVec2 vSize = ImGui::GetContentRegionAvail();
+
 	
 		ImGui::Image((ImTextureID)m_DescSet, vSize);
 		//drag drop code MUST be ddirecvtly under imgui::image code

@@ -78,6 +78,7 @@ namespace TDS
 
 			Renderer3D::getPipeline()->SetCommandBuffer(commandBuffer);
 			GraphicsManager::getInstance().m_PointLightRenderer->GetPipeline().SetCommandBuffer(commandBuffer);
+			GraphicsManager::getInstance().m_DebugRenderer->GetPipeline().SetCommandBuffer(commandBuffer);
 
 
 			if (Renderer3D::getPipeline()->GetCreateEntry().m_EnableDoubleBuffering)
@@ -91,14 +92,14 @@ namespace TDS
 				}
 				Mat4 temp = _TransformComponent[i].GetTransformMatrix();
 				pushData.ModelMat = temp;
-				temp.transpose();
 				temp.inverse();
+				temp.transpose();
 				pushData.NormalMat = temp;
 
 				ubo.m_View = GraphicsManager::getInstance().GetCamera().GetViewMatrix();
 				GraphicsManager::getInstance().m_PointLightRenderer->update(ubo, &_Graphics[i], &_TransformComponent[i]);
 				ubo.m_Projection = Mat4::Perspective(GraphicsManager::getInstance().GetCamera().m_Fov * Mathf::Deg2Rad,
-					GraphicsManager::getInstance().GetSwapchainRenderer().getAspectRatio(), 0.1f, 100.f);
+					GraphicsManager::getInstance().GetSwapchainRenderer().getAspectRatio(), 0.1f, 1000.f);
 				ubo.m_Projection.m[1][1] *= -1;
 
 				if (_Graphics[i].IsPointLight())
@@ -134,6 +135,14 @@ namespace TDS
 						Renderer3D::getPipeline()->DrawIndexed(*_Graphics[i].m_AssetReference.m_ResourcePtr->GetVertexBuffer(),
 							*_Graphics[i].m_AssetReference.m_ResourcePtr->GetIndexBuffer(),
 							frame);
+						if (_Graphics[i].IsDebugOn()) {
+							GraphicsManager::getInstance().m_DebugRenderer->GetPipeline().BindDescriptor(frame, 1);
+							GraphicsManager::getInstance().m_DebugRenderer->GetPipeline().UpdateUBO(&ubo, sizeof(GlobalUBO), 0, frame);
+							GraphicsManager::getInstance().m_DebugRenderer->Render(&_Graphics[i], &_TransformComponent[i]);
+							GraphicsManager::getInstance().m_DebugRenderer->GetPipeline().DrawIndexed(*_Graphics[i].m_AssetReference.m_ResourcePtr->GetVertexBuffer(),
+								*_Graphics[i].m_AssetReference.m_ResourcePtr->GetIndexBuffer(),
+								frame);
+						}
 					}
 				}
 

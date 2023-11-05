@@ -9,6 +9,9 @@ RTTR_REGISTRATION
 		.method("TogglePointLight", &GraphicsComponent::TogglePointLight)
 		.property("PointLight", &GraphicsComponent::m_Pointlight)
 		.property("TextureName", &GraphicsComponent::m_TextureName)
+		.method("IsDebugOn", &GraphicsComponent::IsDebugOn)
+		.method("ToggleDebug", &GraphicsComponent::ToggleDebug)
+		.property("Debug", &GraphicsComponent::m_Debug)
 		//.method("SetTextureName", &GraphicsComponent::SetTextureName)
 		//.property("TextureName", &GraphicsComponent::m_TextureName, rttr::select_overload<void(std::string)>(&GraphicsComponent::SetTextureName))
 		.property("ModelName", &GraphicsComponent::m_ModelName)
@@ -21,10 +24,13 @@ RTTR_REGISTRATION
 
 namespace TDS
 {
-	GraphicsComponent::GraphicsComponent(): m_AssetReference(),
+	GraphicsComponent::GraphicsComponent() : m_AssetReference(),
 											m_TextureReference(),
 											m_ShowMesh(true),
-											m_Color(1.f,1.f,1.f,1.f)
+											m_Color(1.f, 1.f, 1.f, 1.f),
+											m_PointLightID(-1.f),
+											m_Pointlight(false),
+											m_Debug(false)
 	{ }
 
 	GraphicsComponent::GraphicsComponent(GraphicsComponent&& toMove) noexcept: m_AssetReference(toMove.m_AssetReference), 

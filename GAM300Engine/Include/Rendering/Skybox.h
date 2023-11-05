@@ -24,7 +24,7 @@ namespace TDS
 			Texture							m_SkyBoxTexture;
 			std::shared_ptr<VulkanPipeline> m_SkyBoxPipeline = nullptr;
 			Vec3				m_SkylinePositions{};
-			Vec3				m_SkylineScale{30.f,30.f,30.f};
+			Vec3				m_SkylineScale{2000.f,2000.f,2000.f};
 			Vec3				m_SkylineRot{};
 			TypeReference<AssetModel>		m_CubeMapModel;
 			std::shared_ptr<VMABuffer>		m_CubeMapVertexBuffer = nullptr;

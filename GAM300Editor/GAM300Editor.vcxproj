@@ -51,6 +51,7 @@
     <ClInclude Include="Include\imguiHelper\ImguiBehaviourTree.h" />
     <ClInclude Include="Include\imguiHelper\ImguiConsole.h" />
     <ClInclude Include="Include\imguiHelper\ImguiFunctionHelper.h" />
+    <ClInclude Include="Include\imguiHelper\ImguiGamePlayScene.h" />
     <ClInclude Include="Include\imguiHelper\ImguiHelper.h" />
     <ClInclude Include="Include\imguiHelper\ImguiHierarchy.h" />
     <ClInclude Include="Include\imguiHelper\ImguiProfiler.h" />
@@ -93,6 +94,7 @@
     <ClCompile Include="Src\imguiHelper\ImguiAudio.cpp" />
     <ClCompile Include="Src\imguiHelper\ImguiBehaviourTree.cpp" />
     <ClCompile Include="Src\imguiHelper\ImguiConsole.cpp" />
+    <ClCompile Include="Src\imguiHelper\ImguiGamePlayScene.cpp" />
     <ClCompile Include="Src\imguiHelper\ImguiHelper.cpp" />
     <ClCompile Include="Src\imguiHelper\ImguiHierarchy.cpp" />
     <ClCompile Include="Src\imguiHelper\ImguiProfiler.cpp" />
