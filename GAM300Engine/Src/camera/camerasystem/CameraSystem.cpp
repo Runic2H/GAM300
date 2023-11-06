@@ -16,56 +16,17 @@ namespace TDS
 	TDSCamera* CameraSystem::m_GameCamera = nullptr;
 	void CameraSystem::CameraSystemInit()
 	{
-		m_GameCamera = &GraphicsManager::getInstance().GetCamera();
 	}
 
 	void CameraSystem::CameraSystemUpdate(const float dt, const std::vector<EntityID>& entities, Transform* _transform, CameraComponent* _cameracomponent)
 	{
-		if (!GetUpdate)
+		if (!GetIsPlaying())
 		{
+			m_GameCamera = &GraphicsManager::getInstance().GetCamera();
 			SetGameCamera(_cameracomponent);
-			m_GameCamera->GetUpdateViewMatrix();
-			SetUpdate(true);
+			SetIsPlaying(true);
 		}
-		static Input::mousePosition mouse = Input::mousePosition(std::numeric_limits<int>::max(), std::numeric_limits<int>::max());
-		
-		//only calls when entity has transform and camera component
-		for (int i = 0; i < entities.size(); i++)
-		{
-			/*if (movingCameraSystem())
-			{
-				float CameraSpeed = _cameracomponent[i].getSpeed() * dt;
-				key keys;
-				if (keys.up)
-				{
-					_cameracomponent[i].getPosition() += m_Front * CameraSpeed;
-				}
-				if (keys.down)
-					_cameracomponent[i].getPosition() -= m_Front * CameraSpeed;
-				if (keys.left)
-					_cameracomponent[i].getPosition() -= m_Front * CameraSpeed;
-				if (keys.right)
-					_cameracomponent[i].getPosition() += m_Front * CameraSpeed;
-			}*/
-
-			if (mouse.x == std::numeric_limits<int>::max() && mouse.y == std::numeric_limits<int>::max())
-			{
-				mouse = Input::getMousePosition();
-			}
-
-			float GetMousex = static_cast<float>(mouse.x);
-			float GetMousey = static_cast<float>(mouse.y);
-
-			float getNewMousex = static_cast<float>(Input::getMousePosition().x);
-			float getNewMousey = static_cast<float>(Input::getMousePosition().y);
-
-			float offsetx = getNewMousex - GetMousex;
-			float offsety = GetMousey - getNewMousey;
-
-			ProcessMouseMovementSystem(offsetx, offsety, &_cameracomponent[i]);
-
-			mouse = Input::getMousePosition();
-		}
+		m_GameCamera->GetUpdateViewMatrix();
 	}
 
 	void CameraSystem::SetGameCamera(CameraComponent* _camera)
@@ -131,24 +92,4 @@ namespace TDS
 		}
 		return false;
 	}
-
-	void CameraSystem::ProcessMouseMovementSystem(float offsetX, float offsetY, CameraComponent* _cameracomponent)
-	{
-		offsetX *= _cameracomponent->getMouseSensitivity();
-		offsetY *= _cameracomponent->getMouseSensitivity();
-
-		_cameracomponent->setYaw(_cameracomponent->getYaw() + offsetX);
-		_cameracomponent->setPitch(_cameracomponent->getPitch() + offsetY);
-
-		//prevent from out of bound
-		if (_cameracomponent->getPitch() > 89.f)
-			_cameracomponent->setPitch(89.f);
-		if (_cameracomponent->getPitch() < -89.f)
-			_cameracomponent->setPitch(-89.f);
-
-		UpdateViewMatrixSystem(_cameracomponent);
-	}
-
-
-
 }

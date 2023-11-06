@@ -25,13 +25,13 @@ namespace TDS
 	// Layer 3 - Graphics (always running)
 
 	ECSSystem<Transform, RigidBody>					_PhysicsSystem(1);
-	ECSSystem<Transform, RigidBody, SphereCollider>	_ColliderSystem(1);
 	ECSSystem<AI>									_AISystem(1);
+	ECSSystem<Transform, CameraComponent>			_CameraSystem(1);
 
 	ECSSystem<Transform>							_EventHandler_ChildTransform(2);
+	ECSSystem<Transform, GraphicsComponent>			_ColliderDebugSystem(2);
 
 	ECSSystem<Transform, GraphicsComponent>			_RenderSystem(3);
-	ECSSystem<Transform, CameraComponent>			_CameraSystem(1);
 }
 
 #endif // SYSTEMS

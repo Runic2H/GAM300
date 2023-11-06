@@ -66,7 +66,7 @@ namespace TDS
 		//}
 		//data.LoadTexture(tempPath);
 		//vkTexture.CreateBasicTexture(data.m_TextureInfo);
-		isFocus = ImGui::IsWindowFocused();
+		isFocus = ImGui::IsWindowFocused() && ImGui::IsItemVisible();
 		ImVec2 vSize = ImGui::GetContentRegionAvail();
 
 	

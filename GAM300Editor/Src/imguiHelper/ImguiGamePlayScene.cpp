@@ -19,7 +19,7 @@ void TDS::GamePlayScene::init()
 
 void TDS::GamePlayScene::update()
 {
-	isFocus = ImGui::IsWindowFocused();
+	isFocus = ImGui::IsWindowFocused() && ImGui::IsItemVisible();
 	ImVec2 vSize = ImGui::GetContentRegionAvail();
 
 

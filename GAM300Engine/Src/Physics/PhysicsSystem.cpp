@@ -105,15 +105,7 @@ namespace TDS
 		// Note that this is called from a job so whatever you do here needs to be thread safe.
 		// Registering one is entirely optional.
 		//m_pSystem->SetContactListener(&contact_listener);
-
-		// The main way to interact with the bodies in the physics system is through the body interface. There is a locking and a non-locking
-		// variant of this. We're going to use the locking version (even though we're not planning to access bodies from multiple threads)
-		// Optional step: Before starting the physics simulation you can optimize the broad phase. This improves collision detection performance (it's pointless here because we only have 2 bodies).
-		// You should definitely not call this every frame or when e.g. streaming in a new level section as it is an expensive operation.
-		// Instead insert all new objects in batches instead of 1 at a time to keep the broad phase efficient.
-
-		//m_pSystem->OptimizeBroadPhase();
-		
+				
 		std::cout << "successfully init Jolt Physics" << '\n';
 	}
 
@@ -122,7 +114,7 @@ namespace TDS
 		static bool JPH_isPlay = false; // need to call only once in the update loop but it is a static function
 		// Physics loop
 		JPH::BodyInterface* pBodies = &m_pSystem->GetBodyInterface();
-		if (!GetUpdate())
+		if (!GetIsPlaying())
 		{
 			if (m_pSystem->GetNumBodies() != 0)
 			{
@@ -140,7 +132,7 @@ namespace TDS
 				}
 			}
 			m_pSystem->OptimizeBroadPhase();
-			SetUpdate(true);
+			SetIsPlaying(true);
 		}
 		//TDS_INFO(m_pSystem->GetNumBodies());
 		accumulatedTime += dt;		
@@ -171,7 +163,7 @@ namespace TDS
 
 	void PhysicsSystem::JPH_SystemUpdate(Transform* _transform, RigidBody* _rigidbody)
 	{
-		JPH::BodyID JPHBodyID = JoltToTDS::ToBodyID(_rigidbody);
+		JPH::BodyID JPHBodyID = JoltToTDS::ToBodyID(*_rigidbody);
 		JPH::BodyInterface* pBodies = &m_pSystem->GetBodyInterface();
 		_transform->SetPosition(JoltToTDS::ToVec3(pBodies->GetPosition(JPHBodyID)));
 		_transform->SetRotation(JoltToTDS::ToVec3(pBodies->GetRotation(JPHBodyID).GetXYZ()));
@@ -209,6 +201,7 @@ namespace TDS
 			b_sphereSetting.mAngularDamping = _rigidbody->GetAngularDamping();
 			b_sphereSetting.mLinearVelocity = JoltToTDS::ToVec3(_rigidbody->GetLinearVel());
 			b_sphereSetting.mAngularVelocity = JoltToTDS::ToVec3(_rigidbody->GetAngularVel());
+			b_sphereSetting.mIsSensor = vSphere->GetIsTrigger();
 
 			JPH::BodyID sphereID = m_pSystem->GetBodyInterface().CreateAndAddBody(b_sphereSetting, JPH::EActivation::Activate);
 			JoltBodyID vJoltBodyID(sphereID.GetIndexAndSequenceNumber());
@@ -239,6 +232,7 @@ namespace TDS
 			b_BoxSetting.mAngularDamping = _rigidbody->GetAngularDamping();
 			b_BoxSetting.mLinearVelocity = JoltToTDS::ToVec3(_rigidbody->GetLinearVel());
 			b_BoxSetting.mAngularVelocity = JoltToTDS::ToVec3(_rigidbody->GetAngularVel());
+			b_BoxSetting.mIsSensor = vBox->GetIsTrigger();
 
 
 			JPH::BodyID boxID = m_pSystem->GetBodyInterface().CreateAndAddBody(b_BoxSetting, JPH::EActivation::Activate);
@@ -268,6 +262,7 @@ namespace TDS
 			b_capsuleSetting.mAngularDamping = _rigidbody->GetAngularDamping();
 			b_capsuleSetting.mLinearVelocity = JoltToTDS::ToVec3(_rigidbody->GetLinearVel());
 			b_capsuleSetting.mAngularVelocity = JoltToTDS::ToVec3(_rigidbody->GetAngularVel());
+			b_capsuleSetting.mIsSensor = vCapsule->GetIsTrigger();
 			
 			JPH::BodyID capsuleID = m_pSystem->GetBodyInterface().CreateAndAddBody(b_capsuleSetting, JPH::EActivation::Activate);
 			
@@ -284,54 +279,4 @@ namespace TDS
 		}
 		
 	}
-	/*
-	Vec3 PhysicsSystem::CalculateTotalForce(RigidBody& _rigidbody)
-	{
-		Vec3 totalForce		= Vec3(0.0f);
-		totalForce			+= _rigidbody.GetInputForce();
-		totalForce.y		+= (-_rigidbody.GetGravity() * _rigidbody.GetMass());
-		_rigidbody.SetNormalizedForce(totalForce.normalize());
-		return totalForce;
-	}
-
-	void PhysicsSystem::SettingObjectDirection(Vec3& totalForce, RigidBody& _rigidbody)
-	{
-		Vec3 direction = Vec3(0.0f);
-		// If totalForce.axis > 0, direction.axis = 1, else if totalForce.axis < 0, direction.axis = -1, else direction.axis = 0
-		direction.x = (totalForce.x > 0.0f) ? 1.0f : (totalForce.x < 0.0f) ? -1.0f : 0.0f; 
-		direction.y = (totalForce.y > 0.0f) ? 1.0f : (totalForce.y < 0.0f) ? -1.0f : 0.0f;
-		direction.z = (totalForce.z > 0.0f) ? 1.0f : (totalForce.z < 0.0f) ? -1.0f : 0.0f;
-		_rigidbody.SetDirection(direction);
-	}
-
-
-	void PhysicsSystem::NewtonianPhysics(Transform& _transform, RigidBody& _rigidbody)
-	{
-		Vec3 totalForce = CalculateTotalForce(_rigidbody);
-		SettingObjectDirection(totalForce, _rigidbody);
-
-		Vec3 acceleration	= totalForce * _rigidbody.GetInverseMass();
-		_rigidbody.SetAcceleration(acceleration);
-		
-		Vec3 velocity		= _rigidbody.GetLinearVel();
-		velocity += acceleration * TimeStep::GetFixedDeltaTime();
-		_rigidbody.SetLinearVel(velocity);
-		
-		Vec3 position		= _transform.GetPosition();
-		position			+= velocity * TimeStep::GetFixedDeltaTime();
-		_transform.SetPosition(position);
-		_rigidbody.SetNextPosition(position);
-	}
-
-	//need to put this in a future destructor
-	// Remove the sphere from the physics system. Note that the sphere itself keeps all of its state and can be re-added at any time.
-	//body_interface.RemoveBody(sphere_id);
-
-	//// Destroy the sphere. After this the sphere ID is no longer valid.
-	//body_interface.DestroyBody(sphere_id);
-
-	//// Remove and destroy the floor
-	//body_interface.RemoveBody(floor->GetID());
-	//body_interface.DestroyBody(floor->GetID());
-	*/
 }

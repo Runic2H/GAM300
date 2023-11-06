@@ -40,7 +40,7 @@ namespace TDS
 		DLL_API void SetPosition(Vec3 position) { mPosition = position; }
 		DLL_API void SetPosition(float positionX, float positionY, float positionZ) { mPosition = Vec3(positionX, positionY, positionZ); }
 
-		DLL_API Vec3& GetOffsetPos() { return mOffsetPos; };
+		DLL_API Vec3 GetOffsetPos() { return mOffsetPos; };
 		DLL_API void SetOffSetPos(Vec3 Pos) { mOffsetPos = Pos; }
 		DLL_API void SetOffSetPos(float posX, float posY, float posZ) { mOffsetPos = { posX, posY, posZ }; }
 		
@@ -48,7 +48,7 @@ namespace TDS
 		DLL_API void SetScale(Vec3 scale) { mScale = scale; }
 		DLL_API void SetScale(float scaleX, float scaleY, float scaleZ) { mScale = Vec3(scaleX, scaleY, scaleZ); }
 
-		DLL_API Vec3& GetOffsetScale() { return mOffsetScale; }
+		DLL_API Vec3 GetOffsetScale() { return mOffsetScale; }
 		DLL_API void SetOffSetScale(Vec3 Scale) { mOffsetScale = Scale; }
 		DLL_API void SetOffSetScale(float scaleX, float scaleY, float scaleZ) { mOffsetScale = { scaleX, scaleY, scaleZ }; }
 

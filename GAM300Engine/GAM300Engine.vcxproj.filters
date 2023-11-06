@@ -94,6 +94,7 @@
     <ClCompile Include="Src\Rendering\Skybox.cpp" />
     <ClCompile Include="Src\Rendering\DebugRenderer.cpp" />
     <ClCompile Include="Src\components\ai.cpp" />
+    <ClCompile Include="Src\Physics\Interface\PhysicsInterface.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Shared_Libs\MathCommon.h" />
@@ -217,6 +218,8 @@
     <ClInclude Include="Include\camera\Camerasystem\CameraSystem.h" />
     <ClInclude Include="Include\Rendering\DebugRenderer.h" />
     <ClInclude Include="Include\components\ai.h" />
+    <ClInclude Include="Include\Physics\CollisionSystem.h" />
+    <ClInclude Include="Include\Physics\Interface\PhysicsInterface.h" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Include\Logger\Logger.h" />

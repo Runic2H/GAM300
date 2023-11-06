@@ -194,6 +194,7 @@ xcopy /y /d "$(SolutionDir)Libs\rttr_core.dll" "$(OutDir)"</Command>
     <ClCompile Include="..\Shared_Libs\Vector3.cpp" />
     <ClCompile Include="..\Shared_Libs\Vector4.cpp" />
     <ClCompile Include="Include\ecs\ecs.cpp" />
+    <ClCompile Include="Src\Physics\Interface\PhysicsInterface.cpp" />
     <ClCompile Include="Src\AI\aiSystem.cpp" />
     <ClCompile Include="Src\AI\behaviourTree.cpp" />
     <ClCompile Include="Src\AssetManagement\ResourceAllocator.cpp" />
@@ -345,6 +346,8 @@ xcopy /y /d "$(SolutionDir)Libs\rttr_core.dll" "$(OutDir)"</Command>
     <ClInclude Include="Include\memoryManager\memoryManager.h" />
     <ClInclude Include="Include\Model\ModelTransform.h" />
     <ClInclude Include="Include\Model\Skeleton.h" />
+    <ClInclude Include="Include\Physics\CollisionSystem.h" />
+    <ClInclude Include="Include\Physics\Interface\PhysicsInterface.h" />
     <ClInclude Include="Include\Physics\JPHLayers.h" />
     <ClInclude Include="Include\Physics\PhysicsSystem.h" />
     <ClInclude Include="Include\propertyManager\registration.h" />

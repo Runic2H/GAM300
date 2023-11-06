@@ -21,10 +21,6 @@ namespace TDS
 
 		DLL_API void ProcessMouseMovement(float mousex, float mousey);
 
-	/*	DLL_API Mat4 GetProjMatrix()
-		{
-
-		}*/
 		DLL_API Vec3 getPosition()const { return m_Position; }
 
 		// Setters for Game Camera System
@@ -35,7 +31,10 @@ namespace TDS
 		DLL_API void setMouseSensitivity(float sensitivity) { m_mouseSensitivity = sensitivity; }
 		DLL_API void setFov(float fov) { m_Fov = fov; }
 		DLL_API void GetUpdateViewMatrix() { updateViewMatrix(); } // calling updateViewMatrix() for CameraSystem
-
+		DLL_API void setEditorCamera(bool editorCamera) { m_EditorCamera = editorCamera; }
+		DLL_API bool getEditorCamera() const { return m_EditorCamera; }
+		DLL_API bool getScrollWheel() const { return m_ScrollWheel; }
+		DLL_API void setScrollWheel(bool scrollWheel) { m_ScrollWheel = scrollWheel; }
 		float m_Fov{45.f};
 	private:
 		
@@ -68,6 +67,9 @@ namespace TDS
 		void updateViewMatrix();
 		//void updateProjection();
 		void translate(const float& deltaWheel); // act like zoom?
+
+		bool m_EditorCamera = true;
+		bool m_ScrollWheel = true;
 		
 	};
 

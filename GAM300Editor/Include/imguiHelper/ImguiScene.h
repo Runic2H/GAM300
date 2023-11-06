@@ -14,7 +14,7 @@ namespace TDS
 		void update();
 		void Resize();
 
-		bool isFocus {false};
+		bool isFocus {true};
 	private:
 		int m_gizmoType = 7;
 		bool m_gizmoActive = false;
