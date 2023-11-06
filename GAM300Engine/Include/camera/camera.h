@@ -10,7 +10,7 @@ namespace TDS
 	{
 	public:
 
-		DLL_API TDSCamera(float Yaw, float pitch,/* float aspectRatio,*/ float zNear = 0.1f, float zFar = 10.f, Vec3 position = {0.0f, 0.0f, 3.0f}, Vec3 up = {0.0f, 1.0f, 0.0f});
+		DLL_API TDSCamera(float Yaw, float pitch,/* float aspectRatio,*/ float zNear = 0.1f, float zFar = 1000.f, Vec3 position = {0.0f, 0.0f, 3.0f}, Vec3 up = {0.0f, 1.0f, 0.0f});
 
 		//using lookat and Euler Angles
 		DLL_API Mat4 GetViewMatrix() const;
@@ -26,6 +26,15 @@ namespace TDS
 
 		}*/
 		DLL_API Vec3 getPosition()const { return m_Position; }
+
+		// Setters for Game Camera System
+		DLL_API void setPosition(Vec3 position) { m_Position = position; }
+		DLL_API void setYaw(float yaw) { m_Yaw = yaw; }
+		DLL_API void setPitch(float pitch) { m_Pitch = pitch; }
+		DLL_API void setSpeed(float speed) { m_Speed = speed; }
+		DLL_API void setMouseSensitivity(float sensitivity) { m_mouseSensitivity = sensitivity; }
+		DLL_API void setFov(float fov) { m_Fov = fov; }
+		DLL_API void GetUpdateViewMatrix() { updateViewMatrix(); } // calling updateViewMatrix() for CameraSystem
 
 		float m_Fov{45.f};
 	private:

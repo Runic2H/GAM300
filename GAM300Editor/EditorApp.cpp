@@ -168,16 +168,15 @@ namespace TDS
 
             TimeStep::CalculateDeltaTime();
             float DeltaTime = TimeStep::GetDeltaTime();
-             if (std::shared_ptr<GamePlayScene> pGamePlatScene = static_pointer_cast<GamePlayScene>(LevelEditorManager::GetInstance()->panels[GAMEPLAYSCENE]); pGamePlatScene->isFocus)
+            if (std::shared_ptr<GamePlayScene> pGamePlatScene = static_pointer_cast<GamePlayScene>(LevelEditorManager::GetInstance()->panels[GAMEPLAYSCENE]); pGamePlatScene->isFocus)
             {
                 GraphicsManager::getInstance().setCamera(m_GameCamera);
             }
-             else
+            else
             {
                 GraphicsManager::getInstance().setCamera(m_camera);
             }
-       
-            m_camera.UpdateCamera(DeltaTime);
+            GraphicsManager::getInstance().GetCamera().UpdateCamera(DeltaTime);
             lightx = lightx < -1.f ? 1.f : lightx - 0.005f;
             RendererSystem::lightPosX = lightx;
 

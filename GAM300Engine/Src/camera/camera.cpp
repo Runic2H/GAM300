@@ -40,7 +40,6 @@ namespace TDS
 
 	void TDSCamera::UpdateCamera(float deltaTime)
 	{
-	
 		if (moving())
 		{
 			float CameraSpeed = m_Speed;
