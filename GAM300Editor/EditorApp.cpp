@@ -250,6 +250,8 @@ namespace TDS
         }
         imguiHelper::Exit();
         ecs.destroy();
+        
+        skyboxrender.ShutDown();
         GraphicsManager::getInstance().ShutDown();
         DDSConverter::Destroy();
     }

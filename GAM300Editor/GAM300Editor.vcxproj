@@ -226,7 +226,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir).bin\Debug-x64;$(SolutionDir)Libs;$(SolutionDir)ToolsLibs;$(SolutionDir)ToolsLibs\DebugLibs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir).bin\Debug-x64;$(SolutionDir)Libs;$(SolutionDir)ToolsLibs;$(SolutionDir)ToolsLibs\DebugLibs;$(SolutionDir)Libs\Jolt\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>GAM300Engine.lib;vulkan-1.lib;meshoptimizer_d.lib;assimp-vc143-mtd.lib;SPIRVd.lib;shadercd.lib;glslangd.lib;glslang-default-resource-limitsd.lib;OGLCompilerd.lib;OSDependentd.lib;spirv-cross-cored.lib;spirv-cross-glsld.lib;SPIRV-Toolsd.lib;SPVRemapperd.lib;MachineIndependentd.lib;GenericCodeGend.lib;DirectXTexd.lib;rttr_core_d.lib;Jolt.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
@@ -242,7 +242,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)GAM300Engine\Include;$(SolutionDir)GAM300Editor\Include;$(SolutionDir)Dependencies\spdlog\include;$(SolutionDir)Dependencies;$(SolutionDir)Shared_Libs;$(SolutionDir)Dependencies\dds;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\;$(SolutionDir)GAM300Engine\Include;$(SolutionDir)GAM300Editor\Include;$(SolutionDir)Dependencies\spdlog\include;$(SolutionDir)Shared_Libs;$(SolutionDir)Dependencies\dds;$(SolutionDir)ToolsDependencies;$(SolutionDir)ToolsDependencies\DirectXTex-main\DirectXTex;$(SolutionDir)ToolsDependencies\DirectXTex-main;$(SolutionDir)ToolsDependencies\DirectXTex-main\DDSTextureLoader;$(SolutionDir)ToolsDependencies\spirv_cross;$(SolutionDir)ToolsDependencies\spirv-headers;$(SolutionDir)ToolsDependencies\spirv-tools;$(SolutionDir)ToolsDependencies\meshoptimizer-master;$(SolutionDir)ToolsDependencies\assimp\include;$(SolutionDir)ToolsDependencies\Compressonator\cmp_compressonatorlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>
@@ -255,8 +255,8 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir).bin\Debug-x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>GAM300Engine.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir).bin\Release-x64;$(SolutionDir)Libs\Jolt\Release;$(SolutionDir)Libs;$(SolutionDir)ToolsLibs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>GAM300Engine.lib;assimp-vc143-mt.lib;DirectXTex.lib;GenericCodeGen.lib;glslang.lib;glslang-default-resource-limits.lib;ispc_texcomp.lib;MachineIndependent.lib;meshoptimizer.lib;OGLCompiler.lib;OSDependent.lib;shaderc.lib;SPIRV.lib;spirv-cross-core.lib;spirv-cross-glsl.lib;SPIRV-Tools.lib;SPIRV-Tools-opt.lib;SPVRemapper.lib;vulkan-1.lib;Jolt.lib;rttr_core.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>

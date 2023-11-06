@@ -14,7 +14,6 @@
 #include "Rendering/RenderTarget.h"
 #include "Rendering/renderPass.h"
 #include "vulkanTools/FrameBuffer.h"
-
 namespace TDS
 {
 	GraphicsManager::GraphicsManager()
@@ -33,9 +32,7 @@ namespace TDS
 		m_CommandManager->Init();
 		m_SwapchainRenderer = std::make_shared<Renderer>(*m_pWindow, *m_MainVkContext);
 		DefaultTextures::GetInstance().Init();
-		
-
-
+	
 		Vec3 size = { static_cast<float>(window->getWidth()), static_cast<float>(window->getHeight()), 1.f };
 		std::vector<AttachmentInfo> attachmentInfos{};
 		std::vector<RenderTarget*> attachments{};
@@ -118,6 +115,7 @@ namespace TDS
 			renderlayer->ShutDown();
 		}
 		Renderer3D::getInstance()->ShutDown();
+		m_DebugRenderer->GetPipeline().ShutDown();
 		GlobalBufferPool::GetInstance()->Destroy();
 		m_RenderingAttachment->~RenderTarget();
 		m_RenderingDepthAttachment->~RenderTarget();

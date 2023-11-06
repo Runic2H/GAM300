@@ -498,7 +498,8 @@ namespace TDS
 				if (componentName == "Graphics Component" && ImGui::BeginDragDropTarget())
 				{
 					GraphicsComponent* g = reinterpret_cast<GraphicsComponent*>(componentBase);
-					std::string final = g->GetTextureName();
+					std::string finaltexture = g->GetTextureName();
+					std::string finalmodel = g->GetModelName();
 					if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("CONTENT_BROWSER_ITEM"))
 					{
 						const wchar_t* path = (const wchar_t*)payload->Data;
@@ -507,18 +508,29 @@ namespace TDS
 						std::string str(ws.begin(), ws.end());
 						const std::filesystem::path filesystempath = str;
 
-						if (filesystempath.extension() != ".dds")
+						if (filesystempath.extension() == ".dds")
 						{
-							//consolelog->AddLog("Invalid file type, please select a .DDS file.");
+
+							AssetBrowser assetbroswer;
+							assetbroswer.getFileNameFromPath(str.c_str(), nullptr, nullptr, &finaltexture, nullptr);
+							//g.m_TextureName = final;
+							g->SetTextureName(finaltexture);
+
+							std::wcout << " Path of dragged file is: " << path << std::endl;
+						}
+						if (filesystempath.extension() == ".bin")
+						{
+
+							AssetBrowser assetbroswer;
+							assetbroswer.getFileNameFromPath(str.c_str(), nullptr, nullptr, &finalmodel, nullptr);
+							//g.m_TextureName = final;
+							g->SetModelName(finalmodel);
+
+							std::wcout << " Path of dragged file is: " << path << std::endl;
 						}
 						else
 						{
-							AssetBrowser assetbroswer;
-							assetbroswer.getFileNameFromPath(str.c_str(), nullptr, nullptr, &final, nullptr);
-							//g.m_TextureName = final;
-							g->SetTextureName(final);
-
-							std::wcout << " Path of dragged file is: " << path << std::endl;
+							TDS_INFO("invalid file type, please drag a .dds for TextureName or .bin for ModelName ");
 						}
 					}
 					else

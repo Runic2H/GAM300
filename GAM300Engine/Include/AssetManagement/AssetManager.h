@@ -1,4 +1,15 @@
 #pragma once
+/*!*************************************************************************
+****
+\file AssetManager.h
+\author Ho Shu Sheng Eugene
+\par DP email: shushengeugene.ho@digipen.edu
+\par Course: CSD3400
+\par Section: a
+\date 22-9-2023
+\brief  Function definitions of the Pipeline Class
+****************************************************************************
+***/
 #include "AssetManagement/ModelFactory.h"
 #include "TextureFactory.h"
 #include "dotnet/ImportExport.h"

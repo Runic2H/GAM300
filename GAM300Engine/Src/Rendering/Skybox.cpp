@@ -78,4 +78,12 @@ namespace TDS
 		
 	}
 
+	DLL_API void SkyBoxRenderer::ShutDown()
+	{
+		m_SkyBoxPipeline->ShutDown();
+		m_SkyBoxTexture.Destroy();
+		m_CubeMapVertexBuffer->DestroyBuffer();
+		m_CubeMapIndexBuffer->DestroyBuffer();
+	}
+
 }

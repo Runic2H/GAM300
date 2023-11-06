@@ -1,8 +1,11 @@
 #include "Tools/TextureCompressor.h"
 #include "Tools/DDSConverter.h"
 
+#ifdef _DEBUG
 #pragma comment(lib, "CMP_Framework_MDd.lib") 
-
+#else
+#pragma comment(lib, "CMP_Framework_MD.lib")
+#endif
 
 // This file uses components from the Compressenator Common Examples. 
 // For the full copyright notice, see LICENSE.txt.

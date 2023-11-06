@@ -123,10 +123,11 @@
       <AdditionalIncludeDirectories>$(SolutionDir)Dependencies;$(SolutionDir)Shared_Libs;$(SolutionDir)GAM300Engine\Include\Geometry;$(SolutionDir)Dependencies\assimp\include;$(SolutionDir)GAM300Engine\Include;$(SolutionDir)GAM300Editor\Include;$(SolutionDir)Dependencies\spdlog\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalOptions>/Zc:twoPhase- %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>GAM300Engine.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>;$(SolutionDir)..\GAM300Engine\x64\Debug</AdditionalLibraryDirectories>
+      <AdditionalDependencies>GAM300Engine.lib;$(SolutionDir)Libs/rttr_core.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir).bin\$(Configuration)-$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>

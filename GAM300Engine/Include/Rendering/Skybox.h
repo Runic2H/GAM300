@@ -33,6 +33,7 @@ namespace TDS
 			static std::shared_ptr<SkyBoxRenderer> getInstance();
 			DLL_API void Init();
 			DLL_API void RenderSkyBox(VkCommandBuffer commandBuffer, uint32_t frameIndex);
+			DLL_API void ShutDown();
 
 
 	};
