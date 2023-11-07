@@ -145,6 +145,7 @@ namespace TDS
 
 					TDS_INFO("In Update Loop");
 					JPH_CreateBodyID(entities[i], &_transform[i], &_rigidbody[i]);
+
 				}
 			}
 			// JPH physics simulation
@@ -155,6 +156,11 @@ namespace TDS
 			{
 				
 				JPH_SystemUpdate(&_transform[j], &_rigidbody[j]);
+				Vec3 pos = _transform[j].GetPosition();
+				Vec3 scale = _transform[j].GetScale();
+				Vec3 rot = _transform[j].GetRotation();
+				EventHandler::changeChildTransformation(entities[j], pos, scale, rot);
+
 			}
 			accumulatedTime -= TimeStep::GetFixedDeltaTime();
 		}	

@@ -21,6 +21,7 @@
 #include "Timestep/Timestep.h"
 #include "Logger/Logger.h"
 #include "Physics/JPHLayers.h"
+#include "eventmanager/eventHandler.h"
 
 #include "JoltPhysics/Utils/JoltConversionUtils.h"
 
