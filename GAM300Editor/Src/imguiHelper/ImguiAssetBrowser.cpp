@@ -221,7 +221,7 @@ namespace TDS
 				{
 					lookUp = false;
 					std::string& OutPath = GeomCompiler::GetInstance()->OutPath;
-					//OutPath = MODEL_PATH;
+					OutPath = MODEL_PATH;
 					OutPath += filename.c_str();
 					if (strstr(filename.c_str(), ".fbx"))
 						OutPath = RemoveFileExtension(OutPath, ".fbx");
