@@ -41,6 +41,8 @@ namespace TDS
 			return ecs.addComponent<Transform>(entityID);
 		else if (componentName == "Win Data")
 			return ecs.addComponent<WinData>(entityID);
+		else if (componentName == "UI Sprite")
+			return ecs.addComponent<UISprite>(entityID);
 		
 		else 
 			return nullptr;
@@ -74,6 +76,8 @@ namespace TDS
 			return *(ecs.addComponent<Tag>(entityID));
 		else if (componentName == rttr::type::get<Transform>())
 			return *(ecs.addComponent<Transform>(entityID));
+		else if (componentName == rttr::type::get<UISprite>())
+			return *(ecs.addComponent<UISprite>(entityID));
 		return *(ecs.addComponent<WinData>(entityID));
 	}
 
@@ -106,6 +110,8 @@ namespace TDS
 			return ecs.getComponent<Transform>(entityID);
 		else if (componentName == "Win Data")
 			return ecs.getComponent<WinData>(entityID);
+		else if (componentName == "UI Sprite")
+			return ecs.getComponent<UISprite>(entityID);
 		else
 			return nullptr;
 	}
@@ -138,6 +144,8 @@ namespace TDS
 			return *(ecs.getComponent<Tag>(entityID));
 		else if (componentName == rttr::type::get<Transform>())
 			return *(ecs.getComponent<Transform>(entityID));
+		else if (componentName == rttr::type::get<UISprite>())
+			return *(ecs.getComponent<UISprite>(entityID));
 		return *(ecs.getComponent<WinData>(entityID));
 	}
 
@@ -170,6 +178,8 @@ namespace TDS
 			ecs.removeComponent<Transform>(entityID);
 		else if (componentName == "Win Data")
 			ecs.removeComponent<WinData>(entityID);
+		else if (componentName == "UI Sprite")
+			ecs.removeComponent<UISprite>(entityID);
 	}
 
 	/*!*************************************************************************
@@ -201,6 +211,8 @@ namespace TDS
 			ecs.setComponentIsEnabled<Transform>(entityID, isEnabled);
 		else if (componentName == "Win Data")
 			ecs.setComponentIsEnabled<WinData>(entityID, isEnabled);
+		else if (componentName == "UI Sprite")
+			ecs.setComponentIsEnabled<UISprite>(entityID, isEnabled);
 	}
 
 	/*!*************************************************************************
@@ -232,6 +244,8 @@ namespace TDS
 			return ecs.getComponentIsEnabled<Transform>(entityID);
 		else if (componentName == "Win Data")
 			return ecs.getComponentIsEnabled<WinData>(entityID);
+		else if (componentName == "UI Sprite")
+			return ecs.getComponentIsEnabled<UISprite>(entityID);
 		else
 			return false;
 	}

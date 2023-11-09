@@ -8,7 +8,7 @@ namespace TDS {
 	
 	struct AttachmentClearColor
 	{
-		VkClearColorValue color{ {0.2f,0.2f,0.2f,1.f} };
+		VkClearColorValue color{ {0.0f,0.0f,0.0f,1.f} };
 		VkClearDepthStencilValue depth{ 1.f, 0 };
 	};
 	struct AttachmentInfo

@@ -205,7 +205,8 @@ namespace TDS
             VkCommandBuffer commandBuffer = GraphicsManager::getInstance().getCommandBuffer();
             GraphicsManager::getInstance().getRenderPass().beginRenderPass(commandBuffer, &GraphicsManager::getInstance().getFrameBuffer());
             std::uint32_t frame = GraphicsManager::getInstance().GetSwapchainRenderer().getFrameIndex();
-            skyboxrender.RenderSkyBox(commandBuffer, frame);
+            if (GraphicsManager::getInstance().IsViewingFrom2D() == false)
+                skyboxrender.RenderSkyBox(commandBuffer, frame);
            
             if (isPlaying)
             {

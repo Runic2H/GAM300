@@ -68,7 +68,7 @@ namespace TDS
 		//vkTexture.CreateBasicTexture(data.m_TextureInfo);
 		isFocus = ImGui::IsWindowFocused() && ImGui::IsItemVisible();
 		ImVec2 vSize = ImGui::GetContentRegionAvail();
-
+		static bool view2D = false;
 	
 		ImGui::Image((ImTextureID)m_DescSet, vSize);
 		//drag drop code MUST be ddirecvtly under imgui::image code
@@ -106,14 +106,52 @@ namespace TDS
 		std::shared_ptr<Hierarchy> hierarchyPanel = static_pointer_cast<Hierarchy>(LevelEditorManager::GetInstance()->panels[PanelTypes::HIERARCHY]);
 		if (EntityID selectedEntity = hierarchyPanel->getSelectedEntity())
 		{
-			ImGuizmo::SetOrthographic(false);
+
+			if (GraphicsManager::getInstance().IsViewingFrom2D())
+			{
+				GraphicsComponent* graphComp = reinterpret_cast<GraphicsComponent*>(getComponentByName("Graphics Component", selectedEntity));
+
+				if (graphComp != nullptr && graphComp->m_UsedIn2D)
+				{
+					view2D = false;
+					ImGuizmo::SetOrthographic(false);
+				}
+				else
+				{
+					view2D = true;
+					ImGuizmo::SetOrthographic(true);
+				}
+
+			}
+			else
+			{
+				ImGuizmo::SetOrthographic(false);
+			}
 			ImGuizmo::SetDrawlist();
 			ImGuizmo::SetRect(ImGui::GetWindowPos().x, ImGui::GetWindowPos().y, ImGui::GetWindowWidth(), ImGui::GetWindowHeight());
-
-			Mat4 projection = Mat4::Perspective(GraphicsManager::getInstance().GetCamera().m_Fov * Mathf::Deg2Rad,
-				GraphicsManager::getInstance().GetSwapchainRenderer().getAspectRatio(), 0.1f, 10.f);
+			Mat4 projection{};
 			//projection.m[1][1] *= -1;
-			Mat4 view = GraphicsManager::getInstance().GetCamera().GetViewMatrix();
+
+			Mat4 view = Mat4::identity();
+			if (view2D)
+			{
+				projection = Mat4::Ortho(
+					-1.f,
+					1.f,
+					-1.f,
+					1.f,
+					-1.f,
+					1.f
+				);
+			}
+			else
+			{
+				projection = Mat4::Perspective(GraphicsManager::getInstance().GetCamera().m_Fov * Mathf::Deg2Rad,
+					GraphicsManager::getInstance().GetSwapchainRenderer().getAspectRatio(), 0.1f, 10.f);
+				view = GraphicsManager::getInstance().GetCamera().GetViewMatrix();
+				//projection.m[1][1] *= -1;
+			}
+
 
 			const auto& trans = ecs.getComponent<Transform>(selectedEntity);
 

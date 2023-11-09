@@ -93,7 +93,12 @@ namespace TDS {
 
 		vkCmdDraw(m_Pipeline->GetCommandBuffer(), 6, 1, 0, 0);
 	}
-	VulkanPipeline& PointLightSystem::GetPipeline() {
+	VulkanPipeline& PointLightSystem::GetPipeline() 
+	{
+		if (m_Pipeline == nullptr)
+		{
+			std::cout << "Why" << std::endl;
+		}
 		return *m_Pipeline;
 	}
 }

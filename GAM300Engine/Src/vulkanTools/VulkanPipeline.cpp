@@ -47,9 +47,9 @@ namespace TDS
 		{
 			m_RenderTarget = GraphicsManager::getInstance().getRenderPass().getRenderPass();
 		}
-	
+
 		/*m_RenderTarget = GraphicsManager::getInstance().GetSwapchainRenderer().getSwapChainRenderPass();*/
-		
+
 		CreateDescriptors(m_PipelineEntry.m_ShaderInputs, m_PipelineEntry.m_NumDescriptorSets);
 
 		std::vector<VkDescriptorSetLayout> layouts;
@@ -98,9 +98,9 @@ namespace TDS
 		rasterizationState.lineWidth = 1.0f;
 
 		std::uint32_t count = 0;
-	
+
 		count = 1;
-	
+
 		std::vector<VkPipelineColorBlendAttachmentState> blendAttachmentState(count);
 		for (auto& blendAttState : blendAttachmentState)
 		{
@@ -467,7 +467,7 @@ namespace TDS
 
 	void VulkanPipeline::DrawInstancedIndexed(VMABuffer& vertexBuffer, VMABuffer& indexBuffer, std::uint32_t instance, std::uint32_t frameIndex)
 	{
-		vkCmdDrawIndexed(m_CommandBuffer, indexBuffer.getDataCount(), instance, 0, 0, 1);
+		vkCmdDrawIndexed(m_CommandBuffer, indexBuffer.getDataCount(), instance, 0, 0, 0);
 	}
 
 	void VulkanPipeline::SubmitPushConstant(void* data, size_t size, std::int32_t flags)
@@ -584,7 +584,7 @@ namespace TDS
 		{
 			VkWriteDescriptorSet write{};
 			std::uint32_t ArrayCnt = std::uint32_t(texture.size());
-			std::array<VkDescriptorImageInfo,500> Infos;
+			std::array<VkDescriptorImageInfo, 500> Infos;
 			for (std::uint32_t i = 0; i < ArrayCnt; ++i)
 			{
 				if (texture[i].m_VulkanTexture == nullptr)
@@ -629,7 +629,7 @@ namespace TDS
 	{
 		vkCmdBindPipeline(m_CommandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, m_Pipelines[drawMode]);
 	}
-	void VulkanPipeline::BindDescriptor(std::int32_t frame, std::uint32_t numOfSet,std::uint32_t firstSet)
+	void VulkanPipeline::BindDescriptor(std::int32_t frame, std::uint32_t numOfSet, std::uint32_t firstSet)
 	{
 		vkCmdBindDescriptorSets(m_CommandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, m_PipelineLayout, firstSet, numOfSet, &m_PipelineDescriptor.m_DescriptorSets[frame], 0, nullptr);
 	}
@@ -645,7 +645,7 @@ namespace TDS
 	{
 		vkCmdBindDescriptorSets(m_CommandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, m_PipelineLayout, firstSet, numOfSet, &m_PipelineDescriptor.m_TextureOrBindless[FrameIndex], 0, nullptr);
 	}
-	
+
 	void VulkanPipeline::BindVertexBuffer(VMABuffer& vertexBuffer)
 	{
 
@@ -811,7 +811,7 @@ namespace TDS
 				{
 					layouts.push_back(layoutBinding);
 				}
-				
+
 			}
 			for (auto& storageIMage : metaData.m_ShaderDatas[full_path.filename().string()].m_ReflectedData.m_StorageImages)
 			{
@@ -1050,10 +1050,10 @@ namespace TDS
 		{
 			std::filesystem::path full_path(shader.second.data());
 			descriptor.m_ImageInfo = DefaultTextures::GetDefaultTexture()->getInfo();
-			
+
 			for (auto& samplers : reflectedMeta.m_ShaderDatas[full_path.filename().string()].m_ReflectedData.m_ImageSamplers)
 			{
-				
+
 				VkWriteDescriptorSet writeSet = { VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET };
 
 
@@ -1169,9 +1169,8 @@ namespace TDS
 	{
 		return m_PipelineDescriptor.m_DescriptorSets;
 	}
-	void VulkanPipeline::SetRenderTarget(VkRenderPass& renderTarget)
+	void VulkanPipeline::SetRenderTarget(VkRenderPass renderTarget)
 	{
-
 		m_RenderTarget = renderTarget;
 	}
 	void VulkanPipeline::GenerateMatrixInputAttribute(std::vector<VkVertexInputAttributeDescription>& inputAttris, std::uint32_t& prevOffset, std::uint32_t& location, std::uint32_t& binding, VertexBufferElement& inputElem)

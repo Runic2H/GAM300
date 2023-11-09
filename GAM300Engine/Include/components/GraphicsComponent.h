@@ -20,9 +20,10 @@ namespace TDS
 		inline void								SetColor(float r, float g, float b, float a) { m_Color = { r,g,b,a }; }
 		inline void								SetTextureName(std::string input) { m_TextureName = input; }
 		inline void								ToggleDebug(bool status) { m_Debug = status; }
-
+		inline void								SetView2D(bool status) { m_UsedIn2D = status; }
 		
 		inline bool								ShowMesh() { return m_ShowMesh; }
+		inline bool								View2D() { return m_UsedIn2D; }
 		inline TypeReference<AssetModel>& 		GetAsset() { return m_AssetReference; }
 		inline TypeReference<Texture>&			GetTexture() { return m_TextureReference; }
 		inline bool&							IsPointLight() { return m_Pointlight; }
@@ -48,6 +49,7 @@ namespace TDS
 		TypeReference<Texture>			m_TextureReference;
 		std::string						m_ModelName = "";
 		std::string						m_TextureName = "";
+		bool							m_UsedIn2D{ false };
 
 
 	};

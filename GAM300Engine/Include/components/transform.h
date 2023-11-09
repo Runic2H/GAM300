@@ -36,25 +36,25 @@ namespace TDS
 		Getter and setter functions for the variables in the Transform component
 		class
 		****************************************************************************/
-		DLL_API Vec3 GetPosition() { return mPosition; }
-		DLL_API void SetPosition(Vec3 position) { mPosition = position; }
-		DLL_API void SetPosition(float positionX, float positionY, float positionZ) { mPosition = Vec3(positionX, positionY, positionZ); }
+		DLL_API Vec3 GetPosition() { return mPosition;  }
+		DLL_API void SetPosition(Vec3 position) { mPosition = position; mIsDirty = true; }
+		DLL_API void SetPosition(float positionX, float positionY, float positionZ) { mPosition = Vec3(positionX, positionY, positionZ); mIsDirty = true; }
 
 		DLL_API Vec3& GetOffsetPos() { return mOffsetPos; };
-		DLL_API void SetOffSetPos(Vec3 Pos) { mOffsetPos = Pos; }
-		DLL_API void SetOffSetPos(float posX, float posY, float posZ) { mOffsetPos = { posX, posY, posZ }; }
-
+		DLL_API void SetOffSetPos(Vec3 Pos) { mOffsetPos = Pos; mIsDirty = true; }
+		DLL_API void SetOffSetPos(float posX, float posY, float posZ) { mOffsetPos = { posX, posY, posZ }; mIsDirty = true; }
+		
 		DLL_API Vec3 GetScale() { return mScale; }
-		DLL_API void SetScale(Vec3 scale) { mScale = scale; }
-		DLL_API void SetScale(float scaleX, float scaleY, float scaleZ) { mScale = Vec3(scaleX, scaleY, scaleZ); }
+		DLL_API void SetScale(Vec3 scale) { mScale = scale; mIsDirty = true; }
+		DLL_API void SetScale(float scaleX, float scaleY, float scaleZ) { mScale = Vec3(scaleX, scaleY, scaleZ); mIsDirty = true; }
 
 		DLL_API Vec3& GetOffsetScale() { return mOffsetScale; }
-		DLL_API void SetOffSetScale(Vec3 Scale) { mOffsetScale = Scale; }
-		DLL_API void SetOffSetScale(float scaleX, float scaleY, float scaleZ) { mOffsetScale = { scaleX, scaleY, scaleZ }; }
+		DLL_API void SetOffSetScale(Vec3 Scale) { mOffsetScale = Scale; mIsDirty = true; }
+		DLL_API void SetOffSetScale(float scaleX, float scaleY, float scaleZ) { mOffsetScale = { scaleX, scaleY, scaleZ }; mIsDirty = true; }
 
 		DLL_API Vec3 GetRotation() { return mRotation; }
-		DLL_API void SetRotation(Vec3 rotation) { mRotation = rotation; }
-		DLL_API void SetRotation(float rotationX, float rotationY, float rotationZ) { mRotation = Vec3(rotationX, rotationY, rotationZ); }
+		DLL_API void SetRotation(Vec3 rotation) { mRotation = rotation; mIsDirty = true; }
+		DLL_API void SetRotation(float rotationX, float rotationY, float rotationZ) { mRotation = Vec3(rotationX, rotationY, rotationZ); mIsDirty = true; }
 
 		DLL_API Mat4 GetTransformMatrix() const { return mTransformMatrix; }
 		DLL_API Mat4 GetOffsetMatrix() const { return mOffsetMatrix; }
@@ -65,6 +65,7 @@ namespace TDS
 			Mat4 rotM4 = Mat4(Quat::toMat4(qRot));
 			Mat4 transM4 = Mat4::Translate(translate);
 			mTransformMatrix = transM4 * rotM4 * scaleM4;
+			mIsDirty = true;
 		}
 		DLL_API void GenerateTransfom() {
 			Quat qRot = Quat(mRotation);
@@ -78,10 +79,19 @@ namespace TDS
 			mOffsetMatrix = transM4 * rotM4 * scaleM4;
 		}
 
+		DLL_API void SetDirty(bool condition)
+		{
+			mIsDirty = condition;
+		}
+		DLL_API bool isDirty()
+		{
+			return mIsDirty;
+		}
 		RTTR_ENABLE(IComponent);
 		RTTR_REGISTRATION_FRIEND
 
 	private:
+		bool mIsDirty{false};
 		Vec3 mPosition;
 		Vec3 mScale;
 		Vec3 mRotation;

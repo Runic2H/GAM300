@@ -190,7 +190,7 @@ namespace TDS
 					IComponent* Graph = getComponentByName("Graphics Component", panel->getSelectedEntity());
 					if (Graph == nullptr)
 						Graph = addComponentByName("Graphics Component", panel->getSelectedEntity());
-					GraphicsComponent* graphComp = reinterpret_cast<GraphicsComponent*>(Graph);
+					
 
 					std::string OutPath = ASSET_PATH;
 					OutPath += "/textures/";
@@ -211,9 +211,9 @@ namespace TDS
 					if (lookUp == false)
 						TextureCompressor::GetInstance().Run(inPath, OutPath);
 
-
-
-					AssetManager::GetInstance()->LoadAsset(OutPath, graphComp->GetTexture());
+					GraphicsComponent* graphComp = reinterpret_cast<GraphicsComponent*>(Graph);
+					if (graphComp)
+						AssetManager::GetInstance()->LoadAsset(OutPath, graphComp->GetTexture());
 
 
 				}

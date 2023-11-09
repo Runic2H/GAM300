@@ -141,6 +141,7 @@
     <ClInclude Include="GameObject.hxx" />
     <ClInclude Include="HelperFunctions.hxx" />
     <ClInclude Include="IncludeFromEngine.hxx" />
+    <ClInclude Include="Input.hxx" />
     <ClInclude Include="Script.hxx" />
     <ClInclude Include="TypeConversion.hxx" />
     <ClInclude Include="Vector3.hxx" />
@@ -153,6 +154,7 @@
     <ClCompile Include="Components\TransformComponent.cxx" />
     <ClCompile Include="EngineInterface.cxx" />
     <ClCompile Include="GameObject.cxx" />
+    <ClCompile Include="Input.cxx" />
     <ClCompile Include="Script.cxx" />
     <ClCompile Include="TypeConversion.cxx" />
     <ClCompile Include="Vector3.cxx" />

@@ -33,12 +33,16 @@ namespace TDS
 		RenderTarget*							m_RenderingDepthAttachment{ nullptr };
 		RenderPass*								m_Renderpass{ nullptr };
 		FrameBuffer*							m_Framebuffer{ nullptr };
+		bool									m_ViewingFrom2D = false;
 
 	public:
 		inline static std::shared_ptr<GraphicsManager> m_Instance;
 		GraphicsManager();
 		~GraphicsManager();
 
+		void								ToggleViewFrom2D(bool condition);
+		bool								IsViewingFrom2D();
+				
 		void								AddRenderLayer(RenderLayer* layer);
 		void								Init(WindowsWin* window);
 		void								StartFrame();
@@ -46,6 +50,12 @@ namespace TDS
 		void								ShutDown();
 		void								ResizeFrameBuffer(std::uint32_t width, std::uint32_t height);
 		void								setCamera(TDSCamera& camera);
+		std::shared_ptr<VulkanInstance>		getVkInstancePtr();
+
+		WindowsWin*							GetWindow();
+		
+		
+
 		TDSCamera& GetCamera();
 
 		VkCommandBuffer& getCommandBuffer();

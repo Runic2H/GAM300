@@ -113,7 +113,7 @@ namespace TDS
 		void									UpdateTextureArray(std::uint32_t binding, VkDescriptorType descriptorType, std::array<Texture, 500>& texture);
 		void									UpdateTexture(std::uint32_t binding, VkDescriptorType descriptorType, VulkanTexture& texture);
 		void									BindPipeline(VkPrimitiveTopology drawMode = VkPrimitiveTopology::VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST);
-		void									BindDescriptor(std::int32_t frame, std::uint32_t numofSet,  std::uint32_t firstSet = 0);
+		void									BindDescriptor(std::int32_t frame, std::uint32_t numofSet, std::uint32_t firstSet = 0);
 		void									BindAllDescriptors(std::int32_t frame);
 		void									BindDescriptorSet(VkDescriptorSet descriptorSet);
 		void									BindArrayDescriptorSet(std::uint32_t FrameIndex, std::uint32_t numOfSet, std::uint32_t firstSet = 0);
@@ -121,9 +121,9 @@ namespace TDS
 		void									BindIndexBuffer(VMABuffer& IndexBuffer);
 		void									LoadShader(std::string_view shaderPath, SHADER_FLAG shaderFlag);
 
-		VkPipeline&								GetPipeline(VkPrimitiveTopology drawMode);
-		VkPipelineLayout&						GetLayout();
-		VkDescriptorPool&						GetDescriptorPool();
+		VkPipeline& GetPipeline(VkPrimitiveTopology drawMode);
+		VkPipelineLayout& GetLayout();
+		VkDescriptorPool& GetDescriptorPool();
 		bool									IsBlendEnabled();
 		std::uint32_t							GetBufferBinding(std::string_view bufferName);
 		std::uint32_t							GetTextureBinding(std::string_view textureBinding);
@@ -142,7 +142,7 @@ namespace TDS
 		void									UpdateDescriptor(VkDescriptorImageInfo& imageInfo, VkDescriptorType type, std::uint32_t bindingPoint);
 		VkDescriptorSetLayout					GetLayout(std::uint32_t index = 0) const;
 		const std::vector<VkDescriptorSet>& GetDescriptorSets(std::uint32_t index = 0) const;
-		void									SetRenderTarget(VkRenderPass& renderTarget );
+		void									SetRenderTarget(VkRenderPass renderTarget);
 	private:
 
 

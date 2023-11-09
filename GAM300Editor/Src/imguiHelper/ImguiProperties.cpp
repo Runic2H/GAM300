@@ -460,6 +460,7 @@ namespace TDS
 	****************************************************************************/
 	void Properties::ImguiComponentDisplay(std::string componentName, IComponent* componentBase)
 	{
+
 		rttr::type type = rttr::type::get_by_name(componentName);
 		rttr::instance componentInstance = componentBase;
 
