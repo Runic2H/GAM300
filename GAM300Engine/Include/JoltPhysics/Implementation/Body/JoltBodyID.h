@@ -7,7 +7,7 @@
 
 namespace TDS
 {
-class JoltBodyID
+DLL_API class JoltBodyID
 {
 public:
 	static constexpr uint32_t	cInvalidBodyID = 0xffffffff;	///< The value for an invalid body ID

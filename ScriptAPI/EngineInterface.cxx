@@ -667,7 +667,7 @@ namespace ScriptAPI
         {
             if (field->GetCustomAttributes(SerializeFieldAttribute::typeid, true)->Length > 0 && field->Name == variable)
             {
-                field->SetValue(currentObject, gameObjectList[gameObjectEntityID]->Item2);
+                field->SetValue(currentObject, (gameObjectEntityID > 0 ? gameObjectList[gameObjectEntityID]->Item2 : nullptr));
                 return;
             }
         }
@@ -695,8 +695,7 @@ namespace ScriptAPI
         {
             if (field->GetCustomAttributes(SerializeFieldAttribute::typeid, true)->Length > 0 && field->Name == variable)
             {
-                field->SetValue(currentObject, scripts[gameObjectEntityID][toSystemString(scriptReference)]);
-                System::Console::WriteLine(field->GetValue(currentObject));
+                field->SetValue(currentObject, (gameObjectEntityID > 0 ? scripts[gameObjectEntityID][toSystemString(scriptReference)] : nullptr));
                 return;
             }
         }

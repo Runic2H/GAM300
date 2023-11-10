@@ -46,9 +46,12 @@ namespace TDS
 		ChildTransformationEvent newEvent;
 		newEvent.id = entityID;
 		newEvent.positionChange = transformComponent->GetPosition() - oldPosition;
-		newEvent.scaleChange = transformComponent->GetScale() - oldRotation;
-		newEvent.rotationChange = transformComponent->GetRotation() - oldScale;
+		newEvent.scaleChange = transformComponent->GetScale() - oldScale;
+		newEvent.rotationChange = transformComponent->GetRotation() - oldRotation;
 
-		eventManager.post(newEvent, EventTypes::CHILD_TRANSFORMATION);
+		if (newEvent.positionChange != Vec3::zero() || newEvent.scaleChange != Vec3::zero() || newEvent.rotationChange != Vec3::zero())
+		{
+			eventManager.post(newEvent, EventTypes::CHILD_TRANSFORMATION);
+		}
 	}
 }

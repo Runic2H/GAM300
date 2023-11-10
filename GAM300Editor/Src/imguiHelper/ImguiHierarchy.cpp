@@ -342,8 +342,6 @@ namespace TDS
 				popupOpened = true;
 				if (ImGui::Selectable("Remove Entity"))
 				{
-					ecs.removeEntity(selectedEntity);
-
 					EntityID parent = ecs.getComponent<NameTag>(selectedEntity)->GetHierarchyParent();
 
 					if (parent == 0)
@@ -352,9 +350,45 @@ namespace TDS
 					}
 					else
 					{
-						auto& siblings = ecs.getComponent<NameTag>(selectedEntity)->GetHierarchyChildren();
+						auto& siblings = ecs.getComponent<NameTag>(parent)->GetHierarchyChildren();
 						siblings.erase(std::find(siblings.begin(), siblings.end(), selectedEntity));
 					}
+
+					// Removing all instance of the removed entity
+					auto allEntities = ecs.getEntities();
+					static auto& sceneManagerInstance = SceneManager::GetInstance();
+
+					for (auto scriptName : sceneManagerInstance->getAllScripts())
+					{
+						// For each entity
+						for (auto currentEntity : allEntities)
+						{
+							if (!sceneManagerInstance->hasScript(currentEntity, scriptName))
+							{
+								continue;
+							}
+
+							std::vector<ScriptValues> allValues = sceneManagerInstance->getScriptVariables(currentEntity, scriptName);
+
+							for (ScriptValues scriptValue : allValues)
+							{
+								if (scriptValue.referenceEntityID == selectedEntity) // there is a entity reference 
+								{
+									if (scriptValue.type == "ScriptAPI.GameObject")
+									{
+										sceneManagerInstance->setGameObject(currentEntity, scriptName, scriptValue.name, 0);
+									}
+									else
+									{
+										sceneManagerInstance->setScriptReference(currentEntity, scriptName, scriptValue.name, 0, scriptValue.type);
+									}
+								}
+							}
+						}
+					}
+
+					ecs.removeEntity(selectedEntity);
+
 					selectedEntity = 0;
 				}
 
@@ -429,8 +463,41 @@ namespace TDS
 				}
 				else
 				{
-					auto& siblings = ecs.getComponent<NameTag>(selectedEntity)->GetHierarchyChildren();
+					auto& siblings = ecs.getComponent<NameTag>(parent)->GetHierarchyChildren();
 					siblings.erase(std::find(siblings.begin(), siblings.end(), selectedEntity));
+				}
+
+				// Removing all instance of the removed entity
+				auto allEntities = ecs.getEntities();
+				static auto& sceneManagerInstance = SceneManager::GetInstance();
+
+				for (auto scriptName : sceneManagerInstance->getAllScripts())
+				{
+					// For each entity
+					for (auto currentEntity : allEntities)
+					{
+						if (!sceneManagerInstance->hasScript(currentEntity, scriptName))
+						{
+							continue;
+						}
+
+						std::vector<ScriptValues> allValues = sceneManagerInstance->getScriptVariables(currentEntity, scriptName);
+
+						for (ScriptValues scriptValue : allValues)
+						{
+							if (scriptValue.referenceEntityID == selectedEntity) // there is a entity reference 
+							{
+								if (scriptValue.type == "ScriptAPI.GameObject")
+								{
+									sceneManagerInstance->setGameObject(currentEntity, scriptName, scriptValue.name, 0);
+								}
+								else
+								{
+									sceneManagerInstance->setScriptReference(currentEntity, scriptName, scriptValue.name, 0, scriptValue.type);
+								}
+							}
+						}
+					}
 				}
 
 				ecs.removeEntity(selectedEntity);
@@ -527,6 +594,8 @@ namespace TDS
 			ImGui::EndMenuBar();
 		}
 
+		static auto& sceneManagerInstance = SceneManager::GetInstance();
+
 		ImGuiTreeNodeFlags nodeFlags =
 			ImGuiTreeNodeFlags_DefaultOpen |
 			ImGuiTreeNodeFlags_FramePadding |
@@ -544,7 +613,7 @@ namespace TDS
 		}
 		if (filter.InputBuf[0] == 0)
 		{
-			if (ImGui::TreeNodeEx(SceneManager::GetInstance()->getCurrentScene().c_str(), nodeFlags))
+			if (ImGui::TreeNodeEx(sceneManagerInstance->getCurrentScene().c_str(), nodeFlags))
 			{
 				ImGui::Separator();
 				if (ImGui::BeginDragDropTarget())
@@ -606,14 +675,46 @@ namespace TDS
 						if (ImGui::Selectable("Remove Entity"))
 						{
 							EntityID parent = ecs.getComponent<NameTag>(selectedEntity)->GetHierarchyParent();
+
 							if (parent == 0)
 							{
 								hierarchyList.erase(std::find(hierarchyList.begin(), hierarchyList.end(), selectedEntity));
 							}
 							else
 							{
-								auto& siblings = ecs.getComponent<NameTag>(selectedEntity)->GetHierarchyChildren();
+								auto& siblings = ecs.getComponent<NameTag>(parent)->GetHierarchyChildren();
 								siblings.erase(std::find(siblings.begin(), siblings.end(), selectedEntity));
+							}
+
+							// Removing all instance of the removed entity
+							auto allEntities = ecs.getEntities();
+							for (auto scriptName : sceneManagerInstance->getAllScripts())
+							{
+								// For each entity
+								for (auto currentEntity : allEntities)
+								{
+									if (!sceneManagerInstance->hasScript(currentEntity, scriptName))
+									{
+										continue;
+									}
+
+									std::vector<ScriptValues> allValues = sceneManagerInstance->getScriptVariables(currentEntity, scriptName);
+
+									for (ScriptValues scriptValue : allValues)
+									{
+										if (scriptValue.referenceEntityID == selectedEntity) // there is a entity reference 
+										{
+											if (scriptValue.type == "ScriptAPI.GameObject")
+											{
+												sceneManagerInstance->setGameObject(currentEntity, scriptName, scriptValue.name, 0);
+											}
+											else
+											{
+												sceneManagerInstance->setScriptReference(currentEntity, scriptName, scriptValue.name, 0, scriptValue.type);
+											}
+										}
+									}
+								}
 							}
 
 							ecs.removeEntity(selectedEntity);

@@ -14,6 +14,7 @@
 #include "Vector3.h"
 #include "ecs/ecs.h"
 #include "JoltPhysics/Implementation/Body/JoltBodyID.h"
+
 namespace TDS
 {
 	class RigidBody : public IComponent
@@ -68,7 +69,6 @@ namespace TDS
 		DLL_API float& GetAngularDamping() { return mAngularDamping; }
 		DLL_API void SetAngularDamping(float damping) { mAngularDamping = damping; }
 
-
 		DLL_API MotionType& GetMotionType() { return mMotionType; }
 		DLL_API int GetMotionTypeInt() { return static_cast<int>(mMotionType); }
 		DLL_API void SetMotionType(MotionType motionType) { mMotionType = motionType; }
@@ -81,10 +81,6 @@ namespace TDS
 		
 		RTTR_ENABLE(IComponent);
 		RTTR_REGISTRATION_FRIEND
-
-	public:
-
-
 
 	private:
 		float mMass;
@@ -104,6 +100,7 @@ namespace TDS
 		JoltBodyID	mBodyID;
 	};
 
+	DLL_API RigidBody* GetRigidBody(EntityID entityID);
 }
 
 #endif //RIGIDBODYCOMPONENT

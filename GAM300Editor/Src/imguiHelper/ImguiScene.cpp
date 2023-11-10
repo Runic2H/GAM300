@@ -9,6 +9,7 @@
 #include "Rendering/RenderTarget.h"
 #include "vulkanTools/Renderer.h"
 #include "imgui/ImGuizmo.h"
+#include "eventManager/eventHandler.h"
 //#include "Input/Input.h"
 namespace TDS
 {
@@ -173,10 +174,13 @@ namespace TDS
 
 			if (ImGuizmo::IsUsing() && m_gizmoType != -1)
 			{
-
 				Vec3 transl{};
 				Vec3 rotat{};
 				Vec3 scal{};
+
+				Vec3 oldPosition = trans->GetPosition();
+				Vec3 oldScale = trans->GetScale();
+				Vec3 oldRotation = trans->GetRotation();
 
 				float* _transl = Vec3::Vec3Value_ptr(transl);
 				float* _rotat = Vec3::Vec3Value_ptr(rotat);
@@ -189,6 +193,7 @@ namespace TDS
 				if (_scal[0] > 0.f && _scal[1] > 0.f && _scal[2] > 0.f)
 					trans->SetScale(_scal[0], _scal[1], _scal[2]);
 
+				EventHandler::postChildTransformationEvent(selectedEntity, oldPosition, oldScale, oldRotation);
 
 				delete[] _transl;
 				delete[] _rotat;

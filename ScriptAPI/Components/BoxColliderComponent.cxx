@@ -24,7 +24,7 @@ namespace ScriptAPI
 			return;
 		}
 
-		return TDS::GetBoxCollider(entityID)->SetIsTrigger(value);
+		TDS::GetBoxCollider(entityID)->SetIsTrigger(value);
 	}
 
 	// Public

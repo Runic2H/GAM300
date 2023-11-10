@@ -360,6 +360,12 @@ namespace TDS
 								{
 									if (scriptValue.type == "ScriptAPI.GameObject")
 									{
+										if (ImGui::Selectable("None", false, ImGuiSelectableFlags_SpanAllColumns))
+										{
+											sceneManagerInstance->setGameObject(selectedEntity, scriptName, scriptValue.name, 0);
+											ImGui::CloseCurrentPopup();
+										}
+
 										for (EntityID entityID : ecs.getEntities())
 										{
 											if (entityID == selectedEntity)
@@ -376,6 +382,12 @@ namespace TDS
 									}
 									else // Script
 									{
+										if (ImGui::Selectable("None", false, ImGuiSelectableFlags_SpanAllColumns))
+										{
+											sceneManagerInstance->setScriptReference(selectedEntity, scriptName, scriptValue.name, 0, scriptValue.type);
+											ImGui::CloseCurrentPopup();
+										}
+
 										for (EntityID entityID : ecs.getEntities())
 										{
 											if (entityID == selectedEntity)

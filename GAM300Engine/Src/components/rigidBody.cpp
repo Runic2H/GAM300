@@ -71,4 +71,8 @@ namespace TDS
 
 	{ }
 
+	RigidBody* GetRigidBody(EntityID entityID)
+	{
+		return ecs.getComponent<RigidBody>(entityID);
+	}
 }

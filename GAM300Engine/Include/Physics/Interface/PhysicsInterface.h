@@ -11,7 +11,7 @@
 #ifndef PHYSICSINTERFACE_H
 #define PHYSICSINTERFACE_H
 
-#include <Jolt/Physics/Body/BodyInterface.h>
+//#include <Jolt/Physics/Body/BodyInterface.h>
 #include "components/rigidBody.h"
 
 namespace TDS
@@ -19,18 +19,18 @@ namespace TDS
 	/*!*************************************************************************
 	 * Public Member Function
 	 ***************************************************************************/
-	void MoveKinematic(const RigidBody& rb, Vec3& inTargetPosition, Quat& inTargetRotation, float inDeltaTime);
-	void SetLinearAndAngularVelocity(const RigidBody& rb, Vec3& inLinearVelocity, Vec3& inAngularVelocity);
-	void GetLinearAndAngularVelocity(const RigidBody& rb, Vec3& outLinearVelocity, Vec3& outAngularVelocity);
-	void SetLinearVelocity(const RigidBody& rb, Vec3& inLinearVelocity);
-	Vec3 GetLinearVelocity(const RigidBody& rb);
-	void AddLinearVelocity(const RigidBody& rb, Vec3& inLinearVelocity);
-	void AddLinearAndAngularVelocity(const RigidBody& rb, Vec3& inLinearVelocity, Vec3& inAngularVelocity);
-	void SetAngularVelocity(const RigidBody& rb, Vec3& inAngularVelocity);
-	Vec3 GetAngularVelocity(const RigidBody& rb);
-	Vec3 GetPointVelocity(const RigidBody& rb, Vec3& inPoint);
-	void SetPositionRotationAndVelocity(const RigidBody& rb, Vec3& inPosition, Quat& inRotation, Vec3& inLinearVelocity, Vec3& inAngularVelocity);
-	Mat4 GetInverseInertia(const RigidBody& rb);
+	DLL_API void MoveKinematic(RigidBody& rb, Vec3& inTargetPosition, Quat& inTargetRotation, float inDeltaTime);
+	DLL_API void SetLinearAndAngularVelocity(RigidBody& rb, Vec3& inLinearVelocity, Vec3& inAngularVelocity);
+	DLL_API void GetLinearAndAngularVelocity(RigidBody& rb, Vec3& outLinearVelocity, Vec3& outAngularVelocity);
+	DLL_API void SetLinearVelocity(RigidBody& rb, Vec3& inLinearVelocity);
+	DLL_API Vec3 GetLinearVelocity(RigidBody& rb);
+	DLL_API void AddLinearVelocity(RigidBody& rb, Vec3& inLinearVelocity);
+	DLL_API void AddLinearAndAngularVelocity(RigidBody& rb, Vec3& inLinearVelocity, Vec3& inAngularVelocity);
+	DLL_API void SetAngularVelocity(RigidBody& rb, Vec3& inAngularVelocity);
+	DLL_API Vec3 GetAngularVelocity(RigidBody& rb);
+	DLL_API Vec3 GetPointVelocity(RigidBody& rb, Vec3& inPoint);
+	DLL_API void SetPositionRotationAndVelocity(RigidBody& rb, Vec3& inPosition, Quat& inRotation, Vec3& inLinearVelocity, Vec3& inAngularVelocity);
+	DLL_API Mat4 GetInverseInertia(RigidBody& rb);
 	
 	/*!*************************************************************************
 	 * Position and rotation of a body
@@ -49,35 +49,35 @@ namespace TDS
 	/*!*************************************************************************
 	 * Add forces to the body
 	 ***************************************************************************/
-	void AddForce(const RigidBody& rb, Vec3& inForce);
-	void AddForce(const RigidBody& rb, Vec3& inForce, Vec3& inPoint);
-	void AddTorque(const RigidBody& rb, Vec3& inTorque);
-	void AddForceAndTorque(const RigidBody& rb, Vec3& inForce, Vec3& inTorque);
+	void AddForce(RigidBody& rb, Vec3& inForce);
+	void AddForce(RigidBody& rb, Vec3& inForce, Vec3& inPoint);
+	void AddTorque(RigidBody& rb, Vec3& inTorque);
+	void AddForceAndTorque(RigidBody& rb, Vec3& inForce, Vec3& inTorque);
 	
 	/*!*************************************************************************
 	 * Add an impulse to the body
 	 ***************************************************************************/
-	void AddImpulse(const RigidBody& rb, Vec3& inImpulse);
-	void AddImpulse(const RigidBody& rb, Vec3& inImpulse, Vec3& inPoint);
-	void AddAngularImpulse(const RigidBody& rb, Vec3& inAngularImpulse);
+	void AddImpulse(RigidBody& rb, Vec3& inImpulse);
+	void AddImpulse(RigidBody& rb, Vec3& inImpulse, Vec3& inPoint);
+	void AddAngularImpulse(RigidBody& rb, Vec3& inAngularImpulse);
 	
 	/*!*************************************************************************
 	 * Restitution 
 	 ***************************************************************************/
-	void SetRestitution(const RigidBody& rb, float inRestitution);
-	float GetRestitution(const RigidBody& rb);
+	DLL_API void SetRestitution(RigidBody& rb, float inRestitution);
+	DLL_API float GetRestitution(RigidBody& rb);
 
 	/*!*************************************************************************
 	 * Friction
 	 ***************************************************************************/
-	void SetFriction(const RigidBody& rb, float inFriction);
-	float GetFriction(const RigidBody& rb);
+	DLL_API void SetFriction(RigidBody& rb, float inFriction);
+	DLL_API float GetFriction(RigidBody& rb);
 
 	/*!*************************************************************************
 	 * Gravity Factor
 	 ***************************************************************************/
-	void SetGravityFactor(const RigidBody& rb, float inGravityFactor);
-	float GetGravityFactor(const RigidBody& rb);
+	DLL_API void SetGravityFactor(RigidBody& rb, float inGravityFactor);
+	DLL_API float GetGravityFactor(RigidBody& rb);
 
 }
 

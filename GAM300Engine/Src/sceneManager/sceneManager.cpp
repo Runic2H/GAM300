@@ -12,6 +12,7 @@
 
 #include "sceneManager/sceneManager.h"
 #include "propertyManager/registration.h"
+#include "eventManager/eventManager.h"
 
 namespace TDS
 {
@@ -541,6 +542,7 @@ namespace TDS
 	void SceneManager::loadScene(std::string scene)
 	{
 		ecs.removeAllEntities();
+		eventManager.clearQueues();
 		DeserializeFromFile(filePath + scene + ".json");
 		currentScene = scene;
 		currentSceneSaved = true;

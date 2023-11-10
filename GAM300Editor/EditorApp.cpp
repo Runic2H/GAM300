@@ -211,6 +211,7 @@ namespace TDS
             if (isPlaying)
             {
                 ecs.runSystems(1, DeltaTime); // Other systems
+                executeUpdate();
             }
             else
             {
@@ -244,7 +245,6 @@ namespace TDS
                 SceneManager::GetInstance()->loadScene(SceneManager::GetInstance()->getCurrentScene());
             }
 
-            executeUpdate();
             Input::scrollStop();
             
         }

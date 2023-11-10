@@ -134,6 +134,7 @@
     <ClInclude Include="Components\BoxColliderComponent.hxx" />
     <ClInclude Include="Components\CapsuleColliderComponent.hxx" />
     <ClInclude Include="Components\NameTagComponent.hxx" />
+    <ClInclude Include="Components\RigidBodyComponent.hxx" />
     <ClInclude Include="Components\SphereColliderComponent.hxx" />
     <ClInclude Include="Components\TransformComponent.hxx" />
     <ClInclude Include="Debug.hxx" />
@@ -150,6 +151,7 @@
     <ClCompile Include="Components\BoxColliderComponent.cxx" />
     <ClCompile Include="Components\CapsuleColliderComponent.cxx" />
     <ClCompile Include="Components\NameTagComponent.cxx" />
+    <ClCompile Include="Components\RigidBodyComponent.cxx" />
     <ClCompile Include="Components\SphereColliderComponent.cxx" />
     <ClCompile Include="Components\TransformComponent.cxx" />
     <ClCompile Include="EngineInterface.cxx" />

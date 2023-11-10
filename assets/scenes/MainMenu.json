@@ -2,8 +2,8 @@
     "Archetype Sizes": {
         "110000100000": {
             "0": 544,
-            "1": 448,
-            "6": 864
+            "1": 800,
+            "6": 896
         }
     },
     "Entity Data": {
@@ -18,46 +18,8 @@
             },
             "Transform": {
                 "Position": {
-                    "x": 3.0,
-                    "y": 0.0,
-                    "z": 0.0
-                },
-                "Scale": {
-                    "x": 1.0,
-                    "y": 1.0,
-                    "z": 1.0
-                },
-                "Rotation": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                }
-            },
-            "Graphics Component": {
-                "PointLight": false,
-                "TextureName": "",
-                "ModelName": "capsule_Bin.bin",
-                "Color": {
-                    "x": 1.0,
-                    "y": 0.0,
-                    "z": 0.0,
-                    "w": 1.0
-                }
-            }
-        },
-        "2": {
-            "ArchetypeID": "110000100000",
-            "Name Tag": {
-                "Name": "entity2",
-                "Tag": "",
-                "IsActive": true,
-                "HierarchyParent": 0,
-                "HierarchyIndex": 1
-            },
-            "Transform": {
-                "Position": {
-                    "x": -1.1244041919708252,
-                    "y": -0.985723614692688,
+                    "x": 5.060626983642578,
+                    "y": 3.52298903465271,
                     "z": 0.0
                 },
                 "Scale": {
@@ -73,14 +35,58 @@
             },
             "Graphics Component": {
                 "PointLight": false,
+                "TextureName": "",
+                "Mesh Renderer": true,
+                "Debug": false,
+                "ModelName": "capsule_Bin.bin",
+                "Color": {
+                    "x": 1.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "Used In 2D": false
+            }
+        },
+        "2": {
+            "ArchetypeID": "110000100000",
+            "Name Tag": {
+                "Name": "entity2",
+                "Tag": "",
+                "IsActive": true,
+                "HierarchyParent": 0,
+                "HierarchyIndex": 3
+            },
+            "Transform": {
+                "Position": {
+                    "x": 0.936223030090332,
+                    "y": 2.191743850708008,
+                    "z": 0.0
+                },
+                "Scale": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                },
+                "Rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                }
+            },
+            "Graphics Component": {
+                "PointLight": false,
                 "TextureName": "pumpkin.dds",
+                "Mesh Renderer": true,
+                "Debug": false,
                 "ModelName": "capsule_Bin.bin",
                 "Color": {
                     "x": 1.0,
                     "y": 1.0,
                     "z": 1.0,
                     "w": 1.0
-                }
+                },
+                "Used In 2D": false
             }
         },
         "3": {
@@ -90,12 +96,12 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 0,
-                "HierarchyIndex": 2
+                "HierarchyIndex": 1
             },
             "Transform": {
                 "Position": {
                     "x": -2.497084379196167,
-                    "y": 1.6488093137741089,
+                    "y": -1.393741250038147,
                     "z": -8.026918411254883
                 },
                 "Scale": {
@@ -112,13 +118,16 @@
             "Graphics Component": {
                 "PointLight": false,
                 "TextureName": "",
+                "Mesh Renderer": true,
+                "Debug": false,
                 "ModelName": "cube_Bin.bin",
                 "Color": {
                     "x": 1.0,
                     "y": 1.0,
                     "z": 1.0,
                     "w": 1.0
-                }
+                },
+                "Used In 2D": false
             }
         },
         "4": {
@@ -127,13 +136,13 @@
                 "Name": "entity4",
                 "Tag": "",
                 "IsActive": true,
-                "HierarchyParent": 0,
-                "HierarchyIndex": 3
+                "HierarchyParent": 3,
+                "HierarchyIndex": 0
             },
             "Transform": {
                 "Position": {
                     "x": 0.6938570737838745,
-                    "y": -1.3435213565826416,
+                    "y": -4.386071681976318,
                     "z": 0.48901987075805664
                 },
                 "Scale": {
@@ -143,20 +152,23 @@
                 },
                 "Rotation": {
                     "x": 0.0,
-                    "y": -0.0,
+                    "y": 0.0,
                     "z": 0.0
                 }
             },
             "Graphics Component": {
                 "PointLight": false,
                 "TextureName": "",
+                "Mesh Renderer": true,
+                "Debug": false,
                 "ModelName": "capsule_Bin.bin",
                 "Color": {
                     "x": 1.0,
                     "y": 1.0,
                     "z": 1.0,
                     "w": 1.0
-                }
+                },
+                "Used In 2D": false
             }
         }
     },
