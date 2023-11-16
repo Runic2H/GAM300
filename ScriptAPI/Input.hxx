@@ -30,6 +30,7 @@ namespace ScriptAPI
         static uint32_t P = TDS_P;
         static uint32_t Q = TDS_Q;
         static uint32_t R = TDS_R;
+        static uint32_t S = TDS_S;
         static uint32_t T = TDS_T;
         static uint32_t U = TDS_U;
         static uint32_t V = TDS_V;
