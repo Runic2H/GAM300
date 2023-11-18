@@ -28,6 +28,7 @@
 #include "Rendering/renderPass.h"
 #include "vulkanTools/FrameBuffer.h"
 #include "Tools/DDSConverter.h"
+#include "imguiHelper/ImguiProperties.h"
 #include "imguiHelper/ImguiScene.h"
 #include "imguiHelper/ImguiGamePlayScene.h"
 #include "Physics/PhysicsSystem.h"
@@ -54,7 +55,8 @@ namespace TDS
         IMGUI_WIN32_WNDPROCHANDLER_FORWARD_DECLARATION;
         ImGui_ImplWin32_WndProcHandler(hWnd, uMsg, wParam, lParam); //for imgui implementation
         //can extern  some imgui wndproc handler | tbc
-
+        SetWindowHandle(hWnd);
+        
         switch (uMsg)
         {
 
@@ -120,6 +122,14 @@ namespace TDS
         }break;
         }
     }
+    void Application::SetWindowHandle(HWND hWnd)
+    {
+        m_handler = hWnd;
+    }
+    HWND Application::GetWindowHandle()
+    {
+        return m_handler;
+    }
     void Application::Initialize()
     {
 
@@ -138,6 +148,13 @@ namespace TDS
                 "ScriptAPI",
                 "ScriptAPI.EngineInterface",
                 "ExecuteUpdate"
+            );
+
+        auto executeLateUpdate = GetFunctionPtr<void(*)(void)>
+            (
+                "ScriptAPI",
+                "ScriptAPI.EngineInterface",
+                "ExecuteLateUpdate"
             );
 
         auto reloadScripts = GetFunctionPtr<void(*)(void)>
@@ -304,6 +321,14 @@ namespace TDS
         // Step 2: Initialize
         init();
 
+        std::shared_ptr<Properties> properties = static_pointer_cast<Properties>(LevelEditorManager::GetInstance()->panels[PanelTypes::PROPERTIES]);
+        properties->getScriptVariables = GetFunctionPtr<std::vector<ScriptValues>(*)(EntityID, std::string)>
+            (
+                "ScriptAPI",
+                "ScriptAPI.EngineInterface",
+                "GetScriptVariablesEditor"
+            );
+
         SceneManager::GetInstance()->getScriptVariables = GetFunctionPtr<std::vector<ScriptValues>(*)(EntityID, std::string)>
             (
                 "ScriptAPI",
@@ -380,6 +405,13 @@ namespace TDS
         //        "ScriptAPI.EngineInterface",
         //        "SetValueChar"
         //    );
+
+        SceneManager::GetInstance()->setVector3 = GetFunctionPtr<void(*)(EntityID, std::string, std::string, Vec3)>
+            (
+                "ScriptAPI",
+                "ScriptAPI.EngineInterface",
+                "SetVector3"
+            );
 
         SceneManager::GetInstance()->setGameObject = GetFunctionPtr<void(*)(EntityID, std::string, std::string, EntityID)>
             (
@@ -585,7 +617,7 @@ namespace TDS
         // Failed build
         else
         {
-            throw std::runtime_error("Failed to build managed scripts!");
+             throw std::runtime_error("Failed to build managed scripts!");
         }
     }
 

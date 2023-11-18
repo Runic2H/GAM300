@@ -49,17 +49,17 @@ namespace TDS
 	/*!*************************************************************************
 	 * Add forces to the body
 	 ***************************************************************************/
-	void AddForce(RigidBody& rb, Vec3& inForce);
-	void AddForce(RigidBody& rb, Vec3& inForce, Vec3& inPoint);
-	void AddTorque(RigidBody& rb, Vec3& inTorque);
-	void AddForceAndTorque(RigidBody& rb, Vec3& inForce, Vec3& inTorque);
+	DLL_API void AddForce(RigidBody& rb, Vec3& inForce);
+	DLL_API void AddForce(RigidBody& rb, Vec3& inForce, Vec3& inPoint);
+	DLL_API void AddTorque(RigidBody& rb, Vec3& inTorque);
+	DLL_API void AddForceAndTorque(RigidBody& rb, Vec3& inForce, Vec3& inTorque);
 	
 	/*!*************************************************************************
 	 * Add an impulse to the body
 	 ***************************************************************************/
-	void AddImpulse(RigidBody& rb, Vec3& inImpulse);
-	void AddImpulse(RigidBody& rb, Vec3& inImpulse, Vec3& inPoint);
-	void AddAngularImpulse(RigidBody& rb, Vec3& inAngularImpulse);
+	DLL_API void AddImpulse(RigidBody& rb, Vec3& inImpulse);
+	DLL_API void AddImpulse(RigidBody& rb, Vec3& inImpulse, Vec3& inPoint);
+	DLL_API void AddAngularImpulse(RigidBody& rb, Vec3& inAngularImpulse);
 	
 	/*!*************************************************************************
 	 * Restitution 

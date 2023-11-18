@@ -19,7 +19,7 @@ public:
     Vec4(const Vec2& v, float newZ, float newW); // Constructor with Vec2 and two values
     Vec4(const Vec3& v, float newW); // Constructor with Vec4 and one value
     Vec4(const float* newX, const float* newY, const float* newZ, const float* newW); // Constructor with four pointers
-    ~Vec4();
+    //~Vec4();
 
     // Static Properties
     static Vec4 one();

@@ -10,7 +10,7 @@ namespace TDS
     Vec4::Vec4(const Vec2& v, float newZ, float newW) : x(v.x), y(v.y), z(newZ), w(newW) {}
     Vec4::Vec4(const Vec3& v, float newW) : x(v.x), y(v.y), z(v.z), w(newW) {}
     Vec4::Vec4(const float* newX, const float* newY, const float* newZ, const float* newW) : x(*newX), y(*newY), z(*newZ), w(*newW) {}
-    Vec4::~Vec4() {}
+    //Vec4::~Vec4() {}
 
     Vec4 Vec4::one() { return Vec4(1.f, 1.f, 1.f, 1.f); }
     Vec4 Vec4::zero() { return Vec4(0.f, 0.f, 0.f, 0.f); }

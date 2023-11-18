@@ -1,5 +1,8 @@
 ﻿using ScriptAPI;
 using System;
+using System.Collections.Specialized;
+using System.Runtime.CompilerServices;
+using System.Security.Cryptography;
 using System.Threading.Tasks;
 
 public class Testing : Script
@@ -38,6 +41,7 @@ public class Test : Script
         //otherEntity.GetComponent<TransformComponent>().SetPositionX(20);
         //Console.WriteLine(script.gameObject);
         //gameObject.GetTransformComponent();
+        floatTest = 3.0f;
     }
 
     public override void OnEnable() 
@@ -53,8 +57,28 @@ public class Test : Script
 
     public override void Update()
     {
+        Vector3 pos = gameObject.GetComponent<TransformComponent>().GetPosition();
         //Console.WriteLine("Aye Lmao");
-        gameObject.GetComponent<TransformComponent>().SetPositionX(3);
+        if (Input.GetKeyDown(Keycode.W))
+        {
+            pos.Y += floatTest;
+            gameObject.GetComponent<TransformComponent>().SetPositionY(pos.Y);
+        }
+        if (Input.GetKeyDown(Keycode.S))
+        {
+            pos.Y -= floatTest;
+            gameObject.GetComponent<TransformComponent>().SetPositionY(pos.Y);
+        }
+        if (Input.GetKeyDown(Keycode.A))
+        {
+            pos.X -= floatTest;
+            gameObject.GetComponent<TransformComponent>().SetPositionX(pos.X);
+        }
+        if (Input.GetKeyDown(Keycode.D))
+        {
+            pos.X += floatTest;
+            gameObject.GetComponent<TransformComponent>().SetPositionX(pos.X);
+        }
         //TransformComponent tf = gameObject.GetTransformComponent();
         //tf.SetPositionX(3.0f);
     }

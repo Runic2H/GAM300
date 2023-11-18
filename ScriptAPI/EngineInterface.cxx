@@ -398,7 +398,7 @@ namespace ScriptAPI
         return scripts[entityId][scriptName]->isScriptEnabled();
     }
 
-    std::vector<TDS::ScriptValues> EngineInterface::GetScriptVariables(TDS::EntityID entityId, std::string script)
+    std::vector<TDS::ScriptValues> EngineInterface::GetScriptVariablesEditor(TDS::EntityID entityId, std::string script)
     {
         std::vector<TDS::ScriptValues> scriptValues;
 
@@ -423,14 +423,20 @@ namespace ScriptAPI
         Type^ type = obj->GetType();
         array<FieldInfo^>^ fields = type->GetFields(BindingFlags::Public | BindingFlags::Instance | BindingFlags::NonPublic);
 
-        for each (FieldInfo ^ field in fields) 
+        for each (FieldInfo ^ field in fields)
         {
-            if (field->GetCustomAttributes(SerializeFieldAttribute::typeid, true)->Length > 0)
+            if (field->GetCustomAttributes(HeaderAttribute::typeid, true)->Length > 0)
             {
-                //System::Console::WriteLine(field->Name);
-                //System::Console::WriteLine(field->FieldType);
-                //System::Console::WriteLine(field->GetValue(obj));
+                TDS::ScriptValues newScriptValue;
 
+                auto headerName = reinterpret_cast<HeaderAttribute^>(field->GetCustomAttributes(HeaderAttribute::typeid, true)[0]);
+                newScriptValue.headerString = toStdString(headerName->string);
+
+                scriptValues.emplace_back(newScriptValue);
+            }
+
+            if ((field->GetCustomAttributes(SerializeFieldAttribute::typeid, true)->Length > 0 || field->IsPublic) && field->GetCustomAttributes(HideInInspectorAttribute::typeid, true)->Length <= 0)
+            {
                 TDS::ScriptValues newScriptValue;
 
                 newScriptValue.name = toStdString(field->Name);
@@ -458,7 +464,24 @@ namespace ScriptAPI
                     {
                         newScriptValue.value = toStdString(field->GetValue(obj)->ToString());
                     }
-                    else // Script
+                    else if (field->FieldType->ToString() == "ScriptAPI.Vector3") // Vector3
+                    {
+                        auto value = safe_cast<Vector3^>(field->GetValue(obj));
+                        newScriptValue.vectorValueX = value->X;
+                        newScriptValue.vectorValueY = value->Y;
+                        newScriptValue.vectorValueZ = value->Z;
+                    }
+                    // Components =====================================================================================
+                    else if (field->FieldType->ToString() == "ScriptAPI.BoxColliderComponent")
+                    {
+                        newScriptValue.referenceEntityID = safe_cast<BoxColliderComponent^>(field->GetValue(obj))->GetEntityID();
+                    }
+                    else if (field->FieldType->ToString() == "ScriptAPI.CameraComponent")
+                    {
+                        newScriptValue.referenceEntityID = safe_cast<CameraComponent^>(field->GetValue(obj))->GetEntityID();
+                    }
+                    // Script =========================================================================================
+                    else 
                     {
                         newScriptValue.referenceEntityID = safe_cast<Script^>(field->GetValue(obj))->gameObject->GetEntityID();
                     }
@@ -466,6 +489,90 @@ namespace ScriptAPI
 
                 scriptValues.emplace_back(newScriptValue);
             }
+        }
+
+        return scriptValues;
+    }
+
+    std::vector<TDS::ScriptValues> EngineInterface::GetScriptVariables(TDS::EntityID entityId, std::string script)
+    {
+        std::vector<TDS::ScriptValues> scriptValues;
+
+        if (entityId == TDS::NULLENTITY)
+        {
+            return scriptValues;
+        }
+
+        // Remove any whitespaces
+        auto scriptName = toSystemString(script);
+
+        scriptName = scriptName->Trim();
+
+        Object^ obj = scripts[entityId][scriptName];
+
+        // Failed to get any script
+        if (obj == nullptr)
+        {
+            return scriptValues;
+        }
+
+        Type^ type = obj->GetType();
+        array<FieldInfo^>^ fields = type->GetFields(BindingFlags::Public | BindingFlags::Instance | BindingFlags::NonPublic);
+
+        for each (FieldInfo ^ field in fields) 
+        {
+            TDS::ScriptValues newScriptValue;
+
+            newScriptValue.name = toStdString(field->Name);
+            newScriptValue.type = toStdString(field->FieldType->ToString());
+
+            if (field->GetValue(obj) != nullptr)
+            {
+                if (field->FieldType->ToString() == "ScriptAPI.GameObject")
+                {
+                    newScriptValue.referenceEntityID = safe_cast<GameObject^>(field->GetValue(obj))->GetEntityID();
+                }
+                else if (field->FieldType->ToString() == "System.Boolean"
+                    || field->FieldType->ToString() == "System.Int16"
+                    || field->FieldType->ToString() == "System.Int32"
+                    || field->FieldType->ToString() == "System.Int64"
+                    || field->FieldType->ToString() == "System.UInt16"
+                    || field->FieldType->ToString() == "System.UInt32"
+                    || field->FieldType->ToString() == "System.UInt64"
+                    || field->FieldType->ToString() == "System.Byte"
+                    || field->FieldType->ToString() == "System.SByte"
+                    || field->FieldType->ToString() == "System.Double"
+                    || field->FieldType->ToString() == "System.Single"
+                    || field->FieldType->ToString() == "System.Char"
+                    || field->FieldType->ToString() == "System.String")
+                {
+                    newScriptValue.value = toStdString(field->GetValue(obj)->ToString());
+                }
+                else if (field->FieldType->ToString() == "ScriptAPI.Vector3") // Vector3
+                {
+                    auto value = safe_cast<Vector3^>(field->GetValue(obj));
+                    newScriptValue.vectorValueX = value->X;
+                    newScriptValue.vectorValueY = value->Y;
+                    newScriptValue.vectorValueZ = value->Z;
+                }
+                // Components =====================================================================================
+                else if (field->FieldType->ToString() == "ScriptAPI.BoxColliderComponent")
+                {
+                    newScriptValue.type = toStdString("Component");
+                    newScriptValue.referenceEntityID = safe_cast<BoxColliderComponent^>(field->GetValue(obj))->GetEntityID();
+                }
+                else if (field->FieldType->ToString() == "ScriptAPI.CameraComponent")
+                {
+                    newScriptValue.type = toStdString("Component");
+                    newScriptValue.referenceEntityID = safe_cast<CameraComponent^>(field->GetValue(obj))->GetEntityID();
+                }
+                else // Script
+                {
+                    newScriptValue.referenceEntityID = safe_cast<Script^>(field->GetValue(obj))->gameObject->GetEntityID();
+                }
+            }
+
+            scriptValues.emplace_back(newScriptValue);
         }
 
         return scriptValues;
@@ -644,6 +751,35 @@ namespace ScriptAPI
     //        }
     //    }
     //}
+
+    void EngineInterface::SetVector3(TDS::EntityID entityId, std::string script, std::string variableName, TDS::Vec3 value)
+    {
+        String^ variable = toSystemString(variableName);
+
+        Object^ currentObject = scripts[entityId][toSystemString(script)];
+
+        if (currentObject == nullptr)
+        {
+            return;
+        }
+
+        array<FieldInfo^>^ currentFieldArray = currentObject->GetType()->GetFields(BindingFlags::Public | BindingFlags::Instance | BindingFlags::NonPublic);
+
+        if (currentFieldArray == nullptr)
+        {
+            return;
+        }
+
+        for each (FieldInfo^ field in currentFieldArray)
+        {
+            if (field->GetCustomAttributes(SerializeFieldAttribute::typeid, true)->Length > 0 && field->Name == variable)
+            {
+                Vector3 newValue(value);
+                field->SetValue(currentObject, newValue);
+                return;
+            }
+        }
+    }
 
     void EngineInterface::SetGameObject(TDS::EntityID entityId, std::string script, std::string variableName, TDS::EntityID gameObjectEntityID)
     {

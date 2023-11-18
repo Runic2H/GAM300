@@ -455,4 +455,9 @@ namespace TDS
         return v1.x != v2.x || v1.y != v2.y || v1.z != v2.z;
     }
 
+    Vec3 floatsToVec3(float x, float y, float z)
+    {
+        return Vec3(x, y, z);
+    }
+
 }  // namespace WD

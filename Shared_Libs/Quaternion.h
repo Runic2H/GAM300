@@ -26,7 +26,7 @@ class Quat
     Quat(float angle, Vec3 const& axis); // Constructor with angle and axis
     Quat(Vec3 const& u, Vec3 const& v); // Constructor with two vectors
     Quat(Vec3 const& euler); // Constructor with euler angles in radians
-    ~Quat();
+    //~Quat();
 
     // Functions
 
@@ -127,6 +127,8 @@ Quat operator/(Quat const& q, float const& f);
 // boolean operator
 bool operator==(Quat const& q1, Quat const& q2);
 bool operator!=(Quat const& q1, Quat const& q2);
+
+DLL_API Quat floatsToQuat(float x, float y, float z, float w);
 
 } // namespace WD
 

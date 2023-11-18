@@ -42,7 +42,7 @@ namespace TDS
         y = c.x * s.y * c.z + s.x * c.y * s.z;
         z = c.x * c.y * s.z - s.x * s.y * c.z;
 	}
-	Quat::~Quat() {}
+	//Quat::~Quat() {}
 	float Quat::angle(Quat const& q)
 	{
         if (Mathf::Abs(q.w) > Mathf::Cos(0.5f))
@@ -481,5 +481,10 @@ namespace TDS
 	bool operator!=(Quat const& q1, Quat const& q2)
 	{
 		return q1.w != q2.w || q1.x != q2.x || q1.y != q2.y || q1.z != q2.z;
+	}
+
+	Quat floatsToQuat(float x, float y, float z, float w)
+	{
+		return Quat(x, y, z, w);
 	}
 } // namespace WD

@@ -140,6 +140,7 @@ bool operator==(const Vec3& v1, const Vec3& v2);
 bool operator!=(const Vec3& v1, const Vec3& v2);
 std::ostream& operator<<(std::ostream& os, const Vec3& v);
 
+DLL_API Vec3 floatsToVec3(float x, float y, float z);
 
 } 
 

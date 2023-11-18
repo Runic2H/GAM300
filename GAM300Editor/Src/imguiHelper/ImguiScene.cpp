@@ -10,6 +10,7 @@
 #include "vulkanTools/Renderer.h"
 #include "imgui/ImGuizmo.h"
 #include "eventManager/eventHandler.h"
+#include "../EditorApp.h"
 //#include "Input/Input.h"
 namespace TDS
 {
@@ -35,6 +36,24 @@ namespace TDS
 	}
 	void EditorScene::update()
 	{
+		if (ImGui::BeginMenuBar())
+		{
+			if (isPlaying)
+			{
+				if (ImGui::BeginMenu("Scene is Playing..."))
+				{
+					ImGui::EndMenu();
+				}
+			}
+			else
+			{
+				if (ImGui::BeginMenu("Scene is Paused"))
+				{
+					ImGui::EndMenu();
+				}
+			}
+			ImGui::EndMenuBar();
+		}
 		//ImGui::Image(reinterpret_cast<void*>(vkTexture.m_DescSet), ImVec2{ 200, 200 }, ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
 		//if (ImGui::BeginDragDropTarget())
 		//{
@@ -72,7 +91,7 @@ namespace TDS
 		static bool view2D = false;
 	
 		ImGui::Image((ImTextureID)m_DescSet, vSize);
-		//drag drop code MUST be ddirecvtly under imgui::image code
+		//drag drop code MUST be directly under imgui::image code
 		if (ImGui::BeginDragDropTarget())
 		{
 			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("CONTENT_BROWSER_ITEM"))
@@ -103,11 +122,9 @@ namespace TDS
 			ImGui::EndDragDropTarget();
 		}
 
-
 		std::shared_ptr<Hierarchy> hierarchyPanel = static_pointer_cast<Hierarchy>(LevelEditorManager::GetInstance()->panels[PanelTypes::HIERARCHY]);
 		if (EntityID selectedEntity = hierarchyPanel->getSelectedEntity())
 		{
-
 			if (GraphicsManager::getInstance().IsViewingFrom2D())
 			{
 				GraphicsComponent* graphComp = reinterpret_cast<GraphicsComponent*>(getComponentByName("Graphics Component", selectedEntity));

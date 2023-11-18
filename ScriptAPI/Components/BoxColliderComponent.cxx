@@ -48,7 +48,7 @@ namespace ScriptAPI
 			return Vector3(0.f, 0.f, 0.f);
 		}
 
-		return Vector3(TDS::GetBoxCollider(entityID)->GetCenter().x, TDS::GetBoxCollider(entityID)->GetCenter().y, TDS::GetBoxCollider(entityID)->GetCenter().z);
+		return Vector3(TDS::GetBoxCollider(entityID)->GetCenter());
 
 		//return TDS::GetTransform(entityID)->GetPosition();
 	}
@@ -100,7 +100,7 @@ namespace ScriptAPI
 			return Vector3(0.f, 0.f, 0.f);
 		}
 
-		return Vector3(TDS::GetBoxCollider(entityID)->GetSize().x, TDS::GetBoxCollider(entityID)->GetSize().y, TDS::GetBoxCollider(entityID)->GetSize().z);
+		return Vector3(TDS::GetBoxCollider(entityID)->GetSize());
 
 		//return TDS::GetTransform(entityID)->GetPosition();
 	}
@@ -144,4 +144,9 @@ namespace ScriptAPI
 	// CONSTRUCTOR ===========================================================================
 	BoxColliderComponent::BoxColliderComponent(TDS::EntityID ID) : entityID(ID)
 	{ }
+
+	TDS::EntityID BoxColliderComponent::GetEntityID()
+	{
+		return entityID;
+	}
 }

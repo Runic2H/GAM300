@@ -54,6 +54,7 @@ namespace TDS
 		DLL_API void setYaw(float yaw) { m_Yaw = yaw; }
 		DLL_API void setPitch(float pitch) { m_Pitch = pitch; }
 		DLL_API void setPosition(Vec3 position) { m_Position = position; }
+		DLL_API void setPosition(float positionX, float positionY, float positionZ) { m_Position = Vec3(positionX, positionY, positionZ); }
 		DLL_API void setSpeed(float speed) { m_Speed = speed; }
 		DLL_API void setMouseSensitivity(float sensitivity) { m_mouseSensitivity = sensitivity; }
 		DLL_API void setFOV(float fov) { m_Fov = fov; }

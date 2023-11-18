@@ -81,6 +81,10 @@ namespace ScriptAPI
 		***************************************************************************/
 		static bool HasScriptViaName(TDS::EntityID entityId, std::string script);
 		/*!*************************************************************************
+		* Getting script fields for editor
+		***************************************************************************/
+		static std::vector<TDS::ScriptValues> GetScriptVariablesEditor(TDS::EntityID entityId, std::string script);
+		/*!*************************************************************************
 		* Getting script fields for serializing
 		***************************************************************************/
 		static std::vector<TDS::ScriptValues> GetScriptVariables(TDS::EntityID entityID, std::string scriptName);
@@ -105,6 +109,7 @@ namespace ScriptAPI
 		static void SetValueFloat(TDS::EntityID entityId, std::string script, std::string variableName, float value);
 		static void SetValueString(TDS::EntityID entityId, std::string script, std::string variableName, std::string value);
 		//static void SetValueChar(TDS::EntityID entityId, std::string script, std::string variableName, char value);
+		static void SetVector3(TDS::EntityID entityId, std::string script, std::string variableName, TDS::Vec3 value);
 		static void SetGameObject(TDS::EntityID entityId, std::string script, std::string variableName, TDS::EntityID gameObjectEntityID);
 		static void SetScript(TDS::EntityID entityId, std::string script, std::string variableName, TDS::EntityID gameObjectEntityID, std::string scriptReference);
 		

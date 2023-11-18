@@ -35,6 +35,11 @@ namespace TDS
 		std::string value;
 		std::string type;
 		EntityID referenceEntityID = 0;
+
+		float vectorValueX;
+		float vectorValueY;
+		float vectorValueZ;
+		std::string headerString;
 	};
 
 	/*!*************************************************************************

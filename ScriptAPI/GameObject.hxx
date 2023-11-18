@@ -1,5 +1,6 @@
 #pragma once
 #include "Components/BoxColliderComponent.hxx"
+#include "Components/CameraComponent.hxx"
 #include "Components/CapsuleColliderComponent.hxx"
 #include "Components/NameTagComponent.hxx"
 #include "Components/SphereColliderComponent.hxx"
@@ -14,6 +15,7 @@ namespace ScriptAPI
         T GetComponent();
 
         BoxColliderComponent GetBoxColliderComponent();
+        CameraComponent GetCameraComponent();
         CapsuleColliderComponent GetCapsuleColliderComponent();
         NameTagComponent GetNameTagComponent();
         SphereColliderComponent GetSphereColliderComponent();

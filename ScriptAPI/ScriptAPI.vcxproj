@@ -132,11 +132,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Components\BoxColliderComponent.hxx" />
+    <ClInclude Include="Components\CameraComponent.hxx" />
     <ClInclude Include="Components\CapsuleColliderComponent.hxx" />
     <ClInclude Include="Components\NameTagComponent.hxx" />
     <ClInclude Include="Components\RigidBodyComponent.hxx" />
     <ClInclude Include="Components\SphereColliderComponent.hxx" />
     <ClInclude Include="Components\TransformComponent.hxx" />
+    <ClInclude Include="CustomAttributeHeaders.hxx" />
     <ClInclude Include="Debug.hxx" />
     <ClInclude Include="EngineInterface.hxx" />
     <ClInclude Include="GameObject.hxx" />
@@ -146,9 +148,11 @@
     <ClInclude Include="Script.hxx" />
     <ClInclude Include="TypeConversion.hxx" />
     <ClInclude Include="Vector3.hxx" />
+    <ClInclude Include="Vector4.hxx" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Components\BoxColliderComponent.cxx" />
+    <ClCompile Include="Components\CameraComponent.cxx" />
     <ClCompile Include="Components\CapsuleColliderComponent.cxx" />
     <ClCompile Include="Components\NameTagComponent.cxx" />
     <ClCompile Include="Components\RigidBodyComponent.cxx" />
@@ -160,6 +164,7 @@
     <ClCompile Include="Script.cxx" />
     <ClCompile Include="TypeConversion.cxx" />
     <ClCompile Include="Vector3.cxx" />
+    <ClCompile Include="Vector4.cxx" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
