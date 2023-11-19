@@ -84,7 +84,6 @@
     <ClCompile Include="Src\Rendering\RenderTarget.cpp" />
     <ClCompile Include="Src\Rendering\renderPass.cpp" />
     <ClCompile Include="Src\AssetManagement\ResourceAllocator.cpp" />
-    <ClCompile Include="Src\components\FontComponent.cpp" />
     <ClCompile Include="Src\GridManager\GridManager.cpp" />
     <ClCompile Include="Src\Rendering\FontRenderer.cpp" />
     <ClCompile Include="Src\Rendering\GridRenderer.cpp" />
@@ -99,6 +98,7 @@
     <ClCompile Include="Src\camera\SphereFrustum.cpp" />
     <ClCompile Include="Src\Rendering\Renderer2D.cpp" />
     <ClCompile Include="Src\Physics\Interface\PhysicsInterface.cpp" />
+    <ClCompile Include="Src\Rendering\FontSystem.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Shared_Libs\MathCommon.h" />
@@ -212,7 +212,6 @@
     <ClInclude Include="Include\Physics\JPHLayers.h" />
     <ClInclude Include="Include\GraphicsResource\FontInfo.h" />
     <ClInclude Include="Include\GridManager\GridManager.h" />
-    <ClInclude Include="Include\components\FontComponent.h" />
     <ClInclude Include="Include\AssetManagement\ResourceAllocator.h" />
     <ClInclude Include="Include\Rendering\FontRenderer.h" />
     <ClInclude Include="Include\Rendering\GridRenderer.h" />
@@ -228,6 +227,9 @@
     <ClInclude Include="Include\camera\SphereFrustum.h" />
     <ClInclude Include="Include\Physics\CollisionSystem.h" />
     <ClInclude Include="Include\Physics\Interface\PhysicsInterface.h" />
+    <ClInclude Include="Include\AssetManagement\FontFactory.h" />
+    <ClInclude Include="Include\Rendering\Batch2D.h" />
+    <ClInclude Include="Include\Rendering\FontSystem.h" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Include\Logger\Logger.h" />

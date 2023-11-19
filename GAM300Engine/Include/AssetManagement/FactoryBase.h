@@ -19,7 +19,8 @@ namespace TDS
 		//void Preload(ResourceAllocator& resourceMgr);
 		//static void Load(std::string_view path, TypeReference<T>& model, ResourceAllocator& resourceMgr);
 		void Preload();
-		static void Load(std::string_view path, TypeReference<T>& model, AssetFactory<T>& assetFactory);
+
+		void Load(std::string_view path, TypeReference<T>& model);
 
 
 	};

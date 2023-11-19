@@ -1,7 +1,6 @@
 #include "EngineInterface.hxx"
 #include "Debug.hxx"
 #include "TypeConversion.hxx"
-#include "HelperFunctions.hxx"
 using namespace System;
 using namespace System::Runtime::InteropServices;
 #pragma comment (lib, "GAM300Engine.lib")

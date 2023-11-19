@@ -158,8 +158,8 @@ namespace TDS
 				rttr::instance addedComponent = getComponentByName(component, lastEntity);
 				fromJsonRecur(addedComponent, componentData);
 			}
-
 			updateName(lastEntity, ecs.getComponent<NameTag>(lastEntity)->GetName());
+
 		}
 
 		ecs.setIDCounter(lastEntity + 1);
@@ -173,7 +173,7 @@ namespace TDS
 			{
 				std::string scriptName = script.name.GetString();
 
-				std::cout << "script" << std::endl;
+				//std::cout << "script" << std::endl;
 				addScript(currentEntity, scriptName);
 
 				for (auto& variable : script.value.GetObject())

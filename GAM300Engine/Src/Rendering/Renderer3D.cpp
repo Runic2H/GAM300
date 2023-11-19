@@ -29,7 +29,7 @@ namespace TDS
 		entry.m_PipelineConfig.m_SrcClrBlend = VK_BLEND_FACTOR_ZERO;
 		entry.m_PipelineConfig.m_SrcAlphaBlend = VK_BLEND_FACTOR_ZERO;
 		entry.m_PipelineConfig.m_DstAlphaBlend = VK_BLEND_FACTOR_ZERO;
-
+		entry.m_PipelineConfig.m_CullMode= VkCullModeFlagBits::VK_CULL_MODE_NONE;
 		VertexLayout layout = 
 		VertexLayout(
 		{ 

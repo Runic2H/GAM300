@@ -15,6 +15,7 @@
 #include "Rendering/renderPass.h"
 #include "vulkanTools/FrameBuffer.h"
 #include "Rendering/Renderer2D.h"
+#include "Rendering/FontRenderer.h"
 namespace TDS
 {
 	GraphicsManager::GraphicsManager()
@@ -73,6 +74,7 @@ namespace TDS
 		
 		Renderer3D::Init();
 		Renderer2D::GetInstance()->Init();
+		FontRenderer::GetInstance()->Init();
 		m_PointLightRenderer = std::make_unique<PointLightSystem>(*m_MainVkContext);
 		m_DebugRenderer = std::make_unique<DebugRenderer>(*m_MainVkContext);
 		for (auto& renderLayer : m_RenderLayer)
@@ -130,6 +132,7 @@ namespace TDS
 		Renderer3D::getInstance()->ShutDown();
 		Renderer2D::GetInstance()->ShutDown();
 		m_DebugRenderer->GetPipeline().ShutDown();
+		FontRenderer::GetInstance()->ShutDown();
 		GlobalBufferPool::GetInstance()->Destroy();
 		m_RenderingAttachment->~RenderTarget();
 		m_RenderingDepthAttachment->~RenderTarget();

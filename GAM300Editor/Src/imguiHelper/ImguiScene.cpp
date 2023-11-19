@@ -29,13 +29,15 @@ namespace TDS
 		windowPadding = ImVec2(0.f, 0.f);
 	}
 
-	std::string tempPath = "../../assets/textures/texture.dds";
+	std::string tempPath = "../assets/textures/texture.dds";
 	void EditorScene::init()
 	{
 		m_DescSet = ImGui_ImplVulkan_AddTexture(GraphicsManager::getInstance().getFinalImage().getSampler(), GraphicsManager::getInstance().getFinalImage().getImageView(), VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL);
 	}
 	void EditorScene::update()
 	{
+		isFocus = ImGui::IsWindowFocused() && ImGui::IsItemVisible();
+
 		if (ImGui::BeginMenuBar())
 		{
 			if (isPlaying)
@@ -86,7 +88,6 @@ namespace TDS
 		//}
 		//data.LoadTexture(tempPath);
 		//vkTexture.CreateBasicTexture(data.m_TextureInfo);
-		isFocus = ImGui::IsWindowFocused() && ImGui::IsItemVisible();
 		ImVec2 vSize = ImGui::GetContentRegionAvail();
 		static bool view2D = false;
 	

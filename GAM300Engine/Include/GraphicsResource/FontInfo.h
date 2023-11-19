@@ -41,6 +41,8 @@ namespace TDS
 		std::vector<std::pair<int, int>> m_Kerning;
 
 		void DLL_API DeserializeFontAtlas(std::string_view path);
+		static bool DLL_API DescenderExist(const Glyph& glyph, const Metrics& metrics);
+		static bool DLL_API AscenderExist(const Glyph& glyph, const Metrics& metrics);
 	};
 	class Texture;
 	struct FontInfo

@@ -186,6 +186,19 @@ namespace TDS
 		}
 	
 
+		ImGui::SameLine();
+		ImGui::PushStyleColor(ImGuiCol_Button, { 0.1f,0.1f,0.1f,1 });
+		ImGui::PushStyleColor(ImGuiCol_ButtonHovered, { 1,0.1f,0,1 });
+		if (ImGui::Button("Toggle 2D/3D view", { 120, 19 }))
+		{
+			static bool view2Dtoggle = false;
+			//console->AddLog("Save Scene Button Pressed");
+			view2Dtoggle = !view2Dtoggle;
+			GraphicsManager::getInstance().ToggleViewFrom2D(view2Dtoggle);
+		}
+		ImGui::PopStyleColor();
+		ImGui::PopStyleColor();
+
 		//ImGui::SameLine();
 		//ImGui::PushStyleColor(ImGuiCol_Button, { 0.1f,0.1f,0.1f,1 });
 		//ImGui::PushStyleColor(ImGuiCol_ButtonHovered, { 1,0.1f,0,1 });

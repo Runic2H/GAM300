@@ -38,10 +38,10 @@ namespace TDS
 		GridEntry.m_NumDescriptorSets = 1;
 		DebugEntry.m_NumDescriptorSets = 1;
 
-		DebugEntry.m_ShaderInputs.m_Shaders.insert(std::make_pair(SHADER_FLAG::VERTEX, "../../assets/shaders/GridLineVertex.spv"));
-		DebugEntry.m_ShaderInputs.m_Shaders.insert(std::make_pair(SHADER_FLAG::FRAGMENT, "../../assets/shaders/GridLineFrag.spv"));
-		GridEntry.m_ShaderInputs.m_Shaders.insert(std::make_pair(SHADER_FLAG::VERTEX, "../../assets/shaders/GridVertex.spv"));
-		GridEntry.m_ShaderInputs.m_Shaders.insert(std::make_pair(SHADER_FLAG::FRAGMENT, "../../assets/shaders/GridFrag.spv"));
+		DebugEntry.m_ShaderInputs.m_Shaders.insert(std::make_pair(SHADER_FLAG::VERTEX, "../assets/shaders/GridLineVertex.spv"));
+		DebugEntry.m_ShaderInputs.m_Shaders.insert(std::make_pair(SHADER_FLAG::FRAGMENT, "../assets/shaders/GridLineFrag.spv"));
+		GridEntry.m_ShaderInputs.m_Shaders.insert(std::make_pair(SHADER_FLAG::VERTEX, "../assets/shaders/GridVertex.spv"));
+		GridEntry.m_ShaderInputs.m_Shaders.insert(std::make_pair(SHADER_FLAG::FRAGMENT, "../assets/shaders/GridFrag.spv"));
 		VertexLayout layout0 =
 			VertexLayout(
 				{

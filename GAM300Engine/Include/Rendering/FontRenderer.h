@@ -2,63 +2,81 @@
 #include "MathCommon.h"
 #include "GraphicsResource/FontInfo.h"
 #include "vulkanTools/VMATypes/VMABuffer.h"
-#include "components/components.h"
 #include <ecs/ecs.h>
 #include <dotnet/ImportExport.h>
+#include "Rendering/Batch2D.h"
 namespace TDS
 {
-
-	class VulkanPipeline;
-	class FrameBuffer;
-
-	struct Instance
+	struct alignas(16) FontSceneUBO
 	{
-		Vec2 m_StartUV;
-		Vec2 m_EndUV;
-		Mat4 m_model;
+		Mat4 Projection;
+		Mat4 View;
+		unsigned int ViewingFrom2D = 0;
+		float padding[3]; //Setting padding[0] to use pxrange
 	};
 
-
-
-	struct CharacterState
+	struct FontColorInfo
 	{
-		char character;
-		Vec2 position;
-		Vec2 scale;
-		float rotation;
-	};
-
-	struct FontUBO
-	{
-		Mat4 m_projection;
-		Mat4 m_view;
-	};
-
-	struct FontColors
-	{
+		Vec4 m_Color;
 		Vec4 bgColor;
 		Vec4 fgColor;
-		float pxRange;
+	};
+
+	struct alignas(16) InstanceFont
+	{
+		Mat4			m_Model;
+		Vec4			m_Color;
+		Vec4			bgColor;
+		Vec4			fgColor;
+		Vec4			m_UVstartEnd = { 0.f, 0.f, 0.f, 0.f };
+		Vec4			m_texID = { 499.f, 0.f, 0.f, 0.f };
+	};
+	struct InstanceFontInfo
+	{
+		Mat4			m_Transform{ 1.f };
+		FontColorInfo   m_FontColor{};
+		Vec4			m_StartEnd;
+		std::uint32_t	m_LayerID;
+		std::uint32_t	m_TextureIndex = 499;
+	};
+
+	struct FontBatch : Batch2D
+	{
+		std::array<InstanceFont, 10000>				m_Instances;
+		std::array<InstanceFontInfo, 10000>			m_InstanceInfo;
+		virtual void DLL_API						AddToBatch(void* componentSprite, Transform* transform);
+		virtual void DLL_API						PrepareBatch();
+		FontSceneUBO								m_SceneUpdate{};
 	};
 
 
-	constexpr std::uint32_t MAX_CHARACTERS = 1000;
+	constexpr std::uint32_t MAX_CHARACTERS = 5000;
+	class VulkanPipeline;
+	class FrameBuffer;
+	class Transform;
 	class FontRenderer
 	{
 	private:
+		inline static std::shared_ptr<FontRenderer> m_Instance = nullptr;
 		std::shared_ptr<VulkanPipeline> m_Pipeline = nullptr;
 		std::shared_ptr<FrameBuffer>	m_pFrameBuffer = nullptr;
-		std::array<Instance, MAX_CHARACTERS> m_CharacterInstance;
-		std::shared_ptr<VMABuffer> m_VertexBuffer = nullptr;
-		std::shared_ptr<VMABuffer> m_IndexBuffer = nullptr;
-		FontUBO m_UpdateForAllEntity;
+		std::array<InstanceFont, MAX_CHARACTERS> m_CharacterInstance;
+		VMABuffer* m_VertexBuffer = nullptr;
+		VMABuffer* m_IndexBuffer = nullptr;
+		FontBatch m_FontBatch{};
 	public:
+		bool m_UpdateInstance = true;
+	public:
+		DLL_API static std::shared_ptr<FontRenderer> GetInstance();
 		DLL_API void Init();
-		DLL_API void Update(const std::vector<EntityID>& entity, FontComponent* component);
 		DLL_API void ShutDown();
-		DLL_API static void OnInit();
-		DLL_API static void OnUpdate(const float dt, const std::vector<EntityID>& entities, FontComponent* component);
-		DLL_API static void AddFontTexture(VkDescriptorImageInfo& imageInfo);
+		void DLL_API Draw(VkCommandBuffer commandBuffer, int Frame, Vec4 ClearColor = { 0.f, 0.f, 0.f, 1.f });
+		void DLL_API Update(VkCommandBuffer commandBuffer, int Frame);
+		inline FontBatch& GetBatchList()
+		{
+			return m_FontBatch;
+		}
+
 
 
 	};

@@ -70,15 +70,20 @@ namespace TDS
 
 		VK_ASSERT(vkCreatePipelineLayout(mgr.getVkInstance().getVkLogicalDevice(), &pipelineLayoutCI, nullptr, &m_PipelineLayout), "Failed to create pipeline layout!\n");
 
+	
 		for (auto primitiveMode : m_PipelineEntry.m_PipelineConfig.m_PipelineDrawModes)
-		{
 			GeneratePipeline(primitiveMode);
-		}
+
+		
+
+
+
 		DestroyModules();
 
 		return true;
 
 	}
+
 	void VulkanPipeline::GeneratePipeline(VkPrimitiveTopology drawMode)
 	{
 		VkPipelineInputAssemblyStateCreateInfo inputAssemblyState = { VK_STRUCTURE_TYPE_PIPELINE_INPUT_ASSEMBLY_STATE_CREATE_INFO };

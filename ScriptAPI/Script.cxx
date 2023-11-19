@@ -1,5 +1,5 @@
 #include "Script.hxx"
-#include "HelperFunctions.hxx"
+//#include "HelperFunctions.hxx"
 
 namespace ScriptAPI
 {
@@ -55,9 +55,9 @@ namespace ScriptAPI
 	}
 
 
-	GameObject^ Script::GameObjectScriptFind(System::String^ name)
-	{
-		//System::Console::WriteLine("called");
-		return FindGameObjectViaName(name);
-	}
+	//GameObject^ Script::GameObjectScriptFind(System::String^ name)
+	//{
+	//	//System::Console::WriteLine("called");
+	//	return FindGameObjectViaName(name);
+	//}
 }

@@ -132,16 +132,17 @@ namespace TDS
     }
     void Application::Initialize()
     {
-
         ShaderReflector::GetInstance()->Init(SHADER_DIRECTORY, REFLECTED_BIN);
         GraphicsManager::getInstance().Init(&m_window);
-        AssetManager::GetInstance()->Init();
         AssetManager::GetInstance()->PreloadAssets();
+ 
+
         skyboxrender.Init();
     }
 
     void Application::Update()
     {
+        
         DDSConverter::Init();
         auto executeUpdate = GetFunctionPtr<void(*)(void)>
             (
@@ -269,6 +270,7 @@ namespace TDS
       
 
         AssetManager::GetInstance()->ShutDown();
+
         vkDeviceWaitIdle(GraphicsManager::getInstance().getVkInstance().getVkLogicalDevice());
         if (m_ImGuiDescPool)
         {
@@ -456,7 +458,11 @@ namespace TDS
 
     void Application::startScriptEngine()
     {
-        // Step 1: Loading the coreclr.dll
+        // Get the .NET Runtime's path first
+        const auto DOT_NET_PATH = getDotNetRuntimePath();
+        if (DOT_NET_PATH.empty())
+            throw std::runtime_error("Failed to find .NET Runtime.");
+
         // Get the current executable directory so that we can find the coreclr.dll to load
         std::string runtimePath(MAX_PATH, '\0');
         GetModuleFileNameA(nullptr, runtimePath.data(), MAX_PATH);
@@ -464,14 +470,14 @@ namespace TDS
         // Since PathRemoveFileSpecA() removes from data(), the size is not updated, so we must manually update it
         runtimePath.resize(std::strlen(runtimePath.data()));
 
+        // Also, while we're at it, set the current working directory to the current executable directory
         std::filesystem::current_path(runtimePath);
 
         // Construct the CoreCLR path
-        std::string coreClrPath(runtimePath); // Works
-        coreClrPath += "\\coreclr.dll";
+        const std::string CORE_CLR_PATH = DOT_NET_PATH + "\\coreclr.dll";
 
         // Load the CoreCLR DLL
-        coreClr = LoadLibraryExA(coreClrPath.c_str(), nullptr, 0);
+        coreClr = LoadLibraryExA(CORE_CLR_PATH.c_str(), nullptr, 0);
         if (!coreClr)
             throw std::runtime_error("Failed to load CoreCLR.");
 
@@ -481,7 +487,8 @@ namespace TDS
         shutdownCoreClr = getCoreClrFuncPtr<coreclr_shutdown_ptr>("coreclr_shutdown");
 
         // Step 3: Construct AppDomain properties used when starting the runtime
-        std::string tpaList = buildTpaList(runtimePath);
+        std::string tpaList = buildTpaList(runtimePath) + buildTpaList(DOT_NET_PATH);
+
         // Define CoreCLR properties
         std::array propertyKeys =
         {
@@ -499,12 +506,13 @@ namespace TDS
         (
             runtimePath.c_str(),     // AppDomain base path
             "SampleHost",            // AppDomain friendly name, this can be anything you want really
-            static_cast<int>(propertyKeys.size()),     // Property count
+            propertyKeys.size(),     // Property count
             propertyKeys.data(),     // Property names
             propertyValues.data(),   // Property values
             &hostHandle,             // Host handle
             &domainId                // AppDomain ID
         );
+
         // Check if intiialization of CoreCLR failed
         if (result < 0)
         {
@@ -531,10 +539,12 @@ namespace TDS
     std::string Application::buildTpaList(const std::string& directory)
     {
         // Constants
-        static const std::string SEARCH_PATH = directory + "\\*.dll";
+        const std::string SEARCH_PATH = directory + "\\*.dll";
         static constexpr char PATH_DELIMITER = ';';
+
         // Create a osstream object to compile the string
         std::ostringstream tpaList;
+
         // Search the current directory for the TPAs (.DLLs)
         WIN32_FIND_DATAA findData;
         HANDLE fileHandle = FindFirstFileA(SEARCH_PATH.c_str(), &findData);
@@ -547,18 +557,20 @@ namespace TDS
             } while (FindNextFileA(fileHandle, &findData));
             FindClose(fileHandle);
         }
+
         return tpaList.str();
     }
+
     void Application::compileScriptAssembly()
     {
         //relative path to the script assembly project file
         const char* PROJ_PATH =
-            "..\\..\\ManagedScripts\\ManagedScripts.csproj";
+            "../ManagedScripts/ManagedScripts.csproj";
 
         std::wstring buildCmd = L" build \"" +
-            std::filesystem::absolute(PROJ_PATH).wstring() +
-            L"\" -c Debug --no-self-contained " +
-            L"-o \"..\\..\\scriptDLL/\" -r \"win-x64\"";
+            std::filesystem::relative(PROJ_PATH).wstring() +
+            L"\" --no-self-contained " +
+            L"-o \"../scriptDLL/\" -r \"win-x64\"";
 
         // Define the struct to config the compiler process call
         STARTUPINFOW startInfo;
@@ -609,7 +621,7 @@ namespace TDS
             // Copy out files
             std::filesystem::copy_file
             (
-                "..\\..\\scriptDLL\\ManagedScripts.dll",
+                "../scriptDLL/ManagedScripts.dll",
                 "ManagedScripts.dll",
                 std::filesystem::copy_options::overwrite_existing
             );
@@ -619,6 +631,51 @@ namespace TDS
         {
              throw std::runtime_error("Failed to build managed scripts!");
         }
+    }
+
+    std::string Application::getDotNetRuntimePath() const
+    {
+        // Check if any .NET Runtime is even installed
+        const std::filesystem::path PATH =
+            std::filesystem::path("C:/Program Files/dotnet/shared/Microsoft.NETCore.App");
+        if (!std::filesystem::exists(PATH))
+            return "";
+        // Check all folders in the directory to find versions
+        std::pair<int, std::filesystem::path> latestVer = { -1, {} };
+        for (const auto& DIR_ENTRY : std::filesystem::directory_iterator(PATH))
+        {
+            // Is a file, not a folder
+            if (!DIR_ENTRY.is_directory())
+                continue;
+            // Get the directory's name
+            const auto& DIR = DIR_ENTRY.path();
+            const auto& DIR_NAME = (--(DIR.end()))->string();
+            if (DIR_NAME.empty())
+                continue;
+            // Get the version number
+            const int VER_NUM = DIR_NAME[0] - '0';
+            // We will only naively check major version here and ignore the rest of 
+            // semantic versioning to keep things simple for this sample.
+            if (VER_NUM > latestVer.first)
+            {
+                latestVer = { VER_NUM, DIR };
+            }
+        }
+        // Check if we found any valid versions
+        if (latestVer.first >= 0)
+        {
+            // Replace all forward slashes with backslashes 
+            // (.NET can't handle forward slashes)
+            auto dotnetPath = latestVer.second.string();
+            std::replace_if
+            (
+                dotnetPath.begin(), dotnetPath.end(),
+                [](char c) { return c == '/'; },
+                '\\'
+            );
+            return dotnetPath;
+        }
+        return "";
     }
 
     bool Application::initImgui()

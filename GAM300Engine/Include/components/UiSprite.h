@@ -1,6 +1,8 @@
 #pragma once
 #include "ecs/ecs.h"
 #include "ResourceManagement/ResourceManager.h"
+#include "GraphicsResource/FontInfo.h"
+#include "ResourceManagement/ResourceRef.h"
 namespace TDS
 {
 	class Texture;
@@ -14,28 +16,28 @@ namespace TDS
 		{
 			return m_TextureReference;
 		}
-		DLL_API void SetPosition(Vec3& Position);
-		DLL_API void SetScale(Vec3& Scale);
-		DLL_API void SetRotation(Vec3& Rotation);
-
-		DLL_API Vec3 GetPosition();
-		DLL_API Vec3 GetScale();
-		DLL_API Vec3 GetRotation();
 		RTTR_ENABLE(IComponent);
 		RTTR_REGISTRATION_FRIEND
 	private:
 		TypeReference<Texture>			m_TextureReference;
-		Mat4 m_SpriteLocal{};
+		TypeReference<FontAtlas>		m_FontReference{};
 	public:
-		Vec3							m_Pos = { 0.f, 0.f, 0.f };
-		Vec3							m_Scale{ 1.f,1.f,1.f };
-		Vec3							m_Rotation;
 		bool							m_IsDirty = false;
 		bool							m_EnableSprite = true;
+		bool							m_IsFont = false;
 		int								m_LayerID = -1;
 		Color							m_Color;
 		std::string						m_TextureName = "";
-
+	public:
+		//If is font data
+		inline TypeReference<FontAtlas>& GetFontReference()
+		{
+			return m_FontReference;
+		}
+		std::string						m_Message = "Hello Testing";
+		std::string						m_FontName = "";
+		Vec4							m_BackGroundColour = { 0.f, 0.f, 0.f, 0.f };
+		Vec4							m_ForeGroundColour = { 0.f, 0.f, 0.f, 0.f };
 
 	};
 }

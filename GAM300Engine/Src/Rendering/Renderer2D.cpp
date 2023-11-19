@@ -21,17 +21,8 @@ namespace TDS
 		float padding[3];
 	};
 
-
-	struct alignas(16) PushConstantNonInstanced
-	{
-		Mat4 model;
-		Vec4 texID;
-	};
-
 	pushConstant pushTest;
-	PushConstantNonInstanced nonBatchPC;
 
-	std::map<int, std::vector<PushConstantNonInstanced>> m_PushConstantUpdates;
 	Renderer2D::Renderer2D()
 	{
 	}
@@ -134,131 +125,6 @@ namespace TDS
 		
 	}
 
-	void Renderer2D::UpdateNonBatch(UISprite* componentSprite, Transform* transform, VkCommandBuffer commandBuffer, size_t EntitySize, int Frame)
-	{
-		//if (m_AssetModel.m_ResourcePtr == nullptr)
-		//{
-		//	std::string PlanePath = "Quad2_Bin.bin";
-		//	PlanePath = MODEL_PATH + PlanePath;
-
-		//	AssetManager::GetInstance()->LoadAsset(PlanePath, m_AssetModel);
-
-		//	if (m_AssetModel.m_ResourcePtr->BufferIsNull())
-		//		m_AssetModel.m_ResourcePtr->CreateBuffers();
-		//}
-		if (m_SceneUBO.ViewingFrom2D == false)
-		{
-			m_SceneUBO.Projection = Mat4::Perspective(GraphicsManager::getInstance().GetCamera().m_Fov * Mathf::Deg2Rad,
-				GraphicsManager::getInstance().GetSwapchainRenderer().getAspectRatio(), 0.1f, 1000.f);
-
-			m_SceneUBO.Projection.m[1][1] *= -1;
-
-		}
-		else
-		{
-			m_SceneUBO.Projection = Mat4::Ortho(0.f, GraphicsManager::getInstance().GetWindow()->getWidth(), GraphicsManager::getInstance().GetWindow()->getHeight(), 0.0f, -1.0f, 1.0f);
-		}
-		m_SceneUBO.View = GraphicsManager::getInstance().GetCamera().GetViewMatrix();
-
-		//m_Pipeline->SetCommandBuffer(commandBuffer);
-		//m_Pipeline->BindPipeline();
-		//m_Pipeline->UpdateUBO(&m_SceneUBO, sizeof(SceneUBO), 25, Frame);
-		//for (size_t i = 0; i < EntitySize; ++i)
-		//{
-		//	PushConstantNonInstanced pushConstant{};
-		//	if (Vec3 Scale = transform[i].GetScale(); Scale.x <= 0.f || Scale.y <= 0.f || Scale.z <= 0.f)
-		//	{
-		//	}
-		//	else
-		//	{
-		//		transform[i].GenerateTransfom();
-		//	}
-
-		//	pushConstant.model = transform[i].GetTransformMatrix();
-
-		//	int TextureID = AssetManager::GetInstance()->GetTextureFactory().GetTextureIndex(componentSprite[i].m_TextureName);
-
-		//	if (TextureID == -1)
-		//	{
-		//		componentSprite[i].GetReference().m_AssetName = "";
-		//		pushConstant.texID.x = 499.f;
-		//	}
-		//	else
-		//	{
-		//		pushConstant.texID.x = TextureID;
-
-		//		componentSprite[i].GetReference().m_AssetName = componentSprite->m_TextureName;
-		//	}
-		//	m_Pipeline->SubmitPushConstant(&pushConstant, sizeof(PushConstantNonInstanced), SHADER_FLAG::VERTEX);
-		//	m_Pipeline->BindVertexBuffer(*m_AssetModel.m_ResourcePtr->GetVertexBuffer());
-		//	m_Pipeline->BindIndexBuffer(*m_AssetModel.m_ResourcePtr->GetIndexBuffer());
-		//	m_Pipeline->BindDescriptor(Frame, 1);
-		//	m_Pipeline->BindArrayDescriptorSet(0, 1, 1);
-		//	m_Pipeline->DrawIndexed(*m_AssetModel.m_ResourcePtr->GetVertexBuffer(), *m_AssetModel.m_ResourcePtr->GetIndexBuffer(), Frame);
-		//}
-		
-
-		for (int l = 0; l < 12; ++l)
-		{
-			for (size_t i = 0; i < EntitySize; ++i)
-			{
-				if (componentSprite[i].m_LayerID == l)
-				{
-					PushConstantNonInstanced pushConstant{};
-					
-					if (Vec3 Scale = transform[i].GetScale(); Scale.x <= 0.f || Scale.y <= 0.f || Scale.z <= 0.f)
-					{
-					}
-					else
-					{
-						transform[i].GenerateTransfom();
-					}
-	
-					pushConstant.model = transform[i].GetTransformMatrix();
-
-					int TextureID = AssetManager::GetInstance()->GetTextureFactory().GetTextureIndex(componentSprite[i].m_TextureName);
-
-					if (TextureID == -1)
-					{
-						componentSprite[i].GetReference().m_AssetName = "";
-						pushConstant.texID.x = 499.f;
-					}
-					else
-					{
-						pushConstant.texID.x = TextureID;
-						
-						componentSprite[i].GetReference().m_AssetName = componentSprite->m_TextureName;
-					}
-					m_PushConstantUpdates[l].push_back(pushConstant);
-
-				}
-			}
-		}
-
-		if (!m_PushConstantUpdates.empty())
-		{
-			m_Pipeline->SetCommandBuffer(commandBuffer);
-			m_Pipeline->BindPipeline();
-			m_Pipeline->UpdateUBO(&m_SceneUBO, sizeof(SceneUBO), 25, Frame);
-
-			for (auto& layerPC : m_PushConstantUpdates)
-			{
-				PushConstantNonInstanced pushConstantData{};
-				for (auto push : layerPC.second)
-				{
-					m_Pipeline->SubmitPushConstant(&push, sizeof(PushConstantNonInstanced), SHADER_FLAG::VERTEX);
-					//m_Pipeline->BindVertexBuffer(*m_VertexBuffer);
-					//m_Pipeline->BindIndexBuffer(*m_IndexBuffer);
-					//m_Pipeline->BindVertexBuffer(*m_VertexBuffer);
-					//m_Pipeline->BindIndexBuffer(*m_IndexBuffer);
-					m_Pipeline->BindDescriptor(Frame, 1);
-					m_Pipeline->BindArrayDescriptorSet(0, 1, 1);
-					//m_Pipeline->DrawIndexed(*m_VertexBuffer, *m_IndexBuffer, Frame);
-				}
-			}
-		}
-	}
-
 	void Renderer2D::Draw(VkCommandBuffer commandBuffer, int Frame, Vec4 ClearColor)
 	{
 		(ClearColor);
@@ -286,7 +152,7 @@ namespace TDS
 					m_Pipeline->DrawInstancedIndexed(*m_VertexBuffer, *m_IndexBuffer, layer.m_Instance);
 					layer.m_Instance = 0;
 					layer.m_Offset = 0;
-					layer.isDirty = false;
+					layer.isDirty = true;
 				}
 			}
 			//m_FrameBuffer.m_Renderpass->endRenderPass(commandBuffer);
@@ -348,7 +214,7 @@ namespace TDS
 		m_Pipeline->UpdateUBO(m_BatchList.m_Instances.data(), sizeof(Instance2D) * m_BatchList.m_InstanceCnt, 10, Frame);
 		if (AssetManager::GetInstance()->GetTextureFactory().m_UpdateTextureArray2D)
 		{
-			m_Pipeline->UpdateTextureArray(4, VkDescriptorType::VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, AssetManager::GetInstance()->GetTextureFactory().GetTextureArray());
+			m_Pipeline->UpdateTextureArray(4, VkDescriptorType::VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, AssetFactory<Texture>().GetTextureArray());
 			AssetManager::GetInstance()->GetTextureFactory().m_UpdateTextureArray2D = false;
 		}
 	}
@@ -368,18 +234,10 @@ namespace TDS
 			m_Instance = std::make_shared<Renderer2D>();
 		return m_Instance;
 	}
-	void Batch2DList::Clear()
+
+	void SpriteBatch::AddToBatch(void* component, Transform* transform)
 	{
-		m_InstanceCnt = 0;
-	}
-	bool Batch2DList::IsDrawable(Vec3& pos, bool testCPUCulling)
-	{
-		(pos);
-		(testCPUCulling);
-		return true;
-	}
-	void Batch2DList::AddToBatch(UISprite* componentSprite, Transform* transform)
-	{
+		UISprite* componentSprite = reinterpret_cast<UISprite*>(component);
 		if (componentSprite->m_LayerID == -1)
 			return;
 
@@ -419,7 +277,7 @@ namespace TDS
 		++m_InstanceCnt;
 	}
 
-	void Batch2DList::PrepareBatch()
+	void SpriteBatch::PrepareBatch()
 	{
 		for (std::uint32_t i = 0; i < m_InstanceCnt; ++i)
 		{

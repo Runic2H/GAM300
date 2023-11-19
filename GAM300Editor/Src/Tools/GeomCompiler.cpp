@@ -46,40 +46,85 @@ std::string TDS::GeomCompiler::LoadModel()
 
 void TDS::GeomCompiler::ImportData(std::vector<InputMesh>& InputNodes)
 {
-	Apply(*m_Scene->mRootNode, InputNodes);
+	aiMatrix4x4 identityMatrix; 
+	Apply(*m_Scene->mRootNode, InputNodes, identityMatrix);
 }
 
 void TDS::GeomCompiler::MergeData(std::vector<InputMesh>& InputNodes)
 {
-	for (size_t i = 0; i < InputNodes.size(); ++i)
+	if (m_CurrDesc.m_Descriptor.MergeMesh)
 	{
-		if (InputNodes[i].m_RawVertices.size() == 0 || InputNodes[i].m_InputIndices.size() == 0)
+		for (size_t i = 0; i < InputNodes.size(); ++i)
 		{
-			InputNodes.erase(InputNodes.begin() + i);
-			--i;
-		}
-	}
-	for (size_t i = 0; i < InputNodes.size(); ++i)
-	{
-		for (size_t j = i + 1; j < InputNodes.size(); ++j)
-		{
-			if (InputNodes[i].m_iMaterialInstance == InputNodes[j].m_iMaterialInstance
-				&& InputNodes[i].m_MeshName == InputNodes[j].m_MeshName)
+			if (InputNodes[i].m_RawVertices.size() == 0 || InputNodes[i].m_InputIndices.size() == 0)
 			{
-				const int  iBaseVertex = static_cast<int>(InputNodes[i].m_RawVertices.size());
-				const auto iBaseIndex = InputNodes[i].m_InputIndices.size();
-				InputNodes[i].m_RawVertices.insert(InputNodes[i].m_RawVertices.end(), InputNodes[j].m_RawVertices.begin(), InputNodes[j].m_RawVertices.end());
-				InputNodes[i].m_InputIndices.insert(InputNodes[i].m_InputIndices.end(), InputNodes[j].m_InputIndices.begin(), InputNodes[j].m_InputIndices.end());
+				InputNodes.erase(InputNodes.begin() + i);
+				--i;
+			}
+		}
+		for (size_t i = 0; i < InputNodes.size(); ++i)
+		{
+			for (size_t j = i + 1; j < InputNodes.size(); ++j)
+			{
 
-				for (size_t index = iBaseIndex; index < InputNodes[i].m_InputIndices.size(); ++index)
+				if (InputNodes[i].m_Name == InputNodes[j].m_Name &&
+					InputNodes[i].m_iMaterialInstance == InputNodes[j].m_iMaterialInstance &&
+					InputNodes[i].m_RawVertices.size() == InputNodes[j].m_RawVertices.size() &&
+					InputNodes[i].m_InputIndices == InputNodes[j].m_InputIndices)
 				{
-					InputNodes[i].m_InputIndices[index] += iBaseIndex;
+					InputNodes.erase(InputNodes.begin() + j);
+					--j;
 				}
-				InputNodes.erase(InputNodes.begin() + j);
-				--j;
 			}
 		}
 	}
+	std::map<std::string, int> existingNames;
+	for (size_t i = 0; i < InputNodes.size(); ++i)
+	{
+		std::string name = InputNodes[i].m_Name;
+		if (existingNames.find(InputNodes[i].m_Name) != existingNames.end())
+		{
+			++existingNames[InputNodes[i].m_Name];
+			InputNodes[i].m_Name = name + ("__" + std::to_string(existingNames[InputNodes[i].m_Name]));
+		}
+		else
+		{
+			existingNames[InputNodes[i].m_Name] = 0;
+		}
+		if (m_CurrTransforms.find(InputNodes[i].m_Name) != m_CurrTransforms.end())
+		{
+			m_CurrTransforms[InputNodes[i].m_Name] = InputNodes[i].m_CurrTransform;
+		}
+		else
+		{
+			m_CurrTransforms[InputNodes[i].m_Name] = InputNodes[i].m_CurrTransform;
+		}
+	}
+
+	//for (size_t i = 0; i < InputNodes.size(); ++i)
+	//{
+	//	for (size_t j = i + 1; j < InputNodes.size(); ++j)
+	//	{
+	//		if (InputNodes[i].m_iMaterialInstance == InputNodes[j].m_iMaterialInstance &&
+	//			InputNodes[i].m_Name == InputNodes[j].m_Name)
+	//		{
+	//			const int  iBaseVertex = static_cast<int>(InputNodes[i].m_RawVertices.size());
+	//			const auto iBaseIndex = InputNodes[i].m_InputIndices.size();
+	//			InputNodes[i].m_RawVertices.insert(InputNodes[i].m_RawVertices.end(), InputNodes[j].m_RawVertices.begin(), InputNodes[j].m_RawVertices.end());
+	//			InputNodes[i].m_InputIndices.insert(InputNodes[i].m_InputIndices.end(), InputNodes[j].m_InputIndices.begin(), InputNodes[j].m_InputIndices.end());
+	//			InputNodes[i].m_Name = InputNodes[j].m_Name;
+	//			InputNodes[i].m_iMaterialInstance = InputNodes[j].m_iMaterialInstance;
+
+	//			for (size_t index = iBaseIndex; index < InputNodes[i].m_InputIndices.size(); ++index)
+	//			{
+	//				InputNodes[i].m_InputIndices[index] += iBaseIndex;
+	//			}
+	//			InputNodes.erase(InputNodes.begin() + j);
+	//			--j;
+	//		}
+
+	//	}
+	//}
 }
 
 void TDS::GeomCompiler::CreateFinalGeom(const std::vector<OptimizedMesh>& Nodes)
@@ -89,7 +134,7 @@ void TDS::GeomCompiler::CreateFinalGeom(const std::vector<OptimizedMesh>& Nodes)
 		size_t FinalMeshIndex = UINT64_MAX;
 		for (size_t j = 0; j < m_Final->m_Meshes.size(); ++j)
 		{
-			if (m_Final->m_Meshes[j].m_Name == Nodes[i].m_MeshName)
+			if (m_Final->m_Meshes[j].m_Name == Nodes[i].m_Name)
 			{
 				FinalMeshIndex = j;
 				break;
@@ -100,7 +145,7 @@ void TDS::GeomCompiler::CreateFinalGeom(const std::vector<OptimizedMesh>& Nodes)
 		{
 			FinalMeshIndex = m_Final->m_Meshes.size();
 			m_Final->m_Meshes.emplace_back();
-			m_Final->m_Meshes.back().m_Name = Nodes[i].m_MeshName;
+			m_Final->m_Meshes.back().m_Name = Nodes[i].m_Name;
 		}
 
 		m_Final->m_Meshes[(std::int32_t)FinalMeshIndex].m_SubMeshes.emplace_back();
@@ -158,7 +203,7 @@ void TDS::GeomCompiler::Optimize(std::vector<InputMesh>& InputNodes)
 		compressedSubMesh.m_InputIndices.resize(mesh.m_InputIndices.size());
 		compressedSubMesh.m_RawVertices.resize(VtxCnt);
 		compressedSubMesh.m_iMaterialInstance = mesh.m_iMaterialInstance;
-
+		compressedSubMesh.m_Name = mesh.m_Name;
 		meshopt_remapIndexBuffer(compressedSubMesh.m_InputIndices.data(), mesh.m_InputIndices.data(), mesh.m_InputIndices.size(), &remappedIndices[0]);
 		meshopt_remapVertexBuffer(compressedSubMesh.m_RawVertices.data(), mesh.m_RawVertices.data(), mesh.m_InputIndices.size(), sizeof(RawVertex), &remappedIndices[0]);
 		meshopt_optimizeVertexCache(compressedSubMesh.m_InputIndices.data(), compressedSubMesh.m_InputIndices.data(), compressedSubMesh.m_InputIndices.size(), VtxCnt);
@@ -211,6 +256,7 @@ void TDS::GeomCompiler::ClearAllData()
 	output->m_Mesh.clear();
 	output->m_Pos.clear();
 	output->m_SubMesh.clear();
+	m_CurrTransforms.clear();
 }
 
 void TDS::GeomCompiler::ProcessNode(aiNode* Node)
@@ -220,7 +266,7 @@ void TDS::GeomCompiler::ProcessNode(aiNode* Node)
 		aiMesh* pMesh = m_Scene->mMeshes[Node->mMeshes[i]];
 
 		m_MeshNodes[Node->mMeshes[i]].push_back(Node);
-
+		m_Test.emplace_back();
 	}
 
 	for (std::uint32_t i = 0; i < Node->mNumChildren; ++i)
@@ -236,18 +282,30 @@ void TDS::GeomCompiler::ProcessMesh(const aiMesh& AssimpMesh, const aiMatrix4x4&
 	Transform.DecomposeNoScaling(presentRotation, p);
 
 
+
 	MeshPart.m_Name = AssimpMesh.mName.C_Str();
 	MeshPart.m_iMaterialInstance = AssimpMesh.mMaterialIndex;
-
 	MeshPart.m_RawVertices.resize(AssimpMesh.mNumVertices);
+	MeshPart.m_CurrTransform = Transform;
+	//std::string name = MeshPart.m_Name;
+	//if (m_ExistedName.find(name) != m_ExistedName.end())
+	//{
+	//	m_ExistedName[name]++;
+	//	name = name + "_" + std::to_string(m_ExistedName[name]);
+	//	
+	//}
+	//else
+	//{
+	//	m_ExistedName[name] = 0;
+	//}
+	//m_CurrTransforms[name] = Transform;
 	for (auto i = 0u; i < AssimpMesh.mNumVertices; ++i)
 	{
 		RawVertex& Vertex = MeshPart.m_RawVertices[i];
 
-		auto L = Transform * AssimpMesh.mVertices[i];
+		auto L = AssimpMesh.mVertices[i];
 
 		Vertex.m_Pos = Vec3(static_cast<float>(L.x), static_cast<float>(L.y), static_cast<float>(L.z));
-
 		if (iTexCordinates == -1)
 		{
 			Vertex.m_UV = Vec2(0.f, 0.f);
@@ -285,9 +343,9 @@ void TDS::GeomCompiler::ProcessMesh(const aiMesh& AssimpMesh, const aiMatrix4x4&
 			Vertex.m_fTanget = Vec3(T.x, T.y, T.z);
 			Vertex.m_fBitangent = Vec3(B.x, B.y, B.z);
 
-			Vertex.m_fNormal.normalize();
+			Vertex.m_fNormal.Normalize();
 			Vertex.m_fTanget.Normalize();
-			Vertex.m_fBitangent.normalize();
+			Vertex.m_fBitangent.Normalize();
 
 			Vertex.m_Tangent.m_RGBA.x = static_cast<std::uint8_t>(static_cast<std::int8_t>(Vertex.m_fTanget.x < 0 ? std::max(-128, static_cast<int>(Vertex.m_fTanget.x * 128)) : std::min(127, static_cast<int>(Vertex.m_fTanget.x * 127))));
 			Vertex.m_Tangent.m_RGBA.y = static_cast<std::uint8_t>(static_cast<std::int8_t>(Vertex.m_fTanget.y < 0 ? std::max(-128, static_cast<int>(Vertex.m_fTanget.y * 128)) : std::min(127, static_cast<int>(Vertex.m_fTanget.y * 127))));
@@ -322,6 +380,7 @@ void TDS::GeomCompiler::ProcessMesh(const aiMesh& AssimpMesh, const aiMatrix4x4&
 			Vertex.m_Normal.m_RGBA.y = static_cast<std::uint8_t>(static_cast<std::int8_t>(Vertex.m_fNormal.y < 0 ? std::max(-128, static_cast<int>(Vertex.m_fNormal.y * 128)) : std::min(127, static_cast<int>(Vertex.m_fNormal.y * 127))));
 			Vertex.m_Normal.m_RGBA.z = static_cast<std::uint8_t>(static_cast<std::int8_t>(Vertex.m_fNormal.z < 0 ? std::max(-128, static_cast<int>(Vertex.m_fNormal.z * 128)) : std::min(127, static_cast<int>(Vertex.m_fNormal.z * 127))));
 			Vertex.m_Normal.m_RGBA.w = 127;
+			
 		}
 	}
 	for (std::uint32_t k = 0; k < AssimpMesh.mNumFaces; ++k)
@@ -333,7 +392,7 @@ void TDS::GeomCompiler::ProcessMesh(const aiMesh& AssimpMesh, const aiMatrix4x4&
 	}
 }
 
-void TDS::GeomCompiler::Apply(const aiNode& Node, std::vector<InputMesh>& Nodes)
+void TDS::GeomCompiler::Apply(const aiNode& Node, std::vector<InputMesh>& Nodes, const aiMatrix4x4& ParentTransform)
 {
 	aiVector3D scaling((ai_real)m_CurrDesc.m_Descriptor.m_L2W.m_Scale[0], (ai_real)m_CurrDesc.m_Descriptor.m_L2W.m_Scale[1], (ai_real)m_CurrDesc.m_Descriptor.m_L2W.m_Scale[2]);
 	aiMatrix4x4 descriptorMatrix{};
@@ -344,7 +403,7 @@ void TDS::GeomCompiler::Apply(const aiNode& Node, std::vector<InputMesh>& Nodes)
 	aiVector3D translation((ai_real)m_CurrDesc.m_Descriptor.m_L2W.m_Translate[0], (ai_real)m_CurrDesc.m_Descriptor.m_L2W.m_Translate[1], (ai_real)m_CurrDesc.m_Descriptor.m_L2W.m_Translate[2]);
 	descriptorMatrix.Translation(translation, descriptorMatrix);
 
-	aiMatrix4x4 Transform = descriptorMatrix * Node.mTransformation;
+	aiMatrix4x4 Transform = ParentTransform * descriptorMatrix * Node.mTransformation;
 	size_t Base = Nodes.size();
 	Nodes.resize(Base + m_Scene->mNumMeshes);
 
@@ -412,7 +471,7 @@ void TDS::GeomCompiler::Apply(const aiNode& Node, std::vector<InputMesh>& Nodes)
 
 	for (std::uint32_t i = 0; i < Node.mNumChildren; ++i)
 	{
-		Apply(*Node.mChildren[i], Nodes);
+		Apply(*Node.mChildren[i], Nodes, Transform);
 	}
 
 
@@ -561,21 +620,21 @@ bool TDS::GeomCompiler::LoadDescriptor()
 	std::cout << "Importing Model : " << m_CurrDesc.m_Descriptor.m_FilePath.c_str() << "...\n";
 	Assimp::Importer importer{};
 	importer.SetPropertyBool(AI_CONFIG_PP_PTV_NORMALIZE, true);
-	std::uint32_t AssimpFlag = aiProcess_Triangulate
-		/*		| aiProcess_LimitBoneWeights   */
+	std::uint32_t AssimpFlag = 
+		aiProcess_Triangulate
+		| aiProcess_LimitBoneWeights   
 		| aiProcess_GenUVCoords
-		| aiProcess_JoinIdenticalVertices
-		| aiProcess_PreTransformVertices
-		// aiProcess_TransformUVCoords          
-		//| aiProcess_FindInstances             
+		//| aiProcess_PreTransformVertices
+		| aiProcess_TransformUVCoords          
+		| aiProcess_FindInstances             
 		| aiProcess_GenSmoothNormals
 		| aiProcess_ForceGenNormals
 		| aiProcess_CalcTangentSpace
 		| aiProcess_RemoveRedundantMaterials
-		//| aiProcess_FindInvalidData           
+		| aiProcess_FindInvalidData           
 		| aiProcess_FlipUVs
 		;
-	std::string filePath = "../../assets/models/" + m_CurrDesc.m_Descriptor.m_FilePath;
+	std::string filePath = "../assets/models/" + m_CurrDesc.m_Descriptor.m_FilePath;
 	m_Scene = importer.ReadFile(filePath, AssimpFlag);
 
 	if (!m_Scene)
