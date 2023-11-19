@@ -11,7 +11,7 @@
 #include <string>
 
 
-#define ASSET_PATH "../../assets"
+#define ASSET_PATH "../assets"
 namespace TDS
 {
 	bool lookUp = false;
@@ -181,10 +181,10 @@ namespace TDS
 		}
 	}
 
-	static const std::filesystem::path s_AssetDirectory = "../../assets";
-	static const std::filesystem::path s_ModelDirectory = "../../assets/models";
-	static const std::filesystem::path s_TextureDirectory = "../../assets/textures";
-	static const std::filesystem::path s_FontDirectory = "../../assets/Fonts";
+	static const std::filesystem::path s_AssetDirectory = "../assets";
+	static const std::filesystem::path s_ModelDirectory = "../assets/models";
+	static const std::filesystem::path s_TextureDirectory = "../assets/textures";
+	static const std::filesystem::path s_FontDirectory = "../assets/Fonts";
 	void AssetBrowser::update()
 	{
 		if (m_curr_path != std::filesystem::path(s_AssetDirectory))
@@ -218,10 +218,10 @@ namespace TDS
 		
 		if (loadonce == true)
 		{
-			fileIcon.LoadTexture("../../assets/icons/icon.dds"); //can only take dds files for now
+			fileIcon.LoadTexture("../assets/icons/icon.dds"); //can only take dds files for now
 			file_DescSet = ImGui_ImplVulkan_AddTexture(fileIcon.m_VulkanTexture->getInfo().sampler, fileIcon.m_VulkanTexture->getInfo().imageView, fileIcon.m_VulkanTexture->getInfo().imageLayout);
 
-			folderIcon.LoadTexture("../../assets/icons/folder.dds"); //can only take dds files for now
+			folderIcon.LoadTexture("../assets/icons/folder.dds"); //can only take dds files for now
 			folder_DescSet = ImGui_ImplVulkan_AddTexture(folderIcon.m_VulkanTexture->getInfo().sampler, folderIcon.m_VulkanTexture->getInfo().imageView, folderIcon.m_VulkanTexture->getInfo().imageLayout);
 
 			loadonce = false;
@@ -381,7 +381,7 @@ namespace TDS
 				{
 					lookUp = false;
 					std::string& OutPath = GeomCompiler::GetInstance()->OutPath;
-					OutPath = "../../assets/models/";
+					OutPath = "../assets/models/";
 					OutPath += filename.c_str();
 					if (strstr(filename.c_str(), ".fbx"))
 						OutPath = RemoveFileExtension(OutPath, ".fbx");

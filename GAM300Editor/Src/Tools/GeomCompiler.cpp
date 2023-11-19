@@ -634,7 +634,7 @@ bool TDS::GeomCompiler::LoadDescriptor()
 		| aiProcess_FindInvalidData           
 		| aiProcess_FlipUVs
 		;
-	std::string filePath = "../../assets/models/" + m_CurrDesc.m_Descriptor.m_FilePath;
+	std::string filePath = "../assets/models/" + m_CurrDesc.m_Descriptor.m_FilePath;
 	m_Scene = importer.ReadFile(filePath, AssimpFlag);
 
 	if (!m_Scene)

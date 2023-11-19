@@ -92,7 +92,7 @@ namespace TDS
 		}
 
 	public:
-		std::string OutPath = "../../assets/models/";
+		std::string OutPath = "../assets/models/";
 		std::map<std::string, aiMatrix4x4> m_CurrTransforms;
 	};
 }

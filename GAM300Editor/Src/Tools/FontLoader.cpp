@@ -5,7 +5,7 @@
 #include "Tools/DDSConverter.h"
 #include "vulkanTools/VulkanTexture.h"
 #include "AssetManagement/AssetManager.h"
-#define FONT_COMPILER_PATH "../../assets/Fonts/FontCompiler/msdf-atlas-gen.exe"
+#define FONT_COMPILER_PATH "../assets/Fonts/FontCompiler/msdf-atlas-gen.exe"
 namespace TDS
 {
 	bool FontLoader::RunFontLoader(LoaderDescriptor& desc)

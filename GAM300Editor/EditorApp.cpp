@@ -572,12 +572,12 @@ namespace TDS
     {
         //relative path to the script assembly project file
         const char* PROJ_PATH =
-            "../../ManagedScripts/ManagedScripts.csproj";
+            "../ManagedScripts/ManagedScripts.csproj";
 
         std::wstring buildCmd = L" build \"" +
             std::filesystem::relative(PROJ_PATH).wstring() +
             L"\" --no-self-contained " +
-            L"-o \"..\\..\\scriptDLL/\" -r \"win-x64\"";
+            L"-o \"../scriptDLL/\" -r \"win-x64\"";
 
         // Define the struct to config the compiler process call
         STARTUPINFOW startInfo;
@@ -628,7 +628,7 @@ namespace TDS
             // Copy out files
             std::filesystem::copy_file
             (
-                "../../scriptDLL/ManagedScripts.dll",
+                "../scriptDLL/ManagedScripts.dll",
                 "ManagedScripts.dll",
                 std::filesystem::copy_options::overwrite_existing
             );

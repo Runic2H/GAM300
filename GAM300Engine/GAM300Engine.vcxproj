@@ -81,13 +81,13 @@
     <LibraryPath>$(SolutionDir)..\Dependencies\assimp\lib\Debug;$(LibraryPath)</LibraryPath>
     <ExternalIncludePath>$(SolutionDir)Dependencies\dotnet\include;$(SolutionDir)Dependencies\assimp\include;$(SolutionDir)Dependencies\fmod;$(ExternalIncludePath)</ExternalIncludePath>
     <LibraryPath>$(OutDir);$(LibraryPath)</LibraryPath>
-    <OutDir>$(SolutionDir).bin\$(Configuration)-$(Platform)</OutDir>
+    <OutDir>$(SolutionDir)\$(Configuration)-$(Platform)</OutDir>
     <PostBuildEventUseInBuild>true</PostBuildEventUseInBuild>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
     <LibraryPath>$(OutDir);$(LibraryPath)</LibraryPath>
-    <OutDir>$(SolutionDir).bin\$(Configuration)-$(Platform)</OutDir>
+    <OutDir>$(SolutionDir)\$(Configuration)-$(Platform)</OutDir>
     <ExternalIncludePath>$(SolutionDir)Dependencies\dotnet\include;$(SolutionDir)Dependencies\assimp\include;$(SolutionDir)Dependencies\fmod;$(ExternalIncludePath)</ExternalIncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">

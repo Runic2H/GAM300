@@ -29,7 +29,7 @@ namespace TDS
 		windowPadding = ImVec2(0.f, 0.f);
 	}
 
-	std::string tempPath = "../../assets/textures/texture.dds";
+	std::string tempPath = "../assets/textures/texture.dds";
 	void EditorScene::init()
 	{
 		m_DescSet = ImGui_ImplVulkan_AddTexture(GraphicsManager::getInstance().getFinalImage().getSampler(), GraphicsManager::getInstance().getFinalImage().getImageView(), VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL);
