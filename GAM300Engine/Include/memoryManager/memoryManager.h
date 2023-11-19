@@ -108,7 +108,7 @@ namespace TDS
 		// Unique pointer to MemoryManager
 		 static std::unique_ptr<MemoryManager> m_instance;
 
-		const std::uint32_t PAGE_SIZE = 4096;
+		const std::uint32_t PAGE_SIZE = 4092;
 		std::uint32_t numberOfComponents;
 
 		 std::unordered_map<ArchetypeID, BookData> books;

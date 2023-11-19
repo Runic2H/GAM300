@@ -11,6 +11,7 @@ namespace TDS
 	{
 
 	public:
+
 		std::array<Texture, 500> m_TextureArray;
 		std::unordered_map<std::string, std::uint32_t> m_TextureIndices;
 		std::uint32_t m_CurrentIndex = 0;
@@ -54,6 +55,7 @@ namespace TDS
 		{
 			return m_TextureArray;
 		}
+
 		void Preload()
 		{
 			std::uint32_t NumOfLoadedTexture = 0;
@@ -84,6 +86,7 @@ namespace TDS
 			m_UpdateTextureArray3D = true;
 			m_UpdateTextureArray2D = true;
 		}
+
 		//static void Load(std::string_view path, TypeReference<Texture>& textureRef, ResourceAllocator& resourceMgr)
 		//{
 		//	std::filesystem::path FilePath(path);
@@ -118,28 +121,27 @@ namespace TDS
 			}
 			return -1;
 		}
-		static void Load(std::string_view path, TypeReference<Texture>& textureRef, AssetFactory<Texture>& textureFactory)
+		void Load(std::string_view path, TypeReference<Texture>& textureRef)
 		{
 			std::filesystem::path FilePath(path);
 			std::string fileName = FilePath.filename().string();
 			textureRef.m_AssetName = fileName;
-			auto& textureArray = textureFactory.m_TextureArray;
-			auto& textureIndices = textureFactory.m_TextureIndices;
 
-			auto itr = textureIndices.find(fileName);
-			if (itr != textureIndices.end())
+
+			auto itr = m_TextureIndices.find(fileName);
+			if (itr != m_TextureIndices.end())
 			{
 				TDS_INFO("texture {} is already loaded!", textureRef.m_AssetName);
 
-				textureRef.m_ResourcePtr = &textureArray[itr->second];
+				textureRef.m_ResourcePtr = &m_TextureArray[itr->second];
 				return;
 			}
-			std::uint32_t& newIndex = textureFactory.m_CurrentIndex;
-			textureArray[newIndex].LoadTexture(path);
-			textureRef.m_ResourcePtr = &textureArray[newIndex];
-			textureFactory.m_UpdateTextureArray3D = true;
-			textureFactory.m_UpdateTextureArray2D = true;
-			textureIndices[fileName] = newIndex++;
+			std::uint32_t& newIndex = m_CurrentIndex;
+			m_TextureArray[newIndex].LoadTexture(path);
+			textureRef.m_ResourcePtr = &m_TextureArray[newIndex];
+			m_UpdateTextureArray3D = true;
+			m_UpdateTextureArray2D = true;
+			m_TextureIndices[fileName] = newIndex++;
 		}
 		void DestroyAllTextures()
 		{

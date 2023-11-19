@@ -48,6 +48,7 @@ namespace TDS
 		TypeReference<AssetModel> 		m_AssetReference;
 		TypeReference<Texture>			m_TextureReference;
 		std::string						m_ModelName = "";
+		std::string						m_MeshName = "";
 		std::string						m_TextureName = "";
 		bool							m_UsedIn2D{ false };
 

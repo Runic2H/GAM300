@@ -25,6 +25,7 @@ namespace ScriptAPI
 
 	internal:
 		BoxColliderComponent(TDS::EntityID ID);
+		TDS::EntityID GetEntityID();
 
 	private:
 		property bool IsTrigger

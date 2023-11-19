@@ -81,14 +81,14 @@
     <LibraryPath>$(WindowsSDK_LibraryPath_x64);$(OutDir)</LibraryPath>
     <IncludePath>$(SolutionDir)GAM300Engine;$(IncludePath)</IncludePath>
     <ExternalIncludePath>$(SolutionDir)Dependencies\dotnet\include;$(ExternalIncludePath)</ExternalIncludePath>
-    <OutDir>$(SolutionDir).bin\$(Configuration)-$(Platform)</OutDir>
+    <OutDir>$(SolutionDir)\$(Configuration)-$(Platform)\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
     <IncludePath>$(SolutionDir)GAM300Engine;$(IncludePath)</IncludePath>
     <LibraryPath>$(WindowsSDK_LibraryPath_x64);$(OutDir)</LibraryPath>
     <ExternalIncludePath>$(SolutionDir)Dependencies\dotnet\include;$(ExternalIncludePath)</ExternalIncludePath>
-    <OutDir>$(SolutionDir).bin\$(Configuration)-$(Platform)</OutDir>
+    <OutDir>$(SolutionDir)\$(Configuration)-$(Platform)\</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

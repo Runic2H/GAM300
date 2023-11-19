@@ -128,6 +128,7 @@ namespace TDS
 		***************************************************************************/
 		std::string buildTpaList(const std::string& directory);
 		void compileScriptAssembly();
+		std::string getDotNetRuntimePath() const;
 		/*!*************************************************************************
 		* References to CoreCLR key components
 		***************************************************************************/

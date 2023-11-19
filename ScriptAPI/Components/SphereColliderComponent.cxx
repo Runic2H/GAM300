@@ -48,7 +48,7 @@ namespace ScriptAPI
 			return Vector3(0.f, 0.f, 0.f);
 		}
 
-		return Vector3(TDS::GetSphereCollider(entityID)->GetCenter().x, TDS::GetSphereCollider(entityID)->GetCenter().y, TDS::GetSphereCollider(entityID)->GetCenter().z);
+		return Vector3(TDS::GetSphereCollider(entityID)->GetCenter());
 
 		//return TDS::GetTransform(entityID)->GetPosition();
 	}

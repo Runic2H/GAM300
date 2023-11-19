@@ -63,6 +63,12 @@
     <ClInclude Include="Vector4.hxx">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="CustomAttributeHeaders.hxx">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Components\CameraComponent.hxx">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EngineInterface.cxx">
@@ -102,6 +108,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Vector4.cxx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Components\CameraComponent.cxx">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

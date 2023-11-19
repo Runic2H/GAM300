@@ -81,13 +81,13 @@
     <LibraryPath>$(SolutionDir)..\Dependencies\assimp\lib\Debug;$(LibraryPath)</LibraryPath>
     <ExternalIncludePath>$(SolutionDir)Dependencies\dotnet\include;$(SolutionDir)Dependencies\assimp\include;$(SolutionDir)Dependencies\fmod;$(ExternalIncludePath)</ExternalIncludePath>
     <LibraryPath>$(OutDir);$(LibraryPath)</LibraryPath>
-    <OutDir>$(SolutionDir).bin\$(Configuration)-$(Platform)</OutDir>
+    <OutDir>$(SolutionDir)\$(Configuration)-$(Platform)</OutDir>
     <PostBuildEventUseInBuild>true</PostBuildEventUseInBuild>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
     <LibraryPath>$(OutDir);$(LibraryPath)</LibraryPath>
-    <OutDir>$(SolutionDir).bin\$(Configuration)-$(Platform)</OutDir>
+    <OutDir>$(SolutionDir)\$(Configuration)-$(Platform)</OutDir>
     <ExternalIncludePath>$(SolutionDir)Dependencies\dotnet\include;$(SolutionDir)Dependencies\assimp\include;$(SolutionDir)Dependencies\fmod;$(ExternalIncludePath)</ExternalIncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -141,7 +141,7 @@
       <AdditionalDependencies>vulkan-1.lib;fmodL_vc.lib;fmodstudioL_vc.lib;Jolt.lib;rttr_core_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /s /r /y /q "$(SolutionDir)Dependencies\dotnet\bin" "$(OutDir)"
+      <Command>
 xcopy /y /d "$(SolutionDir)Libs\fmod\*.dll" "$(OutDir)"
 xcopy /y /d "$(SolutionDir)Libs\rttr_core_d.dll" "$(OutDir)"</Command>
     </PostBuildEvent>
@@ -177,7 +177,7 @@ xcopy /y /d "$(SolutionDir)Libs\rttr_core_d.dll" "$(OutDir)"</Command>
       <AdditionalDependencies>vulkan-1.lib;fmod_vc.lib;fmodstudio_vc.lib;rttr_core.lib;Jolt.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /s /r /y /q "$(SolutionDir)Dependencies\dotnet\bin" "$(OutDir)"
+      <Command>
 xcopy /y /d "$(SolutionDir)Libs\fmod\*.dll" "$(OutDir)"
 xcopy /y /d "$(SolutionDir)Libs\rttr_core.dll" "$(OutDir)"</Command>
     </PostBuildEvent>
@@ -206,7 +206,6 @@ xcopy /y /d "$(SolutionDir)Libs\rttr_core.dll" "$(OutDir)"</Command>
     <ClCompile Include="Src\components\cameraComponent.cpp" />
     <ClCompile Include="Src\components\capsuleCollider.cpp" />
     <ClCompile Include="Src\components\componentHelperFunctions.cpp" />
-    <ClCompile Include="Src\components\FontComponent.cpp" />
     <ClCompile Include="Src\components\graphicsComponent.cpp" />
     <ClCompile Include="Src\components\nameTag.cpp" />
     <ClCompile Include="Src\components\rigidBody.cpp" />
@@ -246,6 +245,7 @@ xcopy /y /d "$(SolutionDir)Libs\rttr_core.dll" "$(OutDir)"</Command>
     <ClCompile Include="Src\Physics\PhysicsSystem.cpp" />
     <ClCompile Include="Src\Rendering\DebugRenderer.cpp" />
     <ClCompile Include="Src\Rendering\FontRenderer.cpp" />
+    <ClCompile Include="Src\Rendering\FontSystem.cpp" />
     <ClCompile Include="Src\Rendering\GraphicsManager.cpp" />
     <ClCompile Include="Src\Rendering\GridRenderer.cpp" />
     <ClCompile Include="Src\Rendering\RenderDataManager.cpp" />
@@ -302,6 +302,7 @@ xcopy /y /d "$(SolutionDir)Libs\rttr_core.dll" "$(OutDir)"</Command>
     <ClInclude Include="Include\Animation\Pose.h" />
     <ClInclude Include="Include\AssetManagement\AssetManager.h" />
     <ClInclude Include="Include\AssetManagement\FactoryBase.h" />
+    <ClInclude Include="Include\AssetManagement\FontFactory.h" />
     <ClInclude Include="Include\AssetManagement\ModelFactory.h" />
     <ClInclude Include="Include\AssetManagement\ResourceAllocator.h" />
     <ClInclude Include="Include\AssetManagement\TextureFactory.h" />
@@ -312,7 +313,6 @@ xcopy /y /d "$(SolutionDir)Libs\rttr_core.dll" "$(OutDir)"</Command>
     <ClInclude Include="Include\components\cameraComponent.h" />
     <ClInclude Include="Include\components\capsuleCollider.h" />
     <ClInclude Include="Include\components\components.h" />
-    <ClInclude Include="Include\components\FontComponent.h" />
     <ClInclude Include="Include\components\graphicsComponent.h" />
     <ClInclude Include="Include\components\iComponent.h" />
     <ClInclude Include="Include\components\nameTag.h" />
@@ -357,8 +357,10 @@ xcopy /y /d "$(SolutionDir)Libs\rttr_core.dll" "$(OutDir)"</Command>
     <ClInclude Include="Include\Physics\JPHLayers.h" />
     <ClInclude Include="Include\Physics\PhysicsSystem.h" />
     <ClInclude Include="Include\propertyManager\registration.h" />
+    <ClInclude Include="Include\Rendering\Batch2D.h" />
     <ClInclude Include="Include\Rendering\DebugRenderer.h" />
     <ClInclude Include="Include\Rendering\FontRenderer.h" />
+    <ClInclude Include="Include\Rendering\FontSystem.h" />
     <ClInclude Include="Include\Rendering\GraphicsManager.h" />
     <ClInclude Include="Include\Rendering\GridRenderer.h" />
     <ClInclude Include="Include\Rendering\Material.h" />

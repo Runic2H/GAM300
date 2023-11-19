@@ -18,7 +18,7 @@
 #include "Rendering/UiSystem.h"
 #include "eventManager/eventHandler.h"
 #include "Physics/CollisionSystem.h"
-
+#include "Rendering/FontSystem.h"
 namespace TDS
 {
 	/*!*************************************************************************

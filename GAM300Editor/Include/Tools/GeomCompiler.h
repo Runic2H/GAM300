@@ -16,6 +16,7 @@ namespace TDS
 		std::vector<lod>	   m_GeneratedLODS; //Not in used until M3
 		std::vector<std::uint32_t> m_InputIndices;
 		std::int32_t m_iMaterialInstance;
+		aiMatrix4x4 m_CurrTransform;
 	};
 	/*!*************************************************************************
 	 * Optimized mesh given to the renderer
@@ -37,6 +38,7 @@ namespace TDS
 		std::shared_ptr<GeomCompiled> output;
 		const aiScene* m_Scene;
 		std::vector<INPUT_NODES> m_MeshNodes;
+		std::vector<const aiNode*> m_Test;
 		std::vector<InputMesh> m_InputMeshes;
 		GeomDescriptor m_CurrDesc;
 
@@ -72,7 +74,7 @@ namespace TDS
 		 ***************************************************************************/
 		void ProcessNode(aiNode* Node);
 		void ProcessMesh(const aiMesh& AssimpMesh, const aiMatrix4x4& Transform, InputMesh& MeshPart, int iTexCordinates, int iColors);
-		void Apply(const aiNode& Node, std::vector<InputMesh>& Nodes);
+		void Apply(const aiNode& Node, std::vector<InputMesh>& Nodes, const aiMatrix4x4& ParentTransform);
 		void ConvertToGeom();
 
 		std::string OutputGeom(std::string_view outPath);
@@ -90,6 +92,7 @@ namespace TDS
 		}
 
 	public:
-		std::string OutPath = "../../assets/models/";
+		std::string OutPath = "../assets/models/";
+		std::map<std::string, aiMatrix4x4> m_CurrTransforms;
 	};
 }

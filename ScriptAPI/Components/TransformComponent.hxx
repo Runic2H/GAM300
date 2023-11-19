@@ -3,6 +3,8 @@
 #include "../IncludeFromEngine.hxx"
 #include "../Vector3.hxx"
 
+#include "../GAM300Engine/Include/eventManager/eventHandler.h"
+
 namespace ScriptAPI
 {
 	public value class TransformComponent

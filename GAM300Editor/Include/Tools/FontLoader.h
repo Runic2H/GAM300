@@ -1,5 +1,4 @@
 #pragma once
-#include "components/FontComponent.h"
 namespace TDS
 {
 
@@ -26,6 +25,6 @@ namespace TDS
 
 	namespace FontLoader
 	{
-		bool RunFontLoader(LoaderDescriptor& desc, FontComponent& font);
+		bool RunFontLoader(LoaderDescriptor& desc);
 	}
 }

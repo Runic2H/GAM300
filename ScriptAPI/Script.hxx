@@ -16,7 +16,6 @@
 #include <thread>
 #include <pplawait.h>
 #include <algorithm>
-
 using namespace System;
 using namespace System::Collections::Generic;
 using namespace System::Threading;
@@ -24,8 +23,7 @@ using namespace System::Threading::Tasks;
 using namespace System::Reflection;
 using namespace concurrency;
 
-[AttributeUsage(AttributeTargets::Field)]
-public ref class SerializeFieldAttribute : public Attribute { };
+#include "CustomAttributeHeaders.hxx"
 
 namespace ScriptAPI
 {
@@ -45,10 +43,11 @@ namespace ScriptAPI
         generic <typename TResult>
         IAsyncEnumerable<TResult>^ Coroutine(Func<IAsyncEnumerable<TResult>^>^ func, int duration);
         
-        GameObject^ GameObjectScriptFind(System::String^ name);
-        GameObject^ gameObject;
+        //GameObject^ GameObjectScriptFind(System::String^ name);
 
-        //Input^ Input;
+
+        [HideInInspector]
+        GameObject^ gameObject;
 
     internal:
         void SetFlags();

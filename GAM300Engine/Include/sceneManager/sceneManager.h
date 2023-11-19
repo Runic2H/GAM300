@@ -144,8 +144,10 @@ namespace TDS
 		void (*setFloat)(EntityID entityID, std::string script, std::string variableName, float value);
 		void (*setString)(EntityID entityID, std::string script, std::string variableName, std::string value);
 		//void (*setChar)(EntityID entityID, std::string script, std::string variableName, char value);
+		void (*setVector3)(EntityID entityID, std::string script, std::string variableName, Vec3 value);
 		void (*setGameObject)(EntityID entityID, std::string script, std::string variableName, EntityID gameObjectEntityID);
 		void (*setScriptReference)(EntityID entityID, std::string script, std::string variableName, EntityID gameObjectEntityID, std::string scriptReference);
+
 
 		bool (*updateName)(EntityID entityID, std::string newName);
 

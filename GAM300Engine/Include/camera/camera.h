@@ -58,7 +58,7 @@ namespace TDS
 		float	m_Pitch{};
 		
 		//option to toggle with
-		float	m_Speed{1.0f};
+		float	m_Speed{5.0f};
 		float	m_mouseSensitivity{0.1f}; //should it be in input???
 		float	m_ZoomLevel{};
 		float	m_Width{};

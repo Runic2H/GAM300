@@ -180,15 +180,21 @@ namespace TDS
 
 								Vec3 parentRotation = parentTransformComponent->GetRotation();
 								Vec3 reflectedRotation = oldRotation - parentRotation;
-								ImguiInput("Position", reflectedRotation);
+								ImguiInput("Rotation", reflectedRotation);
 								transformComponent->SetRotation(reflectedRotation + parentRotation);
 							}
 							else
 							{
 								ImguiComponentDisplay(componentName, componentBase);
-							}
 
-							EventHandler::postChildTransformationEvent(selectedEntity, oldPosition, oldScale, oldRotation);
+								if (nameTagComponent->GetHierarchyChildren().size() > 0 && 
+									(oldPosition != transformComponent->GetPosition() ||
+									oldScale != transformComponent->GetScale() ||
+									oldRotation != transformComponent->GetRotation()))
+								{
+									EventHandler::postChildTransformationEvent(selectedEntity, oldPosition, oldScale, oldRotation);
+								}
+							}
 						}
 						else
 						{
@@ -240,14 +246,57 @@ namespace TDS
 
 						ImGui::TableNextRow();
 						ImGui::TableNextColumn();
+						ImGui::Text("Script");
 						//ImGui::SetColumnWidth(ImGui::GetContentRegionAvail().x * 0.3f);
 						ImGui::TableNextColumn();
+						ImGui::PushItemWidth(-ImGui::GetContentRegionAvail().x * 0.15f);
+						//ImGui::
+
+						ImGui::PushID(0);
+						ImGui::BeginDisabled();
+
+						char temp[100];
+						strcpy_s(temp, scriptName.c_str());
+						ImGui::InputText("##scriptName", temp, 100, ImGuiInputTextFlags_ReadOnly);
+						ImGui::SameLine();
+						ImGui::Button("O");
+
+						ImGui::EndDisabled();
+						ImGui::PopID();
+
+						ImGui::PopItemWidth();
 						ImGui::PushItemWidth(-FLT_MIN); // Right-aligned
 
-						std::vector<ScriptValues> allValues = sceneManagerInstance->getScriptVariables(selectedEntity, scriptName);
+						std::vector<ScriptValues> allValues = getScriptVariables(selectedEntity, scriptName);
 
 						for (ScriptValues scriptValue : allValues)
 						{
+							if (scriptValue.headerString != "") // NOTE: So cursed can u shorten please ry what is wrong with u HAHA
+							{
+								ImGui::PopItemWidth();
+								ImGui::EndTable();
+
+								//ImGui::TableNextRow();
+								//ImGui::TableNextColumn();
+								ImGui::NewLine();
+								ImGui::Text(scriptValue.headerString.c_str());
+								//ImGui::TableNextColumn();
+								//ImGui::TableNextRow();
+
+								ImGui::BeginTable("components", 2, /*ImGuiTableFlags_Borders |*/ ImGuiTableFlags_NoPadInnerX | ImGuiTableFlags_SizingStretchSame, ImVec2(0.0f, 5.5f));
+
+								ImGui::TableSetupColumn("Component variable name", ImGuiTableColumnFlags_None, ImGui::GetContentRegionAvail().x * 0.4f);
+								ImGui::TableSetupColumn("Component variable value", ImGuiTableColumnFlags_None, ImGui::GetContentRegionAvail().x * 0.6f);
+
+								ImGui::TableNextRow();
+								ImGui::TableNextColumn();
+								//ImGui::SetColumnWidth(ImGui::GetContentRegionAvail().x * 0.3f);
+								ImGui::TableNextColumn();
+								ImGui::PushItemWidth(-FLT_MIN); // Right-aligned
+
+								continue;
+							}
+
 							if (scriptValue.type == "System.Boolean")
 							{
 								bool value = scriptValue.value == "False" ? false : true;
@@ -300,6 +349,14 @@ namespace TDS
 								//char value = scriptValue.value[0];
 								//value = ImguiInput(scriptValue.name, value);
 								//sceneManagerInstance->setChar(selectedEntity, scriptName, scriptValue.name, value);
+							}
+							else if (scriptValue.type == "ScriptAPI.Vector3")
+							{
+								Vec3 value (scriptValue.vectorValueX, scriptValue.vectorValueY, scriptValue.vectorValueZ);
+								if (ImguiInput(scriptValue.name, value))
+								{
+									sceneManagerInstance->setVector3(selectedEntity, scriptName, scriptValue.name, value);
+								}
 							}
 							else // scripts & game object
 							{

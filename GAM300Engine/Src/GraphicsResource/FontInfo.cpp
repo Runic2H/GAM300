@@ -68,8 +68,8 @@ namespace TDS
                 //TDS_ERROR("Glyph unicode {} is missing 'atlasBounds'", glyph.m_uniCode);
                 // You can assign default values to m_AtlasBounds here if needed
             }
-
-            m_Glyphs.insert(std::make_pair(static_cast<char>(glyph.m_uniCode), glyph));
+            char character = static_cast<char>(glyph.m_uniCode);
+            m_Glyphs.insert(std::make_pair(character, glyph));
         }
 
 
@@ -85,6 +85,16 @@ namespace TDS
             }
         }
 
+    }
+
+    bool FontAtlas::DescenderExist(const Glyph& glyph, const Metrics& metrics)
+    {
+        return glyph.m_PlaneBounds.m_Bottom < metrics.m_Descender;
+    }
+
+    bool FontAtlas::AscenderExist(const Glyph& glyph, const Metrics& metrics)
+    {
+        return glyph.m_PlaneBounds.m_Top > metrics.m_Ascender;
     }
 
 

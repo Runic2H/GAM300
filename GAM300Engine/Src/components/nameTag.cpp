@@ -19,7 +19,8 @@ RTTR_REGISTRATION
 		.property("Tag", &NameTag::GetTag, &NameTag::SetTag)
 		.property("IsActive", &NameTag::GetIsActive, &NameTag::SetIsActive)
 		.property("HierarchyParent", &NameTag::GetHierarchyParent, &NameTag::SetHierarchyParent)
-		.property("HierarchyIndex", &NameTag::GetHierarchyIndex, &NameTag::SetHierarchyIndex);
+		.property("HierarchyIndex", &NameTag::GetHierarchyIndex, &NameTag::SetHierarchyIndex)
+		.property("HierarchyChildren", &NameTag::mHierarchyChildren);
 }
 
 namespace TDS

@@ -62,12 +62,12 @@ public class Test : Script
         if (Input.GetKeyDown(Keycode.W))
         {
             pos.Y += floatTest;
-            gameObject.GetComponent<TransformComponent>().SetPositionX(pos.Y);
+            gameObject.GetComponent<TransformComponent>().SetPositionY(pos.Y);
         }
         if (Input.GetKeyDown(Keycode.S))
         {
             pos.Y -= floatTest;
-            gameObject.GetComponent<TransformComponent>().SetPositionX(pos.Y);
+            gameObject.GetComponent<TransformComponent>().SetPositionY(pos.Y);
         }
         if (Input.GetKeyDown(Keycode.A))
         {

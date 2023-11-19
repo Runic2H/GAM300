@@ -37,21 +37,21 @@ void TDS::DDSConverter::ConvertToDDS(std::string_view path, std::string_view out
     }
 
     DirectX::ScratchImage ddsImage;
-    hr = DirectX::Compress(
-        m_Image.GetImages(), m_Image.GetImageCount(),
-        m_Image.GetMetadata(), ddsFormat,
-        DirectX::TEX_COMPRESS_DEFAULT, 0.93f,
-        ddsImage
-    );
-    if (FAILED(hr)) {
-        TDS_ERROR("Failed to convert image format");
-        return;
-    }
+    //hr = DirectX::Compress(
+    //    m_Image.GetImages(), m_Image.GetImageCount(),
+    //    m_Image.GetMetadata(), ddsFormat,
+    //    DirectX::TEX_COMPRESS_DEFAULT, 0.93f,
+    //    ddsImage
+    //);
+    //if (FAILED(hr)) {
+    //    TDS_ERROR("Failed to convert image format");
+    //    return;
+    //}
 
     std::wstring OutWPath = StringToWstring(outPath);
     hr = DirectX::SaveToDDSFile(
-        ddsImage.GetImages(), ddsImage.GetImageCount(),
-        ddsImage.GetMetadata(),
+        m_Image.GetImages(), m_Image.GetImageCount(),
+        m_Image.GetMetadata(),
         DirectX::DDS_FLAGS_NONE, OutWPath.c_str());
     if (FAILED(hr)) {
         TDS_ERROR("Failed to save DDS file");

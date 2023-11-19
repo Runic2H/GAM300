@@ -6,6 +6,10 @@ namespace ScriptAPI
 	{
 		return BoxColliderComponent(entityID);
 	}
+	CameraComponent GameObject::GetCameraComponent()
+	{
+		return CameraComponent(entityID);
+	}
 	CapsuleColliderComponent GameObject::GetCapsuleColliderComponent()
 	{
 		return CapsuleColliderComponent(entityID);

@@ -23,9 +23,7 @@
 #include "tag.h"
 #include "transform.h"
 #include "winData.h"
-#include "FontComponent.h"
 #include "UiSprite.h"
-
 // Helper functions for components
 namespace TDS
 {
@@ -35,6 +33,11 @@ namespace TDS
 		std::string value;
 		std::string type;
 		EntityID referenceEntityID = 0;
+
+		float vectorValueX;
+		float vectorValueY;
+		float vectorValueZ;
+		std::string headerString;
 	};
 
 	/*!*************************************************************************

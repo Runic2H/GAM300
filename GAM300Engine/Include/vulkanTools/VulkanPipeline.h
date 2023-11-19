@@ -52,10 +52,10 @@ namespace TDS
 
 	struct ShaderInputs
 	{
-		//The shaders u want to use for this pipeline
+		
 		std::map<SHADER_FLAG, std::string>			m_Shaders;
 
-		std::map<std::uint32_t, BufferInfo>			m_InputBuffers; //This is if lets say you have a runtime array data in your uniform buffers or SSBO. You need this to define your size.
+		std::map<std::uint32_t, BufferInfo>			m_InputBuffers; 
 		std::vector<VertexBufferInfo>				m_InputVertex;
 		std::int32_t								m_StageCnt = -1;
 	};

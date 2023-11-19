@@ -39,6 +39,8 @@ namespace TDS
 		****************************************************************************/
 		void ImguiComponentDisplay(std::string componentName, IComponent* componentBase);
 
+		std::vector<TDS::ScriptValues>(*getScriptVariables)(EntityID entityID, std::string scriptName);
+
 	private:
 		ImVec2 popupPosition;
 	};

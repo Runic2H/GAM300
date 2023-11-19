@@ -29,13 +29,15 @@ namespace TDS
 		windowPadding = ImVec2(0.f, 0.f);
 	}
 
-	std::string tempPath = "../../assets/textures/texture.dds";
+	std::string tempPath = "../assets/textures/texture.dds";
 	void EditorScene::init()
 	{
 		m_DescSet = ImGui_ImplVulkan_AddTexture(GraphicsManager::getInstance().getFinalImage().getSampler(), GraphicsManager::getInstance().getFinalImage().getImageView(), VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL);
 	}
 	void EditorScene::update()
 	{
+		isFocus = ImGui::IsWindowFocused() && ImGui::IsItemVisible();
+
 		if (ImGui::BeginMenuBar())
 		{
 			if (isPlaying)
@@ -86,12 +88,11 @@ namespace TDS
 		//}
 		//data.LoadTexture(tempPath);
 		//vkTexture.CreateBasicTexture(data.m_TextureInfo);
-		isFocus = ImGui::IsWindowFocused() && ImGui::IsItemVisible();
 		ImVec2 vSize = ImGui::GetContentRegionAvail();
 		static bool view2D = false;
 	
 		ImGui::Image((ImTextureID)m_DescSet, vSize);
-		//drag drop code MUST be ddirecvtly under imgui::image code
+		//drag drop code MUST be directly under imgui::image code
 		if (ImGui::BeginDragDropTarget())
 		{
 			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("CONTENT_BROWSER_ITEM"))
@@ -122,11 +123,9 @@ namespace TDS
 			ImGui::EndDragDropTarget();
 		}
 
-
 		std::shared_ptr<Hierarchy> hierarchyPanel = static_pointer_cast<Hierarchy>(LevelEditorManager::GetInstance()->panels[PanelTypes::HIERARCHY]);
 		if (EntityID selectedEntity = hierarchyPanel->getSelectedEntity())
 		{
-
 			if (GraphicsManager::getInstance().IsViewingFrom2D())
 			{
 				GraphicsComponent* graphComp = reinterpret_cast<GraphicsComponent*>(getComponentByName("Graphics Component", selectedEntity));

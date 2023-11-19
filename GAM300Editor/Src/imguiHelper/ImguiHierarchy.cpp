@@ -577,6 +577,7 @@ namespace TDS
 					EntityID newEntityID = newEntity.getID();
 					newEntity.add<NameTag>();
 					newEntity.add<Transform>();
+					newEntity.add<UISprite>();
 					selectedEntity = newEntityID;
 
 					auto nameTagComponent = ecs.getComponent<NameTag>(newEntityID);
