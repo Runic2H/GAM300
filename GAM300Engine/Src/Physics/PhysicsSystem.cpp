@@ -159,7 +159,7 @@ namespace TDS
 				Vec3 pos = _transform[j].GetPosition();
 				Vec3 scale = _transform[j].GetScale();
 				Vec3 rot = _transform[j].GetRotation();
-				EventHandler::changeChildTransformation(entities[j], pos, scale, rot);
+				EventHandler::postChildTransformationEvent(entities[j], pos, scale, rot);
 
 			}
 			accumulatedTime -= TimeStep::GetFixedDeltaTime();
