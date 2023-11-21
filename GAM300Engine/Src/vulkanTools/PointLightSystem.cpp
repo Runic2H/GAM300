@@ -32,7 +32,10 @@ namespace TDS {
 		PipelineEntry.m_ShaderInputs.m_Shaders.insert(std::make_pair(SHADER_FLAG::FRAGMENT, "../assets/shaders/pointlightfrag.spv"));
 		PipelineEntry.m_PipelineConfig.m_EnableDepthTest = true;
 		PipelineEntry.m_PipelineConfig.m_EnableDepthWrite = true;
-		PipelineEntry.m_PipelineConfig;
+		PipelineEntry.m_PipelineConfig.m_SrcClrBlend = VK_BLEND_FACTOR_SRC_ALPHA;
+		PipelineEntry.m_PipelineConfig.m_DstClrBlend = VK_BLEND_FACTOR_ONE_MINUS_SRC_ALPHA;
+		PipelineEntry.m_PipelineConfig.m_SrcAlphaBlend = VK_BLEND_FACTOR_SRC_ALPHA;
+		PipelineEntry.m_PipelineConfig.m_DstAlphaBlend = VK_BLEND_FACTOR_ONE_MINUS_SRC_ALPHA;
 		m_Pipeline = std::make_unique<VulkanPipeline>();
 		m_Pipeline->Create(PipelineEntry);
 	}

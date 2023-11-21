@@ -12,7 +12,7 @@ namespace TDS
 		Vec3			m_Rotate;
 		Vec3			m_Translate;
 		Mat4			m_Transform{ 1.f };
-		Color*			m_Color = nullptr;
+		Vec4*			m_Color = nullptr;
 		std::uint32_t	m_LayerID;
 		std::uint32_t	m_TextureIndex = 499;
 	};

@@ -246,8 +246,8 @@ namespace TDS
 					ImGui::ImageButton(reinterpret_cast<void*>(folder_DescSet), ImVec2{ thumbnail_size, thumbnail_size }, ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
 					//folder_image_count++;
 				}
-				if (!show_bin && !show_fbx) { continue; }
-				else if (show_bin && !show_fbx)
+				//if (!show_bin && !show_fbx) { continue; }
+				/*else*/ if (show_bin && !show_fbx)
 				{
 					if (!strstr(filename.c_str(), ".bin")) //if its not bin, continue
 					{

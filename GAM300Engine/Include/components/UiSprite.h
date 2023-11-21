@@ -26,7 +26,7 @@ namespace TDS
 		bool							m_EnableSprite = true;
 		bool							m_IsFont = false;
 		int								m_LayerID = -1;
-		Color							m_Color;
+		Vec4							m_Color;
 		std::string						m_TextureName = "";
 	public:
 		//If is font data

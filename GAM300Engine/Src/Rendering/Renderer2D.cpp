@@ -32,10 +32,10 @@ namespace TDS
 	void Renderer2D::Init()
 	{
 		std::vector<Renderer2DVertex> m_VertexData;
-		m_VertexData.push_back(Renderer2DVertex(Vec3(-0.5f, -0.5f, 0.f), Vec2(0.f, 0.f)));
-		m_VertexData.push_back(Renderer2DVertex(Vec3(0.5f, -0.5f, 0.f), Vec2(1.f, 0.f)));
-		m_VertexData.push_back(Renderer2DVertex(Vec3(0.5f, 0.5f, 0.f), Vec2(1.f, 1.f)));
-		m_VertexData.push_back(Renderer2DVertex(Vec3(-0.5f, 0.5f, 0.f), Vec2(0.f, 1.f)));
+		m_VertexData.push_back(Renderer2DVertex(Vec3(-0.5f, -0.5f, 0.f), Vec2(0.f, 1.f)));
+		m_VertexData.push_back(Renderer2DVertex(Vec3(0.5f, -0.5f, 0.f), Vec2(1.f, 1.f)));
+		m_VertexData.push_back(Renderer2DVertex(Vec3(0.5f, 0.5f, 0.f), Vec2(1.f, 0.f)));
+		m_VertexData.push_back(Renderer2DVertex(Vec3(-0.5f, 0.5f, 0.f), Vec2(0.f, 0.f)));
 
 		std::vector<std::uint32_t> indexBuffer =
 		{
@@ -99,10 +99,10 @@ namespace TDS
 
 		entry.m_ShaderInputs.m_Shaders.insert(std::make_pair(SHADER_FLAG::VERTEX, "../assets/shaders/Render2DVertInstanced.spv"));
 		entry.m_ShaderInputs.m_Shaders.insert(std::make_pair(SHADER_FLAG::FRAGMENT, "../assets/shaders/Render2DFragInstanced.spv"));
-		entry.m_PipelineConfig.m_DstClrBlend = VK_BLEND_FACTOR_ZERO;
-		entry.m_PipelineConfig.m_SrcClrBlend = VK_BLEND_FACTOR_ZERO;
-		entry.m_PipelineConfig.m_SrcAlphaBlend = VK_BLEND_FACTOR_ZERO;
-		entry.m_PipelineConfig.m_DstAlphaBlend = VK_BLEND_FACTOR_ZERO;
+		entry.m_PipelineConfig.m_SrcClrBlend = VK_BLEND_FACTOR_SRC_ALPHA;
+		entry.m_PipelineConfig.m_DstClrBlend = VK_BLEND_FACTOR_ONE_MINUS_SRC_ALPHA;
+		entry.m_PipelineConfig.m_SrcAlphaBlend = VK_BLEND_FACTOR_SRC_ALPHA;
+		entry.m_PipelineConfig.m_DstAlphaBlend = VK_BLEND_FACTOR_ONE_MINUS_SRC_ALPHA;
 		VertexLayout layout =
 			VertexLayout(
 				{
@@ -214,7 +214,7 @@ namespace TDS
 		m_Pipeline->UpdateUBO(m_BatchList.m_Instances.data(), sizeof(Instance2D) * m_BatchList.m_InstanceCnt, 10, Frame);
 		if (AssetManager::GetInstance()->GetTextureFactory().m_UpdateTextureArray2D)
 		{
-			m_Pipeline->UpdateTextureArray(4, VkDescriptorType::VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, AssetFactory<Texture>().GetTextureArray());
+			m_Pipeline->UpdateTextureArray(4, VkDescriptorType::VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, AssetManager::GetInstance()->GetTextureFactory().GetTextureArray());
 			AssetManager::GetInstance()->GetTextureFactory().m_UpdateTextureArray2D = false;
 		}
 	}
@@ -293,7 +293,7 @@ namespace TDS
 					}
 
 					++m_LayerInfos[layer].m_Instance;
-					m_Instances[i].m_Color = instanceinfo.m_Color->GetAsVec4();
+					m_Instances[i].m_Color = *instanceinfo.m_Color;
 					m_Instances[i].m_texID.x = float(instanceinfo.m_TextureIndex);
 					
 					//Vec3 rotationRadians = Vec3(instanceinfo.m_Rotate->x * static_cast<float>(3.14159265359f / 180.0f),

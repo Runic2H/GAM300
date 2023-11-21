@@ -295,7 +295,7 @@ namespace TDS
 
 			
 			m_InstanceInfo[m_InstanceCnt].m_LayerID = UiSprite->m_LayerID > 12 ? 12 : (std::uint32_t)UiSprite->m_LayerID;
-			m_InstanceInfo[m_InstanceCnt].m_FontColor.m_Color = UiSprite->m_Color.GetAsVec4();
+			m_InstanceInfo[m_InstanceCnt].m_FontColor.m_Color = UiSprite->m_Color;
 			m_InstanceInfo[m_InstanceCnt].m_FontColor.bgColor = UiSprite->m_BackGroundColour;
 			m_InstanceInfo[m_InstanceCnt].m_FontColor.fgColor = UiSprite->m_ForeGroundColour;
 
