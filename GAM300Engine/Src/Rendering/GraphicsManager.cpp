@@ -148,6 +148,7 @@ namespace TDS
 		Renderer2D::GetInstance()->ShutDown();
 		m_DebugRenderer->GetPipeline().ShutDown();
 		FontRenderer::GetInstance()->ShutDown();
+		m_ObjectPicking->Shutdown();
 		GlobalBufferPool::GetInstance()->Destroy();
 		m_RenderingAttachment->~RenderTarget();
 		m_RenderingDepthAttachment->~RenderTarget();

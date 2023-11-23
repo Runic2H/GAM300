@@ -1,9 +1,14 @@
 {
     "Archetype Sizes": {
         "1100001000000": {
-            "0": 39168,
-            "1": 57600,
-            "6": 76032
+            "0": 39032,
+            "1": 57400,
+            "6": 75768
+        },
+        "1100100000000": {
+            "0": 136,
+            "1": 200,
+            "4": 40
         }
     },
     "Entity Data": {
@@ -8381,46 +8386,43 @@
             }
         },
         "288": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "1100100000000",
             "Name Tag": {
-                "Name": "Gallery_F",
+                "Name": "Player",
                 "Tag": "",
                 "IsActive": true,
-                "HierarchyParent": 284,
-                "HierarchyIndex": 3,
+                "HierarchyParent": 0,
+                "HierarchyIndex": 2,
                 "HierarchyChildren": []
             },
             "Transform": {
                 "Position": {
-                    "x": -399.7014465332031,
-                    "y": 107.90690612792969,
-                    "z": -152.41961669921875
+                    "x": -261.7415466308594,
+                    "y": 228.00656127929688,
+                    "z": 802.3126831054688
                 },
                 "Scale": {
-                    "x": 1.0,
-                    "y": 1.0,
-                    "z": 1.0
+                    "x": 50.0,
+                    "y": 50.0,
+                    "z": 50.0
                 },
                 "Rotation": {
                     "x": 0.0,
-                    "y": 0.0,
+                    "y": -0.0,
                     "z": 0.0
                 }
             },
-            "Graphics Component": {
-                "PointLight": false,
-                "TextureName": "Main Floor.dds",
-                "Mesh Renderer": true,
-                "Debug": false,
-                "ModelName": "Floors_Bin.bin",
-                "MeshName": "Gallery_F",
-                "Color": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0,
-                    "w": 0.0
+            "Camera Component": {
+                "Yaw": -90.0,
+                "Pitch": 0.0,
+                "Position": {
+                    "x": -261.74200439453125,
+                    "y": 228.0070037841797,
+                    "z": 802.31298828125
                 },
-                "Used In 2D": false
+                "Speed": 10.0,
+                "FOV": 45.0,
+                "MouseSensitivity": 0.10000000149011612
             }
         },
         "176": {

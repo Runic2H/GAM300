@@ -31,7 +31,12 @@ namespace TDS
 	}
 	ObjectPick::~ObjectPick()
 	{
+
+	}
+	void ObjectPick::Shutdown()
+	{
 		m_PickPipeline->ShutDown();
+		m_PickBuffer->DestroyBuffer();
 		delete m_PickRenderPass;
 		delete m_PickRenderTarget;
 		delete m_PickDepthAttachment;

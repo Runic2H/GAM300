@@ -122,7 +122,7 @@ namespace TDS
 		for (auto& blendAttState : blendAttachmentState)
 		{
 			blendAttState.colorWriteMask = VK_COLOR_COMPONENT_R_BIT | VK_COLOR_COMPONENT_G_BIT | VK_COLOR_COMPONENT_B_BIT | VK_COLOR_COMPONENT_A_BIT;
-			blendAttState.blendEnable = /*m_BlendingEnabled ? VK_TRUE :*/ VK_FALSE;
+			blendAttState.blendEnable = m_BlendingEnabled ? VK_TRUE : VK_FALSE;
 			blendAttState.srcColorBlendFactor = m_PipelineEntry.m_PipelineConfig.m_SrcClrBlend;
 			blendAttState.dstColorBlendFactor = m_PipelineEntry.m_PipelineConfig.m_DstClrBlend;
 			blendAttState.colorBlendOp = m_PipelineEntry.m_PipelineConfig.m_ColorBlend;

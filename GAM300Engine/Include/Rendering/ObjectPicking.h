@@ -30,7 +30,7 @@ namespace TDS {
 	public:
 		ObjectPick(std::shared_ptr<VulkanInstance> inst,Vec3 resolution);
 		~ObjectPick();
-
+		void Shutdown();
 		void Update(VkCommandBuffer commandBuffer, uint32_t frameIndex, Vec2 mousePosition);
 
 
