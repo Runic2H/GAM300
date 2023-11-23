@@ -1,11 +1,8 @@
 #include "windowswindow.h"
-#include "Input/Input.h"
 #include <iostream>
 
 namespace TDS
 {
-	HWND Input::handle = NULL;
-	RECT Input::rect;
 	WindowsWin::WindowsWin(HINSTANCE hInstance, int nCmdShow, const wchar_t* className)
 		:m_handleWindows{ nullptr }, m_hInstance{ hInstance }, m_Width{ 0 }, m_Height{ 0 },
 		m_classname{ className }, m_cmdshow{ nCmdShow }
