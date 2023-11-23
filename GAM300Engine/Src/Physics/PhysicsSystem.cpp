@@ -184,6 +184,7 @@ namespace TDS
 		_transform->SetRotation(JoltToTDS::ToVec3(pBodies->GetRotation(JPHBodyID).GetXYZ()));
 		_rigidbody->SetLinearVel(JoltToTDS::ToVec3(pBodies->GetLinearVelocity(JPHBodyID)));
 		_rigidbody->SetAngularVel(JoltToTDS::ToVec3(pBodies->GetAngularVelocity(JPHBodyID)));
+		//_transform->SetDirty(false);
 	}
 	void PhysicsSystem::JPH_SystemShutdown()
 	{

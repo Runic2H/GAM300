@@ -1,6 +1,6 @@
 #include "camera/camera.h"
 #include "camera/Camerasystem/CameraSystem.h"
-
+#include "Rendering/GraphicsManager.h"
 #include<iostream>
 namespace TDS
 {
@@ -42,60 +42,12 @@ namespace TDS
 
 	void TDSCamera::UpdateCamera(float deltaTime, bool gameIsPlaying)
 	{
-		//if (!gameIsPlaying)
-		//{
-		static Input::mousePosition mouse = Input::mousePosition(std::numeric_limits<int>::max(), std::numeric_limits<int>::max());
-		if (getEditorCamera() && getScrollWheel())
+		if (!gameIsPlaying)
 		{
-			translate(static_cast<float>(Input::wheelDelta * 0.05f));
-			if (moving())
+			static Input::mousePosition mouse = Input::mousePosition(std::numeric_limits<int>::max(), std::numeric_limits<int>::max());
+			if (getEditorCamera() && getScrollWheel())
 			{
-				float CameraSpeed = m_Speed;
-				if (keys.up)
-				{
-					m_Position += m_Front * CameraSpeed;
-				}
-				if (keys.down)
-					m_Position -= m_Front * CameraSpeed;
-				if (keys.left)
-					m_Position -= m_Right * CameraSpeed;
-				if (keys.right)
-					m_Position += m_Right * CameraSpeed;
-			}
-
-			if (Input::isMouseButtonPressed(TDS_MOUSE_RIGHT))
-			{
-				if (mouse.x == std::numeric_limits<int>::max() && mouse.y == std::numeric_limits<int>::max())
-				{
-					mouse = Input::getMousePosition();
-				}
-
-				if (!Input::isMouseButtonReleased(TDS_MOUSE_RIGHT))
-				{
-					float GetMousex = static_cast<float>(mouse.x);
-					float GetMousey = static_cast<float>(mouse.y);
-
-					float getNewMousex = static_cast<float>(Input::getMousePosition().x);
-					float getNewMousey = static_cast<float>(Input::getMousePosition().y);
-
-					float offsetx = getNewMousex - GetMousex;
-					float offsety = GetMousey - getNewMousey;
-
-					ProcessMouseMovement(offsetx, offsety);
-
-					mouse = Input::getMousePosition();
-				}
-
-			}
-			else
-			{
-				mouse = Input::mousePosition(std::numeric_limits<int>::max(), std::numeric_limits<int>::max());
-			}
-		}
-		else // TODO: refactor so that we dont copy and paste similar function
-		{
-			if (CameraSystem::GetIsPlaying())
-			{
+				translate(static_cast<float>(Input::wheelDelta * 0.05f));
 				if (moving())
 				{
 					float CameraSpeed = m_Speed;
@@ -111,27 +63,89 @@ namespace TDS
 						m_Position += m_Right * CameraSpeed;
 				}
 
-				if (mouse.x == std::numeric_limits<int>::max() && mouse.y == std::numeric_limits<int>::max())
+				if (Input::isMouseButtonPressed(TDS_MOUSE_RIGHT))
 				{
+					if (mouse.x == std::numeric_limits<int>::max() && mouse.y == std::numeric_limits<int>::max())
+					{
+						mouse = Input::getMousePosition();
+					}
+
+					if (!Input::isMouseButtonReleased(TDS_MOUSE_RIGHT))
+					{
+						float GetMousex = static_cast<float>(mouse.x);
+						float GetMousey = static_cast<float>(mouse.y);
+
+						float getNewMousex = static_cast<float>(Input::getMousePosition().x);
+						float getNewMousey = static_cast<float>(Input::getMousePosition().y);
+
+						float offsetx = getNewMousex - GetMousex;
+						float offsety = GetMousey - getNewMousey;
+
+						ProcessMouseMovement(offsetx, offsety);
+
+						mouse = Input::getMousePosition();
+					}
+
+				}
+				else
+				{
+					mouse = Input::mousePosition(std::numeric_limits<int>::max(), std::numeric_limits<int>::max());
+				}
+			}
+
+			/*else // TODO: refactor so that we dont copy and paste similar function
+			{
+				if (CameraSystem::GetIsPlaying())
+				{
+					if (moving())
+					{
+						float CameraSpeed = m_Speed;
+						if (keys.up)
+						{
+							m_Position += m_Front * CameraSpeed;
+						}
+						if (keys.down)
+							m_Position -= m_Front * CameraSpeed;
+						if (keys.left)
+							m_Position -= m_Right * CameraSpeed;
+						if (keys.right)
+							m_Position += m_Right * CameraSpeed;
+					}
+
+					if (mouse.x == std::numeric_limits<int>::max() && mouse.y == std::numeric_limits<int>::max())
+					{
+						mouse = Input::getMousePosition();
+					}
+
+					float GetMousex = static_cast<float>(mouse.x);
+					float GetMousey = static_cast<float>(mouse.y);
+
+					float getNewMousex = static_cast<float>(Input::getMousePosition().x);
+					float getNewMousey = static_cast<float>(Input::getMousePosition().y);
+
+					float offsetx = getNewMousex - GetMousex;
+					float offsety = GetMousey - getNewMousey;
+
+					ProcessMouseMovement(offsetx, offsety);
+
 					mouse = Input::getMousePosition();
 				}
+			}*/
 
-				float GetMousex = static_cast<float>(mouse.x);
-				float GetMousey = static_cast<float>(mouse.y);
-
-				float getNewMousex = static_cast<float>(Input::getMousePosition().x);
-				float getNewMousey = static_cast<float>(Input::getMousePosition().y);
-
-				float offsetx = getNewMousex - GetMousex;
-				float offsety = GetMousey - getNewMousey;
-
-				ProcessMouseMovement(offsetx, offsety);
-
-				mouse = Input::getMousePosition();
-			}
+			updateViewMatrix();
 		}
+		else // gameIsPlaying
+		{
+			// for exe to get its local coordinate if imgui is not running 
+			/*RECT win;
+			GetClientRect(GraphicsManager::getInstance().GetWindow()->getWindowHandler(), &win);
+			float hlfWidth = (win.right - win.left) * 0.5f;
+			float hlfHeight = (win.bottom - win.top) * 0.5f;
+			Input::mousePosition mosPos = Input::getMousePosition();
+			Vec2 mousePos = { float(mosPos.x - hlfWidth) / float(win.right - win.left), float(mosPos.y - hlfHeight) / (win.bottom - win.top)};
+			Input::setLocalMousePos(mousePos);*/
 
-		updateViewMatrix();
+		}
 	}
 
 

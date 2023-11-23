@@ -35,12 +35,18 @@ namespace TDS
 				Fontbatch.AddToBatch(&_Sprite[i], &transform[i], entities[i]);
 			
 			else
+			{
 				Spritebatch.AddToBatch(&_Sprite[i], &transform[i], entities[i]);
+				if (transform[i].GetTransformMatrix() != _Sprite->m_TransformMatrix)
+				{
+					UpdateAABB(&_Sprite[i], &transform[i]);
+				}
+			}
 			
 		}
+		//TDS_INFO(Input::getLocalMousePos());
 		Spritebatch.PrepareBatch();
 		Fontbatch.PrepareBatch();
-
 
 		Renderer2D::GetInstance()->Update(cmdBuffer, frame);
 		Renderer2D::GetInstance()->Draw(cmdBuffer, frame);
@@ -78,4 +84,32 @@ namespace TDS
 		}*/
 
 	}
+	void UiSystem::UpdateAABB(UISprite* _Sprite, Transform* _trans) {
+		Vec3 scale = _trans->GetScale();
+		Vec3 translation = _trans->GetPosition();
+		_Sprite->m_TransformMatrix = _trans->GetTransformMatrix();
+		std::vector<Vec3> originalBBoxCorners = {
+			Vec3(-0.5f, -0.5f, 0.0f),
+			Vec3(0.5f, -0.5f, 0.0f),
+			Vec3(0.5f, 0.5f, 0.0f),
+			Vec3(-0.5f, 0.5f, 0.0f)
+		};
+		
+		Vec3 newMin = Vec3(FLT_MAX, FLT_MAX, 0.0f);
+		Vec3 newMax = Vec3(-FLT_MAX, -FLT_MAX, 0.0f);
+
+		for (const auto& corner : originalBBoxCorners) {
+			Vec3 transformedCorner = Vec3(corner.x * scale.x, corner.y * scale.y, corner.z * scale.z) + translation;
+			// Update newMin and newMax
+			newMin.x = std::min(newMin.x, transformedCorner.x);
+			newMin.y = std::min(newMin.y, transformedCorner.y);
+			newMax.x = std::max(newMax.x, transformedCorner.x);
+			newMax.y = std::max(newMax.y, transformedCorner.y);
+		}
+
+		// Update the sprite's AABB
+		_Sprite->m_BoundingBoxMin = Vec2(newMin.x, newMin.y);
+		_Sprite->m_BoundingBoxMax = Vec2(newMax.x, newMax.y);
+	}
+
 }

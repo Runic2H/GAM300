@@ -14,10 +14,10 @@ RTTR_REGISTRATION
 {
 	using namespace TDS;
 
-	rttr::registration::class_<Transform>("Transform")
-		.property("Position", &Transform::GetPosition, rttr::select_overload<void(Vec3)>(&Transform::SetPosition))
-		.property("Scale", &Transform::GetScale, rttr::select_overload<void(Vec3)>(&Transform::SetScale))
-		.property("Rotation", &Transform::GetRotation, rttr::select_overload<void(Vec3)>(&Transform::SetRotation));
+rttr::registration::class_<Transform>("Transform")
+		.property("Position", &Transform::mPosition)
+		.property("Scale", &Transform::mScale)
+		.property("Rotation", &Transform::mRotation);
 }
 
 namespace TDS

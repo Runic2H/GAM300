@@ -168,6 +168,9 @@ namespace ScriptAPI
 		static float GetMousePositionDifferenceX();
 		static float GetMousePositionDifferenceY();
 
+		//static float Get2DMousePosX();
+		//static float Get2DMousePosY();
+
 		static void InputUpdate();
 
 	private:

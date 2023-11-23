@@ -5,6 +5,7 @@
 #include "ResourceManagement/ResourceRef.h"
 namespace TDS
 {
+
 	class Texture;
 	class UISprite : public IComponent
 	{
@@ -28,6 +29,9 @@ namespace TDS
 		int								m_LayerID = -1;
 		Vec4							m_Color;
 		std::string						m_TextureName = "";
+		Vec2							m_BoundingBoxMin = { -0.5f,-0.5f };
+		Vec2							m_BoundingBoxMax = { 0.5f, 0.5f };
+		Mat4							m_TransformMatrix = Mat4::identity();
 	public:
 		//If is font data
 		inline TypeReference<FontAtlas>& GetFontReference()
@@ -38,6 +42,5 @@ namespace TDS
 		std::string						m_FontName = "";
 		Vec4							m_BackGroundColour = { 0.f, 0.f, 0.f, 0.f };
 		Vec4							m_ForeGroundColour = { 0.f, 0.f, 0.f, 0.f };
-
 	};
 }

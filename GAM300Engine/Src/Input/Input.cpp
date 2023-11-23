@@ -7,7 +7,7 @@
 \par Section: a
 \par assignment: M1
 \date 01-10-2023
-\brief  This file implements the input handling system for the TDS engine. 
+\brief  This file implements the input handling system for the TDS engine.
 		Input mapping is implemented via win32 API.
 ****************************************************************************
 ***/
@@ -20,6 +20,8 @@ namespace TDS
 	Input::KeyStatus		Input::keystatus;
 	uint32_t				Input::keyCode;
 	short					Input::wheelDelta;
+	Vec2					Input::local_MousePos;
+	bool					Input::exit_cursor;
 
 	Input::keyState Input::GetKeyState(uint32_t keycode)
 	{
@@ -276,6 +278,34 @@ namespace TDS
 		mouse.buttons[TDS_MOUSE_SCROLL].isScrollUp = false;
 	}
 
+	void Input::releaseTheKey(uint32_t key)
+	{
+		keyboard.keys[key].isDown = false;
+	}
 
+	void Input::setCenteredMouse(float x, float y)
+	{
+		local_MousePos = Vec2(x, y);
+	}
+
+	void Input::setExitCursor(bool input)
+	{
+		exit_cursor = input;
+	}
+
+	bool Input::getExitCursor()
+	{
+		return exit_cursor;
+	}
+
+	void Input::setLocalMousePos(Vec2 mousePos)
+	{
+		local_MousePos = mousePos;
+	}
+
+	Vec2 Input::getLocalMousePos()
+	{
+		return Vec2(local_MousePos.x, local_MousePos.y);
+	}
 
 } //end of namespace

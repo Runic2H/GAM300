@@ -14,6 +14,6 @@ namespace TDS
 		public:
 			static void Init();
 			static void Update(const float dt, const std::vector<EntityID>& entities, Transform* transform, UISprite* _Sprite);
-		
+			static void UpdateAABB(UISprite* _Sprite, Transform* _trans);
 	};
 }

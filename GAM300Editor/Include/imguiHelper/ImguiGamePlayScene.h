@@ -13,9 +13,16 @@ namespace TDS
 		void init();
 		void update();
 		void Resize();
+
 		bool isFocus{ false };
 	private:
 		VkDescriptorSet m_GamePlayDesc{};
+
+		ImVec2 window_size;
+		ImVec2 window_pos;
+
+		BOOL show_cursor;
+		ImGuiContext* currentContext; // checking is running exe or editor
 	};
 }
 
