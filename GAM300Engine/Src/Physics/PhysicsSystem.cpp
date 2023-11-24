@@ -60,7 +60,7 @@ namespace TDS
 		return true;
 	};
 #endif
-	
+
 	void PhysicsSystem::PhysicsSystemInit()
 	{
 		// Initialize the Jolt Core
@@ -152,6 +152,10 @@ namespace TDS
 					JPH_CreateBodyID(entities[i], &_transform[i], &_rigidbody[i]);
 
 				}
+				using namespace JoltToTDS;
+				EActivation mode = EActivation::Activate;
+				pBodies->SetPosition(ToBodyID(_rigidbody[i]), ToVec3(_transform->GetPosition()), mode);
+
 			}
 			// JPH physics simulation
 			m_pSystem->Update(TimeStep::GetFixedDeltaTime(), 1, m_pTempAllocator.get(), m_pJobSystem.get());
@@ -199,7 +203,7 @@ namespace TDS
 		if (GetSphereCollider(_entityID))
 		{
 			SphereCollider* vSphere = GetSphereCollider(_entityID);
-			JPH::SphereShapeSettings s_sphereSettings(vSphere->GetRadius());
+			JPH::SphereShapeSettings s_sphereSettings(vSphere->GetRadius() * 2.f);
 			JPH::ShapeSettings::ShapeResult result = s_sphereSettings.Create();
 			JPH::ShapeRefC sphereShape = result.Get(); // if error, high chance is how the shape is created, radius cannot be 0!
 			JPH::BodyCreationSettings b_sphereSetting
@@ -228,7 +232,7 @@ namespace TDS
 		else if (GetBoxCollider(_entityID))
 		{
 			BoxCollider* vBox = GetBoxCollider(_entityID);
-			JPH::Vec3 halfExtents = JoltToTDS::ToVec3(vBox->GetSize());
+			JPH::Vec3 halfExtents = JoltToTDS::ToVec3(vBox->GetSize() * 2.f);
 			halfExtents *= 0.5f;
 			JPH::BoxShapeSettings s_boxSettings(halfExtents);
 			JPH::ShapeSettings::ShapeResult result = s_boxSettings.Create();
@@ -260,7 +264,7 @@ namespace TDS
 		else if (GetCapsuleCollider(_entityID))
 		{
 			CapsuleCollider* vCapsule = GetCapsuleCollider(_entityID);
-			JPH::CapsuleShapeSettings s_capsuleSettings(vCapsule->GetHeight(), vCapsule->GetRadius());
+			JPH::CapsuleShapeSettings s_capsuleSettings(vCapsule->GetHeight()*2.f, vCapsule->GetRadius()*2.f);
 			JPH::ShapeSettings::ShapeResult result = s_capsuleSettings.Create();
 			JPH::ShapeRefC capsuleShape = result.Get();
 			JPH::BodyCreationSettings b_capsuleSetting
