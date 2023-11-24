@@ -25,7 +25,7 @@ namespace TDS
 		UISprite::UISprite() :
 		m_TextureReference(),
 		m_LayerID(-1),
-		m_Color(0.1f, 0.1f, 0.1f),
+		m_Color(0.1f, 0.1f, 0.1f,1.f),//color range from 0 to 1
 		m_EnableSprite(true),
 		m_TextureName(""),
 		m_Message(""),

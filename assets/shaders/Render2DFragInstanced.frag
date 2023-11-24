@@ -18,6 +18,6 @@ void main()
 {
    trueID = outID;
    vec4 texColor = texture(texArraySampler[inTextureIndex], TexCoord);
-   outColor = texColor;
+   outColor = mix(Color, texColor, Color.w);
 
 }
