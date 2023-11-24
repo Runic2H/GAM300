@@ -10,6 +10,7 @@ layout(location = 1) in vec2 fragTexCoord;
 layout(location = 2) in vec3 fragPosWorld;
 layout(location = 3) in vec3 fragNormalWorld; 
 layout(location = 4) in flat uint id;
+layout(location = 5) in vec4 clipspacepos;
 
 
 layout(location = 0) out vec4 outColor;
@@ -50,15 +51,8 @@ layout(push_constant) uniform Push {
 
 
 void main() {
-    // vec3 directiontolight = PL.pointlights[0].Position.xyz - fragPosWorld;
-    // float atten = 1.0/dot(directiontolight, directiontolight);
-
-    // vec3 lightcolor = PL.pointlights[0].Color.xyz * PL.pointlights[0].Color.w * atten;
-    // vec3 ambientlight = PL.ambientlightcolor.xyz * PL.ambientlightcolor.w;
-    // vec3 diffuselight = lightcolor * max(dot(normalize(fragNormalWorld),normalize(directiontolight)),0);
-
-
-    // outColor = vec4((diffuselight*ambientlight)*fragColor,1.0);
+    if (abs(clipspacepos.x)>1.0||abs(clipspacepos.y)>1.0 || abs(clipspacepos.z)>1.0) discard;
+    
     int textureID = int(push.textureIndex);
     vec3 ambientlight = PL.ambientlightcolor.xyz * PL.ambientlightcolor.w;
     vec3 SurfaceNormal = normalize(fragNormalWorld);
