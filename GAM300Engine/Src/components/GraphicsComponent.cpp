@@ -43,7 +43,12 @@ namespace TDS
 																			   m_ShowMesh(std::move(toMove.m_ShowMesh)),
 																			   m_UsedIn2D(std::move(toMove.m_UsedIn2D)),
 																			   m_TextureName(std::move(toMove.m_TextureName)),
-																			   m_ModelName(std::move(toMove.m_ModelName))
+																			   m_ModelName(std::move(toMove.m_ModelName)),
+																			   m_MeshName(toMove.m_MeshName),
+																			   m_Color(toMove.m_Color),
+																			   m_PointLightID(toMove.m_PointLightID),
+																			   m_Pointlight(toMove.m_Pointlight),
+																			   m_Debug(toMove.m_Debug)
 																			
 																								
 	{ }

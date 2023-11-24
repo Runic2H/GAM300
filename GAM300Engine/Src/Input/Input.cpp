@@ -225,6 +225,10 @@ namespace TDS
 	{
 		return !mouse.buttons[buttonCode].isDown;
 	}
+	void Input::releaseTheMouse(unsigned int buttonCode)
+	{
+		mouse.buttons[buttonCode].isDown = false;
+	}
 
 	bool Input::wasMouseButtonHit(unsigned int buttonCode)
 	{
