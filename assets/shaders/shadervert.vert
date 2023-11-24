@@ -10,6 +10,7 @@ layout(location = 1) out vec2 fragTexCoord;
 layout(location = 2) out vec3 fragPosWorld;
 layout(location = 3) out vec3 fragNormalWorld;
 layout(location = 4) out flat uint id;
+layout(location = 5) out vec4 clipspacepos;
 
 struct PointLight{
     vec4 Position;
@@ -48,8 +49,11 @@ void main() {
     vec4 position_in_world = push.modelMatrix * vec4(vPosition, 1.0);
 
     id = push.id;
-    gl_Position = PL.proj * PL.view *push.modelMatrix* vec4(vPosition, 1.0);
     
+    vec4 clipspacepos = PL.proj * PL.view * position_in_world;
+    gl_Position = clipspacepos;
+
+
     fragNormalWorld = normalize(mat3(push.normalMatrix) * vNormals.xyz);
     fragPosWorld = position_in_world.xyz;
 

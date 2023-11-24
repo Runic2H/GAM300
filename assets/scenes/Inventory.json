@@ -7,81 +7,6 @@
         }
     },
     "Entity Data": {
-        "1": {
-            "ArchetypeID": "1100000000001",
-            "Name Tag": {
-                "Name": "Inventory",
-                "Tag": "",
-                "IsActive": true,
-                "HierarchyParent": 0,
-                "HierarchyIndex": 0,
-                "HierarchyChildren": [
-                    2,
-                    4,
-                    5,
-                    6,
-                    7,
-                    8,
-                    9,
-                    10,
-                    11,
-                    12,
-                    13,
-                    14
-                ]
-            },
-            "Transform": {
-                "Position": {
-                    "x": -0.525993824005127,
-                    "y": -0.046692609786987305,
-                    "z": 0.0
-                },
-                "Scale": {
-                    "x": 0.9471763372421265,
-                    "y": 2.252760887145996,
-                    "z": 2.0058839321136475
-                },
-                "Rotation": {
-                    "x": 0.0,
-                    "y": -0.0,
-                    "z": 0.0
-                }
-            },
-            "UI Sprite": {
-                "Texture": "",
-                "EnableSprite": true,
-                "LayerID": 0,
-                "is Font": false,
-                "message": "",
-                "Font Texture": "",
-                "ForeGroundColour": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0,
-                    "w": 0.0
-                },
-                "Sprite Color": {
-                    "x": 0.10196078568696976,
-                    "y": 0.10196078568696976,
-                    "z": 0.10196078568696976,
-                    "w": 0.6039215922355652
-                },
-                "BackGroundColour": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0,
-                    "w": 1.0
-                },
-                "BoundingBoxMin": {
-                    "x": -0.9995819926261902,
-                    "y": -1.1730730533599854
-                },
-                "BoundingBoxMax": {
-                    "x": -0.05240565538406372,
-                    "y": 1.0796878337860107
-                }
-            }
-        },
         "9": {
             "ArchetypeID": "1100000000001",
             "Name Tag": {
@@ -143,6 +68,86 @@
                 "BoundingBoxMax": {
                     "x": -0.3042728304862976,
                     "y": 0.07336883246898651
+                }
+            }
+        },
+        "1": {
+            "ArchetypeID": "1100000000001",
+            "Name Tag": {
+                "Name": "Inventory",
+                "Tag": "",
+                "IsActive": true,
+                "HierarchyParent": 0,
+                "HierarchyIndex": 0,
+                "HierarchyChildren": [
+                    2,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8,
+                    9,
+                    10,
+                    11,
+                    12,
+                    13,
+                    14,
+                    15,
+                    16,
+                    17,
+                    21,
+                    23
+                ]
+            },
+            "Transform": {
+                "Position": {
+                    "x": -0.525993824005127,
+                    "y": -0.046692609786987305,
+                    "z": 0.0
+                },
+                "Scale": {
+                    "x": 0.9471763372421265,
+                    "y": 2.252760887145996,
+                    "z": 2.0058839321136475
+                },
+                "Rotation": {
+                    "x": 0.0,
+                    "y": -0.0,
+                    "z": 0.0
+                }
+            },
+            "UI Sprite": {
+                "Texture": "",
+                "EnableSprite": true,
+                "LayerID": 0,
+                "is Font": false,
+                "message": "",
+                "Font Texture": "",
+                "ForeGroundColour": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 0.0
+                },
+                "Sprite Color": {
+                    "x": 0.10196078568696976,
+                    "y": 0.10196078568696976,
+                    "z": 0.10196078568696976,
+                    "w": 0.6039215922355652
+                },
+                "BackGroundColour": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "BoundingBoxMin": {
+                    "x": -0.9995819926261902,
+                    "y": -1.1730730533599854
+                },
+                "BoundingBoxMax": {
+                    "x": -0.05240565538406372,
+                    "y": 1.0796878337860107
                 }
             }
         },
@@ -856,8 +861,8 @@
                 "Name": "ItemTab",
                 "Tag": "",
                 "IsActive": true,
-                "HierarchyParent": 0,
-                "HierarchyIndex": 1,
+                "HierarchyParent": 1,
+                "HierarchyIndex": 12,
                 "HierarchyChildren": [
                     18
                 ]
@@ -865,7 +870,7 @@
             "Transform": {
                 "Position": {
                     "x": -0.8859208226203918,
-                    "y": 0.7408096194267273,
+                    "y": 0.7407981753349304,
                     "z": 0.0
                 },
                 "Scale": {
@@ -920,8 +925,8 @@
                 "Name": "NotesTab",
                 "Tag": "",
                 "IsActive": true,
-                "HierarchyParent": 0,
-                "HierarchyIndex": 2,
+                "HierarchyParent": 1,
+                "HierarchyIndex": 13,
                 "HierarchyChildren": [
                     19
                 ]
@@ -929,7 +934,7 @@
             "Transform": {
                 "Position": {
                     "x": -0.5922962427139282,
-                    "y": 0.7411013841629028,
+                    "y": 0.7410940527915955,
                     "z": 0.0
                 },
                 "Scale": {
@@ -984,8 +989,8 @@
                 "Name": "PaintingsTab",
                 "Tag": "",
                 "IsActive": true,
-                "HierarchyParent": 0,
-                "HierarchyIndex": 3,
+                "HierarchyParent": 1,
+                "HierarchyIndex": 14,
                 "HierarchyChildren": [
                     20
                 ]
@@ -993,7 +998,7 @@
             "Transform": {
                 "Position": {
                     "x": -0.33655858039855957,
-                    "y": 0.7412645220756531,
+                    "y": 0.7412593364715576,
                     "z": 0.0
                 },
                 "Scale": {
@@ -1234,8 +1239,8 @@
                 "Name": "Close",
                 "Tag": "",
                 "IsActive": true,
-                "HierarchyParent": 0,
-                "HierarchyIndex": 4,
+                "HierarchyParent": 1,
+                "HierarchyIndex": 15,
                 "HierarchyChildren": [
                     22
                 ]
@@ -1360,8 +1365,8 @@
                 "Name": "MouseClick",
                 "Tag": "",
                 "IsActive": true,
-                "HierarchyParent": 0,
-                "HierarchyIndex": 5,
+                "HierarchyParent": 1,
+                "HierarchyIndex": 16,
                 "HierarchyChildren": [
                     24
                 ]
@@ -2226,8 +2231,8 @@
         }
     },
     "Scripts": {
-        "1": {},
         "9": {},
+        "1": {},
         "2": {},
         "4": {},
         "5": {},
@@ -2263,8 +2268,8 @@
         "36": {}
     },
     "Active Archetype": {
-        "1": "1100000000001",
         "9": "1100000000001",
+        "1": "1100000000001",
         "2": "1100000000001",
         "4": "1100000000001",
         "5": "1100000000001",
@@ -2287,16 +2292,16 @@
         "23": "1100000000001",
         "24": "1100000000001",
         "25": "1100000000001",
-        "26": "1100000000000",
-        "27": "1100000000000",
-        "28": "1100000000000",
-        "29": "1100000000000",
-        "30": "1100000000000",
-        "31": "1100000000000",
-        "32": "1100000000000",
-        "33": "1100000000000",
-        "34": "1100000000000",
-        "35": "1100000000000",
-        "36": "1100000000000"
+        "26": "1100000000001",
+        "27": "1100000000001",
+        "28": "1100000000001",
+        "29": "1100000000001",
+        "30": "1100000000001",
+        "31": "1100000000001",
+        "32": "1100000000001",
+        "33": "1100000000001",
+        "34": "1100000000001",
+        "35": "1100000000001",
+        "36": "1100000000001"
     }
 }
