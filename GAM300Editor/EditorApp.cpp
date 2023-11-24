@@ -42,7 +42,7 @@ namespace TDS
     Application::Application(HINSTANCE hinstance, int& nCmdShow, const wchar_t* classname, WNDPROC wndproc)
         :m_window(hinstance, nCmdShow, classname)
     {
-        m_window.createWindow(wndproc, 1920,1080);
+        m_window.createWindow(wndproc, 1280,720);
 
         //m_pVKInst = std::make_shared<VulkanInstance>(m_window);
         //m_Renderer = std::make_shared<Renderer>(m_window, *m_pVKInst.get());
