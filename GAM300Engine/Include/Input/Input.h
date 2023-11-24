@@ -183,6 +183,8 @@ namespace TDS
 		****************************************************************************/
 		static bool isMouseButtonReleased(unsigned int buttonCode);
 
+		static void releaseTheMouse(unsigned int buttonCode);
+
 		/*!*************************************************************************
 		Returns true if button has just been pressed.
 		****************************************************************************/

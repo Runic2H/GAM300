@@ -140,7 +140,7 @@ namespace TDS
 
 		selectedEntity = hierarchyPanel->getSelectedEntity();
 
-		if (Input::isMouseButtonPressed(TDS_MOUSE_LEFT) && !ImGuizmo::IsUsing())
+		if (Input::isMouseButtonPressed(TDS_MOUSE_LEFT) && !ImGuizmo::IsUsing() && !ImGuizmo::IsOver())
 		{
 			if (GraphicsManager::getInstance().getObjectPicker().getActiveObject() != 0 && GraphicsManager::getInstance().getObjectPicker().getActiveObject() < 10000)
 			{
@@ -148,6 +148,7 @@ namespace TDS
 
 				hierarchyPanel->setSelectedEntity(selectedEntity);
 			}
+			Input::releaseTheMouse(TDS_MOUSE_LEFT);
 		}
 
 
