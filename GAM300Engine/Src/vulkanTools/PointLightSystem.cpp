@@ -104,4 +104,26 @@ namespace TDS {
 		}
 		return *m_Pipeline;
 	}
+	void PointLightSystem::newupdate(GlobalUBO& UBO, const std::vector<EntityID>& Entities, Transform* xform, GraphicsComponent* Gp) {
+		m_pointlightcount = 0;//reset and recount the number of lights
+		for (int i{ 0 }; i < Entities.size(); ++i) {
+			if (!Gp[i].IsPointLight()) {
+				if (Gp[i].GetPointLightID() != -1) {//check if it was previously a pointlight
+					UBO.m_vPointLights[Gp[i].GetPointLightID()].m_Position = { FLT_MAX };
+					UBO.m_vPointLights[Gp[i].GetPointLightID()].m_Color = { FLT_MIN };
+					Gp[i].SetPointLightID(-1);//reset pointlightID to default
+				}
+				continue;//skip if not pointlight
+			}
+			/*if (m_pointlightcount >= Max_Lights) {
+				return;
+			}*/
+			Gp->SetPointLightID(i);//set its id to whatever is the entityid
+			UBO.m_vPointLights[m_pointlightcount].m_Position = xform[i].GetPosition();//
+			UBO.m_vPointLights[m_pointlightcount].m_Color = Gp[i].GetColor();
+			//std::cout << "alpha" << Gp[i].GetColor().w << std::endl;
+			UBO.m_activelights = ++m_pointlightcount;
+			//std::cout << m_pointlightcount << std::endl;
+		}
+	}
 }

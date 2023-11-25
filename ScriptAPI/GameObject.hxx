@@ -6,6 +6,7 @@
 #include "Components/RigidBodyComponent.hxx"
 #include "Components/SphereColliderComponent.hxx"
 #include "Components/TransformComponent.hxx"
+#include "ecs/ecs.h"
 
 namespace ScriptAPI
 {
@@ -22,8 +23,10 @@ namespace ScriptAPI
         RigidBodyComponent GetRigidBodyComponent();
         SphereColliderComponent GetSphereColliderComponent();
         TransformComponent GetTransformComponent();
+        bool activeInHierarchy(TDS::EntityID entityID);
+        void SetActive(TDS::EntityID entityID, bool status);
 
-        int GetEntityID();
+        TDS::EntityID GetEntityID();
 
         TransformComponent transform;
 

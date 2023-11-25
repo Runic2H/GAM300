@@ -37,6 +37,7 @@ namespace TDS {
 		
 		//update system with the position of the active point lights 
 		DLL_API void update(GlobalUBO& UBO, GraphicsComponent* Gp, Transform* Trans);
+		DLL_API void newupdate(GlobalUBO& UBO, const std::vector<EntityID>& Entities, Transform* xform, GraphicsComponent* Gp);
 		//render the active point lights
 		DLL_API void render(GraphicsComponent* Gp, Transform* Trans);
 

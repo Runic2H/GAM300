@@ -63,8 +63,8 @@ void main() {
         float atten = 1.0/dot(directiontolight, directiontolight);
         directiontolight = normalize(directiontolight);
         
-        float cosAngleIncidence = max(dot(SurfaceNormal, directiontolight),0);
-        vec3 intensity = currentlight.Color.xyz + currentlight.Color.w * atten;
+        float cosAngleIncidence = max(dot(SurfaceNormal, directiontolight),0.0);
+        vec3 intensity = currentlight.Color.xyz * currentlight.Color.w*255 * atten;
         
         diffuselight += intensity * cosAngleIncidence;
     }
