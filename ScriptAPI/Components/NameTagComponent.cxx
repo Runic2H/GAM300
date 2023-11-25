@@ -115,6 +115,7 @@ namespace ScriptAPI
 	void NameTagComponent::SetEntityID(TDS::EntityID ID)
 	{
 		entityID = ID;
+		transform = TransformComponent(ID);
 	}
 
 	TDS::EntityID NameTagComponent::GetEntityID()

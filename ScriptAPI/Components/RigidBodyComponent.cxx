@@ -326,6 +326,7 @@ namespace ScriptAPI
 	void RigidBodyComponent::SetEntityID(TDS::EntityID ID)
 	{
 		entityID = ID;
+		transform = TransformComponent(ID);
 	}
 
 	TDS::EntityID RigidBodyComponent::GetEntityID()

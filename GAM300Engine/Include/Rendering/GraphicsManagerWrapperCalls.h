@@ -11,6 +11,7 @@ namespace TDS
 		static bool				IsViewingFrom2D();
 
 		static void				SetLayerToRender(int ID);
+
 		static int				CurrentRenderedLayer();
 		static unsigned int		GetPickedObject();
 

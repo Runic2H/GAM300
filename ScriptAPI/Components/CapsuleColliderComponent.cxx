@@ -207,6 +207,7 @@ namespace ScriptAPI
 	void CapsuleColliderComponent::SetEntityID(TDS::EntityID ID)
 	{
 		entityID = ID;
+		transform = TransformComponent(ID);
 	}
 
 	TDS::EntityID CapsuleColliderComponent::GetEntityID()

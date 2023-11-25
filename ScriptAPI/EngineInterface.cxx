@@ -3,6 +3,7 @@
 #include "TypeConversion.hxx"
 #include "HelperFunctions.hxx"
 #include "Time.hxx"
+#include "../GAM300Engine/Include/Timestep/Timestep.h"
 using namespace System;
 using namespace System::Runtime::InteropServices;
 #pragma comment (lib, "GAM300Engine.lib")
@@ -284,7 +285,7 @@ namespace ScriptAPI
         }
         if (fixedUpdateTimer <= 0)
         {
-            fixedUpdateTimer = 0.02f;
+            fixedUpdateTimer = TDS::TimeStep::GetFixedDeltaTime();
         }
         Input::InputUpdate();
     }

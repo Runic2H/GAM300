@@ -50,6 +50,8 @@ namespace TDS
 
 	void SkyBoxRenderer::RenderSkyBox(VkCommandBuffer commandBuffer, uint32_t frameIndex)
 	{
+		if (GraphicsManager::getInstance().IsViewingFrom2D())
+			return;
 
 		m_SkylinePositions = GraphicsManager::getInstance().GetCamera().getPosition();
 		Quat qRot = Quat(m_SkylineRot);

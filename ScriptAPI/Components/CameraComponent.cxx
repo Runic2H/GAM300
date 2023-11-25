@@ -1,4 +1,5 @@
 #include "CameraComponent.hxx"
+#include "../TypeConversion.hxx"
 
 namespace ScriptAPI
 {
@@ -231,13 +232,28 @@ namespace ScriptAPI
 	// Private
 	bool CameraComponent::IsEnabled::get()
 	{
+		// May wanna change to a function
+		if (!TDS::GetCameraComponent(entityID))
+		{
+			// throw error instead (not sure how)
+			return false;
+		}
+
 		TDS::EntityID id = entityID;
 		return TDS::getComponentIsEnable("Camera Component", id);
 	}
 	void CameraComponent::IsEnabled::set(bool value)
 	{
+		// May wanna change to a function
+		if (!TDS::GetCameraComponent(entityID))
+		{
+			// throw error instead (not sure how)
+			return;
+		}
+
 		TDS::EntityID id = entityID;
-		TDS::setComponentIsEnable("Camera Component", id, value);
+		std::string componentName = "Camera Component";
+		TDS::setComponentIsEnable(componentName, id, value);
 	}
 
 	// Public
@@ -263,6 +279,19 @@ namespace ScriptAPI
 
 		return Vector3(TDS::GetCameraComponent(entityID)->getForwardVector());
 	}
+	void CameraComponent::setForwardVector(float angle)
+	{
+		// May wanna change to a function
+		if (!TDS::GetCameraComponent(entityID))
+		{
+			// throw error instead (not sure how)
+			return;
+		}
+
+		//TDS::Vec3 forwardVector = TDS::GetCameraComponent(entityID)->getForwardVector();
+		//TDS::Mat3 rotatedMatrix = TDS::Mat3::RotateY(angle);
+		//TDS::GetCameraComponent(entityID)->setForwardVector(rotatedMatrix * forwardVector);
+	}
 
 	// CONSTRUCTOR ===========================================================================
 	CameraComponent::CameraComponent(TDS::EntityID ID) : entityID (ID), transform(TransformComponent(ID))
@@ -271,6 +300,7 @@ namespace ScriptAPI
 	void CameraComponent::SetEntityID(TDS::EntityID ID)
 	{
 		entityID = ID;
+		transform = TransformComponent(ID);
 	}
 
 	TDS::EntityID CameraComponent::GetEntityID()

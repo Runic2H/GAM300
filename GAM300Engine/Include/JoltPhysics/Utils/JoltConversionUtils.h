@@ -33,6 +33,8 @@ namespace TDS::JoltToTDS
 	
 	inline JPH::Quat ToQuat(const Quat& q) { return JPH::Quat(q.x, q.y, q.z, q.w); }
 
+	//inline JPH::Quat ToQuat(const Vec3& q) { Quat tmp(q); return JPH::Quat(tmp.x, tmp.y, tmp.z, tmp.w); }
+
 	inline Mat4 ToMat4(const JPH::Mat44& m)
 	{
 		Vec4 c0 = ToVec4(m.GetColumn4(0));

@@ -8,15 +8,26 @@
 #define _BATCH
 namespace TDS
 {
+	std::unordered_map<int, bool> UiSystem::m_Layers;
 	void UiSystem::Init()
 	{
-		GraphicsManager::getInstance().ToggleRenderAllLayer(true);
+		GraphicsManager::getInstance().ToggleRenderAllLayer(false);
+		for (std::uint32_t i = 0; i < 12; ++i)
+		{
+			m_Layers[i] = true;
+		}
+	}
+
+	void UiSystem::ToggleEnableLayer(int layerID, bool condition)
+	{
+		m_Layers[layerID] = condition;
 	}
 	void UiSystem::Update(const float dt, const std::vector<EntityID>& entities, Transform* transform, UISprite* _Sprite)
 	{
 	
 		if (_Sprite == nullptr)
 			return;
+		
 		
 		auto frame = GraphicsManager::getInstance().GetSwapchainRenderer().getFrameIndex();
 		auto cmdBuffer = GraphicsManager::getInstance().getCommandBuffer();
@@ -29,13 +40,13 @@ namespace TDS
 
 			if (GraphicsManager::getInstance().RenderAllLayer() == false)
 			{
-				int getLayerToRender = GraphicsManager::getInstance().LayerToRender();
-				if (getLayerToRender != _Sprite[i].m_LayerID)
+				if (m_Layers[_Sprite[i].m_LayerID] == false)
 					continue;
 			}
 
 			if (_Sprite[i].m_EnableSprite == false)
 				continue;
+
 			if (!ecs.getEntityIsEnabled(entities[i]) || !ecs.getComponentIsEnabled<UISprite>(entities[i]))
 			{
 				continue;

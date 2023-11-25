@@ -133,6 +133,7 @@ namespace ScriptAPI
 	void SphereColliderComponent::SetEntityID(TDS::EntityID ID)
 	{
 		entityID = ID;
+		transform = TransformComponent(ID);
 	}
 
 	TDS::EntityID SphereColliderComponent::GetEntityID()

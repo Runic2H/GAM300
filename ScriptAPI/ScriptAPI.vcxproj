@@ -152,6 +152,7 @@
     <ClInclude Include="Input.hxx" />
     <ClInclude Include="Mathf.hxx" />
     <ClInclude Include="Quaternion.hxx" />
+    <ClInclude Include="Screen.hxx" />
     <ClInclude Include="SceneLoader.hxx" />
     <ClInclude Include="Script.hxx" />
     <ClInclude Include="TypeConversion.hxx" />
@@ -175,6 +176,7 @@
     <ClCompile Include="Input.cxx" />
     <ClCompile Include="Mathf.cxx" />
     <ClCompile Include="Quaternion.cxx" />
+    <ClCompile Include="Screen.cxx" />
     <ClCompile Include="SceneLoader.cxx" />
     <ClCompile Include="Script.cxx" />
     <ClCompile Include="Time.hxx" />

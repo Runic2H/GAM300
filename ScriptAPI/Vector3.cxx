@@ -17,9 +17,19 @@ namespace ScriptAPI
 		Z = value.z;
 	}
 
+	Vector3 Vector3::operator+(Vector3 lhs, Vector3 rhs)
+	{
+		return Vector3(lhs.X + rhs.X, lhs.Y + rhs.Y, lhs.Z + rhs.Z);
+	}
+
 	Vector3 Vector3::operator-(Vector3 lhs, Vector3 rhs)
 	{
 		return Vector3(lhs.X - rhs.X, lhs.Y - rhs.Y, lhs.Z - rhs.Z);
+	}
+
+	Vector3 Vector3::operator*(Vector3 lhs, Vector3 rhs)
+	{
+		return Vector3(lhs.X * rhs.X, lhs.Y * rhs.Y, lhs.Z * rhs.Z);
 	}
 
 	Vector3 Vector3::operator*(Vector3 lhs, float rhs)

@@ -34,13 +34,17 @@ namespace TDS
     }
 	Quat::Quat(Vec3 const& euler)
 	{
-        Vec3 c = Vec3(Mathf::Cos(euler.x * 0.5f), Mathf::Cos(euler.y * 0.5f), Mathf::Cos(euler.z * 0.5f));
-        Vec3 s = Vec3(Mathf::Sin(euler.x * 0.5f), Mathf::Sin(euler.y * 0.5f), Mathf::Sin(euler.z * 0.5f));
+		float radianX = euler.x * Mathf::Deg2Rad;
+		float radianY = euler.y * Mathf::Deg2Rad;
+		float radianZ = euler.z * Mathf::Deg2Rad;
 
-        w = c.x * c.y * c.z + s.x * s.y * s.z;
-        x = s.x * c.y * c.z - c.x * s.y * s.z;
-        y = c.x * s.y * c.z + s.x * c.y * s.z;
-        z = c.x * c.y * s.z - s.x * s.y * c.z;
+		Vec3 c = Vec3(Mathf::Cos(radianX * 0.5f), Mathf::Cos(radianY * 0.5f), Mathf::Cos(radianZ * 0.5f));
+		Vec3 s = Vec3(Mathf::Sin(radianX * 0.5f), Mathf::Sin(radianY * 0.5f), Mathf::Sin(radianZ * 0.5f));
+
+		w = c.x * c.y * c.z + s.x * s.y * s.z;
+		x = s.x * c.y * c.z - c.x * s.y * s.z;
+		y = c.x * s.y * c.z + s.x * c.y * s.z;
+		z = c.x * c.y * s.z - s.x * s.y * c.z;
 	}
 	//Quat::~Quat() {}
 	float Quat::angle(Quat const& q)

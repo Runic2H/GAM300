@@ -33,18 +33,17 @@ namespace TDS
 			SetIsPlaying(true);
 		}
 
-		static float pitch = _transform[entityIndex].GetRotation().x;
-		static float yaw = _transform[entityIndex].GetRotation().y;
+		//static float pitch = _transform[entityIndex].GetRotation().x;
+		//static float yaw = _transform[entityIndex].GetRotation().y;
 
 		m_GameCamera->setPitch(_transform[entityIndex].GetRotation().x);
-		m_GameCamera->setYaw(_transform[entityIndex].GetRotation().y);
+		m_GameCamera->setYaw(_transform[entityIndex].GetRotation().y + 90);
 		m_GameCamera->setPosition(_transform[entityIndex].GetPosition());
 		m_GameCamera->GetUpdateViewMatrix();
+		//_cameracomponent[entityIndex].setForwardVector(m_GameCamera->getForwardVector());
 
-		_cameracomponent[entityIndex].setForwardVector(m_GameCamera->getForwardVector());
-
-		pitch = _transform[entityIndex].GetRotation().x;
-		yaw = _transform[entityIndex].GetRotation().y;
+		//pitch = _transform[entityIndex].GetRotation().x;
+		//yaw = _transform[entityIndex].GetRotation().y;
 	}
 
 	void CameraSystem::SetGameCamera(CameraComponent& _camera)

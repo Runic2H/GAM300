@@ -272,6 +272,7 @@ namespace TDS
             // Reloading
             if (GetKeyState(VK_F5) & 0x8000)
             {
+                isPlaying = false;
                 compileScriptAssembly();
                 SceneManager::GetInstance()->saveCurrentScene();
                 reloadScripts();

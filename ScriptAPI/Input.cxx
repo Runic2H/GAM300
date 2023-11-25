@@ -38,41 +38,23 @@ namespace ScriptAPI
 			if (code == "Mouse X") // X (may want to change)
 			{
 				float getMouseDifferenceX = GetMousePositionDifferenceX();
-				if (getMouseDifferenceX > 0)
-				{
-					AxisValue += 0.05f;
-				}
-				else if (getMouseDifferenceX < 0)
-				{
-					AxisValue -= 0.05f;
-				}
+				AxisValue += getMouseDifferenceX / (1280 / 4);
 			}
 			else if (code == "Mouse Y")// Y (may want to change)
 			{
 				float getMouseDifferenceY = GetMousePositionDifferenceY();
-				if (getMouseDifferenceY > 0)
-				{
-					AxisValue += 0.05f;
-				}
-				else if (getMouseDifferenceY < 0)
-				{
-					AxisValue -= 0.05f;
-				}
+				AxisValue -= getMouseDifferenceY / (720 / 4);
 			}
 		}
 		else
 		{
 			if (GetKeyDown(AxisDictionary[code]->Item1))
 			{
-				AxisValue += 0.05f;
+				AxisValue += 1.0f;
 			}
-		}
-
-		if (AxisDictionary[code]->Item2 < TDS_MAX_KEYS)
-		{
 			if (GetKeyDown(AxisDictionary[code]->Item2))
 			{
-				AxisValue -= 0.05f;
+				AxisValue -= 1.0f;
 			}
 		}
 

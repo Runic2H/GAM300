@@ -267,7 +267,7 @@ namespace TDS
 		}
 		else 
 		{
-			transform->GenerateTransfom();
+			transform->GenerateTransform();
 		}
 
 		if (componentSprite->m_IsDirty)

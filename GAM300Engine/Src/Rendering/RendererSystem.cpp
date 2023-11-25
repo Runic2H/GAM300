@@ -85,7 +85,7 @@ namespace TDS
 				if (Vec3 Scale = _TransformComponent[i].GetScale(); Scale.x <= 0.f || Scale.y <= 0.f || Scale.z <= 0.f) {
 				}
 				else {
-					_TransformComponent[i].GenerateTransfom();
+					_TransformComponent[i].GenerateTransform();
 				}
 
 				Mat4 temp = _TransformComponent[i].GetTransformMatrix();

@@ -315,7 +315,7 @@ namespace TDS
 			}
 			else
 			{
-				transform->GenerateTransfom();
+				transform->GenerateTransform();
 			}
 			Mat4 temp = transform->GetTransformMatrix();
 			double charWidth = (glyph.m_PlaneBounds.m_Right - glyph.m_PlaneBounds.m_Left);

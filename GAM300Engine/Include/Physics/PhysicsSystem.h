@@ -60,6 +60,8 @@ namespace TDS
 		static void SetIsPlaying(bool input) { m_oneTimeInit = input; }
 		static bool GetIsPlaying() { return m_oneTimeInit; }
 		static std::unique_ptr<JPH::PhysicsSystem>			m_pSystem; // unsafe to be public but for now it is
+
+		static void SensorActivated( RigidBody* _rigidbody);
 	private:
 		void JPH_SystemShutdown();
 
@@ -77,6 +79,7 @@ namespace TDS
 		// Jolt Physics Global Settings
 		static std::unique_ptr<JPH::TempAllocatorImpl>		m_pTempAllocator;
 		static std::unique_ptr<JPH::JobSystemThreadPool>	m_pJobSystem;
+		static std::unique_ptr<JPH::BodyManager>			m_BodyManager;
 		inline static bool m_oneTimeInit					= false;
 
 		// Container that holds all the bodyID
