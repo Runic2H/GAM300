@@ -883,7 +883,7 @@ namespace TDS
 					//If not they will default to local buffers. Then u gonna waste memory and rendering cycles
 					if (GlobalBufferPool::GetInstance()->BindingExist(uniform.second.m_BindingPoint))
 					{
-						TDS_INFO("This is a global buffer!\n");
+						//TDS_INFO("This is a global buffer!\n");
 						GlobalBuffer = true;
 
 					}

@@ -15,5 +15,7 @@ namespace TDS
 			static void Init();
 			static void Update(const float dt, const std::vector<EntityID>& entities, Transform* transform, UISprite* _Sprite);
 			static void UpdateAABB(UISprite* _Sprite, Transform* _trans);
+			static void UpdatePropertiesFromParent(EntityID curr, UISprite* _CurrentTransform);
 	};
+
 }

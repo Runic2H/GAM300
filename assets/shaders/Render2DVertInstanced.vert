@@ -8,6 +8,7 @@ struct UIInstance
     mat4 model;
     vec4 color;
     vec4 texID;
+    vec4 layerID;
     uint ID;
 };
 

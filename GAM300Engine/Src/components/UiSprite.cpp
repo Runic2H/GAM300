@@ -1,5 +1,5 @@
 #include "components/UiSprite.h"
-
+#include "Input/Input.h"
 namespace TDS
 {
 
@@ -18,14 +18,23 @@ namespace TDS
 		.property("Sprite Color", &UISprite::m_Color)
 		.property("BackGroundColour", &UISprite::m_BackGroundColour)
 		.property("BoundingBoxMin", &UISprite::m_BoundingBoxMin)
-		.property("BoundingBoxMax", &UISprite::m_BoundingBoxMax);
+		.property("BoundingBoxMax", &UISprite::m_BoundingBoxMax)
+		.method("SetLayerID", &UISprite::SetLayerID)
+		.method("SetColour", &UISprite::SetColour)
+		.method("IsMouseCollided", &UISprite::IsMouseCollided)
+		.method("SetTextureName", &UISprite::SetTextureName)
+		.method("IsFont", &UISprite::IsFont)
+		.method("SetFontName", &UISprite::SetFontName)
+		.method("SetFontMessage", &UISprite::SetFontMessage)
+		.method("SetFontColour", &UISprite::SetFontColour)
+		.method("SetFontBackgroundColour", &UISprite::SetFontBackgroundColour);
+
 
 	}
-
 		UISprite::UISprite() :
 		m_TextureReference(),
 		m_LayerID(-1),
-		m_Color(0.1f, 0.1f, 0.1f,1.f),//color range from 0 to 1
+		m_Color(0.1f, 0.1f, 0.1f, 1.f),//color range from 0 to 1
 		m_EnableSprite(true),
 		m_TextureName(""),
 		m_Message(""),
@@ -50,5 +59,85 @@ namespace TDS
 	{
 		
 	}
+
+	UISprite* GetUISprite(EntityID entityID)
+	{
+		return ecs.getComponent<UISprite>(entityID);
+	}
+
+
+	void UISprite::SetLayerID(int layerID)
+	{
+		m_LayerID = layerID;
+	}
+
+	void UISprite::SetColour(Vec4 color)
+	{
+		this->m_Color = color;
+	}
+
+	void TDS::UISprite::SetColourViaFloat(float x, float y, float z, float w)
+	{
+		m_Color = Vec4(x, y, z, w);
+	}
+
+	bool UISprite::IsMouseCollided()
+	{
+		Vec2 mousePos = Input::getLocalMousePos();
+
+		if (mousePos.x >= m_BoundingBoxMin.x && mousePos.x <= m_BoundingBoxMax.x &&
+			mousePos.y >= m_BoundingBoxMin.y && mousePos.y <= m_BoundingBoxMax.y)
+			return true; 
+	
+		return false;
+
+	}
+
+	void UISprite::SetTextureName(std::string textureName)
+	{
+		m_TextureName = textureName;
+	}
+
+	bool UISprite::IsFont()
+	{
+		return m_IsFont;
+	}
+
+	void UISprite::SetIsFont(bool condition)
+	{
+		m_IsFont = condition;
+	}
+
+	void UISprite::SetFontName(std::string fontName)
+	{
+		m_FontName = fontName;
+	}
+
+	void UISprite::SetFontMessage(std::string msg)
+	{
+		m_Message = msg;
+	}
+
+	void UISprite::SetFontColour(Vec4 Color)
+	{
+		m_ForeGroundColour = Color;
+	}
+
+	void TDS::UISprite::SetFontColourViaFloat(float x, float y, float z, float w)
+	{
+		m_ForeGroundColour = Vec4(x, y, z, w);
+	}
+
+	void UISprite::SetFontBackgroundColour(Vec4 Color)
+	{
+		m_BackGroundColour = Color;
+	}
+
+	void TDS::UISprite::SetFontBackgroundColourViaFloat(float x, float y, float z, float w)
+	{
+		m_BackGroundColour = Vec4(x, y, z, w);
+	}
+
+
 
 }

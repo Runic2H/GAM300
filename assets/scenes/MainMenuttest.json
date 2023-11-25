@@ -1,0 +1,546 @@
+{
+    "Archetype Sizes": {
+        "1100001000001": {
+            "0": 816,
+            "1": 1200,
+            "6": 1584,
+            "12": 2160
+        },
+        "1100000000000": {
+            "0": 136,
+            "1": 200
+        }
+    },
+    "Entity Data": {
+        "1": {
+            "ArchetypeID": "1100001000001",
+            "Name Tag": {
+                "Name": "BackGround",
+                "Tag": "",
+                "IsActive": true,
+                "HierarchyParent": 7,
+                "HierarchyIndex": 5,
+                "HierarchyChildren": []
+            },
+            "Transform": {
+                "Position": {
+                    "x": 0.0,
+                    "y": -0.3449831008911133,
+                    "z": 0.0
+                },
+                "Scale": {
+                    "x": 2.106642961502075,
+                    "y": 2.106642961502075,
+                    "z": 2.106642961502075
+                },
+                "Rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                }
+            },
+            "Graphics Component": {
+                "PointLight": false,
+                "TextureName": "",
+                "Mesh Renderer": true,
+                "Debug": false,
+                "ModelName": "",
+                "MeshName": "",
+                "Color": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 0.0
+                },
+                "Used In 2D": false
+            },
+            "UI Sprite": {
+                "Texture": "Main_Menu_Background.dds",
+                "EnableSprite": true,
+                "LayerID": 0,
+                "is Font": false,
+                "message": "",
+                "Font Texture": "",
+                "ForeGroundColour": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 0.0
+                },
+                "Sprite Color": {
+                    "x": 0.10196078568696976,
+                    "y": 0.10196078568696976,
+                    "z": 0.10196078568696976,
+                    "w": 1.0
+                },
+                "BackGroundColour": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "BoundingBoxMin": {
+                    "x": -1.0533214807510376,
+                    "y": -1.3983045816421509
+                },
+                "BoundingBoxMax": {
+                    "x": 1.0533214807510376,
+                    "y": 0.7083383798599243
+                }
+            }
+        },
+        "2": {
+            "ArchetypeID": "1100001000001",
+            "Name Tag": {
+                "Name": "PlayButton",
+                "Tag": "",
+                "IsActive": true,
+                "HierarchyParent": 7,
+                "HierarchyIndex": 4,
+                "HierarchyChildren": []
+            },
+            "Transform": {
+                "Position": {
+                    "x": 0.6836446523666382,
+                    "y": 0.1465616226196289,
+                    "z": 0.0
+                },
+                "Scale": {
+                    "x": 0.26972997188568115,
+                    "y": 0.26972997188568115,
+                    "z": 0.26972997188568115
+                },
+                "Rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                }
+            },
+            "Graphics Component": {
+                "PointLight": false,
+                "TextureName": "",
+                "Mesh Renderer": true,
+                "Debug": false,
+                "ModelName": "",
+                "MeshName": "",
+                "Color": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0,
+                    "w": 1.0
+                },
+                "Used In 2D": false
+            },
+            "UI Sprite": {
+                "Texture": "Play_Button.dds",
+                "EnableSprite": true,
+                "LayerID": 0,
+                "is Font": false,
+                "message": "",
+                "Font Texture": "",
+                "ForeGroundColour": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 0.0
+                },
+                "Sprite Color": {
+                    "x": 0.10196078568696976,
+                    "y": 0.10196078568696976,
+                    "z": 0.10196078568696976,
+                    "w": 1.0
+                },
+                "BackGroundColour": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "BoundingBoxMin": {
+                    "x": 0.5487796664237976,
+                    "y": 0.01169663667678833
+                },
+                "BoundingBoxMax": {
+                    "x": 0.8185096383094788,
+                    "y": 0.2814266085624695
+                }
+            }
+        },
+        "3": {
+            "ArchetypeID": "1100001000001",
+            "Name Tag": {
+                "Name": "SettingsButton",
+                "Tag": "",
+                "IsActive": true,
+                "HierarchyParent": 7,
+                "HierarchyIndex": 3,
+                "HierarchyChildren": []
+            },
+            "Transform": {
+                "Position": {
+                    "x": 0.6836447715759277,
+                    "y": -0.19842171669006348,
+                    "z": 0.0
+                },
+                "Scale": {
+                    "x": 0.2688000202178955,
+                    "y": 0.2688000202178955,
+                    "z": 0.2688000202178955
+                },
+                "Rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                }
+            },
+            "Graphics Component": {
+                "PointLight": false,
+                "TextureName": "",
+                "Mesh Renderer": true,
+                "Debug": false,
+                "ModelName": "",
+                "MeshName": "",
+                "Color": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0,
+                    "w": 1.0
+                },
+                "Used In 2D": false
+            },
+            "UI Sprite": {
+                "Texture": "Settings_Button.dds",
+                "EnableSprite": true,
+                "LayerID": 0,
+                "is Font": false,
+                "message": "",
+                "Font Texture": "",
+                "ForeGroundColour": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 0.0
+                },
+                "Sprite Color": {
+                    "x": 0.10196078568696976,
+                    "y": 0.10196078568696976,
+                    "z": 0.10196078568696976,
+                    "w": 1.0
+                },
+                "BackGroundColour": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "BoundingBoxMin": {
+                    "x": 0.54924476146698,
+                    "y": -0.33282172679901123
+                },
+                "BoundingBoxMax": {
+                    "x": 0.8180447816848755,
+                    "y": -0.06402170658111572
+                }
+            }
+        },
+        "4": {
+            "ArchetypeID": "1100001000001",
+            "Name Tag": {
+                "Name": "QuitButton",
+                "Tag": "",
+                "IsActive": true,
+                "HierarchyParent": 7,
+                "HierarchyIndex": 2,
+                "HierarchyChildren": []
+            },
+            "Transform": {
+                "Position": {
+                    "x": 0.6836446523666382,
+                    "y": -0.5321307182312012,
+                    "z": 0.0
+                },
+                "Scale": {
+                    "x": 0.2688000202178955,
+                    "y": 0.2688000202178955,
+                    "z": 0.2688000202178955
+                },
+                "Rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                }
+            },
+            "Graphics Component": {
+                "PointLight": false,
+                "TextureName": "",
+                "Mesh Renderer": true,
+                "Debug": false,
+                "ModelName": "",
+                "MeshName": "",
+                "Color": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 0.0
+                },
+                "Used In 2D": false
+            },
+            "UI Sprite": {
+                "Texture": "Quit_Button.dds",
+                "EnableSprite": true,
+                "LayerID": 0,
+                "is Font": false,
+                "message": "",
+                "Font Texture": "",
+                "ForeGroundColour": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 0.0
+                },
+                "Sprite Color": {
+                    "x": 0.10196078568696976,
+                    "y": 0.10196078568696976,
+                    "z": 0.10196078568696976,
+                    "w": 1.0
+                },
+                "BackGroundColour": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "BoundingBoxMin": {
+                    "x": 0.5492446422576904,
+                    "y": -0.6665307283401489
+                },
+                "BoundingBoxMax": {
+                    "x": 0.8180446624755859,
+                    "y": -0.3977307081222534
+                }
+            }
+        },
+        "5": {
+            "ArchetypeID": "1100001000001",
+            "Name Tag": {
+                "Name": "TeamLogo",
+                "Tag": "",
+                "IsActive": true,
+                "HierarchyParent": 7,
+                "HierarchyIndex": 1,
+                "HierarchyChildren": []
+            },
+            "Transform": {
+                "Position": {
+                    "x": -0.923599362373352,
+                    "y": -0.8275084495544434,
+                    "z": 0.0
+                },
+                "Scale": {
+                    "x": 0.1769121289253235,
+                    "y": 0.3771899938583374,
+                    "z": 0.3771899938583374
+                },
+                "Rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                }
+            },
+            "Graphics Component": {
+                "PointLight": false,
+                "TextureName": "",
+                "Mesh Renderer": true,
+                "Debug": false,
+                "ModelName": "",
+                "MeshName": "",
+                "Color": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0,
+                    "w": 1.0
+                },
+                "Used In 2D": false
+            },
+            "UI Sprite": {
+                "Texture": "team_logo_3.dds",
+                "EnableSprite": true,
+                "LayerID": 1,
+                "is Font": false,
+                "message": "",
+                "Font Texture": "",
+                "ForeGroundColour": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 0.0
+                },
+                "Sprite Color": {
+                    "x": 0.10196078568696976,
+                    "y": 0.10196078568696976,
+                    "z": 0.10196078568696976,
+                    "w": 1.0
+                },
+                "BackGroundColour": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "BoundingBoxMin": {
+                    "x": -1.0120553970336914,
+                    "y": -1.0161035060882568
+                },
+                "BoundingBoxMax": {
+                    "x": -0.8351433277130127,
+                    "y": -0.6389134526252747
+                }
+            }
+        },
+        "6": {
+            "ArchetypeID": "1100001000001",
+            "Name Tag": {
+                "Name": "Title",
+                "Tag": "",
+                "IsActive": true,
+                "HierarchyParent": 7,
+                "HierarchyIndex": 0,
+                "HierarchyChildren": []
+            },
+            "Transform": {
+                "Position": {
+                    "x": 0.0022637248039245605,
+                    "y": 0.8094702959060669,
+                    "z": 0.0
+                },
+                "Scale": {
+                    "x": 2.3333358764648438,
+                    "y": 0.7383955717086792,
+                    "z": 1.0
+                },
+                "Rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                }
+            },
+            "Graphics Component": {
+                "PointLight": false,
+                "TextureName": "",
+                "Mesh Renderer": true,
+                "Debug": false,
+                "ModelName": "",
+                "MeshName": "",
+                "Color": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 0.0
+                },
+                "Used In 2D": false
+            },
+            "UI Sprite": {
+                "Texture": "game_title_3.dds",
+                "EnableSprite": true,
+                "LayerID": 1,
+                "is Font": false,
+                "message": "",
+                "Font Texture": "",
+                "ForeGroundColour": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 0.0
+                },
+                "Sprite Color": {
+                    "x": 0.10196078568696976,
+                    "y": 0.10196078568696976,
+                    "z": 0.10196078568696976,
+                    "w": 1.0
+                },
+                "BackGroundColour": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "BoundingBoxMin": {
+                    "x": -1.1644041538238525,
+                    "y": 0.4402725100517273
+                },
+                "BoundingBoxMax": {
+                    "x": 1.1689317226409912,
+                    "y": 1.1786680221557617
+                }
+            }
+        },
+        "7": {
+            "ArchetypeID": "1100000000000",
+            "Name Tag": {
+                "Name": "New Entity",
+                "Tag": "",
+                "IsActive": true,
+                "HierarchyParent": 0,
+                "HierarchyIndex": 0,
+                "HierarchyChildren": [
+                    6,
+                    5,
+                    4,
+                    3,
+                    2,
+                    1
+                ]
+            },
+            "Transform": {
+                "Position": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "Scale": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                },
+                "Rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                }
+            }
+        }
+    },
+    "Scripts": {
+        "1": {
+            "PlayButton": {
+                "gameObject": {
+                    "GameObject": 1
+                },
+                "is_Enabled": {
+                    "Bool": true
+                },
+                "is_Awake": {
+                    "Bool": false
+                },
+                "is_Start": {
+                    "Bool": false
+                }
+            }
+        },
+        "2": {},
+        "3": {},
+        "4": {},
+        "5": {},
+        "6": {},
+        "7": {}
+    },
+    "Active Archetype": {
+        "1": "1100001000001",
+        "2": "1100001000001",
+        "3": "1100001000001",
+        "4": "1100001000001",
+        "5": "1100001000001",
+        "6": "1100001000001",
+        "7": "1100000000000"
+    }
+}

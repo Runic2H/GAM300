@@ -77,7 +77,7 @@ namespace TDS
 		m_RenderingAttachment = new RenderTarget(m_MainVkContext, rendertargetCI);
 		m_RenderingDepthAttachment = new RenderTarget(m_MainVkContext, rendertargetCI2);
 		m_PickAttachment = new RenderTarget(m_MainVkContext, rendertargetCI3);
-		attachmentInfos.push_back({ m_RenderingAttachment, VK_ATTACHMENT_LOAD_OP_CLEAR, VK_ATTACHMENT_STORE_OP_STORE });
+		attachmentInfos.push_back({ m_RenderingAttachment, VK_ATTACHMENT_LOAD_OP_LOAD , VK_ATTACHMENT_STORE_OP_STORE });
 		attachmentInfos.push_back({ m_RenderingDepthAttachment, VK_ATTACHMENT_LOAD_OP_CLEAR, VK_ATTACHMENT_STORE_OP_STORE });
 		attachmentInfos.push_back({ m_PickAttachment, VK_ATTACHMENT_LOAD_OP_CLEAR, VK_ATTACHMENT_STORE_OP_STORE });
 		attachments.push_back(m_RenderingAttachment);

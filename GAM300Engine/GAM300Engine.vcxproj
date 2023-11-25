@@ -257,6 +257,7 @@ xcopy /y /d "$(SolutionDir)Libs\rttr_core.dll" "$(OutDir)"</Command>
     <ClCompile Include="Src\Rendering\renderPass.cpp" />
     <ClCompile Include="Src\Rendering\RenderTarget.cpp" />
     <ClCompile Include="Src\Rendering\Skybox.cpp" />
+    <ClCompile Include="Src\Rendering\UISpriteWrapper.cpp" />
     <ClCompile Include="Src\Rendering\UiSystem.cpp" />
     <ClCompile Include="Src\ResourceManagement\ResouceManager.cpp" />
     <ClCompile Include="Src\sceneManager\sceneManager.cpp" />
@@ -378,6 +379,7 @@ xcopy /y /d "$(SolutionDir)Libs\rttr_core.dll" "$(OutDir)"</Command>
     <ClInclude Include="Include\Rendering\renderPass.h" />
     <ClInclude Include="Include\Rendering\RenderTarget.h" />
     <ClInclude Include="Include\Rendering\Skybox.h" />
+    <ClInclude Include="Include\Rendering\UISpriteWrapper.h" />
     <ClInclude Include="Include\Rendering\UiSystem.h" />
     <ClInclude Include="Include\sceneManager\serializationHelperFunctions.h" />
     <ClInclude Include="Include\Shader\ShaderData.h" />

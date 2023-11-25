@@ -112,7 +112,7 @@ namespace TDS
 
 		PipelineCreateEntry entry{};
 		entry.m_NumDescriptorSets = 1;
-
+		
 		entry.m_ShaderInputs.m_Shaders.insert(std::make_pair(SHADER_FLAG::VERTEX, "../assets/shaders/Render2DVertInstanced.spv"));
 		entry.m_ShaderInputs.m_Shaders.insert(std::make_pair(SHADER_FLAG::FRAGMENT, "../assets/shaders/Render2DFragInstanced.spv"));
 		entry.m_PipelineConfig.m_SrcClrBlend = VK_BLEND_FACTOR_SRC_ALPHA;
@@ -128,9 +128,10 @@ namespace TDS
 				  //VertexBufferElement(VAR_TYPE::VEC4, "vNormals")
 				});
 
+		m_BatchList.m_InstanceVector.resize(5000);
 		BufferInfo Buffer{};
-		Buffer.m_Data = m_BatchList.m_Instances.data();
-		Buffer.m_Size = m_BatchList.m_Instances.size() * sizeof(Instance2D);
+		Buffer.m_Data = m_BatchList.m_InstanceVector.data();
+		Buffer.m_Size = m_BatchList.m_InstanceVector.size() * sizeof(Instance2D);
 		Buffer.m_Static = false;
 		entry.m_ShaderInputs.m_InputBuffers[10] = Buffer;
 		entry.m_ShaderInputs.m_InputVertex.push_back(VertexBufferInfo(false, layout, sizeof(Renderer2DVertex)));
@@ -145,13 +146,19 @@ namespace TDS
 	{
 		if (m_BatchList.m_InstanceCnt > 0)
 		{
-			for (std::uint32_t i = 0; i < 12; ++i)
-			{
-				auto& layer = m_BatchList.m_LayerInfos[i];
+			/*for (std::uint32_t i = 0; i < 12; ++i)
+			{*/
+				//if (GraphicsManager::getInstance().RenderAllLayer() == false)
+				//{
+				//	int layerToRender = GraphicsManager::getInstance().LayerToRender();
+				//	if (layerToRender != i)
+				//		continue;
+				//}
+				/*auto& layer = m_BatchList.m_LayerInfos[i];
 				if (layer.m_Instance > 0)
-				{
+				{*/
 					//m_Pipeline->SubmitPushConstant(&layer.m_Offset, sizeof(std::uint32_t), SHADER_FLAG::VERTEX | SHADER_FLAG::FRAGMENT);
-					pushTest.dataOffset = layer.m_Offset;
+					pushTest.dataOffset = 0;
 				/*	m_Pipeline->SubmitPushConstant(&pushTest, sizeof(pushConstant), SHADER_FLAG::VERTEX);
 					m_Pipeline->BindVertexBuffer(*m_AssetModel.m_ResourcePtr->GetVertexBuffer());
 					m_Pipeline->BindIndexBuffer(*m_AssetModel.m_ResourcePtr->GetIndexBuffer());
@@ -163,12 +170,12 @@ namespace TDS
 					m_Pipeline->BindIndexBuffer(*m_IndexBuffer);
 					m_Pipeline->BindDescriptor(Frame, 1);
 					m_Pipeline->BindArrayDescriptorSet(0, 1, 1);
-					m_Pipeline->DrawInstancedIndexed(*m_VertexBuffer, *m_IndexBuffer, layer.m_Instance);
-					layer.m_Instance = 0;
-					layer.m_Offset = 0;
-					layer.isDirty = true;
-				}
-			}
+					m_Pipeline->DrawInstancedIndexed(*m_VertexBuffer, *m_IndexBuffer, m_BatchList.m_InstanceCnt);
+					//layer.m_Instance = 0;
+					//layer.m_Offset = 0;
+					//layer.isDirty = true;
+				/*}*/
+			/*}*/
 			//m_FrameBuffer.m_Renderpass->endRenderPass(commandBuffer);
 
 		}
@@ -188,7 +195,7 @@ namespace TDS
 		//}
 		m_Pipeline->SetCommandBuffer(commandBuffer);
 		m_Pipeline->BindPipeline();
-		m_SceneUBO.ViewingFrom2D = GraphicsManager::getInstance().IsViewingFrom2D() ? 1 : 0;
+		m_SceneUBO.ViewingFrom2D = 1;
 
 		if (m_SceneUBO.ViewingFrom2D == false)
 		{
@@ -200,14 +207,6 @@ namespace TDS
 		}
 		else
 		{
-			//m_SceneUBO.Projection = Mat4::Ortho(
-			//	0.f,
-			//	GraphicsManager::getInstance().GetWindow()->getWidth(),
-			//	GraphicsManager::getInstance().GetWindow()->getHeight(),
-			//	0.0f,
-			//	-1.0f,
-			//	1.0f
-			//);
 
 			RECT win;
 			GetClientRect(GraphicsManager::getInstance().GetWindow()->getWindowHandler(), &win);
@@ -225,8 +224,9 @@ namespace TDS
 
 		}
 		m_SceneUBO.View = GraphicsManager::getInstance().GetCamera().GetViewMatrix();
+		
 		m_Pipeline->UpdateUBO(&m_SceneUBO, sizeof(SceneUBO), 25, Frame);
-		m_Pipeline->UpdateUBO(m_BatchList.m_Instances.data(), sizeof(Instance2D) * m_BatchList.m_InstanceCnt, 10, Frame);
+		m_Pipeline->UpdateUBO(m_BatchList.m_InstanceVector.data(), sizeof(Instance2D) * m_BatchList.m_InstanceCnt, 10, Frame);
 		if (AssetManager::GetInstance()->GetTextureFactory().m_UpdateTextureArray2D)
 		{
 			m_Pipeline->UpdateTextureArray(4, VkDescriptorType::VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, AssetManager::GetInstance()->GetTextureFactory().GetTextureArray());
@@ -254,8 +254,6 @@ namespace TDS
 	void SpriteBatch::AddToBatch(void* component, Transform* transform, std::uint32_t entity)
 	{
 		UISprite* componentSprite = reinterpret_cast<UISprite*>(component);
-		if (componentSprite->m_LayerID == -1)
-			return;
 
 		m_InstanceInfo[m_InstanceCnt].m_LayerID = componentSprite->m_LayerID > 12 ? 12 : (std::uint32_t)componentSprite->m_LayerID;
 		m_InstanceInfo[m_InstanceCnt].m_Color = &componentSprite->m_Color;
@@ -292,27 +290,32 @@ namespace TDS
 		}
 
 		++m_InstanceCnt;
+
+		
 	}
 
 	void SpriteBatch::PrepareBatch()
 	{
+		if (m_InstanceCnt != std::uint32_t(m_InstanceVector.size()))
+			m_InstanceVector.resize(m_InstanceCnt);
 		for (std::uint32_t i = 0; i < m_InstanceCnt; ++i)
 		{
-			for (std::uint32_t layer = 0; layer < 12; ++layer)
-			{
+			/*for (std::uint32_t layer = 0; layer < 12; ++layer)
+			{*/
 				auto& instanceinfo = m_InstanceInfo[i];
-				if (layer == instanceinfo.m_LayerID)
-				{
-					if (m_LayerInfos[layer].isDirty)
+				/*if (layer == instanceinfo.m_LayerID)
+				{*/
+					/*if (m_LayerInfos[layer].isDirty)
 					{
 						m_LayerInfos[layer].m_Offset = i;
 						m_LayerInfos[layer].isDirty = false;
-					}
+					}*/
 
-					++m_LayerInfos[layer].m_Instance;
-					m_Instances[i].m_Color = *instanceinfo.m_Color;
-					m_Instances[i].m_texID.x = float(instanceinfo.m_TextureIndex);
-					m_Instances[i].ID= instanceinfo.m_ID;
+					//++m_LayerInfos[layer].m_Instance;
+					m_InstanceVector[i].m_LayerID.x = float(instanceinfo.m_LayerID);
+					m_InstanceVector[i].m_Color = *instanceinfo.m_Color;
+					m_InstanceVector[i].m_texID.x = float(instanceinfo.m_TextureIndex);
+					m_InstanceVector[i].ID = instanceinfo.m_ID;
 					
 					//Vec3 rotationRadians = Vec3(instanceinfo.m_Rotate->x * static_cast<float>(3.14159265359f / 180.0f),
 					//	instanceinfo.m_Rotate->y * static_cast<float>(3.14159265359f / 180.0f),
@@ -338,17 +341,21 @@ namespace TDS
 
 
 						//m_Instances[i].m_Model = translationMatrix * rotZ * scaleMatrix;
-						m_Instances[i].m_Model = instanceinfo.m_Transform;;
+						m_InstanceVector[i].m_Model = instanceinfo.m_Transform;;
 					}
 					else
-						m_Instances[i].m_Model = instanceinfo.m_Transform;
+						m_InstanceVector[i].m_Model = instanceinfo.m_Transform;
 					//m_Instances[i].m_Model = translationMatrix * combinedRotation * scaleMatrix;
 					//m_Instances[i].m_Model = instanceinfo.m_Transform;
-
-
-				}
-			}
+				/*}*/
+			/*}*/
 		}
+		std::sort(m_InstanceVector.begin(), m_InstanceVector.end(),
+			[](const Instance2D& a, const Instance2D& b) {
+				return a.m_LayerID.x < b.m_LayerID.x;
+			});
 	}
+
+
 
 }
