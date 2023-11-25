@@ -36,8 +36,9 @@ namespace TDS
     GamApp::GamApp(HINSTANCE hinstance, int& nCmdShow, const wchar_t* classname, WNDPROC wndproc)
         :m_window(hinstance, nCmdShow, classname)
     {
+        Log::Init();
         m_window.createWindow(wndproc, 1280, 720);
-        //TDS_INFO("window width: {}, window height: {}", m_window.getWidth(), m_window.getHeight());
+        TDS_INFO("window width: {}, window height: {}", m_window.getWidth(), m_window.getHeight());
     }
     void  GamApp::handleMessages(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
     {
@@ -184,9 +185,10 @@ namespace TDS
             GraphicsManager::getInstance().StartFrame();
             VkCommandBuffer commandBuffer = GraphicsManager::getInstance().getCommandBuffer();
             std::uint32_t frame = GraphicsManager::getInstance().GetSwapchainRenderer().getFrameIndex();
-            GraphicsManager::getInstance().GetSwapchainRenderer().BeginSwapChainRenderPass(commandBuffer);
+            
 
-            //GraphicsManager::getInstance().getRenderPass().beginRenderPass(commandBuffer, &GraphicsManager::getInstance().getFrameBuffer());
+            GraphicsManager::getInstance().getRenderPass().beginRenderPass(commandBuffer, &GraphicsManager::getInstance().getFrameBuffer());
+
             skyboxrender.RenderSkyBox(commandBuffer, frame);
 
             //if (isPlaying)
@@ -212,11 +214,13 @@ namespace TDS
 
           
             //// event handling systems 
-          //  GraphicsManager::getInstance().getRenderPass().endRenderPass(commandBuffer);
+            GraphicsManager::getInstance().getRenderPass().endRenderPass(commandBuffer);
 
             //GraphicsManager::getInstance().getObjectPicker().Update(commandBuffer, frame, Vec2(Input::getMousePosition().x, Input::getMousePosition().y));
            
 
+            GraphicsManager::getInstance().GetSwapchainRenderer().BeginSwapChainRenderPass(commandBuffer);
+            GraphicsManager::getInstance().RenderFullScreen();
             GraphicsManager::getInstance().GetSwapchainRenderer().EndSwapChainRenderPass(commandBuffer);
             GraphicsManager::getInstance().EndFrame();
             //// Reloading

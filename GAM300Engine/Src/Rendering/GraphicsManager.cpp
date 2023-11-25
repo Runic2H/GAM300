@@ -34,7 +34,7 @@ namespace TDS
 		m_CommandManager->Init();
 		m_SwapchainRenderer = std::make_shared<Renderer>(*m_pWindow, *m_MainVkContext);
 		DefaultTextures::GetInstance().Init();
-		
+
 
 
 		Vec3 size = { static_cast<float>(window->getWidth()), static_cast<float>(window->getHeight()), 1.f };
@@ -77,16 +77,17 @@ namespace TDS
 		m_RenderingAttachment = new RenderTarget(m_MainVkContext, rendertargetCI);
 		m_RenderingDepthAttachment = new RenderTarget(m_MainVkContext, rendertargetCI2);
 		m_PickAttachment = new RenderTarget(m_MainVkContext, rendertargetCI3);
-		attachmentInfos.push_back({ m_RenderingAttachment, VK_ATTACHMENT_LOAD_OP_LOAD , VK_ATTACHMENT_STORE_OP_STORE });
+		attachmentInfos.push_back({ m_RenderingAttachment, VK_ATTACHMENT_LOAD_OP_CLEAR , VK_ATTACHMENT_STORE_OP_STORE });
 		attachmentInfos.push_back({ m_RenderingDepthAttachment, VK_ATTACHMENT_LOAD_OP_CLEAR, VK_ATTACHMENT_STORE_OP_STORE });
 		attachmentInfos.push_back({ m_PickAttachment, VK_ATTACHMENT_LOAD_OP_CLEAR, VK_ATTACHMENT_STORE_OP_STORE });
 		attachments.push_back(m_RenderingAttachment);
 		attachments.push_back(m_RenderingDepthAttachment);
 		attachments.push_back(m_PickAttachment);
-		
+
 		m_Renderpass = new RenderPass(m_MainVkContext->getVkLogicalDevice(), attachmentInfos);
 		m_Framebuffer = new FrameBuffer(m_MainVkContext->getVkLogicalDevice(), m_Renderpass->getRenderPass(), attachments);
-		
+
+		m_ViewingFrom2D = true;
 		Renderer3D::Init();
 		Renderer2D::GetInstance()->Init();
 		FontRenderer::GetInstance()->Init();
@@ -98,6 +99,58 @@ namespace TDS
 			renderLayer->Setup(m_pWindow);
 			renderLayer->Init();
 		}
+
+
+		std::vector<FullScreenVertex> fullScreen{};
+		fullScreen.push_back(FullScreenVertex({ Vec3(1.f, 1.f, 0.f), Vec2(1.f, 1.f) }));   
+		fullScreen.push_back(FullScreenVertex({ Vec3(1.f, -1.f, 0.f), Vec2(1.f, 0.f) }));
+		fullScreen.push_back(FullScreenVertex({ Vec3(-1.f, -1.f, 0.f), Vec2(0.f, 0.f) }));
+		fullScreen.push_back(FullScreenVertex({ Vec3(-1.f, 1.f, 0.f), Vec2(0.f, 1.f) })); 
+
+
+		std::vector<std::uint32_t> IndexFullScreen;
+		IndexFullScreen.push_back(0); 
+		IndexFullScreen.push_back(1); 
+		IndexFullScreen.push_back(2);
+
+		IndexFullScreen.push_back(2); 
+		IndexFullScreen.push_back(3); 
+		IndexFullScreen.push_back(0); 
+		m_FinalQuadVertexBuffer = std::make_shared<VMABuffer>();
+		m_FinalQuadVertexBuffer->CreateVertexBuffer(fullScreen.size() * sizeof(FullScreenVertex), false, fullScreen.data());
+		m_FinalQuadVertexBuffer->SetDataCnt(fullScreen.size());
+		m_FinalQuadIndexBuffer = std::make_shared <VMABuffer>();
+		m_FinalQuadIndexBuffer->CreateIndexBuffer(IndexFullScreen.size() * sizeof(std::uint32_t), false, IndexFullScreen.data());
+		m_FinalQuadIndexBuffer->SetDataCnt(IndexFullScreen.size());
+
+
+
+		PipelineCreateEntry entry{};
+		entry.m_NumDescriptorSets = 1;
+
+		entry.m_ShaderInputs.m_Shaders.insert(std::make_pair(SHADER_FLAG::VERTEX, "../assets/shaders/FullScreenQuadVert.spv"));
+		entry.m_ShaderInputs.m_Shaders.insert(std::make_pair(SHADER_FLAG::FRAGMENT, "../assets/shaders/FullScreenQuadFrag.spv"));
+		entry.m_PipelineConfig.m_SrcClrBlend = VK_BLEND_FACTOR_ZERO;
+		entry.m_PipelineConfig.m_DstClrBlend = VK_BLEND_FACTOR_ZERO;
+		entry.m_PipelineConfig.m_SrcAlphaBlend = VK_BLEND_FACTOR_ZERO;
+		entry.m_PipelineConfig.m_DstAlphaBlend = VK_BLEND_FACTOR_ZERO;
+		entry.m_UseSwapchain = true;
+
+		VertexLayout layout =
+			VertexLayout(
+				{
+				  VertexBufferElement(VAR_TYPE::VEC3, "vPosition"),
+				VertexBufferElement(VAR_TYPE::VEC2, "inTexCoord"),
+				});
+		entry.m_ShaderInputs.m_InputVertex.push_back(VertexBufferInfo(false, layout, sizeof(FullScreenVertex)));
+		Vec2 Dimension = { static_cast<float>(GraphicsManager::getInstance().GetWindow()->getWidth()), static_cast<float>(GraphicsManager::getInstance().GetWindow()->getHeight()) };
+
+
+		m_FinalQuad = std::make_shared<VulkanPipeline>();		
+		m_FinalQuad->SetRenderTarget(m_SwapchainRenderer->getSwapChainRenderPass());
+		m_FinalQuad->Create(entry);
+
+
 	}
 	void GraphicsManager::SetClearColor(Vec4 clearColor)
 	{
@@ -153,6 +206,10 @@ namespace TDS
 		m_DebugRenderer->GetPipeline().ShutDown();
 		FontRenderer::GetInstance()->ShutDown();
 		m_ObjectPicking->Shutdown();
+		m_FinalQuad->ShutDown();
+		m_FinalQuadVertexBuffer->DestroyBuffer();
+		m_FinalQuadIndexBuffer->DestroyBuffer();
+		
 		GlobalBufferPool::GetInstance()->Destroy();
 		m_RenderingAttachment->~RenderTarget();
 		m_RenderingDepthAttachment->~RenderTarget();
@@ -217,6 +274,23 @@ namespace TDS
 	int GraphicsManager::LayerToRender()
 	{
 		return m_LayerID;
+	}
+	void GraphicsManager::RenderFullScreen()
+	{
+		static bool firstRender = false;
+		m_FinalIamgeInfo.imageLayout = m_RenderingAttachment->getImageLayout();
+		m_FinalIamgeInfo.imageView = m_RenderingAttachment->getImageView();
+		m_FinalIamgeInfo.sampler = m_RenderingAttachment->getSampler();
+
+		m_FinalQuad->UpdateDescriptor(m_FinalIamgeInfo, VkDescriptorType::VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 12);
+		int frame = m_SwapchainRenderer->getFrameIndex();
+		m_FinalQuad->SetCommandBuffer(currentCommand);
+
+		m_FinalQuad->BindPipeline();
+		m_FinalQuad->BindVertexBuffer(*m_FinalQuadVertexBuffer);
+		m_FinalQuad->BindIndexBuffer(*m_FinalQuadIndexBuffer);
+		m_FinalQuad->BindDescriptor(frame, 1);
+		m_FinalQuad->DrawIndexed(*m_FinalQuadVertexBuffer, *m_FinalQuadIndexBuffer, frame);
 	}
 	TDSCamera& GraphicsManager::GetCamera()
 	{

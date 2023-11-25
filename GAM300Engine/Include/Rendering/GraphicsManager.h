@@ -19,6 +19,14 @@ namespace TDS
 	class RenderPass;
 	class FrameBuffer;
 	class PointLightSystem;
+
+	struct FullScreenVertex
+	{
+		Vec3 m_Position{};
+		Vec2 m_UV{};
+	};
+
+
 	class DLL_API GraphicsManager
 	{
 	private:
@@ -76,6 +84,13 @@ namespace TDS
 		void								ToggleRenderAllLayer(bool condition);
 		int									LayerToRender();
 		
+
+		void								RenderFullScreen();
+		std::shared_ptr<VulkanPipeline>		m_FinalQuad = nullptr;
+		std::shared_ptr<VMABuffer>			m_FinalQuadVertexBuffer = nullptr;
+		std::shared_ptr<VMABuffer>			m_FinalQuadIndexBuffer = nullptr;
+		VkDescriptorImageInfo				m_FinalIamgeInfo{};
+
 
 		TDSCamera& GetCamera();
 

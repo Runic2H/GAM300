@@ -115,30 +115,49 @@ namespace TDS
 		rasterizationState.lineWidth = 1.0f;
 
 		std::uint32_t count = 0;
-	
-		count = 2;
-	
-		std::vector<VkPipelineColorBlendAttachmentState> blendAttachmentState(count);
-		for (int i{0}; i < blendAttachmentState.size() ;++i)
+		std::vector<VkPipelineColorBlendAttachmentState> blendAttachmentState;
+		if (m_PipelineEntry.m_UseSwapchain == false)
 		{
-			blendAttachmentState[i].colorWriteMask = VK_COLOR_COMPONENT_R_BIT | VK_COLOR_COMPONENT_G_BIT | VK_COLOR_COMPONENT_B_BIT | VK_COLOR_COMPONENT_A_BIT;
-			if (i == 1)
-			{
-				blendAttachmentState[i].blendEnable = VK_FALSE;
-			}
-			else
-			{
-				blendAttachmentState[i].blendEnable = m_BlendingEnabled ? VK_TRUE : VK_FALSE;
-			}
-			blendAttachmentState[i].srcColorBlendFactor = m_PipelineEntry.m_PipelineConfig.m_SrcClrBlend;
-			blendAttachmentState[i].dstColorBlendFactor = m_PipelineEntry.m_PipelineConfig.m_DstClrBlend;
-			blendAttachmentState[i].colorBlendOp = m_PipelineEntry.m_PipelineConfig.m_ColorBlend;
-			blendAttachmentState[i].srcAlphaBlendFactor = m_PipelineEntry.m_PipelineConfig.m_SrcAlphaBlend;
-			blendAttachmentState[i].dstAlphaBlendFactor = m_PipelineEntry.m_PipelineConfig.m_DstAlphaBlend;
-			blendAttachmentState[i].alphaBlendOp = m_PipelineEntry.m_PipelineConfig.m_AlphaBlend;
+			count = 2;
 
+			blendAttachmentState.resize(count);
+			for (int i{ 0 }; i < blendAttachmentState.size(); ++i)
+			{
+				blendAttachmentState[i].colorWriteMask = VK_COLOR_COMPONENT_R_BIT | VK_COLOR_COMPONENT_G_BIT | VK_COLOR_COMPONENT_B_BIT | VK_COLOR_COMPONENT_A_BIT;
+				if (i == 1)
+				{
+					blendAttachmentState[i].blendEnable = VK_FALSE;
+				}
+				else
+				{
+					blendAttachmentState[i].blendEnable = m_BlendingEnabled ? VK_TRUE : VK_FALSE;
+				}
+				blendAttachmentState[i].srcColorBlendFactor = m_PipelineEntry.m_PipelineConfig.m_SrcClrBlend;
+				blendAttachmentState[i].dstColorBlendFactor = m_PipelineEntry.m_PipelineConfig.m_DstClrBlend;
+				blendAttachmentState[i].colorBlendOp = m_PipelineEntry.m_PipelineConfig.m_ColorBlend;
+				blendAttachmentState[i].srcAlphaBlendFactor = m_PipelineEntry.m_PipelineConfig.m_SrcAlphaBlend;
+				blendAttachmentState[i].dstAlphaBlendFactor = m_PipelineEntry.m_PipelineConfig.m_DstAlphaBlend;
+				blendAttachmentState[i].alphaBlendOp = m_PipelineEntry.m_PipelineConfig.m_AlphaBlend;
+
+			}
 		}
+		else
+		{
+			count = 1;
+			blendAttachmentState.resize(count);
+			for (int i{ 0 }; i < blendAttachmentState.size(); ++i)
+			{
+				blendAttachmentState[i].colorWriteMask = VK_COLOR_COMPONENT_R_BIT | VK_COLOR_COMPONENT_G_BIT | VK_COLOR_COMPONENT_B_BIT | VK_COLOR_COMPONENT_A_BIT;
+				blendAttachmentState[i].blendEnable = m_BlendingEnabled ? VK_TRUE : VK_FALSE;
+				blendAttachmentState[i].srcColorBlendFactor = m_PipelineEntry.m_PipelineConfig.m_SrcClrBlend;
+				blendAttachmentState[i].dstColorBlendFactor = m_PipelineEntry.m_PipelineConfig.m_DstClrBlend;
+				blendAttachmentState[i].colorBlendOp = m_PipelineEntry.m_PipelineConfig.m_ColorBlend;
+				blendAttachmentState[i].srcAlphaBlendFactor = m_PipelineEntry.m_PipelineConfig.m_SrcAlphaBlend;
+				blendAttachmentState[i].dstAlphaBlendFactor = m_PipelineEntry.m_PipelineConfig.m_DstAlphaBlend;
+				blendAttachmentState[i].alphaBlendOp = m_PipelineEntry.m_PipelineConfig.m_AlphaBlend;
 
+			}
+		}
 		VkPipelineColorBlendStateCreateInfo colorBlendState = { VK_STRUCTURE_TYPE_PIPELINE_COLOR_BLEND_STATE_CREATE_INFO };
 		colorBlendState.attachmentCount = static_cast<uint32_t>(blendAttachmentState.size());
 		colorBlendState.pAttachments = blendAttachmentState.data();
