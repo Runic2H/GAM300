@@ -127,18 +127,13 @@ namespace TDS
 
     void GamApp::FixedUpdate()
     {
-        mAccumulatedTime += TimeStep::GetFixedDeltaTime();
         auto executeFixedUpdate = GetFunctionPtr<void(*)(void)>
             (
                 "ScriptAPI",
                 "ScriptAPI.EngineInterface",
                 "ExecuteFixedUpdate"
             );
-        while (mAccumulatedTime > TimeStep::GetFixedDeltaTime())
-        {
-            executeFixedUpdate();
-            mAccumulatedTime -= TimeStep::GetFixedDeltaTime();
-        }
+        executeFixedUpdate();
     }
 
     void GamApp::Update()

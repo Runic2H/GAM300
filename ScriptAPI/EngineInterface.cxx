@@ -296,20 +296,25 @@ namespace ScriptAPI
     ***************************************************************************/
     void EngineInterface::ExecuteFixedUpdate()
     {
-        for each (auto i in TDS::ecs.getEntities())
+        mAccumulatedTime += fixedUpdateTimer;
+        while (mAccumulatedTime > fixedUpdateTimer)
         {
-            if (scripts->ContainsKey(i) && TDS::ecs.getEntityIsEnabled(i))
+            for each (auto i in TDS::ecs.getEntities())
             {
-                for each (NameScriptPair ^ script in scripts[i])
+                if (scripts->ContainsKey(i) && TDS::ecs.getEntityIsEnabled(i))
                 {
-                    SAFE_NATIVE_CALL_BEGIN
-                        if (script->Value->isScriptEnabled())
-                        {
-                            script->Value->FixedUpdate();
-                        }
-                    SAFE_NATIVE_CALL_END
+                    for each (NameScriptPair ^ script in scripts[i])
+                    {
+                        SAFE_NATIVE_CALL_BEGIN
+                            if (script->Value->isScriptEnabled())
+                            {
+                                script->Value->FixedUpdate();
+                            }
+                        SAFE_NATIVE_CALL_END
+                    }
                 }
             }
+            mAccumulatedTime -= fixedUpdateTimer;
         }
     }
 

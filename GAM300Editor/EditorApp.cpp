@@ -136,9 +136,14 @@ namespace TDS
         ShaderReflector::GetInstance()->Init(SHADER_DIRECTORY, REFLECTED_BIN);
         GraphicsManager::getInstance().Init(&m_window);
         AssetManager::GetInstance()->PreloadAssets();
- 
-
         skyboxrender.Init();
+        auto executeAwake = GetFunctionPtr<void(*)(void)>
+            (
+                "ScriptAPI",
+                "ScriptAPI.EngineInterface",
+                "ExecuteAwake"
+            );
+        executeAwake();
     }
 
     void Application::Update()
@@ -157,6 +162,13 @@ namespace TDS
                 "ScriptAPI",
                 "ScriptAPI.EngineInterface",
                 "ExecuteLateUpdate"
+            );
+
+        auto executeFixedUpdate = GetFunctionPtr<void(*)(void)>
+            (
+                "ScriptAPI",
+                "ScriptAPI.EngineInterface",
+                "ExecuteFixedUpdate"
             );
 
         auto reloadScripts = GetFunctionPtr<void(*)(void)>
@@ -233,10 +245,19 @@ namespace TDS
                 if (startPlaying)
                 {
                     SceneManager::GetInstance()->loadScene(SceneManager::GetInstance()->getCurrentScene());
+                    auto executeStart = GetFunctionPtr<void(*)(void)>
+                        (
+                            "ScriptAPI",
+                            "ScriptAPI.EngineInterface",
+                            "ExecuteStart"
+                        );
+                    executeStart();
                     startPlaying = false;
                 }
                 ecs.runSystems(1, DeltaTime); // Other systems
+                executeFixedUpdate();
                 executeUpdate();
+                executeLateUpdate();
             }
             else
             {
