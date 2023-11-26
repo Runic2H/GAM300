@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Globalization; //for time??
 
 using static Waypoint; //to get the waypoints you placed
+using System.Reflection.PortableExecutable;
 
 public class GhostMovement : Script
 {
@@ -32,6 +33,8 @@ public class GhostMovement : Script
     [SerializeField]
     bool isChasingPlayer = false;
 
+    public GameObject player;
+
     public override void Awake() 
     {
         // otherEntity = GameObjectScriptFind("Waypoint");
@@ -43,14 +46,14 @@ public class GhostMovement : Script
 
     public override void OnEnable() 
     {
-        Console.WriteLine("Enabled");
-        ExampleAsync();
+        //Console.WriteLine("Enabled");
+        //ExampleAsync();
     }
 
     public override void Start()
     {
-        Console.WriteLine("Start Test");
-     
+        //Console.WriteLine("Start Test");
+        //player = GameObjectScriptFind("FPS_Controller_Script");
     }
     public void ReadWaypoint(Waypoint wp)
     {
@@ -85,8 +88,17 @@ public class GhostMovement : Script
 
     public override void Update()
     {
-        isChasingPlayer = !isPatrol;//can only be one or another
 
+        isChasingPlayer = !isPatrol;//can only be one or another
+        if (gameObject.GetSphereColliderComponent().GetIsTrigger())
+        {
+            isPatrol = false;
+        }
+        else
+        {
+            isPatrol = true;
+        }
+        Console.WriteLine(isChasingPlayer);
 
         List<Vector3> waypointVector = new List<Vector3>();
         //Console.WriteLine( GameObjectScriptFind("Waypoint"));
@@ -97,6 +109,8 @@ public class GhostMovement : Script
         //MultipleGameObjectScriptFind("Waypoint");
         Vector3 pos = gameObject.GetComponent<TransformComponent>().GetPosition();
         
+        //Console.WriteLine(playerPos.X + " " + playerPos.Y + " " + playerPos.Z);
+        //Vector3 playerPos = player.GetComponent<TransformComponent>().GetPosition();
         deltaTime += 0.01f; //i need help syncing with game time
 
         for (int i = 0; i < NumOfWaypoints; ++i)
@@ -139,6 +153,13 @@ public class GhostMovement : Script
                 
             }
         }
+        else
+        {
+            //Vector3 diff = (playerPos - pos).normalise();
+            //Vector3 updatePos = diff * patrolSpeed;
+            //pos.X = updatePos.X;
+            //pos.Z = updatePos.Z;
+        }
         
 
         // pos.X = startingX + patrolRadius * (float)Math.Cos(angle);
@@ -159,12 +180,12 @@ public class GhostMovement : Script
 
     public override void OnDisable() 
     {
-        Console.WriteLine("Disabled");
+        //Console.WriteLine("Disabled");
     }
 
     public override void OnDestroy() 
     {
-        Console.WriteLine("Exit");
+        //Console.WriteLine("Exit");
     }
 
 
@@ -173,7 +194,7 @@ public class GhostMovement : Script
     {
         for (int i = 0; i < 5; i++)
         {
-            Console.WriteLine("Coroutine step " + i);
+            //Console.WriteLine("Coroutine step " + i);
             await Task.Delay(1000); // Simulate some work asynchronously
             yield return i;
         }
@@ -182,14 +203,14 @@ public class GhostMovement : Script
     // Example Usecase
     async Task<int> ExampleAsync()
     {
-        Console.WriteLine("Starting Unity Coroutine with IEnumerable result");
+        //Console.WriteLine("Starting Unity Coroutine with IEnumerable result");
 
         await foreach (var value in Coroutine(() => MyCoroutineAsync(), 1000))
         {
-            Console.WriteLine("Yielded Value: " + value);
+            //Console.WriteLine("Yielded Value: " + value);
         }
 
-        Console.WriteLine("Unity Coroutine finished");
+        //Console.WriteLine("Unity Coroutine finished");
 
         return 0;
     }

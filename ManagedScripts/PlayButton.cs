@@ -29,14 +29,14 @@ public class PlayButton : Script
         float miny = ObjectPos.Y - ObjectScale.Y;
         float maxy = ObjectPos.Y + ObjectScale.Y;
         //Console.WriteLine(ObjectPos.X + "\t" + ObjectPos.Y + "\t" + ObjectPos.Z + "\n");
-        Console.WriteLine("MinX: " + minX + "\t" + "MaxX: " + maxX + "\t" + "MouseX: " + mouseX + "\t");
+        //Console.WriteLine("MinX: " + minX + "\t" + "MaxX: " + maxX + "\t" + "MouseX: " + mouseX + "\t");
 
         if (withinArea(mouseX, minX, maxX) && withinArea(mouseY, miny, maxy))
             mouseonbutton = true;
         else
             mouseonbutton = false;
 
-        Console.WriteLine(mouseonbutton);
+        //Console.WriteLine(mouseonbutton);
         if (Input.GetMouseButtonDown(Keycode.M1) && mouseonbutton)
         {
             //GraphicsManagerWrapper.ToggleViewFrom2D(false);

@@ -18,7 +18,16 @@ RTTR_REGISTRATION
 	rttr::registration::class_<SphereCollider>("Sphere Collider")
 		.property("IsTrigger", &SphereCollider::mIsTrigger)
 		.property("Center", &SphereCollider::mCenter)
-		.property("Radius", &SphereCollider::mRadius);
+		.property("Radius", &SphereCollider::mRadius)
+		.property("AImode", &SphereCollider::AI);
+		
+	rttr::registration::enumeration<SphereCollider::AImode>("AImode")
+		(
+			rttr::value("NONE", SphereCollider::AImode::NONE),
+			rttr::value("MONSTER", SphereCollider::AImode::MONSTER),
+			rttr::value("PLAYER", SphereCollider::AImode::PLAYER)
+		);
+
 
 }
 
@@ -29,7 +38,8 @@ namespace TDS
 	****************************************************************************/
 	SphereCollider::SphereCollider() : mIsTrigger(false),
 		mCenter(Vec3(0.0f, 0.0f, 0.0f)),
-		mRadius(0.5f)
+		mRadius(0.5f),
+		AI(AImode::NONE)
 	{
 		//CreateJPHSphereCollider(mRadius);
 
@@ -41,7 +51,8 @@ namespace TDS
 	****************************************************************************/
 	SphereCollider::SphereCollider(SphereCollider&& toMove) noexcept : mIsTrigger(toMove.mIsTrigger),
 		mCenter(toMove.mCenter),
-		mRadius(toMove.mRadius)
+		mRadius(toMove.mRadius),
+		AI(toMove.AI)
 	{ }
 
 

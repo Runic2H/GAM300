@@ -41,7 +41,7 @@ public class Waypoint : Script
     public override void OnEnable() 
     {
         Console.WriteLine("Enabled");
-        ExampleAsync();
+        //ExampleAsync();
     }
 
     public override void Start()
@@ -72,12 +72,12 @@ public class Waypoint : Script
 
     public override void OnDisable() 
     {
-        Console.WriteLine("Disabled");
+        //Console.WriteLine("Disabled");
     }
 
     public override void OnDestroy() 
     {
-        Console.WriteLine("Exit");
+        //Console.WriteLine("Exit");
     }
 
 
@@ -86,7 +86,7 @@ public class Waypoint : Script
     {
         for (int i = 0; i < 5; i++)
         {
-            Console.WriteLine("Coroutine step " + i);
+            //Console.WriteLine("Coroutine step " + i);
             await Task.Delay(1000); // Simulate some work asynchronously
             yield return i;
         }
@@ -95,14 +95,14 @@ public class Waypoint : Script
     // Example Usecase
     async Task<int> ExampleAsync()
     {
-        Console.WriteLine("Starting Unity Coroutine with IEnumerable result");
+        //Console.WriteLine("Starting Unity Coroutine with IEnumerable result");
 
         await foreach (var value in Coroutine(() => MyCoroutineAsync(), 1000))
         {
-            Console.WriteLine("Yielded Value: " + value);
+            //Console.WriteLine("Yielded Value: " + value);
         }
 
-        Console.WriteLine("Unity Coroutine finished");
+        //Console.WriteLine("Unity Coroutine finished");
 
         return 0;
     }

@@ -109,7 +109,7 @@ namespace TDS
 		std::cout << "successfully init Jolt Physics" << '\n';
 	}
 
-	void PhysicsSystem::PhysicsSystemUpdate(const float dt, const std::vector<EntityID>& entities, Transform* _transform, RigidBody* _rigidbody, GraphicsComponent* _graphics)
+	void PhysicsSystem::PhysicsSystemUpdate(const float dt, const std::vector<EntityID>& entities, Transform* _transform, SphereCollider* _collider)
 	{
 		static bool JPH_isPlay = false; // need to call only once in the update loop but it is a static function
 		// Physics loop
@@ -125,7 +125,7 @@ namespace TDS
 			}
 			for (int i = 0; i < entities.size(); ++i)
 			{
-				if (_rigidbody[i].GetBodyID().IsInvalid())
+				/*if (_rigidbody[i].GetBodyID().IsInvalid())
 				{
 					
 					TDS_INFO("Init");
@@ -156,7 +156,8 @@ namespace TDS
 
 					JPH_CreateBodyID(entities[i], &_transform[i], &_rigidbody[i]);
 					
-				}
+				}*/
+				
 			}
 			
 			m_pSystem->OptimizeBroadPhase();
@@ -168,28 +169,57 @@ namespace TDS
 		{
 			for (int i = 0; i < entities.size(); ++i)
 			{
-				if (!ecs.getEntityIsEnabled(entities[i]) || !ecs.getComponentIsEnabled<RigidBody>(entities[i]))
+				for (int j = 0; j < entities.size(); ++j)
 				{
-					continue;
+					if (i == j) continue;
+					if (_collider[i].getAImode() == SphereCollider::AImode::MONSTER && _collider[j].getAImode() == SphereCollider::AImode::PLAYER)
+					{
+						float radii = _collider[i].GetRadius() + _collider[j].GetRadius();
+						Vec3 length = Vec3::Distance(_transform[i].GetPosition(), _transform[j].GetPosition());
+						if (length.x <= radii)
+						{
+							_collider[i].SetIsTrigger(true);
+							TDS_INFO("contacted");
+						}
+						else
+						{
+							_collider[i].SetIsTrigger(false);
+						}
+					}
+					if (_collider[i].GetIsTrigger())
+					{
+						Vec3 monsterPos = _transform[i].GetPosition();
+						Vec3 playerPos = _transform[j].GetPosition();
+
+						Vec3 direction = (playerPos - monsterPos).normalize();
+						
+						float speed = 300.0f;
+						monsterPos = monsterPos + direction * speed * TimeStep::GetFixedDeltaTime();
+						TDS_INFO("{}", monsterPos);
+						_transform[i].SetPosition({ monsterPos.x, _transform[i].GetPosition().y, monsterPos.z });
+					}
 				}
+				
 
-				if (_rigidbody[i].GetBodyID().IsInvalid())
-				{
 
-					TDS_INFO("In Update Loop");
-					JPH_CreateBodyID(entities[i], &_transform[i], &_rigidbody[i]);
+				//if (_rigidbody[i].GetBodyID().IsInvalid())
+				//{
 
-				}
+				//	TDS_INFO("In Update Loop");
+				//	JPH_CreateBodyID(entities[i], &_transform[i], &_rigidbody[i]);
+
+				//}
+				/*
 				using namespace JoltToTDS;
 				EActivation mode = EActivation::Activate;
 				pBodies->SetPosition(ToBodyID(_rigidbody[i]), ToVec3(_transform[i].GetPosition()), mode);
 				pBodies->SetRotation(ToBodyID(_rigidbody[i]), ToQuat(_transform[i].GetRotation()), mode);
-				
+				*/
 			}
 			// JPH physics simulation
 			//m_pSystem->Update(TimeStep::GetFixedDeltaTime(), 1, m_pTempAllocator.get(), m_pJobSystem.get());
 			// Update back to the ECS
-		
+		/*
 			for (int j = 0; j < entities.size(); ++j)
 			{
 				if (!ecs.getEntityIsEnabled(entities[j]) || !ecs.getComponentIsEnabled<RigidBody>(entities[j]))
@@ -216,6 +246,7 @@ namespace TDS
 				EventHandler::postChildTransformationEvent(entities[j], pos, scale, rot);
 
 			}
+			*/
 			accumulatedTime -= TimeStep::GetFixedDeltaTime();
 		}	
 		
