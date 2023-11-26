@@ -152,8 +152,10 @@
     <ClInclude Include="HelperFunctions.hxx" />
     <ClInclude Include="IncludeFromEngine.hxx" />
     <ClInclude Include="Input.hxx" />
+    <ClInclude Include="JsonUtility.hxx" />
     <ClInclude Include="Mathf.hxx" />
     <ClInclude Include="Quaternion.hxx" />
+    <ClInclude Include="Random.hxx" />
     <ClInclude Include="Screen.hxx" />
     <ClInclude Include="SceneLoader.hxx" />
     <ClInclude Include="Script.hxx" />
@@ -179,8 +181,10 @@
     <ClCompile Include="GameObject.cxx" />
     <ClCompile Include="GraphicsMgrWrapper.cxx" />
     <ClCompile Include="Input.cxx" />
+    <ClCompile Include="JsonUtility.cxx" />
     <ClCompile Include="Mathf.cxx" />
     <ClCompile Include="Quaternion.cxx" />
+    <ClCompile Include="Random.cxx" />
     <ClCompile Include="Screen.cxx" />
     <ClCompile Include="SceneLoader.cxx" />
     <ClCompile Include="Script.cxx" />

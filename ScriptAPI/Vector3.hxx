@@ -13,6 +13,9 @@ namespace ScriptAPI
 		Vector3(float valueX, float valueY, float valueZ);
 		Vector3(TDS::Vec3 value);
 
+		static float Angle(Vector3 to, Vector3 from);
+		static Vector3 Cross(Vector3 to, Vector3 from);
+
 		static Vector3 operator+(Vector3 lhs, Vector3 rhs);
 
 		static Vector3 operator-(Vector3 lhs, Vector3 rhs);

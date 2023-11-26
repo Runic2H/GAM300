@@ -115,6 +115,11 @@ namespace TDS
 		//DLL_API std::vector<std::string>& getScenes();
 
 		/*!*************************************************************************
+		This function is the getter function for the path to assets
+		****************************************************************************/
+		DLL_API std::string getAssetPath();
+
+		/*!*************************************************************************
 		This function is the getter function for the path to scenes
 		****************************************************************************/
 		DLL_API std::string getScenePath();

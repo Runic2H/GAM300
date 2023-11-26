@@ -100,6 +100,11 @@ namespace ScriptAPI
 		return mousePositionY - TDS::Input::getMousePosition().y;
 	}
 
+	Vector3 Input::GetMousePosition()
+	{
+		return Vector3(TDS::Input::getMousePosition().x, TDS::Input::getMousePosition().y, 0.0f);
+	}
+	
 	float Input::GetLocalMousePosX()
 	{
 		return TDS::Input::getLocalMousePosX();

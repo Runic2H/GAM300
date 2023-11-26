@@ -1,4 +1,5 @@
 #include "Quaternion.hxx"
+#include "Mathf.hxx"
 
 namespace ScriptAPI
 {
@@ -25,5 +26,12 @@ namespace ScriptAPI
 		Y = c.X * s.Y * c.Z + s.X * c.Y * s.Z;
 		Z = c.X * c.Y * s.Z - s.X * s.Y * c.Z;
 		W = c.X * c.Y * c.Z + s.X * s.Y * s.Z;
+	}
+
+	Quaternion Quaternion::AngleAxis(float angle, Vector3 axis)
+	{
+		float const a = angle * (3.1415926535897931f / 180.0f);
+		float const s = Mathf::Sin(a * 0.5f);
+		return Quaternion(axis.X * s, axis.Y * s, axis.Z * s, Mathf::Cos(a * 0.5f));
 	}
 }

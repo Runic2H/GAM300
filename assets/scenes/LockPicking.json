@@ -148,8 +148,8 @@
             },
             "Transform": {
                 "Position": {
-                    "x": -0.16337727010250092,
-                    "y": 3.330054759979248,
+                    "x": 0.0,
+                    "y": 3.0,
                     "z": -15.0
                 },
                 "Scale": {
@@ -159,7 +159,7 @@
                 },
                 "Rotation": {
                     "x": 0.0,
-                    "y": -0.0,
+                    "y": 0.0,
                     "z": 0.0
                 }
             },
@@ -226,7 +226,107 @@
     "Scripts": {
         "1": {},
         "2": {},
-        "3": {},
+        "3": {
+            "LockPick1": {
+                "_TutorialStep": {
+                    "Int": 0
+                },
+                "_TutorialCompleted": {
+                    "Bool": true
+                },
+                "myGameDataManager": {
+                    "GameDataManager": 0
+                },
+                "Door_UI": {
+                    "GameObject": 0
+                },
+                "cam": {
+                    "Component": 0
+                },
+                "playerCam": {
+                    "Component": 0
+                },
+                "innerLock": {
+                    "Component": 2
+                },
+                "pickPosition": {
+                    "Component": 0
+                },
+                "playerController": {
+                    "FPS_Controller_Script": 0
+                },
+                "lockObject": {
+                    "GameObject": 0
+                },
+                "difficultyLvl": {
+                    "String": ""
+                },
+                "maxAngle": {
+                    "Float": 90.0
+                },
+                "lockSpeed": {
+                    "Float": 10.0
+                },
+                "unlocked": {
+                    "Bool": false
+                },
+                "delay": {
+                    "Float": 0.4
+                },
+                "_NumOfTries": {
+                    "GameObject": 0
+                },
+                "lockRange": {
+                    "Float": 10.0
+                },
+                "numOfTries": {
+                    "Int": 0
+                },
+                "percentage": {
+                    "Float": 98.0
+                },
+                "eulerAngle": {
+                    "Float": 2.2706892
+                },
+                "unlockAngle": {
+                    "Float": 0.0
+                },
+                "unlockRange": {
+                    "Vector3": {
+                        "X": 0.0,
+                        "Y": 0.0,
+                        "Z": 0.0
+                    }
+                },
+                "keyPressTime": {
+                    "Float": 0.0
+                },
+                "movePick": {
+                    "Bool": true
+                },
+                "deduct": {
+                    "Bool": true
+                },
+                "displayTutorial": {
+                    "Bool": false
+                },
+                "played": {
+                    "Bool": false
+                },
+                "gameObject": {
+                    "GameObject": 3
+                },
+                "is_Enabled": {
+                    "Bool": true
+                },
+                "is_Awake": {
+                    "Bool": false
+                },
+                "is_Start": {
+                    "Bool": true
+                }
+            }
+        },
         "4": {}
     },
     "Active Archetype": {

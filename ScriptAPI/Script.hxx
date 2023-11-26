@@ -63,8 +63,11 @@ namespace ScriptAPI
         bool getStartFlag();
 
     public:
+        [HideInInspector]
         bool is_Enabled;
+        [HideInInspector]
         bool is_Awake;
+        [HideInInspector]
         bool is_Start;
     };
 
