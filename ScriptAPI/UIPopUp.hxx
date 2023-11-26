@@ -2,10 +2,11 @@
 namespace ScriptAPI
 {
 
-	public ref class UIPopUp
+	public ref class UIPopUpManager
 	{
 	public:
-		static void ToggleViewFrom2D(int entityID, bool toggleCondition);
-		static bool CollidedWithUI(int entityID, bool toggleCondition);
+		static void TogglePopUp(int entityID, bool toggleCondition);
+		static unsigned int getChildPopUp(unsigned int EntityID, System::String^ childName);
+		
 	};
 }

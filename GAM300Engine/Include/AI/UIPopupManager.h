@@ -7,5 +7,6 @@ namespace TDS
 	{
 		public:
 			static void TogglePopUp(EntityID popUpMain, bool condition);
+			static EntityID getChildPopUp(EntityID popUpMain, std::string_view name);
 	};
 }

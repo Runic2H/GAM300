@@ -45,7 +45,6 @@ namespace ScriptAPI
 	{
 		if (!TDS::GetUISprite(entityID))
 		{
-			// throw error instead (not sure how)
 			return;
 		}
 		TDS::GetUISprite(entityID)->SetTextureName(toStdString(textureName));
