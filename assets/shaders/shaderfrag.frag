@@ -49,7 +49,9 @@ layout(push_constant) uniform Push {
     uint id;
 } push;
 
-
+float constant=0.1;
+float linear=0.01;
+float quadratic=0.005;
 void main() {
     if (abs(clipspacepos.x)>1.0||abs(clipspacepos.y)>1.0 || abs(clipspacepos.z)>1.0) discard;
     
@@ -60,11 +62,12 @@ void main() {
     for (int i=0; i<PL.activelights; ++i){
         PointLight currentlight = PL.pointlights[i];
         vec3 directiontolight = PL.pointlights[i].Position.xyz - fragPosWorld;
-        float atten = 1.0/dot(directiontolight, directiontolight);
+        
+        float atten = 1.0/(constant + (length(directiontolight)* linear) + (length(directiontolight)*quadratic));
         directiontolight = normalize(directiontolight);
         
         float cosAngleIncidence = max(dot(SurfaceNormal, directiontolight),0.0);
-        vec3 intensity = currentlight.Color.xyz * currentlight.Color.w*255 * atten;
+        vec3 intensity = currentlight.Color.xyz * currentlight.Color.w * 5 * atten;
         
         diffuselight += intensity * cosAngleIncidence;
     }

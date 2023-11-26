@@ -3,13 +3,28 @@ using System;
 
 public class PlayButton : Script
 {
-    bool mouseonbutton;
     bool withinArea(float mouse, float min, float max)
     {
         bool within = false;
         if (mouse > min && mouse < max)
             within = true;
         return within;
+    }
+
+    bool withinButton(GameObject obj)
+    {
+        Vector3 ObjectPos = obj.GetComponent<TransformComponent>().GetPosition();//objectpos in ndc
+        Vector3 ObjectScale = obj.GetComponent<TransformComponent>().GetScale();//obj scale in ndc
+        float mouseX = Input.GetLocalMousePosX();
+        float mouseY = Input.GetLocalMousePoxY();
+        float minX = ObjectPos.X - ObjectScale.X / 2;
+        float maxX = ObjectPos.X + ObjectScale.X / 2;
+        float maxy = -ObjectPos.Y + ObjectScale.Y / 2;
+        float miny = -ObjectPos.Y - ObjectScale.Y / 2;
+        if (withinArea(mouseX, minX, maxX) && withinArea(mouseY, miny, maxy))
+            return true;
+        else
+            return false;
     }
     public override void Awake()
     {
@@ -18,26 +33,7 @@ public class PlayButton : Script
 
     public override void Update()
     {
-
-        var entityID = gameObject.GetEntityID();
-        Vector3 ObjectPos = gameObject.GetComponent<TransformComponent>().GetPosition();//objectpos in ndc
-        Vector3 ObjectScale = gameObject.GetComponent<TransformComponent>().GetScale();
-        float mouseX = Input.GetLocalMousePosX();
-        float mouseY = Input.GetLocalMousePoxY();
-        float minX = ObjectPos.X - ObjectScale.X;
-        float maxX = ObjectPos.X + ObjectScale.X;
-        float miny = ObjectPos.Y - ObjectScale.Y;
-        float maxy = ObjectPos.Y + ObjectScale.Y;
-        //Console.WriteLine(ObjectPos.X + "\t" + ObjectPos.Y + "\t" + ObjectPos.Z + "\n");
-        Console.WriteLine("MinX: " + minX + "\t" + "MaxX: " + maxX + "\t" + "MouseX: " + mouseX + "\t");
-
-        if (withinArea(mouseX, minX, maxX) && withinArea(mouseY, miny, maxy))
-            mouseonbutton = true;
-        else
-            mouseonbutton = false;
-
-        Console.WriteLine(mouseonbutton);
-        if (Input.GetMouseButtonDown(Keycode.M1) && mouseonbutton)
+        if (Input.GetMouseButtonDown(Keycode.M1) && withinButton(gameObject))
         {
             //GraphicsManagerWrapper.ToggleViewFrom2D(false);
             SceneLoader.LoadStartingCutscene();
