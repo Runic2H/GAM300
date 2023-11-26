@@ -29,7 +29,7 @@ namespace TDS
 		SpriteBatch& Spritebatch = Renderer2D::GetInstance()->GetBatchList();
 		for (size_t i = 0; i < entities.size(); ++i)
 		{
-			UpdatePropertiesFromParent(entities[i]);
+			//UpdatePropertiesFromParent(entities[i]);
 			if (_Sprite[i].m_LayerID == -1)
 				continue;
 
