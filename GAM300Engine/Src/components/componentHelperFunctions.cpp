@@ -10,12 +10,38 @@
 
 #include "components/components.h"
 #include "Timestep/Timestep.h"
+#include "SceneManager/SceneManager.h"
+#include "../GAM300Engine/Include/Rendering/GraphicsManager.h"
 
 namespace TDS
 {
 	float GetDeltaTime()
 	{
 		return TimeStep::GetDeltaTime();
+	}
+
+	std::string GetAssetFolder()
+	{
+		return SceneManager::GetInstance()->getAssetPath();
+	}
+
+	float RandomNumber(float min, float max)
+	{
+		std::random_device rd; // obtain a random number from hardware
+		std::mt19937 gen(rd()); // seed the generator
+		std::uniform_int_distribution<> distr(min, max); // define the range
+
+		return distr(gen);
+	}
+
+	float GetScreenWidth()
+	{
+		return GraphicsManager::getInstance().GetWindow()->getWidth();
+	}
+
+	float GetScreenHeight()
+	{
+		return GraphicsManager::getInstance().GetWindow()->getHeight();
 	}
 
 	/*!*************************************************************************

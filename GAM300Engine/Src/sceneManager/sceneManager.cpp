@@ -724,6 +724,14 @@ namespace TDS
 	//}
 
 	/*!*************************************************************************
+	This function is the getter function for the path to assets
+	****************************************************************************/
+	std::string SceneManager::getAssetPath()
+	{
+		return parentFilePath;
+	}
+
+	/*!*************************************************************************
 	This function is the getter function for the path to scenes
 	****************************************************************************/
 	std::string SceneManager::getScenePath()

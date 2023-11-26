@@ -102,6 +102,12 @@
     <ClInclude Include="Components\UISpriteComponent.hxx">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="JsonUtility.hxx">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Random.hxx">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EngineInterface.cxx">
@@ -177,6 +183,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Components\UISpriteComponent.cxx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="JsonUtility.cxx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Random.cxx">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -60,19 +60,19 @@ namespace ScriptAPI
 
 		if (type == BoxColliderComponent::typeid)
 		{
-			return safe_cast<T>(BoxColliderComponent());
+			return safe_cast<T>(GetBoxColliderComponent());
 		}
 		else if (type == CameraComponent::typeid)
 		{
-			return safe_cast<T>(CameraComponent());
+			return safe_cast<T>(GetCameraComponent());
 		}
 		else if (type == CapsuleColliderComponent::typeid)
 		{
-			return safe_cast<T>(CapsuleColliderComponent());
+			return safe_cast<T>(GetCapsuleColliderComponent());
 		}
 		else if (type == NameTagComponent::typeid)
 		{
-			return safe_cast<T>(NameTagComponent());
+			return safe_cast<T>(GetNameTagComponent());
 		}
 		else if (type == RigidBodyComponent::typeid)
 		{
