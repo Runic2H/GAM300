@@ -1,10 +1,11 @@
 #include "NameTagComponent.hxx"
+#include "../TypeConversion.hxx"
 
 namespace ScriptAPI
 {
 	// NAME ==================================================================================
 	// Private
-	std::string NameTagComponent::Name::get()
+	System::String^ NameTagComponent::Name::get()
 	{
 		// May wanna change to a function
 		if (!TDS::GetNameTag(entityID))
@@ -13,10 +14,10 @@ namespace ScriptAPI
 			return "";
 		}
 
-		return TDS::GetNameTag(entityID)->GetName();
+		return toSystemString(TDS::GetNameTag(entityID)->GetName());
 
 	}
-	void NameTagComponent::Name::set(std::string value)
+	void NameTagComponent::Name::set(System::String^ value)
 	{
 		// May wanna change to a function
 		if (!TDS::GetNameTag(entityID))
@@ -25,22 +26,22 @@ namespace ScriptAPI
 			return;
 		}
 
-		TDS::GetNameTag(entityID)->SetName(value);
+		TDS::GetNameTag(entityID)->SetName(toStdString(value));
 	}
 
 	// Public
-	std::string NameTagComponent::GetName()
+	System::String^ NameTagComponent::GetName()
 	{
 		return Name;
 	}
-	void NameTagComponent::SetName(std::string value)
+	void NameTagComponent::SetName(System::String^ value)
 	{
 		Name = value;
 	}
 
 	// TAG ===================================================================================
 	// Private
-	std::string NameTagComponent::Tag::get()
+	System::String^ NameTagComponent::Tag::get()
 	{
 		// May wanna change to a function
 		if (!TDS::GetNameTag(entityID))
@@ -49,9 +50,9 @@ namespace ScriptAPI
 			return "";
 		}
 
-		return TDS::GetNameTag(entityID)->GetTag();
+		return toSystemString(TDS::GetNameTag(entityID)->GetTag());
 	}
-	void NameTagComponent::Tag::set(std::string value)
+	void NameTagComponent::Tag::set(System::String^ value)
 	{
 		// May wanna change to a function
 		if (!TDS::GetNameTag(entityID))
@@ -60,15 +61,15 @@ namespace ScriptAPI
 			return;
 		}
 
-		TDS::GetNameTag(entityID)->SetTag(value);
+		TDS::GetNameTag(entityID)->SetTag(toStdString(value));
 	}
 
 	// Public
-	std::string NameTagComponent::GetTag()
+	System::String^ NameTagComponent::GetTag()
 	{
 		return Tag;
 	}
-	void NameTagComponent::SetTag(std::string value)
+	void NameTagComponent::SetTag(System::String^ value)
 	{
 		Tag = value;
 	}
@@ -109,7 +110,7 @@ namespace ScriptAPI
 	}
 
 	// CONSTRUCTOR ===========================================================================
-	NameTagComponent::NameTagComponent(TDS::EntityID ID) : entityID (ID), transform(TransformComponent(ID))
+	NameTagComponent::NameTagComponent(TDS::EntityID ID) : entityID(ID), transform(TransformComponent(ID))
 	{ }
 
 	void NameTagComponent::SetEntityID(TDS::EntityID ID)

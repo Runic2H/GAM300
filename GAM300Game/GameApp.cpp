@@ -219,7 +219,7 @@ namespace TDS
     void GamApp::Run()
     {
         startScriptEngine();
-        //compileScriptAssembly();
+        compileScriptAssembly();
 
         // Step 1: Get Functions
         auto init = GetFunctionPtr<void(*)(void)>
@@ -382,13 +382,13 @@ namespace TDS
         ecs.initializeSystems(1);
         ecs.initializeSystems(2);
         ecs.initializeSystems(3);
-        auto awake = GetFunctionPtr<void(*)(void)>
-            (
-                "ScriptAPI",
-                "ScriptAPI.EngineInterface",
-                "ExecuteAwake"
-            );
-        awake();
+        //auto awake = GetFunctionPtr<void(*)(void)>
+        //    (
+        //        "ScriptAPI",
+        //        "ScriptAPI.EngineInterface",
+        //        "ExecuteAwake"
+        //    );
+        //awake();
     }
 
     void GamApp::Awake()

@@ -475,6 +475,9 @@
         "1": {},
         "2": {
             "PlayButton": {
+                "mouseonbutton": {
+                    "Bool": false
+                },
                 "gameObject": {
                     "GameObject": 2
                 },

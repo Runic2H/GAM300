@@ -39,6 +39,7 @@ namespace TDS
 		void	DLL_API					SetColourViaFloat(float x, float y, float z, float w);
 		bool	DLL_API					IsMouseCollided();
 		void	DLL_API					SetTextureName(std::string stringName);
+		std::string	DLL_API				GetTextureName();
 
 		bool	DLL_API					IsFont();
 		void	DLL_API					SetIsFont(bool condition);

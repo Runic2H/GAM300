@@ -98,6 +98,11 @@ namespace TDS
 		m_TextureName = textureName;
 	}
 
+	std::string DLL_API TDS::UISprite::GetTextureName()
+	{
+		return m_TextureName;
+	}
+
 	bool UISprite::IsFont()
 	{
 		return m_IsFont;

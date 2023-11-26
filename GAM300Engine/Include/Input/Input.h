@@ -233,6 +233,9 @@ namespace TDS
 		static void setLocalMousePos(Vec2 mousePos);
 		static Vec2 getLocalMousePos();
 
+		static float getLocalMousePosX();
+		static float getLocalMousePosY();
+
 	private:
 		static bool exit_cursor;
 		static Vec2 local_MousePos;

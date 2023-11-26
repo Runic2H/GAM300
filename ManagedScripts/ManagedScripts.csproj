@@ -18,12 +18,8 @@
     <DebugType>embedded</DebugType>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Remove="LockPick1.cs" />
-  </ItemGroup>
-  <ItemGroup>
     <Reference Include="ScriptAPI">
-		<HintPath Condition="Exists('..\Debug-x64\')">..\Debug-x64\ScriptAPI.dll</HintPath>
-		<HintPath Condition="Exists('..\Release-x64\')">..\Release-x64\ScriptAPI.dll</HintPath>
+		<HintPath>..\Debug-x64\ScriptAPI.dll</HintPath>
     </Reference>
   </ItemGroup>
 </Project>
