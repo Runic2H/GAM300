@@ -99,6 +99,9 @@
     <ClInclude Include="Audio.hxx">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Components\UISpriteComponent.hxx">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EngineInterface.cxx">
@@ -171,6 +174,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Audio.cxx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Components\UISpriteComponent.cxx">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
