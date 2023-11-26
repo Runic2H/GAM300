@@ -465,7 +465,7 @@ namespace TDS
 									sceneManagerInstance->setVector3(selectedEntity, scriptName, scriptValue.name, value);
 								}
 							}
-							else // scripts & game object
+							else if (scriptValue.type.find("ScriptAPI") != scriptValue.type.npos)// scripts & game object
 							{
 								// To Do 
 								ImGui::TableNextRow();

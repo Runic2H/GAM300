@@ -22,6 +22,10 @@
             "0": 136,
             "1": 200,
             "4": 56
+        },
+        "1100000000000": {
+            "0": 136,
+            "1": 200
         }
     },
     "Entity Data": {
@@ -379,6 +383,34 @@
                 "FOV": 60.0,
                 "MouseSensitivity": 0.10000000149011612
             }
+        },
+        "21": {
+            "ArchetypeID": "1100000000000",
+            "Name Tag": {
+                "Name": "New Entity",
+                "Tag": "",
+                "IsActive": true,
+                "HierarchyParent": 0,
+                "HierarchyIndex": 2,
+                "HierarchyChildren": []
+            },
+            "Transform": {
+                "Position": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "Scale": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                },
+                "Rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                }
+            }
         }
     },
     "Scripts": {
@@ -417,6 +449,12 @@
                 },
                 "pitch": {
                     "Float": -44.444435
+                },
+                "testRB": {
+                    "Component": 0
+                },
+                "gameDataManager": {
+                    "GameDataManager": 0
                 },
                 "enableZoom": {
                     "Bool": true
@@ -589,7 +627,29 @@
         "19": {},
         "15": {},
         "16": {},
-        "20": {}
+        "20": {},
+        "21": {
+            "GameDataManager": {
+                "data": {
+                    "GameData": 0
+                },
+                "file": {
+                    "String": "data.txt"
+                },
+                "gameObject": {
+                    "GameObject": 21
+                },
+                "is_Enabled": {
+                    "Bool": true
+                },
+                "is_Awake": {
+                    "Bool": false
+                },
+                "is_Start": {
+                    "Bool": false
+                }
+            }
+        }
     },
     "Active Archetype": {
         "17": "1101001100000",
@@ -598,6 +658,7 @@
         "19": "1100001000000",
         "15": "1100001000000",
         "16": "1100001000000",
-        "20": "1100100000000"
+        "20": "1100100000000",
+        "21": "1100000000000"
     }
 }

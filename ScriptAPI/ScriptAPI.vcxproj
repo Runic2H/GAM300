@@ -88,7 +88,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)Dependencies;$(SolutionDir)Shared_Libs;$(SolutionDir)GAM300Engine\Include\Geometry;$(SolutionDir)Dependencies\assimp\include;$(SolutionDir)GAM300Engine\Include;$(SolutionDir)GAM300Editor\Include;$(SolutionDir)Dependencies\spdlog\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <ConformanceMode>true</ConformanceMode>
@@ -152,12 +152,15 @@
     <ClInclude Include="HelperFunctions.hxx" />
     <ClInclude Include="IncludeFromEngine.hxx" />
     <ClInclude Include="Input.hxx" />
+    <ClInclude Include="JsonUtility.hxx" />
     <ClInclude Include="Mathf.hxx" />
     <ClInclude Include="Quaternion.hxx" />
+    <ClInclude Include="Random.hxx" />
     <ClInclude Include="Screen.hxx" />
     <ClInclude Include="SceneLoader.hxx" />
     <ClInclude Include="Script.hxx" />
     <ClInclude Include="TypeConversion.hxx" />
+    <ClInclude Include="UIPopUp.hxx" />
     <ClInclude Include="Vector2.hxx" />
     <ClInclude Include="Vector3.hxx" />
     <ClInclude Include="Vector4.hxx" />
@@ -178,13 +181,16 @@
     <ClCompile Include="GameObject.cxx" />
     <ClCompile Include="GraphicsMgrWrapper.cxx" />
     <ClCompile Include="Input.cxx" />
+    <ClCompile Include="JsonUtility.cxx" />
     <ClCompile Include="Mathf.cxx" />
     <ClCompile Include="Quaternion.cxx" />
+    <ClCompile Include="Random.cxx" />
     <ClCompile Include="Screen.cxx" />
     <ClCompile Include="SceneLoader.cxx" />
     <ClCompile Include="Script.cxx" />
     <ClCompile Include="Time.hxx" />
     <ClCompile Include="TypeConversion.cxx" />
+    <ClCompile Include="UIPopUp.cxx" />
     <ClCompile Include="Vector2.cxx" />
     <ClCompile Include="Vector3.cxx" />
     <ClCompile Include="Vector4.cxx" />

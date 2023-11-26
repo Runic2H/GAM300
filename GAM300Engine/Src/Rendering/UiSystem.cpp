@@ -19,7 +19,7 @@ namespace TDS
 	}
 	void UiSystem::Update(const float dt, const std::vector<EntityID>& entities, Transform* transform, UISprite* _Sprite)
 	{
-
+		
 		if (_Sprite == nullptr)
 			return;
 
@@ -29,6 +29,7 @@ namespace TDS
 		SpriteBatch& Spritebatch = Renderer2D::GetInstance()->GetBatchList();
 		for (size_t i = 0; i < entities.size(); ++i)
 		{
+			//UpdatePropertiesFromParent(entities[i]);
 			if (_Sprite[i].m_LayerID == -1)
 				continue;
 
@@ -127,23 +128,58 @@ namespace TDS
 		_Sprite->m_BoundingBoxMax = Vec2(newMax.x, newMax.y);
 	}
 
-	void UiSystem::UpdatePropertiesFromParent(EntityID current, UISprite* _CurrentSprite)
+	void UiSystem::UpdatePropertiesFromParent(EntityID current)
 	{
 		auto tag = ecs.getComponent<NameTag>(current);
 		if (tag == nullptr)
 			return;
 
-		if (tag->GetHierarchyParent() == 0)
+		UISprite* sprite = ecs.getComponent<UISprite>(current);
+
+		if (sprite == nullptr) return;
+
+		UpdateDescendantsActiveness(current, sprite->m_EnableSprite);
+		
+	}
+
+	bool UiSystem::IsDirectChildOfMainParent(EntityID entity)
+	{
+		auto tag = ecs.getComponent<NameTag>(entity);
+		if (tag == nullptr)
+			return false;
+
+		// Check if the parent of this entity is the main parent
+		EntityID parentID = tag->GetHierarchyParent();
+		if (parentID == 0)
+			return true; // The entity itself is the main parent
+
+		auto parentTag = ecs.getComponent<NameTag>(parentID);
+		return parentTag != nullptr && parentTag->GetHierarchyParent() == 0;
+	}
+
+	void UiSystem::UpdateDescendantsActiveness(EntityID parent, bool isActive)
+	{
+		auto parentTag = ecs.getComponent<NameTag>(parent);
+		
+
+		if (parentTag == nullptr)
 			return;
-		else
+
+
+		for (auto& child : parentTag->GetHierarchyChildren())
 		{
-			EntityID parent = tag->GetHierarchyParent();
-			auto UiSprite = ecs.getComponent<UISprite>(parent);
-			if (UiSprite == nullptr)
-				return;
-			else
+			auto childTag = ecs.getComponent<NameTag>(child);
+			UISprite* sprite = ecs.getComponent<UISprite>(parent);
+
+			if (sprite != nullptr)
 			{
-				_CurrentSprite->m_EnableSprite = UiSprite->m_EnableSprite;
+				sprite->m_EnableSprite = isActive;
+			}
+
+			if (childTag != nullptr)
+			{
+				
+				UpdateDescendantsActiveness(child, isActive);
 			}
 		}
 	}

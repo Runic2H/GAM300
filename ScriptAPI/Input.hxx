@@ -1,5 +1,6 @@
 #pragma once
 #include "IncludeFromEngine.hxx"
+#include "Vector3.hxx"
 #include "../GAM300Engine/Include/Input/Input.h"
 #include <algorithm>
 #include "Vector2.hxx"
@@ -172,6 +173,7 @@ namespace ScriptAPI
 
 		//static float Get2DMousePosX();
 		//static float Get2DMousePosY();
+		static Vector3 GetMousePosition();
 
 		static void InputUpdate();
 

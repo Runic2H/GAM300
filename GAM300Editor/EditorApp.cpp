@@ -136,8 +136,6 @@ namespace TDS
         ShaderReflector::GetInstance()->Init(SHADER_DIRECTORY, REFLECTED_BIN);
         GraphicsManager::getInstance().Init(&m_window);
         AssetManager::GetInstance()->PreloadAssets();
- 
-
         skyboxrender.Init();
     }
 
@@ -157,6 +155,13 @@ namespace TDS
                 "ScriptAPI",
                 "ScriptAPI.EngineInterface",
                 "ExecuteLateUpdate"
+            );
+
+        auto executeFixedUpdate = GetFunctionPtr<void(*)(void)>
+            (
+                "ScriptAPI",
+                "ScriptAPI.EngineInterface",
+                "ExecuteFixedUpdate"
             );
 
         auto reloadScripts = GetFunctionPtr<void(*)(void)>
@@ -235,8 +240,10 @@ namespace TDS
                     SceneManager::GetInstance()->loadScene(SceneManager::GetInstance()->getCurrentScene());
                     startPlaying = false;
                 }
+                executeFixedUpdate();
                 ecs.runSystems(1, DeltaTime); // Other systems
                 executeUpdate();
+                executeLateUpdate();
             }
             else
             {
@@ -297,6 +304,7 @@ namespace TDS
     void Application::Run()
     {
         startScriptEngine();
+        buildManagedScriptCsProj();
         compileScriptAssembly();
 
         // Step 1: Get Functions
@@ -596,8 +604,16 @@ namespace TDS
 
         std::wstring buildCmd = L" build \"" +
             std::filesystem::relative(PROJ_PATH).wstring() +
-            L"\" --no-self-contained " +
+#ifdef _DEBUG
+            L"\" -c Debug --no-self-contained " +
             L"-o \"../scriptDLL/\" -r \"win-x64\"";
+#endif // DEBUG
+#ifdef NDEBUG
+        L"\" -c Release --no-self-contained " +
+            L"-o \"../scriptDLL/\" -r \"win-x64\"";
+#endif // NDEBUG
+
+            
 
         // Define the struct to config the compiler process call
         STARTUPINFOW startInfo;
@@ -657,6 +673,61 @@ namespace TDS
         else
         {
              throw std::runtime_error("Failed to build managed scripts!");
+        }
+    }
+
+    void Application::buildManagedScriptCsProj()
+    {
+        std::string filePath = "../ManagedScripts/ManagedScripts.csproj";
+        std::ofstream csprojFile(filePath);
+
+        if (csprojFile.is_open())
+        {
+            csprojFile << R"(
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>Library</OutputType>
+        <TargetFramework>net6.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <Platforms>x64</Platforms>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+        <OutputPath>$(SolutionDir)\$(Configuration)-$(Platform)</OutputPath>
+        <PlatformTarget>x64</PlatformTarget>
+        <DebugType>embedded</DebugType>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+        <OutputPath>$(SolutionDir)\$(Configuration)-$(Platform)</OutputPath>
+        <PlatformTarget>x64</PlatformTarget>
+        <DebugType>embedded</DebugType>
+    </PropertyGroup>
+    <ItemGroup>
+    <Reference Include="ScriptAPI"> )";
+#ifdef _DEBUG
+        csprojFile << R"(
+        <HintPath>..\Debug-x64\ScriptAPI.dll</HintPath>
+        )";
+#endif  //_DEBUG
+#ifdef NDEBUG
+        csprojFile << R"(
+        <HintPath>..\Release-x64\ScriptAPI.dll</HintPath>
+        )";
+#endif //NDEBUG
+            csprojFile << R"(
+    </Reference>
+    </ItemGroup>
+</Project>
+            )";
+
+            std::cout << "Generated " << filePath << " successfully." << std::endl;
+
+            csprojFile.close();
+        }
+        else
+        {
+            std::cerr << "Unable to open file: " << filePath << std::endl;
         }
     }
 

@@ -114,8 +114,7 @@ public class FPS_Controller_Script : Script
 
     public override void Awake()
     {
-        rb = transform.gameObject.GetComponent<RigidBodyComponent>();
-        //rb = gameObject.GetComponent<RigidBodyComponent>();
+        rb = gameObject.GetComponent<RigidBodyComponent>();
 
         // Set internal variables
         playerCamera.SetFieldOfView(fov);
@@ -201,50 +200,60 @@ public class FPS_Controller_Script : Script
                 playerCamera.transform.SetRotationX(pitch);
                 playerCamera.transform.SetRotationY(transform.GetRotation().Y);
             }
+            if (Input.GetLocalMousePosX() > 0.8f)
+            {
+                yaw++;
+                transform.SetRotationY(yaw);
+            }
+            if (Input.GetLocalMousePosX() < -0.8f)
+            {
+                yaw--;
+                transform.SetRotationY(yaw);
+            }
         }
 
         #region Camera Zoom
 
-        //if (enableZoom)
-        //{
-        //    // Changes isZoomed when key is pressed
-        //    // Behavior for toogle zoom
-        //    if (Input.GetKeyDown(zoomKey) && !holdToZoom && !isSprinting)
-        //    {
-        //        if (!isZoomed)
-        //        {
-        //            isZoomed = true;
-        //        }
-        //        else
-        //        {
-        //            isZoomed = false;
-        //        }
-        //    }
+        if (enableZoom)
+        {
+            // Changes isZoomed when key is pressed
+            // Behavior for toogle zoom
+            if (Input.GetKeyDown(zoomKey) && !holdToZoom && !isSprinting)
+            {
+                if (!isZoomed)
+                {
+                    isZoomed = true;
+                }
+                else
+                {
+                    isZoomed = false;
+                }
+            }
 
-        //    // Changes isZoomed when key is pressed
-        //    // Behavior for hold to zoom
-        //    if (holdToZoom && !isSprinting)
-        //    {
-        //        if (Input.GetKeyDown(zoomKey))
-        //        {
-        //            isZoomed = true;
-        //        }
-        //        else if (Input.GetKeyUp(zoomKey))
-        //        {
-        //            isZoomed = false;
-        //        }
-        //    }
+            // Changes isZoomed when key is pressed
+            // Behavior for hold to zoom
+            if (holdToZoom && !isSprinting)
+            {
+                if (Input.GetKeyDown(zoomKey))
+                {
+                    isZoomed = true;
+                }
+                else if (Input.GetKeyUp(zoomKey))
+                {
+                    isZoomed = false;
+                }
+            }
 
-        //    // Lerps camera.fieldOfView to allow for a smooth transistion
-        //    if (isZoomed)
-        //    {
-        //        playerCamera.SetFieldOfView(Mathf.Lerp(playerCamera.GetFieldOfView(), zoomFOV, zoomStepTime * Time.deltaTime));
-        //    }
-        //    else if (!isZoomed && !isSprinting)
-        //    {
-        //        playerCamera.SetFieldOfView(Mathf.Lerp(playerCamera.GetFieldOfView(), fov, zoomStepTime * Time.deltaTime));
-        //    }
-        //}
+            // Lerps camera.fieldOfView to allow for a smooth transistion
+            if (isZoomed)
+            {
+                playerCamera.SetFieldOfView(Mathf.Lerp(playerCamera.GetFieldOfView(), zoomFOV, zoomStepTime * Time.deltaTime));
+            }
+            else if (!isZoomed && !isSprinting)
+            {
+                playerCamera.SetFieldOfView(Mathf.Lerp(playerCamera.GetFieldOfView(), fov, zoomStepTime * Time.deltaTime));
+            }
+        }
 
         #endregion
         #endregion
@@ -272,14 +281,14 @@ public class FPS_Controller_Script : Script
             else
             {
                 // Regain sprint while not sprinting
-                //sprintRemaining = Mathf.Clamp(sprintRemaining += 1 * Time.deltaTime, 0, sprintDuration);
+                sprintRemaining = Mathf.Clamp(sprintRemaining += 1 * Time.deltaTime, 0, sprintDuration);
             }
 
             // Handles sprint cooldown 
             // When sprint remaining == 0 stops sprint ability until hitting cooldown
             if (isSprintCooldown)
             {
-                //sprintCooldown -= 1 * Time.deltaTime;
+                sprintCooldown -= 1 * Time.deltaTime;
                 if (sprintCooldown <= 0)
                 {
                     isSprintCooldown = false;
@@ -359,17 +368,9 @@ public class FPS_Controller_Script : Script
                 isWalking = false;
             }
 
-            //Vector3 targetVelocityNew = transform.TransformDirection(new Vector3(0, 0, 1));
-            //Console.WriteLine(targetVelocityNew.X + "\t" + targetVelocityNew.Y + "\t" + targetVelocityNew.Z);
-
-
             if (Input.GetKey(Keycode.W) || Input.GetKey(Keycode.S) || Input.GetKey(Keycode.A) || Input.GetKey(Keycode.D))
             {
                 isWalking = true;
-
-                Vector3 transformPosition = transform.GetPosition();
-                targetVelocity = transform.TransformDirection(targetVelocity);
-                transform.SetPosition(new Vector3(transformPosition.X + (targetVelocity.X * walkSpeed), transformPosition.Y, transformPosition.Z + (targetVelocity.Z * walkSpeed)));
             }
             else
             {
@@ -386,8 +387,8 @@ public class FPS_Controller_Script : Script
 
                 targetVelocity = transform.TransformDirection(targetVelocity) * currentSprintSpeed;
                 // Apply a force that attempts to reach our target velocity
-                Vector3 velocity = rb.GetLinearVelocity();
-                Vector3 velocityChange = targetVelocity - velocity;
+                //Vector3 velocity = rb.GetLinearVelocity();
+                Vector3 velocityChange = targetVelocity /*- velocity*/;
                 velocityChange.X = Mathf.Clamp(velocityChange.X, -maxVelocityChange, maxVelocityChange);
                 velocityChange.Z = Mathf.Clamp(velocityChange.Z, -maxVelocityChange, maxVelocityChange);
                 velocityChange.Y = 0;
@@ -409,7 +410,10 @@ public class FPS_Controller_Script : Script
                     }
                 }
 
-                ////rb.AddForce(velocityChange/*, ForceMode.VelocityChange*/);
+                //rb.AddForce(velocityChange/*, ForceMode.VelocityChange*/);
+
+                Vector3 transformPosition = transform.GetPosition();
+                transform.SetPosition(new Vector3(transformPosition.X + velocityChange.X, transformPosition.Y, transformPosition.Z + velocityChange.Z));
             }
             // All movement calculations while walking
             else
@@ -421,19 +425,19 @@ public class FPS_Controller_Script : Script
                 {
                     //sprintBarCG.alpha -= 3 * Time.deltaTime;
                 }
-
-                //targetVelocity = transform.TransformDirection(targetVelocity).normalise() * walkSpeed;
-                //Console.WriteLine(targetVelocity.X + "\t" + targetVelocity.Y + "\t" + targetVelocity.Z);
-
+                targetVelocity = transform.TransformDirection(targetVelocity) * currentSprintSpeed;
 
                 // Apply a force that attempts to reach our target velocity
                 //Vector3 velocity = rb.GetLinearVelocity();
-                //Vector3 velocityChange = targetVelocity - velocity;
-                //velocityChange.X = Mathf.Clamp(velocityChange.X, -maxVelocityChange, maxVelocityChange);
-                //velocityChange.Z = Mathf.Clamp(velocityChange.Z, -maxVelocityChange, maxVelocityChange);
-                //velocityChange.Y = 0;
+                Vector3 velocityChange = targetVelocity /*- velocity*/;
+                velocityChange.X = Mathf.Clamp(velocityChange.X, -maxVelocityChange, maxVelocityChange);
+                velocityChange.Z = Mathf.Clamp(velocityChange.Z, -maxVelocityChange, maxVelocityChange);
+                velocityChange.Y = 0;
 
                 //rb.AddForce(velocityChange/*, ForceMode.VelocityChange*/);
+
+                Vector3 transformPosition = transform.GetPosition();
+                transform.SetPosition(new Vector3(transformPosition.X + velocityChange.X, transformPosition.Y, transformPosition.Z + velocityChange.Z));
 
             }
 

@@ -17,6 +17,7 @@ namespace ScriptAPI
 		Quaternion(float valueX, float valueY, float valueZ, float valueW);
 		Quaternion(float angle, Vector3 axis);
 		Quaternion(Vector3 euler);
-		
+
+		static Quaternion AngleAxis(float angle, Vector3 axis);
 	};
 }
