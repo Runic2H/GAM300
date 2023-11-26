@@ -17,7 +17,12 @@ namespace TDS
 			static void Update(const float dt, const std::vector<EntityID>& entities, Transform* transform, UISprite* _Sprite);
 			static void ToggleEnableLayer(int layerID, bool condition = true);
 			static void UpdateAABB(UISprite* _Sprite, Transform* _trans);
-			static void UpdatePropertiesFromParent(EntityID curr, UISprite* _CurrentTransform);
+
+			//This functionalities arent supposed to be here, will move it in the future
+			static void UpdatePropertiesFromParent(EntityID curr);
+			static bool IsDirectChildOfMainParent(EntityID entity);
+			static void UpdateDescendantsActiveness(EntityID parent, bool isActive);
+
 			static std::unordered_map<int, bool> m_Layers;
 	};
 
