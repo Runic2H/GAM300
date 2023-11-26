@@ -132,7 +132,7 @@ namespace ScriptAPI
 		static void updateScriptTypeList();
 		static System::Runtime::Loader::AssemblyLoadContext^ loadContext;
 
-		static float fixedUpdateTimer{TDS::TimeStep::GetFixedDeltaTime()};
+		static float fixedUpdateTimer{0.0f};
 		static float mAccumulatedTime{0.0f};
 
 		//static array<FieldInfo^>^ currentFieldArray;

@@ -1,5 +1,4 @@
 ﻿using ScriptAPI;
-using System;
 
 public class InventoryScript : Script
 {
@@ -37,15 +36,15 @@ public class InventoryScript : Script
     {
         var entityID = gameObject.GetEntityID();
 
-        if(!_InventoryObj.activeInHierarchy(entityID))
+        if (!_InventoryObj.activeInHierarchy(entityID))
         {
-            if(Input.GetKeyDown(Keycode.I))
+            if (Input.GetKeyDown(Keycode.I))
             {
                 _InventoryObj.SetActive(entityID, true);
                 //Cursor.visible = true;
                 Cursor.LockState = CursorLockMode.None;
 
-                if(!playedInventoryOpenClose)
+                if (!playedInventoryOpenClose)
                 {
                     //audio here
                     playedInventoryOpenClose = true;
@@ -55,13 +54,13 @@ public class InventoryScript : Script
 
         else
         {
-            if(Input.GetKeyDown(Keycode.I))
+            if (Input.GetKeyDown(Keycode.I))
             {
                 _InventoryObj.SetActive(entityID, false);
                 //Cursor.visible = false;
                 Cursor.LockState = CursorLockMode.Locked;
 
-                if(playedInventoryOpenClose && !_InventoryObj.activeInHierarchy(entityID))
+                if (playedInventoryOpenClose && !_InventoryObj.activeInHierarchy(entityID))
                 {
                     //audio here
                     playedInventoryOpenClose = false;
@@ -143,7 +142,7 @@ public class InventoryScript : Script
         noteBttnGrp.SetActive(noteBttnGrp.GetEntityID(), false);
 
         ShowPaintingInInventory();
-        
+
         //examineOruseTxt.text = "Examine";
     }
 
