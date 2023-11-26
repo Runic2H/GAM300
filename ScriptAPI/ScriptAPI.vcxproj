@@ -158,6 +158,7 @@
     <ClInclude Include="SceneLoader.hxx" />
     <ClInclude Include="Script.hxx" />
     <ClInclude Include="TypeConversion.hxx" />
+    <ClInclude Include="UIPopUp.hxx" />
     <ClInclude Include="Vector2.hxx" />
     <ClInclude Include="Vector3.hxx" />
     <ClInclude Include="Vector4.hxx" />
@@ -185,6 +186,7 @@
     <ClCompile Include="Script.cxx" />
     <ClCompile Include="Time.hxx" />
     <ClCompile Include="TypeConversion.cxx" />
+    <ClCompile Include="UIPopUp.cxx" />
     <ClCompile Include="Vector2.cxx" />
     <ClCompile Include="Vector3.cxx" />
     <ClCompile Include="Vector4.cxx" />

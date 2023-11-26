@@ -195,6 +195,7 @@ xcopy /y /d "$(SolutionDir)Libs\rttr_core.dll" "$(OutDir)"</Command>
     <ClCompile Include="..\Shared_Libs\Vector4.cpp" />
     <ClCompile Include="Include\ecs\ecs.cpp" />
     <ClCompile Include="Include\Rendering\GraphicsManagerWrapperCalls.cpp" />
+    <ClCompile Include="Src\AI\UIPopupManager.cpp" />
     <ClCompile Include="src\components\SoundInfo.cpp" />
     <ClCompile Include="src\fmod_engine\AudioEngine.cpp" />
     <ClCompile Include="Src\Physics\Interface\PhysicsInterface.cpp" />
@@ -304,6 +305,7 @@ xcopy /y /d "$(SolutionDir)Libs\rttr_core.dll" "$(OutDir)"</Command>
     <ClInclude Include="..\Shared_Libs\Vector4.h" />
     <ClInclude Include="Include\AI\aiSystem.h" />
     <ClInclude Include="Include\AI\behaviourTree.h" />
+    <ClInclude Include="Include\AI\UIPopupManager.h" />
     <ClInclude Include="Include\Animation\Pose.h" />
     <ClInclude Include="Include\AssetManagement\AssetManager.h" />
     <ClInclude Include="Include\AssetManagement\FactoryBase.h" />
