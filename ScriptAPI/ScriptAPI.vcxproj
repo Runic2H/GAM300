@@ -132,6 +132,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Audio.hxx" />
+    <ClInclude Include="Components\AudioComponent.hxx" />
     <ClInclude Include="Components\BoxColliderComponent.hxx" />
     <ClInclude Include="Components\CameraComponent.hxx" />
     <ClInclude Include="Components\CapsuleColliderComponent.hxx" />
@@ -152,6 +154,7 @@
     <ClInclude Include="Input.hxx" />
     <ClInclude Include="Mathf.hxx" />
     <ClInclude Include="Quaternion.hxx" />
+    <ClInclude Include="Screen.hxx" />
     <ClInclude Include="SceneLoader.hxx" />
     <ClInclude Include="Script.hxx" />
     <ClInclude Include="TypeConversion.hxx" />
@@ -160,6 +163,8 @@
     <ClInclude Include="Vector4.hxx" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Audio.cxx" />
+    <ClCompile Include="Components\AudioComponent.cxx" />
     <ClCompile Include="Components\BoxColliderComponent.cxx" />
     <ClCompile Include="Components\CameraComponent.cxx" />
     <ClCompile Include="Components\CapsuleColliderComponent.cxx" />
@@ -175,6 +180,7 @@
     <ClCompile Include="Input.cxx" />
     <ClCompile Include="Mathf.cxx" />
     <ClCompile Include="Quaternion.cxx" />
+    <ClCompile Include="Screen.cxx" />
     <ClCompile Include="SceneLoader.cxx" />
     <ClCompile Include="Script.cxx" />
     <ClCompile Include="Time.hxx" />

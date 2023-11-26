@@ -104,9 +104,9 @@ namespace TDS
 				std::string sceneName = directory_entry.path().stem().string();
 				if (ImGui::Button(sceneName.c_str(), {buttonSize , buttonSize}) && sceneName != sceneManager->getCurrentScene())
 				{
-					hierarchyPanel->setSelectedEntity(0);
+					//hierarchyPanel->setSelectedEntity(0);
 					sceneManager->loadScene(sceneName);
-					hierarchyPanel->init();
+					//hierarchyPanel->init();
 				}
 
 				if (rightClick && ImGui::IsItemHovered())

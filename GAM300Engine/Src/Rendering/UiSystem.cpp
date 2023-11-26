@@ -11,24 +11,18 @@ namespace TDS
 	std::unordered_map<int, bool> UiSystem::m_Layers;
 	void UiSystem::Init()
 	{
-		GraphicsManager::getInstance().ToggleRenderAllLayer(false);
-		for (std::uint32_t i = 0; i < 12; ++i)
-		{
-			m_Layers[i] = true;
-		}
+		GraphicsManager::getInstance().ToggleRenderAllLayer(true);
 	}
-
 	void UiSystem::ToggleEnableLayer(int layerID, bool condition)
 	{
 		m_Layers[layerID] = condition;
 	}
 	void UiSystem::Update(const float dt, const std::vector<EntityID>& entities, Transform* transform, UISprite* _Sprite)
 	{
-	
+
 		if (_Sprite == nullptr)
 			return;
-		
-		
+
 		auto frame = GraphicsManager::getInstance().GetSwapchainRenderer().getFrameIndex();
 		auto cmdBuffer = GraphicsManager::getInstance().getCommandBuffer();
 		FontBatch& Fontbatch = FontRenderer::GetInstance()->GetBatchList();
@@ -40,13 +34,13 @@ namespace TDS
 
 			if (GraphicsManager::getInstance().RenderAllLayer() == false)
 			{
-				if (m_Layers[_Sprite[i].m_LayerID] == false)
+				int getLayerToRender = GraphicsManager::getInstance().LayerToRender();
+				if (getLayerToRender != _Sprite[i].m_LayerID)
 					continue;
 			}
 
 			if (_Sprite[i].m_EnableSprite == false)
 				continue;
-
 			if (!ecs.getEntityIsEnabled(entities[i]) || !ecs.getComponentIsEnabled<UISprite>(entities[i]))
 			{
 				continue;
@@ -54,7 +48,7 @@ namespace TDS
 
 			if (_Sprite[i].m_IsFont)
 				Fontbatch.AddToBatch(&_Sprite[i], &transform[i], entities[i]);
-			
+
 			else
 			{
 				Spritebatch.AddToBatch(&_Sprite[i], &transform[i], entities[i]);
@@ -63,7 +57,7 @@ namespace TDS
 					UpdateAABB(&_Sprite[i], &transform[i]);
 				}
 			}
-			
+
 		}
 		//TDS_INFO(Input::getLocalMousePos());
 		Spritebatch.PrepareBatch();
@@ -115,7 +109,7 @@ namespace TDS
 			Vec3(0.5f, 0.5f, 0.0f),
 			Vec3(-0.5f, 0.5f, 0.0f)
 		};
-		
+
 		Vec3 newMin = Vec3(FLT_MAX, FLT_MAX, 0.0f);
 		Vec3 newMax = Vec3(-FLT_MAX, -FLT_MAX, 0.0f);
 

@@ -156,6 +156,9 @@ namespace TDS
 		bool(*isScriptEnabled)(EntityID entityID, std::string scriptName);
 		bool(*toggleScript)(int entityID, const char* scriptName);
 
+		void(*awake)(void);
+		void(*start)(void);
+
 	private:
 		// Unique pointer to SceneManager
 		static std::unique_ptr<SceneManager> m_instance;

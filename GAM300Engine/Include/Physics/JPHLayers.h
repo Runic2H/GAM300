@@ -3,8 +3,10 @@
 
 #include <Jolt/Physics/Collision/ObjectLayer.h>
 #include <Jolt/Physics/Collision/BroadPhase/BroadPhaseLayer.h>
-#include <Jolt/Physics/Collision/ContactListener.h>
 #include <Jolt/Physics/Body/BodyActivationListener.h>
+#include <Jolt/Physics/Collision/ContactListener.h>
+#include <Jolt/Physics/Body/Body.h>
+
 namespace TDS
 {
 	// All Jolt symbols are in the JPH namespace
@@ -112,12 +114,25 @@ namespace TDS
 	{
 	public:
 		// See: ContactListener
+		ValidateResult GetLastResult() const { return lastResult; }
+		bool GetSensorActivate() const { return sensorActivate; }
+		uint32 getSensorBodyID() const { return sensorID; }
 		virtual ValidateResult	OnContactValidate(const Body& inBody1, const Body& inBody2, RVec3Arg inBaseOffset, const CollideShapeResult& inCollisionResult) override
 		{
-			std::cout << "Contact validate callback" << std::endl;
+			// Expect body 1 to be dynamic (or one of the bodies must be a sensor)
+			if (!inBody1.IsDynamic() && !inBody1.IsSensor() && !inBody2.IsSensor())
+			{
+				JPH_BREAKPOINT;		
+			}
 
+			ValidateResult result;
+			result = ContactListener::OnContactValidate(inBody1, inBody2, inBaseOffset, inCollisionResult);
+
+			Trace("Validate %u and %u result %d", inBody1.GetID().GetIndex(), inBody2.GetID().GetIndex(), (int)result);
+			lastResult = result;
+			return  result;
 			// Allows you to ignore a contact before it is created (using layers to not make objects collide is cheaper!)
-			return ValidateResult::AcceptAllContactsForThisBodyPair;
+			//return ValidateResult::AcceptAllContactsForThisBodyPair;
 		}
 
 		virtual void			OnContactAdded(const Body& inBody1, const Body& inBody2, const ContactManifold& inManifold, ContactSettings& ioSettings) override
@@ -127,13 +142,39 @@ namespace TDS
 
 		virtual void			OnContactPersisted(const Body& inBody1, const Body& inBody2, const ContactManifold& inManifold, ContactSettings& ioSettings) override
 		{
-			std::cout << "A contact was persisted" << std::endl;
+			if (inBody1.IsSensor() || inBody2.IsSensor())
+			{
+				sensorActivate = true;
+				//std::cout << "sensor is activated" << std::endl;
+
+			}
+			if (sensorActivate)
+			{
+				if (inBody1.IsSensor())
+				{
+					sensorID = inBody1.GetID().GetIndex();
+				}
+				else if (inBody2.IsSensor())
+				{
+					sensorID = inBody2.GetID().GetIndexAndSequenceNumber();
+				}
+			}
+
 		}
 
 		virtual void			OnContactRemoved(const SubShapeIDPair& inSubShapePair) override
 		{
+			if (sensorActivate)
+			{
+				sensorActivate = false;
+			}
 			std::cout << "A contact was removed" << std::endl;
 		}
+	private:
+		ContactListener* mNext = nullptr;
+		ValidateResult lastResult;
+		bool sensorActivate;
+		uint32 sensorID;
 	};
 
 	// An example activation listener

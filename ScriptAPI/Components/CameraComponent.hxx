@@ -32,9 +32,10 @@ namespace ScriptAPI
 		bool GetIsEnabled();
 		void SetIsEnabled(bool value);
 
-		virtual void SetEntityID(TDS::EntityID ID);
-
 		Vector3 getForwardVector();
+		void setForwardVector(float angle);
+
+		virtual void SetEntityID(TDS::EntityID ID);
 
 		TransformComponent transform;
 

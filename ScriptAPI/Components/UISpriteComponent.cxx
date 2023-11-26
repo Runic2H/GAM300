@@ -1,5 +1,7 @@
 #include "UISpriteComponent.hxx"
 #include "../TypeConversion.hxx"
+#include "Timestep/Timestep.h"
+
 namespace ScriptAPI
 {
 	void UISpriteComponent::SetLayerID(int layerID)
@@ -9,6 +11,15 @@ namespace ScriptAPI
 	void UISpriteComponent::SetColour(Vector4 value)
 	{
 		TDS::GetUISprite(entityID)->SetColourViaFloat(value.X, value.Y, value.Z, value.W);
+	}
+	float UISpriteComponent::getColourAlpha() {
+		return TDS::GetUISprite(entityID)->m_Color.w;
+	}
+	void UISpriteComponent::setColourAlpha(float value) {
+		TDS::GetUISprite(entityID)->m_Color.w = value;
+	}
+	void UISpriteComponent::ColorAlphafade(float multiplier) {
+		TDS::GetUISprite(entityID)->m_Color.w -= multiplier * TDS::TimeStep::GetDeltaTime();
 	}
 	bool UISpriteComponent::IsMouseCollided()
 	{

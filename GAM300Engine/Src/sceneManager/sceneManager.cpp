@@ -63,6 +63,7 @@ namespace TDS
 		ecs.registerComponent<Tag>("Tag");
 		ecs.registerComponent<WinData>("Win Data");
 		ecs.registerComponent<UISprite>("UI Sprite");
+		ecs.registerComponent<SoundInfo>("Audio");
 
 		startScene = "";
 		//startScene = "MainMenu";
@@ -618,6 +619,8 @@ namespace TDS
 		DeserializeFromFile(filePath + scene + ".json");
 		currentScene = scene;
 		currentSceneSaved = true;
+		start();
+		awake();
 	}
 
 	/*!*************************************************************************

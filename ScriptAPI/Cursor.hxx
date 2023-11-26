@@ -35,6 +35,8 @@ namespace ScriptAPI
 
         static void ConfineCursor();
 
+        static bool visible;
+
     private:
         static CursorLockMode lockMode = CursorLockMode::None;
 
@@ -73,6 +75,8 @@ namespace ScriptAPI
                 ::ClipCursor(&clientRect);
                 break;
             }
+
+            ::ShowCursor(visible);
         }
     };
 }

@@ -87,7 +87,16 @@
     <ClInclude Include="SceneLoader.hxx">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Screen.hxx">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="Vector2.hxx">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Components\AudioComponent.hxx">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Audio.hxx">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -152,7 +161,16 @@
     <ClCompile Include="SceneLoader.cxx">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Screen.cxx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="Vector2.cxx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Components\AudioComponent.cxx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Audio.cxx">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

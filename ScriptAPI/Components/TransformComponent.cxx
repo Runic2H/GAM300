@@ -1,6 +1,7 @@
 #include "TransformComponent.hxx"
 #include "../Shared_Libs/Vector4.h"
 #include "../Shared_Libs/Matrix4.h"
+#include "../GameObject.hxx"
 
 namespace ScriptAPI
 {
@@ -173,10 +174,42 @@ namespace ScriptAPI
 			return Vector3(0.f, 0.f, 0.f);
 		}
 
+		// A -> x + 1
+		// D -> x - 1
+		// W -> z + 1
+		// S -> z - 1
+
+		Vector3 toReturn = Vector3(0, 0, 0);
+		if (direction.X != 0)
+		{
+			TDS::Vec3 rightVector = TDS::GetTransform(entityID)->getRightVector();
+			rightVector.x = -rightVector.x;
+			toReturn = Vector3(rightVector) * direction.X;
+		}
+		if (direction.Z != 0)
+		{
+			TDS::Vec3 forwardVector = TDS::GetTransform(entityID)->getForwardVector();
+			forwardVector.x = -forwardVector.x;
+			//System::Console::WriteLine(forwardVector.x + "\t" + forwardVector.y + "\t" + forwardVector.z);
+			toReturn = toReturn + Vector3(forwardVector) * direction.Z;
+		}
+
+		//TDS::Vec3 forwardVector = TDS::GetTransform(entityID)->getForwardVector();
+		//TDS::Vec3 rightVector = TDS::GetTransform(entityID)->getRightVector();
+		////System::Console::WriteLine(forwardVector.x + "\t" + forwardVector.y + "\t" + forwardVector.z);
+		//Vector3 toReturn = Vector3(rightVector) * direction + Vector3(forwardVector) * direction;
+
+
+		return toReturn;
+		//return Vector3(forwardVector);
+		//return Vector3(0.f, 0.f, 0.f);
 	}
 
 	// CONSTRUCTOR ===========================================================================
 	TransformComponent::TransformComponent(TDS::EntityID ID) : entityID (ID)
+	{ }
+
+	TransformComponent::TransformComponent(TDS::EntityID ID, GameObject^ _gameObject) : entityID(ID), gameObject(_gameObject)
 	{ }
 
 	void TransformComponent::SetEntityID(TDS::EntityID ID)
@@ -187,5 +220,5 @@ namespace ScriptAPI
 	TDS::EntityID TransformComponent::GetEntityID()
 	{
 		return entityID;
-	}
+	}	
 }

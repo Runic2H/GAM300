@@ -11,6 +11,9 @@ namespace ScriptAPI
 
 		void SetColour(Vector4 value);
 
+		float getColourAlpha();
+		void setColourAlpha(float value);
+		void ColorAlphafade(float multiplier);
 		//normal sprites
 		bool IsMouseCollided();
 

@@ -114,5 +114,6 @@ namespace TDS
 		float& getOffset() { return m_TabOffset; }
 	};
 
-
+	DLL_API float getScreenWidth();
+	DLL_API float getScreenHeight();
 }

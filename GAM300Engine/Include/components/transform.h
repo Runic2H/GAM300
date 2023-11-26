@@ -67,7 +67,7 @@ namespace TDS
 			mTransformMatrix = transM4 * rotM4 * scaleM4;
 			mIsDirty = true;
 		}
-		DLL_API Mat4 GenerateTransfom() {
+		DLL_API Mat4 GenerateTransform() {
 			Quat qRot = Quat(mRotation);
 			Mat4 scaleM4 = Mat4::Scale(mScale);
 			Mat4 rotM4 = Mat4(Quat::toMat4(qRot));
@@ -80,8 +80,8 @@ namespace TDS
 
 			return mTransformMatrix;
 		}
-		DLL_API Mat4 GenerateTransfomInverse() {
-			GenerateTransfom();
+		DLL_API Mat4 GenerateTransformInverse() {
+			GenerateTransform();
 			return mTransformMatrix.inverse();
 		}
 
@@ -93,6 +93,19 @@ namespace TDS
 
 		DLL_API Vec4 getLocalRotation(EntityID parent);
 		DLL_API void setLocalRotation(EntityID parent, Vec4 localRotation);
+
+		DLL_API Vec3 getForwardVector()
+		{
+			Vec3 rotationRad = mRotation * Mathf::Deg2Rad;
+			Quat quaternionRotation = Quat(rotationRad);
+			return (quaternionRotation * Vec3(0, 0, 1));
+		}
+		DLL_API Vec3 getRightVector()
+		{
+			Vec3 forwardVector = getForwardVector();
+			Vec3 rightVector = Vec3::Cross(Vec3(0, 1, 0), forwardVector).normalize();
+			return rightVector;
+		}
 
 		DLL_API void SetDirty(bool condition)
 		{

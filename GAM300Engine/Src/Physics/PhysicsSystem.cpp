@@ -21,6 +21,7 @@ namespace TDS
 	std::unique_ptr<JPH::PhysicsSystem>			PhysicsSystem::m_pSystem;
 	std::unique_ptr<JPH::TempAllocatorImpl>		PhysicsSystem::m_pTempAllocator;
 	std::unique_ptr<JPH::JobSystemThreadPool>	PhysicsSystem::m_pJobSystem;
+	std::unique_ptr<JPH::BodyManager>			PhysicsSystem::m_BodyManager;
 	std::vector<JoltBodyID>					    PhysicsSystem::m_pBodyIDVector;
 	
 	BPLayerInterfaceImpl						broad_phase_layer_interface;
@@ -60,7 +61,7 @@ namespace TDS
 		return true;
 	};
 #endif
-	
+
 	void PhysicsSystem::PhysicsSystemInit()
 	{
 		// Initialize the Jolt Core
@@ -104,8 +105,8 @@ namespace TDS
 		// A contact listener gets notified when bodies (are about to) collide, and when they separate again.
 		// Note that this is called from a job so whatever you do here needs to be thread safe.
 		// Registering one is entirely optional.
-		//m_pSystem->SetContactListener(&contact_listener);
-				
+		m_pSystem->SetContactListener(&contact_listener);
+		m_BodyManager = std::make_unique<JPH::BodyManager>();
 		std::cout << "successfully init Jolt Physics" << '\n';
 	}
 
@@ -152,6 +153,10 @@ namespace TDS
 					JPH_CreateBodyID(entities[i], &_transform[i], &_rigidbody[i]);
 
 				}
+				using namespace JoltToTDS;
+				EActivation mode = EActivation::Activate;
+				pBodies->SetPosition(ToBodyID(_rigidbody[i]), ToVec3(_transform[i].GetPosition()), mode);
+				pBodies->SetRotation(ToBodyID(_rigidbody[i]), ToQuat(_transform[i].GetRotation()), mode);
 			}
 			// JPH physics simulation
 			m_pSystem->Update(TimeStep::GetFixedDeltaTime(), 1, m_pTempAllocator.get(), m_pJobSystem.get());
@@ -162,6 +167,19 @@ namespace TDS
 				if (!ecs.getEntityIsEnabled(entities[j]) || !ecs.getComponentIsEnabled<RigidBody>(entities[j]))
 				{
 					continue;
+				}
+				if (contact_listener.GetSensorActivate())
+				{
+					int index = contact_listener.getSensorBodyID();
+					if (_rigidbody[j].GetBodyID().GetIndexAndSequenceNumber() == index)
+					{
+						_rigidbody[j].setSensorActivate(true);
+					}
+					TDS_INFO("index: {}", index);
+				}
+				else
+				{
+					_rigidbody[j].setSensorActivate(false);
 				}
 
 				Vec3 pos = _transform[j].GetPosition();
@@ -181,25 +199,38 @@ namespace TDS
 		JPH::BodyID JPHBodyID = JoltToTDS::ToBodyID(*_rigidbody);
 		JPH::BodyInterface* pBodies = &m_pSystem->GetBodyInterface();
 		_transform->SetPosition(JoltToTDS::ToVec3(pBodies->GetPosition(JPHBodyID)));
-		_transform->SetRotation(JoltToTDS::ToVec3(pBodies->GetRotation(JPHBodyID).GetXYZ()));
+		_transform->SetRotation(JoltToTDS::ToVec3(pBodies->GetRotation(JPHBodyID).GetEulerAngles()));
 		_rigidbody->SetLinearVel(JoltToTDS::ToVec3(pBodies->GetLinearVelocity(JPHBodyID)));
 		_rigidbody->SetAngularVel(JoltToTDS::ToVec3(pBodies->GetAngularVelocity(JPHBodyID)));
 		//_transform->SetDirty(false);
+	}
+	void PhysicsSystem::SensorActivated(RigidBody* _rigidbody)
+	{
+		if (contact_listener.GetSensorActivate())
+		{
+			
+		}
+		else
+		{
+			_rigidbody->setSensorActivate(false);
+		}
+		TDS_INFO(_rigidbody->getSensorActivate());
 	}
 	void PhysicsSystem::JPH_SystemShutdown()
 	{
 		m_pTempAllocator = nullptr;
 		m_pSystem = nullptr;
 		m_pJobSystem = nullptr;
+		m_BodyManager = nullptr;
+	
 	}
-
 	void PhysicsSystem::JPH_CreateBodyID(const EntityID& _entityID, Transform* _transform, RigidBody* _rigidbody)
 	{
 		EMotionType vMotionType = JoltToTDS::ToEMotionType(_rigidbody->GetMotionType());
 		if (GetSphereCollider(_entityID))
 		{
 			SphereCollider* vSphere = GetSphereCollider(_entityID);
-			JPH::SphereShapeSettings s_sphereSettings(vSphere->GetRadius());
+			JPH::SphereShapeSettings s_sphereSettings(_transform->GetScale().x / (vSphere->GetRadius() * 2.f));
 			JPH::ShapeSettings::ShapeResult result = s_sphereSettings.Create();
 			JPH::ShapeRefC sphereShape = result.Get(); // if error, high chance is how the shape is created, radius cannot be 0!
 			JPH::BodyCreationSettings b_sphereSetting
@@ -228,9 +259,10 @@ namespace TDS
 		else if (GetBoxCollider(_entityID))
 		{
 			BoxCollider* vBox = GetBoxCollider(_entityID);
-			JPH::Vec3 halfExtents = JoltToTDS::ToVec3(vBox->GetSize());
-			halfExtents *= 0.5f;
-			JPH::BoxShapeSettings s_boxSettings(halfExtents);
+			Vec3 halfExtents = { _transform->GetScale().x / vBox->GetSize().x, _transform->GetScale().y / vBox->GetSize().y, _transform->GetScale().z / vBox->GetSize().z };
+			halfExtents = (halfExtents) * 0.5f * 2.f;
+			JPH::Vec3 JPHextents = JoltToTDS::ToVec3(halfExtents);
+			JPH::BoxShapeSettings s_boxSettings(JPHextents);
 			JPH::ShapeSettings::ShapeResult result = s_boxSettings.Create();
 			JPH::ShapeRefC boxShape = result.Get();
 			JPH::BodyCreationSettings b_BoxSetting
@@ -260,7 +292,7 @@ namespace TDS
 		else if (GetCapsuleCollider(_entityID))
 		{
 			CapsuleCollider* vCapsule = GetCapsuleCollider(_entityID);
-			JPH::CapsuleShapeSettings s_capsuleSettings(vCapsule->GetHeight(), vCapsule->GetRadius());
+			JPH::CapsuleShapeSettings s_capsuleSettings(vCapsule->GetHeight()*2.f, vCapsule->GetRadius()*2.f);
 			JPH::ShapeSettings::ShapeResult result = s_capsuleSettings.Create();
 			JPH::ShapeRefC capsuleShape = result.Get();
 			JPH::BodyCreationSettings b_capsuleSetting

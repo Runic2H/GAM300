@@ -15,8 +15,8 @@ public class PlayButton : Script
         var entityID = gameObject.GetEntityID();
         if (Input.GetMouseButtonDown(Keycode.M1) && entityID == GraphicsManagerWrapper.GetPickedObject())
         {
-            GraphicsManagerWrapper.ToggleViewFrom2D(false);
-            SceneLoader.LoadMainGame();
+            //GraphicsManagerWrapper.ToggleViewFrom2D(false);
+            SceneLoader.LoadStartingCutscene();
         }
     }
 }

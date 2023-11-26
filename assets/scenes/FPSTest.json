@@ -19,9 +19,9 @@
             "7": 64
         },
         "1100100000000": {
-            "0": 272,
-            "1": 400,
-            "4": 112
+            "0": 136,
+            "1": 200,
+            "4": 56
         }
     },
     "Entity Data": {
@@ -37,7 +37,7 @@
             },
             "Transform": {
                 "Position": {
-                    "x": 0.0,
+                    "x": -0.000274658203125,
                     "y": -20.0,
                     "z": 0.0
                 },
@@ -98,7 +98,8 @@
                 "LinearDamping": 0.05000000074505806,
                 "AngularDamping": 0.05000000074505806,
                 "MotionType": "STATIC",
-                "UseGravity": false
+                "UseGravity": false,
+                "sensorActivate": false
             }
         },
         "1": {
@@ -110,15 +111,14 @@
                 "HierarchyParent": 0,
                 "HierarchyIndex": 0,
                 "HierarchyChildren": [
-                    20,
-                    21
+                    20
                 ]
             },
             "Transform": {
                 "Position": {
                     "x": 0.0,
                     "y": 50.0,
-                    "z": 0.0
+                    "z": -45.0
                 },
                 "Scale": {
                     "x": 1.0,
@@ -127,7 +127,7 @@
                 },
                 "Rotation": {
                     "x": 0.0,
-                    "y": -0.0,
+                    "y": 0.0,
                     "z": 0.0
                 }
             },
@@ -158,8 +158,9 @@
                 "GravityFactor": 1.0,
                 "LinearDamping": 0.05000000074505806,
                 "AngularDamping": 0.05000000074505806,
-                "MotionType": "STATIC",
-                "UseGravity": false
+                "MotionType": "KINEMATIC",
+                "UseGravity": true,
+                "sensorActivate": false
             }
         },
         "18": {
@@ -352,8 +353,8 @@
             "Transform": {
                 "Position": {
                     "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
+                    "y": 50.0,
+                    "z": -45.0
                 },
                 "Scale": {
                     "x": 1.0,
@@ -361,61 +362,21 @@
                     "z": 1.0
                 },
                 "Rotation": {
-                    "x": 0.0,
+                    "x": -44.444435119628906,
                     "y": 0.0,
                     "z": 0.0
                 }
             },
             "Camera Component": {
-                "Yaw": -90.0,
-                "Pitch": 0.0,
+                "Yaw": 90.0,
+                "Pitch": 90.0,
                 "Position": {
                     "x": 0.0,
                     "y": 0.0,
                     "z": 0.0
                 },
                 "Speed": 1.0,
-                "FOV": 45.0,
-                "MouseSensitivity": 0.10000000149011612
-            }
-        },
-        "21": {
-            "ArchetypeID": "1100100000000",
-            "Name Tag": {
-                "Name": "Camera 2",
-                "Tag": "",
-                "IsActive": true,
-                "HierarchyParent": 1,
-                "HierarchyIndex": 1,
-                "HierarchyChildren": []
-            },
-            "Transform": {
-                "Position": {
-                    "x": 25.0,
-                    "y": 25.0,
-                    "z": 25.0
-                },
-                "Scale": {
-                    "x": 1.0,
-                    "y": 1.0,
-                    "z": 1.0
-                },
-                "Rotation": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                }
-            },
-            "Camera Component": {
-                "Yaw": -90.0,
-                "Pitch": 0.0,
-                "Position": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                },
-                "Speed": 1.0,
-                "FOV": 45.0,
+                "FOV": 60.0,
                 "MouseSensitivity": 0.10000000149011612
             }
         }
@@ -425,10 +386,10 @@
         "1": {
             "FPS_Controller_Script": {
                 "rb": {
-                    "Component": 1
+                    "Component": 0
                 },
                 "playerCamera": {
-                    "Component": 0
+                    "Component": 20
                 },
                 "fov": {
                     "Float": 60.0
@@ -440,7 +401,7 @@
                     "Bool": true
                 },
                 "mouseSensitivity": {
-                    "Float": 35.0
+                    "Float": 100.0
                 },
                 "maxLookAngle": {
                     "Float": 50.0
@@ -452,10 +413,10 @@
                     "Bool": true
                 },
                 "yaw": {
-                    "Float": 0.0
+                    "Float": 131.875
                 },
                 "pitch": {
-                    "Float": -4.0
+                    "Float": -44.444435
                 },
                 "enableZoom": {
                     "Bool": true
@@ -473,13 +434,13 @@
                     "Float": 5.0
                 },
                 "isZoomed": {
-                    "Bool": true
+                    "Bool": false
                 },
                 "playerCanMove": {
                     "Bool": true
                 },
                 "walkSpeed": {
-                    "Float": 1.0
+                    "Float": 5.0
                 },
                 "maxVelocityChange": {
                     "Float": 10.0
@@ -617,7 +578,7 @@
                     "Bool": true
                 },
                 "is_Awake": {
-                    "Bool": false
+                    "Bool": true
                 },
                 "is_Start": {
                     "Bool": false
@@ -628,17 +589,15 @@
         "19": {},
         "15": {},
         "16": {},
-        "20": {},
-        "21": {}
+        "20": {}
     },
     "Active Archetype": {
         "17": "1101001100000",
-        "1": "1100010100000",
+        "1": "1100010000000",
         "18": "1100001000000",
         "19": "1100001000000",
         "15": "1100001000000",
         "16": "1100001000000",
-        "20": "1100000000000",
-        "21": "1100100000000"
+        "20": "1100100000000"
     }
 }

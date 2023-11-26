@@ -65,6 +65,7 @@ namespace TDS
 		bool popupOpened;
 
 		EntityID selectedEntity;
+		std::string currentFilename;
 	};
 }
 

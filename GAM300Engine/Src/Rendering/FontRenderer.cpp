@@ -315,7 +315,7 @@ namespace TDS
 			}
 			else
 			{
-				transform->GenerateTransfom();
+				transform->GenerateTransform();
 			}
 			Mat4 temp = transform->GetTransformMatrix();
 			double charWidth = (glyph.m_PlaneBounds.m_Right - glyph.m_PlaneBounds.m_Left);
@@ -338,6 +338,10 @@ namespace TDS
 			if (eachchar == 'g' || eachchar == 'j' || eachchar == 'p' || eachchar == 'q' || eachchar == 'y')
 			{
 				finalOffset.y = float(CurrOffset.y + (charHeight * 0.25));
+			}
+			else if (eachchar == '\"' || eachchar == '\'')
+			{
+				finalOffset.y = float(CurrOffset.y + (charHeight + (charHeight * 0.75)));
 			}
 			else
 			{

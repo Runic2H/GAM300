@@ -47,7 +47,7 @@ class Quat
     static Vec3 cross(Vec3 const& v, Quat const& q);
     // Returns the dot product of q1 and q2
     static float dot(Quat const& q1, Quat const& q2);
-    // Return euler angle, yitch as x, yaw as y, roll as z
+    // Return euler angle, pitch as x, yaw as y, roll as z
     static Vec3 eulerAngle(Quat const& q);
     // Returns a exp of a quaternion
     static Quat exp(Quat const& q);

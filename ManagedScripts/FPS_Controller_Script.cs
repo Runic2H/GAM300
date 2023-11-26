@@ -114,7 +114,8 @@ public class FPS_Controller_Script : Script
 
     public override void Awake()
     {
-        rb = gameObject.GetComponent<RigidBodyComponent>();
+        rb = transform.gameObject.GetComponent<RigidBodyComponent>();
+        //rb = gameObject.GetComponent<RigidBodyComponent>();
 
         // Set internal variables
         playerCamera.SetFieldOfView(fov);
@@ -198,52 +199,52 @@ public class FPS_Controller_Script : Script
 
                 transform.SetRotationY(yaw);
                 playerCamera.transform.SetRotationX(pitch);
-                //playerCamera.SetIsEnabled(false);
+                playerCamera.transform.SetRotationY(transform.GetRotation().Y);
             }
         }
 
         #region Camera Zoom
 
-        if (enableZoom)
-        {
-            // Changes isZoomed when key is pressed
-            // Behavior for toogle zoom
-            if (Input.GetKeyDown(zoomKey) && !holdToZoom && !isSprinting)
-            {
-                if (!isZoomed)
-                {
-                    isZoomed = true;
-                }
-                else
-                {
-                    isZoomed = false;
-                }
-            }
+        //if (enableZoom)
+        //{
+        //    // Changes isZoomed when key is pressed
+        //    // Behavior for toogle zoom
+        //    if (Input.GetKeyDown(zoomKey) && !holdToZoom && !isSprinting)
+        //    {
+        //        if (!isZoomed)
+        //        {
+        //            isZoomed = true;
+        //        }
+        //        else
+        //        {
+        //            isZoomed = false;
+        //        }
+        //    }
 
-            // Changes isZoomed when key is pressed
-            // Behavior for hold to zoom
-            if (holdToZoom && !isSprinting)
-            {
-                if (Input.GetKeyDown(zoomKey))
-                {
-                    isZoomed = true;
-                }
-                else if (Input.GetKeyUp(zoomKey))
-                {
-                    isZoomed = false;
-                }
-            }
+        //    // Changes isZoomed when key is pressed
+        //    // Behavior for hold to zoom
+        //    if (holdToZoom && !isSprinting)
+        //    {
+        //        if (Input.GetKeyDown(zoomKey))
+        //        {
+        //            isZoomed = true;
+        //        }
+        //        else if (Input.GetKeyUp(zoomKey))
+        //        {
+        //            isZoomed = false;
+        //        }
+        //    }
 
-            // Lerps camera.fieldOfView to allow for a smooth transistion
-            if (isZoomed)
-            {
-                playerCamera.SetFieldOfView(Mathf.Lerp(playerCamera.GetFieldOfView(), zoomFOV, zoomStepTime * Time.deltaTime));
-            }
-            else if (!isZoomed && !isSprinting)
-            {
-                playerCamera.SetFieldOfView(Mathf.Lerp(playerCamera.GetFieldOfView(), fov, zoomStepTime * Time.deltaTime));
-            }
-        }
+        //    // Lerps camera.fieldOfView to allow for a smooth transistion
+        //    if (isZoomed)
+        //    {
+        //        playerCamera.SetFieldOfView(Mathf.Lerp(playerCamera.GetFieldOfView(), zoomFOV, zoomStepTime * Time.deltaTime));
+        //    }
+        //    else if (!isZoomed && !isSprinting)
+        //    {
+        //        playerCamera.SetFieldOfView(Mathf.Lerp(playerCamera.GetFieldOfView(), fov, zoomStepTime * Time.deltaTime));
+        //    }
+        //}
 
         #endregion
         #endregion
@@ -338,12 +339,10 @@ public class FPS_Controller_Script : Script
         {
             //HeadBob();
         }
-
     }
     public override void FixedUpdate()
     {
         #region Movement
-
         if (playerCanMove)
         {
             // Calculate how fast we should be moving
@@ -360,9 +359,17 @@ public class FPS_Controller_Script : Script
                 isWalking = false;
             }
 
+            //Vector3 targetVelocityNew = transform.TransformDirection(new Vector3(0, 0, 1));
+            //Console.WriteLine(targetVelocityNew.X + "\t" + targetVelocityNew.Y + "\t" + targetVelocityNew.Z);
+
+
             if (Input.GetKey(Keycode.W) || Input.GetKey(Keycode.S) || Input.GetKey(Keycode.A) || Input.GetKey(Keycode.D))
             {
                 isWalking = true;
+
+                Vector3 transformPosition = transform.GetPosition();
+                targetVelocity = transform.TransformDirection(targetVelocity);
+                transform.SetPosition(new Vector3(transformPosition.X + (targetVelocity.X * walkSpeed), transformPosition.Y, transformPosition.Z + (targetVelocity.Z * walkSpeed)));
             }
             else
             {
@@ -430,9 +437,6 @@ public class FPS_Controller_Script : Script
 
             }
 
-            Vector3 transformPosition = transform.GetPosition();
-            transform.SetPositionX(transformPosition.X + targetVelocity.Z * walkSpeed);
-            transform.SetPositionZ(transformPosition.Z + targetVelocity.X * walkSpeed);
         }
         #endregion
     }
@@ -475,27 +479,27 @@ public class FPS_Controller_Script : Script
     //#endregion
 
     #region Crouch Method
-    private void Crouch()
-    {
-        // Stands player up to full height
-        // Brings walkSpeed back up to original speed
-        if (isCrouched)
-        {
-            transform.SetScale(new Vector3(originalScale.X, originalScale.Y, originalScale.Z));
-            if (speedReduction != 0) walkSpeed /= speedReduction;
+    //private void Crouch()
+    //{
+    //    // Stands player up to full height
+    //    // Brings walkSpeed back up to original speed
+    //    if (isCrouched)
+    //    {
+    //        transform.SetScale(new Vector3(originalScale.X, originalScale.Y, originalScale.Z));
+    //        if (speedReduction != 0) walkSpeed /= speedReduction;
 
-            isCrouched = false;
-        }
-        // Crouches player down to set height
-        // Reduces walkSpeed
-        else
-        {
-            transform.SetScale(new Vector3(originalScale.X, crouchHeight, originalScale.Z));
-            if (speedReduction != 0) walkSpeed *= speedReduction;
+    //        isCrouched = false;
+    //    }
+    //    // Crouches player down to set height
+    //    // Reduces walkSpeed
+    //    else
+    //    {
+    //        transform.SetScale(new Vector3(originalScale.X, crouchHeight, originalScale.Z));
+    //        if (speedReduction != 0) walkSpeed *= speedReduction;
 
-            isCrouched = true;
-        }
-    }
+    //        isCrouched = true;
+    //    }
+    //}
     #endregion
 
     //#region HeadBob Method

@@ -10,5 +10,7 @@ namespace ScriptAPI
 		static void LoadMainMenu();
 
 		static void LoadMainGame();
+
+		static void LoadStartingCutscene();
 	};
 }

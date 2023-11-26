@@ -35,6 +35,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     g_GameApp = new TDS::GamApp(hInstance, nCmdShow, classname, WndProc);
     g_GameApp->Initialize();
     g_GameApp->Run();
+    //g_GameApp->Awake();
+    //g_GameApp->Start();
     g_GameApp->Update();
     g_GameApp->~GamApp();
 

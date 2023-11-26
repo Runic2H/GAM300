@@ -145,13 +145,6 @@ namespace TDS
     {
         DDSConverter::Init();
 
-        auto awake = GetFunctionPtr<void(*)(void)>
-            (
-                "ScriptAPI",
-                "ScriptAPI.EngineInterface",
-                "ExecuteAwake"
-            );
-
         auto executeUpdate = GetFunctionPtr<void(*)(void)>
             (
                 "ScriptAPI",
@@ -239,7 +232,7 @@ namespace TDS
             {
                 if (startPlaying)
                 {
-                    awake();
+                    SceneManager::GetInstance()->loadScene(SceneManager::GetInstance()->getCurrentScene());
                     startPlaying = false;
                 }
                 ecs.runSystems(1, DeltaTime); // Other systems
@@ -272,6 +265,7 @@ namespace TDS
             // Reloading
             if (GetKeyState(VK_F5) & 0x8000)
             {
+                isPlaying = false;
                 compileScriptAssembly();
                 SceneManager::GetInstance()->saveCurrentScene();
                 reloadScripts();
@@ -462,6 +456,21 @@ namespace TDS
                 "ScriptAPI.EngineInterface",
                 "IsScriptEnabled"
             );
+
+        SceneManager::GetInstance()->awake = GetFunctionPtr<void(*)(void)>
+            (
+                "ScriptAPI",
+                "ScriptAPI.EngineInterface",
+                "ExecuteAwake"
+            );
+
+        SceneManager::GetInstance()->start = GetFunctionPtr<void(*)(void)>
+            (
+                "ScriptAPI",
+                "ScriptAPI.EngineInterface",
+                "ExecuteStart"
+            );
+
 
         SceneManager::GetInstance()->Init();
         ecs.initializeSystems(1);

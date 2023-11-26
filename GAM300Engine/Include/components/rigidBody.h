@@ -79,6 +79,10 @@ namespace TDS
 		DLL_API bool& GetUseGravity() { return mUseGravity; }
 		DLL_API void SetUseGravity(bool useGravity) { mUseGravity = useGravity; }
 		
+		DLL_API bool& getSensorActivate() { return sensorActivated; }
+		DLL_API void setSensorActivate(bool input) { sensorActivated = input; }
+
+
 		RTTR_ENABLE(IComponent);
 		RTTR_REGISTRATION_FRIEND
 
@@ -95,6 +99,7 @@ namespace TDS
 		float mAngularDamping;
 		
 		bool mUseGravity;
+		bool sensorActivated;
 
 		MotionType	mMotionType;
 		JoltBodyID	mBodyID;

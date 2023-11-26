@@ -1,10 +1,12 @@
 #pragma once
 
 #include "ComponentBase.hxx"
+//#include "../GameObject.hxx"
 #include "../GAM300Engine/Include/eventManager/eventHandler.h"
 
 namespace ScriptAPI
 {
+	ref class GameObject;
 	public value class TransformComponent : ComponentBase
 	{
 	public:
@@ -30,8 +32,11 @@ namespace ScriptAPI
 
 		virtual void SetEntityID(TDS::EntityID ID);
 
+		GameObject^ gameObject;
+
 	internal:
 		TransformComponent(TDS::EntityID ID);
+		TransformComponent(TDS::EntityID ID, GameObject^ _gameObject);
 		TDS::EntityID GetEntityID();
 
 	private:

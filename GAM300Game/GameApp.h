@@ -27,13 +27,17 @@ namespace TDS
 		~GamApp();
 
 		void   Initialize();
+		void   Run();
+		void   Awake();
+		void   Start();
+		void   FixedUpdate();
 		void   Update();
+		void   LateUpdate();
 		void   Render() {}
 		void   Exit() {}
 		/*!*************************************************************************
 		* Function for initializing script engine
 		***************************************************************************/
-		void   Run();
 
 		void handleMessages(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
@@ -124,7 +128,7 @@ namespace TDS
 		coreclr_initialize_ptr      initializeCoreClr = nullptr;
 		coreclr_create_delegate_ptr createManagedDelegate = nullptr;
 		coreclr_shutdown_ptr        shutdownCoreClr = nullptr;
-
+		double mAccumulatedTime = 0.0;
 
 	};//class GamApp
 

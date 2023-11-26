@@ -547,6 +547,12 @@ namespace TDS
 	****************************************************************************/
 	void Hierarchy::update()
 	{
+		if (currentFilename != SceneManager::GetInstance()->getCurrentScene()) 
+		{
+			selectedEntity = 0;
+			init();
+			currentFilename = SceneManager::GetInstance()->getCurrentScene();
+		}
 		if (ImGui::BeginMenuBar())
 		{
 			// Add entity (make it a menu item if there are prefabs)

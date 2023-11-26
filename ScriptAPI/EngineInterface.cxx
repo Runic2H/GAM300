@@ -3,6 +3,7 @@
 #include "TypeConversion.hxx"
 #include "HelperFunctions.hxx"
 #include "Time.hxx"
+#include "../GAM300Engine/Include/Timestep/Timestep.h"
 using namespace System;
 using namespace System::Runtime::InteropServices;
 #pragma comment (lib, "GAM300Engine.lib")
@@ -85,7 +86,7 @@ namespace ScriptAPI
         Script^ script = safe_cast<Script^>(System::Activator::CreateInstance(scriptType));
         script->SetFlags();
         script->gameObject = gameObjectList[entityId]->Item2;
-        script->transform = TransformComponent(entityId);
+        script->transform = TransformComponent(entityId, script->gameObject);
 
         // Add script to SortedList
         scripts[entityId]->Add(script->GetType()->FullName, script);
@@ -163,11 +164,11 @@ namespace ScriptAPI
                 for each (NameScriptPair ^ script in scripts[i])
                 {
                     SAFE_NATIVE_CALL_BEGIN
-                        if (!script->Value->getAwakeFlag())
-                        {
+                        //if (!script->Value->getAwakeFlag())
+                        //{
                             script->Value->Awake();
                             script->Value->setAwakeFlag();
-                        }
+                        //}
                     SAFE_NATIVE_CALL_END
                 }
             }
@@ -268,6 +269,7 @@ namespace ScriptAPI
             {
                 for each (NameScriptPair ^ script in scripts[i])
                 {
+                    Console::WriteLine(script->Value->GetType());
                     SAFE_NATIVE_CALL_BEGIN
                         if (script->Value->isScriptEnabled())
                         {
@@ -284,9 +286,31 @@ namespace ScriptAPI
         }
         if (fixedUpdateTimer <= 0)
         {
-            fixedUpdateTimer = 0.02f;
+            fixedUpdateTimer = TDS::TimeStep::GetFixedDeltaTime();
         }
         Input::InputUpdate();
+    }
+
+    /*!*************************************************************************
+    * Calls all script FixedUpdate function
+    ***************************************************************************/
+    void EngineInterface::ExecuteFixedUpdate()
+    {
+        for each (auto i in TDS::ecs.getEntities())
+        {
+            if (scripts->ContainsKey(i) && TDS::ecs.getEntityIsEnabled(i))
+            {
+                for each (NameScriptPair ^ script in scripts[i])
+                {
+                    SAFE_NATIVE_CALL_BEGIN
+                        if (script->Value->isScriptEnabled())
+                        {
+                            script->Value->FixedUpdate();
+                        }
+                    SAFE_NATIVE_CALL_END
+                }
+            }
+        }
     }
 
     /*!*************************************************************************
@@ -1045,4 +1069,19 @@ namespace ScriptAPI
 
         return nullptr;
     }
+
+    // List<GameObject^>^ FindGameObjectsViaName(System::String^ name)
+    // {
+        // List<GameObject^>^ list = gcnew List<GameObject^>(2048);
+        // //System::Console::WriteLine("called in engine interfacee");
+        // for each (auto entityNameID in EngineInterface::GetGameObjectList())
+        // {
+            // if (entityNameID.Value->Item1 == name)
+            // {
+                // list->Add(entityNameID.Value->Item2);
+            // }
+        // }
+
+        // return list;
+    // }
 }
