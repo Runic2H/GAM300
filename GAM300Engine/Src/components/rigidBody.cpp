@@ -25,7 +25,9 @@ RTTR_REGISTRATION
 		.property("AngularDamping", &RigidBody::mAngularDamping)
 		.property("MotionType", &RigidBody::mMotionType)
 		.property("UseGravity", &RigidBody::mUseGravity)
-		.property("sensorActivate", &RigidBody::sensorActivated);
+		.property("sensorActivate", &RigidBody::sensorActivated)
+		.property("AABBmin", &RigidBody::AABBmin)
+		.property("AABBmax", &RigidBody::AABBmax);
 
 	rttr::registration::enumeration<RigidBody::MotionType>("MotionType")
 		(
@@ -51,7 +53,9 @@ namespace TDS
 							 mBodyID(JoltBodyID()),
 							 mMotionType(MotionType::STATIC),
 							 mUseGravity(true),
-							 sensorActivated(false)
+							 sensorActivated(false),
+							 AABBmin(0.f,0.f,0.f),
+							 AABBmax(0.f,0.f,0.f)
 	{ }
 
 
@@ -70,7 +74,9 @@ namespace TDS
 														mBodyID(toMove.mBodyID),
 														mMotionType(toMove.mMotionType),
 														mUseGravity(toMove.mUseGravity),
-														sensorActivated(toMove.sensorActivated)
+														sensorActivated(toMove.sensorActivated),
+														AABBmin(toMove.AABBmin),
+														AABBmax(toMove.AABBmax)
 
 	{ }
 

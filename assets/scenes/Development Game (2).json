@@ -1,17 +1,1831 @@
 {
     "Archetype Sizes": {
+        "1100000000001": {
+            "0": 54672,
+            "1": 80400,
+            "12": 144720
+        },
         "1100001000000": {
             "0": 39168,
             "1": 57600,
             "6": 76032
         },
-        "1100000000001": {
-            "0": 4760,
-            "1": 7000,
-            "12": 12600
+        "11000010000000": {
+            "0": 136,
+            "1": 200,
+            "6": 264
+        },
+        "11001010000000": {
+            "0": 136,
+            "1": 200,
+            "4": 56,
+            "6": 264
         }
     },
     "Entity Data": {
+        "207": {
+            "ArchetypeID": "1100001000000",
+            "Name Tag": {
+                "Name": "Study Wall (8)",
+                "Tag": "",
+                "IsActive": true,
+                "HierarchyParent": 1,
+                "HierarchyIndex": 13,
+                "HierarchyChildren": []
+            },
+            "Transform": {
+                "Position": {
+                    "x": -2347.5439453125,
+                    "y": 296.58447265625,
+                    "z": 387.49188232421875
+                },
+                "Scale": {
+                    "x": 2.200000047683716,
+                    "y": 1.8300000429153442,
+                    "z": 2.200000047683716
+                },
+                "Rotation": {
+                    "x": 3.141592502593994,
+                    "y": 0.0,
+                    "z": -3.141592502593994
+                }
+            },
+            "Graphics Component": {
+                "PointLight": false,
+                "TextureName": "White.dds",
+                "Mesh Renderer": true,
+                "Debug": false,
+                "ModelName": "Mansion Layout_Bin.bin",
+                "MeshName": "study_DoorWall02",
+                "Color": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 0.0
+                },
+                "Used In 2D": false
+            }
+        },
+        "320": {
+            "ArchetypeID": "1100000000001",
+            "Name Tag": {
+                "Name": "Item8",
+                "Tag": "",
+                "IsActive": true,
+                "HierarchyParent": 298,
+                "HierarchyIndex": 0,
+                "HierarchyChildren": []
+            },
+            "Transform": {
+                "Position": {
+                    "x": -0.1734999716281891,
+                    "y": -0.10125000774860382,
+                    "z": 0.0
+                },
+                "Scale": {
+                    "x": 0.19999998807907104,
+                    "y": 0.3500000238418579,
+                    "z": 1.0
+                },
+                "Rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                }
+            },
+            "UI Sprite": {
+                "Texture": "",
+                "EnableSprite": true,
+                "LayerID": 1,
+                "is Font": false,
+                "message": "",
+                "Font Texture": "",
+                "ForeGroundColour": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 0.0
+                },
+                "Sprite Color": {
+                    "x": 0.10000000149011612,
+                    "y": 0.10000000149011612,
+                    "z": 0.10000000149011612,
+                    "w": 1.0
+                },
+                "BackGroundColour": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "BoundingBoxMin": {
+                    "x": -0.2734999656677246,
+                    "y": -0.2762500047683716
+                },
+                "BoundingBoxMax": {
+                    "x": -0.07349997758865356,
+                    "y": 0.07375000417232513
+                }
+            }
+        },
+        "201": {
+            "ArchetypeID": "1100001000000",
+            "Name Tag": {
+                "Name": "Study Wall (2)",
+                "Tag": "",
+                "IsActive": true,
+                "HierarchyParent": 1,
+                "HierarchyIndex": 7,
+                "HierarchyChildren": []
+            },
+            "Transform": {
+                "Position": {
+                    "x": -2356.126220703125,
+                    "y": 296.5840148925781,
+                    "z": -43.41015625
+                },
+                "Scale": {
+                    "x": 2.200000047683716,
+                    "y": 1.8300000429153442,
+                    "z": 2.200000047683716
+                },
+                "Rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                }
+            },
+            "Graphics Component": {
+                "PointLight": false,
+                "TextureName": "White.dds",
+                "Mesh Renderer": true,
+                "Debug": false,
+                "ModelName": "Mansion Layout_Bin.bin",
+                "MeshName": "INstudy_DoorWall01",
+                "Color": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 0.0
+                },
+                "Used In 2D": false
+            }
+        },
+        "322": {
+            "ArchetypeID": "1100000000001",
+            "Name Tag": {
+                "Name": "Item10",
+                "Tag": "",
+                "IsActive": true,
+                "HierarchyParent": 300,
+                "HierarchyIndex": 0,
+                "HierarchyChildren": []
+            },
+            "Transform": {
+                "Position": {
+                    "x": -0.6390001773834229,
+                    "y": -0.5062500238418579,
+                    "z": 0.0
+                },
+                "Scale": {
+                    "x": 0.19999998807907104,
+                    "y": 0.3500000238418579,
+                    "z": 1.0
+                },
+                "Rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                }
+            },
+            "UI Sprite": {
+                "Texture": "",
+                "EnableSprite": true,
+                "LayerID": 1,
+                "is Font": false,
+                "message": "",
+                "Font Texture": "",
+                "ForeGroundColour": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 0.0
+                },
+                "Sprite Color": {
+                    "x": 0.10000000149011612,
+                    "y": 0.10000000149011612,
+                    "z": 0.10000000149011612,
+                    "w": 1.0
+                },
+                "BackGroundColour": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "BoundingBoxMin": {
+                    "x": -0.7390002012252808,
+                    "y": -0.6812500357627869
+                },
+                "BoundingBoxMax": {
+                    "x": -0.5390001535415649,
+                    "y": -0.33125001192092896
+                }
+            }
+        },
+        "195": {
+            "ArchetypeID": "1100001000000",
+            "Name Tag": {
+                "Name": "Gallery Wall (3)",
+                "Tag": "",
+                "IsActive": true,
+                "HierarchyParent": 1,
+                "HierarchyIndex": 24,
+                "HierarchyChildren": []
+            },
+            "Transform": {
+                "Position": {
+                    "x": -1387.84130859375,
+                    "y": 296.58447265625,
+                    "z": -980.3115234375
+                },
+                "Scale": {
+                    "x": 2.200000047683716,
+                    "y": 1.8300000429153442,
+                    "z": 2.200000047683716
+                },
+                "Rotation": {
+                    "x": 3.141592502593994,
+                    "y": 1.570796251296997,
+                    "z": 0.0
+                }
+            },
+            "Graphics Component": {
+                "PointLight": false,
+                "TextureName": "Gallery Wall.dds",
+                "Mesh Renderer": true,
+                "Debug": false,
+                "ModelName": "Mansion Layout_Bin.bin",
+                "MeshName": "Cube_9_2",
+                "Color": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 0.0
+                },
+                "Used In 2D": false
+            }
+        },
+        "324": {
+            "ArchetypeID": "1100000000001",
+            "Name Tag": {
+                "Name": "Item12",
+                "Tag": "",
+                "IsActive": true,
+                "HierarchyParent": 302,
+                "HierarchyIndex": 0,
+                "HierarchyChildren": []
+            },
+            "Transform": {
+                "Position": {
+                    "x": -0.1734999716281891,
+                    "y": -0.5062500238418579,
+                    "z": 0.0
+                },
+                "Scale": {
+                    "x": 0.19999998807907104,
+                    "y": 0.3500000238418579,
+                    "z": 1.0
+                },
+                "Rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                }
+            },
+            "UI Sprite": {
+                "Texture": "",
+                "EnableSprite": true,
+                "LayerID": 1,
+                "is Font": false,
+                "message": "",
+                "Font Texture": "",
+                "ForeGroundColour": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 0.0
+                },
+                "Sprite Color": {
+                    "x": 0.10000000149011612,
+                    "y": 0.10000000149011612,
+                    "z": 0.10000000149011612,
+                    "w": 1.0
+                },
+                "BackGroundColour": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "BoundingBoxMin": {
+                    "x": -0.2734999656677246,
+                    "y": -0.6812500357627869
+                },
+                "BoundingBoxMax": {
+                    "x": -0.07349997758865356,
+                    "y": -0.33125001192092896
+                }
+            }
+        },
+        "191": {
+            "ArchetypeID": "1100001000000",
+            "Name Tag": {
+                "Name": "Tube_13__2",
+                "Tag": "",
+                "IsActive": true,
+                "HierarchyParent": 1,
+                "HierarchyIndex": 248,
+                "HierarchyChildren": []
+            },
+            "Transform": {
+                "Position": {
+                    "x": -2340.098388671875,
+                    "y": 288.81365966796875,
+                    "z": 171.50428771972656
+                },
+                "Scale": {
+                    "x": 1.100000023841858,
+                    "y": 1.2200000286102295,
+                    "z": 1.100000023841858
+                },
+                "Rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                }
+            },
+            "Graphics Component": {
+                "PointLight": false,
+                "TextureName": "",
+                "Mesh Renderer": true,
+                "Debug": false,
+                "ModelName": "Mansion Layout_Bin.bin",
+                "MeshName": "Tube_13__2",
+                "Color": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 0.0
+                },
+                "Used In 2D": false
+            }
+        },
+        "304": {
+            "ArchetypeID": "1100000000001",
+            "Name Tag": {
+                "Name": "NotesTab",
+                "Tag": "",
+                "IsActive": true,
+                "HierarchyParent": 289,
+                "HierarchyIndex": 13,
+                "HierarchyChildren": [
+                    309
+                ]
+            },
+            "Transform": {
+                "Position": {
+                    "x": -0.5341743230819702,
+                    "y": 0.7424999475479126,
+                    "z": 0.0
+                },
+                "Scale": {
+                    "x": 0.19999998807907104,
+                    "y": 0.20000004768371582,
+                    "z": 1.0
+                },
+                "Rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                }
+            },
+            "UI Sprite": {
+                "Texture": "",
+                "EnableSprite": true,
+                "LayerID": 1,
+                "is Font": false,
+                "message": "",
+                "Font Texture": "",
+                "ForeGroundColour": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 0.0
+                },
+                "Sprite Color": {
+                    "x": 0.10000000149011612,
+                    "y": 0.10000000149011612,
+                    "z": 0.10000000149011612,
+                    "w": 1.0
+                },
+                "BackGroundColour": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "BoundingBoxMin": {
+                    "x": -0.6341743469238281,
+                    "y": 0.6424999237060547
+                },
+                "BoundingBoxMax": {
+                    "x": -0.4341743290424347,
+                    "y": 0.8424999713897705
+                }
+            }
+        },
+        "189": {
+            "ArchetypeID": "1100001000000",
+            "Name Tag": {
+                "Name": "Plate_13__2",
+                "Tag": "",
+                "IsActive": true,
+                "HierarchyParent": 1,
+                "HierarchyIndex": 246,
+                "HierarchyChildren": []
+            },
+            "Transform": {
+                "Position": {
+                    "x": -2341.35009765625,
+                    "y": 203.0966339111328,
+                    "z": 120.23974609375
+                },
+                "Scale": {
+                    "x": 1.100000023841858,
+                    "y": 1.2200000286102295,
+                    "z": 1.100000023841858
+                },
+                "Rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                }
+            },
+            "Graphics Component": {
+                "PointLight": false,
+                "TextureName": "",
+                "Mesh Renderer": true,
+                "Debug": false,
+                "ModelName": "Mansion Layout_Bin.bin",
+                "MeshName": "Plate_13__2",
+                "Color": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 0.0
+                },
+                "Used In 2D": false
+            }
+        },
+        "310": {
+            "ArchetypeID": "1100000000001",
+            "Name Tag": {
+                "Name": "Paintings Text",
+                "Tag": "",
+                "IsActive": true,
+                "HierarchyParent": 289,
+                "HierarchyIndex": 14,
+                "HierarchyChildren": [
+                    305
+                ]
+            },
+            "Transform": {
+                "Position": {
+                    "x": -0.360856294631958,
+                    "y": 0.6744487881660461,
+                    "z": 0.0
+                },
+                "Scale": {
+                    "x": 0.05811506509780884,
+                    "y": 0.1100001335144043,
+                    "z": 0.10000002384185791
+                },
+                "Rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                }
+            },
+            "UI Sprite": {
+                "Texture": "",
+                "EnableSprite": true,
+                "LayerID": 0,
+                "is Font": true,
+                "message": "Paintings",
+                "Font Texture": "Roboto-Medium.dds",
+                "ForeGroundColour": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 0.0
+                },
+                "Sprite Color": {
+                    "x": 0.10000000149011612,
+                    "y": 0.10000000149011612,
+                    "z": 0.10000000149011612,
+                    "w": 1.0
+                },
+                "BackGroundColour": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "BoundingBoxMin": {
+                    "x": -0.5,
+                    "y": -0.5
+                },
+                "BoundingBoxMax": {
+                    "x": 0.5,
+                    "y": 0.5
+                }
+            }
+        },
+        "187": {
+            "ArchetypeID": "1100001000000",
+            "Name Tag": {
+                "Name": "Handle_13__2",
+                "Tag": "",
+                "IsActive": true,
+                "HierarchyParent": 1,
+                "HierarchyIndex": 245,
+                "HierarchyChildren": []
+            },
+            "Transform": {
+                "Position": {
+                    "x": -2338.921875,
+                    "y": 202.9937286376953,
+                    "z": 120.206787109375
+                },
+                "Scale": {
+                    "x": 1.100000023841858,
+                    "y": 1.2200000286102295,
+                    "z": 1.100000023841858
+                },
+                "Rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                }
+            },
+            "Graphics Component": {
+                "PointLight": false,
+                "TextureName": "",
+                "Mesh Renderer": true,
+                "Debug": false,
+                "ModelName": "Mansion Layout_Bin.bin",
+                "MeshName": "Handle_13__2",
+                "Color": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 0.0
+                },
+                "Used In 2D": false
+            }
+        },
+        "316": {
+            "ArchetypeID": "1100000000001",
+            "Name Tag": {
+                "Name": "Item4",
+                "Tag": "",
+                "IsActive": true,
+                "HierarchyParent": 293,
+                "HierarchyIndex": 0,
+                "HierarchyChildren": []
+            },
+            "Transform": {
+                "Position": {
+                    "x": -0.1734999716281891,
+                    "y": 0.3149999976158142,
+                    "z": 0.0
+                },
+                "Scale": {
+                    "x": 0.19999998807907104,
+                    "y": 0.3500000238418579,
+                    "z": 1.0
+                },
+                "Rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                }
+            },
+            "UI Sprite": {
+                "Texture": "",
+                "EnableSprite": true,
+                "LayerID": 1,
+                "is Font": false,
+                "message": "",
+                "Font Texture": "",
+                "ForeGroundColour": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 0.0
+                },
+                "Sprite Color": {
+                    "x": 0.10000000149011612,
+                    "y": 0.10000000149011612,
+                    "z": 0.10000000149011612,
+                    "w": 1.0
+                },
+                "BackGroundColour": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "BoundingBoxMin": {
+                    "x": -0.2734999656677246,
+                    "y": 0.13999998569488525
+                },
+                "BoundingBoxMax": {
+                    "x": -0.07349997758865356,
+                    "y": 0.49000000953674316
+                }
+            }
+        },
+        "185": {
+            "ArchetypeID": "1100001000000",
+            "Name Tag": {
+                "Name": "Main Wall (4)",
+                "Tag": "",
+                "IsActive": true,
+                "HierarchyParent": 1,
+                "HierarchyIndex": 135,
+                "HierarchyChildren": []
+            },
+            "Transform": {
+                "Position": {
+                    "x": 177.69464111328125,
+                    "y": 296.58447265625,
+                    "z": 352.5708312988281
+                },
+                "Scale": {
+                    "x": 2.200000047683716,
+                    "y": 1.8300000429153442,
+                    "z": 2.200000047683716
+                },
+                "Rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 3.141592502593994
+                }
+            },
+            "Graphics Component": {
+                "PointLight": false,
+                "TextureName": "White.dds",
+                "Mesh Renderer": true,
+                "Debug": false,
+                "ModelName": "Mansion Layout_Bin.bin",
+                "MeshName": "ninja_star_0_2",
+                "Color": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 0.0
+                },
+                "Used In 2D": false
+            }
+        },
+        "306": {
+            "ArchetypeID": "1100000000001",
+            "Name Tag": {
+                "Name": "MouseClick",
+                "Tag": "",
+                "IsActive": true,
+                "HierarchyParent": 289,
+                "HierarchyIndex": 15,
+                "HierarchyChildren": [
+                    311
+                ]
+            },
+            "Transform": {
+                "Position": {
+                    "x": -0.9249500036239624,
+                    "y": -0.9180000424385071,
+                    "z": 0.0
+                },
+                "Scale": {
+                    "x": 0.11100000143051147,
+                    "y": 0.1099998950958252,
+                    "z": 1.0
+                },
+                "Rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                }
+            },
+            "UI Sprite": {
+                "Texture": "Mouse Left Click UI.dds",
+                "EnableSprite": true,
+                "LayerID": 1,
+                "is Font": false,
+                "message": "",
+                "Font Texture": "",
+                "ForeGroundColour": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 0.0
+                },
+                "Sprite Color": {
+                    "x": 0.10000000149011612,
+                    "y": 0.10000000149011612,
+                    "z": 0.10000000149011612,
+                    "w": 1.0
+                },
+                "BackGroundColour": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "BoundingBoxMin": {
+                    "x": -0.9804500341415405,
+                    "y": -0.9729999899864197
+                },
+                "BoundingBoxMax": {
+                    "x": -0.8694499731063843,
+                    "y": -0.8630000948905945
+                }
+            }
+        },
+        "183": {
+            "ArchetypeID": "1100001000000",
+            "Name Tag": {
+                "Name": "Study Door Frame",
+                "Tag": "",
+                "IsActive": true,
+                "HierarchyParent": 1,
+                "HierarchyIndex": 5,
+                "HierarchyChildren": []
+            },
+            "Transform": {
+                "Position": {
+                    "x": -2346.6337890625,
+                    "y": 242.33447265625,
+                    "z": 171.1780242919922
+                },
+                "Scale": {
+                    "x": 1.100000023841858,
+                    "y": 1.2200000286102295,
+                    "z": 1.100000023841858
+                },
+                "Rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                }
+            },
+            "Graphics Component": {
+                "PointLight": false,
+                "TextureName": "Wood008_1K-PNG_Color.dds",
+                "Mesh Renderer": true,
+                "Debug": false,
+                "ModelName": "Mansion Layout_Bin.bin",
+                "MeshName": "Cube_13__2",
+                "Color": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 0.0
+                },
+                "Used In 2D": false
+            }
+        },
+        "296": {
+            "ArchetypeID": "1100000000001",
+            "Name Tag": {
+                "Name": "Item6",
+                "Tag": "",
+                "IsActive": true,
+                "HierarchyParent": 318,
+                "HierarchyIndex": 0,
+                "HierarchyChildren": []
+            },
+            "Transform": {
+                "Position": {
+                    "x": -0.6390001773834229,
+                    "y": -0.10125000774860382,
+                    "z": 0.0
+                },
+                "Scale": {
+                    "x": 0.19999998807907104,
+                    "y": 0.3500000238418579,
+                    "z": 1.0
+                },
+                "Rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                }
+            },
+            "UI Sprite": {
+                "Texture": "",
+                "EnableSprite": true,
+                "LayerID": 1,
+                "is Font": false,
+                "message": "",
+                "Font Texture": "",
+                "ForeGroundColour": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 0.0
+                },
+                "Sprite Color": {
+                    "x": 0.10196078568696976,
+                    "y": 0.10196078568696976,
+                    "z": 0.10196078568696976,
+                    "w": 1.0
+                },
+                "BackGroundColour": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "BoundingBoxMin": {
+                    "x": -0.7390002012252808,
+                    "y": -0.2762500047683716
+                },
+                "BoundingBoxMax": {
+                    "x": -0.5390001535415649,
+                    "y": 0.07375000417232513
+                }
+            }
+        },
+        "181": {
+            "ArchetypeID": "1100001000000",
+            "Name Tag": {
+                "Name": "Tube_13__1",
+                "Tag": "",
+                "IsActive": true,
+                "HierarchyParent": 1,
+                "HierarchyIndex": 242,
+                "HierarchyChildren": []
+            },
+            "Transform": {
+                "Position": {
+                    "x": 2032.7313232421875,
+                    "y": 288.44281005859375,
+                    "z": -1117.942626953125
+                },
+                "Scale": {
+                    "x": 1.100000023841858,
+                    "y": 1.2200000286102295,
+                    "z": 1.100000023841858
+                },
+                "Rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                }
+            },
+            "Graphics Component": {
+                "PointLight": false,
+                "TextureName": "",
+                "Mesh Renderer": true,
+                "Debug": false,
+                "ModelName": "Mansion Layout_Bin.bin",
+                "MeshName": "Tube_13__1",
+                "Color": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 0.0
+                },
+                "Used In 2D": false
+            }
+        },
+        "302": {
+            "ArchetypeID": "1100000000001",
+            "Name Tag": {
+                "Name": "Box12",
+                "Tag": "",
+                "IsActive": true,
+                "HierarchyParent": 289,
+                "HierarchyIndex": 11,
+                "HierarchyChildren": [
+                    324
+                ]
+            },
+            "Transform": {
+                "Position": {
+                    "x": -0.1734999716281891,
+                    "y": -0.5062500238418579,
+                    "z": 0.0
+                },
+                "Scale": {
+                    "x": 0.19999998807907104,
+                    "y": 0.3500000238418579,
+                    "z": 1.0
+                },
+                "Rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                }
+            },
+            "UI Sprite": {
+                "Texture": "Inventory Box Img.dds",
+                "EnableSprite": true,
+                "LayerID": 1,
+                "is Font": false,
+                "message": "",
+                "Font Texture": "",
+                "ForeGroundColour": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 0.0
+                },
+                "Sprite Color": {
+                    "x": 0.10196078568696976,
+                    "y": 0.10196078568696976,
+                    "z": 0.10196078568696976,
+                    "w": 0.6078431606292725
+                },
+                "BackGroundColour": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "BoundingBoxMin": {
+                    "x": -0.2734999656677246,
+                    "y": -0.6812500357627869
+                },
+                "BoundingBoxMax": {
+                    "x": -0.07349997758865356,
+                    "y": -0.33125001192092896
+                }
+            }
+        },
+        "179": {
+            "ArchetypeID": "1100001000000",
+            "Name Tag": {
+                "Name": "Plate_13__1",
+                "Tag": "",
+                "IsActive": true,
+                "HierarchyParent": 1,
+                "HierarchyIndex": 240,
+                "HierarchyChildren": []
+            },
+            "Transform": {
+                "Position": {
+                    "x": 2031.479736328125,
+                    "y": 202.72581481933594,
+                    "z": -1169.2071533203125
+                },
+                "Scale": {
+                    "x": 1.100000023841858,
+                    "y": 1.2200000286102295,
+                    "z": 1.100000023841858
+                },
+                "Rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                }
+            },
+            "Graphics Component": {
+                "PointLight": false,
+                "TextureName": "",
+                "Mesh Renderer": true,
+                "Debug": false,
+                "ModelName": "Mansion Layout_Bin.bin",
+                "MeshName": "Plate_13__1",
+                "Color": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 0.0
+                },
+                "Used In 2D": false
+            }
+        },
+        "308": {
+            "ArchetypeID": "1100000000001",
+            "Name Tag": {
+                "Name": "Item Text",
+                "Tag": "",
+                "IsActive": true,
+                "HierarchyParent": 303,
+                "HierarchyIndex": 0,
+                "HierarchyChildren": []
+            },
+            "Transform": {
+                "Position": {
+                    "x": -0.8929663896560669,
+                    "y": 0.6822309494018555,
+                    "z": 0.0
+                },
+                "Scale": {
+                    "x": 0.06534156203269958,
+                    "y": 0.11000004410743713,
+                    "z": 0.8600000143051147
+                },
+                "Rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                }
+            },
+            "UI Sprite": {
+                "Texture": "",
+                "EnableSprite": true,
+                "LayerID": 1,
+                "is Font": true,
+                "message": "Items",
+                "Font Texture": "Roboto-Medium.dds",
+                "ForeGroundColour": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 255.0
+                },
+                "Sprite Color": {
+                    "x": 0.10000000149011612,
+                    "y": 0.10000000149011612,
+                    "z": 0.10000000149011612,
+                    "w": 1.0
+                },
+                "BackGroundColour": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "BoundingBoxMin": {
+                    "x": -0.9256371855735779,
+                    "y": 0.6272309422492981
+                },
+                "BoundingBoxMax": {
+                    "x": -0.8602955937385559,
+                    "y": 0.7372309565544128
+                }
+            }
+        },
+        "177": {
+            "ArchetypeID": "1100001000000",
+            "Name Tag": {
+                "Name": "Toilet Door",
+                "Tag": "",
+                "IsActive": true,
+                "HierarchyParent": 1,
+                "HierarchyIndex": 92,
+                "HierarchyChildren": []
+            },
+            "Transform": {
+                "Position": {
+                    "x": 2026.956298828125,
+                    "y": 231.79159545898438,
+                    "z": -1118.168212890625
+                },
+                "Scale": {
+                    "x": 1.100000023841858,
+                    "y": 1.2200000286102295,
+                    "z": 1.100000023841858
+                },
+                "Rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                }
+            },
+            "Graphics Component": {
+                "PointLight": false,
+                "TextureName": "GoldColor.dds",
+                "Mesh Renderer": true,
+                "Debug": false,
+                "ModelName": "Mansion Layout_Bin.bin",
+                "MeshName": "Door_13__1",
+                "Color": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 0.0
+                },
+                "Used In 2D": false
+            }
+        },
+        "298": {
+            "ArchetypeID": "1100000000001",
+            "Name Tag": {
+                "Name": "Box8",
+                "Tag": "",
+                "IsActive": true,
+                "HierarchyParent": 289,
+                "HierarchyIndex": 7,
+                "HierarchyChildren": [
+                    320
+                ]
+            },
+            "Transform": {
+                "Position": {
+                    "x": -0.1734999716281891,
+                    "y": -0.10125000774860382,
+                    "z": 0.0
+                },
+                "Scale": {
+                    "x": 0.19999998807907104,
+                    "y": 0.3500000238418579,
+                    "z": 1.0
+                },
+                "Rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                }
+            },
+            "UI Sprite": {
+                "Texture": "Inventory Box Img.dds",
+                "EnableSprite": true,
+                "LayerID": 1,
+                "is Font": false,
+                "message": "",
+                "Font Texture": "",
+                "ForeGroundColour": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 0.0
+                },
+                "Sprite Color": {
+                    "x": 0.10196078568696976,
+                    "y": 0.10196078568696976,
+                    "z": 0.10196078568696976,
+                    "w": 0.6078431606292725
+                },
+                "BackGroundColour": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "BoundingBoxMin": {
+                    "x": -0.2734999656677246,
+                    "y": -0.2762500047683716
+                },
+                "BoundingBoxMax": {
+                    "x": -0.07349997758865356,
+                    "y": 0.07375000417232513
+                }
+            }
+        },
+        "171": {
+            "ArchetypeID": "1100001000000",
+            "Name Tag": {
+                "Name": "Engraving_13",
+                "Tag": "",
+                "IsActive": true,
+                "HierarchyParent": 1,
+                "HierarchyIndex": 235,
+                "HierarchyChildren": []
+            },
+            "Transform": {
+                "Position": {
+                    "x": 1789.447265625,
+                    "y": 284.3987121582031,
+                    "z": -738.1676025390625
+                },
+                "Scale": {
+                    "x": 1.100000023841858,
+                    "y": 1.2200000286102295,
+                    "z": 1.100000023841858
+                },
+                "Rotation": {
+                    "x": 0.0,
+                    "y": -1.570796251296997,
+                    "z": 0.0
+                }
+            },
+            "Graphics Component": {
+                "PointLight": false,
+                "TextureName": "",
+                "Mesh Renderer": true,
+                "Debug": false,
+                "ModelName": "Mansion Layout_Bin.bin",
+                "MeshName": "Engraving_13",
+                "Color": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 0.0
+                },
+                "Used In 2D": false
+            }
+        },
+        "300": {
+            "ArchetypeID": "1100000000001",
+            "Name Tag": {
+                "Name": "Box10",
+                "Tag": "",
+                "IsActive": true,
+                "HierarchyParent": 289,
+                "HierarchyIndex": 9,
+                "HierarchyChildren": [
+                    322
+                ]
+            },
+            "Transform": {
+                "Position": {
+                    "x": -0.6390001773834229,
+                    "y": -0.5062500238418579,
+                    "z": 0.0
+                },
+                "Scale": {
+                    "x": 0.19999998807907104,
+                    "y": 0.3500000238418579,
+                    "z": 1.0
+                },
+                "Rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                }
+            },
+            "UI Sprite": {
+                "Texture": "Inventory Box Img.dds",
+                "EnableSprite": true,
+                "LayerID": 1,
+                "is Font": false,
+                "message": "",
+                "Font Texture": "",
+                "ForeGroundColour": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 0.0
+                },
+                "Sprite Color": {
+                    "x": 0.10196078568696976,
+                    "y": 0.10196078568696976,
+                    "z": 0.10196078568696976,
+                    "w": 0.6078431606292725
+                },
+                "BackGroundColour": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "BoundingBoxMin": {
+                    "x": -0.7390002012252808,
+                    "y": -0.6812500357627869
+                },
+                "BoundingBoxMax": {
+                    "x": -0.5390001535415649,
+                    "y": -0.33125001192092896
+                }
+            }
+        },
+        "169": {
+            "ArchetypeID": "1100001000000",
+            "Name Tag": {
+                "Name": "Dinning Wall (7)",
+                "Tag": "",
+                "IsActive": true,
+                "HierarchyParent": 1,
+                "HierarchyIndex": 64,
+                "HierarchyChildren": []
+            },
+            "Transform": {
+                "Position": {
+                    "x": -868.8063354492188,
+                    "y": 296.5840148925781,
+                    "z": -722.0784912109375
+                },
+                "Scale": {
+                    "x": 2.1999950408935547,
+                    "y": 1.8299992084503174,
+                    "z": 2.199995517730713
+                },
+                "Rotation": {
+                    "x": 0.0,
+                    "y": 1.5707958936691284,
+                    "z": 0.0
+                }
+            },
+            "Graphics Component": {
+                "PointLight": false,
+                "TextureName": "Wood008_1K-PNG_Color.dds",
+                "Mesh Renderer": true,
+                "Debug": false,
+                "ModelName": "Mansion Layout_Bin.bin",
+                "MeshName": "LivKit_R",
+                "Color": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 0.0
+                },
+                "Used In 2D": false
+            }
+        },
+        "290": {
+            "ArchetypeID": "1100000000001",
+            "Name Tag": {
+                "Name": "Box1",
+                "Tag": "",
+                "IsActive": true,
+                "HierarchyParent": 289,
+                "HierarchyIndex": 0,
+                "HierarchyChildren": [
+                    313
+                ]
+            },
+            "Transform": {
+                "Position": {
+                    "x": -0.8765000104904175,
+                    "y": 0.3149999976158142,
+                    "z": 0.0
+                },
+                "Scale": {
+                    "x": 0.19999998807907104,
+                    "y": 0.3500000238418579,
+                    "z": 1.0
+                },
+                "Rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                }
+            },
+            "UI Sprite": {
+                "Texture": "Inventory Box Img.dds",
+                "EnableSprite": true,
+                "LayerID": 1,
+                "is Font": false,
+                "message": "",
+                "Font Texture": "",
+                "ForeGroundColour": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 0.0
+                },
+                "Sprite Color": {
+                    "x": 0.10196078568696976,
+                    "y": 0.10196078568696976,
+                    "z": 0.10196078568696976,
+                    "w": 0.6078431606292725
+                },
+                "BackGroundColour": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "BoundingBoxMin": {
+                    "x": -0.9765000343322754,
+                    "y": 0.13999998569488525
+                },
+                "BoundingBoxMax": {
+                    "x": -0.7764999866485596,
+                    "y": 0.49000000953674316
+                }
+            }
+        },
+        "163": {
+            "ArchetypeID": "1100001000000",
+            "Name Tag": {
+                "Name": "Oil_Tank__11",
+                "Tag": "",
+                "IsActive": true,
+                "HierarchyParent": 1,
+                "HierarchyIndex": 231,
+                "HierarchyChildren": []
+            },
+            "Transform": {
+                "Position": {
+                    "x": 1780.222900390625,
+                    "y": 228.71627807617188,
+                    "z": 115.6181640625
+                },
+                "Scale": {
+                    "x": 1.100000023841858,
+                    "y": 1.2200000286102295,
+                    "z": 1.100000023841858
+                },
+                "Rotation": {
+                    "x": 0.0,
+                    "y": -1.570796251296997,
+                    "z": 0.0
+                }
+            },
+            "Graphics Component": {
+                "PointLight": false,
+                "TextureName": "",
+                "Mesh Renderer": true,
+                "Debug": false,
+                "ModelName": "Mansion Layout_Bin.bin",
+                "MeshName": "Oil_Tank__11",
+                "Color": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 0.0
+                },
+                "Used In 2D": false
+            }
+        },
+        "292": {
+            "ArchetypeID": "1100000000001",
+            "Name Tag": {
+                "Name": "Box3",
+                "Tag": "",
+                "IsActive": true,
+                "HierarchyParent": 289,
+                "HierarchyIndex": 2,
+                "HierarchyChildren": [
+                    315
+                ]
+            },
+            "Transform": {
+                "Position": {
+                    "x": -0.4015001058578491,
+                    "y": 0.3149999976158142,
+                    "z": 0.0
+                },
+                "Scale": {
+                    "x": 0.19999998807907104,
+                    "y": 0.3500000238418579,
+                    "z": 1.0
+                },
+                "Rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                }
+            },
+            "UI Sprite": {
+                "Texture": "Inventory Box Img.dds",
+                "EnableSprite": true,
+                "LayerID": 1,
+                "is Font": false,
+                "message": "",
+                "Font Texture": "",
+                "ForeGroundColour": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 0.0
+                },
+                "Sprite Color": {
+                    "x": 0.10196078568696976,
+                    "y": 0.10196078568696976,
+                    "z": 0.10196078568696976,
+                    "w": 0.6078431606292725
+                },
+                "BackGroundColour": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "BoundingBoxMin": {
+                    "x": -0.501500129699707,
+                    "y": 0.13999998569488525
+                },
+                "BoundingBoxMax": {
+                    "x": -0.3015001118183136,
+                    "y": 0.49000000953674316
+                }
+            }
+        },
+        "135": {
+            "ArchetypeID": "1100001000000",
+            "Name Tag": {
+                "Name": "Living Door Frame (1)",
+                "Tag": "",
+                "IsActive": true,
+                "HierarchyParent": 1,
+                "HierarchyIndex": 211,
+                "HierarchyChildren": []
+            },
+            "Transform": {
+                "Position": {
+                    "x": 936.8729858398438,
+                    "y": 236.07003784179688,
+                    "z": -12.3939208984375
+                },
+                "Scale": {
+                    "x": 1.100000023841858,
+                    "y": 1.2200000286102295,
+                    "z": 1.100000023841858
+                },
+                "Rotation": {
+                    "x": 0.0,
+                    "y": 1.570796251296997,
+                    "z": 0.0
+                }
+            },
+            "Graphics Component": {
+                "PointLight": false,
+                "TextureName": "Door Border Color.dds",
+                "Mesh Renderer": true,
+                "Debug": false,
+                "ModelName": "Mansion Layout_Bin.bin",
+                "MeshName": "Border_2__4",
+                "Color": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 0.0
+                },
+                "Used In 2D": false
+            }
+        },
+        "312": {
+            "ArchetypeID": "1100000000001",
+            "Name Tag": {
+                "Name": "Close Text",
+                "Tag": "",
+                "IsActive": true,
+                "HierarchyParent": 307,
+                "HierarchyIndex": 0,
+                "HierarchyChildren": []
+            },
+            "Transform": {
+                "Position": {
+                    "x": -0.23853281140327454,
+                    "y": -0.9546043276786804,
+                    "z": 0.0
+                },
+                "Scale": {
+                    "x": 0.07177895307540894,
+                    "y": 0.07177895307540894,
+                    "z": 0.07177901268005371
+                },
+                "Rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                }
+            },
+            "UI Sprite": {
+                "Texture": "",
+                "EnableSprite": true,
+                "LayerID": 1,
+                "is Font": true,
+                "message": "Close",
+                "Font Texture": "Roboto-Medium.dds",
+                "ForeGroundColour": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0,
+                    "w": 1.0
+                },
+                "Sprite Color": {
+                    "x": 0.10000000149011612,
+                    "y": 0.10000000149011612,
+                    "z": 0.10000000149011612,
+                    "w": 1.0
+                },
+                "BackGroundColour": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0,
+                    "w": 1.0
+                },
+                "BoundingBoxMin": {
+                    "x": -0.5000004768371582,
+                    "y": -0.5
+                },
+                "BoundingBoxMax": {
+                    "x": 0.4999995529651642,
+                    "y": 0.5
+                }
+            }
+        },
+        "133": {
+            "ArchetypeID": "1100001000000",
+            "Name Tag": {
+                "Name": "Oil_Tank__7",
+                "Tag": "",
+                "IsActive": true,
+                "HierarchyParent": 1,
+                "HierarchyIndex": 209,
+                "HierarchyChildren": []
+            },
+            "Transform": {
+                "Position": {
+                    "x": -1940.46923828125,
+                    "y": 228.71627807617188,
+                    "z": -66.1168212890625
+                },
+                "Scale": {
+                    "x": 1.100000023841858,
+                    "y": 1.2200000286102295,
+                    "z": 1.100000023841858
+                },
+                "Rotation": {
+                    "x": 0.0,
+                    "y": -1.570796251296997,
+                    "z": 0.0
+                }
+            },
+            "Graphics Component": {
+                "PointLight": false,
+                "TextureName": "",
+                "Mesh Renderer": true,
+                "Debug": false,
+                "ModelName": "Mansion Layout_Bin.bin",
+                "MeshName": "Oil_Tank__7",
+                "Color": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 0.0
+                },
+                "Used In 2D": false
+            }
+        },
+        "318": {
+            "ArchetypeID": "1100000000001",
+            "Name Tag": {
+                "Name": "Box6",
+                "Tag": "",
+                "IsActive": true,
+                "HierarchyParent": 289,
+                "HierarchyIndex": 5,
+                "HierarchyChildren": [
+                    296
+                ]
+            },
+            "Transform": {
+                "Position": {
+                    "x": -0.6390001773834229,
+                    "y": -0.10125000774860382,
+                    "z": 0.0
+                },
+                "Scale": {
+                    "x": 0.19999998807907104,
+                    "y": 0.3500000238418579,
+                    "z": 1.0
+                },
+                "Rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                }
+            },
+            "UI Sprite": {
+                "Texture": "Inventory Box Img.dds",
+                "EnableSprite": true,
+                "LayerID": 1,
+                "is Font": false,
+                "message": "",
+                "Font Texture": "",
+                "ForeGroundColour": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 0.0
+                },
+                "Sprite Color": {
+                    "x": 0.10196078568696976,
+                    "y": 0.10196078568696976,
+                    "z": 0.10196078568696976,
+                    "w": 0.6078431606292725
+                },
+                "BackGroundColour": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "BoundingBoxMin": {
+                    "x": -0.7390002012252808,
+                    "y": -0.2762500047683716
+                },
+                "BoundingBoxMax": {
+                    "x": -0.5390001535415649,
+                    "y": 0.07375000417232513
+                }
+            }
+        },
+        "129": {
+            "ArchetypeID": "1100001000000",
+            "Name Tag": {
+                "Name": "Engraving__7",
+                "Tag": "",
+                "IsActive": true,
+                "HierarchyParent": 1,
+                "HierarchyIndex": 205,
+                "HierarchyChildren": []
+            },
+            "Transform": {
+                "Position": {
+                    "x": -1991.7135009765625,
+                    "y": 284.0278625488281,
+                    "z": -65.49522399902344
+                },
+                "Scale": {
+                    "x": 1.100000023841858,
+                    "y": 1.2200000286102295,
+                    "z": 1.100000023841858
+                },
+                "Rotation": {
+                    "x": 0.0,
+                    "y": -1.570796251296997,
+                    "z": 0.0
+                }
+            },
+            "Graphics Component": {
+                "PointLight": false,
+                "TextureName": "",
+                "Mesh Renderer": true,
+                "Debug": false,
+                "ModelName": "Mansion Layout_Bin.bin",
+                "MeshName": "Engraving__7",
+                "Color": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 0.0
+                },
+                "Used In 2D": false
+            }
+        },
+        "314": {
+            "ArchetypeID": "1100000000001",
+            "Name Tag": {
+                "Name": "Item2",
+                "Tag": "",
+                "IsActive": true,
+                "HierarchyParent": 291,
+                "HierarchyIndex": 0,
+                "HierarchyChildren": []
+            },
+            "Transform": {
+                "Position": {
+                    "x": -0.6390001773834229,
+                    "y": 0.3149999976158142,
+                    "z": 0.0
+                },
+                "Scale": {
+                    "x": 0.19999998807907104,
+                    "y": 0.3500000238418579,
+                    "z": 1.0
+                },
+                "Rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                }
+            },
+            "UI Sprite": {
+                "Texture": "",
+                "EnableSprite": true,
+                "LayerID": 1,
+                "is Font": false,
+                "message": "",
+                "Font Texture": "",
+                "ForeGroundColour": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 0.0
+                },
+                "Sprite Color": {
+                    "x": 0.10000000149011612,
+                    "y": 0.10000000149011612,
+                    "z": 0.10000000149011612,
+                    "w": 1.0
+                },
+                "BackGroundColour": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "BoundingBoxMin": {
+                    "x": -0.7390002012252808,
+                    "y": 0.13999998569488525
+                },
+                "BoundingBoxMax": {
+                    "x": -0.5390001535415649,
+                    "y": 0.49000000953674316
+                }
+            }
+        },
         "1": {
             "ArchetypeID": "1100001000000",
             "Name Tag": {
@@ -5800,173 +7614,6 @@
                 "Used In 2D": false
             }
         },
-        "314": {
-            "ArchetypeID": "1100000000001",
-            "Name Tag": {
-                "Name": "Item2",
-                "Tag": "",
-                "IsActive": true,
-                "HierarchyParent": 291,
-                "HierarchyIndex": 0,
-                "HierarchyChildren": []
-            },
-            "Transform": {
-                "Position": {
-                    "x": -0.6390001773834229,
-                    "y": 0.3149999976158142,
-                    "z": 0.0
-                },
-                "Scale": {
-                    "x": 0.19999998807907104,
-                    "y": 0.3500000238418579,
-                    "z": 1.0
-                },
-                "Rotation": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                }
-            },
-            "UI Sprite": {
-                "Texture": "",
-                "EnableSprite": true,
-                "LayerID": 1,
-                "is Font": false,
-                "message": "",
-                "Font Texture": "",
-                "ForeGroundColour": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0,
-                    "w": 0.0
-                },
-                "Sprite Color": {
-                    "x": 0.10000000149011612,
-                    "y": 0.10000000149011612,
-                    "z": 0.10000000149011612,
-                    "w": 1.0
-                },
-                "BackGroundColour": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0,
-                    "w": 1.0
-                },
-                "BoundingBoxMin": {
-                    "x": -0.7390002012252808,
-                    "y": 0.13999998569488525
-                },
-                "BoundingBoxMax": {
-                    "x": -0.5390001535415649,
-                    "y": 0.49000000953674316
-                }
-            }
-        },
-        "129": {
-            "ArchetypeID": "1100001000000",
-            "Name Tag": {
-                "Name": "Engraving__7",
-                "Tag": "",
-                "IsActive": true,
-                "HierarchyParent": 1,
-                "HierarchyIndex": 205,
-                "HierarchyChildren": []
-            },
-            "Transform": {
-                "Position": {
-                    "x": -1991.7135009765625,
-                    "y": 284.0278625488281,
-                    "z": -65.49522399902344
-                },
-                "Scale": {
-                    "x": 1.100000023841858,
-                    "y": 1.2200000286102295,
-                    "z": 1.100000023841858
-                },
-                "Rotation": {
-                    "x": 0.0,
-                    "y": -1.570796251296997,
-                    "z": 0.0
-                }
-            },
-            "Graphics Component": {
-                "PointLight": false,
-                "TextureName": "",
-                "Mesh Renderer": true,
-                "Debug": false,
-                "ModelName": "Mansion Layout_Bin.bin",
-                "MeshName": "Engraving__7",
-                "Color": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0,
-                    "w": 0.0
-                },
-                "Used In 2D": false
-            }
-        },
-        "314": {
-            "ArchetypeID": "1100000000001",
-            "Name Tag": {
-                "Name": "Item2",
-                "Tag": "",
-                "IsActive": true,
-                "HierarchyParent": 291,
-                "HierarchyIndex": 0,
-                "HierarchyChildren": []
-            },
-            "Transform": {
-                "Position": {
-                    "x": -0.6390001773834229,
-                    "y": 0.3149999976158142,
-                    "z": 0.0
-                },
-                "Scale": {
-                    "x": 0.19999998807907104,
-                    "y": 0.3500000238418579,
-                    "z": 1.0
-                },
-                "Rotation": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                }
-            },
-            "UI Sprite": {
-                "Texture": "",
-                "EnableSprite": true,
-                "LayerID": 1,
-                "is Font": false,
-                "message": "",
-                "Font Texture": "",
-                "ForeGroundColour": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0,
-                    "w": 0.0
-                },
-                "Sprite Color": {
-                    "x": 0.10000000149011612,
-                    "y": 0.10000000149011612,
-                    "z": 0.10000000149011612,
-                    "w": 1.0
-                },
-                "BackGroundColour": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0,
-                    "w": 1.0
-                },
-                "BoundingBoxMin": {
-                    "x": -0.7390002012252808,
-                    "y": 0.13999998569488525
-                },
-                "BoundingBoxMax": {
-                    "x": -0.5390001535415649,
-                    "y": 0.49000000953674316
-                }
-            }
-        },
         "130": {
             "ArchetypeID": "1100001000000",
             "Name Tag": {
@@ -6139,177 +7786,6 @@
                 "Used In 2D": false
             }
         },
-        "318": {
-            "ArchetypeID": "1100000000001",
-            "Name Tag": {
-                "Name": "Box6",
-                "Tag": "",
-                "IsActive": true,
-                "HierarchyParent": 289,
-                "HierarchyIndex": 5,
-                "HierarchyChildren": [
-                    296
-                ]
-            },
-            "Transform": {
-                "Position": {
-                    "x": -0.6390001773834229,
-                    "y": -0.10125000774860382,
-                    "z": 0.0
-                },
-                "Scale": {
-                    "x": 0.19999998807907104,
-                    "y": 0.3500000238418579,
-                    "z": 1.0
-                },
-                "Rotation": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                }
-            },
-            "UI Sprite": {
-                "Texture": "Inventory Box Img.dds",
-                "EnableSprite": true,
-                "LayerID": 1,
-                "is Font": false,
-                "message": "",
-                "Font Texture": "",
-                "ForeGroundColour": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0,
-                    "w": 0.0
-                },
-                "Sprite Color": {
-                    "x": 0.10196078568696976,
-                    "y": 0.10196078568696976,
-                    "z": 0.10196078568696976,
-                    "w": 0.6078431606292725
-                },
-                "BackGroundColour": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0,
-                    "w": 1.0
-                },
-                "BoundingBoxMin": {
-                    "x": -0.7390002012252808,
-                    "y": -0.2762500047683716
-                },
-                "BoundingBoxMax": {
-                    "x": -0.5390001535415649,
-                    "y": 0.07375000417232513
-                }
-            }
-        },
-        "133": {
-            "ArchetypeID": "1100001000000",
-            "Name Tag": {
-                "Name": "Oil_Tank__7",
-                "Tag": "",
-                "IsActive": true,
-                "HierarchyParent": 1,
-                "HierarchyIndex": 209,
-                "HierarchyChildren": []
-            },
-            "Transform": {
-                "Position": {
-                    "x": -1940.46923828125,
-                    "y": 228.71627807617188,
-                    "z": -66.1168212890625
-                },
-                "Scale": {
-                    "x": 1.100000023841858,
-                    "y": 1.2200000286102295,
-                    "z": 1.100000023841858
-                },
-                "Rotation": {
-                    "x": 0.0,
-                    "y": -1.570796251296997,
-                    "z": 0.0
-                }
-            },
-            "Graphics Component": {
-                "PointLight": false,
-                "TextureName": "",
-                "Mesh Renderer": true,
-                "Debug": false,
-                "ModelName": "Mansion Layout_Bin.bin",
-                "MeshName": "Oil_Tank__7",
-                "Color": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0,
-                    "w": 0.0
-                },
-                "Used In 2D": false
-            }
-        },
-        "318": {
-            "ArchetypeID": "1100000000001",
-            "Name Tag": {
-                "Name": "Box6",
-                "Tag": "",
-                "IsActive": true,
-                "HierarchyParent": 289,
-                "HierarchyIndex": 5,
-                "HierarchyChildren": [
-                    296
-                ]
-            },
-            "Transform": {
-                "Position": {
-                    "x": -0.6390001773834229,
-                    "y": -0.10125000774860382,
-                    "z": 0.0
-                },
-                "Scale": {
-                    "x": 0.19999998807907104,
-                    "y": 0.3500000238418579,
-                    "z": 1.0
-                },
-                "Rotation": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                }
-            },
-            "UI Sprite": {
-                "Texture": "Inventory Box Img.dds",
-                "EnableSprite": true,
-                "LayerID": 1,
-                "is Font": false,
-                "message": "",
-                "Font Texture": "",
-                "ForeGroundColour": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0,
-                    "w": 0.0
-                },
-                "Sprite Color": {
-                    "x": 0.10196078568696976,
-                    "y": 0.10196078568696976,
-                    "z": 0.10196078568696976,
-                    "w": 0.6078431606292725
-                },
-                "BackGroundColour": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0,
-                    "w": 1.0
-                },
-                "BoundingBoxMin": {
-                    "x": -0.7390002012252808,
-                    "y": -0.2762500047683716
-                },
-                "BoundingBoxMax": {
-                    "x": -0.5390001535415649,
-                    "y": 0.07375000417232513
-                }
-            }
-        },
         "134": {
             "ArchetypeID": "1100001000000",
             "Name Tag": {
@@ -6351,173 +7827,6 @@
                     "w": 0.0
                 },
                 "Used In 2D": false
-            }
-        },
-        "312": {
-            "ArchetypeID": "1100000000001",
-            "Name Tag": {
-                "Name": "Close Text",
-                "Tag": "",
-                "IsActive": true,
-                "HierarchyParent": 307,
-                "HierarchyIndex": 0,
-                "HierarchyChildren": []
-            },
-            "Transform": {
-                "Position": {
-                    "x": -0.23853281140327454,
-                    "y": -0.9546043276786804,
-                    "z": 0.0
-                },
-                "Scale": {
-                    "x": 0.07177895307540894,
-                    "y": 0.07177895307540894,
-                    "z": 0.07177901268005371
-                },
-                "Rotation": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                }
-            },
-            "UI Sprite": {
-                "Texture": "",
-                "EnableSprite": true,
-                "LayerID": 1,
-                "is Font": true,
-                "message": "Close",
-                "Font Texture": "Roboto-Medium.dds",
-                "ForeGroundColour": {
-                    "x": 1.0,
-                    "y": 1.0,
-                    "z": 1.0,
-                    "w": 1.0
-                },
-                "Sprite Color": {
-                    "x": 0.10000000149011612,
-                    "y": 0.10000000149011612,
-                    "z": 0.10000000149011612,
-                    "w": 1.0
-                },
-                "BackGroundColour": {
-                    "x": 1.0,
-                    "y": 1.0,
-                    "z": 1.0,
-                    "w": 1.0
-                },
-                "BoundingBoxMin": {
-                    "x": -0.5000004768371582,
-                    "y": -0.5
-                },
-                "BoundingBoxMax": {
-                    "x": 0.4999995529651642,
-                    "y": 0.5
-                }
-            }
-        },
-        "135": {
-            "ArchetypeID": "1100001000000",
-            "Name Tag": {
-                "Name": "Living Door Frame (1)",
-                "Tag": "",
-                "IsActive": true,
-                "HierarchyParent": 1,
-                "HierarchyIndex": 211,
-                "HierarchyChildren": []
-            },
-            "Transform": {
-                "Position": {
-                    "x": 936.8729858398438,
-                    "y": 236.07003784179688,
-                    "z": -12.3939208984375
-                },
-                "Scale": {
-                    "x": 1.100000023841858,
-                    "y": 1.2200000286102295,
-                    "z": 1.100000023841858
-                },
-                "Rotation": {
-                    "x": 0.0,
-                    "y": 1.570796251296997,
-                    "z": 0.0
-                }
-            },
-            "Graphics Component": {
-                "PointLight": false,
-                "TextureName": "Door Border Color.dds",
-                "Mesh Renderer": true,
-                "Debug": false,
-                "ModelName": "Mansion Layout_Bin.bin",
-                "MeshName": "Border_2__4",
-                "Color": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0,
-                    "w": 0.0
-                },
-                "Used In 2D": false
-            }
-        },
-        "312": {
-            "ArchetypeID": "1100000000001",
-            "Name Tag": {
-                "Name": "Close Text",
-                "Tag": "",
-                "IsActive": true,
-                "HierarchyParent": 307,
-                "HierarchyIndex": 0,
-                "HierarchyChildren": []
-            },
-            "Transform": {
-                "Position": {
-                    "x": -0.23853281140327454,
-                    "y": -0.9546043276786804,
-                    "z": 0.0
-                },
-                "Scale": {
-                    "x": 0.07177895307540894,
-                    "y": 0.07177895307540894,
-                    "z": 0.07177901268005371
-                },
-                "Rotation": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                }
-            },
-            "UI Sprite": {
-                "Texture": "",
-                "EnableSprite": true,
-                "LayerID": 1,
-                "is Font": true,
-                "message": "Close",
-                "Font Texture": "Roboto-Medium.dds",
-                "ForeGroundColour": {
-                    "x": 1.0,
-                    "y": 1.0,
-                    "z": 1.0,
-                    "w": 1.0
-                },
-                "Sprite Color": {
-                    "x": 0.10000000149011612,
-                    "y": 0.10000000149011612,
-                    "z": 0.10000000149011612,
-                    "w": 1.0
-                },
-                "BackGroundColour": {
-                    "x": 1.0,
-                    "y": 1.0,
-                    "z": 1.0,
-                    "w": 1.0
-                },
-                "BoundingBoxMin": {
-                    "x": -0.5000004768371582,
-                    "y": -0.5
-                },
-                "BoundingBoxMax": {
-                    "x": 0.4999995529651642,
-                    "y": 0.5
-                }
             }
         },
         "136": {
@@ -8202,177 +9511,6 @@
                 "Used In 2D": false
             }
         },
-        "292": {
-            "ArchetypeID": "1100000000001",
-            "Name Tag": {
-                "Name": "Box3",
-                "Tag": "",
-                "IsActive": true,
-                "HierarchyParent": 289,
-                "HierarchyIndex": 2,
-                "HierarchyChildren": [
-                    315
-                ]
-            },
-            "Transform": {
-                "Position": {
-                    "x": -0.4015001058578491,
-                    "y": 0.3149999976158142,
-                    "z": 0.0
-                },
-                "Scale": {
-                    "x": 0.19999998807907104,
-                    "y": 0.3500000238418579,
-                    "z": 1.0
-                },
-                "Rotation": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                }
-            },
-            "UI Sprite": {
-                "Texture": "Inventory Box Img.dds",
-                "EnableSprite": true,
-                "LayerID": 1,
-                "is Font": false,
-                "message": "",
-                "Font Texture": "",
-                "ForeGroundColour": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0,
-                    "w": 0.0
-                },
-                "Sprite Color": {
-                    "x": 0.10196078568696976,
-                    "y": 0.10196078568696976,
-                    "z": 0.10196078568696976,
-                    "w": 0.6078431606292725
-                },
-                "BackGroundColour": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0,
-                    "w": 1.0
-                },
-                "BoundingBoxMin": {
-                    "x": -0.501500129699707,
-                    "y": 0.13999998569488525
-                },
-                "BoundingBoxMax": {
-                    "x": -0.3015001118183136,
-                    "y": 0.49000000953674316
-                }
-            }
-        },
-        "163": {
-            "ArchetypeID": "1100001000000",
-            "Name Tag": {
-                "Name": "Oil_Tank__11",
-                "Tag": "",
-                "IsActive": true,
-                "HierarchyParent": 1,
-                "HierarchyIndex": 231,
-                "HierarchyChildren": []
-            },
-            "Transform": {
-                "Position": {
-                    "x": 1780.222900390625,
-                    "y": 228.71627807617188,
-                    "z": 115.6181640625
-                },
-                "Scale": {
-                    "x": 1.100000023841858,
-                    "y": 1.2200000286102295,
-                    "z": 1.100000023841858
-                },
-                "Rotation": {
-                    "x": 0.0,
-                    "y": -1.570796251296997,
-                    "z": 0.0
-                }
-            },
-            "Graphics Component": {
-                "PointLight": false,
-                "TextureName": "",
-                "Mesh Renderer": true,
-                "Debug": false,
-                "ModelName": "Mansion Layout_Bin.bin",
-                "MeshName": "Oil_Tank__11",
-                "Color": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0,
-                    "w": 0.0
-                },
-                "Used In 2D": false
-            }
-        },
-        "292": {
-            "ArchetypeID": "1100000000001",
-            "Name Tag": {
-                "Name": "Box3",
-                "Tag": "",
-                "IsActive": true,
-                "HierarchyParent": 289,
-                "HierarchyIndex": 2,
-                "HierarchyChildren": [
-                    315
-                ]
-            },
-            "Transform": {
-                "Position": {
-                    "x": -0.4015001058578491,
-                    "y": 0.3149999976158142,
-                    "z": 0.0
-                },
-                "Scale": {
-                    "x": 0.19999998807907104,
-                    "y": 0.3500000238418579,
-                    "z": 1.0
-                },
-                "Rotation": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                }
-            },
-            "UI Sprite": {
-                "Texture": "Inventory Box Img.dds",
-                "EnableSprite": true,
-                "LayerID": 1,
-                "is Font": false,
-                "message": "",
-                "Font Texture": "",
-                "ForeGroundColour": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0,
-                    "w": 0.0
-                },
-                "Sprite Color": {
-                    "x": 0.10196078568696976,
-                    "y": 0.10196078568696976,
-                    "z": 0.10196078568696976,
-                    "w": 0.6078431606292725
-                },
-                "BackGroundColour": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0,
-                    "w": 1.0
-                },
-                "BoundingBoxMin": {
-                    "x": -0.501500129699707,
-                    "y": 0.13999998569488525
-                },
-                "BoundingBoxMax": {
-                    "x": -0.3015001118183136,
-                    "y": 0.49000000953674316
-                }
-            }
-        },
         "164": {
             "ArchetypeID": "1100001000000",
             "Name Tag": {
@@ -8588,177 +9726,6 @@
                 "Used In 2D": false
             }
         },
-        "290": {
-            "ArchetypeID": "1100000000001",
-            "Name Tag": {
-                "Name": "Box1",
-                "Tag": "",
-                "IsActive": true,
-                "HierarchyParent": 289,
-                "HierarchyIndex": 0,
-                "HierarchyChildren": [
-                    313
-                ]
-            },
-            "Transform": {
-                "Position": {
-                    "x": -0.8765000104904175,
-                    "y": 0.3149999976158142,
-                    "z": 0.0
-                },
-                "Scale": {
-                    "x": 0.19999998807907104,
-                    "y": 0.3500000238418579,
-                    "z": 1.0
-                },
-                "Rotation": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                }
-            },
-            "UI Sprite": {
-                "Texture": "Inventory Box Img.dds",
-                "EnableSprite": true,
-                "LayerID": 1,
-                "is Font": false,
-                "message": "",
-                "Font Texture": "",
-                "ForeGroundColour": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0,
-                    "w": 0.0
-                },
-                "Sprite Color": {
-                    "x": 0.10196078568696976,
-                    "y": 0.10196078568696976,
-                    "z": 0.10196078568696976,
-                    "w": 0.6078431606292725
-                },
-                "BackGroundColour": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0,
-                    "w": 1.0
-                },
-                "BoundingBoxMin": {
-                    "x": -0.9765000343322754,
-                    "y": 0.13999998569488525
-                },
-                "BoundingBoxMax": {
-                    "x": -0.7764999866485596,
-                    "y": 0.49000000953674316
-                }
-            }
-        },
-        "169": {
-            "ArchetypeID": "1100001000000",
-            "Name Tag": {
-                "Name": "Dinning Wall (7)",
-                "Tag": "",
-                "IsActive": true,
-                "HierarchyParent": 1,
-                "HierarchyIndex": 64,
-                "HierarchyChildren": []
-            },
-            "Transform": {
-                "Position": {
-                    "x": -868.8063354492188,
-                    "y": 296.5840148925781,
-                    "z": -722.0784912109375
-                },
-                "Scale": {
-                    "x": 2.1999950408935547,
-                    "y": 1.8299992084503174,
-                    "z": 2.199995517730713
-                },
-                "Rotation": {
-                    "x": 0.0,
-                    "y": 1.5707958936691284,
-                    "z": 0.0
-                }
-            },
-            "Graphics Component": {
-                "PointLight": false,
-                "TextureName": "Wood008_1K-PNG_Color.dds",
-                "Mesh Renderer": true,
-                "Debug": false,
-                "ModelName": "Mansion Layout_Bin.bin",
-                "MeshName": "LivKit_R",
-                "Color": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0,
-                    "w": 0.0
-                },
-                "Used In 2D": false
-            }
-        },
-        "290": {
-            "ArchetypeID": "1100000000001",
-            "Name Tag": {
-                "Name": "Box1",
-                "Tag": "",
-                "IsActive": true,
-                "HierarchyParent": 289,
-                "HierarchyIndex": 0,
-                "HierarchyChildren": [
-                    313
-                ]
-            },
-            "Transform": {
-                "Position": {
-                    "x": -0.8765000104904175,
-                    "y": 0.3149999976158142,
-                    "z": 0.0
-                },
-                "Scale": {
-                    "x": 0.19999998807907104,
-                    "y": 0.3500000238418579,
-                    "z": 1.0
-                },
-                "Rotation": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                }
-            },
-            "UI Sprite": {
-                "Texture": "Inventory Box Img.dds",
-                "EnableSprite": true,
-                "LayerID": 1,
-                "is Font": false,
-                "message": "",
-                "Font Texture": "",
-                "ForeGroundColour": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0,
-                    "w": 0.0
-                },
-                "Sprite Color": {
-                    "x": 0.10196078568696976,
-                    "y": 0.10196078568696976,
-                    "z": 0.10196078568696976,
-                    "w": 0.6078431606292725
-                },
-                "BackGroundColour": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0,
-                    "w": 1.0
-                },
-                "BoundingBoxMin": {
-                    "x": -0.9765000343322754,
-                    "y": 0.13999998569488525
-                },
-                "BoundingBoxMax": {
-                    "x": -0.7764999866485596,
-                    "y": 0.49000000953674316
-                }
-            }
-        },
         "170": {
             "ArchetypeID": "1100001000000",
             "Name Tag": {
@@ -8800,177 +9767,6 @@
                     "w": 0.0
                 },
                 "Used In 2D": false
-            }
-        },
-        "300": {
-            "ArchetypeID": "1100000000001",
-            "Name Tag": {
-                "Name": "Box10",
-                "Tag": "",
-                "IsActive": true,
-                "HierarchyParent": 289,
-                "HierarchyIndex": 9,
-                "HierarchyChildren": [
-                    322
-                ]
-            },
-            "Transform": {
-                "Position": {
-                    "x": -0.6390001773834229,
-                    "y": -0.5062500238418579,
-                    "z": 0.0
-                },
-                "Scale": {
-                    "x": 0.19999998807907104,
-                    "y": 0.3500000238418579,
-                    "z": 1.0
-                },
-                "Rotation": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                }
-            },
-            "UI Sprite": {
-                "Texture": "Inventory Box Img.dds",
-                "EnableSprite": true,
-                "LayerID": 1,
-                "is Font": false,
-                "message": "",
-                "Font Texture": "",
-                "ForeGroundColour": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0,
-                    "w": 0.0
-                },
-                "Sprite Color": {
-                    "x": 0.10196078568696976,
-                    "y": 0.10196078568696976,
-                    "z": 0.10196078568696976,
-                    "w": 0.6078431606292725
-                },
-                "BackGroundColour": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0,
-                    "w": 1.0
-                },
-                "BoundingBoxMin": {
-                    "x": -0.7390002012252808,
-                    "y": -0.6812500357627869
-                },
-                "BoundingBoxMax": {
-                    "x": -0.5390001535415649,
-                    "y": -0.33125001192092896
-                }
-            }
-        },
-        "171": {
-            "ArchetypeID": "1100001000000",
-            "Name Tag": {
-                "Name": "Engraving_13",
-                "Tag": "",
-                "IsActive": true,
-                "HierarchyParent": 1,
-                "HierarchyIndex": 235,
-                "HierarchyChildren": []
-            },
-            "Transform": {
-                "Position": {
-                    "x": 1789.447265625,
-                    "y": 284.3987121582031,
-                    "z": -738.1676025390625
-                },
-                "Scale": {
-                    "x": 1.100000023841858,
-                    "y": 1.2200000286102295,
-                    "z": 1.100000023841858
-                },
-                "Rotation": {
-                    "x": 0.0,
-                    "y": -1.570796251296997,
-                    "z": 0.0
-                }
-            },
-            "Graphics Component": {
-                "PointLight": false,
-                "TextureName": "",
-                "Mesh Renderer": true,
-                "Debug": false,
-                "ModelName": "Mansion Layout_Bin.bin",
-                "MeshName": "Engraving_13",
-                "Color": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0,
-                    "w": 0.0
-                },
-                "Used In 2D": false
-            }
-        },
-        "300": {
-            "ArchetypeID": "1100000000001",
-            "Name Tag": {
-                "Name": "Box10",
-                "Tag": "",
-                "IsActive": true,
-                "HierarchyParent": 289,
-                "HierarchyIndex": 9,
-                "HierarchyChildren": [
-                    322
-                ]
-            },
-            "Transform": {
-                "Position": {
-                    "x": -0.6390001773834229,
-                    "y": -0.5062500238418579,
-                    "z": 0.0
-                },
-                "Scale": {
-                    "x": 0.19999998807907104,
-                    "y": 0.3500000238418579,
-                    "z": 1.0
-                },
-                "Rotation": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                }
-            },
-            "UI Sprite": {
-                "Texture": "Inventory Box Img.dds",
-                "EnableSprite": true,
-                "LayerID": 1,
-                "is Font": false,
-                "message": "",
-                "Font Texture": "",
-                "ForeGroundColour": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0,
-                    "w": 0.0
-                },
-                "Sprite Color": {
-                    "x": 0.10196078568696976,
-                    "y": 0.10196078568696976,
-                    "z": 0.10196078568696976,
-                    "w": 0.6078431606292725
-                },
-                "BackGroundColour": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0,
-                    "w": 1.0
-                },
-                "BoundingBoxMin": {
-                    "x": -0.7390002012252808,
-                    "y": -0.6812500357627869
-                },
-                "BoundingBoxMax": {
-                    "x": -0.5390001535415649,
-                    "y": -0.33125001192092896
-                }
             }
         },
         "172": {
@@ -9231,177 +10027,6 @@
                 "Used In 2D": false
             }
         },
-        "298": {
-            "ArchetypeID": "1100000000001",
-            "Name Tag": {
-                "Name": "Box8",
-                "Tag": "",
-                "IsActive": true,
-                "HierarchyParent": 289,
-                "HierarchyIndex": 7,
-                "HierarchyChildren": [
-                    320
-                ]
-            },
-            "Transform": {
-                "Position": {
-                    "x": -0.1734999716281891,
-                    "y": -0.10125000774860382,
-                    "z": 0.0
-                },
-                "Scale": {
-                    "x": 0.19999998807907104,
-                    "y": 0.3500000238418579,
-                    "z": 1.0
-                },
-                "Rotation": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                }
-            },
-            "UI Sprite": {
-                "Texture": "Inventory Box Img.dds",
-                "EnableSprite": true,
-                "LayerID": 1,
-                "is Font": false,
-                "message": "",
-                "Font Texture": "",
-                "ForeGroundColour": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0,
-                    "w": 0.0
-                },
-                "Sprite Color": {
-                    "x": 0.10196078568696976,
-                    "y": 0.10196078568696976,
-                    "z": 0.10196078568696976,
-                    "w": 0.6078431606292725
-                },
-                "BackGroundColour": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0,
-                    "w": 1.0
-                },
-                "BoundingBoxMin": {
-                    "x": -0.2734999656677246,
-                    "y": -0.2762500047683716
-                },
-                "BoundingBoxMax": {
-                    "x": -0.07349997758865356,
-                    "y": 0.07375000417232513
-                }
-            }
-        },
-        "177": {
-            "ArchetypeID": "1100001000000",
-            "Name Tag": {
-                "Name": "Toilet Door",
-                "Tag": "",
-                "IsActive": true,
-                "HierarchyParent": 1,
-                "HierarchyIndex": 92,
-                "HierarchyChildren": []
-            },
-            "Transform": {
-                "Position": {
-                    "x": 2026.956298828125,
-                    "y": 231.79159545898438,
-                    "z": -1118.168212890625
-                },
-                "Scale": {
-                    "x": 1.100000023841858,
-                    "y": 1.2200000286102295,
-                    "z": 1.100000023841858
-                },
-                "Rotation": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                }
-            },
-            "Graphics Component": {
-                "PointLight": false,
-                "TextureName": "GoldColor.dds",
-                "Mesh Renderer": true,
-                "Debug": false,
-                "ModelName": "Mansion Layout_Bin.bin",
-                "MeshName": "Door_13__1",
-                "Color": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0,
-                    "w": 0.0
-                },
-                "Used In 2D": false
-            }
-        },
-        "298": {
-            "ArchetypeID": "1100000000001",
-            "Name Tag": {
-                "Name": "Box8",
-                "Tag": "",
-                "IsActive": true,
-                "HierarchyParent": 289,
-                "HierarchyIndex": 7,
-                "HierarchyChildren": [
-                    320
-                ]
-            },
-            "Transform": {
-                "Position": {
-                    "x": -0.1734999716281891,
-                    "y": -0.10125000774860382,
-                    "z": 0.0
-                },
-                "Scale": {
-                    "x": 0.19999998807907104,
-                    "y": 0.3500000238418579,
-                    "z": 1.0
-                },
-                "Rotation": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                }
-            },
-            "UI Sprite": {
-                "Texture": "Inventory Box Img.dds",
-                "EnableSprite": true,
-                "LayerID": 1,
-                "is Font": false,
-                "message": "",
-                "Font Texture": "",
-                "ForeGroundColour": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0,
-                    "w": 0.0
-                },
-                "Sprite Color": {
-                    "x": 0.10196078568696976,
-                    "y": 0.10196078568696976,
-                    "z": 0.10196078568696976,
-                    "w": 0.6078431606292725
-                },
-                "BackGroundColour": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0,
-                    "w": 1.0
-                },
-                "BoundingBoxMin": {
-                    "x": -0.2734999656677246,
-                    "y": -0.2762500047683716
-                },
-                "BoundingBoxMax": {
-                    "x": -0.07349997758865356,
-                    "y": 0.07375000417232513
-                }
-            }
-        },
         "178": {
             "ArchetypeID": "1100001000000",
             "Name Tag": {
@@ -9443,173 +10068,6 @@
                     "w": 0.0
                 },
                 "Used In 2D": false
-            }
-        },
-        "308": {
-            "ArchetypeID": "1100000000001",
-            "Name Tag": {
-                "Name": "Item Text",
-                "Tag": "",
-                "IsActive": true,
-                "HierarchyParent": 303,
-                "HierarchyIndex": 0,
-                "HierarchyChildren": []
-            },
-            "Transform": {
-                "Position": {
-                    "x": -0.8929663896560669,
-                    "y": 0.6822309494018555,
-                    "z": 0.0
-                },
-                "Scale": {
-                    "x": 0.06534156203269958,
-                    "y": 0.11000004410743713,
-                    "z": 0.8600000143051147
-                },
-                "Rotation": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                }
-            },
-            "UI Sprite": {
-                "Texture": "",
-                "EnableSprite": true,
-                "LayerID": 1,
-                "is Font": true,
-                "message": "Items",
-                "Font Texture": "Roboto-Medium.dds",
-                "ForeGroundColour": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0,
-                    "w": 255.0
-                },
-                "Sprite Color": {
-                    "x": 0.10000000149011612,
-                    "y": 0.10000000149011612,
-                    "z": 0.10000000149011612,
-                    "w": 1.0
-                },
-                "BackGroundColour": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0,
-                    "w": 1.0
-                },
-                "BoundingBoxMin": {
-                    "x": -0.9256371855735779,
-                    "y": 0.6272309422492981
-                },
-                "BoundingBoxMax": {
-                    "x": -0.8602955937385559,
-                    "y": 0.7372309565544128
-                }
-            }
-        },
-        "179": {
-            "ArchetypeID": "1100001000000",
-            "Name Tag": {
-                "Name": "Plate_13__1",
-                "Tag": "",
-                "IsActive": true,
-                "HierarchyParent": 1,
-                "HierarchyIndex": 240,
-                "HierarchyChildren": []
-            },
-            "Transform": {
-                "Position": {
-                    "x": 2031.479736328125,
-                    "y": 202.72581481933594,
-                    "z": -1169.2071533203125
-                },
-                "Scale": {
-                    "x": 1.100000023841858,
-                    "y": 1.2200000286102295,
-                    "z": 1.100000023841858
-                },
-                "Rotation": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                }
-            },
-            "Graphics Component": {
-                "PointLight": false,
-                "TextureName": "",
-                "Mesh Renderer": true,
-                "Debug": false,
-                "ModelName": "Mansion Layout_Bin.bin",
-                "MeshName": "Plate_13__1",
-                "Color": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0,
-                    "w": 0.0
-                },
-                "Used In 2D": false
-            }
-        },
-        "308": {
-            "ArchetypeID": "1100000000001",
-            "Name Tag": {
-                "Name": "Item Text",
-                "Tag": "",
-                "IsActive": true,
-                "HierarchyParent": 303,
-                "HierarchyIndex": 0,
-                "HierarchyChildren": []
-            },
-            "Transform": {
-                "Position": {
-                    "x": -0.8929663896560669,
-                    "y": 0.6822309494018555,
-                    "z": 0.0
-                },
-                "Scale": {
-                    "x": 0.06534156203269958,
-                    "y": 0.11000004410743713,
-                    "z": 0.8600000143051147
-                },
-                "Rotation": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                }
-            },
-            "UI Sprite": {
-                "Texture": "",
-                "EnableSprite": true,
-                "LayerID": 1,
-                "is Font": true,
-                "message": "Items",
-                "Font Texture": "Roboto-Medium.dds",
-                "ForeGroundColour": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0,
-                    "w": 255.0
-                },
-                "Sprite Color": {
-                    "x": 0.10000000149011612,
-                    "y": 0.10000000149011612,
-                    "z": 0.10000000149011612,
-                    "w": 1.0
-                },
-                "BackGroundColour": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0,
-                    "w": 1.0
-                },
-                "BoundingBoxMin": {
-                    "x": -0.9256371855735779,
-                    "y": 0.6272309422492981
-                },
-                "BoundingBoxMax": {
-                    "x": -0.8602955937385559,
-                    "y": 0.7372309565544128
-                }
             }
         },
         "180": {
@@ -9655,177 +10113,6 @@
                 "Used In 2D": false
             }
         },
-        "302": {
-            "ArchetypeID": "1100000000001",
-            "Name Tag": {
-                "Name": "Box12",
-                "Tag": "",
-                "IsActive": true,
-                "HierarchyParent": 289,
-                "HierarchyIndex": 11,
-                "HierarchyChildren": [
-                    324
-                ]
-            },
-            "Transform": {
-                "Position": {
-                    "x": -0.1734999716281891,
-                    "y": -0.5062500238418579,
-                    "z": 0.0
-                },
-                "Scale": {
-                    "x": 0.19999998807907104,
-                    "y": 0.3500000238418579,
-                    "z": 1.0
-                },
-                "Rotation": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                }
-            },
-            "UI Sprite": {
-                "Texture": "Inventory Box Img.dds",
-                "EnableSprite": true,
-                "LayerID": 1,
-                "is Font": false,
-                "message": "",
-                "Font Texture": "",
-                "ForeGroundColour": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0,
-                    "w": 0.0
-                },
-                "Sprite Color": {
-                    "x": 0.10196078568696976,
-                    "y": 0.10196078568696976,
-                    "z": 0.10196078568696976,
-                    "w": 0.6078431606292725
-                },
-                "BackGroundColour": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0,
-                    "w": 1.0
-                },
-                "BoundingBoxMin": {
-                    "x": -0.2734999656677246,
-                    "y": -0.6812500357627869
-                },
-                "BoundingBoxMax": {
-                    "x": -0.07349997758865356,
-                    "y": -0.33125001192092896
-                }
-            }
-        },
-        "181": {
-            "ArchetypeID": "1100001000000",
-            "Name Tag": {
-                "Name": "Tube_13__1",
-                "Tag": "",
-                "IsActive": true,
-                "HierarchyParent": 1,
-                "HierarchyIndex": 242,
-                "HierarchyChildren": []
-            },
-            "Transform": {
-                "Position": {
-                    "x": 2032.7313232421875,
-                    "y": 288.44281005859375,
-                    "z": -1117.942626953125
-                },
-                "Scale": {
-                    "x": 1.100000023841858,
-                    "y": 1.2200000286102295,
-                    "z": 1.100000023841858
-                },
-                "Rotation": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                }
-            },
-            "Graphics Component": {
-                "PointLight": false,
-                "TextureName": "",
-                "Mesh Renderer": true,
-                "Debug": false,
-                "ModelName": "Mansion Layout_Bin.bin",
-                "MeshName": "Tube_13__1",
-                "Color": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0,
-                    "w": 0.0
-                },
-                "Used In 2D": false
-            }
-        },
-        "302": {
-            "ArchetypeID": "1100000000001",
-            "Name Tag": {
-                "Name": "Box12",
-                "Tag": "",
-                "IsActive": true,
-                "HierarchyParent": 289,
-                "HierarchyIndex": 11,
-                "HierarchyChildren": [
-                    324
-                ]
-            },
-            "Transform": {
-                "Position": {
-                    "x": -0.1734999716281891,
-                    "y": -0.5062500238418579,
-                    "z": 0.0
-                },
-                "Scale": {
-                    "x": 0.19999998807907104,
-                    "y": 0.3500000238418579,
-                    "z": 1.0
-                },
-                "Rotation": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                }
-            },
-            "UI Sprite": {
-                "Texture": "Inventory Box Img.dds",
-                "EnableSprite": true,
-                "LayerID": 1,
-                "is Font": false,
-                "message": "",
-                "Font Texture": "",
-                "ForeGroundColour": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0,
-                    "w": 0.0
-                },
-                "Sprite Color": {
-                    "x": 0.10196078568696976,
-                    "y": 0.10196078568696976,
-                    "z": 0.10196078568696976,
-                    "w": 0.6078431606292725
-                },
-                "BackGroundColour": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0,
-                    "w": 1.0
-                },
-                "BoundingBoxMin": {
-                    "x": -0.2734999656677246,
-                    "y": -0.6812500357627869
-                },
-                "BoundingBoxMax": {
-                    "x": -0.07349997758865356,
-                    "y": -0.33125001192092896
-                }
-            }
-        },
         "182": {
             "ArchetypeID": "1100001000000",
             "Name Tag": {
@@ -9867,173 +10154,6 @@
                     "w": 0.0
                 },
                 "Used In 2D": false
-            }
-        },
-        "296": {
-            "ArchetypeID": "1100000000001",
-            "Name Tag": {
-                "Name": "Item6",
-                "Tag": "",
-                "IsActive": true,
-                "HierarchyParent": 318,
-                "HierarchyIndex": 0,
-                "HierarchyChildren": []
-            },
-            "Transform": {
-                "Position": {
-                    "x": -0.6390001773834229,
-                    "y": -0.10125000774860382,
-                    "z": 0.0
-                },
-                "Scale": {
-                    "x": 0.19999998807907104,
-                    "y": 0.3500000238418579,
-                    "z": 1.0
-                },
-                "Rotation": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                }
-            },
-            "UI Sprite": {
-                "Texture": "",
-                "EnableSprite": true,
-                "LayerID": 1,
-                "is Font": false,
-                "message": "",
-                "Font Texture": "",
-                "ForeGroundColour": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0,
-                    "w": 0.0
-                },
-                "Sprite Color": {
-                    "x": 0.10196078568696976,
-                    "y": 0.10196078568696976,
-                    "z": 0.10196078568696976,
-                    "w": 1.0
-                },
-                "BackGroundColour": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0,
-                    "w": 1.0
-                },
-                "BoundingBoxMin": {
-                    "x": -0.7390002012252808,
-                    "y": -0.2762500047683716
-                },
-                "BoundingBoxMax": {
-                    "x": -0.5390001535415649,
-                    "y": 0.07375000417232513
-                }
-            }
-        },
-        "183": {
-            "ArchetypeID": "1100001000000",
-            "Name Tag": {
-                "Name": "Study Door Frame",
-                "Tag": "",
-                "IsActive": true,
-                "HierarchyParent": 1,
-                "HierarchyIndex": 5,
-                "HierarchyChildren": []
-            },
-            "Transform": {
-                "Position": {
-                    "x": -2346.6337890625,
-                    "y": 242.33447265625,
-                    "z": 171.1780242919922
-                },
-                "Scale": {
-                    "x": 1.100000023841858,
-                    "y": 1.2200000286102295,
-                    "z": 1.100000023841858
-                },
-                "Rotation": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                }
-            },
-            "Graphics Component": {
-                "PointLight": false,
-                "TextureName": "Wood008_1K-PNG_Color.dds",
-                "Mesh Renderer": true,
-                "Debug": false,
-                "ModelName": "Mansion Layout_Bin.bin",
-                "MeshName": "Cube_13__2",
-                "Color": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0,
-                    "w": 0.0
-                },
-                "Used In 2D": false
-            }
-        },
-        "296": {
-            "ArchetypeID": "1100000000001",
-            "Name Tag": {
-                "Name": "Item6",
-                "Tag": "",
-                "IsActive": true,
-                "HierarchyParent": 318,
-                "HierarchyIndex": 0,
-                "HierarchyChildren": []
-            },
-            "Transform": {
-                "Position": {
-                    "x": -0.6390001773834229,
-                    "y": -0.10125000774860382,
-                    "z": 0.0
-                },
-                "Scale": {
-                    "x": 0.19999998807907104,
-                    "y": 0.3500000238418579,
-                    "z": 1.0
-                },
-                "Rotation": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                }
-            },
-            "UI Sprite": {
-                "Texture": "",
-                "EnableSprite": true,
-                "LayerID": 1,
-                "is Font": false,
-                "message": "",
-                "Font Texture": "",
-                "ForeGroundColour": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0,
-                    "w": 0.0
-                },
-                "Sprite Color": {
-                    "x": 0.10196078568696976,
-                    "y": 0.10196078568696976,
-                    "z": 0.10196078568696976,
-                    "w": 1.0
-                },
-                "BackGroundColour": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0,
-                    "w": 1.0
-                },
-                "BoundingBoxMin": {
-                    "x": -0.7390002012252808,
-                    "y": -0.2762500047683716
-                },
-                "BoundingBoxMax": {
-                    "x": -0.5390001535415649,
-                    "y": 0.07375000417232513
-                }
             }
         },
         "184": {
@@ -10079,177 +10199,6 @@
                 "Used In 2D": false
             }
         },
-        "306": {
-            "ArchetypeID": "1100000000001",
-            "Name Tag": {
-                "Name": "MouseClick",
-                "Tag": "",
-                "IsActive": true,
-                "HierarchyParent": 289,
-                "HierarchyIndex": 15,
-                "HierarchyChildren": [
-                    311
-                ]
-            },
-            "Transform": {
-                "Position": {
-                    "x": -0.9249500036239624,
-                    "y": -0.9180000424385071,
-                    "z": 0.0
-                },
-                "Scale": {
-                    "x": 0.11100000143051147,
-                    "y": 0.1099998950958252,
-                    "z": 1.0
-                },
-                "Rotation": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                }
-            },
-            "UI Sprite": {
-                "Texture": "Mouse Left Click UI.dds",
-                "EnableSprite": true,
-                "LayerID": 1,
-                "is Font": false,
-                "message": "",
-                "Font Texture": "",
-                "ForeGroundColour": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0,
-                    "w": 0.0
-                },
-                "Sprite Color": {
-                    "x": 0.10000000149011612,
-                    "y": 0.10000000149011612,
-                    "z": 0.10000000149011612,
-                    "w": 1.0
-                },
-                "BackGroundColour": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0,
-                    "w": 1.0
-                },
-                "BoundingBoxMin": {
-                    "x": -0.9804500341415405,
-                    "y": -0.9729999899864197
-                },
-                "BoundingBoxMax": {
-                    "x": -0.8694499731063843,
-                    "y": -0.8630000948905945
-                }
-            }
-        },
-        "185": {
-            "ArchetypeID": "1100001000000",
-            "Name Tag": {
-                "Name": "Main Wall (4)",
-                "Tag": "",
-                "IsActive": true,
-                "HierarchyParent": 1,
-                "HierarchyIndex": 135,
-                "HierarchyChildren": []
-            },
-            "Transform": {
-                "Position": {
-                    "x": 177.69464111328125,
-                    "y": 296.58447265625,
-                    "z": 352.5708312988281
-                },
-                "Scale": {
-                    "x": 2.200000047683716,
-                    "y": 1.8300000429153442,
-                    "z": 2.200000047683716
-                },
-                "Rotation": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 3.141592502593994
-                }
-            },
-            "Graphics Component": {
-                "PointLight": false,
-                "TextureName": "White.dds",
-                "Mesh Renderer": true,
-                "Debug": false,
-                "ModelName": "Mansion Layout_Bin.bin",
-                "MeshName": "ninja_star_0_2",
-                "Color": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0,
-                    "w": 0.0
-                },
-                "Used In 2D": false
-            }
-        },
-        "306": {
-            "ArchetypeID": "1100000000001",
-            "Name Tag": {
-                "Name": "MouseClick",
-                "Tag": "",
-                "IsActive": true,
-                "HierarchyParent": 289,
-                "HierarchyIndex": 15,
-                "HierarchyChildren": [
-                    311
-                ]
-            },
-            "Transform": {
-                "Position": {
-                    "x": -0.9249500036239624,
-                    "y": -0.9180000424385071,
-                    "z": 0.0
-                },
-                "Scale": {
-                    "x": 0.11100000143051147,
-                    "y": 0.1099998950958252,
-                    "z": 1.0
-                },
-                "Rotation": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                }
-            },
-            "UI Sprite": {
-                "Texture": "Mouse Left Click UI.dds",
-                "EnableSprite": true,
-                "LayerID": 1,
-                "is Font": false,
-                "message": "",
-                "Font Texture": "",
-                "ForeGroundColour": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0,
-                    "w": 0.0
-                },
-                "Sprite Color": {
-                    "x": 0.10000000149011612,
-                    "y": 0.10000000149011612,
-                    "z": 0.10000000149011612,
-                    "w": 1.0
-                },
-                "BackGroundColour": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0,
-                    "w": 1.0
-                },
-                "BoundingBoxMin": {
-                    "x": -0.9804500341415405,
-                    "y": -0.9729999899864197
-                },
-                "BoundingBoxMax": {
-                    "x": -0.8694499731063843,
-                    "y": -0.8630000948905945
-                }
-            }
-        },
         "186": {
             "ArchetypeID": "1100001000000",
             "Name Tag": {
@@ -10291,173 +10240,6 @@
                     "w": 0.0
                 },
                 "Used In 2D": false
-            }
-        },
-        "316": {
-            "ArchetypeID": "1100000000001",
-            "Name Tag": {
-                "Name": "Item4",
-                "Tag": "",
-                "IsActive": true,
-                "HierarchyParent": 293,
-                "HierarchyIndex": 0,
-                "HierarchyChildren": []
-            },
-            "Transform": {
-                "Position": {
-                    "x": -0.1734999716281891,
-                    "y": 0.3149999976158142,
-                    "z": 0.0
-                },
-                "Scale": {
-                    "x": 0.19999998807907104,
-                    "y": 0.3500000238418579,
-                    "z": 1.0
-                },
-                "Rotation": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                }
-            },
-            "UI Sprite": {
-                "Texture": "",
-                "EnableSprite": true,
-                "LayerID": 1,
-                "is Font": false,
-                "message": "",
-                "Font Texture": "",
-                "ForeGroundColour": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0,
-                    "w": 0.0
-                },
-                "Sprite Color": {
-                    "x": 0.10000000149011612,
-                    "y": 0.10000000149011612,
-                    "z": 0.10000000149011612,
-                    "w": 1.0
-                },
-                "BackGroundColour": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0,
-                    "w": 1.0
-                },
-                "BoundingBoxMin": {
-                    "x": -0.2734999656677246,
-                    "y": 0.13999998569488525
-                },
-                "BoundingBoxMax": {
-                    "x": -0.07349997758865356,
-                    "y": 0.49000000953674316
-                }
-            }
-        },
-        "187": {
-            "ArchetypeID": "1100001000000",
-            "Name Tag": {
-                "Name": "Handle_13__2",
-                "Tag": "",
-                "IsActive": true,
-                "HierarchyParent": 1,
-                "HierarchyIndex": 245,
-                "HierarchyChildren": []
-            },
-            "Transform": {
-                "Position": {
-                    "x": -2338.921875,
-                    "y": 202.9937286376953,
-                    "z": 120.206787109375
-                },
-                "Scale": {
-                    "x": 1.100000023841858,
-                    "y": 1.2200000286102295,
-                    "z": 1.100000023841858
-                },
-                "Rotation": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                }
-            },
-            "Graphics Component": {
-                "PointLight": false,
-                "TextureName": "",
-                "Mesh Renderer": true,
-                "Debug": false,
-                "ModelName": "Mansion Layout_Bin.bin",
-                "MeshName": "Handle_13__2",
-                "Color": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0,
-                    "w": 0.0
-                },
-                "Used In 2D": false
-            }
-        },
-        "316": {
-            "ArchetypeID": "1100000000001",
-            "Name Tag": {
-                "Name": "Item4",
-                "Tag": "",
-                "IsActive": true,
-                "HierarchyParent": 293,
-                "HierarchyIndex": 0,
-                "HierarchyChildren": []
-            },
-            "Transform": {
-                "Position": {
-                    "x": -0.1734999716281891,
-                    "y": 0.3149999976158142,
-                    "z": 0.0
-                },
-                "Scale": {
-                    "x": 0.19999998807907104,
-                    "y": 0.3500000238418579,
-                    "z": 1.0
-                },
-                "Rotation": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                }
-            },
-            "UI Sprite": {
-                "Texture": "",
-                "EnableSprite": true,
-                "LayerID": 1,
-                "is Font": false,
-                "message": "",
-                "Font Texture": "",
-                "ForeGroundColour": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0,
-                    "w": 0.0
-                },
-                "Sprite Color": {
-                    "x": 0.10000000149011612,
-                    "y": 0.10000000149011612,
-                    "z": 0.10000000149011612,
-                    "w": 1.0
-                },
-                "BackGroundColour": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0,
-                    "w": 1.0
-                },
-                "BoundingBoxMin": {
-                    "x": -0.2734999656677246,
-                    "y": 0.13999998569488525
-                },
-                "BoundingBoxMax": {
-                    "x": -0.07349997758865356,
-                    "y": 0.49000000953674316
-                }
             }
         },
         "188": {
@@ -10503,177 +10285,6 @@
                 "Used In 2D": false
             }
         },
-        "310": {
-            "ArchetypeID": "1100000000001",
-            "Name Tag": {
-                "Name": "Paintings Text",
-                "Tag": "",
-                "IsActive": true,
-                "HierarchyParent": 289,
-                "HierarchyIndex": 14,
-                "HierarchyChildren": [
-                    305
-                ]
-            },
-            "Transform": {
-                "Position": {
-                    "x": -0.360856294631958,
-                    "y": 0.6744487881660461,
-                    "z": 0.0
-                },
-                "Scale": {
-                    "x": 0.05811506509780884,
-                    "y": 0.1100001335144043,
-                    "z": 0.10000002384185791
-                },
-                "Rotation": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                }
-            },
-            "UI Sprite": {
-                "Texture": "",
-                "EnableSprite": true,
-                "LayerID": 0,
-                "is Font": true,
-                "message": "Paintings",
-                "Font Texture": "Roboto-Medium.dds",
-                "ForeGroundColour": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0,
-                    "w": 0.0
-                },
-                "Sprite Color": {
-                    "x": 0.10000000149011612,
-                    "y": 0.10000000149011612,
-                    "z": 0.10000000149011612,
-                    "w": 1.0
-                },
-                "BackGroundColour": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0,
-                    "w": 1.0
-                },
-                "BoundingBoxMin": {
-                    "x": -0.5,
-                    "y": -0.5
-                },
-                "BoundingBoxMax": {
-                    "x": 0.5,
-                    "y": 0.5
-                }
-            }
-        },
-        "189": {
-            "ArchetypeID": "1100001000000",
-            "Name Tag": {
-                "Name": "Plate_13__2",
-                "Tag": "",
-                "IsActive": true,
-                "HierarchyParent": 1,
-                "HierarchyIndex": 246,
-                "HierarchyChildren": []
-            },
-            "Transform": {
-                "Position": {
-                    "x": -2341.35009765625,
-                    "y": 203.0966339111328,
-                    "z": 120.23974609375
-                },
-                "Scale": {
-                    "x": 1.100000023841858,
-                    "y": 1.2200000286102295,
-                    "z": 1.100000023841858
-                },
-                "Rotation": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                }
-            },
-            "Graphics Component": {
-                "PointLight": false,
-                "TextureName": "",
-                "Mesh Renderer": true,
-                "Debug": false,
-                "ModelName": "Mansion Layout_Bin.bin",
-                "MeshName": "Plate_13__2",
-                "Color": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0,
-                    "w": 0.0
-                },
-                "Used In 2D": false
-            }
-        },
-        "310": {
-            "ArchetypeID": "1100000000001",
-            "Name Tag": {
-                "Name": "Paintings Text",
-                "Tag": "",
-                "IsActive": true,
-                "HierarchyParent": 289,
-                "HierarchyIndex": 14,
-                "HierarchyChildren": [
-                    305
-                ]
-            },
-            "Transform": {
-                "Position": {
-                    "x": -0.360856294631958,
-                    "y": 0.6744487881660461,
-                    "z": 0.0
-                },
-                "Scale": {
-                    "x": 0.05811506509780884,
-                    "y": 0.1100001335144043,
-                    "z": 0.10000002384185791
-                },
-                "Rotation": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                }
-            },
-            "UI Sprite": {
-                "Texture": "",
-                "EnableSprite": true,
-                "LayerID": 0,
-                "is Font": true,
-                "message": "Paintings",
-                "Font Texture": "Roboto-Medium.dds",
-                "ForeGroundColour": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0,
-                    "w": 0.0
-                },
-                "Sprite Color": {
-                    "x": 0.10000000149011612,
-                    "y": 0.10000000149011612,
-                    "z": 0.10000000149011612,
-                    "w": 1.0
-                },
-                "BackGroundColour": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0,
-                    "w": 1.0
-                },
-                "BoundingBoxMin": {
-                    "x": -0.5,
-                    "y": -0.5
-                },
-                "BoundingBoxMax": {
-                    "x": 0.5,
-                    "y": 0.5
-                }
-            }
-        },
         "190": {
             "ArchetypeID": "1100001000000",
             "Name Tag": {
@@ -10715,177 +10326,6 @@
                     "w": 0.0
                 },
                 "Used In 2D": false
-            }
-        },
-        "304": {
-            "ArchetypeID": "1100000000001",
-            "Name Tag": {
-                "Name": "NotesTab",
-                "Tag": "",
-                "IsActive": true,
-                "HierarchyParent": 289,
-                "HierarchyIndex": 13,
-                "HierarchyChildren": [
-                    309
-                ]
-            },
-            "Transform": {
-                "Position": {
-                    "x": -0.5341743230819702,
-                    "y": 0.7424999475479126,
-                    "z": 0.0
-                },
-                "Scale": {
-                    "x": 0.19999998807907104,
-                    "y": 0.20000004768371582,
-                    "z": 1.0
-                },
-                "Rotation": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                }
-            },
-            "UI Sprite": {
-                "Texture": "",
-                "EnableSprite": true,
-                "LayerID": 1,
-                "is Font": false,
-                "message": "",
-                "Font Texture": "",
-                "ForeGroundColour": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0,
-                    "w": 0.0
-                },
-                "Sprite Color": {
-                    "x": 0.10000000149011612,
-                    "y": 0.10000000149011612,
-                    "z": 0.10000000149011612,
-                    "w": 1.0
-                },
-                "BackGroundColour": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0,
-                    "w": 1.0
-                },
-                "BoundingBoxMin": {
-                    "x": -0.6341743469238281,
-                    "y": 0.6424999237060547
-                },
-                "BoundingBoxMax": {
-                    "x": -0.4341743290424347,
-                    "y": 0.8424999713897705
-                }
-            }
-        },
-        "191": {
-            "ArchetypeID": "1100001000000",
-            "Name Tag": {
-                "Name": "Tube_13__2",
-                "Tag": "",
-                "IsActive": true,
-                "HierarchyParent": 1,
-                "HierarchyIndex": 248,
-                "HierarchyChildren": []
-            },
-            "Transform": {
-                "Position": {
-                    "x": -2340.098388671875,
-                    "y": 288.81365966796875,
-                    "z": 171.50428771972656
-                },
-                "Scale": {
-                    "x": 1.100000023841858,
-                    "y": 1.2200000286102295,
-                    "z": 1.100000023841858
-                },
-                "Rotation": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                }
-            },
-            "Graphics Component": {
-                "PointLight": false,
-                "TextureName": "",
-                "Mesh Renderer": true,
-                "Debug": false,
-                "ModelName": "Mansion Layout_Bin.bin",
-                "MeshName": "Tube_13__2",
-                "Color": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0,
-                    "w": 0.0
-                },
-                "Used In 2D": false
-            }
-        },
-        "304": {
-            "ArchetypeID": "1100000000001",
-            "Name Tag": {
-                "Name": "NotesTab",
-                "Tag": "",
-                "IsActive": true,
-                "HierarchyParent": 289,
-                "HierarchyIndex": 13,
-                "HierarchyChildren": [
-                    309
-                ]
-            },
-            "Transform": {
-                "Position": {
-                    "x": -0.5341743230819702,
-                    "y": 0.7424999475479126,
-                    "z": 0.0
-                },
-                "Scale": {
-                    "x": 0.19999998807907104,
-                    "y": 0.20000004768371582,
-                    "z": 1.0
-                },
-                "Rotation": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                }
-            },
-            "UI Sprite": {
-                "Texture": "",
-                "EnableSprite": true,
-                "LayerID": 1,
-                "is Font": false,
-                "message": "",
-                "Font Texture": "",
-                "ForeGroundColour": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0,
-                    "w": 0.0
-                },
-                "Sprite Color": {
-                    "x": 0.10000000149011612,
-                    "y": 0.10000000149011612,
-                    "z": 0.10000000149011612,
-                    "w": 1.0
-                },
-                "BackGroundColour": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0,
-                    "w": 1.0
-                },
-                "BoundingBoxMin": {
-                    "x": -0.6341743469238281,
-                    "y": 0.6424999237060547
-                },
-                "BoundingBoxMax": {
-                    "x": -0.4341743290424347,
-                    "y": 0.8424999713897705
-                }
             }
         },
         "192": {
@@ -11015,173 +10455,6 @@
                     "w": 0.0
                 },
                 "Used In 2D": false
-            }
-        },
-        "324": {
-            "ArchetypeID": "1100000000001",
-            "Name Tag": {
-                "Name": "Item12",
-                "Tag": "",
-                "IsActive": true,
-                "HierarchyParent": 302,
-                "HierarchyIndex": 0,
-                "HierarchyChildren": []
-            },
-            "Transform": {
-                "Position": {
-                    "x": -0.1734999716281891,
-                    "y": -0.5062500238418579,
-                    "z": 0.0
-                },
-                "Scale": {
-                    "x": 0.19999998807907104,
-                    "y": 0.3500000238418579,
-                    "z": 1.0
-                },
-                "Rotation": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                }
-            },
-            "UI Sprite": {
-                "Texture": "",
-                "EnableSprite": true,
-                "LayerID": 1,
-                "is Font": false,
-                "message": "",
-                "Font Texture": "",
-                "ForeGroundColour": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0,
-                    "w": 0.0
-                },
-                "Sprite Color": {
-                    "x": 0.10000000149011612,
-                    "y": 0.10000000149011612,
-                    "z": 0.10000000149011612,
-                    "w": 1.0
-                },
-                "BackGroundColour": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0,
-                    "w": 1.0
-                },
-                "BoundingBoxMin": {
-                    "x": -0.2734999656677246,
-                    "y": -0.6812500357627869
-                },
-                "BoundingBoxMax": {
-                    "x": -0.07349997758865356,
-                    "y": -0.33125001192092896
-                }
-            }
-        },
-        "195": {
-            "ArchetypeID": "1100001000000",
-            "Name Tag": {
-                "Name": "Gallery Wall (3)",
-                "Tag": "",
-                "IsActive": true,
-                "HierarchyParent": 1,
-                "HierarchyIndex": 24,
-                "HierarchyChildren": []
-            },
-            "Transform": {
-                "Position": {
-                    "x": -1387.84130859375,
-                    "y": 296.58447265625,
-                    "z": -980.3115234375
-                },
-                "Scale": {
-                    "x": 2.200000047683716,
-                    "y": 1.8300000429153442,
-                    "z": 2.200000047683716
-                },
-                "Rotation": {
-                    "x": 3.141592502593994,
-                    "y": 1.570796251296997,
-                    "z": 0.0
-                }
-            },
-            "Graphics Component": {
-                "PointLight": false,
-                "TextureName": "Gallery Wall.dds",
-                "Mesh Renderer": true,
-                "Debug": false,
-                "ModelName": "Mansion Layout_Bin.bin",
-                "MeshName": "Cube_9_2",
-                "Color": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0,
-                    "w": 0.0
-                },
-                "Used In 2D": false
-            }
-        },
-        "324": {
-            "ArchetypeID": "1100000000001",
-            "Name Tag": {
-                "Name": "Item12",
-                "Tag": "",
-                "IsActive": true,
-                "HierarchyParent": 302,
-                "HierarchyIndex": 0,
-                "HierarchyChildren": []
-            },
-            "Transform": {
-                "Position": {
-                    "x": -0.1734999716281891,
-                    "y": -0.5062500238418579,
-                    "z": 0.0
-                },
-                "Scale": {
-                    "x": 0.19999998807907104,
-                    "y": 0.3500000238418579,
-                    "z": 1.0
-                },
-                "Rotation": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                }
-            },
-            "UI Sprite": {
-                "Texture": "",
-                "EnableSprite": true,
-                "LayerID": 1,
-                "is Font": false,
-                "message": "",
-                "Font Texture": "",
-                "ForeGroundColour": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0,
-                    "w": 0.0
-                },
-                "Sprite Color": {
-                    "x": 0.10000000149011612,
-                    "y": 0.10000000149011612,
-                    "z": 0.10000000149011612,
-                    "w": 1.0
-                },
-                "BackGroundColour": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0,
-                    "w": 1.0
-                },
-                "BoundingBoxMin": {
-                    "x": -0.2734999656677246,
-                    "y": -0.6812500357627869
-                },
-                "BoundingBoxMax": {
-                    "x": -0.07349997758865356,
-                    "y": -0.33125001192092896
-                }
             }
         },
         "196": {
@@ -11399,173 +10672,6 @@
                 "Used In 2D": false
             }
         },
-        "322": {
-            "ArchetypeID": "1100000000001",
-            "Name Tag": {
-                "Name": "Item10",
-                "Tag": "",
-                "IsActive": true,
-                "HierarchyParent": 300,
-                "HierarchyIndex": 0,
-                "HierarchyChildren": []
-            },
-            "Transform": {
-                "Position": {
-                    "x": -0.6390001773834229,
-                    "y": -0.5062500238418579,
-                    "z": 0.0
-                },
-                "Scale": {
-                    "x": 0.19999998807907104,
-                    "y": 0.3500000238418579,
-                    "z": 1.0
-                },
-                "Rotation": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                }
-            },
-            "UI Sprite": {
-                "Texture": "",
-                "EnableSprite": true,
-                "LayerID": 1,
-                "is Font": false,
-                "message": "",
-                "Font Texture": "",
-                "ForeGroundColour": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0,
-                    "w": 0.0
-                },
-                "Sprite Color": {
-                    "x": 0.10000000149011612,
-                    "y": 0.10000000149011612,
-                    "z": 0.10000000149011612,
-                    "w": 1.0
-                },
-                "BackGroundColour": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0,
-                    "w": 1.0
-                },
-                "BoundingBoxMin": {
-                    "x": -0.7390002012252808,
-                    "y": -0.6812500357627869
-                },
-                "BoundingBoxMax": {
-                    "x": -0.5390001535415649,
-                    "y": -0.33125001192092896
-                }
-            }
-        },
-        "201": {
-            "ArchetypeID": "1100001000000",
-            "Name Tag": {
-                "Name": "Study Wall (2)",
-                "Tag": "",
-                "IsActive": true,
-                "HierarchyParent": 1,
-                "HierarchyIndex": 7,
-                "HierarchyChildren": []
-            },
-            "Transform": {
-                "Position": {
-                    "x": -2356.126220703125,
-                    "y": 296.5840148925781,
-                    "z": -43.41015625
-                },
-                "Scale": {
-                    "x": 2.200000047683716,
-                    "y": 1.8300000429153442,
-                    "z": 2.200000047683716
-                },
-                "Rotation": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                }
-            },
-            "Graphics Component": {
-                "PointLight": false,
-                "TextureName": "White.dds",
-                "Mesh Renderer": true,
-                "Debug": false,
-                "ModelName": "Mansion Layout_Bin.bin",
-                "MeshName": "INstudy_DoorWall01",
-                "Color": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0,
-                    "w": 0.0
-                },
-                "Used In 2D": false
-            }
-        },
-        "322": {
-            "ArchetypeID": "1100000000001",
-            "Name Tag": {
-                "Name": "Item10",
-                "Tag": "",
-                "IsActive": true,
-                "HierarchyParent": 300,
-                "HierarchyIndex": 0,
-                "HierarchyChildren": []
-            },
-            "Transform": {
-                "Position": {
-                    "x": -0.6390001773834229,
-                    "y": -0.5062500238418579,
-                    "z": 0.0
-                },
-                "Scale": {
-                    "x": 0.19999998807907104,
-                    "y": 0.3500000238418579,
-                    "z": 1.0
-                },
-                "Rotation": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                }
-            },
-            "UI Sprite": {
-                "Texture": "",
-                "EnableSprite": true,
-                "LayerID": 1,
-                "is Font": false,
-                "message": "",
-                "Font Texture": "",
-                "ForeGroundColour": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0,
-                    "w": 0.0
-                },
-                "Sprite Color": {
-                    "x": 0.10000000149011612,
-                    "y": 0.10000000149011612,
-                    "z": 0.10000000149011612,
-                    "w": 1.0
-                },
-                "BackGroundColour": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0,
-                    "w": 1.0
-                },
-                "BoundingBoxMin": {
-                    "x": -0.7390002012252808,
-                    "y": -0.6812500357627869
-                },
-                "BoundingBoxMax": {
-                    "x": -0.5390001535415649,
-                    "y": -0.33125001192092896
-                }
-            }
-        },
         "202": {
             "ArchetypeID": "1100001000000",
             "Name Tag": {
@@ -11738,6 +10844,61 @@
                 "Used In 2D": false
             }
         },
+        "326": {
+            "ArchetypeID": "11001010000000",
+            "Name Tag": {
+                "Name": "PlayerCamera",
+                "Tag": "",
+                "IsActive": true,
+                "HierarchyParent": 325,
+                "HierarchyIndex": 0,
+                "HierarchyChildren": []
+            },
+            "Transform": {
+                "Position": {
+                    "x": 0.0,
+                    "y": 250.0,
+                    "z": 0.0
+                },
+                "Scale": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                },
+                "Rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                }
+            },
+            "Camera Component": {
+                "Yaw": -90.0,
+                "Pitch": 0.0,
+                "Position": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "Speed": 1.0,
+                "FOV": 60.0,
+                "MouseSensitivity": 0.10000000149011612
+            },
+            "Graphics Component": {
+                "PointLight": false,
+                "TextureName": "",
+                "Mesh Renderer": true,
+                "Debug": false,
+                "ModelName": "",
+                "MeshName": "",
+                "Color": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0,
+                    "w": 1.0
+                },
+                "Used In 2D": false
+            }
+        },
         "206": {
             "ArchetypeID": "1100001000000",
             "Name Tag": {
@@ -11779,173 +10940,6 @@
                     "w": 0.0
                 },
                 "Used In 2D": false
-            }
-        },
-        "320": {
-            "ArchetypeID": "1100000000001",
-            "Name Tag": {
-                "Name": "Item8",
-                "Tag": "",
-                "IsActive": true,
-                "HierarchyParent": 298,
-                "HierarchyIndex": 0,
-                "HierarchyChildren": []
-            },
-            "Transform": {
-                "Position": {
-                    "x": -0.1734999716281891,
-                    "y": -0.10125000774860382,
-                    "z": 0.0
-                },
-                "Scale": {
-                    "x": 0.19999998807907104,
-                    "y": 0.3500000238418579,
-                    "z": 1.0
-                },
-                "Rotation": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                }
-            },
-            "UI Sprite": {
-                "Texture": "",
-                "EnableSprite": true,
-                "LayerID": 1,
-                "is Font": false,
-                "message": "",
-                "Font Texture": "",
-                "ForeGroundColour": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0,
-                    "w": 0.0
-                },
-                "Sprite Color": {
-                    "x": 0.10000000149011612,
-                    "y": 0.10000000149011612,
-                    "z": 0.10000000149011612,
-                    "w": 1.0
-                },
-                "BackGroundColour": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0,
-                    "w": 1.0
-                },
-                "BoundingBoxMin": {
-                    "x": -0.2734999656677246,
-                    "y": -0.2762500047683716
-                },
-                "BoundingBoxMax": {
-                    "x": -0.07349997758865356,
-                    "y": 0.07375000417232513
-                }
-            }
-        },
-        "207": {
-            "ArchetypeID": "1100001000000",
-            "Name Tag": {
-                "Name": "Study Wall (8)",
-                "Tag": "",
-                "IsActive": true,
-                "HierarchyParent": 1,
-                "HierarchyIndex": 13,
-                "HierarchyChildren": []
-            },
-            "Transform": {
-                "Position": {
-                    "x": -2347.5439453125,
-                    "y": 296.58447265625,
-                    "z": 387.49188232421875
-                },
-                "Scale": {
-                    "x": 2.200000047683716,
-                    "y": 1.8300000429153442,
-                    "z": 2.200000047683716
-                },
-                "Rotation": {
-                    "x": 3.141592502593994,
-                    "y": 0.0,
-                    "z": -3.141592502593994
-                }
-            },
-            "Graphics Component": {
-                "PointLight": false,
-                "TextureName": "White.dds",
-                "Mesh Renderer": true,
-                "Debug": false,
-                "ModelName": "Mansion Layout_Bin.bin",
-                "MeshName": "study_DoorWall02",
-                "Color": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0,
-                    "w": 0.0
-                },
-                "Used In 2D": false
-            }
-        },
-        "320": {
-            "ArchetypeID": "1100000000001",
-            "Name Tag": {
-                "Name": "Item8",
-                "Tag": "",
-                "IsActive": true,
-                "HierarchyParent": 298,
-                "HierarchyIndex": 0,
-                "HierarchyChildren": []
-            },
-            "Transform": {
-                "Position": {
-                    "x": -0.1734999716281891,
-                    "y": -0.10125000774860382,
-                    "z": 0.0
-                },
-                "Scale": {
-                    "x": 0.19999998807907104,
-                    "y": 0.3500000238418579,
-                    "z": 1.0
-                },
-                "Rotation": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                }
-            },
-            "UI Sprite": {
-                "Texture": "",
-                "EnableSprite": true,
-                "LayerID": 1,
-                "is Font": false,
-                "message": "",
-                "Font Texture": "",
-                "ForeGroundColour": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0,
-                    "w": 0.0
-                },
-                "Sprite Color": {
-                    "x": 0.10000000149011612,
-                    "y": 0.10000000149011612,
-                    "z": 0.10000000149011612,
-                    "w": 1.0
-                },
-                "BackGroundColour": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0,
-                    "w": 1.0
-                },
-                "BoundingBoxMin": {
-                    "x": -0.2734999656677246,
-                    "y": -0.2762500047683716
-                },
-                "BoundingBoxMax": {
-                    "x": -0.07349997758865356,
-                    "y": 0.07375000417232513
-                }
             }
         },
         "208": {
@@ -15978,9 +14972,88 @@
                     "y": -0.33125001192092896
                 }
             }
+        },
+        "325": {
+            "ArchetypeID": "11000010000000",
+            "Name Tag": {
+                "Name": "Player",
+                "Tag": "",
+                "IsActive": true,
+                "HierarchyParent": 0,
+                "HierarchyIndex": 3,
+                "HierarchyChildren": [
+                    326
+                ]
+            },
+            "Transform": {
+                "Position": {
+                    "x": 0.0,
+                    "y": 250.0,
+                    "z": 0.0
+                },
+                "Scale": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                },
+                "Rotation": {
+                    "x": 0.0,
+                    "y": -0.0,
+                    "z": 0.0
+                }
+            },
+            "Graphics Component": {
+                "PointLight": false,
+                "TextureName": "",
+                "Mesh Renderer": true,
+                "Debug": false,
+                "ModelName": "",
+                "MeshName": "",
+                "Color": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0,
+                    "w": 1.0
+                },
+                "Used In 2D": false
+            }
         }
     },
     "Scripts": {
+        "207": {},
+        "320": {},
+        "201": {},
+        "322": {},
+        "195": {},
+        "324": {},
+        "191": {},
+        "304": {},
+        "189": {},
+        "310": {},
+        "187": {},
+        "316": {},
+        "185": {},
+        "306": {},
+        "183": {},
+        "296": {},
+        "181": {},
+        "302": {},
+        "179": {},
+        "308": {},
+        "177": {},
+        "298": {},
+        "171": {},
+        "300": {},
+        "169": {},
+        "290": {},
+        "163": {},
+        "292": {},
+        "135": {},
+        "312": {},
+        "133": {},
+        "318": {},
+        "129": {},
+        "314": {},
         "1": {},
         "2": {},
         "3": {},
@@ -16109,20 +15182,11 @@
         "126": {},
         "127": {},
         "128": {},
-        "314": {},
-        "129": {},
-        "314": {},
         "130": {},
         "131": {},
         "260": {},
         "132": {},
-        "318": {},
-        "133": {},
-        "318": {},
         "134": {},
-        "312": {},
-        "135": {},
-        "312": {},
         "136": {},
         "137": {},
         "258": {},
@@ -16162,80 +15226,39 @@
         "160": {},
         "161": {},
         "162": {},
-        "292": {},
-        "163": {},
-        "292": {},
         "164": {},
         "165": {},
         "166": {},
         "167": {},
         "168": {},
-        "290": {},
-        "169": {},
-        "290": {},
         "170": {},
-        "300": {},
-        "171": {},
-        "300": {},
         "172": {},
         "173": {},
         "174": {},
         "175": {},
         "288": {},
         "176": {},
-        "298": {},
-        "177": {},
-        "298": {},
         "178": {},
-        "308": {},
-        "179": {},
-        "308": {},
         "180": {},
-        "302": {},
-        "181": {},
-        "302": {},
         "182": {},
-        "296": {},
-        "183": {},
-        "296": {},
         "184": {},
-        "306": {},
-        "185": {},
-        "306": {},
         "186": {},
-        "316": {},
-        "187": {},
-        "316": {},
         "188": {},
-        "310": {},
-        "189": {},
-        "310": {},
         "190": {},
-        "304": {},
-        "191": {},
-        "304": {},
         "192": {},
         "193": {},
         "194": {},
-        "324": {},
-        "195": {},
-        "324": {},
         "196": {},
         "197": {},
         "198": {},
         "199": {},
         "200": {},
-        "322": {},
-        "201": {},
-        "322": {},
         "202": {},
         "203": {},
         "204": {},
         "205": {},
+        "326": {},
         "206": {},
-        "320": {},
-        "207": {},
-        "320": {},
         "208": {},
         "209": {},
         "210": {},
@@ -16320,9 +15343,245 @@
         "317": {},
         "319": {},
         "321": {},
-        "323": {}
+        "323": {},
+        "325": {
+            "FPS_Controller_Script": {
+                "rb": {
+                    "Component": 325
+                },
+                "playerCamera": {
+                    "Component": 326
+                },
+                "fov": {
+                    "Float": 60.0
+                },
+                "invertCamera": {
+                    "Bool": false
+                },
+                "cameraCanMove": {
+                    "Bool": true
+                },
+                "mouseSensitivity": {
+                    "Float": 20.0
+                },
+                "maxLookAngle": {
+                    "Float": 250.0
+                },
+                "lockCursor": {
+                    "Bool": true
+                },
+                "crosshair": {
+                    "Bool": true
+                },
+                "yaw": {
+                    "Float": 0.0
+                },
+                "pitch": {
+                    "Float": 0.0
+                },
+                "enableZoom": {
+                    "Bool": true
+                },
+                "holdToZoom": {
+                    "Bool": false
+                },
+                "zoomKey": {
+                    "UInt": 56
+                },
+                "zoomFOV": {
+                    "Float": 30.0
+                },
+                "zoomStepTime": {
+                    "Float": 5.0
+                },
+                "isZoomed": {
+                    "Bool": false
+                },
+                "playerCanMove": {
+                    "Bool": true
+                },
+                "walkSpeed": {
+                    "Float": 10.0
+                },
+                "maxVelocityChange": {
+                    "Float": 15.0
+                },
+                "isWalking": {
+                    "Bool": false
+                },
+                "enableSprint": {
+                    "Bool": true
+                },
+                "unlimitedSprint": {
+                    "Bool": false
+                },
+                "sprintKey": {
+                    "UInt": 42
+                },
+                "sprintSpeed": {
+                    "Float": 3.0
+                },
+                "currentSprintSpeed": {
+                    "Float": 0.0
+                },
+                "sprintDuration": {
+                    "Float": 5.0
+                },
+                "sprintCooldown": {
+                    "Float": 0.5
+                },
+                "sprintFOV": {
+                    "Float": 80.0
+                },
+                "sprintFOVStepTime": {
+                    "Float": 10.0
+                },
+                "useSprintBar": {
+                    "Bool": true
+                },
+                "hideBarWhenFull": {
+                    "Bool": true
+                },
+                "sprintBarWidthPercent": {
+                    "Float": 0.3
+                },
+                "sprintBarHeightPercent": {
+                    "Float": 0.015
+                },
+                "isSprinting": {
+                    "Bool": false
+                },
+                "sprintRemaining": {
+                    "Float": 5.0
+                },
+                "sprintBarWidth": {
+                    "Float": 0.0
+                },
+                "sprintBarHeight": {
+                    "Float": 0.0
+                },
+                "isSprintCooldown": {
+                    "Bool": false
+                },
+                "sprintCooldownReset": {
+                    "Float": 0.5
+                },
+                "enableJump": {
+                    "Bool": true
+                },
+                "jumpKey": {
+                    "UInt": 45
+                },
+                "jumpPower": {
+                    "Float": 5.0
+                },
+                "isGrounded": {
+                    "Bool": false
+                },
+                "enableCrouch": {
+                    "Bool": true
+                },
+                "holdToCrouch": {
+                    "Bool": true
+                },
+                "crouchKey": {
+                    "UInt": 43
+                },
+                "crouchHeight": {
+                    "Float": 0.75
+                },
+                "speedReduction": {
+                    "Float": 0.5
+                },
+                "isCrouched": {
+                    "Bool": false
+                },
+                "originalScale": {
+                    "Vector3": {
+                        "X": 1.0,
+                        "Y": 1.0,
+                        "Z": 1.0
+                    }
+                },
+                "playerHealth": {
+                    "Int": 100
+                },
+                "enableHeadBob": {
+                    "Bool": true
+                },
+                "joint": {
+                    "Component": 0
+                },
+                "bobSpeed": {
+                    "Float": 10.0
+                },
+                "bobAmount": {
+                    "Vector3": {
+                        "X": 0.15000000596046448,
+                        "Y": 0.05000000074505806,
+                        "Z": 0.0
+                    }
+                },
+                "jointOriginalPos": {
+                    "Vector3": {
+                        "X": 0.0,
+                        "Y": 0.0,
+                        "Z": 0.0
+                    }
+                },
+                "timer": {
+                    "Float": 0.0
+                },
+                "gameObject": {
+                    "GameObject": 325
+                },
+                "is_Enabled": {
+                    "Bool": true
+                },
+                "is_Awake": {
+                    "Bool": true
+                },
+                "is_Start": {
+                    "Bool": true
+                }
+            }
+        }
     },
     "Active Archetype": {
+        "207": "1100001000000",
+        "320": "1100000000000",
+        "201": "1100001000000",
+        "322": "1100000000000",
+        "195": "1100001000000",
+        "324": "1100000000000",
+        "191": "1100001000000",
+        "304": "1100000000001",
+        "189": "1100001000000",
+        "310": "1100000000001",
+        "187": "1100001000000",
+        "316": "1100000000000",
+        "185": "1100001000000",
+        "306": "1100000000001",
+        "183": "1100001000000",
+        "296": "1100000000000",
+        "181": "1100001000000",
+        "302": "1100000000001",
+        "179": "1100001000000",
+        "308": "1100000000001",
+        "177": "1100001000000",
+        "298": "1100000000001",
+        "171": "1100001000000",
+        "300": "1100000000001",
+        "169": "1100001000000",
+        "290": "1100000000001",
+        "163": "1100001000000",
+        "292": "1100000000001",
+        "135": "1100001000000",
+        "312": "1100000000001",
+        "133": "1100001000000",
+        "318": "1100000000001",
+        "129": "1100001000000",
+        "314": "1100000000000",
         "1": "1100001000000",
         "2": "1100001000000",
         "3": "1100001000000",
@@ -16451,20 +15710,11 @@
         "126": "1100001000000",
         "127": "1100001000000",
         "128": "1100001000000",
-        "314": "1100000000000",
-        "129": "1100001000000",
-        "314": "1100000000000",
         "130": "1100001000000",
         "131": "1100001000000",
         "260": "1100001000000",
         "132": "1100001000000",
-        "318": "1100000000001",
-        "133": "1100001000000",
-        "318": "1100000000001",
         "134": "1100001000000",
-        "312": "1100000000001",
-        "135": "1100001000000",
-        "312": "1100000000001",
         "136": "1100001000000",
         "137": "1100001000000",
         "258": "1100001000000",
@@ -16504,80 +15754,39 @@
         "160": "1100001000000",
         "161": "1100001000000",
         "162": "1100001000000",
-        "292": "1100000000001",
-        "163": "1100001000000",
-        "292": "1100000000001",
         "164": "1100001000000",
         "165": "1100001000000",
         "166": "1100001000000",
         "167": "1100001000000",
         "168": "1100001000000",
-        "290": "1100000000001",
-        "169": "1100001000000",
-        "290": "1100000000001",
         "170": "1100001000000",
-        "300": "1100000000001",
-        "171": "1100001000000",
-        "300": "1100000000001",
         "172": "1100001000000",
         "173": "1100001000000",
         "174": "1100001000000",
         "175": "1100001000000",
         "288": "1100001000000",
         "176": "1100001000000",
-        "298": "1100000000001",
-        "177": "1100001000000",
-        "298": "1100000000001",
         "178": "1100001000000",
-        "308": "1100000000001",
-        "179": "1100001000000",
-        "308": "1100000000001",
         "180": "1100001000000",
-        "302": "1100000000001",
-        "181": "1100001000000",
-        "302": "1100000000001",
         "182": "1100001000000",
-        "296": "1100000000000",
-        "183": "1100001000000",
-        "296": "1100000000000",
         "184": "1100001000000",
-        "306": "1100000000001",
-        "185": "1100001000000",
-        "306": "1100000000001",
         "186": "1100001000000",
-        "316": "1100000000000",
-        "187": "1100001000000",
-        "316": "1100000000000",
         "188": "1100001000000",
-        "310": "1100000000001",
-        "189": "1100001000000",
-        "310": "1100000000001",
         "190": "1100001000000",
-        "304": "1100000000001",
-        "191": "1100001000000",
-        "304": "1100000000001",
         "192": "1100001000000",
         "193": "1100001000000",
         "194": "1100001000000",
-        "324": "1100000000000",
-        "195": "1100001000000",
-        "324": "1100000000000",
         "196": "1100001000000",
         "197": "1100001000000",
         "198": "1100001000000",
         "199": "1100001000000",
         "200": "1100001000000",
-        "322": "1100000000000",
-        "201": "1100001000000",
-        "322": "1100000000000",
         "202": "1100001000000",
         "203": "1100001000000",
         "204": "1100001000000",
         "205": "1100001000000",
+        "326": "11001010000000",
         "206": "1100001000000",
-        "320": "1100000000000",
-        "207": "1100001000000",
-        "320": "1100000000000",
         "208": "1100001000000",
         "209": "1100001000000",
         "210": "1100001000000",
@@ -16662,6 +15871,7 @@
         "317": "1100000000000",
         "319": "1100000000000",
         "321": "1100000000000",
-        "323": "1100000000000"
+        "323": "1100000000000",
+        "325": "11000010000000"
     }
 }
