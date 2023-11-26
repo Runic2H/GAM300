@@ -119,20 +119,20 @@ namespace TDS
 		uint32 getSensorBodyID() const { return sensorID; }
 		virtual ValidateResult	OnContactValidate(const Body& inBody1, const Body& inBody2, RVec3Arg inBaseOffset, const CollideShapeResult& inCollisionResult) override
 		{
-			// Expect body 1 to be dynamic (or one of the bodies must be a sensor)
-			if (!inBody1.IsDynamic() && !inBody1.IsSensor() && !inBody2.IsSensor())
-			{
-				JPH_BREAKPOINT;		
-			}
+			//// Expect body 1 to be dynamic (or one of the bodies must be a sensor)
+			//if (!inBody1.IsDynamic() && !inBody1.IsSensor() && !inBody2.IsSensor())
+			//{
+			//	JPH_BREAKPOINT;		
+			//}
 
-			ValidateResult result;
-			result = ContactListener::OnContactValidate(inBody1, inBody2, inBaseOffset, inCollisionResult);
+			//ValidateResult result;
+			//result = ContactListener::OnContactValidate(inBody1, inBody2, inBaseOffset, inCollisionResult);
 
-			Trace("Validate %u and %u result %d", inBody1.GetID().GetIndex(), inBody2.GetID().GetIndex(), (int)result);
-			lastResult = result;
-			return  result;
-			// Allows you to ignore a contact before it is created (using layers to not make objects collide is cheaper!)
-			//return ValidateResult::AcceptAllContactsForThisBodyPair;
+			//Trace("Validate %u and %u result %d", inBody1.GetID().GetIndex(), inBody2.GetID().GetIndex(), (int)result);
+			//lastResult = result;
+			//return  result;
+			//// Allows you to ignore a contact before it is created (using layers to not make objects collide is cheaper!)
+			return ValidateResult::AcceptAllContactsForThisBodyPair;
 		}
 
 		virtual void			OnContactAdded(const Body& inBody1, const Body& inBody2, const ContactManifold& inManifold, ContactSettings& ioSettings) override
@@ -145,8 +145,7 @@ namespace TDS
 			if (inBody1.IsSensor() || inBody2.IsSensor())
 			{
 				sensorActivate = true;
-				//std::cout << "sensor is activated" << std::endl;
-
+				std::cout << "sensor activated" << '\n';
 			}
 			if (sensorActivate)
 			{

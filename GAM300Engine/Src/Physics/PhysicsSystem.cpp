@@ -8,7 +8,7 @@
  * \brief         Implementation of the physics system.
  *******************************************************************************/
 #include "Physics/PhysicsSystem.h"
-
+#include "AssetManagement/AssetManager.h"
 
 
 namespace TDS
@@ -106,17 +106,17 @@ namespace TDS
 		// Note that this is called from a job so whatever you do here needs to be thread safe.
 		// Registering one is entirely optional.
 		m_pSystem->SetContactListener(&contact_listener);
-		m_BodyManager = std::make_unique<JPH::BodyManager>();
 		std::cout << "successfully init Jolt Physics" << '\n';
 	}
 
-	void PhysicsSystem::PhysicsSystemUpdate(const float dt, const std::vector<EntityID>& entities, Transform* _transform, RigidBody* _rigidbody)
+	void PhysicsSystem::PhysicsSystemUpdate(const float dt, const std::vector<EntityID>& entities, Transform* _transform, RigidBody* _rigidbody, GraphicsComponent* _graphics)
 	{
 		static bool JPH_isPlay = false; // need to call only once in the update loop but it is a static function
 		// Physics loop
 		JPH::BodyInterface* pBodies = &m_pSystem->GetBodyInterface();
 		if (!GetIsPlaying())
 		{
+			TypeReference<AssetModel>* AssetModel = nullptr;
 			if (m_pSystem->GetNumBodies() != 0)
 			{
 				pBodies->RemoveBodies(JoltToTDS::ToBodyID(m_pBodyIDVector.data()), m_pBodyIDVector.size());
@@ -127,11 +127,38 @@ namespace TDS
 			{
 				if (_rigidbody[i].GetBodyID().IsInvalid())
 				{
+					
 					TDS_INFO("Init");
+					
+					TDS::AssetModel* tmp_assetModel = AssetManager::GetInstance()->GetModelFactory().GetModel(_graphics[i].GetModelName(), _graphics[i].GetAsset());
+					std::string key = _graphics[i].GetMeshName();
+					auto it = tmp_assetModel->m_Meshes.find(key);
+					if (it != tmp_assetModel->m_Meshes.end())
+					{
+						MeshData* tmp_MeshData = &(it->second);
+						Vec3 minBoundingBox(FLT_MAX, FLT_MAX, FLT_MAX);
+						Vec3 maxBoundingBox(-FLT_MAX, -FLT_MAX, -FLT_MAX);
+						for (auto &modelCoord : tmp_MeshData->m_VertexData)
+						{
+							minBoundingBox.x = Mathf::Min(minBoundingBox.x, modelCoord.m_Pos.x);
+							minBoundingBox.y = Mathf::Min(minBoundingBox.y, modelCoord.m_Pos.y);
+							minBoundingBox.z = Mathf::Min(minBoundingBox.z, modelCoord.m_Pos.z);
+
+							maxBoundingBox.x = Mathf::Max(maxBoundingBox.x, modelCoord.m_Pos.x);
+							maxBoundingBox.y = Mathf::Max(maxBoundingBox.y, modelCoord.m_Pos.y);
+							maxBoundingBox.z = Mathf::Max(maxBoundingBox.z, modelCoord.m_Pos.z);
+
+						}
+						_rigidbody[i].setAABBmin(minBoundingBox);
+						_rigidbody[i].setAABBmax(maxBoundingBox);
+					}
+					_graphics[i].setDebug(false);
+
 					JPH_CreateBodyID(entities[i], &_transform[i], &_rigidbody[i]);
 					
 				}
 			}
+			
 			m_pSystem->OptimizeBroadPhase();
 			SetIsPlaying(true);
 		}
@@ -157,9 +184,10 @@ namespace TDS
 				EActivation mode = EActivation::Activate;
 				pBodies->SetPosition(ToBodyID(_rigidbody[i]), ToVec3(_transform[i].GetPosition()), mode);
 				pBodies->SetRotation(ToBodyID(_rigidbody[i]), ToQuat(_transform[i].GetRotation()), mode);
+				
 			}
 			// JPH physics simulation
-			m_pSystem->Update(TimeStep::GetFixedDeltaTime(), 1, m_pTempAllocator.get(), m_pJobSystem.get());
+			//m_pSystem->Update(TimeStep::GetFixedDeltaTime(), 1, m_pTempAllocator.get(), m_pJobSystem.get());
 			// Update back to the ECS
 		
 			for (int j = 0; j < entities.size(); ++j)
@@ -175,7 +203,6 @@ namespace TDS
 					{
 						_rigidbody[j].setSensorActivate(true);
 					}
-					TDS_INFO("index: {}", index);
 				}
 				else
 				{
@@ -198,23 +225,23 @@ namespace TDS
 	{
 		JPH::BodyID JPHBodyID = JoltToTDS::ToBodyID(*_rigidbody);
 		JPH::BodyInterface* pBodies = &m_pSystem->GetBodyInterface();
-		_transform->SetPosition(JoltToTDS::ToVec3(pBodies->GetPosition(JPHBodyID)));
-		_transform->SetRotation(JoltToTDS::ToVec3(pBodies->GetRotation(JPHBodyID).GetEulerAngles()));
-		_rigidbody->SetLinearVel(JoltToTDS::ToVec3(pBodies->GetLinearVelocity(JPHBodyID)));
-		_rigidbody->SetAngularVel(JoltToTDS::ToVec3(pBodies->GetAngularVelocity(JPHBodyID)));
+		//_transform->SetPosition(JoltToTDS::ToVec3(pBodies->GetPosition(JPHBodyID)));
+		//_transform->SetRotation(JoltToTDS::ToVec3(pBodies->GetRotation(JPHBodyID).GetEulerAngles()));
+		//_rigidbody->SetLinearVel(JoltToTDS::ToVec3(pBodies->GetLinearVelocity(JPHBodyID)));
+		//_rigidbody->SetAngularVel(JoltToTDS::ToVec3(pBodies->GetAngularVelocity(JPHBodyID)));
 		//_transform->SetDirty(false);
 	}
 	void PhysicsSystem::SensorActivated(RigidBody* _rigidbody)
 	{
 		if (contact_listener.GetSensorActivate())
 		{
-			
+			_rigidbody->setSensorActivate(true);
+
 		}
 		else
 		{
 			_rigidbody->setSensorActivate(false);
 		}
-		TDS_INFO(_rigidbody->getSensorActivate());
 	}
 	void PhysicsSystem::JPH_SystemShutdown()
 	{
@@ -259,9 +286,23 @@ namespace TDS
 		else if (GetBoxCollider(_entityID))
 		{
 			BoxCollider* vBox = GetBoxCollider(_entityID);
-			Vec3 halfExtents = { _transform->GetScale().x / vBox->GetSize().x, _transform->GetScale().y / vBox->GetSize().y, _transform->GetScale().z / vBox->GetSize().z };
-			halfExtents = (halfExtents) * 0.5f * 2.f;
-			JPH::Vec3 JPHextents = JoltToTDS::ToVec3(halfExtents);
+			//float transX, transY, transZ;
+			Vec3 length = (_rigidbody->getAABBmax() - _rigidbody->getAABBmin());
+			if (length.x == 0.f)
+			{
+				length.x = _rigidbody->getAABBmax().x;
+			}
+			if (length.y == 0.f)
+			{
+				length.y = _rigidbody->getAABBmax().y;
+			}
+			if (length.z == 0.f)
+			{
+				length.z = _rigidbody->getAABBmax().z;
+			}
+			//Vec3 halfExtents = { _transform->GetScale().x / vBox->GetSize().x, _transform->GetScale().y / vBox->GetSize().y, _transform->GetScale().z / vBox->GetSize().z };
+			//halfExtents = (halfExtents) * 2.f;
+			JPH::Vec3 JPHextents = JoltToTDS::ToVec3(length);
 			JPH::BoxShapeSettings s_boxSettings(JPHextents);
 			JPH::ShapeSettings::ShapeResult result = s_boxSettings.Create();
 			JPH::ShapeRefC boxShape = result.Get();

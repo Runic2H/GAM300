@@ -30,7 +30,9 @@ namespace TDS
 		inline int&								GetPointLightID() { return m_PointLightID; }
 		inline Vec4&							GetColor() { return m_Color; }
 		inline std::string&						GetTextureName() { return m_TextureName; }
+		inline std::string&						GetMeshName() { return m_MeshName; }
 		inline bool&							IsDebugOn() { return m_Debug; }
+		inline void								setDebug(bool input) { m_Debug = input; }
 		inline void								SetModelName(std::string input) { m_ModelName = input; }
 		inline std::string&						GetModelName() { return m_ModelName; }
 
