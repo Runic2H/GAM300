@@ -2,6 +2,7 @@
 #include "IncludeFromEngine.hxx"
 #include "../GAM300Engine/Include/Input/Input.h"
 #include <algorithm>
+#include "Vector2.hxx"
 
 #define Mouse_X TDS::Input::getMousePosition()->x
 #define Mouse_Y TDS::Input::getMousePosition()->y
@@ -164,7 +165,8 @@ namespace ScriptAPI
         static bool GetMouseButton(uint32_t button);
         static bool GetMouseButtonUp(uint32_t button);
         static bool GetMouseButtonDown(uint32_t button);
-
+		static float GetLocalMousePosX();
+		static float GetLocalMousePoxY();
 		static float GetMousePositionDifferenceX();
 		static float GetMousePositionDifferenceY();
 

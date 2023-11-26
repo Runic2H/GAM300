@@ -312,4 +312,14 @@ namespace TDS
 		return Vec2(local_MousePos.x, local_MousePos.y);
 	}
 
+	float Input::getLocalMousePosX()
+	{
+		return local_MousePos.x;
+	}
+
+	float Input::getLocalMousePosY()
+	{
+		return local_MousePos.y;
+	}
+
 } //end of namespace
