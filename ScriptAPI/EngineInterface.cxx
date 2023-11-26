@@ -39,6 +39,7 @@ namespace ScriptAPI
         updateScriptTypeList();
         Input::InputSetup();
         SceneLoader::dataPath = toSystemString(TDS::GetAssetFolder());
+        fixedUpdateTimer = TDS::TimeStep::GetFixedDeltaTime();
         System::Console::WriteLine("Hello Engine Interface Init!");
     }
 

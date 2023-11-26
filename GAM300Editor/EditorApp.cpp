@@ -137,13 +137,6 @@ namespace TDS
         GraphicsManager::getInstance().Init(&m_window);
         AssetManager::GetInstance()->PreloadAssets();
         skyboxrender.Init();
-        auto executeAwake = GetFunctionPtr<void(*)(void)>
-            (
-                "ScriptAPI",
-                "ScriptAPI.EngineInterface",
-                "ExecuteAwake"
-            );
-        executeAwake();
     }
 
     void Application::Update()
@@ -245,17 +238,10 @@ namespace TDS
                 if (startPlaying)
                 {
                     SceneManager::GetInstance()->loadScene(SceneManager::GetInstance()->getCurrentScene());
-                    auto executeStart = GetFunctionPtr<void(*)(void)>
-                        (
-                            "ScriptAPI",
-                            "ScriptAPI.EngineInterface",
-                            "ExecuteStart"
-                        );
-                    executeStart();
                     startPlaying = false;
                 }
-                ecs.runSystems(1, DeltaTime); // Other systems
                 executeFixedUpdate();
+                ecs.runSystems(1, DeltaTime); // Other systems
                 executeUpdate();
                 executeLateUpdate();
             }
