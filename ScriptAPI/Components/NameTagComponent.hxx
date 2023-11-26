@@ -8,11 +8,11 @@ namespace ScriptAPI
 	public value class NameTagComponent : ComponentBase
 	{
 	public:
-		std::string GetName();
-		void SetName(std::string value);
+		System::String^ GetName();
+		void SetName(System::String^ value);
 
-		std::string GetTag();
-		void SetTag(std::string value);
+		System::String^ GetTag();
+		void SetTag(System::String^ value);
 
 		bool GetIsActive();
 		void SetIsActive(bool value);
@@ -26,15 +26,15 @@ namespace ScriptAPI
 		TDS::EntityID GetEntityID();
 
 	private:
-		property std::string Name
+		property System::String^ Name
 		{
-			std::string get();
-			void set(std::string value);
+			System::String^ get();
+			void set(System::String^ value);
 		}
-		property std::string Tag
+		property System::String^ Tag
 		{
-			std::string get();
-			void set(std::string value);
+			System::String^ get();
+			void set(System::String^ value);
 		}
 		property bool IsActive
 		{

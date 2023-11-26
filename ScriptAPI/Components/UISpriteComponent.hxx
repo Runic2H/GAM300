@@ -19,6 +19,8 @@ namespace ScriptAPI
 
 		void SetTextureName(System::String^ textureName);
 
+		System::String^ GetTextureName();
+
 		//Font
 		void SetFontName(System::String^ fontName);
 
@@ -37,6 +39,7 @@ namespace ScriptAPI
 
 
 		TransformComponent^ transform;
+		
 
 	internal:
 		UISpriteComponent(TDS::EntityID ID);
