@@ -1,19 +1,9 @@
 {
     "Archetype Sizes": {
-        "1100000000001": {
-            "0": 4760,
-            "1": 7000,
-            "12": 12600
-        },
-        "1100001000000": {
-            "0": 39168,
-            "1": 57600,
-            "6": 76032
-        },
         "11000010000000": {
-            "0": 6800,
-            "1": 10000,
-            "6": 13200
+            "0": 45832,
+            "1": 67400,
+            "6": 88968
         },
         "11001010000000": {
             "0": 136,
@@ -22,19 +12,24 @@
             "6": 264
         },
         "11000010100000": {
-            "0": 272,
-            "1": 400,
-            "6": 528,
-            "8": 64
+            "0": 408,
+            "1": 600,
+            "6": 792,
+            "8": 96
         },
         "11000000000000": {
             "0": 136,
             "1": 200
+        },
+        "11000000000010": {
+            "0": 4760,
+            "1": 7000,
+            "12": 12600
         }
     },
     "Entity Data": {
         "304": {
-            "ArchetypeID": "1100000000001",
+            "ArchetypeID": "11000000000010",
             "Name Tag": {
                 "Name": "NotesTab",
                 "Tag": "",
@@ -98,7 +93,7 @@
             }
         },
         "191": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Tube_13__2",
                 "Tag": "",
@@ -141,7 +136,7 @@
             }
         },
         "15": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Left Hallway Door Left Wall",
                 "Tag": "",
@@ -184,7 +179,7 @@
             }
         },
         "320": {
-            "ArchetypeID": "1100000000001",
+            "ArchetypeID": "11000000000010",
             "Name Tag": {
                 "Name": "Item8",
                 "Tag": "",
@@ -246,7 +241,7 @@
             }
         },
         "207": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Study Wall (8)",
                 "Tag": "",
@@ -289,7 +284,7 @@
             }
         },
         "9": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Tube__2",
                 "Tag": "",
@@ -332,7 +327,7 @@
             }
         },
         "322": {
-            "ArchetypeID": "1100000000001",
+            "ArchetypeID": "11000000000010",
             "Name Tag": {
                 "Name": "Item10",
                 "Tag": "",
@@ -394,7 +389,7 @@
             }
         },
         "201": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Study Wall (2)",
                 "Tag": "",
@@ -437,7 +432,7 @@
             }
         },
         "3": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Plate__1",
                 "Tag": "",
@@ -480,7 +475,7 @@
             }
         },
         "324": {
-            "ArchetypeID": "1100000000001",
+            "ArchetypeID": "11000000000010",
             "Name Tag": {
                 "Name": "Item12",
                 "Tag": "",
@@ -542,7 +537,7 @@
             }
         },
         "195": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Gallery Wall (3)",
                 "Tag": "",
@@ -585,7 +580,7 @@
             }
         },
         "189": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Plate_13__2",
                 "Tag": "",
@@ -628,7 +623,7 @@
             }
         },
         "310": {
-            "ArchetypeID": "1100000000001",
+            "ArchetypeID": "11000000000010",
             "Name Tag": {
                 "Name": "Paintings Text",
                 "Tag": "",
@@ -692,7 +687,7 @@
             }
         },
         "187": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Handle_13__2",
                 "Tag": "",
@@ -735,7 +730,7 @@
             }
         },
         "316": {
-            "ArchetypeID": "1100000000001",
+            "ArchetypeID": "11000000000010",
             "Name Tag": {
                 "Name": "Item4",
                 "Tag": "",
@@ -797,7 +792,7 @@
             }
         },
         "185": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Main Wall (4)",
                 "Tag": "",
@@ -840,7 +835,7 @@
             }
         },
         "306": {
-            "ArchetypeID": "1100000000001",
+            "ArchetypeID": "11000000000010",
             "Name Tag": {
                 "Name": "MouseClick",
                 "Tag": "",
@@ -904,7 +899,7 @@
             }
         },
         "183": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Study Door Frame",
                 "Tag": "",
@@ -947,7 +942,7 @@
             }
         },
         "296": {
-            "ArchetypeID": "1100000000001",
+            "ArchetypeID": "11000000000010",
             "Name Tag": {
                 "Name": "Item6",
                 "Tag": "",
@@ -1009,7 +1004,7 @@
             }
         },
         "181": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Tube_13__1",
                 "Tag": "",
@@ -1052,7 +1047,7 @@
             }
         },
         "302": {
-            "ArchetypeID": "1100000000001",
+            "ArchetypeID": "11000000000010",
             "Name Tag": {
                 "Name": "Box12",
                 "Tag": "",
@@ -1116,7 +1111,7 @@
             }
         },
         "179": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Plate_13__1",
                 "Tag": "",
@@ -1159,7 +1154,7 @@
             }
         },
         "308": {
-            "ArchetypeID": "1100000000001",
+            "ArchetypeID": "11000000000010",
             "Name Tag": {
                 "Name": "Item Text",
                 "Tag": "",
@@ -1221,7 +1216,7 @@
             }
         },
         "177": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Toilet Door",
                 "Tag": "",
@@ -1264,7 +1259,7 @@
             }
         },
         "298": {
-            "ArchetypeID": "1100000000001",
+            "ArchetypeID": "11000000000010",
             "Name Tag": {
                 "Name": "Box8",
                 "Tag": "",
@@ -1328,7 +1323,7 @@
             }
         },
         "171": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Engraving_13",
                 "Tag": "",
@@ -1371,7 +1366,7 @@
             }
         },
         "300": {
-            "ArchetypeID": "1100000000001",
+            "ArchetypeID": "11000000000010",
             "Name Tag": {
                 "Name": "Box10",
                 "Tag": "",
@@ -1435,7 +1430,7 @@
             }
         },
         "169": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Dinning Wall (7)",
                 "Tag": "",
@@ -1478,7 +1473,7 @@
             }
         },
         "290": {
-            "ArchetypeID": "1100000000001",
+            "ArchetypeID": "11000000000010",
             "Name Tag": {
                 "Name": "Box1",
                 "Tag": "",
@@ -1542,7 +1537,7 @@
             }
         },
         "163": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Oil_Tank__11",
                 "Tag": "",
@@ -1585,7 +1580,7 @@
             }
         },
         "292": {
-            "ArchetypeID": "1100000000001",
+            "ArchetypeID": "11000000000010",
             "Name Tag": {
                 "Name": "Box3",
                 "Tag": "",
@@ -1649,7 +1644,7 @@
             }
         },
         "7": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Study Door Top Part (1)",
                 "Tag": "",
@@ -1692,7 +1687,7 @@
             }
         },
         "135": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Living Door Frame (1)",
                 "Tag": "",
@@ -1735,7 +1730,7 @@
             }
         },
         "312": {
-            "ArchetypeID": "1100000000001",
+            "ArchetypeID": "11000000000010",
             "Name Tag": {
                 "Name": "Close Text",
                 "Tag": "",
@@ -1797,7 +1792,7 @@
             }
         },
         "5": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010100000",
             "Name Tag": {
                 "Name": "Ceiling",
                 "Tag": "",
@@ -1837,10 +1832,20 @@
                     "w": 0.0
                 },
                 "Used In 2D": false
+            },
+            "Sphere Collider": {
+                "IsTrigger": false,
+                "Center": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "Radius": 0.5,
+                "AImode": "NONE"
             }
         },
         "133": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Oil_Tank__7",
                 "Tag": "",
@@ -1883,7 +1888,7 @@
             }
         },
         "318": {
-            "ArchetypeID": "1100000000001",
+            "ArchetypeID": "11000000000010",
             "Name Tag": {
                 "Name": "Box6",
                 "Tag": "",
@@ -1947,7 +1952,7 @@
             }
         },
         "1": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Mansion Layout",
                 "Tag": "",
@@ -2274,7 +2279,7 @@
             }
         },
         "129": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Engraving__7",
                 "Tag": "",
@@ -2317,7 +2322,7 @@
             }
         },
         "314": {
-            "ArchetypeID": "1100000000001",
+            "ArchetypeID": "11000000000010",
             "Name Tag": {
                 "Name": "Item2",
                 "Tag": "",
@@ -2379,7 +2384,7 @@
             }
         },
         "2": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Gallery Door Top Part (1)",
                 "Tag": "",
@@ -2422,7 +2427,7 @@
             }
         },
         "4": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Cube",
                 "Tag": "",
@@ -2465,7 +2470,7 @@
             }
         },
         "6": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Tube__3",
                 "Tag": "",
@@ -2508,7 +2513,7 @@
             }
         },
         "8": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Study Door Top Part (2)",
                 "Tag": "",
@@ -2551,7 +2556,7 @@
             }
         },
         "10": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Dinning To Kitchen Top Part (4)",
                 "Tag": "",
@@ -2594,7 +2599,7 @@
             }
         },
         "11": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Gallery To Study Top Part (2)",
                 "Tag": "",
@@ -2637,7 +2642,7 @@
             }
         },
         "12": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Gallery To Study Top Part (1)",
                 "Tag": "",
@@ -2680,7 +2685,7 @@
             }
         },
         "13": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Extrude_13",
                 "Tag": "",
@@ -2723,7 +2728,7 @@
             }
         },
         "14": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Plate",
                 "Tag": "",
@@ -2766,7 +2771,7 @@
             }
         },
         "16": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Main Door Top Part",
                 "Tag": "",
@@ -2809,7 +2814,7 @@
             }
         },
         "17": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Plate__11",
                 "Tag": "",
@@ -2852,7 +2857,7 @@
             }
         },
         "18": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Gallery Door Top Part (2)",
                 "Tag": "",
@@ -2895,7 +2900,7 @@
             }
         },
         "19": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Oil_Tank__1",
                 "Tag": "",
@@ -2938,7 +2943,7 @@
             }
         },
         "20": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Living Door Top Part (1)",
                 "Tag": "",
@@ -2981,7 +2986,7 @@
             }
         },
         "21": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Dinning To Kitchen Top Part (2)",
                 "Tag": "",
@@ -3024,7 +3029,7 @@
             }
         },
         "22": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Cube__3",
                 "Tag": "",
@@ -3067,7 +3072,7 @@
             }
         },
         "23": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Dinning To Kitchen Top Part (1)",
                 "Tag": "",
@@ -3110,7 +3115,7 @@
             }
         },
         "24": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Dinning Wall (1)",
                 "Tag": "",
@@ -3153,7 +3158,7 @@
             }
         },
         "25": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Bedroom Double Door Right Side",
                 "Tag": "",
@@ -3196,7 +3201,7 @@
             }
         },
         "26": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Living To Dinning Top Part (1)",
                 "Tag": "",
@@ -3239,7 +3244,7 @@
             }
         },
         "27": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Toilet Wall (1)",
                 "Tag": "",
@@ -3282,7 +3287,7 @@
             }
         },
         "28": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Tube",
                 "Tag": "",
@@ -3325,7 +3330,7 @@
             }
         },
         "29": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Living To Dinning Top Part (2)",
                 "Tag": "",
@@ -3368,7 +3373,7 @@
             }
         },
         "30": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Living Door Top Part (2)",
                 "Tag": "",
@@ -3411,7 +3416,7 @@
             }
         },
         "31": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Study Wall (1)",
                 "Tag": "",
@@ -3454,7 +3459,7 @@
             }
         },
         "32": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Mini Hall To Living Top Part (1)",
                 "Tag": "",
@@ -3497,7 +3502,7 @@
             }
         },
         "33": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Toilet Door Part (2)",
                 "Tag": "",
@@ -3540,7 +3545,7 @@
             }
         },
         "34": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Toilet Door Part (1)",
                 "Tag": "",
@@ -3583,7 +3588,7 @@
             }
         },
         "35": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Cube__2",
                 "Tag": "",
@@ -3626,7 +3631,7 @@
             }
         },
         "36": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Dinning Door Frame (1)",
                 "Tag": "",
@@ -3669,7 +3674,7 @@
             }
         },
         "37": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Gallery Pillar (1)",
                 "Tag": "",
@@ -3712,7 +3717,7 @@
             }
         },
         "38": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Bedroom Single Door Top Part",
                 "Tag": "",
@@ -3755,7 +3760,7 @@
             }
         },
         "39": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Dinning Unused Stuff (1)",
                 "Tag": "",
@@ -3798,7 +3803,7 @@
             }
         },
         "40": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Handle_13",
                 "Tag": "",
@@ -3841,7 +3846,7 @@
             }
         },
         "41": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Extrude__4",
                 "Tag": "",
@@ -3884,7 +3889,7 @@
             }
         },
         "42": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Bedroom Double Door Top Part (2)",
                 "Tag": "",
@@ -3927,7 +3932,7 @@
             }
         },
         "43": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Bedroom Double Door Top Part (1)",
                 "Tag": "",
@@ -3970,7 +3975,7 @@
             }
         },
         "44": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Oil_Tank__2",
                 "Tag": "",
@@ -4013,7 +4018,7 @@
             }
         },
         "45": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Dinning Door Top Part (2)",
                 "Tag": "",
@@ -4056,7 +4061,7 @@
             }
         },
         "46": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Oil_Tank__5",
                 "Tag": "",
@@ -4099,7 +4104,7 @@
             }
         },
         "47": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Dinning Door Top Part (1)",
                 "Tag": "",
@@ -4142,7 +4147,7 @@
             }
         },
         "48": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Tube__1",
                 "Tag": "",
@@ -4185,7 +4190,7 @@
             }
         },
         "49": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Engraving",
                 "Tag": "",
@@ -4228,7 +4233,7 @@
             }
         },
         "50": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Study Wall (10)",
                 "Tag": "",
@@ -4271,7 +4276,7 @@
             }
         },
         "51": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Engraving__6",
                 "Tag": "",
@@ -4314,7 +4319,7 @@
             }
         },
         "52": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Left Hallway Door Top Part",
                 "Tag": "",
@@ -4357,7 +4362,7 @@
             }
         },
         "53": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Engraving__1",
                 "Tag": "",
@@ -4400,7 +4405,7 @@
             }
         },
         "54": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Gallery Wall (6)",
                 "Tag": "",
@@ -4443,7 +4448,7 @@
             }
         },
         "55": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Gallery Wall (7)",
                 "Tag": "",
@@ -4486,7 +4491,7 @@
             }
         },
         "56": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Right Hallway Door Top Part",
                 "Tag": "",
@@ -4529,7 +4534,7 @@
             }
         },
         "57": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Dinning Wall Interior (1)",
                 "Tag": "",
@@ -4615,7 +4620,7 @@
             }
         },
         "58": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Main Door Frame (1)",
                 "Tag": "",
@@ -4658,7 +4663,7 @@
             }
         },
         "59": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Left Hallway Door Frame (1)",
                 "Tag": "",
@@ -4701,7 +4706,7 @@
             }
         },
         "60": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Main Door Left Side",
                 "Tag": "",
@@ -4744,7 +4749,7 @@
             }
         },
         "61": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Right Hallway Door Frame (1)",
                 "Tag": "",
@@ -4787,7 +4792,7 @@
             }
         },
         "62": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Right Hallway Window (4)",
                 "Tag": "",
@@ -4830,7 +4835,7 @@
             }
         },
         "63": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Main Door Right Side",
                 "Tag": "",
@@ -4873,7 +4878,7 @@
             }
         },
         "64": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Kitchen Wall (1)",
                 "Tag": "",
@@ -4916,7 +4921,7 @@
             }
         },
         "65": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Dinning Door Right Side",
                 "Tag": "",
@@ -4959,7 +4964,7 @@
             }
         },
         "66": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Left Hallway Door Left Side",
                 "Tag": "",
@@ -5002,7 +5007,7 @@
             }
         },
         "67": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Handle",
                 "Tag": "",
@@ -5045,7 +5050,7 @@
             }
         },
         "68": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Oil_Tank",
                 "Tag": "",
@@ -5088,7 +5093,7 @@
             }
         },
         "69": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Dinning Unused Stuff (2)",
                 "Tag": "",
@@ -5131,7 +5136,7 @@
             }
         },
         "70": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Left Hallway Door Right Side",
                 "Tag": "",
@@ -5174,7 +5179,7 @@
             }
         },
         "71": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Extrude",
                 "Tag": "",
@@ -5217,7 +5222,7 @@
             }
         },
         "72": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Handle__1",
                 "Tag": "",
@@ -5260,7 +5265,7 @@
             }
         },
         "73": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Cube__1",
                 "Tag": "",
@@ -5303,7 +5308,7 @@
             }
         },
         "74": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Extrude__1",
                 "Tag": "",
@@ -5346,7 +5351,7 @@
             }
         },
         "75": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Right Hallway Door Left Side",
                 "Tag": "",
@@ -5389,7 +5394,7 @@
             }
         },
         "76": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Engraving__9",
                 "Tag": "",
@@ -5432,7 +5437,7 @@
             }
         },
         "77": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Handle__2",
                 "Tag": "",
@@ -5475,7 +5480,7 @@
             }
         },
         "78": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Plate__2",
                 "Tag": "",
@@ -5518,7 +5523,7 @@
             }
         },
         "79": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Handle__9",
                 "Tag": "",
@@ -5561,7 +5566,7 @@
             }
         },
         "80": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Engraving__2",
                 "Tag": "",
@@ -5604,7 +5609,7 @@
             }
         },
         "81": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Extrude__2",
                 "Tag": "",
@@ -5647,7 +5652,7 @@
             }
         },
         "82": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Dinning Wall (2)",
                 "Tag": "",
@@ -5690,7 +5695,7 @@
             }
         },
         "83": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Right Hallway Door Right Side",
                 "Tag": "",
@@ -5733,7 +5738,7 @@
             }
         },
         "84": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Engraving__8",
                 "Tag": "",
@@ -5776,7 +5781,7 @@
             }
         },
         "85": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Handle__3",
                 "Tag": "",
@@ -5819,7 +5824,7 @@
             }
         },
         "86": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Right Hallway Wall (1)",
                 "Tag": "",
@@ -5862,7 +5867,7 @@
             }
         },
         "87": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Plate__3",
                 "Tag": "",
@@ -5905,7 +5910,7 @@
             }
         },
         "88": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Handle__8",
                 "Tag": "",
@@ -5948,7 +5953,7 @@
             }
         },
         "89": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Engraving__3",
                 "Tag": "",
@@ -5991,7 +5996,7 @@
             }
         },
         "90": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Oil_Tank__3",
                 "Tag": "",
@@ -6034,7 +6039,7 @@
             }
         },
         "91": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Kitchen Unused Stuff",
                 "Tag": "",
@@ -6077,7 +6082,7 @@
             }
         },
         "92": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Dinning Wall (3)",
                 "Tag": "",
@@ -6120,7 +6125,7 @@
             }
         },
         "93": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Extrude__3",
                 "Tag": "",
@@ -6163,7 +6168,7 @@
             }
         },
         "94": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Cube__10",
                 "Tag": "",
@@ -6206,7 +6211,7 @@
             }
         },
         "95": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Handle__4",
                 "Tag": "",
@@ -6249,7 +6254,7 @@
             }
         },
         "96": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Plate__4",
                 "Tag": "",
@@ -6292,7 +6297,7 @@
             }
         },
         "97": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Oil_Tank_13__1",
                 "Tag": "",
@@ -6335,7 +6340,7 @@
             }
         },
         "98": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Engraving__4",
                 "Tag": "",
@@ -6378,7 +6383,7 @@
             }
         },
         "99": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Tube__4",
                 "Tag": "",
@@ -6421,7 +6426,7 @@
             }
         },
         "100": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Cube__4",
                 "Tag": "",
@@ -6464,7 +6469,7 @@
             }
         },
         "101": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Oil_Tank__4",
                 "Tag": "",
@@ -6507,7 +6512,7 @@
             }
         },
         "102": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Kitchen Wall (2)",
                 "Tag": "",
@@ -6550,7 +6555,7 @@
             }
         },
         "103": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Dinning Door Left Side",
                 "Tag": "",
@@ -6593,7 +6598,7 @@
             }
         },
         "104": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Cube__11",
                 "Tag": "",
@@ -6636,7 +6641,7 @@
             }
         },
         "105": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Handle__5",
                 "Tag": "",
@@ -6679,7 +6684,7 @@
             }
         },
         "106": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Plate__5",
                 "Tag": "",
@@ -6722,7 +6727,7 @@
             }
         },
         "107": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Engraving__5",
                 "Tag": "",
@@ -6765,7 +6770,7 @@
             }
         },
         "108": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Tube__5",
                 "Tag": "",
@@ -6808,7 +6813,7 @@
             }
         },
         "109": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Cube__5",
                 "Tag": "",
@@ -6851,7 +6856,7 @@
             }
         },
         "110": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Kitchen Wall (3)",
                 "Tag": "",
@@ -6894,7 +6899,7 @@
             }
         },
         "111": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Extrude__5",
                 "Tag": "",
@@ -6937,7 +6942,7 @@
             }
         },
         "112": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Gallery Door Frame (1)",
                 "Tag": "",
@@ -6980,7 +6985,7 @@
             }
         },
         "113": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Dinning Unused Stuff (3)",
                 "Tag": "",
@@ -7023,7 +7028,7 @@
             }
         },
         "114": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Gallery Door Right Side",
                 "Tag": "",
@@ -7066,7 +7071,7 @@
             }
         },
         "115": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Handle__6",
                 "Tag": "",
@@ -7109,7 +7114,7 @@
             }
         },
         "116": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Main Wall (1)",
                 "Tag": "",
@@ -7152,7 +7157,7 @@
             }
         },
         "117": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Plate__6",
                 "Tag": "",
@@ -7195,7 +7200,7 @@
             }
         },
         "118": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Tube__6",
                 "Tag": "",
@@ -7238,7 +7243,7 @@
             }
         },
         "119": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Cube__6",
                 "Tag": "",
@@ -7281,7 +7286,7 @@
             }
         },
         "120": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Tube__10",
                 "Tag": "",
@@ -7324,7 +7329,7 @@
             }
         },
         "121": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Oil_Tank__6",
                 "Tag": "",
@@ -7367,7 +7372,7 @@
             }
         },
         "122": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Dinning Wall (6)",
                 "Tag": "",
@@ -7410,7 +7415,7 @@
             }
         },
         "123": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Extrude__6",
                 "Tag": "",
@@ -7453,7 +7458,7 @@
             }
         },
         "124": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Gallery Door Left Side",
                 "Tag": "",
@@ -7496,7 +7501,7 @@
             }
         },
         "125": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Handle__7",
                 "Tag": "",
@@ -7539,7 +7544,7 @@
             }
         },
         "126": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Main Wall (2)",
                 "Tag": "",
@@ -7582,7 +7587,7 @@
             }
         },
         "127": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Plate__7",
                 "Tag": "",
@@ -7625,7 +7630,7 @@
             }
         },
         "128": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Oil_Tank_13__2",
                 "Tag": "",
@@ -7668,7 +7673,7 @@
             }
         },
         "130": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Tube__7",
                 "Tag": "",
@@ -7711,7 +7716,7 @@
             }
         },
         "260": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Toilet Unused Stuff ()",
                 "Tag": "",
@@ -7754,7 +7759,7 @@
             }
         },
         "131": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Cube__7",
                 "Tag": "",
@@ -7797,7 +7802,7 @@
             }
         },
         "132": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Tube__11",
                 "Tag": "",
@@ -7840,7 +7845,7 @@
             }
         },
         "134": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Extrude__7",
                 "Tag": "",
@@ -7883,7 +7888,7 @@
             }
         },
         "136": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Dinning Wall (5)",
                 "Tag": "",
@@ -7926,7 +7931,7 @@
             }
         },
         "258": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Mini Hallway Wall (2)",
                 "Tag": "",
@@ -7969,7 +7974,7 @@
             }
         },
         "137": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Living Door Right Side",
                 "Tag": "",
@@ -8012,7 +8017,7 @@
             }
         },
         "138": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Plate__8",
                 "Tag": "",
@@ -8055,7 +8060,7 @@
             }
         },
         "268": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Toilet Wall ()",
                 "Tag": "",
@@ -8098,7 +8103,7 @@
             }
         },
         "139": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Tube__8",
                 "Tag": "",
@@ -8141,7 +8146,7 @@
             }
         },
         "140": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Cube__8",
                 "Tag": "",
@@ -8184,7 +8189,7 @@
             }
         },
         "262": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Toilet Wall Tiles (2)",
                 "Tag": "",
@@ -8227,7 +8232,7 @@
             }
         },
         "141": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Oil_Tank__8",
                 "Tag": "",
@@ -8270,7 +8275,7 @@
             }
         },
         "142": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Toilet Wall Tiles (1)",
                 "Tag": "",
@@ -8313,7 +8318,7 @@
             }
         },
         "256": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Toilet Unused Stuff ()",
                 "Tag": "",
@@ -8356,7 +8361,7 @@
             }
         },
         "143": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Extrude__8",
                 "Tag": "",
@@ -8399,7 +8404,7 @@
             }
         },
         "144": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Living Door Left Side",
                 "Tag": "",
@@ -8442,7 +8447,7 @@
             }
         },
         "266": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Bedroom Wall ()",
                 "Tag": "",
@@ -8485,7 +8490,7 @@
             }
         },
         "145": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Plate__9",
                 "Tag": "",
@@ -8528,7 +8533,7 @@
             }
         },
         "146": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Tube__9",
                 "Tag": "",
@@ -8571,7 +8576,7 @@
             }
         },
         "276": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Left Hallway Window (2)",
                 "Tag": "",
@@ -8614,7 +8619,7 @@
             }
         },
         "147": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Main Wall (3)",
                 "Tag": "",
@@ -8657,7 +8662,7 @@
             }
         },
         "148": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Cube__9",
                 "Tag": "",
@@ -8700,7 +8705,7 @@
             }
         },
         "270": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Toilet_Right_Wall",
                 "Tag": "",
@@ -8743,7 +8748,7 @@
             }
         },
         "149": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Oil_Tank__9",
                 "Tag": "",
@@ -8786,7 +8791,7 @@
             }
         },
         "150": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Extrude__9",
                 "Tag": "",
@@ -8829,7 +8834,7 @@
             }
         },
         "264": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Toilet Wall ()",
                 "Tag": "",
@@ -8872,7 +8877,7 @@
             }
         },
         "151": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Back_Wall",
                 "Tag": "",
@@ -8915,7 +8920,7 @@
             }
         },
         "152": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Bedroom Door Frame (1)",
                 "Tag": "",
@@ -8958,7 +8963,7 @@
             }
         },
         "274": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Main Wall (9)",
                 "Tag": "",
@@ -9001,7 +9006,7 @@
             }
         },
         "153": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Handle__10",
                 "Tag": "",
@@ -9044,7 +9049,7 @@
             }
         },
         "154": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Cube_15__1",
                 "Tag": "",
@@ -9087,7 +9092,7 @@
             }
         },
         "284": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Mansion Floor",
                 "Tag": "",
@@ -9135,7 +9140,7 @@
             }
         },
         "155": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Plate__10",
                 "Tag": "",
@@ -9178,7 +9183,7 @@
             }
         },
         "156": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Engraving__10",
                 "Tag": "",
@@ -9221,7 +9226,7 @@
             }
         },
         "278": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Study Window (1)",
                 "Tag": "",
@@ -9264,7 +9269,7 @@
             }
         },
         "157": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Oil_Tank__10",
                 "Tag": "",
@@ -9307,7 +9312,7 @@
             }
         },
         "158": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Extrude__10",
                 "Tag": "",
@@ -9350,7 +9355,7 @@
             }
         },
         "272": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Living Window (2)",
                 "Tag": "",
@@ -9393,7 +9398,7 @@
             }
         },
         "159": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Dinning Wall (4)",
                 "Tag": "",
@@ -9436,7 +9441,7 @@
             }
         },
         "160": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Bedroom Double Door Left Side",
                 "Tag": "",
@@ -9479,7 +9484,7 @@
             }
         },
         "161": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Handle__11",
                 "Tag": "",
@@ -9522,7 +9527,7 @@
             }
         },
         "162": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Engraving__11",
                 "Tag": "",
@@ -9565,7 +9570,7 @@
             }
         },
         "164": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Extrude__11",
                 "Tag": "",
@@ -9608,7 +9613,7 @@
             }
         },
         "165": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Bedroom Single Door Frame (1)",
                 "Tag": "",
@@ -9651,7 +9656,7 @@
             }
         },
         "166": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Bedroom Single Door Frame (2)",
                 "Tag": "",
@@ -9694,7 +9699,7 @@
             }
         },
         "167": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Bedroom Single Door",
                 "Tag": "",
@@ -9737,7 +9742,7 @@
             }
         },
         "168": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Plate_13",
                 "Tag": "",
@@ -9780,7 +9785,7 @@
             }
         },
         "170": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Cube_15__2",
                 "Tag": "",
@@ -9823,7 +9828,7 @@
             }
         },
         "172": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Tube_13",
                 "Tag": "",
@@ -9866,7 +9871,7 @@
             }
         },
         "173": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Cube_15",
                 "Tag": "",
@@ -9909,7 +9914,7 @@
             }
         },
         "174": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Oil_Tank_13",
                 "Tag": "",
@@ -9952,7 +9957,7 @@
             }
         },
         "288": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Gallery_F",
                 "Tag": "",
@@ -9995,7 +10000,7 @@
             }
         },
         "175": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Toilet Door Frame (1)",
                 "Tag": "",
@@ -10038,7 +10043,7 @@
             }
         },
         "176": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Toilet Door Frame (2)",
                 "Tag": "",
@@ -10081,7 +10086,7 @@
             }
         },
         "178": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Handle_13__1",
                 "Tag": "",
@@ -10124,7 +10129,7 @@
             }
         },
         "180": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Engraving_13__1",
                 "Tag": "",
@@ -10167,7 +10172,7 @@
             }
         },
         "182": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Extrude_14",
                 "Tag": "",
@@ -10210,7 +10215,7 @@
             }
         },
         "184": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Study Door Frame (2)",
                 "Tag": "",
@@ -10253,7 +10258,7 @@
             }
         },
         "186": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Study Door",
                 "Tag": "",
@@ -10296,7 +10301,7 @@
             }
         },
         "188": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Right Hallway Wall (2)",
                 "Tag": "",
@@ -10339,7 +10344,7 @@
             }
         },
         "190": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Engraving_13__2",
                 "Tag": "",
@@ -10382,7 +10387,7 @@
             }
         },
         "192": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Study Door Keyhole",
                 "Tag": "",
@@ -10425,7 +10430,7 @@
             }
         },
         "193": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Gallery Pillar (2)",
                 "Tag": "",
@@ -10511,7 +10516,7 @@
             }
         },
         "194": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Kitchen Vent",
                 "Tag": "",
@@ -10554,7 +10559,7 @@
             }
         },
         "196": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Gallery Vent",
                 "Tag": "",
@@ -10640,7 +10645,7 @@
             }
         },
         "197": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Gallery Pillar (4)",
                 "Tag": "",
@@ -10683,7 +10688,7 @@
             }
         },
         "198": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Gallery Wall (4)",
                 "Tag": "",
@@ -10726,7 +10731,7 @@
             }
         },
         "199": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Gallery Wall (5)",
                 "Tag": "",
@@ -10812,7 +10817,7 @@
             }
         },
         "200": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Left Hallway Wall (1)",
                 "Tag": "",
@@ -10855,7 +10860,7 @@
             }
         },
         "202": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Study Wall (3)",
                 "Tag": "",
@@ -10941,7 +10946,7 @@
             }
         },
         "203": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Study Wall (4)",
                 "Tag": "",
@@ -10984,7 +10989,7 @@
             }
         },
         "204": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Study Wall (5)",
                 "Tag": "",
@@ -11082,7 +11087,7 @@
             }
         },
         "205": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Study Wall (6)",
                 "Tag": "",
@@ -11125,7 +11130,7 @@
             }
         },
         "206": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Study Wall (7)",
                 "Tag": "",
@@ -11168,7 +11173,7 @@
             }
         },
         "208": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Gallery Wall (2)",
                 "Tag": "",
@@ -11257,7 +11262,7 @@
             }
         },
         "209": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Gallery Wall (1)",
                 "Tag": "",
@@ -11300,7 +11305,7 @@
             }
         },
         "210": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Gallery Pillar (3)",
                 "Tag": "",
@@ -11386,7 +11391,7 @@
             }
         },
         "211": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Living Fireplace (1)",
                 "Tag": "",
@@ -11429,7 +11434,7 @@
             }
         },
         "212": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Main Wall (5)",
                 "Tag": "",
@@ -11518,7 +11523,7 @@
             }
         },
         "213": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Dinning Unused Stuff (4)",
                 "Tag": "",
@@ -11561,7 +11566,7 @@
             }
         },
         "214": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Kitchen Wall (5)",
                 "Tag": "",
@@ -11604,7 +11609,7 @@
             }
         },
         "215": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Dinning Wall (8)",
                 "Tag": "",
@@ -11647,7 +11652,7 @@
             }
         },
         "216": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Kitchen Wall (6)",
                 "Tag": "",
@@ -11736,7 +11741,7 @@
             }
         },
         "217": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Left Hallway Wall (2)",
                 "Tag": "",
@@ -11779,7 +11784,7 @@
             }
         },
         "218": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Main Wall (6)",
                 "Tag": "",
@@ -11870,7 +11875,7 @@
             }
         },
         "219": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Dinning Wall Interior (2)",
                 "Tag": "",
@@ -11913,7 +11918,7 @@
             }
         },
         "220": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Toilet Wall (3)",
                 "Tag": "",
@@ -12005,7 +12010,7 @@
             }
         },
         "221": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Dinning Wall Interior (3)",
                 "Tag": "",
@@ -12048,7 +12053,7 @@
             }
         },
         "222": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Dinning Unused Stuff (5)",
                 "Tag": "",
@@ -12134,7 +12139,7 @@
             }
         },
         "223": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Living Wall ()",
                 "Tag": "",
@@ -12177,7 +12182,7 @@
             }
         },
         "224": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Dinning Wall Interior (4)",
                 "Tag": "",
@@ -12220,7 +12225,7 @@
             }
         },
         "282": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Right Hallway Window (1)",
                 "Tag": "",
@@ -12263,7 +12268,7 @@
             }
         },
         "225": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Living Wall ()",
                 "Tag": "",
@@ -12306,7 +12311,7 @@
             }
         },
         "226": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Right Hallway Wall (6)",
                 "Tag": "",
@@ -12392,7 +12397,7 @@
             }
         },
         "227": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Dinning Wall Interior (5)",
                 "Tag": "",
@@ -12435,7 +12440,7 @@
             }
         },
         "228": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Main Wall (7)",
                 "Tag": "",
@@ -12478,7 +12483,7 @@
             }
         },
         "286": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Main_F",
                 "Tag": "",
@@ -12521,7 +12526,7 @@
             }
         },
         "229": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Living Wall ()",
                 "Tag": "",
@@ -12564,7 +12569,7 @@
             }
         },
         "230": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Living Wall ()",
                 "Tag": "",
@@ -12607,7 +12612,7 @@
             }
         },
         "280": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Right Hallway Wall (3)",
                 "Tag": "",
@@ -12650,7 +12655,7 @@
             }
         },
         "231": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Dinning Wall Interior (6)",
                 "Tag": "",
@@ -12693,7 +12698,7 @@
             }
         },
         "232": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Dinning Wall (9)",
                 "Tag": "",
@@ -12736,7 +12741,7 @@
             }
         },
         "233": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Dinning Wall Interior (7)",
                 "Tag": "",
@@ -12779,7 +12784,7 @@
             }
         },
         "234": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Dinning Wall (10)",
                 "Tag": "",
@@ -12822,7 +12827,7 @@
             }
         },
         "235": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Dinning Wall Interior (8)",
                 "Tag": "",
@@ -12908,7 +12913,7 @@
             }
         },
         "236": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Kitchen Wall (4)",
                 "Tag": "",
@@ -12996,7 +13001,7 @@
             }
         },
         "237": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Dinning Unused Stuff (6)",
                 "Tag": "",
@@ -13039,7 +13044,7 @@
             }
         },
         "238": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Living Fireplace (2)",
                 "Tag": "",
@@ -13125,7 +13130,7 @@
             }
         },
         "239": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Living Fireplace (3)",
                 "Tag": "",
@@ -13168,7 +13173,7 @@
             }
         },
         "240": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Living Wall ()",
                 "Tag": "",
@@ -13211,7 +13216,7 @@
             }
         },
         "241": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Living Wall ()",
                 "Tag": "",
@@ -13297,7 +13302,7 @@
             }
         },
         "242": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Bedroom Wall ()",
                 "Tag": "",
@@ -13340,7 +13345,7 @@
             }
         },
         "243": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Bedroom Wall ()",
                 "Tag": "",
@@ -13426,7 +13431,7 @@
             }
         },
         "244": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Living Wall ()",
                 "Tag": "",
@@ -13469,7 +13474,7 @@
             }
         },
         "245": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Right Hallway Wall (7)",
                 "Tag": "",
@@ -13555,7 +13560,7 @@
             }
         },
         "246": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Study Wall (9)",
                 "Tag": "",
@@ -13641,7 +13646,7 @@
             }
         },
         "247": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Bedroom Wall ()",
                 "Tag": "",
@@ -13684,7 +13689,7 @@
             }
         },
         "248": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Bedroom Wall ()",
                 "Tag": "",
@@ -13727,7 +13732,7 @@
             }
         },
         "249": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Right Hallway Wall (8)",
                 "Tag": "",
@@ -13770,7 +13775,7 @@
             }
         },
         "250": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Bedroom Wall ()",
                 "Tag": "",
@@ -13848,7 +13853,7 @@
             }
         },
         "251": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Bedroom Wall ()",
                 "Tag": "",
@@ -13891,7 +13896,7 @@
             }
         },
         "252": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Living Wall ()",
                 "Tag": "",
@@ -13934,7 +13939,7 @@
             }
         },
         "253": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Right Hallway Wall (9)",
                 "Tag": "",
@@ -14020,7 +14025,7 @@
             }
         },
         "254": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Toilet Unused Stuff ()",
                 "Tag": "",
@@ -14063,7 +14068,7 @@
             }
         },
         "255": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Right Hallway Window (3)",
                 "Tag": "",
@@ -14149,7 +14154,7 @@
             }
         },
         "257": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Mini Hallway Wall (1)",
                 "Tag": "",
@@ -14192,7 +14197,7 @@
             }
         },
         "259": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Toilet Unused Stuff ()",
                 "Tag": "",
@@ -14235,7 +14240,7 @@
             }
         },
         "261": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Toilet Wall (2)",
                 "Tag": "",
@@ -14278,7 +14283,7 @@
             }
         },
         "263": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Toilet Wall ()",
                 "Tag": "",
@@ -14321,7 +14326,7 @@
             }
         },
         "265": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Toilet Wall Tiles ()",
                 "Tag": "",
@@ -14364,7 +14369,7 @@
             }
         },
         "267": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Toilet Wall Tiles ()",
                 "Tag": "",
@@ -14407,7 +14412,7 @@
             }
         },
         "269": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Toilet_Back_Wall",
                 "Tag": "",
@@ -14450,7 +14455,7 @@
             }
         },
         "271": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Living Window (1)",
                 "Tag": "",
@@ -14493,7 +14498,7 @@
             }
         },
         "273": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Main Wall (8)",
                 "Tag": "",
@@ -14536,7 +14541,7 @@
             }
         },
         "275": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Left Hallway Window (1)",
                 "Tag": "",
@@ -14579,7 +14584,7 @@
             }
         },
         "277": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Study Wall ()",
                 "Tag": "",
@@ -14622,7 +14627,7 @@
             }
         },
         "279": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Study Window (2)",
                 "Tag": "",
@@ -14665,7 +14670,7 @@
             }
         },
         "281": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Right Hallway Wall (4)",
                 "Tag": "",
@@ -14708,7 +14713,7 @@
             }
         },
         "283": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Right Hallway Window (2)",
                 "Tag": "",
@@ -14751,7 +14756,7 @@
             }
         },
         "285": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Toilet_F",
                 "Tag": "",
@@ -14794,7 +14799,7 @@
             }
         },
         "287": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Kitchen_F",
                 "Tag": "",
@@ -14837,7 +14842,7 @@
             }
         },
         "289": {
-            "ArchetypeID": "1100000000001",
+            "ArchetypeID": "11000000000010",
             "Name Tag": {
                 "Name": "Inventory",
                 "Tag": "",
@@ -14917,7 +14922,7 @@
             }
         },
         "291": {
-            "ArchetypeID": "1100000000001",
+            "ArchetypeID": "11000000000010",
             "Name Tag": {
                 "Name": "Box2",
                 "Tag": "",
@@ -14981,7 +14986,7 @@
             }
         },
         "293": {
-            "ArchetypeID": "1100000000001",
+            "ArchetypeID": "11000000000010",
             "Name Tag": {
                 "Name": "Box4",
                 "Tag": "",
@@ -15045,7 +15050,7 @@
             }
         },
         "295": {
-            "ArchetypeID": "1100000000001",
+            "ArchetypeID": "11000000000010",
             "Name Tag": {
                 "Name": "Box5",
                 "Tag": "",
@@ -15109,7 +15114,7 @@
             }
         },
         "297": {
-            "ArchetypeID": "1100000000001",
+            "ArchetypeID": "11000000000010",
             "Name Tag": {
                 "Name": "Box7",
                 "Tag": "",
@@ -15173,7 +15178,7 @@
             }
         },
         "299": {
-            "ArchetypeID": "1100000000001",
+            "ArchetypeID": "11000000000010",
             "Name Tag": {
                 "Name": "Box9",
                 "Tag": "",
@@ -15237,7 +15242,7 @@
             }
         },
         "301": {
-            "ArchetypeID": "1100000000001",
+            "ArchetypeID": "11000000000010",
             "Name Tag": {
                 "Name": "Box11",
                 "Tag": "",
@@ -15301,7 +15306,7 @@
             }
         },
         "303": {
-            "ArchetypeID": "1100000000001",
+            "ArchetypeID": "11000000000010",
             "Name Tag": {
                 "Name": "ItemTab",
                 "Tag": "",
@@ -15365,7 +15370,7 @@
             }
         },
         "305": {
-            "ArchetypeID": "1100000000001",
+            "ArchetypeID": "11000000000010",
             "Name Tag": {
                 "Name": "PaintingsTab",
                 "Tag": "",
@@ -15427,7 +15432,7 @@
             }
         },
         "307": {
-            "ArchetypeID": "1100000000001",
+            "ArchetypeID": "11000000000010",
             "Name Tag": {
                 "Name": "I Key",
                 "Tag": "",
@@ -15491,7 +15496,7 @@
             }
         },
         "309": {
-            "ArchetypeID": "1100000000001",
+            "ArchetypeID": "11000000000010",
             "Name Tag": {
                 "Name": "Notes Text",
                 "Tag": "",
@@ -15553,7 +15558,7 @@
             }
         },
         "311": {
-            "ArchetypeID": "1100000000001",
+            "ArchetypeID": "11000000000010",
             "Name Tag": {
                 "Name": "Use Text",
                 "Tag": "",
@@ -15615,7 +15620,7 @@
             }
         },
         "313": {
-            "ArchetypeID": "1100000000001",
+            "ArchetypeID": "11000000000010",
             "Name Tag": {
                 "Name": "Item1",
                 "Tag": "",
@@ -15677,7 +15682,7 @@
             }
         },
         "315": {
-            "ArchetypeID": "1100000000001",
+            "ArchetypeID": "11000000000010",
             "Name Tag": {
                 "Name": "Item3",
                 "Tag": "",
@@ -15739,7 +15744,7 @@
             }
         },
         "317": {
-            "ArchetypeID": "1100000000001",
+            "ArchetypeID": "11000000000010",
             "Name Tag": {
                 "Name": "Item5",
                 "Tag": "",
@@ -15801,7 +15806,7 @@
             }
         },
         "319": {
-            "ArchetypeID": "1100000000001",
+            "ArchetypeID": "11000000000010",
             "Name Tag": {
                 "Name": "Item7",
                 "Tag": "",
@@ -15863,7 +15868,7 @@
             }
         },
         "321": {
-            "ArchetypeID": "1100000000001",
+            "ArchetypeID": "11000000000010",
             "Name Tag": {
                 "Name": "Item9",
                 "Tag": "",
@@ -15925,7 +15930,7 @@
             }
         },
         "323": {
-            "ArchetypeID": "1100000000001",
+            "ArchetypeID": "11000000000010",
             "Name Tag": {
                 "Name": "Item11",
                 "Tag": "",
@@ -18094,7 +18099,7 @@
         "7": "1100001000000",
         "135": "1100001000000",
         "312": "1100000000001",
-        "5": "1100001000000",
+        "5": "1100001010000",
         "133": "1100001000000",
         "318": "1100000000001",
         "1": "1100001000000",

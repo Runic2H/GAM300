@@ -10,13 +10,13 @@
             "1": 200,
             "3": 40,
             "6": 264,
-            "7": 64
+            "7": 88
         },
         "1100010100000": {
             "0": 136,
             "1": 200,
             "5": 40,
-            "7": 64
+            "7": 88
         },
         "1100100000000": {
             "0": 136,
@@ -24,6 +24,10 @@
             "4": 56
         },
         "1100000000000": {
+            "0": 136,
+            "1": 200
+        },
+        "11000000000000": {
             "0": 136,
             "1": 200
         }
@@ -103,7 +107,17 @@
                 "AngularDamping": 0.05000000074505806,
                 "MotionType": "STATIC",
                 "UseGravity": false,
-                "sensorActivate": false
+                "sensorActivate": false,
+                "AABBmin": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "AABBmax": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                }
             }
         },
         "1": {
@@ -162,9 +176,19 @@
                 "GravityFactor": 1.0,
                 "LinearDamping": 0.05000000074505806,
                 "AngularDamping": 0.05000000074505806,
-                "MotionType": "KINEMATIC",
+                "MotionType": "DYNAMIC",
                 "UseGravity": true,
-                "sensorActivate": false
+                "sensorActivate": false,
+                "AABBmin": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "AABBmax": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                }
             }
         },
         "18": {
@@ -411,6 +435,34 @@
                     "z": 0.0
                 }
             }
+        },
+        "22": {
+            "ArchetypeID": "11000000000000",
+            "Name Tag": {
+                "Name": "toTest",
+                "Tag": "",
+                "IsActive": true,
+                "HierarchyParent": 0,
+                "HierarchyIndex": 3,
+                "HierarchyChildren": []
+            },
+            "Transform": {
+                "Position": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "Scale": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                },
+                "Rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                }
+            }
         }
     },
     "Scripts": {
@@ -418,7 +470,7 @@
         "1": {
             "FPS_Controller_Script": {
                 "rb": {
-                    "Component": 0
+                    "Component": 1
                 },
                 "playerCamera": {
                     "Component": 20
@@ -616,10 +668,10 @@
                     "Bool": true
                 },
                 "is_Awake": {
-                    "Bool": true
+                    "Bool": false
                 },
                 "is_Start": {
-                    "Bool": false
+                    "Bool": true
                 }
             }
         },
@@ -643,22 +695,149 @@
                     "Bool": true
                 },
                 "is_Awake": {
+                    "Bool": true
+                },
+                "is_Start": {
+                    "Bool": true
+                }
+            }
+        },
+        "22": {
+            "CheckGameState": {
+                "_CurrentState": {
+                    "GameState": 0
+                },
+                "myGameDataManager": {
+                    "GameDataManager": 0
+                },
+                "gameObject": {
+                    "GameObject": 22
+                },
+                "is_Enabled": {
+                    "Bool": true
+                },
+                "is_Awake": {
                     "Bool": false
                 },
                 "is_Start": {
+                    "Bool": true
+                }
+            },
+            "Flashlight_Script": {
+                "lightIntensity": {
+                    "Float": 0.0
+                },
+                "lightSourceObj": {
+                    "GameObject": 0
+                },
+                "activateLight": {
                     "Bool": false
+                },
+                "myGameDataManager": {
+                    "GameDataManager": 0
+                },
+                "flicker": {
+                    "Bool": false
+                },
+                "flickerTimer": {
+                    "Float": 0.0
+                },
+                "gameObject": {
+                    "GameObject": 22
+                },
+                "is_Enabled": {
+                    "Bool": true
+                },
+                "is_Awake": {
+                    "Bool": false
+                },
+                "is_Start": {
+                    "Bool": true
+                }
+            },
+            "GameDataManager": {
+                "data": {
+                    "GameData": 0
+                },
+                "file": {
+                    "String": "data.txt"
+                },
+                "gameObject": {
+                    "GameObject": 22
+                },
+                "is_Enabled": {
+                    "Bool": true
+                },
+                "is_Awake": {
+                    "Bool": false
+                },
+                "is_Start": {
+                    "Bool": true
+                }
+            },
+            "Hiding": {
+                "interactable": {
+                    "Bool": false
+                },
+                "hiding": {
+                    "Bool": false
+                },
+                "hidingPos": {
+                    "Vector3": {
+                        "X": 0.0,
+                        "Y": 0.0,
+                        "Z": 0.0
+                    }
+                },
+                "nonHidingPos": {
+                    "Vector3": {
+                        "X": 0.0,
+                        "Y": 0.0,
+                        "Z": 0.0
+                    }
+                },
+                "_RotationAngle": {
+                    "Float": 0.0
+                },
+                "player": {
+                    "GameObject": 1
+                },
+                "_flashlight": {
+                    "Flashlight_Script": 0
+                },
+                "_InteractUI": {
+                    "GameObject": 0
+                },
+                "myGameState": {
+                    "CheckGameState": 0
+                },
+                "playedAudio": {
+                    "Bool": false
+                },
+                "gameObject": {
+                    "GameObject": 22
+                },
+                "is_Enabled": {
+                    "Bool": true
+                },
+                "is_Awake": {
+                    "Bool": false
+                },
+                "is_Start": {
+                    "Bool": true
                 }
             }
         }
     },
     "Active Archetype": {
         "17": "1101001100000",
-        "1": "1100010000000",
+        "1": "1100010100000",
         "18": "1100001000000",
         "19": "1100001000000",
         "15": "1100001000000",
         "16": "1100001000000",
         "20": "1100100000000",
-        "21": "1100000000000"
+        "21": "1100000000000",
+        "22": "11000000000000"
     }
 }

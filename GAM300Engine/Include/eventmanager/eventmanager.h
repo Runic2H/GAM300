@@ -22,7 +22,8 @@ namespace TDS
 	// Enumeration for Event types
 	enum class EventTypes
 	{
-		CHILD_TRANSFORMATION // For changing child transformation based on parent
+		CHILD_TRANSFORMATION  // For changing child transformation based on parent
+		//CHILD_ENABLE		  // For changing child enable / disable based on parent
 	};
 
 	// Base Event class
