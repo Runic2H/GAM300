@@ -108,6 +108,12 @@
     <ClInclude Include="Random.hxx">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="UIPopUp.hxx">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Components\GraphicComponent.hxx">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EngineInterface.cxx">
@@ -189,6 +195,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Random.cxx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="UIPopUp.cxx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Components\GraphicComponent.cxx">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

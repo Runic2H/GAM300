@@ -212,10 +212,12 @@ namespace TDS
 						{
 
 							_collider[i].SetIsInteract(true);
+							_collider[j].SetIsInteract(true);
 						}
 						else
 						{
 							_collider[i].SetIsInteract(false);
+							_collider[j].SetIsInteract(false);
 						}
 					}
 				}
