@@ -7,6 +7,7 @@ public class CutsceneSubtitle : Script
     String[] Subtitles;
     [SerializeField]
     public static int counter;
+    public static bool next = true;
     public override void Awake()
     {
         Audiofiles = new String[17];
@@ -29,7 +30,7 @@ public class CutsceneSubtitle : Script
         Subtitles[10] = "Father: But you have their blood running within you";
         Subtitles[11] = "Father: And you deserve what was kept from you. Your rightful inheritance";
 
-        Subtitles[12] = "Father: So my final gift to you, is simply what should have been given to you before";
+        Subtitles[12] = "Father: So my final gift to you, my son, is simply what should have been given to you before";
         Subtitles[13] = "Father: And if they still would not give, then take it, if you must";
 
         Subtitles[14] = "Father: By whatever means necessary";
@@ -38,54 +39,60 @@ public class CutsceneSubtitle : Script
 
         Subtitles[16] = "Father: You'll always be part of the family";
 
-        Audiofiles[0] = "Intro 1_1.mp3";
-        Audiofiles[1] = "Intro 1_2.mp3";
-        Audiofiles[2] = "Intro 2_1.mp3";
-        Audiofiles[3] = "Intro 2_2.mp3";
-        Audiofiles[4] = "Intro 2_3.mp3";
-        Audiofiles[5] = "Intro 3_1.mp3";
-        Audiofiles[6] = "Intro 4_1.mp3";
-        Audiofiles[7] = "Intro 4_2.mp3";
-        Audiofiles[8] = "Intro 5_1.mp3";
-        Audiofiles[9] = "Intro 5_2.mp3";
-        Audiofiles[10] = "Intro 6_1.mp3";
-        Audiofiles[11] = "Intro 6_2.mp3";
-        Audiofiles[12] = "Intro 7_1.mp3";
-        Audiofiles[13] = "Intro 8_1.mp3";
-        Audiofiles[14] = "Intro 8_2.mp3";
-        Audiofiles[15] = "Intro 9_1.mp3";
-        Audiofiles[16] = "Intro 9_2.mp3";
+        Audiofiles[0] = "intro1_1";
+        Audiofiles[1] = "intro1_2";
+        Audiofiles[2] = "intro2_1";
+        Audiofiles[3] = "intro2_2";
+        Audiofiles[4] = "intro2_3";
+        Audiofiles[5] = "intro3_1";
+        Audiofiles[6] = "intro4_1";
+        Audiofiles[7] = "intro4_2";
+        Audiofiles[8] = "intro5_1";
+        Audiofiles[9] = "intro5_2";
+        Audiofiles[10] = "intro6_1";
+        Audiofiles[11] = "intro6_2";
+        Audiofiles[12] = "intro7_1";
+        Audiofiles[13] = "intro8_1";
+        Audiofiles[14] = "intro8_2";
+        Audiofiles[15] = "intro9_1";
+        Audiofiles[16] = "intro9_2";
 
         counter = 0;
+        next = true;
+
     }
 
     public override void Update()
     {
+        UISpriteComponent Sprite = gameObject.GetComponent<UISpriteComponent>();
+        AudioComponent audio = gameObject.GetComponent<AudioComponent>();
         if (Input.GetKeyDown(Keycode.SPACE))
         {
+            audio.stop(Audiofiles[counter]);
             GraphicsManagerWrapper.ToggleViewFrom2D(false);
             SceneLoader.LoadMainGame();
         }
         else
         {
-            UISpriteComponent Sprite = gameObject.GetComponent<UISpriteComponent>();
-            AudioComponent audio = gameObject.GetComponent<AudioComponent>();
-      
+            audio.playQueue();
 
-            
-            Sprite.ColorAlphafade(0.5f);
-            if (Sprite.getColourAlpha() < 0)
+            if (counter > 16)//cutscene over
             {
-                counter++;
-                if (counter > 16)//cutscene over
+                GraphicsManagerWrapper.ToggleViewFrom2D(false);
+                SceneLoader.LoadMainGame();
+            }
+            else
+            {
+                if (next)
                 {
-                    GraphicsManagerWrapper.ToggleViewFrom2D(false);
-                    SceneLoader.LoadMainGame();
-                }
-                else
-                {
-                    Sprite.setColourAlpha(1);
                     Sprite.SetFontMessage(Subtitles[counter]);
+                    audio.play(Audiofiles[counter]);
+                    next = false;
+                }
+                else if (audio.finished(Audiofiles[counter]))
+                {
+                    next = true;
+                    ++counter;
                 }
             }
         }

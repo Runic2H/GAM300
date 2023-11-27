@@ -48,7 +48,6 @@ namespace ScriptAPI
         bool isPlaying();
 
         AudioClip^ clip; //AudioClips are attached to AudioSource
-                     //returns a clip,
         TDS::AudioWerks::AudioEngine* audio_engine;
         unsigned long wait;
         float deltatime;

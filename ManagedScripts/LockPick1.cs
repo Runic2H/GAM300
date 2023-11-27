@@ -83,7 +83,7 @@ public class LockPick1 : Script
             #region Move Pick
             if (movePick)
             {
-                Console.WriteLine(Input.GetMousePosition().X + "\t" + Input.GetMousePosition().Y);
+                //Console.WriteLine(Input.GetMousePosition().X + "\t" + Input.GetMousePosition().Y);
                 Vector3 dir = Input.GetMousePosition() - new Vector3(Screen.width / 2, Screen.height / 2, 0);
                 //Vector3 dir = Input.GetMousePosition() - new Vector3(609, 278, 0);
                 //Vector3 dir = Input.GetMousePosition() - new Vector3(Input.GetLocalMousePosX(), Input.GetLocalMousePoxY(), 0);
@@ -120,18 +120,36 @@ public class LockPick1 : Script
             #endregion
 
             #region Check if pick is at correct position
+
+            float eulerAngleDeg = eulerAngle * (180 / 3.1415926535897931f);
+            if (eulerAngleDeg > 180)
+            {
+                eulerAngleDeg = eulerAngleDeg - 360;
+            }
+
+            percentage = Mathf.Round(100 - Mathf.Abs(((eulerAngleDeg - unlockAngle) / 100) * 100));
+            Console.WriteLine(percentage);
+            //Console.WriteLine(unlockAngle);
+            //Console.WriteLine(percentage);
+
+
             percentage = Mathf.Round(100 - Mathf.Abs(((eulerAngle - unlockAngle) / 100) * 100));
             float lockRotation = ((percentage / 100) * maxAngle) * keyPressTime;
             float maxRotation = (percentage / 100) * maxAngle;
-            float lockLerp = Mathf.LerpAngle(innerLock.GetRotation().Z, lockRotation, Time.deltaTime * lockSpeed);
-            innerLock.SetRotation(new Vector3(0, 0, lockLerp));
+            float lockLerp = Mathf.LerpAngle(innerLock.GetRotation().Z * (180 / 3.1415926535897931f), lockRotation, Time.deltaTime * lockSpeed);
+            innerLock.SetRotation(new Vector3(0, 0, lockLerp * (3.1415926535897931f / 180)));
 
             if (lockLerp >= maxRotation - 1)
             {
-                if (eulerAngle < unlockRange.Y && eulerAngle > unlockRange.X)
+                //Console.WriteLine("unlockRange.Y:\t" + Mathf.Abs(unlockRange.Y));
+                //Console.WriteLine("unlockRange.X:\t" + Mathf.Abs(unlockRange.X));
+                //Console.WriteLine("eulerAngle:\t" + eulerAngle);
+                //Console.WriteLine("eulerAngle:\t" + eulerAngle * (180 / 3.1415926535897931f));
+                if (eulerAngle * (180 / 3.1415926535897931f) < Mathf.Abs(unlockRange.Y) && eulerAngle * (180 / 3.1415926535897931f) > Mathf.Abs(unlockRange.X)) // Means unlocked?
                 {
                     movePick = true;
                     keyPressTime = 0;
+                    Console.WriteLine("passed");
                     /*GetComponent<AudioSource>().clip = lockSoundEffects[1];
                     GetComponent<AudioSource>().Play();*/
 
@@ -223,8 +241,11 @@ public class LockPick1 : Script
         //playerController.is_Enabled = false;
         //playerCam. = false;
         //cam.transform.SetRotation(Quaternion(new))
-        //unlockAngle = Random.Range(-maxAngle + lockRange, maxAngle - lockRange);
-        //unlockRange = new Vector3(unlockAngle - lockRange, unlockAngle + lockRange, 0.0f);
+        unlockAngle = ScriptAPI.Random.Range(-maxAngle + lockRange, maxAngle - lockRange);
+        unlockRange = new Vector3(unlockAngle - lockRange, unlockAngle + lockRange, 0.0f);
+        Console.WriteLine(-maxAngle + lockRange);
+        Console.WriteLine(maxAngle - lockRange);
+        Console.WriteLine(unlockAngle);
 
         if (difficultyLvl == "Easy")
         {

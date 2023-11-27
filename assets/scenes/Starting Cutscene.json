@@ -15,7 +15,7 @@
                 "IsActive": true,
                 "HierarchyParent": 0,
                 "HierarchyIndex": 0,
-              "HierarchyChildren": {}
+                "HierarchyChildren": []
             },
             "Transform": {
                 "Position": {
@@ -35,7 +35,7 @@
                 }
             },
             "UI Sprite": {
-                "Texture": "Draft Journal Image.dds",
+                "Texture": "Scene01.dds",
                 "EnableSprite": true,
                 "LayerID": 0,
                 "is Font": false,
@@ -77,7 +77,7 @@
                 "IsActive": true,
                 "HierarchyParent": 0,
                 "HierarchyIndex": 1,
-              "HierarchyChildren": {}
+                "HierarchyChildren": []
             },
             "Transform": {
                 "Position": {
@@ -101,7 +101,7 @@
                 "EnableSprite": true,
                 "LayerID": 1,
                 "is Font": true,
-                "message": "Father: My Son, if you are reading this, then I am dead,",
+                "message": "Father: So imagine my surprise when I discovered their history",
                 "Font Texture": "Roboto-Medium.dds",
                 "ForeGroundColour": {
                     "x": 0.0,
@@ -113,7 +113,7 @@
                     "x": 0.10000000149011612,
                     "y": 0.10000000149011612,
                     "z": 0.10000000149011612,
-                    "w": 1.0
+                    "w": 0.8589889407157898
                 },
                 "BackGroundColour": {
                     "x": 0.0,
@@ -141,9 +141,6 @@
                 "counter": {
                     "Int": 0
                 },
-                "NarrationEntity": {
-                    "GameObject": 0
-                },
                 "gameObject": {
                     "GameObject": 1
                 },
@@ -154,7 +151,7 @@
                     "Bool": false
                 },
                 "is_Start": {
-                    "Bool": false
+                    "Bool": true
                 }
             }
         },
@@ -176,7 +173,7 @@
                     "Bool": false
                 },
                 "is_Start": {
-                    "Bool": false
+                    "Bool": true
                 }
             }
         }

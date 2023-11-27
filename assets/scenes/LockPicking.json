@@ -1,11 +1,11 @@
 {
     "Archetype Sizes": {
-        "1100000000001": {
+        "11000000000010": {
             "0": 272,
             "1": 400,
             "12": 720
         },
-        "1100001000000": {
+        "11000010000000": {
             "0": 272,
             "1": 400,
             "6": 528
@@ -13,7 +13,7 @@
     },
     "Entity Data": {
         "1": {
-            "ArchetypeID": "1100000000001",
+            "ArchetypeID": "11000000000010",
             "Name Tag": {
                 "Name": "OuterLock",
                 "Tag": "",
@@ -75,7 +75,7 @@
             }
         },
         "2": {
-            "ArchetypeID": "1100000000001",
+            "ArchetypeID": "11000000000010",
             "Name Tag": {
                 "Name": "InnerLock",
                 "Tag": "",
@@ -98,7 +98,7 @@
                 "Rotation": {
                     "x": 0.0,
                     "y": 0.0,
-                    "z": 0.0
+                    "z": 2.3540984273040522e-7
                 }
             },
             "UI Sprite": {
@@ -137,7 +137,7 @@
             }
         },
         "3": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "LockPick",
                 "Tag": "",
@@ -180,7 +180,7 @@
             }
         },
         "4": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "New Entity",
                 "Tag": "",
@@ -280,21 +280,21 @@
                     "Float": 10.0
                 },
                 "numOfTries": {
-                    "Int": 0
+                    "Int": -2
                 },
                 "percentage": {
-                    "Float": 98.0
+                    "Float": 45.0
                 },
                 "eulerAngle": {
-                    "Float": 2.2706892
+                    "Float": 0.2991557
                 },
                 "unlockAngle": {
-                    "Float": 0.0
+                    "Float": 16.0
                 },
                 "unlockRange": {
                     "Vector3": {
-                        "X": 0.0,
-                        "Y": 0.0,
+                        "X": 6.0,
+                        "Y": 26.0,
                         "Z": 0.0
                     }
                 },
@@ -320,7 +320,7 @@
                     "Bool": true
                 },
                 "is_Awake": {
-                    "Bool": false
+                    "Bool": true
                 },
                 "is_Start": {
                     "Bool": true

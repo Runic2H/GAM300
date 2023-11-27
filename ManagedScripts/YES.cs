@@ -30,7 +30,7 @@ public class YES : Script
     public override void OnEnable() 
     {
         Console.WriteLine("Enabled");
-        ExampleAsync();
+        //ExampleAsync();
     }
 
     public override void Start()

@@ -26,6 +26,13 @@ namespace TDS
 			Y_AXIS,
 			Z_AXIS
 		};
+		enum class AImode
+		{
+			NONE = 0,
+			MONSTER,
+			PLAYER,
+			INTERACTABLE
+		};
 
 		/*!*************************************************************************
 		Initializes the Collider component when created
@@ -46,6 +53,9 @@ namespace TDS
 		DLL_API bool& GetIsTrigger() { return mIsTrigger; }
 		DLL_API void SetIsTrigger(bool isTrigger) { mIsTrigger = isTrigger; }
 
+		DLL_API bool& GetIsInteract() { return mIsInteract; }
+		DLL_API void SetIsInteract(bool input) { mIsInteract = input; }
+
 		DLL_API Vec3& GetCenter() { return mCenter; }
 		DLL_API void SetCenter(Vec3 center) { mCenter = center; }
 		DLL_API void SetCenter(float x, float y, float z) { mCenter = Vec3(x, y, z); }
@@ -53,14 +63,19 @@ namespace TDS
 		DLL_API float& GetRadius() { return mRadius; }
 		DLL_API void SetRadius(float radius) { mRadius = radius; }
 
+		DLL_API void SetAImode(AImode mode) { AI = mode; }
+		DLL_API AImode& getAImode() { return AI; }
+
 		RTTR_ENABLE(IComponent);
 		RTTR_REGISTRATION_FRIEND
 
 	private:
 		bool mIsTrigger;
+		bool mIsInteract;
 		//Material mMaterial;
 		Vec3 mCenter;
 		float mRadius;
+		AImode AI;
 	};
 
 	DLL_API SphereCollider* GetSphereCollider(EntityID entityID);

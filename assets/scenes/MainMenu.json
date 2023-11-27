@@ -1,6 +1,6 @@
 {
     "Archetype Sizes": {
-        "1100001000001": {
+        "11000010000010": {
             "0": 816,
             "1": 1200,
             "6": 1584,
@@ -9,7 +9,7 @@
     },
     "Entity Data": {
         "1": {
-            "ArchetypeID": "1100001000001",
+            "ArchetypeID": "11000010000010",
             "Name Tag": {
                 "Name": "BackGround",
                 "Tag": "",
@@ -86,7 +86,7 @@
             }
         },
         "2": {
-            "ArchetypeID": "1100001000001",
+            "ArchetypeID": "11000010000010",
             "Name Tag": {
                 "Name": "PlayButton",
                 "Tag": "",
@@ -163,7 +163,7 @@
             }
         },
         "3": {
-            "ArchetypeID": "1100001000001",
+            "ArchetypeID": "11000010000010",
             "Name Tag": {
                 "Name": "SettingsButton",
                 "Tag": "",
@@ -240,7 +240,7 @@
             }
         },
         "4": {
-            "ArchetypeID": "1100001000001",
+            "ArchetypeID": "11000010000010",
             "Name Tag": {
                 "Name": "QuitButton",
                 "Tag": "",
@@ -317,7 +317,7 @@
             }
         },
         "5": {
-            "ArchetypeID": "1100001000001",
+            "ArchetypeID": "11000010000010",
             "Name Tag": {
                 "Name": "TeamLogo",
                 "Tag": "",
@@ -394,7 +394,7 @@
             }
         },
         "6": {
-            "ArchetypeID": "1100001000001",
+            "ArchetypeID": "11000010000010",
             "Name Tag": {
                 "Name": "Title",
                 "Tag": "",
@@ -475,9 +475,6 @@
         "1": {},
         "2": {
             "PlayButton": {
-                "mouseonbutton": {
-                    "Bool": false
-                },
                 "gameObject": {
                     "GameObject": 2
                 },
@@ -485,7 +482,7 @@
                     "Bool": true
                 },
                 "is_Awake": {
-                    "Bool": false
+                    "Bool": true
                 },
                 "is_Start": {
                     "Bool": true

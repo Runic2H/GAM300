@@ -32,7 +32,7 @@ public class StartingCutscene : Script
         if (counter <= 4)
         {
             Sprite.SetTextureName(Textures[0]);//change texture
-            Sprite.ColorAlphafade(0.125f);
+            Sprite.ColorAlphafade(0.046785f);
         }
         else if (counter == 5)
         {

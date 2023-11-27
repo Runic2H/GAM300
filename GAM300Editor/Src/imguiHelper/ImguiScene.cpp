@@ -213,6 +213,11 @@ namespace TDS
 
 			const auto& trans = ecs.getComponent<Transform>(selectedEntity);
 
+			if (!trans)
+			{
+				return;
+			}
+
 			Vec3 snap = 1.0f;
 
 			float* _proj = Mat4::Mat4Value_ptr(projection);

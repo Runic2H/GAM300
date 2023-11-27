@@ -41,6 +41,8 @@ namespace TDS
 
 		void reorderingHierarchy(EntityID payloadEntity, EntityID acceptEntity, bool acceptEntityTreeNode = false);
 
+		void removeEntity(EntityID entityID);
+
 		void makingChildHierarchy(EntityID payloadEntity, EntityID acceptEntity);
 
 		bool searchForChild(EntityID parentEntity, EntityID entityToFind);

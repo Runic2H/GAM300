@@ -19,7 +19,7 @@ namespace TDS
 	}
 	void UiSystem::Update(const float dt, const std::vector<EntityID>& entities, Transform* transform, UISprite* _Sprite)
 	{
-
+		
 		if (_Sprite == nullptr)
 			return;
 
@@ -29,6 +29,7 @@ namespace TDS
 		SpriteBatch& Spritebatch = Renderer2D::GetInstance()->GetBatchList();
 		for (size_t i = 0; i < entities.size(); ++i)
 		{
+			//UpdatePropertiesFromParent(entities[i]);
 			if (_Sprite[i].m_LayerID == -1)
 				continue;
 
@@ -133,8 +134,11 @@ namespace TDS
 		if (tag == nullptr)
 			return;
 
-		if (IsDirectChildOfMainParent(current))
-			UpdateDescendantsActiveness(current, tag->GetIsActive());
+		UISprite* sprite = ecs.getComponent<UISprite>(current);
+
+		if (sprite == nullptr) return;
+
+		UpdateDescendantsActiveness(current, sprite->m_EnableSprite);
 		
 	}
 
@@ -156,15 +160,25 @@ namespace TDS
 	void UiSystem::UpdateDescendantsActiveness(EntityID parent, bool isActive)
 	{
 		auto parentTag = ecs.getComponent<NameTag>(parent);
+		
+
 		if (parentTag == nullptr)
 			return;
+
 
 		for (auto& child : parentTag->GetHierarchyChildren())
 		{
 			auto childTag = ecs.getComponent<NameTag>(child);
+			UISprite* sprite = ecs.getComponent<UISprite>(parent);
+
+			if (sprite != nullptr)
+			{
+				sprite->m_EnableSprite = isActive;
+			}
+
 			if (childTag != nullptr)
 			{
-				childTag->SetIsActive(isActive);
+				
 				UpdateDescendantsActiveness(child, isActive);
 			}
 		}
