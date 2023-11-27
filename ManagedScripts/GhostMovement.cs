@@ -31,7 +31,7 @@ public class GhostMovement : Script
     [SerializeField]
     bool isPatrol = true;
     [SerializeField]
-    bool isChasingPlayer = false;
+    public bool isChasingPlayer = false;
 
     public GameObject player;
 

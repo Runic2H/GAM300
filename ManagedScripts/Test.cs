@@ -19,7 +19,7 @@ public class Test : Script
     public String stringTest;
 
     [SerializeField]
-    private bool boolTest = false;
+    public bool boolTest = false;
 
     [SerializeField]
     private double doubleTest;

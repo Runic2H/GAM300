@@ -1,4 +1,5 @@
 #include "GameObject.hxx"
+#include "EngineInterface.hxx"
 
 namespace ScriptAPI
 {
@@ -35,6 +36,11 @@ namespace ScriptAPI
 	UISpriteComponent GameObject::GetUISpriteComponent()
 	{
 		return UISpriteComponent(entityID);
+	}
+
+	AudioComponent GameObject::GetAudioComponent()
+	{
+		return AudioComponent(entityID);
 	}
 
 	bool GameObject::activeInHierarchy(TDS::EntityID entityID)
@@ -90,8 +96,13 @@ namespace ScriptAPI
 		{
 			return safe_cast<T>(GetUISpriteComponent());
 		}
+		else if (type == AudioComponent::typeid)
+		{
+			return safe_cast<T>(GetAudioComponent());
+		}
 
-		return T();
+		Object^ toReturn = EngineInterface::GetScriptByEntityID(entityID, type->FullName);
+		return (T)toReturn;
 	}
 
 	void GameObject::SetEntityID(TDS::EntityID id)

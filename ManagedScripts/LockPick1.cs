@@ -75,6 +75,8 @@ public class LockPick1 : Script
     // Update is called once per frame
     override public void Update()
     {
+        Console.WriteLine(gameObject.GetComponent<Test>().boolTest);
+
         if (!_TutorialCompleted)
         {
             //if (!myVOSource.isPlaying && !played)
@@ -199,7 +201,7 @@ public class LockPick1 : Script
                     if (numOfTries <= 0)
                     {
                         //gameObject.GetComponent<AudioComponent>().clip = lockSoundEffects[2];
-                        gameObject.GetComponent<AudioComponent>().setVolume(0.5f);
+                        //gameObject.GetComponent<AudioComponent>().setVolume(0.5f);
                         gameObject.GetComponent<AudioComponent>().play(lockSoundEffects[2]);
                         movePick = false;
 
@@ -232,7 +234,7 @@ public class LockPick1 : Script
     {
         innerLock = GameObjectScriptFind("InnerLock").GetTransformComponent();
         //Cursor.visible = false;
-        gameObject.GetComponent<AudioComponent>().setVolume(1f);
+        //gameObject.GetComponent<AudioComponent>().setVolume(1f);
 
         //Door_UI.SetActive(Door_UI.GetEntityID(), true);
 

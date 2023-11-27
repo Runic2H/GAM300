@@ -1065,6 +1065,12 @@ namespace ScriptAPI
         return scripts;
     }
 
+    Object^ EngineInterface::GetScriptByEntityID(TDS::EntityID entityID, System::String^ scriptName)
+    {
+        Object^ currentObject = scripts[entityID][scriptName];
+        return currentObject;
+    }
+
     // To do
     GameObject^ FindGameObjectViaName(System::String^ name)
     {

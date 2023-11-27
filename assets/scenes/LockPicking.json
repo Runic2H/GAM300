@@ -295,12 +295,12 @@
                     "Float": 0.2991557
                 },
                 "unlockAngle": {
-                    "Float": -56.0
+                    "Float": -73.0
                 },
                 "unlockRange": {
                     "Vector3": {
-                        "X": -66.0,
-                        "Y": -46.0,
+                        "X": -83.0,
+                        "Y": -63.0,
                         "Z": 0.0
                     }
                 },
@@ -328,6 +328,41 @@
                 },
                 "currentRattlePlaying": {
                     "Int": 0
+                },
+                "gameObject": {
+                    "GameObject": 3
+                },
+                "is_Enabled": {
+                    "Bool": true
+                },
+                "is_Awake": {
+                    "Bool": false
+                },
+                "is_Start": {
+                    "Bool": true
+                }
+            },
+            "Test": {
+                "gameObjectTest": {
+                    "GameObject": 0
+                },
+                "scriptTest": {
+                    "Testing": 0
+                },
+                "stringTest": {
+                    "String": ""
+                },
+                "boolTest": {
+                    "Bool": true
+                },
+                "doubleTest": {
+                    "Double": 0.0
+                },
+                "intTest": {
+                    "Int": 0
+                },
+                "floatTest": {
+                    "Float": 3.0
                 },
                 "gameObject": {
                     "GameObject": 3

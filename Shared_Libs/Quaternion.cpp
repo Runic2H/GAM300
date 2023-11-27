@@ -107,6 +107,23 @@ namespace TDS
 	{
 		return Vec3(pitch(q), yaw(q), roll(q));
 	}
+
+	Quat Quat::euler(Vec3 const& v)
+	{
+		float radianX = v.x * Mathf::Deg2Rad;
+		float radianY = v.y * Mathf::Deg2Rad;
+		float radianZ = v.z * Mathf::Deg2Rad;
+
+		Vec3 c = Vec3(Mathf::Cos(radianX * 0.5f), Mathf::Cos(radianY * 0.5f), Mathf::Cos(radianZ * 0.5f));
+		Vec3 s = Vec3(Mathf::Sin(radianX * 0.5f), Mathf::Sin(radianY * 0.5f), Mathf::Sin(radianZ * 0.5f));
+
+		float w = c.x * c.y * c.z + s.x * s.y * s.z;
+		float x = s.x * c.y * c.z - c.x * s.y * s.z;
+		float y = c.x * s.y * c.z + s.x * c.y * s.z;
+		float z = c.x * c.y * s.z - s.x * s.y * c.z;
+		return Quat(x, y, z, w);
+	}
+
 	Quat Quat::exp(Quat const& q)
 	{
         Vec3 u = Vec3(q.x, q.y, q.z);
