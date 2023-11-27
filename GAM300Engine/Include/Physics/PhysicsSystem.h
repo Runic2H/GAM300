@@ -54,7 +54,7 @@ namespace TDS
 		 * Physics System Init and Update (Will be used by the ECS)
 		 ***************************************************************************/
 		static void PhysicsSystemInit();
-		static void PhysicsSystemUpdate(const float dt, const std::vector<EntityID>& entities, Transform* _transform, RigidBody* _rigidbody, GraphicsComponent* _graphics);
+		static void PhysicsSystemUpdate(const float dt, const std::vector<EntityID>& entities, Transform* _transform, SphereCollider* _collider);
 		
 		// potentially need move somewhere
 		static void SetIsPlaying(bool input) { m_oneTimeInit = input; }

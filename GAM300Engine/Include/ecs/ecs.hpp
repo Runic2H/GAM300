@@ -939,10 +939,21 @@ namespace TDS
         return mEntityArchetypeMap[entityId].isEnabled;
     }
 
+    inline bool ECS::getEntityPreviouslyEnabled(const EntityID& entityId)
+    {
+        return mEntityArchetypeMap[entityId].previouslyEnabled;
+    }
+
     inline void ECS::setEntityIsEnabled(const EntityID& entityId, bool _isEnabled)
     {
         Record& record = mEntityArchetypeMap[entityId];
         record.isEnabled = _isEnabled;
+    }
+
+    inline void ECS::setEntityPreviouslyEnabled(const EntityID& entityId)
+    {
+        Record& record = mEntityArchetypeMap[entityId];
+        record.previouslyEnabled = record.isEnabled;
     }
 
     // solely for debugging

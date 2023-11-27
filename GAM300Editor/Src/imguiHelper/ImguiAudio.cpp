@@ -36,7 +36,7 @@ namespace TDS
 
 	AudioImgui::~AudioImgui()
 	{
-		delete audeng;
+		//delete audeng;
 	}
 
 	bool AudioImgui::ToggleControls(bool state)

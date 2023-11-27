@@ -37,6 +37,37 @@ namespace ScriptAPI
 		IsTrigger = value;
 	}
 
+	bool SphereColliderComponent::IsInteract::get()
+	{
+		// May wanna change to a function
+		if (!TDS::GetSphereCollider(entityID))
+		{
+			// throw error instead (not sure how)
+			return false;
+		}
+		return TDS::GetSphereCollider(entityID)->GetIsInteract();
+	}
+	void SphereColliderComponent::IsInteract::set(bool value)
+	{
+		// May wanna change to a function
+		if (!TDS::GetSphereCollider(entityID))
+		{
+			// throw error instead (not sure how)
+			return;
+		}
+
+		return TDS::GetSphereCollider(entityID)->SetIsInteract(value);
+	}
+	bool SphereColliderComponent::GetIsInteract()
+	{
+		return IsInteract;
+	}
+
+	void SphereColliderComponent::GetIsInteract(bool value)
+	{
+		IsInteract = value;
+	}
+
 	// CENTER ================================================================================	
 	// Private
 	Vector3 SphereColliderComponent::Center::get()
@@ -140,4 +171,5 @@ namespace ScriptAPI
 	{
 		return entityID;
 	}
+
 }

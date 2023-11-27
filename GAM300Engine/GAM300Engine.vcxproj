@@ -335,6 +335,7 @@ xcopy /y /d "$(SolutionDir)Libs\rttr_core.dll" "$(OutDir)"</Command>
     <ClInclude Include="Include\ecs\ecs.h" />
     <ClInclude Include="Include\ecs\ecs.hpp" />
     <ClInclude Include="Include\ecs\systems.h" />
+    <ClInclude Include="Include\eventmanager\eventHandler.h" />
     <ClInclude Include="Include\eventmanager\eventmanager.h" />
     <ClInclude Include="Include\eventmanager\eventmanager.hpp" />
     <ClInclude Include="Include\ExceptionHandler\ExceptionHandler.h" />

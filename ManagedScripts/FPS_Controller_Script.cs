@@ -1,6 +1,6 @@
 ﻿using ScriptAPI;
 using System;
-    
+
 public class FPS_Controller_Script : Script
 {
     public RigidBodyComponent rb;
@@ -438,7 +438,6 @@ public class FPS_Controller_Script : Script
 
                 Vector3 transformPosition = transform.GetPosition();
                 transform.SetPosition(new Vector3(transformPosition.X + velocityChange.X, transformPosition.Y, transformPosition.Z + velocityChange.Z));
-
             }
 
         }

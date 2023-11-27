@@ -202,6 +202,7 @@ namespace TDS
             Archetype* activeArchetype; // used in systems
             std::uint32_t                   index;
             bool                            isEnabled;
+            bool                            previouslyEnabled;
         };
 
         // TYPEDEFS
@@ -261,7 +262,7 @@ namespace TDS
         ArchetypeID                  getArchetypeID(EntityID& id);
 
         // Adds a new archetype ID
-        Archetype* addArchetype(const ArchetypeID& id, bool commit = true);
+        Archetype*                   addArchetype(const ArchetypeID& id, bool commit = true);
 
         // Committing an archetype ID
         void                         commitArchetype(const ArchetypeID& id);
@@ -272,7 +273,7 @@ namespace TDS
 
         // Add a component to the entity
         template<typename C>
-        C* addComponent(const EntityID& entityID);
+        C*                           addComponent(const EntityID& entityID);
 
         // Add components to a new entity by archetype
         void                         addComponentsByArchetype(const EntityID& entityID, ArchetypeID archetype);
@@ -286,7 +287,7 @@ namespace TDS
 
         // Get a component data from the entity
         template<typename C>
-        C* getComponent(const EntityID& entityId);
+        C*                           getComponent(const EntityID& entityId);
 
         // Get entities with a certain component in the angle bracket
         template<typename C>
@@ -318,7 +319,11 @@ namespace TDS
 
         bool                         getEntityIsEnabled(const EntityID& entityId);
 
+        bool                         getEntityPreviouslyEnabled(const EntityID& entityId);
+
         void                         setEntityIsEnabled(const EntityID& entityId, bool _isEnabled);
+
+        void                         setEntityPreviouslyEnabled(const EntityID& entityId);
 
         ArchetypeID                  getActiveArchetype(const EntityID& entityID);
 

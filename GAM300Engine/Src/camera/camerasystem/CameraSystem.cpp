@@ -19,6 +19,11 @@ namespace TDS
 
 	void CameraSystem::CameraSystemUpdate(const float dt, const std::vector<EntityID>& entities, Transform* _transform, CameraComponent* _cameracomponent)
 	{
+		if (!entities.size())
+		{
+			return;
+		}
+
 		int entityIndex = 0;
 		for (; !ecs.getEntityIsEnabled(entities[entityIndex]) && !ecs.getComponentIsEnabled<CameraComponent>(entities[entityIndex]) && entityIndex < entities.size(); ++entityIndex);
 		if (entityIndex == entities.size())

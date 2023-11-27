@@ -243,6 +243,7 @@
     <ClInclude Include="Include\components\SoundInfo.h" />
     <ClInclude Include="Include\Rendering\UISpriteWrapper.h" />
     <ClInclude Include="Include\AI\UIPopupManager.h" />
+    <ClInclude Include="Include\eventmanager\eventHandler.h" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Include\Logger\Logger.h" />
