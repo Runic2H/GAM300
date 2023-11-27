@@ -97,7 +97,7 @@ namespace TDS
                 {
                     if (!soundInfo.isPaused())
                     {
-                        std::cout << "Playing Sound\n";
+                        //std::cout << "Playing Sound\n";
                         FMOD::Channel* channel{ nullptr };
                         // start play in 'paused' state
                         ERRCHECK(lowLevelSystem->playSound(sounds[soundInfo.getUniqueID()], 0, true /* start paused */, &channel));
@@ -140,12 +140,12 @@ namespace TDS
                 }
                 else
                 {
-                    std::cout << "Sound is already playing!" << std::endl;
+                    //std::cout << "Sound is already playing!" << std::endl;
                 }
             }
             else
             {
-                std::cout << "Sound not loaded, loading in now." << std::endl;
+                //std::cout << "Sound not loaded, loading in now." << std::endl;
                 loadSound(soundInfo);
                 return playSound(soundInfo);
             }
@@ -169,7 +169,7 @@ namespace TDS
             }
             else
             {
-                std::cout << "Nothing is playing!" << std::endl;
+                //std::cout << "Nothing is playing!" << std::endl;
             }
         }
 
@@ -189,12 +189,12 @@ namespace TDS
                     normalPlaying.erase(soundInfo.getUniqueID());
                     soundInfo.setState(SOUND_LOADED);
                 }
-                std::cout << "Stopping sound" << std::endl;
+                //std::cout << "Stopping sound" << std::endl;
             }
             else
             {
                 //std::cout << "Audio Engine: Can't stop a looping sound that's not playing!\n";
-                std::cout << "No sound is playing" << std::endl;
+                //std::cout << "No sound is playing" << std::endl;
             }
         }
 
@@ -432,7 +432,7 @@ namespace TDS
         //// Private definitions 
         bool AudioEngine::soundLoaded(SoundInfo soundInfo)
         {
-            std::cout << "Checking sound " << soundInfo.getUniqueID() << " exists\n";
+            //std::cout << "Checking sound " << soundInfo.getUniqueID() << " exists\n";
             return (sounds.count(soundInfo.getUniqueID()) > 0);
         }
 

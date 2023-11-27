@@ -270,6 +270,12 @@
                 "unlocked": {
                     "Bool": false
                 },
+                "lockSoundEffects": {
+                    "System.String[]": 0
+                },
+                "rattleSoundEffects": {
+                    "System.String[]": 0
+                },
                 "delay": {
                     "Float": 0.4
                 },
@@ -289,12 +295,12 @@
                     "Float": 0.2991557
                 },
                 "unlockAngle": {
-                    "Float": 16.0
+                    "Float": -56.0
                 },
                 "unlockRange": {
                     "Vector3": {
-                        "X": 6.0,
-                        "Y": 26.0,
+                        "X": -66.0,
+                        "Y": -46.0,
                         "Z": 0.0
                     }
                 },
@@ -312,6 +318,16 @@
                 },
                 "played": {
                     "Bool": false
+                },
+                "originalPosition": {
+                    "Vector3": {
+                        "X": 0.0,
+                        "Y": 3.0,
+                        "Z": -15.0
+                    }
+                },
+                "currentRattlePlaying": {
+                    "Int": 0
                 },
                 "gameObject": {
                     "GameObject": 3

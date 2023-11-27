@@ -28,8 +28,8 @@ public class LockPick1 : Script
     public float maxAngle = 90;
     public float lockSpeed = 10;
     public bool unlocked;
-    //public AudioClip[] lockSoundEffects;
-    //public AudioClip[] rattleSoundEffects;
+    public string[] lockSoundEffects;
+    public string[] rattleSoundEffects;
     float delay = 0.4f;
     public GameObject _NumOfTries;
     //public Text _AmtOfTries;
@@ -48,9 +48,27 @@ public class LockPick1 : Script
     private bool displayTutorial;
     [SerializeField] bool played;
 
+    private Vector3 originalPosition;
+    private int currentRattlePlaying = 0;
+
     // Start is called before the first frame update
     override public void Awake() 
     {
+        lockSoundEffects = new string[3];
+        lockSoundEffects[0] = "Lock Turning Audio";
+        lockSoundEffects[1] = "lockpick success";
+        lockSoundEffects[2] = "lockpick_failtryl";
+
+        rattleSoundEffects = new string[6];
+        rattleSoundEffects[0] = "temp_lockrattle1";
+        rattleSoundEffects[1] = "temp_lockrattle2";
+        rattleSoundEffects[2] = "temp_lockrattle3";
+        rattleSoundEffects[3] = "temp_lockrattle4";
+        rattleSoundEffects[4] = "temp_lockrattle5";
+        rattleSoundEffects[5] = "temp_lockrattle6";
+
+        currentRattlePlaying = 0;
+
         newLock();
     }
 
@@ -83,75 +101,58 @@ public class LockPick1 : Script
             #region Move Pick
             if (movePick)
             {
-                //Console.WriteLine(Input.GetMousePosition().X + "\t" + Input.GetMousePosition().Y);
                 Vector3 dir = Input.GetMousePosition() - new Vector3(Screen.width / 2, Screen.height / 2, 0);
-                //Vector3 dir = Input.GetMousePosition() - new Vector3(609, 278, 0);
-                //Vector3 dir = Input.GetMousePosition() - new Vector3(Input.GetLocalMousePosX(), Input.GetLocalMousePoxY(), 0);
                 //Vector3 dir = Input.mousePosition - cam.WorldToScreenPoint(transform.position);
 
-                eulerAngle = Vector3.Angle(dir, new Vector3(0, 1, 0));
+                eulerAngle = Vector3.Angle(dir, new Vector3(0, -1, 0));
 
                 Vector3 cross = Vector3.Cross(new Vector3(0, 1, 0), dir);
                 if (cross.Z < 0) { eulerAngle = -eulerAngle; }
-                eulerAngle = Mathf.Clamp(eulerAngle, -maxAngle, maxAngle);
+                eulerAngle = Mathf.Clamp(eulerAngle, toRadians(-maxAngle), toRadians(maxAngle));
 
-                //Quaternion rotateTo = Quaternion.AngleAxis(eulerAngle, new Vector3(0, 0, 1));
-                //transform.SetRotation(new Vector3(rotateTo.X, rotateTo.Y, rotateTo.Z));
-
-                eulerAngle = 3.1415926535897931f - eulerAngle;
                 transform.SetRotation(new Vector3(0, 0, eulerAngle));
                 Vector2 addedPosition = new Vector2(-Mathf.Sin(eulerAngle) * 2.5f, Mathf.Cos(eulerAngle) * 2.5f);
-                transform.SetPosition(new Vector3(addedPosition.X, 1 + addedPosition.Y, -15));
+                transform.SetPosition(new Vector3(originalPosition.X + addedPosition.X, originalPosition.X + addedPosition.Y, -15));
             }
 
             if (Input.GetKeyDown(Keycode.E))
             {
                 movePick = false;
                 keyPressTime = 1;
-                /* GetComponent<AudioSource>().clip = lockSoundEffects[0];
-                 GetComponent<AudioSource>().Play();*/
+                gameObject.GetComponent<AudioComponent>().play(lockSoundEffects[0]);
             }
             if (Input.GetKeyUp(Keycode.E))
             {
                 movePick = true;
                 keyPressTime = 0;
                 deduct = true;
+                gameObject.GetComponent<AudioComponent>().stop(lockSoundEffects[0]);
             }
             #endregion
 
             #region Check if pick is at correct position
 
-            float eulerAngleDeg = eulerAngle * (180 / 3.1415926535897931f);
+            float eulerAngleDeg = toDegree(eulerAngle);
             if (eulerAngleDeg > 180)
             {
                 eulerAngleDeg = eulerAngleDeg - 360;
             }
 
             percentage = Mathf.Round(100 - Mathf.Abs(((eulerAngleDeg - unlockAngle) / 100) * 100));
-            Console.WriteLine(percentage);
-            //Console.WriteLine(unlockAngle);
-            //Console.WriteLine(percentage);
-
-
-            percentage = Mathf.Round(100 - Mathf.Abs(((eulerAngle - unlockAngle) / 100) * 100));
-            float lockRotation = ((percentage / 100) * maxAngle) * keyPressTime;
             float maxRotation = (percentage / 100) * maxAngle;
-            float lockLerp = Mathf.LerpAngle(innerLock.GetRotation().Z * (180 / 3.1415926535897931f), lockRotation, Time.deltaTime * lockSpeed);
-            innerLock.SetRotation(new Vector3(0, 0, lockLerp * (3.1415926535897931f / 180)));
+            float lockRotation = maxRotation * keyPressTime;
+            float lockLerp = Mathf.LerpAngle(toDegree(innerLock.GetRotation().Z), lockRotation, Time.deltaTime * lockSpeed);
+            innerLock.SetRotation(new Vector3(0, 0, toRadians(lockLerp)));
 
             if (lockLerp >= maxRotation - 1)
             {
-                //Console.WriteLine("unlockRange.Y:\t" + Mathf.Abs(unlockRange.Y));
-                //Console.WriteLine("unlockRange.X:\t" + Mathf.Abs(unlockRange.X));
-                //Console.WriteLine("eulerAngle:\t" + eulerAngle);
-                //Console.WriteLine("eulerAngle:\t" + eulerAngle * (180 / 3.1415926535897931f));
-                if (eulerAngle * (180 / 3.1415926535897931f) < Mathf.Abs(unlockRange.Y) && eulerAngle * (180 / 3.1415926535897931f) > Mathf.Abs(unlockRange.X)) // Means unlocked?
+                if (toDegree(eulerAngle) < Mathf.Abs(unlockRange.Y) && toDegree(eulerAngle) > Mathf.Abs(unlockRange.X)) // Means unlocked?
                 {
                     movePick = true;
                     keyPressTime = 0;
                     Console.WriteLine("passed");
-                    /*GetComponent<AudioSource>().clip = lockSoundEffects[1];
-                    GetComponent<AudioSource>().Play();*/
+                    gameObject.GetComponent<AudioComponent>().stop(lockSoundEffects[0]);
+                    gameObject.GetComponent<AudioComponent>().play(lockSoundEffects[1]);
 
                     //Coroutine(StartDelay());
                     //async Task<int> StartDelay()
@@ -169,20 +170,21 @@ public class LockPick1 : Script
                 }
                 else
                 {
-                    //float randomRotation = ScriptAPI.Random.Range(0, 3.1415926535897931f);
-                    //Vector3 rotation = transform.GetRotation();
-                    //transform.SetRotation(rotation + new Vector3(0, 0, ScriptAPI.Random.Range((-randomRotation - 1), (randomRotation + 1))));
+                    Vector3 rotation = transform.GetRotation();
+                    float randomValue = ScriptAPI.Random.Range(-3.1415926535897931f * 100, 3.1415926535897931f * 100) / 20000;
+                    transform.SetRotationZ(rotation.Z + randomValue);
 
                     if (Input.GetKeyDown(Keycode.E) || Input.GetKey(Keycode.E))
                     {
-                        //if (!GetComponents<AudioSource>()[1].isPlaying)
+                        //if (!gameObject.GetComponent<AudioComponent>().isPlaying())
                         //{
                         //    delay -= Time.deltaTime;
 
                         //    if (delay <= 0)
                         //    {
-                        //        GetComponents<AudioSource>()[1].clip = rattleSoundEffects[Random.Range(0, rattleSoundEffects.Length)];
-                        //        GetComponents<AudioSource>()[1].Play();
+                        //        gameObject.GetComponent<AudioComponent>().stop(rattleSoundEffects[currentRattlePlaying]);
+                        //        currentRattlePlaying = (int)ScriptAPI.Random.Range(0, 6);
+                        //        gameObject.GetComponent<AudioComponent>().play(rattleSoundEffects[currentRattlePlaying]);
                         //        delay = 0.2f;
                         //    }
                         //}
@@ -196,10 +198,10 @@ public class LockPick1 : Script
 
                     if (numOfTries <= 0)
                     {
-                        //GetComponent<AudioSource>().clip = lockSoundEffects[2];
-                        //GetComponent<AudioSource>().volume = 0.5f;
-                        //GetComponent<AudioSource>().Play();
-                        //movePick = false;
+                        //gameObject.GetComponent<AudioComponent>().clip = lockSoundEffects[2];
+                        gameObject.GetComponent<AudioComponent>().setVolume(0.5f);
+                        gameObject.GetComponent<AudioComponent>().play(lockSoundEffects[2]);
+                        movePick = false;
 
                         //Coroutine(Deactivate(), 1);
 
@@ -219,10 +221,10 @@ public class LockPick1 : Script
 
             //_AmtOfTries.text = numOfTries.ToString();
 
-            //if (numOfTries <= 1)
-            //{
-            //    _AmtOfTries.color = Color.red;
-            //}
+            if (numOfTries <= 1)
+            {
+                //_AmtOfTries.color = Color.red;
+            }
         }
     }
 
@@ -230,7 +232,7 @@ public class LockPick1 : Script
     {
         innerLock = GameObjectScriptFind("InnerLock").GetTransformComponent();
         //Cursor.visible = false;
-        //GetComponent<AudioSource>().volume = 1f;
+        gameObject.GetComponent<AudioComponent>().setVolume(1f);
 
         //Door_UI.SetActive(Door_UI.GetEntityID(), true);
 
@@ -243,9 +245,8 @@ public class LockPick1 : Script
         //cam.transform.SetRotation(Quaternion(new))
         unlockAngle = ScriptAPI.Random.Range(-maxAngle + lockRange, maxAngle - lockRange);
         unlockRange = new Vector3(unlockAngle - lockRange, unlockAngle + lockRange, 0.0f);
-        Console.WriteLine(-maxAngle + lockRange);
-        Console.WriteLine(maxAngle - lockRange);
-        Console.WriteLine(unlockAngle);
+
+        originalPosition = transform.GetPosition();
 
         if (difficultyLvl == "Easy")
         {
@@ -264,5 +265,14 @@ public class LockPick1 : Script
         {
             movePick = true;
         }
+    }
+
+    float toDegree(float radians)
+    {
+        return radians * (180 / 3.1415926535897931f);
+    }
+    float toRadians(float degree)
+    {
+        return degree * (3.1415926535897931f / 180);
     }
 }
