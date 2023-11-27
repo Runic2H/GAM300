@@ -30,7 +30,7 @@ public class CutsceneSubtitle : Script
         Subtitles[10] = "Father: But you have their blood running within you";
         Subtitles[11] = "Father: And you deserve what was kept from you. Your rightful inheritance";
 
-        Subtitles[12] = "Father: So my final gift to you, is simply what should have been given to you before";
+        Subtitles[12] = "Father: So my final gift to you, my son, is simply what should have been given to you before";
         Subtitles[13] = "Father: And if they still would not give, then take it, if you must";
 
         Subtitles[14] = "Father: By whatever means necessary";
@@ -60,51 +60,39 @@ public class CutsceneSubtitle : Script
         counter = 0;
         next = true;
 
-        //AudioComponent audio = gameObject.GetComponent<AudioComponent>();
-        //audio.clearQueue();
-
-        //foreach(String str in Audiofiles)
-        //{
-        //    audio.Queue(str);
-        //}
     }
 
     public override void Update()
     {
+        UISpriteComponent Sprite = gameObject.GetComponent<UISpriteComponent>();
+        AudioComponent audio = gameObject.GetComponent<AudioComponent>();
         if (Input.GetKeyDown(Keycode.SPACE))
         {
+            audio.stop(Audiofiles[counter]);
             GraphicsManagerWrapper.ToggleViewFrom2D(false);
             SceneLoader.LoadMainGame();
         }
         else
         {
-            UISpriteComponent Sprite = gameObject.GetComponent<UISpriteComponent>();
-            AudioComponent audio = gameObject.GetComponent<AudioComponent>();
-
             audio.playQueue();
 
-            Sprite.ColorAlphafade(0.5f);
-            if (Sprite.getColourAlpha() < 0)
+            if (counter > 16)//cutscene over
             {
-                if (counter > 16)//cutscene over
+                GraphicsManagerWrapper.ToggleViewFrom2D(false);
+                SceneLoader.LoadMainGame();
+            }
+            else
+            {
+                if (next)
                 {
-                    GraphicsManagerWrapper.ToggleViewFrom2D(false);
-                    SceneLoader.LoadMainGame();
+                    Sprite.SetFontMessage(Subtitles[counter]);
+                    audio.play(Audiofiles[counter]);
+                    next = false;
                 }
-                else
+                else if (audio.finished(Audiofiles[counter]))
                 {
-                    if (next)
-                    {
-                        Sprite.setColourAlpha(1);
-                        Sprite.SetFontMessage(Subtitles[counter]);
-                        audio.play(Audiofiles[counter]);
-                        next = false;
-                    }
-                    else if (audio.finished(Audiofiles[counter]))
-                    {
-                        next = true;
-                        ++counter;
-                    }
+                    next = true;
+                    ++counter;
                 }
             }
         }
