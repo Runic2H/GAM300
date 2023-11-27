@@ -175,28 +175,52 @@ namespace TDS
 					if (_collider[i].getAImode() == SphereCollider::AImode::MONSTER && _collider[j].getAImode() == SphereCollider::AImode::PLAYER)
 					{
 						float radii = _collider[i].GetRadius() + _collider[j].GetRadius();
-						Vec3 length = Vec3::Distance(_transform[i].GetPosition(), _transform[j].GetPosition());
-						if (length.x <= radii)
+						float length = Vec3::Distance(_transform[i].GetPosition(), _transform[j].GetPosition());
+						if (length <= radii)
 						{
 							_collider[i].SetIsTrigger(true);
-							TDS_INFO("contacted");
 						}
 						else
 						{
 							_collider[i].SetIsTrigger(false);
 						}
-					}
-					if (_collider[i].GetIsTrigger())
-					{
-						Vec3 monsterPos = _transform[i].GetPosition();
-						Vec3 playerPos = _transform[j].GetPosition();
+						if (_collider[i].GetIsTrigger())
+						{
+							Vec3 monsterPos = _transform[i].GetPosition();
+							Vec3 playerPos = _transform[j].GetPosition();
 
-						Vec3 direction = (playerPos - monsterPos).normalize();
-						
-						float speed = 300.0f;
-						monsterPos = monsterPos + direction * speed * TimeStep::GetFixedDeltaTime();
-						TDS_INFO("{}", monsterPos);
-						_transform[i].SetPosition({ monsterPos.x, _transform[i].GetPosition().y, monsterPos.z });
+							Vec3 direction = (playerPos - monsterPos).normalize();
+
+							float speed = 300.0f;
+							monsterPos = monsterPos + direction * speed * TimeStep::GetFixedDeltaTime();
+							_transform[i].SetPosition({ monsterPos.x, _transform[i].GetPosition().y, monsterPos.z });
+						}
+					}
+					else if (_collider[i].getAImode() == SphereCollider::AImode::INTERACTABLE && _collider[j].getAImode() == SphereCollider::AImode::PLAYER)
+					{
+						float radii = _collider[i].GetRadius() + _collider[j].GetRadius();
+						Vec3 interactable = { _transform[i].GetPosition().x, 0, _transform[i].GetPosition().z };
+						Vec3 playerPos = { _transform[j].GetPosition().x, 0, _transform[j].GetPosition().z };
+						float length = Vec3::Distance(playerPos, interactable);
+						TDS_INFO("player: {}", playerPos);
+						TDS_INFO("interact: {}", interactable);
+						float diffX = playerPos.x - interactable.x;
+						float diffY = playerPos.y - interactable.y;
+						float diffZ = playerPos.z - interactable.z;
+						TDS_INFO("diff: {}, {}, {}", diffX, diffY, diffZ);
+						TDS_INFO("length: {}", length);
+						//return Mathf::Sqrt(diffX * diffX + diffY * diffY + diffZ * diffZ);
+
+						//TDS_INFO("{}", length);
+						if (length <= radii)
+						{
+
+							_collider[i].SetInteract(true);
+						}
+						else
+						{
+							_collider[i].SetInteract(false);
+						}
 					}
 				}
 				

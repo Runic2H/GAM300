@@ -17,6 +17,7 @@ RTTR_REGISTRATION
 
 	rttr::registration::class_<SphereCollider>("Sphere Collider")
 		.property("IsTrigger", &SphereCollider::mIsTrigger)
+		.property("IsInteract", &SphereCollider::mInteract)
 		.property("Center", &SphereCollider::mCenter)
 		.property("Radius", &SphereCollider::mRadius)
 		.property("AImode", &SphereCollider::AI);
@@ -25,7 +26,8 @@ RTTR_REGISTRATION
 		(
 			rttr::value("NONE", SphereCollider::AImode::NONE),
 			rttr::value("MONSTER", SphereCollider::AImode::MONSTER),
-			rttr::value("PLAYER", SphereCollider::AImode::PLAYER)
+			rttr::value("PLAYER", SphereCollider::AImode::PLAYER),
+			rttr::value("INTERACTABLE", SphereCollider::AImode::INTERACTABLE)
 		);
 
 
@@ -37,9 +39,10 @@ namespace TDS
 	Initializes the Collider component when created
 	****************************************************************************/
 	SphereCollider::SphereCollider() : mIsTrigger(false),
-		mCenter(Vec3(0.0f, 0.0f, 0.0f)),
-		mRadius(0.5f),
-		AI(AImode::NONE)
+									mInteract(false),
+									mCenter(Vec3(0.0f, 0.0f, 0.0f)),
+									mRadius(0.5f),
+									AI(AImode::NONE)
 	{
 		//CreateJPHSphereCollider(mRadius);
 
@@ -50,9 +53,10 @@ namespace TDS
 	component to move (for ECS)
 	****************************************************************************/
 	SphereCollider::SphereCollider(SphereCollider&& toMove) noexcept : mIsTrigger(toMove.mIsTrigger),
-		mCenter(toMove.mCenter),
-		mRadius(toMove.mRadius),
-		AI(toMove.AI)
+																		mInteract(toMove.mInteract),
+																		mCenter(toMove.mCenter),
+																		mRadius(toMove.mRadius),
+																		AI(toMove.AI)
 	{ }
 
 

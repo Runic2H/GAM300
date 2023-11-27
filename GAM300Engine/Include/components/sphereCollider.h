@@ -30,7 +30,8 @@ namespace TDS
 		{
 			NONE = 0,
 			MONSTER,
-			PLAYER
+			PLAYER,
+			INTERACTABLE
 		};
 
 		/*!*************************************************************************
@@ -52,6 +53,9 @@ namespace TDS
 		DLL_API bool& GetIsTrigger() { return mIsTrigger; }
 		DLL_API void SetIsTrigger(bool isTrigger) { mIsTrigger = isTrigger; }
 
+		DLL_API bool& GetInteract() { return mInteract; }
+		DLL_API void SetInteract(bool input) { mInteract = input; }
+
 		DLL_API Vec3& GetCenter() { return mCenter; }
 		DLL_API void SetCenter(Vec3 center) { mCenter = center; }
 		DLL_API void SetCenter(float x, float y, float z) { mCenter = Vec3(x, y, z); }
@@ -67,6 +71,7 @@ namespace TDS
 
 	private:
 		bool mIsTrigger;
+		bool mInteract;
 		//Material mMaterial;
 		Vec3 mCenter;
 		float mRadius;

@@ -28,113 +28,6 @@
         }
     },
     "Entity Data": {
-        "304": {
-            "ArchetypeID": "11000000000010",
-            "Name Tag": {
-                "Name": "NotesTab",
-                "Tag": "",
-                "IsActive": true,
-                "HierarchyParent": 289,
-                "HierarchyIndex": 13,
-                "HierarchyChildren": [
-                    309
-                ]
-            },
-            "Transform": {
-                "Position": {
-                    "x": -0.5341743230819702,
-                    "y": 0.7424999475479126,
-                    "z": 0.0
-                },
-                "Scale": {
-                    "x": 0.19999998807907104,
-                    "y": 0.20000004768371582,
-                    "z": 1.0
-                },
-                "Rotation": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                }
-            },
-            "UI Sprite": {
-                "Texture": "",
-                "EnableSprite": true,
-                "LayerID": 1,
-                "is Font": false,
-                "message": "",
-                "Font Texture": "",
-                "ForeGroundColour": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0,
-                    "w": 0.0
-                },
-                "Sprite Color": {
-                    "x": 0.10000000149011612,
-                    "y": 0.10000000149011612,
-                    "z": 0.10000000149011612,
-                    "w": 1.0
-                },
-                "BackGroundColour": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0,
-                    "w": 1.0
-                },
-                "BoundingBoxMin": {
-                    "x": -0.6341743469238281,
-                    "y": 0.6424999237060547
-                },
-                "BoundingBoxMax": {
-                    "x": -0.4341743290424347,
-                    "y": 0.8424999713897705
-                }
-            }
-        },
-        "191": {
-            "ArchetypeID": "11000010000000",
-            "Name Tag": {
-                "Name": "Tube_13__2",
-                "Tag": "",
-                "IsActive": true,
-                "HierarchyParent": 1,
-                "HierarchyIndex": 248,
-                "HierarchyChildren": []
-            },
-            "Transform": {
-                "Position": {
-                    "x": -2340.098388671875,
-                    "y": 288.81365966796875,
-                    "z": 171.50428771972656
-                },
-                "Scale": {
-                    "x": 1.100000023841858,
-                    "y": 1.2200000286102295,
-                    "z": 1.100000023841858
-                },
-                "Rotation": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                }
-            },
-            "Graphics Component": {
-                "PointLight": false,
-                "TextureName": "",
-                "Mesh Renderer": true,
-                "Debug": false,
-                "ModelName": "Mansion Layout_Bin.bin",
-                "MeshName": "Tube_13__2",
-                "Color": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0,
-                    "w": 0.0
-                },
-                "Used In 2D": false
-            }
-        },
         "15": {
             "ArchetypeID": "11000010000000",
             "Name Tag": {
@@ -274,6 +167,113 @@
                 "Debug": false,
                 "ModelName": "Mansion Layout_Bin.bin",
                 "MeshName": "study_DoorWall02",
+                "Color": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 0.0
+                },
+                "Used In 2D": false
+            }
+        },
+        "304": {
+            "ArchetypeID": "11000000000010",
+            "Name Tag": {
+                "Name": "NotesTab",
+                "Tag": "",
+                "IsActive": true,
+                "HierarchyParent": 289,
+                "HierarchyIndex": 13,
+                "HierarchyChildren": [
+                    309
+                ]
+            },
+            "Transform": {
+                "Position": {
+                    "x": -0.5341743230819702,
+                    "y": 0.7424999475479126,
+                    "z": 0.0
+                },
+                "Scale": {
+                    "x": 0.19999998807907104,
+                    "y": 0.20000004768371582,
+                    "z": 1.0
+                },
+                "Rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                }
+            },
+            "UI Sprite": {
+                "Texture": "",
+                "EnableSprite": true,
+                "LayerID": 1,
+                "is Font": false,
+                "message": "",
+                "Font Texture": "",
+                "ForeGroundColour": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 0.0
+                },
+                "Sprite Color": {
+                    "x": 0.10000000149011612,
+                    "y": 0.10000000149011612,
+                    "z": 0.10000000149011612,
+                    "w": 1.0
+                },
+                "BackGroundColour": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "BoundingBoxMin": {
+                    "x": -0.6341743469238281,
+                    "y": 0.6424999237060547
+                },
+                "BoundingBoxMax": {
+                    "x": -0.4341743290424347,
+                    "y": 0.8424999713897705
+                }
+            }
+        },
+        "191": {
+            "ArchetypeID": "11000010000000",
+            "Name Tag": {
+                "Name": "Tube_13__2",
+                "Tag": "",
+                "IsActive": true,
+                "HierarchyParent": 1,
+                "HierarchyIndex": 248,
+                "HierarchyChildren": []
+            },
+            "Transform": {
+                "Position": {
+                    "x": -2340.098388671875,
+                    "y": 288.81365966796875,
+                    "z": 171.50428771972656
+                },
+                "Scale": {
+                    "x": 1.100000023841858,
+                    "y": 1.2200000286102295,
+                    "z": 1.100000023841858
+                },
+                "Rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                }
+            },
+            "Graphics Component": {
+                "PointLight": false,
+                "TextureName": "",
+                "Mesh Renderer": true,
+                "Debug": false,
+                "ModelName": "Mansion Layout_Bin.bin",
+                "MeshName": "Tube_13__2",
                 "Color": {
                     "x": 0.0,
                     "y": 0.0,
@@ -431,40 +431,40 @@
                 "Used In 2D": false
             }
         },
-        "3": {
+        "195": {
             "ArchetypeID": "11000010000000",
             "Name Tag": {
-                "Name": "Plate__1",
+                "Name": "Gallery Wall (3)",
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 141,
+                "HierarchyIndex": 24,
                 "HierarchyChildren": []
             },
             "Transform": {
                 "Position": {
-                    "x": -764.230712890625,
-                    "y": 202.72581481933594,
-                    "z": 163.3851318359375
+                    "x": -1387.84130859375,
+                    "y": 296.58447265625,
+                    "z": -980.3115234375
                 },
                 "Scale": {
-                    "x": 1.100000023841858,
-                    "y": 1.2200000286102295,
-                    "z": 1.100000023841858
+                    "x": 2.200000047683716,
+                    "y": 1.8300000429153442,
+                    "z": 2.200000047683716
                 },
                 "Rotation": {
-                    "x": 3.1415927410125732,
-                    "y": 8.742277657347586e-8,
-                    "z": 3.1415927410125732
+                    "x": 3.141592502593994,
+                    "y": 1.570796251296997,
+                    "z": 0.0
                 }
             },
             "Graphics Component": {
                 "PointLight": false,
-                "TextureName": "",
+                "TextureName": "Gallery Wall.dds",
                 "Mesh Renderer": true,
                 "Debug": false,
                 "ModelName": "Mansion Layout_Bin.bin",
-                "MeshName": "Plate__1",
+                "MeshName": "Cube_9_2",
                 "Color": {
                     "x": 0.0,
                     "y": 0.0,
@@ -536,64 +536,21 @@
                 }
             }
         },
-        "195": {
+        "3": {
             "ArchetypeID": "11000010000000",
             "Name Tag": {
-                "Name": "Gallery Wall (3)",
+                "Name": "Plate__1",
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 24,
+                "HierarchyIndex": 141,
                 "HierarchyChildren": []
             },
             "Transform": {
                 "Position": {
-                    "x": -1387.84130859375,
-                    "y": 296.58447265625,
-                    "z": -980.3115234375
-                },
-                "Scale": {
-                    "x": 2.200000047683716,
-                    "y": 1.8300000429153442,
-                    "z": 2.200000047683716
-                },
-                "Rotation": {
-                    "x": 3.141592502593994,
-                    "y": 1.570796251296997,
-                    "z": 0.0
-                }
-            },
-            "Graphics Component": {
-                "PointLight": false,
-                "TextureName": "Gallery Wall.dds",
-                "Mesh Renderer": true,
-                "Debug": false,
-                "ModelName": "Mansion Layout_Bin.bin",
-                "MeshName": "Cube_9_2",
-                "Color": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0,
-                    "w": 0.0
-                },
-                "Used In 2D": false
-            }
-        },
-        "189": {
-            "ArchetypeID": "11000010000000",
-            "Name Tag": {
-                "Name": "Plate_13__2",
-                "Tag": "",
-                "IsActive": true,
-                "HierarchyParent": 1,
-                "HierarchyIndex": 246,
-                "HierarchyChildren": []
-            },
-            "Transform": {
-                "Position": {
-                    "x": -2341.35009765625,
-                    "y": 203.0966339111328,
-                    "z": 120.23974609375
+                    "x": -764.230712890625,
+                    "y": 202.72581481933594,
+                    "z": 163.3851318359375
                 },
                 "Scale": {
                     "x": 1.100000023841858,
@@ -601,9 +558,9 @@
                     "z": 1.100000023841858
                 },
                 "Rotation": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
+                    "x": 3.1415927410125732,
+                    "y": 8.742277657347586e-8,
+                    "z": 3.1415927410125732
                 }
             },
             "Graphics Component": {
@@ -612,7 +569,7 @@
                 "Mesh Renderer": true,
                 "Debug": false,
                 "ModelName": "Mansion Layout_Bin.bin",
-                "MeshName": "Plate_13__2",
+                "MeshName": "Plate__1",
                 "Color": {
                     "x": 0.0,
                     "y": 0.0,
@@ -686,21 +643,21 @@
                 }
             }
         },
-        "187": {
+        "189": {
             "ArchetypeID": "11000010000000",
             "Name Tag": {
-                "Name": "Handle_13__2",
+                "Name": "Plate_13__2",
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 245,
+                "HierarchyIndex": 246,
                 "HierarchyChildren": []
             },
             "Transform": {
                 "Position": {
-                    "x": -2338.921875,
-                    "y": 202.9937286376953,
-                    "z": 120.206787109375
+                    "x": -2341.35009765625,
+                    "y": 203.0966339111328,
+                    "z": 120.23974609375
                 },
                 "Scale": {
                     "x": 1.100000023841858,
@@ -719,7 +676,7 @@
                 "Mesh Renderer": true,
                 "Debug": false,
                 "ModelName": "Mansion Layout_Bin.bin",
-                "MeshName": "Handle_13__2",
+                "MeshName": "Plate_13__2",
                 "Color": {
                     "x": 0.0,
                     "y": 0.0,
@@ -791,40 +748,40 @@
                 }
             }
         },
-        "185": {
+        "187": {
             "ArchetypeID": "11000010000000",
             "Name Tag": {
-                "Name": "Main Wall (4)",
+                "Name": "Handle_13__2",
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 135,
+                "HierarchyIndex": 245,
                 "HierarchyChildren": []
             },
             "Transform": {
                 "Position": {
-                    "x": 177.69464111328125,
-                    "y": 296.58447265625,
-                    "z": 352.5708312988281
+                    "x": -2338.921875,
+                    "y": 202.9937286376953,
+                    "z": 120.206787109375
                 },
                 "Scale": {
-                    "x": 2.200000047683716,
-                    "y": 1.8300000429153442,
-                    "z": 2.200000047683716
+                    "x": 1.100000023841858,
+                    "y": 1.2200000286102295,
+                    "z": 1.100000023841858
                 },
                 "Rotation": {
                     "x": 0.0,
                     "y": 0.0,
-                    "z": 3.141592502593994
+                    "z": 0.0
                 }
             },
             "Graphics Component": {
                 "PointLight": false,
-                "TextureName": "White.dds",
+                "TextureName": "",
                 "Mesh Renderer": true,
                 "Debug": false,
                 "ModelName": "Mansion Layout_Bin.bin",
-                "MeshName": "ninja_star_0_2",
+                "MeshName": "Handle_13__2",
                 "Color": {
                     "x": 0.0,
                     "y": 0.0,
@@ -898,40 +855,40 @@
                 }
             }
         },
-        "183": {
+        "185": {
             "ArchetypeID": "11000010000000",
             "Name Tag": {
-                "Name": "Study Door Frame",
+                "Name": "Main Wall (4)",
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 5,
+                "HierarchyIndex": 135,
                 "HierarchyChildren": []
             },
             "Transform": {
                 "Position": {
-                    "x": -2346.6337890625,
-                    "y": 242.33447265625,
-                    "z": 171.1780242919922
+                    "x": 177.69464111328125,
+                    "y": 296.58447265625,
+                    "z": 352.5708312988281
                 },
                 "Scale": {
-                    "x": 1.100000023841858,
-                    "y": 1.2200000286102295,
-                    "z": 1.100000023841858
+                    "x": 2.200000047683716,
+                    "y": 1.8300000429153442,
+                    "z": 2.200000047683716
                 },
                 "Rotation": {
                     "x": 0.0,
                     "y": 0.0,
-                    "z": 0.0
+                    "z": 3.141592502593994
                 }
             },
             "Graphics Component": {
                 "PointLight": false,
-                "TextureName": "Wood008_1K-PNG_Color.dds",
+                "TextureName": "White.dds",
                 "Mesh Renderer": true,
                 "Debug": false,
                 "ModelName": "Mansion Layout_Bin.bin",
-                "MeshName": "Cube_13__2",
+                "MeshName": "ninja_star_0_2",
                 "Color": {
                     "x": 0.0,
                     "y": 0.0,
@@ -1003,21 +960,21 @@
                 }
             }
         },
-        "181": {
+        "183": {
             "ArchetypeID": "11000010000000",
             "Name Tag": {
-                "Name": "Tube_13__1",
+                "Name": "Study Door Frame",
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 242,
+                "HierarchyIndex": 5,
                 "HierarchyChildren": []
             },
             "Transform": {
                 "Position": {
-                    "x": 2032.7313232421875,
-                    "y": 288.44281005859375,
-                    "z": -1117.942626953125
+                    "x": -2346.6337890625,
+                    "y": 242.33447265625,
+                    "z": 171.1780242919922
                 },
                 "Scale": {
                     "x": 1.100000023841858,
@@ -1032,11 +989,11 @@
             },
             "Graphics Component": {
                 "PointLight": false,
-                "TextureName": "",
+                "TextureName": "Wood008_1K-PNG_Color.dds",
                 "Mesh Renderer": true,
                 "Debug": false,
                 "ModelName": "Mansion Layout_Bin.bin",
-                "MeshName": "Tube_13__1",
+                "MeshName": "Cube_13__2",
                 "Color": {
                     "x": 0.0,
                     "y": 0.0,
@@ -1110,21 +1067,21 @@
                 }
             }
         },
-        "179": {
+        "181": {
             "ArchetypeID": "11000010000000",
             "Name Tag": {
-                "Name": "Plate_13__1",
+                "Name": "Tube_13__1",
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 240,
+                "HierarchyIndex": 242,
                 "HierarchyChildren": []
             },
             "Transform": {
                 "Position": {
-                    "x": 2031.479736328125,
-                    "y": 202.72581481933594,
-                    "z": -1169.2071533203125
+                    "x": 2032.7313232421875,
+                    "y": 288.44281005859375,
+                    "z": -1117.942626953125
                 },
                 "Scale": {
                     "x": 1.100000023841858,
@@ -1143,7 +1100,7 @@
                 "Mesh Renderer": true,
                 "Debug": false,
                 "ModelName": "Mansion Layout_Bin.bin",
-                "MeshName": "Plate_13__1",
+                "MeshName": "Tube_13__1",
                 "Color": {
                     "x": 0.0,
                     "y": 0.0,
@@ -1215,21 +1172,21 @@
                 }
             }
         },
-        "177": {
+        "179": {
             "ArchetypeID": "11000010000000",
             "Name Tag": {
-                "Name": "Toilet Door",
+                "Name": "Plate_13__1",
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 92,
+                "HierarchyIndex": 240,
                 "HierarchyChildren": []
             },
             "Transform": {
                 "Position": {
-                    "x": 2026.956298828125,
-                    "y": 231.79159545898438,
-                    "z": -1118.168212890625
+                    "x": 2031.479736328125,
+                    "y": 202.72581481933594,
+                    "z": -1169.2071533203125
                 },
                 "Scale": {
                     "x": 1.100000023841858,
@@ -1244,11 +1201,11 @@
             },
             "Graphics Component": {
                 "PointLight": false,
-                "TextureName": "GoldColor.dds",
+                "TextureName": "",
                 "Mesh Renderer": true,
                 "Debug": false,
                 "ModelName": "Mansion Layout_Bin.bin",
-                "MeshName": "Door_13__1",
+                "MeshName": "Plate_13__1",
                 "Color": {
                     "x": 0.0,
                     "y": 0.0,
@@ -1322,21 +1279,21 @@
                 }
             }
         },
-        "171": {
+        "177": {
             "ArchetypeID": "11000010000000",
             "Name Tag": {
-                "Name": "Engraving_13",
+                "Name": "Toilet Door",
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 235,
+                "HierarchyIndex": 92,
                 "HierarchyChildren": []
             },
             "Transform": {
                 "Position": {
-                    "x": 1789.447265625,
-                    "y": 284.3987121582031,
-                    "z": -738.1676025390625
+                    "x": 2026.956298828125,
+                    "y": 231.79159545898438,
+                    "z": -1118.168212890625
                 },
                 "Scale": {
                     "x": 1.100000023841858,
@@ -1345,17 +1302,17 @@
                 },
                 "Rotation": {
                     "x": 0.0,
-                    "y": -1.570796251296997,
+                    "y": 0.0,
                     "z": 0.0
                 }
             },
             "Graphics Component": {
                 "PointLight": false,
-                "TextureName": "",
+                "TextureName": "GoldColor.dds",
                 "Mesh Renderer": true,
                 "Debug": false,
                 "ModelName": "Mansion Layout_Bin.bin",
-                "MeshName": "Engraving_13",
+                "MeshName": "Door_13__1",
                 "Color": {
                     "x": 0.0,
                     "y": 0.0,
@@ -1429,40 +1386,40 @@
                 }
             }
         },
-        "169": {
+        "171": {
             "ArchetypeID": "11000010000000",
             "Name Tag": {
-                "Name": "Dinning Wall (7)",
+                "Name": "Engraving_13",
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 64,
+                "HierarchyIndex": 235,
                 "HierarchyChildren": []
             },
             "Transform": {
                 "Position": {
-                    "x": -868.8063354492188,
-                    "y": 296.5840148925781,
-                    "z": -722.0784912109375
+                    "x": 1789.447265625,
+                    "y": 284.3987121582031,
+                    "z": -738.1676025390625
                 },
                 "Scale": {
-                    "x": 2.1999950408935547,
-                    "y": 1.8299992084503174,
-                    "z": 2.199995517730713
+                    "x": 1.100000023841858,
+                    "y": 1.2200000286102295,
+                    "z": 1.100000023841858
                 },
                 "Rotation": {
                     "x": 0.0,
-                    "y": 1.5707958936691284,
+                    "y": -1.570796251296997,
                     "z": 0.0
                 }
             },
             "Graphics Component": {
                 "PointLight": false,
-                "TextureName": "Wood008_1K-PNG_Color.dds",
+                "TextureName": "",
                 "Mesh Renderer": true,
                 "Debug": false,
                 "ModelName": "Mansion Layout_Bin.bin",
-                "MeshName": "LivKit_R",
+                "MeshName": "Engraving_13",
                 "Color": {
                     "x": 0.0,
                     "y": 0.0,
@@ -1536,40 +1493,40 @@
                 }
             }
         },
-        "163": {
+        "169": {
             "ArchetypeID": "11000010000000",
             "Name Tag": {
-                "Name": "Oil_Tank__11",
+                "Name": "Dinning Wall (7)",
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 231,
+                "HierarchyIndex": 64,
                 "HierarchyChildren": []
             },
             "Transform": {
                 "Position": {
-                    "x": 1780.222900390625,
-                    "y": 228.71627807617188,
-                    "z": 115.6181640625
+                    "x": -868.8063354492188,
+                    "y": 296.5840148925781,
+                    "z": -722.0784912109375
                 },
                 "Scale": {
-                    "x": 1.100000023841858,
-                    "y": 1.2200000286102295,
-                    "z": 1.100000023841858
+                    "x": 2.1999950408935547,
+                    "y": 1.8299992084503174,
+                    "z": 2.199995517730713
                 },
                 "Rotation": {
                     "x": 0.0,
-                    "y": -1.570796251296997,
+                    "y": 1.5707958936691284,
                     "z": 0.0
                 }
             },
             "Graphics Component": {
                 "PointLight": false,
-                "TextureName": "",
+                "TextureName": "Wood008_1K-PNG_Color.dds",
                 "Mesh Renderer": true,
                 "Debug": false,
                 "ModelName": "Mansion Layout_Bin.bin",
-                "MeshName": "Oil_Tank__11",
+                "MeshName": "LivKit_R",
                 "Color": {
                     "x": 0.0,
                     "y": 0.0,
@@ -1643,64 +1600,21 @@
                 }
             }
         },
-        "7": {
+        "163": {
             "ArchetypeID": "11000010000000",
             "Name Tag": {
-                "Name": "Study Door Top Part (1)",
+                "Name": "Oil_Tank__11",
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 2,
+                "HierarchyIndex": 231,
                 "HierarchyChildren": []
             },
             "Transform": {
                 "Position": {
-                    "x": -2334.27099609375,
-                    "y": 427.71728515625,
-                    "z": 174.99998474121094
-                },
-                "Scale": {
-                    "x": 1.0,
-                    "y": 1.0,
-                    "z": 1.0
-                },
-                "Rotation": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                }
-            },
-            "Graphics Component": {
-                "PointLight": false,
-                "TextureName": "White.dds",
-                "Mesh Renderer": true,
-                "Debug": false,
-                "ModelName": "Mansion Layout_Bin.bin",
-                "MeshName": "OUTSing_Study",
-                "Color": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0,
-                    "w": 0.0
-                },
-                "Used In 2D": false
-            }
-        },
-        "135": {
-            "ArchetypeID": "11000010000000",
-            "Name Tag": {
-                "Name": "Living Door Frame (1)",
-                "Tag": "",
-                "IsActive": true,
-                "HierarchyParent": 1,
-                "HierarchyIndex": 211,
-                "HierarchyChildren": []
-            },
-            "Transform": {
-                "Position": {
-                    "x": 936.8729858398438,
-                    "y": 236.07003784179688,
-                    "z": -12.3939208984375
+                    "x": 1780.222900390625,
+                    "y": 228.71627807617188,
+                    "z": 115.6181640625
                 },
                 "Scale": {
                     "x": 1.100000023841858,
@@ -1709,17 +1623,17 @@
                 },
                 "Rotation": {
                     "x": 0.0,
-                    "y": 1.570796251296997,
+                    "y": -1.570796251296997,
                     "z": 0.0
                 }
             },
             "Graphics Component": {
                 "PointLight": false,
-                "TextureName": "Door Border Color.dds",
+                "TextureName": "",
                 "Mesh Renderer": true,
                 "Debug": false,
                 "ModelName": "Mansion Layout_Bin.bin",
-                "MeshName": "Border_2__4",
+                "MeshName": "Oil_Tank__11",
                 "Color": {
                     "x": 0.0,
                     "y": 0.0,
@@ -1791,21 +1705,64 @@
                 }
             }
         },
-        "5": {
-            "ArchetypeID": "11000010100000",
+        "135": {
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
-                "Name": "Ceiling",
+                "Name": "Living Door Frame (1)",
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 0,
+                "HierarchyIndex": 211,
                 "HierarchyChildren": []
             },
             "Transform": {
                 "Position": {
-                    "x": -399.70147705078125,
-                    "y": 487.03643798828125,
-                    "z": -152.4196319580078
+                    "x": 936.8729858398438,
+                    "y": 236.07003784179688,
+                    "z": -12.3939208984375
+                },
+                "Scale": {
+                    "x": 1.100000023841858,
+                    "y": 1.2200000286102295,
+                    "z": 1.100000023841858
+                },
+                "Rotation": {
+                    "x": 0.0,
+                    "y": 1.570796251296997,
+                    "z": 0.0
+                }
+            },
+            "Graphics Component": {
+                "PointLight": false,
+                "TextureName": "Door Border Color.dds",
+                "Mesh Renderer": true,
+                "Debug": false,
+                "ModelName": "Mansion Layout_Bin.bin",
+                "MeshName": "Border_2__4",
+                "Color": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 0.0
+                },
+                "Used In 2D": false
+            }
+        },
+        "7": {
+            "ArchetypeID": "11000010000000",
+            "Name Tag": {
+                "Name": "Study Door Top Part (1)",
+                "Tag": "",
+                "IsActive": true,
+                "HierarchyParent": 1,
+                "HierarchyIndex": 2,
+                "HierarchyChildren": []
+            },
+            "Transform": {
+                "Position": {
+                    "x": -2334.27099609375,
+                    "y": 427.71728515625,
+                    "z": 174.99998474121094
                 },
                 "Scale": {
                     "x": 1.0,
@@ -1821,63 +1778,10 @@
             "Graphics Component": {
                 "PointLight": false,
                 "TextureName": "White.dds",
-                "Mesh Renderer": false,
-                "Debug": false,
-                "ModelName": "Mansion Layout_Bin.bin",
-                "MeshName": "Ceiling",
-                "Color": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0,
-                    "w": 0.0
-                },
-                "Used In 2D": false
-            },
-            "Sphere Collider": {
-                "IsTrigger": false,
-                "Center": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                },
-                "Radius": 0.5,
-                "AImode": "NONE"
-            }
-        },
-        "133": {
-            "ArchetypeID": "11000010000000",
-            "Name Tag": {
-                "Name": "Oil_Tank__7",
-                "Tag": "",
-                "IsActive": true,
-                "HierarchyParent": 1,
-                "HierarchyIndex": 209,
-                "HierarchyChildren": []
-            },
-            "Transform": {
-                "Position": {
-                    "x": -1940.46923828125,
-                    "y": 228.71627807617188,
-                    "z": -66.1168212890625
-                },
-                "Scale": {
-                    "x": 1.100000023841858,
-                    "y": 1.2200000286102295,
-                    "z": 1.100000023841858
-                },
-                "Rotation": {
-                    "x": 0.0,
-                    "y": -1.570796251296997,
-                    "z": 0.0
-                }
-            },
-            "Graphics Component": {
-                "PointLight": false,
-                "TextureName": "",
                 "Mesh Renderer": true,
                 "Debug": false,
                 "ModelName": "Mansion Layout_Bin.bin",
-                "MeshName": "Oil_Tank__7",
+                "MeshName": "OUTSing_Study",
                 "Color": {
                     "x": 0.0,
                     "y": 0.0,
@@ -1949,6 +1853,197 @@
                     "x": -0.5390001535415649,
                     "y": 0.07375000417232513
                 }
+            }
+        },
+        "133": {
+            "ArchetypeID": "11000010000000",
+            "Name Tag": {
+                "Name": "Oil_Tank__7",
+                "Tag": "",
+                "IsActive": true,
+                "HierarchyParent": 1,
+                "HierarchyIndex": 209,
+                "HierarchyChildren": []
+            },
+            "Transform": {
+                "Position": {
+                    "x": -1940.46923828125,
+                    "y": 228.71627807617188,
+                    "z": -66.1168212890625
+                },
+                "Scale": {
+                    "x": 1.100000023841858,
+                    "y": 1.2200000286102295,
+                    "z": 1.100000023841858
+                },
+                "Rotation": {
+                    "x": 0.0,
+                    "y": -1.570796251296997,
+                    "z": 0.0
+                }
+            },
+            "Graphics Component": {
+                "PointLight": false,
+                "TextureName": "",
+                "Mesh Renderer": true,
+                "Debug": false,
+                "ModelName": "Mansion Layout_Bin.bin",
+                "MeshName": "Oil_Tank__7",
+                "Color": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 0.0
+                },
+                "Used In 2D": false
+            }
+        },
+        "5": {
+            "ArchetypeID": "11000010000000",
+            "Name Tag": {
+                "Name": "Ceiling",
+                "Tag": "",
+                "IsActive": true,
+                "HierarchyParent": 1,
+                "HierarchyIndex": 0,
+                "HierarchyChildren": []
+            },
+            "Transform": {
+                "Position": {
+                    "x": -399.70147705078125,
+                    "y": 487.03643798828125,
+                    "z": -152.4196319580078
+                },
+                "Scale": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                },
+                "Rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                }
+            },
+            "Graphics Component": {
+                "PointLight": false,
+                "TextureName": "White.dds",
+                "Mesh Renderer": false,
+                "Debug": false,
+                "ModelName": "Mansion Layout_Bin.bin",
+                "MeshName": "Ceiling",
+                "Color": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 0.0
+                },
+                "Used In 2D": false
+            }
+        },
+        "314": {
+            "ArchetypeID": "11000000000010",
+            "Name Tag": {
+                "Name": "Item2",
+                "Tag": "",
+                "IsActive": true,
+                "HierarchyParent": 291,
+                "HierarchyIndex": 0,
+                "HierarchyChildren": []
+            },
+            "Transform": {
+                "Position": {
+                    "x": -0.6390001773834229,
+                    "y": 0.3149999976158142,
+                    "z": 0.0
+                },
+                "Scale": {
+                    "x": 0.19999998807907104,
+                    "y": 0.3500000238418579,
+                    "z": 1.0
+                },
+                "Rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                }
+            },
+            "UI Sprite": {
+                "Texture": "",
+                "EnableSprite": true,
+                "LayerID": 1,
+                "is Font": false,
+                "message": "",
+                "Font Texture": "",
+                "ForeGroundColour": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 0.0
+                },
+                "Sprite Color": {
+                    "x": 0.10000000149011612,
+                    "y": 0.10000000149011612,
+                    "z": 0.10000000149011612,
+                    "w": 1.0
+                },
+                "BackGroundColour": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "BoundingBoxMin": {
+                    "x": -0.7390002012252808,
+                    "y": 0.13999998569488525
+                },
+                "BoundingBoxMax": {
+                    "x": -0.5390001535415649,
+                    "y": 0.49000000953674316
+                }
+            }
+        },
+        "129": {
+            "ArchetypeID": "11000010000000",
+            "Name Tag": {
+                "Name": "Engraving__7",
+                "Tag": "",
+                "IsActive": true,
+                "HierarchyParent": 1,
+                "HierarchyIndex": 205,
+                "HierarchyChildren": []
+            },
+            "Transform": {
+                "Position": {
+                    "x": -1991.7135009765625,
+                    "y": 284.0278625488281,
+                    "z": -65.49522399902344
+                },
+                "Scale": {
+                    "x": 1.100000023841858,
+                    "y": 1.2200000286102295,
+                    "z": 1.100000023841858
+                },
+                "Rotation": {
+                    "x": 0.0,
+                    "y": -1.570796251296997,
+                    "z": 0.0
+                }
+            },
+            "Graphics Component": {
+                "PointLight": false,
+                "TextureName": "",
+                "Mesh Renderer": true,
+                "Debug": false,
+                "ModelName": "Mansion Layout_Bin.bin",
+                "MeshName": "Engraving__7",
+                "Color": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 0.0
+                },
+                "Used In 2D": false
             }
         },
         "1": {
@@ -2276,111 +2371,6 @@
                     "w": 1.0
                 },
                 "Used In 2D": false
-            }
-        },
-        "129": {
-            "ArchetypeID": "11000010000000",
-            "Name Tag": {
-                "Name": "Engraving__7",
-                "Tag": "",
-                "IsActive": true,
-                "HierarchyParent": 1,
-                "HierarchyIndex": 205,
-                "HierarchyChildren": []
-            },
-            "Transform": {
-                "Position": {
-                    "x": -1991.7135009765625,
-                    "y": 284.0278625488281,
-                    "z": -65.49522399902344
-                },
-                "Scale": {
-                    "x": 1.100000023841858,
-                    "y": 1.2200000286102295,
-                    "z": 1.100000023841858
-                },
-                "Rotation": {
-                    "x": 0.0,
-                    "y": -1.570796251296997,
-                    "z": 0.0
-                }
-            },
-            "Graphics Component": {
-                "PointLight": false,
-                "TextureName": "",
-                "Mesh Renderer": true,
-                "Debug": false,
-                "ModelName": "Mansion Layout_Bin.bin",
-                "MeshName": "Engraving__7",
-                "Color": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0,
-                    "w": 0.0
-                },
-                "Used In 2D": false
-            }
-        },
-        "314": {
-            "ArchetypeID": "11000000000010",
-            "Name Tag": {
-                "Name": "Item2",
-                "Tag": "",
-                "IsActive": true,
-                "HierarchyParent": 291,
-                "HierarchyIndex": 0,
-                "HierarchyChildren": []
-            },
-            "Transform": {
-                "Position": {
-                    "x": -0.6390001773834229,
-                    "y": 0.3149999976158142,
-                    "z": 0.0
-                },
-                "Scale": {
-                    "x": 0.19999998807907104,
-                    "y": 0.3500000238418579,
-                    "z": 1.0
-                },
-                "Rotation": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                }
-            },
-            "UI Sprite": {
-                "Texture": "",
-                "EnableSprite": true,
-                "LayerID": 1,
-                "is Font": false,
-                "message": "",
-                "Font Texture": "",
-                "ForeGroundColour": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0,
-                    "w": 0.0
-                },
-                "Sprite Color": {
-                    "x": 0.10000000149011612,
-                    "y": 0.10000000149011612,
-                    "z": 0.10000000149011612,
-                    "w": 1.0
-                },
-                "BackGroundColour": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0,
-                    "w": 1.0
-                },
-                "BoundingBoxMin": {
-                    "x": -0.7390002012252808,
-                    "y": 0.13999998569488525
-                },
-                "BoundingBoxMax": {
-                    "x": -0.5390001535415649,
-                    "y": 0.49000000953674316
-                }
             }
         },
         "2": {
@@ -4706,7 +4696,7 @@
             }
         },
         "60": {
-            "ArchetypeID": "11000010000000",
+            "ArchetypeID": "11000010100000",
             "Name Tag": {
                 "Name": "Main Door Left Side",
                 "Tag": "",
@@ -4746,6 +4736,17 @@
                     "w": 0.0
                 },
                 "Used In 2D": false
+            },
+            "Sphere Collider": {
+                "IsTrigger": false,
+                "IsInteract": false,
+                "Center": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "Radius": 10.0,
+                "AImode": "INTERACTABLE"
             }
         },
         "61": {
@@ -4856,9 +4857,9 @@
                     "z": 1.100000023841858
                 },
                 "Rotation": {
-                    "x": 3.141592502593994,
+                    "x": 3.1415908336639404,
                     "y": 0.0,
-                    "z": -3.141592502593994
+                    "z": -3.1415908336639404
                 }
             },
             "Graphics Component": {
@@ -4937,13 +4938,13 @@
                     "z": -131.96731567382813
                 },
                 "Scale": {
-                    "x": 1.100000023841858,
+                    "x": 1.0999997854232788,
                     "y": 1.2200000286102295,
-                    "z": 1.100000023841858
+                    "z": 1.0999997854232788
                 },
                 "Rotation": {
                     "x": 0.0,
-                    "y": 1.570796251296997,
+                    "y": 1.5707958936691284,
                     "z": 0.0
                 }
             },
@@ -16037,12 +16038,13 @@
             },
             "Sphere Collider": {
                 "IsTrigger": false,
+                "IsInteract": false,
                 "Center": {
                     "x": 0.0,
                     "y": 0.0,
                     "z": 0.0
                 },
-                "Radius": 400.0,
+                "Radius": 20.0,
                 "AImode": "PLAYER"
             }
         },
@@ -17140,6 +17142,7 @@
             },
             "Sphere Collider": {
                 "IsTrigger": false,
+                "IsInteract": false,
                 "Center": {
                     "x": 0.0,
                     "y": 0.0,
@@ -17172,7 +17175,7 @@
                 },
                 "Rotation": {
                     "x": 0.0,
-                    "y": -0.0,
+                    "y": 0.0,
                     "z": 0.0
                 }
             },
@@ -17323,46 +17326,46 @@
         }
     },
     "Scripts": {
-        "304": {},
-        "191": {},
         "15": {},
         "320": {},
         "207": {},
+        "304": {},
+        "191": {},
         "9": {},
         "322": {},
         "201": {},
-        "3": {},
-        "324": {},
         "195": {},
-        "189": {},
+        "324": {},
+        "3": {},
         "310": {},
-        "187": {},
+        "189": {},
         "316": {},
-        "185": {},
+        "187": {},
         "306": {},
-        "183": {},
+        "185": {},
         "296": {},
-        "181": {},
+        "183": {},
         "302": {},
-        "179": {},
+        "181": {},
         "308": {},
-        "177": {},
+        "179": {},
         "298": {},
-        "171": {},
+        "177": {},
         "300": {},
-        "169": {},
+        "171": {},
         "290": {},
-        "163": {},
+        "169": {},
         "292": {},
-        "7": {},
-        "135": {},
+        "163": {},
         "312": {},
-        "5": {},
-        "133": {},
+        "135": {},
+        "7": {},
         "318": {},
-        "1": {},
-        "129": {},
+        "133": {},
+        "5": {},
         "314": {},
+        "129": {},
+        "1": {},
         "2": {},
         "4": {},
         "6": {},
@@ -18065,46 +18068,46 @@
         }
     },
     "Active Archetype": {
-        "304": "1100000000001",
-        "191": "1100001000000",
         "15": "1100001000000",
         "320": "1100000000000",
         "207": "1100001000000",
+        "304": "1100000000001",
+        "191": "1100001000000",
         "9": "1100001000000",
         "322": "1100000000000",
         "201": "1100001000000",
-        "3": "1100001000000",
-        "324": "1100000000000",
         "195": "1100001000000",
-        "189": "1100001000000",
+        "324": "1100000000000",
+        "3": "1100001000000",
         "310": "1100000000001",
-        "187": "1100001000000",
+        "189": "1100001000000",
         "316": "1100000000000",
-        "185": "1100001000000",
+        "187": "1100001000000",
         "306": "1100000000001",
-        "183": "1100001000000",
+        "185": "1100001000000",
         "296": "1100000000000",
-        "181": "1100001000000",
+        "183": "1100001000000",
         "302": "1100000000001",
-        "179": "1100001000000",
+        "181": "1100001000000",
         "308": "1100000000001",
-        "177": "1100001000000",
+        "179": "1100001000000",
         "298": "1100000000001",
-        "171": "1100001000000",
+        "177": "1100001000000",
         "300": "1100000000001",
-        "169": "1100001000000",
+        "171": "1100001000000",
         "290": "1100000000001",
-        "163": "1100001000000",
+        "169": "1100001000000",
         "292": "1100000000001",
-        "7": "1100001000000",
-        "135": "1100001000000",
+        "163": "1100001000000",
         "312": "1100000000001",
-        "5": "1100001010000",
-        "133": "1100001000000",
+        "135": "1100001000000",
+        "7": "1100001000000",
         "318": "1100000000001",
-        "1": "1100001000000",
-        "129": "1100001000000",
+        "133": "1100001000000",
+        "5": "1100001000000",
         "314": "1100000000000",
+        "129": "1100001000000",
+        "1": "1100001000000",
         "2": "1100001000000",
         "4": "1100001000000",
         "6": "1100001000000",
@@ -18159,7 +18162,7 @@
         "385": "11000010000000",
         "58": "1100001000000",
         "59": "1100001000000",
-        "60": "1100001000000",
+        "60": "1100001010000",
         "61": "1100001000000",
         "62": "1100001000000",
         "63": "1100001000000",

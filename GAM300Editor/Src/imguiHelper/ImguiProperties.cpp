@@ -1012,7 +1012,7 @@ namespace TDS
 			}
 			else if (propertyName.get_type() == rttr::type::get<SphereCollider::AImode>())
 			{
-				static std::vector<std::string> rigidbodyMotionTypeString = { "NONE", "MONSTER", "PLAYER" };
+				static std::vector<std::string> rigidbodyMotionTypeString = { "NONE", "MONSTER", "PLAYER", "INTERACTABLE"};
 				int newValue = propertyName.get_value(componentInstance).convert<int>();
 				ImguiInput(propertyName.get_name().to_string(), rigidbodyMotionTypeString, newValue);
 				propertyName.set_value(componentInstance, static_cast<SphereCollider::AImode>(newValue));
