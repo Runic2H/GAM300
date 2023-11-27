@@ -202,24 +202,20 @@ namespace TDS
 						Vec3 interactable = { _transform[i].GetPosition().x, 0, _transform[i].GetPosition().z };
 						Vec3 playerPos = { _transform[j].GetPosition().x, 0, _transform[j].GetPosition().z };
 						float length = Vec3::Distance(playerPos, interactable);
-						TDS_INFO("player: {}", playerPos);
-						TDS_INFO("interact: {}", interactable);
 						float diffX = playerPos.x - interactable.x;
 						float diffY = playerPos.y - interactable.y;
 						float diffZ = playerPos.z - interactable.z;
-						TDS_INFO("diff: {}, {}, {}", diffX, diffY, diffZ);
-						TDS_INFO("length: {}", length);
 						//return Mathf::Sqrt(diffX * diffX + diffY * diffY + diffZ * diffZ);
 
 						//TDS_INFO("{}", length);
 						if (length <= radii)
 						{
 
-							_collider[i].SetInteract(true);
+							_collider[i].SetIsInteract(true);
 						}
 						else
 						{
-							_collider[i].SetInteract(false);
+							_collider[i].SetIsInteract(false);
 						}
 					}
 				}

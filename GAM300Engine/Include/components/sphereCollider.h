@@ -53,8 +53,8 @@ namespace TDS
 		DLL_API bool& GetIsTrigger() { return mIsTrigger; }
 		DLL_API void SetIsTrigger(bool isTrigger) { mIsTrigger = isTrigger; }
 
-		DLL_API bool& GetInteract() { return mInteract; }
-		DLL_API void SetInteract(bool input) { mInteract = input; }
+		DLL_API bool& GetIsInteract() { return mIsInteract; }
+		DLL_API void SetIsInteract(bool input) { mIsInteract = input; }
 
 		DLL_API Vec3& GetCenter() { return mCenter; }
 		DLL_API void SetCenter(Vec3 center) { mCenter = center; }
@@ -71,7 +71,7 @@ namespace TDS
 
 	private:
 		bool mIsTrigger;
-		bool mInteract;
+		bool mIsInteract;
 		//Material mMaterial;
 		Vec3 mCenter;
 		float mRadius;

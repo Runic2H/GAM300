@@ -98,7 +98,7 @@ public class GhostMovement : Script
         {
             isPatrol = true;
         }
-        Console.WriteLine(isChasingPlayer);
+        //Console.WriteLine(isChasingPlayer);
 
         List<Vector3> waypointVector = new List<Vector3>();
         //Console.WriteLine( GameObjectScriptFind("Waypoint"));

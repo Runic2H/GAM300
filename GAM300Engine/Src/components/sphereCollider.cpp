@@ -17,7 +17,7 @@ RTTR_REGISTRATION
 
 	rttr::registration::class_<SphereCollider>("Sphere Collider")
 		.property("IsTrigger", &SphereCollider::mIsTrigger)
-		.property("IsInteract", &SphereCollider::mInteract)
+		.property("IsInteract", &SphereCollider::mIsInteract)
 		.property("Center", &SphereCollider::mCenter)
 		.property("Radius", &SphereCollider::mRadius)
 		.property("AImode", &SphereCollider::AI);
@@ -39,7 +39,7 @@ namespace TDS
 	Initializes the Collider component when created
 	****************************************************************************/
 	SphereCollider::SphereCollider() : mIsTrigger(false),
-									mInteract(false),
+									mIsInteract(false),
 									mCenter(Vec3(0.0f, 0.0f, 0.0f)),
 									mRadius(0.5f),
 									AI(AImode::NONE)
@@ -53,7 +53,7 @@ namespace TDS
 	component to move (for ECS)
 	****************************************************************************/
 	SphereCollider::SphereCollider(SphereCollider&& toMove) noexcept : mIsTrigger(toMove.mIsTrigger),
-																		mInteract(toMove.mInteract),
+																		mIsInteract(toMove.mIsInteract),
 																		mCenter(toMove.mCenter),
 																		mRadius(toMove.mRadius),
 																		AI(toMove.AI)
