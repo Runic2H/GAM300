@@ -1,40 +1,103 @@
 {
     "Archetype Sizes": {
-        "1100001000000": {
+        "11000010000000": {
             "0": 544,
             "1": 800,
             "6": 1056
         },
-        "1101001100000": {
+        "11010011000000": {
             "0": 136,
             "1": 200,
             "3": 40,
             "6": 264,
             "7": 88
         },
-        "1100010100000": {
+        "11000101000000": {
             "0": 136,
             "1": 200,
             "5": 40,
             "7": 88
         },
-        "1100100000000": {
+        "11001000000000": {
             "0": 136,
             "1": 200,
             "4": 56
-        },
-        "1100000000000": {
-            "0": 136,
-            "1": 200
-        },
-        "11000000000000": {
-            "0": 136,
-            "1": 200
         }
     },
     "Entity Data": {
+        "1": {
+            "ArchetypeID": "11000101000000",
+            "Name Tag": {
+                "Name": "Player",
+                "Tag": "",
+                "IsActive": true,
+                "HierarchyParent": 0,
+                "HierarchyIndex": 0,
+                "HierarchyChildren": [
+                    20
+                ]
+            },
+            "Transform": {
+                "Position": {
+                    "x": 0.0,
+                    "y": 50.0,
+                    "z": -45.0
+                },
+                "Scale": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                },
+                "Rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                }
+            },
+            "Capsule Collider": {
+                "IsTrigger": false,
+                "Center": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "Radius": 0.5,
+                "Height": 2.0
+            },
+            "Rigid Body": {
+                "Mass": 1.0,
+                "Linear Velocity": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "Angular Velocity": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "Friction": 0.20000000298023224,
+                "Restitution": 0.0,
+                "GravityFactor": 1.0,
+                "LinearDamping": 0.05000000074505806,
+                "AngularDamping": 0.05000000074505806,
+                "MotionType": "DYNAMIC",
+                "UseGravity": true,
+                "sensorActivate": false,
+                "AABBmin": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "AABBmax": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                }
+            }
+        },
         "17": {
-            "ArchetypeID": "1101001100000",
+            "ArchetypeID": "11010011000000",
             "Name Tag": {
                 "Name": "Main_F",
                 "Tag": "",
@@ -120,79 +183,8 @@
                 }
             }
         },
-        "1": {
-            "ArchetypeID": "1100010100000",
-            "Name Tag": {
-                "Name": "Player",
-                "Tag": "",
-                "IsActive": true,
-                "HierarchyParent": 0,
-                "HierarchyIndex": 0,
-                "HierarchyChildren": [
-                    20
-                ]
-            },
-            "Transform": {
-                "Position": {
-                    "x": 0.0,
-                    "y": 50.0,
-                    "z": -45.0
-                },
-                "Scale": {
-                    "x": 1.0,
-                    "y": 1.0,
-                    "z": 1.0
-                },
-                "Rotation": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                }
-            },
-            "Capsule Collider": {
-                "IsTrigger": false,
-                "Center": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                },
-                "Radius": 0.5,
-                "Height": 2.0
-            },
-            "Rigid Body": {
-                "Mass": 1.0,
-                "Linear Velocity": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                },
-                "Angular Velocity": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                },
-                "Friction": 0.20000000298023224,
-                "Restitution": 0.0,
-                "GravityFactor": 1.0,
-                "LinearDamping": 0.05000000074505806,
-                "AngularDamping": 0.05000000074505806,
-                "MotionType": "DYNAMIC",
-                "UseGravity": true,
-                "sensorActivate": false,
-                "AABBmin": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                },
-                "AABBmax": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                }
-            }
-        },
         "18": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Kitchen_F",
                 "Tag": "",
@@ -235,7 +227,7 @@
             }
         },
         "19": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Gallery_F",
                 "Tag": "",
@@ -278,7 +270,7 @@
             }
         },
         "15": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Floor",
                 "Tag": "",
@@ -326,7 +318,7 @@
             }
         },
         "16": {
-            "ArchetypeID": "1100001000000",
+            "ArchetypeID": "11000010000000",
             "Name Tag": {
                 "Name": "Toilet_F",
                 "Tag": "",
@@ -369,7 +361,7 @@
             }
         },
         "20": {
-            "ArchetypeID": "1100100000000",
+            "ArchetypeID": "11001000000000",
             "Name Tag": {
                 "Name": "Camera",
                 "Tag": "",
@@ -407,66 +399,9 @@
                 "FOV": 60.0,
                 "MouseSensitivity": 0.10000000149011612
             }
-        },
-        "21": {
-            "ArchetypeID": "1100000000000",
-            "Name Tag": {
-                "Name": "New Entity",
-                "Tag": "",
-                "IsActive": true,
-                "HierarchyParent": 0,
-                "HierarchyIndex": 2,
-                "HierarchyChildren": []
-            },
-            "Transform": {
-                "Position": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                },
-                "Scale": {
-                    "x": 1.0,
-                    "y": 1.0,
-                    "z": 1.0
-                },
-                "Rotation": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                }
-            }
-        },
-        "22": {
-            "ArchetypeID": "11000000000000",
-            "Name Tag": {
-                "Name": "toTest",
-                "Tag": "",
-                "IsActive": true,
-                "HierarchyParent": 0,
-                "HierarchyIndex": 3,
-                "HierarchyChildren": []
-            },
-            "Transform": {
-                "Position": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                },
-                "Scale": {
-                    "x": 1.0,
-                    "y": 1.0,
-                    "z": 1.0
-                },
-                "Rotation": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                }
-            }
         }
     },
     "Scripts": {
-        "17": {},
         "1": {
             "FPS_Controller_Script": {
                 "rb": {
@@ -501,12 +436,6 @@
                 },
                 "pitch": {
                     "Float": -44.444435
-                },
-                "testRB": {
-                    "Component": 0
-                },
-                "gameDataManager": {
-                    "GameDataManager": 0
                 },
                 "enableZoom": {
                     "Bool": true
@@ -675,169 +604,20 @@
                 }
             }
         },
+        "17": {},
         "18": {},
         "19": {},
         "15": {},
         "16": {},
-        "20": {},
-        "21": {
-            "GameDataManager": {
-                "data": {
-                    "GameData": 0
-                },
-                "file": {
-                    "String": "data.txt"
-                },
-                "gameObject": {
-                    "GameObject": 21
-                },
-                "is_Enabled": {
-                    "Bool": true
-                },
-                "is_Awake": {
-                    "Bool": true
-                },
-                "is_Start": {
-                    "Bool": true
-                }
-            }
-        },
-        "22": {
-            "CheckGameState": {
-                "_CurrentState": {
-                    "GameState": 0
-                },
-                "myGameDataManager": {
-                    "GameDataManager": 0
-                },
-                "gameObject": {
-                    "GameObject": 22
-                },
-                "is_Enabled": {
-                    "Bool": true
-                },
-                "is_Awake": {
-                    "Bool": false
-                },
-                "is_Start": {
-                    "Bool": true
-                }
-            },
-            "Flashlight_Script": {
-                "lightIntensity": {
-                    "Float": 0.0
-                },
-                "lightSourceObj": {
-                    "GameObject": 0
-                },
-                "activateLight": {
-                    "Bool": false
-                },
-                "myGameDataManager": {
-                    "GameDataManager": 0
-                },
-                "flicker": {
-                    "Bool": false
-                },
-                "flickerTimer": {
-                    "Float": 0.0
-                },
-                "gameObject": {
-                    "GameObject": 22
-                },
-                "is_Enabled": {
-                    "Bool": true
-                },
-                "is_Awake": {
-                    "Bool": false
-                },
-                "is_Start": {
-                    "Bool": true
-                }
-            },
-            "GameDataManager": {
-                "data": {
-                    "GameData": 0
-                },
-                "file": {
-                    "String": "data.txt"
-                },
-                "gameObject": {
-                    "GameObject": 22
-                },
-                "is_Enabled": {
-                    "Bool": true
-                },
-                "is_Awake": {
-                    "Bool": false
-                },
-                "is_Start": {
-                    "Bool": true
-                }
-            },
-            "Hiding": {
-                "interactable": {
-                    "Bool": false
-                },
-                "hiding": {
-                    "Bool": false
-                },
-                "hidingPos": {
-                    "Vector3": {
-                        "X": 0.0,
-                        "Y": 0.0,
-                        "Z": 0.0
-                    }
-                },
-                "nonHidingPos": {
-                    "Vector3": {
-                        "X": 0.0,
-                        "Y": 0.0,
-                        "Z": 0.0
-                    }
-                },
-                "_RotationAngle": {
-                    "Float": 0.0
-                },
-                "player": {
-                    "GameObject": 1
-                },
-                "_flashlight": {
-                    "Flashlight_Script": 0
-                },
-                "_InteractUI": {
-                    "GameObject": 0
-                },
-                "myGameState": {
-                    "CheckGameState": 0
-                },
-                "playedAudio": {
-                    "Bool": false
-                },
-                "gameObject": {
-                    "GameObject": 22
-                },
-                "is_Enabled": {
-                    "Bool": true
-                },
-                "is_Awake": {
-                    "Bool": false
-                },
-                "is_Start": {
-                    "Bool": true
-                }
-            }
-        }
+        "20": {}
     },
     "Active Archetype": {
-        "17": "1101001100000",
         "1": "1100010100000",
+        "17": "1101001100000",
         "18": "1100001000000",
         "19": "1100001000000",
         "15": "1100001000000",
         "16": "1100001000000",
-        "20": "1100100000000",
-        "21": "1100000000000",
-        "22": "11000000000000"
+        "20": "1100100000000"
     }
 }

@@ -220,19 +220,19 @@ namespace TDS
 	{
 		for (EntityID childID : ecs.getComponent<NameTag>(entityID)->GetHierarchyChildren())
 		{
-			removeEntity(entityID);
+			removeEntity(childID);
 		}
 
-		EntityID parent = ecs.getComponent<NameTag>(selectedEntity)->GetHierarchyParent();
+		EntityID parent = ecs.getComponent<NameTag>(entityID)->GetHierarchyParent();
 
 		if (parent == 0)
 		{
-			hierarchyList.erase(std::find(hierarchyList.begin(), hierarchyList.end(), selectedEntity));
+			hierarchyList.erase(std::find(hierarchyList.begin(), hierarchyList.end(), entityID));
 		}
 		else
 		{
 			auto& siblings = ecs.getComponent<NameTag>(parent)->GetHierarchyChildren();
-			siblings.erase(std::find(siblings.begin(), siblings.end(), selectedEntity));
+			siblings.erase(std::find(siblings.begin(), siblings.end(), entityID));
 		}
 
 		// Removing all instance of the removed entity
@@ -253,7 +253,7 @@ namespace TDS
 
 				for (ScriptValues scriptValue : allValues)
 				{
-					if (scriptValue.referenceEntityID == selectedEntity) // there is a entity reference 
+					if (scriptValue.referenceEntityID == entityID) // there is a entity reference 
 					{
 						if (scriptValue.type == "ScriptAPI.GameObject")
 						{
@@ -268,7 +268,7 @@ namespace TDS
 			}
 		}
 
-		ecs.removeEntity(selectedEntity);
+		ecs.removeEntity(entityID);
 		selectedEntity = 0;
 	}
 
@@ -399,6 +399,10 @@ namespace TDS
 				if (ImGui::Selectable("Remove Entity"))
 				{
 					removeEntity(selectedEntity);
+					ImGui::EndPopup();
+					ImGui::Unindent();
+					ImGui::PopID();
+					return;
 				}
 
 				ImGui::EndPopup();
@@ -466,6 +470,13 @@ namespace TDS
 			if (ImGui::Selectable("Remove Entity"))
 			{
 				removeEntity(selectedEntity);
+				ImGui::EndPopup();
+				ImGui::PopID();
+				if (opened)
+				{
+					ImGui::TreePop();
+				}
+				return;
 			}
 
 			ImGui::EndPopup();
@@ -605,11 +616,11 @@ namespace TDS
 				{
 					drawHierarchy(childEntity);
 
-					if (originalSize != hierarchyList.size())
-					{
-						ImGui::TreePop();
-						return;
-					}
+					//if (originalSize != hierarchyList.size())
+					//{
+					//	ImGui::TreePop();
+					//	return;
+					//}
 				}
 				ImGui::TreePop();
 			}
@@ -647,6 +658,10 @@ namespace TDS
 						if (ImGui::Selectable("Remove Entity"))
 						{
 							removeEntity(selectedEntity);
+							ImGui::EndPopup();
+							ImGui::Unindent();
+							ImGui::PopID();
+							return;
 						}
 
 						ImGui::EndPopup();

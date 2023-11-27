@@ -438,7 +438,6 @@ public class FPS_Controller_Script : Script
 
                 Vector3 transformPosition = transform.GetPosition();
                 transform.SetPosition(new Vector3(transformPosition.X + velocityChange.X, transformPosition.Y, transformPosition.Z + velocityChange.Z));
-
             }
 
         }
