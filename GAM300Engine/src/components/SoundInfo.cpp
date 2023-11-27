@@ -23,7 +23,8 @@ rttr::registration::class_<SoundInfo>("Audio")
 .method("is3D", &SoundInfo::is3D)
 .method("play", &SoundInfo::play)
 .method("pause", &SoundInfo::pause)
-.method("stop", &SoundInfo::stop);
+.method("stop", &SoundInfo::stop)
+.method("setFilePath", &SoundInfo::setFilePath);
 }
 
 namespace TDS
@@ -211,7 +212,7 @@ namespace TDS
         MSLength = 0;
         uniqueID = ID_Count++; //Change UID to include time when added
     }
-
+    
     SoundInfo* GetSoundInfo(EntityID ID)
     {
         return ecs.getComponent<SoundInfo>(ID);

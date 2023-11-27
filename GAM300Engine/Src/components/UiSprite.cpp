@@ -28,8 +28,6 @@ namespace TDS
 		.method("SetFontMessage", &UISprite::SetFontMessage)
 		.method("SetFontColour", &UISprite::SetFontColour)
 		.method("SetFontBackgroundColour", &UISprite::SetFontBackgroundColour);
-
-
 	}
 		UISprite::UISprite() :
 		m_TextureReference(),

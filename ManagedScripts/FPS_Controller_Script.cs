@@ -1,6 +1,6 @@
 ﻿using ScriptAPI;
 using System;
-    
+
 public class FPS_Controller_Script : Script
 {
     public RigidBodyComponent rb;
