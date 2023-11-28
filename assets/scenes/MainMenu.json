@@ -10,6 +10,7 @@
     "Entity Data": {
         "1": {
             "ArchetypeID": "11000010000010",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "BackGround",
                 "Tag": "",
@@ -87,6 +88,7 @@
         },
         "2": {
             "ArchetypeID": "11000010000010",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "PlayButton",
                 "Tag": "",
@@ -164,6 +166,7 @@
         },
         "3": {
             "ArchetypeID": "11000010000010",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "SettingsButton",
                 "Tag": "",
@@ -241,6 +244,7 @@
         },
         "4": {
             "ArchetypeID": "11000010000010",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "QuitButton",
                 "Tag": "",
@@ -318,6 +322,7 @@
         },
         "5": {
             "ArchetypeID": "11000010000010",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "TeamLogo",
                 "Tag": "",
@@ -395,6 +400,7 @@
         },
         "6": {
             "ArchetypeID": "11000010000010",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Title",
                 "Tag": "",
@@ -482,7 +488,7 @@
                     "Bool": true
                 },
                 "is_Awake": {
-                    "Bool": false
+                    "Bool": true
                 },
                 "is_Start": {
                     "Bool": true

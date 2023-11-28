@@ -162,6 +162,12 @@ namespace TDS
 
 					continue;
 				}
+				if (componentName == "Enabled")
+				{
+					ecs.setEntityIsEnabled(currentEntity, m.value.GetBool());
+					ecs.setEntityPreviouslyEnabled(currentEntity);
+					continue;
+				}
 
 				rapidjson::Value componentData;
 				componentData.CopyFrom(m.value, doc.GetAllocator());
@@ -346,6 +352,9 @@ namespace TDS
 
 			writer->Key("ArchetypeID");
 			writer->String(archetype.c_str());
+
+			writer->String("Enabled", static_cast<rapidjson::SizeType>(std::string("Enabled").length()), false);
+			writer->Bool(ecs.getEntityIsEnabled(entityList[i]));
 
 			for (std::string j : ecs.getEntityComponents(entityList[i]))
 			{

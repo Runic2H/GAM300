@@ -63,7 +63,7 @@ namespace ScriptAPI
 		return IsInteract;
 	}
 
-	void SphereColliderComponent::GetIsInteract(bool value)
+	void SphereColliderComponent::SetIsInteract(bool value)
 	{
 		IsInteract = value;
 	}

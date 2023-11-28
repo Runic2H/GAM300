@@ -12,7 +12,7 @@ namespace ScriptAPI
 		void SetIsTrigger(bool value);
 
 		bool GetIsInteract();
-		void GetIsInteract(bool value);
+		void SetIsInteract(bool value);
 
 		Vector3 GetCenter();
 		void SetCenter(Vector3 value);

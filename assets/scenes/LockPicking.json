@@ -9,11 +9,16 @@
             "0": 272,
             "1": 400,
             "6": 528
+        },
+        "11000000000000": {
+            "0": 136,
+            "1": 200
         }
     },
     "Entity Data": {
         "1": {
             "ArchetypeID": "11000000000010",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "OuterLock",
                 "Tag": "",
@@ -76,6 +81,7 @@
         },
         "2": {
             "ArchetypeID": "11000000000010",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "InnerLock",
                 "Tag": "",
@@ -138,12 +144,13 @@
         },
         "3": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "LockPick",
                 "Tag": "",
                 "IsActive": true,
-                "HierarchyParent": 0,
-                "HierarchyIndex": 2,
+                "HierarchyParent": 5,
+                "HierarchyIndex": 0,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -181,12 +188,13 @@
         },
         "4": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "New Entity",
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 0,
-                "HierarchyIndex": 3,
+                "HierarchyIndex": 2,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -220,6 +228,37 @@
                     "w": 1.0
                 },
                 "Used In 2D": false
+            }
+        },
+        "5": {
+            "ArchetypeID": "11000000000000",
+            "Enabled": true,
+            "Name Tag": {
+                "Name": "Lock Camera",
+                "Tag": "",
+                "IsActive": true,
+                "HierarchyParent": 0,
+                "HierarchyIndex": 3,
+                "HierarchyChildren": [
+                    3
+                ]
+            },
+            "Transform": {
+                "Position": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "Scale": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                },
+                "Rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                }
             }
         }
     },
@@ -256,7 +295,7 @@
                     "FPS_Controller_Script": 0
                 },
                 "lockObject": {
-                    "GameObject": 0
+                    "GameObject": 5
                 },
                 "difficultyLvl": {
                     "String": ""
@@ -295,12 +334,12 @@
                     "Float": 0.2991557
                 },
                 "unlockAngle": {
-                    "Float": -73.0
+                    "Float": -36.0
                 },
                 "unlockRange": {
                     "Vector3": {
-                        "X": -83.0,
-                        "Y": -63.0,
+                        "X": -46.0,
+                        "Y": -26.0,
                         "Z": 0.0
                     }
                 },
@@ -329,40 +368,11 @@
                 "currentRattlePlaying": {
                     "Int": 0
                 },
-                "gameObject": {
-                    "GameObject": 3
+                "timer": {
+                    "Float": 1.2
                 },
-                "is_Enabled": {
-                    "Bool": true
-                },
-                "is_Awake": {
+                "passed": {
                     "Bool": false
-                },
-                "is_Start": {
-                    "Bool": true
-                }
-            },
-            "Test": {
-                "gameObjectTest": {
-                    "GameObject": 0
-                },
-                "scriptTest": {
-                    "Testing": 0
-                },
-                "stringTest": {
-                    "String": ""
-                },
-                "boolTest": {
-                    "Bool": true
-                },
-                "doubleTest": {
-                    "Double": 0.0
-                },
-                "intTest": {
-                    "Int": 0
-                },
-                "floatTest": {
-                    "Float": 3.0
                 },
                 "gameObject": {
                     "GameObject": 3
@@ -378,12 +388,14 @@
                 }
             }
         },
-        "4": {}
+        "4": {},
+        "5": {}
     },
     "Active Archetype": {
         "1": "1100000000001",
         "2": "1100000000001",
         "3": "1100001000000",
-        "4": "1100001000000"
+        "4": "1100001000000",
+        "5": "11000000000000"
     }
 }

@@ -28,21 +28,21 @@
         }
     },
     "Entity Data": {
-        "191": {
+        "15": {
             "ArchetypeID": "11000010000000",
             "Name Tag": {
-                "Name": "Tube_13__2",
+                "Name": "Left Hallway Door Left Wall",
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 248,
+                "HierarchyIndex": 122,
                 "HierarchyChildren": []
             },
             "Transform": {
                 "Position": {
-                    "x": -2340.098388671875,
-                    "y": 288.81365966796875,
-                    "z": 171.50428771972656
+                    "x": -800.475341796875,
+                    "y": 296.58447265625,
+                    "z": 352.5708312988281
                 },
                 "Scale": {
                     "x": 2.200000047683716,
@@ -1643,49 +1643,6 @@
                 "Used In 2D": false
             }
         },
-        "7": {
-            "ArchetypeID": "11000010000000",
-            "Name Tag": {
-                "Name": "Study Door Top Part (1)",
-                "Tag": "",
-                "IsActive": true,
-                "HierarchyParent": 1,
-                "HierarchyIndex": 2,
-                "HierarchyChildren": []
-            },
-            "Transform": {
-                "Position": {
-                    "x": -2334.27099609375,
-                    "y": 427.71728515625,
-                    "z": 174.99998474121094
-                },
-                "Scale": {
-                    "x": 1.0,
-                    "y": 1.0,
-                    "z": 1.0
-                },
-                "Rotation": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                }
-            },
-            "Graphics Component": {
-                "PointLight": false,
-                "TextureName": "White.dds",
-                "Mesh Renderer": true,
-                "Debug": false,
-                "ModelName": "Mansion Layout_Bin.bin",
-                "MeshName": "OUTSing_Study",
-                "Color": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0,
-                    "w": 0.0
-                },
-                "Used In 2D": false
-            }
-        },
         "312": {
             "ArchetypeID": "11000000000010",
             "Name Tag": {
@@ -1794,18 +1751,18 @@
         "7": {
             "ArchetypeID": "11000010000000",
             "Name Tag": {
-                "Name": "Ceiling",
+                "Name": "Study Door Top Part (1)",
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 0,
+                "HierarchyIndex": 2,
                 "HierarchyChildren": []
             },
             "Transform": {
                 "Position": {
-                    "x": -399.70147705078125,
-                    "y": 487.03643798828125,
-                    "z": -152.4196319580078
+                    "x": -2334.27099609375,
+                    "y": 427.71728515625,
+                    "z": 174.99998474121094
                 },
                 "Scale": {
                     "x": 1.0,
@@ -1821,10 +1778,10 @@
             "Graphics Component": {
                 "PointLight": false,
                 "TextureName": "White.dds",
-                "Mesh Renderer": false,
+                "Mesh Renderer": true,
                 "Debug": false,
                 "ModelName": "Mansion Layout_Bin.bin",
-                "MeshName": "Ceiling",
+                "MeshName": "OUTSing_Study",
                 "Color": {
                     "x": 0.0,
                     "y": 0.0,
@@ -2412,111 +2369,6 @@
                     "y": 1.0,
                     "z": 1.0,
                     "w": 1.0
-                },
-                "Used In 2D": false
-            }
-        },
-        "314": {
-            "ArchetypeID": "11000000000010",
-            "Name Tag": {
-                "Name": "Item2",
-                "Tag": "",
-                "IsActive": true,
-                "HierarchyParent": 291,
-                "HierarchyIndex": 0,
-                "HierarchyChildren": []
-            },
-            "Transform": {
-                "Position": {
-                    "x": -0.6390001773834229,
-                    "y": 0.3149999976158142,
-                    "z": 0.0
-                },
-                "Scale": {
-                    "x": 0.19999998807907104,
-                    "y": 0.3500000238418579,
-                    "z": 1.0
-                },
-                "Rotation": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                }
-            },
-            "UI Sprite": {
-                "Texture": "",
-                "EnableSprite": true,
-                "LayerID": 1,
-                "is Font": false,
-                "message": "",
-                "Font Texture": "",
-                "ForeGroundColour": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0,
-                    "w": 0.0
-                },
-                "Sprite Color": {
-                    "x": 0.10000000149011612,
-                    "y": 0.10000000149011612,
-                    "z": 0.10000000149011612,
-                    "w": 1.0
-                },
-                "BackGroundColour": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0,
-                    "w": 1.0
-                },
-                "BoundingBoxMin": {
-                    "x": -0.7390002012252808,
-                    "y": 0.13999998569488525
-                },
-                "BoundingBoxMax": {
-                    "x": -0.5390001535415649,
-                    "y": 0.49000000953674316
-                }
-            }
-        },
-        "129": {
-            "ArchetypeID": "11000010000000",
-            "Name Tag": {
-                "Name": "Engraving__7",
-                "Tag": "",
-                "IsActive": true,
-                "HierarchyParent": 1,
-                "HierarchyIndex": 205,
-                "HierarchyChildren": []
-            },
-            "Transform": {
-                "Position": {
-                    "x": -1991.7135009765625,
-                    "y": 284.0278625488281,
-                    "z": -65.49522399902344
-                },
-                "Scale": {
-                    "x": 1.100000023841858,
-                    "y": 1.2200000286102295,
-                    "z": 1.100000023841858
-                },
-                "Rotation": {
-                    "x": 0.0,
-                    "y": -1.570796251296997,
-                    "z": 0.0
-                }
-            },
-            "Graphics Component": {
-                "PointLight": false,
-                "TextureName": "",
-                "Mesh Renderer": true,
-                "Debug": false,
-                "ModelName": "Mansion Layout_Bin.bin",
-                "MeshName": "Engraving__7",
-                "Color": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0,
-                    "w": 0.0
                 },
                 "Used In 2D": false
             }
