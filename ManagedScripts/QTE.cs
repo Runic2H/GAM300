@@ -25,6 +25,8 @@ public class QTE : Script
         else
         {
             isQTE = false;
+            gameObject.GetSphereColliderComponent().SetIsInteract(false);
+            gameObject.GetSphereColliderComponent().SetIsTrigger(false);
         }
 
         if (isQTE)

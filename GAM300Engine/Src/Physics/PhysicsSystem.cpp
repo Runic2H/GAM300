@@ -172,19 +172,20 @@ namespace TDS
 				for (int j = 0; j < entities.size(); ++j)
 				{
 					if (i == j) continue;
-					if (_collider[i].getAImode() == SphereCollider::AImode::MONSTER && _collider[j].getAImode() == SphereCollider::AImode::PLAYER)
+					if (_collider[i].getAImode() != SphereCollider::AImode::PLAYER) continue;
+					if (_collider[j].getAImode() == SphereCollider::AImode::MONSTER)
 					{
 						float radii = _collider[i].GetRadius() + _collider[j].GetRadius();
 						float length = Vec3::Distance(_transform[i].GetPosition(), _transform[j].GetPosition());
 						if (length <= radii)
 						{
-							_collider[i].SetIsTrigger(true);
+							_collider[j].SetIsTrigger(true);
 						}
 						else
 						{
-							_collider[i].SetIsTrigger(false);
+							_collider[j].SetIsTrigger(false);
 						}
-						if (_collider[i].GetIsTrigger())
+						if (_collider[j].GetIsTrigger())
 						{
 							Vec3 monsterPos = _transform[i].GetPosition();
 							Vec3 playerPos = _transform[j].GetPosition();
@@ -193,14 +194,14 @@ namespace TDS
 
 							float speed = 300.0f;
 							monsterPos = monsterPos + direction * speed * TimeStep::GetFixedDeltaTime();
-							_transform[i].SetPosition({ monsterPos.x, _transform[i].GetPosition().y, monsterPos.z });
+							_transform[j].SetPosition({ monsterPos.x, _transform[j].GetPosition().y, monsterPos.z });
 						}
 					}
-					else if (_collider[i].getAImode() == SphereCollider::AImode::INTERACTABLE && _collider[j].getAImode() == SphereCollider::AImode::PLAYER)
+					else if (_collider[j].getAImode() == SphereCollider::AImode::INTERACTABLE)
 					{
 						float radii = _collider[i].GetRadius() + _collider[j].GetRadius();
-						Vec3 interactable = { _transform[i].GetPosition().x, 0, _transform[i].GetPosition().z };
-						Vec3 playerPos = { _transform[j].GetPosition().x, 0, _transform[j].GetPosition().z };
+						Vec3 interactable = { _transform[j].GetPosition().x, 0, _transform[j].GetPosition().z };
+						Vec3 playerPos = { _transform[i].GetPosition().x, 0, _transform[i].GetPosition().z };
 						float length = Vec3::Distance(playerPos, interactable);
 						float diffX = playerPos.x - interactable.x;
 						float diffY = playerPos.y - interactable.y;
@@ -216,18 +217,18 @@ namespace TDS
 
 							_collider[j].SetIsTrigger(true);
 						}
-						else
+						/*else
 						{
 							_collider[i].SetIsInteract(false);
 							_collider[j].SetIsInteract(false);
 
 							_collider[j].SetIsTrigger(false);
-						}
+						}*/
 
-						if (_collider[j].GetIsTrigger())
+						if (_collider[j].GetIsInteract())
 						{
-							NameTag* vNameTag = ecs.getComponent<NameTag>(entities[i]);
-							_collider[j].setColliderName(vNameTag->GetName());
+							NameTag* vNameTag = ecs.getComponent<NameTag>(entities[j]);
+							_collider[i].setColliderName(vNameTag->GetName());
 						}
 					}
 				}
