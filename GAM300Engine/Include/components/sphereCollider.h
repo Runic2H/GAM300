@@ -66,6 +66,9 @@ namespace TDS
 		DLL_API void SetAImode(AImode mode) { AI = mode; }
 		DLL_API AImode& getAImode() { return AI; }
 
+		DLL_API void setColliderName(std::string name) { mColliderName = name; }
+		DLL_API std::string& getColliderName() { return mColliderName; }
+
 		RTTR_ENABLE(IComponent);
 		RTTR_REGISTRATION_FRIEND
 
@@ -76,6 +79,7 @@ namespace TDS
 		Vec3 mCenter;
 		float mRadius;
 		AImode AI;
+		std::string mColliderName;
 	};
 
 	DLL_API SphereCollider* GetSphereCollider(EntityID entityID);

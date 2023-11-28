@@ -20,7 +20,8 @@ RTTR_REGISTRATION
 		.property("IsInteract", &SphereCollider::mIsInteract)
 		.property("Center", &SphereCollider::mCenter)
 		.property("Radius", &SphereCollider::mRadius)
-		.property("AImode", &SphereCollider::AI);
+		.property("AImode", &SphereCollider::AI)
+		.property("ColliderName", &SphereCollider::mColliderName);
 		
 	rttr::registration::enumeration<SphereCollider::AImode>("AImode")
 		(
@@ -42,7 +43,8 @@ namespace TDS
 									mIsInteract(false),
 									mCenter(Vec3(0.0f, 0.0f, 0.0f)),
 									mRadius(0.5f),
-									AI(AImode::NONE)
+									AI(AImode::NONE),
+									mColliderName("")
 	{
 		//CreateJPHSphereCollider(mRadius);
 
@@ -56,7 +58,8 @@ namespace TDS
 																		mIsInteract(toMove.mIsInteract),
 																		mCenter(toMove.mCenter),
 																		mRadius(toMove.mRadius),
-																		AI(toMove.AI)
+																		AI(toMove.AI),
+																		mColliderName(toMove.mColliderName)
 	{ }
 
 
