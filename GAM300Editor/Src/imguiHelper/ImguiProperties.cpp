@@ -215,7 +215,7 @@ namespace TDS
 				}
 			}
 
-			int buttonID = 0;
+			int buttonID = 10000;
 			for (auto scriptName : sceneManagerInstance->getAllScripts())
 			{
 				if (!sceneManagerInstance->hasScript(selectedEntity, scriptName))
@@ -546,7 +546,17 @@ namespace TDS
 										}
 									}
 									// Components =====================================================================================
-									else if (scriptValue.type == "Box Collider")
+									else 
+									if (scriptValue.type == "Box Collider" ||
+										scriptValue.type == "Camera" ||
+										scriptValue.type == "Capsule Collider" ||
+										scriptValue.type == "Name Tag" ||
+										scriptValue.type == "Rigid Body" ||
+										scriptValue.type == "Sphere Collider" ||
+										scriptValue.type == "Transform" ||
+										scriptValue.type == "Graphics Component" ||
+										scriptValue.type == "Audio" ||
+										scriptValue.type == "UI Sprite")
 									{
 										if (ImGui::Selectable("None", false, ImGuiSelectableFlags_SpanAllColumns))
 										{
@@ -556,205 +566,7 @@ namespace TDS
 
 										for (EntityID entityID : ecs.getEntities())
 										{
-											if (entityID == selectedEntity || GetBoxCollider(entityID) == nullptr)
-											{
-												continue;
-											}
-
-											if (ImGui::Selectable(ecs.getComponent<NameTag>(entityID)->GetName().c_str(), entityID == selectedEntity, ImGuiSelectableFlags_SpanAllColumns))
-											{
-												sceneManagerInstance->setComponent(selectedEntity, scriptName, scriptValue.name, entityID);
-												ImGui::CloseCurrentPopup();
-											}
-										}
-									}
-									else if (scriptValue.type == "Camera")
-									{
-										if (ImGui::Selectable("None", false, ImGuiSelectableFlags_SpanAllColumns))
-										{
-											sceneManagerInstance->setComponent(selectedEntity, scriptName, scriptValue.name, 0);
-											ImGui::CloseCurrentPopup();
-										}
-
-										for (EntityID entityID : ecs.getEntities())
-										{
-											if (entityID == selectedEntity || GetCameraComponent(entityID) == nullptr)
-											{
-												continue;
-											}
-
-											if (ImGui::Selectable(ecs.getComponent<NameTag>(entityID)->GetName().c_str(), entityID == selectedEntity, ImGuiSelectableFlags_SpanAllColumns))
-											{
-												sceneManagerInstance->setComponent(selectedEntity, scriptName, scriptValue.name, entityID);
-												ImGui::CloseCurrentPopup();
-											}
-										}
-									}
-									else if (scriptValue.type == "Capsule Collider")
-									{
-										if (ImGui::Selectable("None", false, ImGuiSelectableFlags_SpanAllColumns))
-										{
-											sceneManagerInstance->setComponent(selectedEntity, scriptName, scriptValue.name, 0);
-											ImGui::CloseCurrentPopup();
-										}
-
-										for (EntityID entityID : ecs.getEntities())
-										{
-											if (entityID == selectedEntity || GetCapsuleCollider(entityID) == nullptr)
-											{
-												continue;
-											}
-
-											if (ImGui::Selectable(ecs.getComponent<NameTag>(entityID)->GetName().c_str(), entityID == selectedEntity, ImGuiSelectableFlags_SpanAllColumns))
-											{
-												sceneManagerInstance->setComponent(selectedEntity, scriptName, scriptValue.name, entityID);
-												ImGui::CloseCurrentPopup();
-											}
-										}
-									}
-									else if (scriptValue.type == "Name Tag")
-									{
-										if (ImGui::Selectable("None", false, ImGuiSelectableFlags_SpanAllColumns))
-										{
-											sceneManagerInstance->setComponent(selectedEntity, scriptName, scriptValue.name, 0);
-											ImGui::CloseCurrentPopup();
-										}
-
-										for (EntityID entityID : ecs.getEntities())
-										{
-											if (entityID == selectedEntity || GetNameTag(entityID) == nullptr)
-											{
-												continue;
-											}
-
-											if (ImGui::Selectable(ecs.getComponent<NameTag>(entityID)->GetName().c_str(), entityID == selectedEntity, ImGuiSelectableFlags_SpanAllColumns))
-											{
-												sceneManagerInstance->setComponent(selectedEntity, scriptName, scriptValue.name, entityID);
-												ImGui::CloseCurrentPopup();
-											}
-										}
-									}
-									else if (scriptValue.type == "Rigid Body")
-									{
-										if (ImGui::Selectable("None", false, ImGuiSelectableFlags_SpanAllColumns))
-										{
-											sceneManagerInstance->setComponent(selectedEntity, scriptName, scriptValue.name, 0);
-											ImGui::CloseCurrentPopup();
-										}
-
-										for (EntityID entityID : ecs.getEntities())
-										{
-											if (entityID == selectedEntity || GetRigidBody(entityID) == nullptr)
-											{
-												continue;
-											}
-
-											if (ImGui::Selectable(ecs.getComponent<NameTag>(entityID)->GetName().c_str(), entityID == selectedEntity, ImGuiSelectableFlags_SpanAllColumns))
-											{
-												sceneManagerInstance->setComponent(selectedEntity, scriptName, scriptValue.name, entityID);
-												ImGui::CloseCurrentPopup();
-											}
-										}
-									}
-									else if (scriptValue.type == "Sphere Collider")
-									{
-										if (ImGui::Selectable("None", false, ImGuiSelectableFlags_SpanAllColumns))
-										{
-											sceneManagerInstance->setComponent(selectedEntity, scriptName, scriptValue.name, 0);
-											ImGui::CloseCurrentPopup();
-										}
-
-										for (EntityID entityID : ecs.getEntities())
-										{
-											if (entityID == selectedEntity || GetSphereCollider(entityID) == nullptr)
-											{
-												continue;
-											}
-
-											if (ImGui::Selectable(ecs.getComponent<NameTag>(entityID)->GetName().c_str(), entityID == selectedEntity, ImGuiSelectableFlags_SpanAllColumns))
-											{
-												sceneManagerInstance->setComponent(selectedEntity, scriptName, scriptValue.name, entityID);
-												ImGui::CloseCurrentPopup();
-											}
-										}
-									}
-									else if (scriptValue.type == "Transform")
-									{
-										if (ImGui::Selectable("None", false, ImGuiSelectableFlags_SpanAllColumns))
-										{
-											sceneManagerInstance->setComponent(selectedEntity, scriptName, scriptValue.name, 0);
-											ImGui::CloseCurrentPopup();
-										}
-
-										for (EntityID entityID : ecs.getEntities())
-										{
-											if (entityID == selectedEntity || GetTransform(entityID) == nullptr)
-											{
-												continue;
-											}
-
-											if (ImGui::Selectable(ecs.getComponent<NameTag>(entityID)->GetName().c_str(), entityID == selectedEntity, ImGuiSelectableFlags_SpanAllColumns))
-											{
-												sceneManagerInstance->setComponent(selectedEntity, scriptName, scriptValue.name, entityID);
-												ImGui::CloseCurrentPopup();
-											}
-										}
-									}
-									else if (scriptValue.type == "Graphics Component")
-									{
-										if (ImGui::Selectable("None", false, ImGuiSelectableFlags_SpanAllColumns))
-										{
-											sceneManagerInstance->setComponent(selectedEntity, scriptName, scriptValue.name, 0);
-											ImGui::CloseCurrentPopup();
-										}
-
-										for (EntityID entityID : ecs.getEntities())
-										{
-											if (entityID == selectedEntity || GetGraphicsComponent(entityID) == nullptr)
-											{
-												continue;
-											}
-
-											if (ImGui::Selectable(ecs.getComponent<NameTag>(entityID)->GetName().c_str(), entityID == selectedEntity, ImGuiSelectableFlags_SpanAllColumns))
-											{
-												sceneManagerInstance->setComponent(selectedEntity, scriptName, scriptValue.name, entityID);
-												ImGui::CloseCurrentPopup();
-											}
-										}
-									}
-									//else if (scriptValue.type == "Audio")
-									//{
-									//	if (ImGui::Selectable("None", false, ImGuiSelectableFlags_SpanAllColumns))
-									//	{
-									//		sceneManagerInstance->setComponent(selectedEntity, scriptName, scriptValue.name, 0);
-									//		ImGui::CloseCurrentPopup();
-									//	}
-
-									//	for (EntityID entityID : ecs.getEntities())
-									//	{
-									//		if (entityID == selectedEntity || GetAudioCom(entityID) == nullptr)
-									//		{
-									//			continue;
-									//		}
-
-									//		if (ImGui::Selectable(ecs.getComponent<NameTag>(entityID)->GetName().c_str(), entityID == selectedEntity, ImGuiSelectableFlags_SpanAllColumns))
-									//		{
-									//			sceneManagerInstance->setComponent(selectedEntity, scriptName, scriptValue.name, entityID);
-									//			ImGui::CloseCurrentPopup();
-									//		}
-									//	}
-									//}
-									else if (scriptValue.type == "UI Sprite")
-									{
-										if (ImGui::Selectable("None", false, ImGuiSelectableFlags_SpanAllColumns))
-										{
-											sceneManagerInstance->setComponent(selectedEntity, scriptName, scriptValue.name, 0);
-											ImGui::CloseCurrentPopup();
-										}
-
-										for (EntityID entityID : ecs.getEntities())
-										{
-											if (entityID == selectedEntity || GetUISprite(entityID) == nullptr)
+											if (entityID == selectedEntity || getComponentByName(scriptValue.type, entityID) == nullptr)
 											{
 												continue;
 											}
