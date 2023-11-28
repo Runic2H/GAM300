@@ -15,169 +15,22 @@
             "0": 408,
             "1": 600,
             "6": 792,
-            "8": 96
+            "8": 216
         },
         "11000000000000": {
             "0": 136,
             "1": 200
         },
         "11000000000010": {
-            "0": 4760,
-            "1": 7000,
-            "12": 12600
+            "0": 5032,
+            "1": 7400,
+            "12": 13320
         }
     },
     "Entity Data": {
-        "15": {
-            "ArchetypeID": "11000010000000",
-            "Name Tag": {
-                "Name": "Left Hallway Door Left Wall",
-                "Tag": "",
-                "IsActive": true,
-                "HierarchyParent": 1,
-                "HierarchyIndex": 122,
-                "HierarchyChildren": []
-            },
-            "Transform": {
-                "Position": {
-                    "x": -800.475341796875,
-                    "y": 296.58447265625,
-                    "z": 352.5708312988281
-                },
-                "Scale": {
-                    "x": 2.200000047683716,
-                    "y": 1.8300000429153442,
-                    "z": 2.200000047683716
-                },
-                "Rotation": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": -3.141592502593994
-                }
-            },
-            "Graphics Component": {
-                "PointLight": false,
-                "TextureName": "General Wall Upside Down.dds",
-                "Mesh Renderer": true,
-                "Debug": false,
-                "ModelName": "Mansion Layout_Bin.bin",
-                "MeshName": "ninja_star_0",
-                "Color": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0,
-                    "w": 0.0
-                },
-                "Used In 2D": false
-            }
-        },
-        "207": {
-            "ArchetypeID": "11000010000000",
-            "Name Tag": {
-                "Name": "Study Wall (8)",
-                "Tag": "",
-                "IsActive": true,
-                "HierarchyParent": 1,
-                "HierarchyIndex": 13,
-                "HierarchyChildren": []
-            },
-            "Transform": {
-                "Position": {
-                    "x": -2347.5439453125,
-                    "y": 296.58447265625,
-                    "z": 387.49188232421875
-                },
-                "Scale": {
-                    "x": 2.200000047683716,
-                    "y": 1.8300000429153442,
-                    "z": 2.200000047683716
-                },
-                "Rotation": {
-                    "x": 3.141592502593994,
-                    "y": 0.0,
-                    "z": -3.141592502593994
-                }
-            },
-            "Graphics Component": {
-                "PointLight": false,
-                "TextureName": "White.dds",
-                "Mesh Renderer": true,
-                "Debug": false,
-                "ModelName": "Mansion Layout_Bin.bin",
-                "MeshName": "study_DoorWall02",
-                "Color": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0,
-                    "w": 0.0
-                },
-                "Used In 2D": false
-            }
-        },
-        "320": {
-            "ArchetypeID": "11000000000010",
-            "Name Tag": {
-                "Name": "Item8",
-                "Tag": "",
-                "IsActive": true,
-                "HierarchyParent": 298,
-                "HierarchyIndex": 0,
-                "HierarchyChildren": []
-            },
-            "Transform": {
-                "Position": {
-                    "x": -0.1734999716281891,
-                    "y": -0.10125000774860382,
-                    "z": 0.0
-                },
-                "Scale": {
-                    "x": 0.19999998807907104,
-                    "y": 0.3500000238418579,
-                    "z": 1.0
-                },
-                "Rotation": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                }
-            },
-            "UI Sprite": {
-                "Texture": "",
-                "EnableSprite": true,
-                "LayerID": 1,
-                "is Font": false,
-                "message": "",
-                "Font Texture": "",
-                "ForeGroundColour": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0,
-                    "w": 0.0
-                },
-                "Sprite Color": {
-                    "x": 0.10000000149011612,
-                    "y": 0.10000000149011612,
-                    "z": 0.10000000149011612,
-                    "w": 1.0
-                },
-                "BackGroundColour": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0,
-                    "w": 1.0
-                },
-                "BoundingBoxMin": {
-                    "x": -0.2734999656677246,
-                    "y": -0.2762500047683716
-                },
-                "BoundingBoxMax": {
-                    "x": -0.07349997758865356,
-                    "y": 0.07375000417232513
-                }
-            }
-        },
         "191": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Tube_13__2",
                 "Tag": "",
@@ -221,6 +74,7 @@
         },
         "304": {
             "ArchetypeID": "11000000000010",
+            "Enabled": false,
             "Name Tag": {
                 "Name": "NotesTab",
                 "Tag": "",
@@ -283,8 +137,160 @@
                 }
             }
         },
+        "15": {
+            "ArchetypeID": "11000010000000",
+            "Enabled": true,
+            "Name Tag": {
+                "Name": "Left Hallway Door Left Wall",
+                "Tag": "",
+                "IsActive": true,
+                "HierarchyParent": 1,
+                "HierarchyIndex": 122,
+                "HierarchyChildren": []
+            },
+            "Transform": {
+                "Position": {
+                    "x": -800.475341796875,
+                    "y": 296.58447265625,
+                    "z": 352.5708312988281
+                },
+                "Scale": {
+                    "x": 2.200000047683716,
+                    "y": 1.8300000429153442,
+                    "z": 2.200000047683716
+                },
+                "Rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": -3.141592502593994
+                }
+            },
+            "Graphics Component": {
+                "PointLight": false,
+                "TextureName": "General Wall Upside Down.dds",
+                "Mesh Renderer": true,
+                "Debug": false,
+                "ModelName": "Mansion Layout_Bin.bin",
+                "MeshName": "ninja_star_0",
+                "Color": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 0.0
+                },
+                "Used In 2D": false
+            }
+        },
+        "207": {
+            "ArchetypeID": "11000010000000",
+            "Enabled": true,
+            "Name Tag": {
+                "Name": "Study Wall (8)",
+                "Tag": "",
+                "IsActive": true,
+                "HierarchyParent": 1,
+                "HierarchyIndex": 13,
+                "HierarchyChildren": []
+            },
+            "Transform": {
+                "Position": {
+                    "x": -2347.5439453125,
+                    "y": 296.58447265625,
+                    "z": 387.49188232421875
+                },
+                "Scale": {
+                    "x": 2.200000047683716,
+                    "y": 1.8300000429153442,
+                    "z": 2.200000047683716
+                },
+                "Rotation": {
+                    "x": 3.141592502593994,
+                    "y": 0.0,
+                    "z": -3.141592502593994
+                }
+            },
+            "Graphics Component": {
+                "PointLight": false,
+                "TextureName": "White.dds",
+                "Mesh Renderer": true,
+                "Debug": false,
+                "ModelName": "Mansion Layout_Bin.bin",
+                "MeshName": "study_DoorWall02",
+                "Color": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 0.0
+                },
+                "Used In 2D": false
+            }
+        },
+        "320": {
+            "ArchetypeID": "11000000000010",
+            "Enabled": false,
+            "Name Tag": {
+                "Name": "Item8",
+                "Tag": "",
+                "IsActive": true,
+                "HierarchyParent": 298,
+                "HierarchyIndex": 0,
+                "HierarchyChildren": []
+            },
+            "Transform": {
+                "Position": {
+                    "x": -0.1734999716281891,
+                    "y": -0.10125000774860382,
+                    "z": 0.0
+                },
+                "Scale": {
+                    "x": 0.19999998807907104,
+                    "y": 0.3500000238418579,
+                    "z": 1.0
+                },
+                "Rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                }
+            },
+            "UI Sprite": {
+                "Texture": "",
+                "EnableSprite": true,
+                "LayerID": 1,
+                "is Font": false,
+                "message": "",
+                "Font Texture": "",
+                "ForeGroundColour": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 0.0
+                },
+                "Sprite Color": {
+                    "x": 0.10000000149011612,
+                    "y": 0.10000000149011612,
+                    "z": 0.10000000149011612,
+                    "w": 1.0
+                },
+                "BackGroundColour": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "BoundingBoxMin": {
+                    "x": -0.2734999656677246,
+                    "y": -0.2762500047683716
+                },
+                "BoundingBoxMax": {
+                    "x": -0.07349997758865356,
+                    "y": 0.07375000417232513
+                }
+            }
+        },
         "9": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Tube__2",
                 "Tag": "",
@@ -328,6 +334,7 @@
         },
         "201": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Study Wall (2)",
                 "Tag": "",
@@ -371,6 +378,7 @@
         },
         "322": {
             "ArchetypeID": "11000000000010",
+            "Enabled": false,
             "Name Tag": {
                 "Name": "Item10",
                 "Tag": "",
@@ -431,8 +439,97 @@
                 }
             }
         },
+        "3": {
+            "ArchetypeID": "11000010000000",
+            "Enabled": true,
+            "Name Tag": {
+                "Name": "Plate__1",
+                "Tag": "",
+                "IsActive": true,
+                "HierarchyParent": 1,
+                "HierarchyIndex": 141,
+                "HierarchyChildren": []
+            },
+            "Transform": {
+                "Position": {
+                    "x": -764.230712890625,
+                    "y": 202.72581481933594,
+                    "z": 163.3851318359375
+                },
+                "Scale": {
+                    "x": 1.100000023841858,
+                    "y": 1.2200000286102295,
+                    "z": 1.100000023841858
+                },
+                "Rotation": {
+                    "x": 3.1415927410125732,
+                    "y": 8.742277657347586e-8,
+                    "z": 3.1415927410125732
+                }
+            },
+            "Graphics Component": {
+                "PointLight": false,
+                "TextureName": "",
+                "Mesh Renderer": true,
+                "Debug": false,
+                "ModelName": "Mansion Layout_Bin.bin",
+                "MeshName": "Plate__1",
+                "Color": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 0.0
+                },
+                "Used In 2D": false
+            }
+        },
+        "195": {
+            "ArchetypeID": "11000010000000",
+            "Enabled": true,
+            "Name Tag": {
+                "Name": "Gallery Wall (3)",
+                "Tag": "",
+                "IsActive": true,
+                "HierarchyParent": 1,
+                "HierarchyIndex": 24,
+                "HierarchyChildren": []
+            },
+            "Transform": {
+                "Position": {
+                    "x": -1387.84130859375,
+                    "y": 296.58447265625,
+                    "z": -980.3115234375
+                },
+                "Scale": {
+                    "x": 2.200000047683716,
+                    "y": 1.8300000429153442,
+                    "z": 2.200000047683716
+                },
+                "Rotation": {
+                    "x": 3.141592502593994,
+                    "y": 1.570796251296997,
+                    "z": 0.0
+                }
+            },
+            "Graphics Component": {
+                "PointLight": false,
+                "TextureName": "Gallery Wall.dds",
+                "Mesh Renderer": true,
+                "Debug": false,
+                "ModelName": "Mansion Layout_Bin.bin",
+                "MeshName": "Cube_9_2",
+                "Color": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 0.0
+                },
+                "Used In 2D": false
+            }
+        },
         "324": {
             "ArchetypeID": "11000000000010",
+            "Enabled": false,
             "Name Tag": {
                 "Name": "Item12",
                 "Tag": "",
@@ -493,137 +590,9 @@
                 }
             }
         },
-        "195": {
-            "ArchetypeID": "11000010000000",
-            "Name Tag": {
-                "Name": "Gallery Wall (3)",
-                "Tag": "",
-                "IsActive": true,
-                "HierarchyParent": 1,
-                "HierarchyIndex": 24,
-                "HierarchyChildren": []
-            },
-            "Transform": {
-                "Position": {
-                    "x": -1387.84130859375,
-                    "y": 296.58447265625,
-                    "z": -980.3115234375
-                },
-                "Scale": {
-                    "x": 2.200000047683716,
-                    "y": 1.8300000429153442,
-                    "z": 2.200000047683716
-                },
-                "Rotation": {
-                    "x": 3.141592502593994,
-                    "y": 1.570796251296997,
-                    "z": 0.0
-                }
-            },
-            "Graphics Component": {
-                "PointLight": false,
-                "TextureName": "Gallery Wall.dds",
-                "Mesh Renderer": true,
-                "Debug": false,
-                "ModelName": "Mansion Layout_Bin.bin",
-                "MeshName": "Cube_9_2",
-                "Color": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0,
-                    "w": 0.0
-                },
-                "Used In 2D": false
-            }
-        },
-        "3": {
-            "ArchetypeID": "11000010000000",
-            "Name Tag": {
-                "Name": "Plate__1",
-                "Tag": "",
-                "IsActive": true,
-                "HierarchyParent": 1,
-                "HierarchyIndex": 141,
-                "HierarchyChildren": []
-            },
-            "Transform": {
-                "Position": {
-                    "x": -764.230712890625,
-                    "y": 202.72581481933594,
-                    "z": 163.3851318359375
-                },
-                "Scale": {
-                    "x": 1.100000023841858,
-                    "y": 1.2200000286102295,
-                    "z": 1.100000023841858
-                },
-                "Rotation": {
-                    "x": 3.1415927410125732,
-                    "y": 8.742277657347586e-8,
-                    "z": 3.1415927410125732
-                }
-            },
-            "Graphics Component": {
-                "PointLight": false,
-                "TextureName": "",
-                "Mesh Renderer": true,
-                "Debug": false,
-                "ModelName": "Mansion Layout_Bin.bin",
-                "MeshName": "Plate__1",
-                "Color": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0,
-                    "w": 0.0
-                },
-                "Used In 2D": false
-            }
-        },
-        "189": {
-            "ArchetypeID": "11000010000000",
-            "Name Tag": {
-                "Name": "Plate_13__2",
-                "Tag": "",
-                "IsActive": true,
-                "HierarchyParent": 1,
-                "HierarchyIndex": 246,
-                "HierarchyChildren": []
-            },
-            "Transform": {
-                "Position": {
-                    "x": -2341.35009765625,
-                    "y": 203.0966339111328,
-                    "z": 120.23974609375
-                },
-                "Scale": {
-                    "x": 1.100000023841858,
-                    "y": 1.2200000286102295,
-                    "z": 1.100000023841858
-                },
-                "Rotation": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                }
-            },
-            "Graphics Component": {
-                "PointLight": false,
-                "TextureName": "",
-                "Mesh Renderer": true,
-                "Debug": false,
-                "ModelName": "Mansion Layout_Bin.bin",
-                "MeshName": "Plate_13__2",
-                "Color": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0,
-                    "w": 0.0
-                },
-                "Used In 2D": false
-            }
-        },
         "310": {
             "ArchetypeID": "11000000000010",
+            "Enabled": false,
             "Name Tag": {
                 "Name": "Paintings Text",
                 "Tag": "",
@@ -686,21 +655,22 @@
                 }
             }
         },
-        "187": {
+        "189": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
-                "Name": "Handle_13__2",
+                "Name": "Plate_13__2",
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 245,
+                "HierarchyIndex": 246,
                 "HierarchyChildren": []
             },
             "Transform": {
                 "Position": {
-                    "x": -2338.921875,
-                    "y": 202.9937286376953,
-                    "z": 120.206787109375
+                    "x": -2341.35009765625,
+                    "y": 203.0966339111328,
+                    "z": 120.23974609375
                 },
                 "Scale": {
                     "x": 1.100000023841858,
@@ -719,7 +689,7 @@
                 "Mesh Renderer": true,
                 "Debug": false,
                 "ModelName": "Mansion Layout_Bin.bin",
-                "MeshName": "Handle_13__2",
+                "MeshName": "Plate_13__2",
                 "Color": {
                     "x": 0.0,
                     "y": 0.0,
@@ -731,6 +701,7 @@
         },
         "316": {
             "ArchetypeID": "11000000000010",
+            "Enabled": false,
             "Name Tag": {
                 "Name": "Item4",
                 "Tag": "",
@@ -791,40 +762,41 @@
                 }
             }
         },
-        "185": {
+        "187": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
-                "Name": "Main Wall (4)",
+                "Name": "Handle_13__2",
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 135,
+                "HierarchyIndex": 245,
                 "HierarchyChildren": []
             },
             "Transform": {
                 "Position": {
-                    "x": 177.69464111328125,
-                    "y": 296.58447265625,
-                    "z": 352.5708312988281
+                    "x": -2338.921875,
+                    "y": 202.9937286376953,
+                    "z": 120.206787109375
                 },
                 "Scale": {
-                    "x": 2.200000047683716,
-                    "y": 1.8300000429153442,
-                    "z": 2.200000047683716
+                    "x": 1.100000023841858,
+                    "y": 1.2200000286102295,
+                    "z": 1.100000023841858
                 },
                 "Rotation": {
                     "x": 0.0,
                     "y": 0.0,
-                    "z": 3.141592502593994
+                    "z": 0.0
                 }
             },
             "Graphics Component": {
                 "PointLight": false,
-                "TextureName": "White.dds",
+                "TextureName": "",
                 "Mesh Renderer": true,
                 "Debug": false,
                 "ModelName": "Mansion Layout_Bin.bin",
-                "MeshName": "ninja_star_0_2",
+                "MeshName": "Handle_13__2",
                 "Color": {
                     "x": 0.0,
                     "y": 0.0,
@@ -836,6 +808,7 @@
         },
         "306": {
             "ArchetypeID": "11000000000010",
+            "Enabled": false,
             "Name Tag": {
                 "Name": "MouseClick",
                 "Tag": "",
@@ -898,40 +871,41 @@
                 }
             }
         },
-        "183": {
+        "185": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
-                "Name": "Study Door Frame",
+                "Name": "Main Wall (4)",
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 5,
+                "HierarchyIndex": 135,
                 "HierarchyChildren": []
             },
             "Transform": {
                 "Position": {
-                    "x": -2346.6337890625,
-                    "y": 242.33447265625,
-                    "z": 171.1780242919922
+                    "x": 177.69464111328125,
+                    "y": 296.58447265625,
+                    "z": 352.5708312988281
                 },
                 "Scale": {
-                    "x": 1.100000023841858,
-                    "y": 1.2200000286102295,
-                    "z": 1.100000023841858
+                    "x": 2.200000047683716,
+                    "y": 1.8300000429153442,
+                    "z": 2.200000047683716
                 },
                 "Rotation": {
                     "x": 0.0,
                     "y": 0.0,
-                    "z": 0.0
+                    "z": 3.141592502593994
                 }
             },
             "Graphics Component": {
                 "PointLight": false,
-                "TextureName": "Wood008_1K-PNG_Color.dds",
+                "TextureName": "White.dds",
                 "Mesh Renderer": true,
                 "Debug": false,
                 "ModelName": "Mansion Layout_Bin.bin",
-                "MeshName": "Cube_13__2",
+                "MeshName": "ninja_star_0_2",
                 "Color": {
                     "x": 0.0,
                     "y": 0.0,
@@ -943,6 +917,7 @@
         },
         "296": {
             "ArchetypeID": "11000000000010",
+            "Enabled": false,
             "Name Tag": {
                 "Name": "Item6",
                 "Tag": "",
@@ -1003,21 +978,22 @@
                 }
             }
         },
-        "181": {
+        "183": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
-                "Name": "Tube_13__1",
+                "Name": "Study Door Frame",
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 242,
+                "HierarchyIndex": 5,
                 "HierarchyChildren": []
             },
             "Transform": {
                 "Position": {
-                    "x": 2032.7313232421875,
-                    "y": 288.44281005859375,
-                    "z": -1117.942626953125
+                    "x": -2346.6337890625,
+                    "y": 242.33447265625,
+                    "z": 171.1780242919922
                 },
                 "Scale": {
                     "x": 1.100000023841858,
@@ -1032,11 +1008,11 @@
             },
             "Graphics Component": {
                 "PointLight": false,
-                "TextureName": "",
+                "TextureName": "Wood008_1K-PNG_Color.dds",
                 "Mesh Renderer": true,
                 "Debug": false,
                 "ModelName": "Mansion Layout_Bin.bin",
-                "MeshName": "Tube_13__1",
+                "MeshName": "Cube_13__2",
                 "Color": {
                     "x": 0.0,
                     "y": 0.0,
@@ -1048,6 +1024,7 @@
         },
         "302": {
             "ArchetypeID": "11000000000010",
+            "Enabled": false,
             "Name Tag": {
                 "Name": "Box12",
                 "Tag": "",
@@ -1110,21 +1087,22 @@
                 }
             }
         },
-        "179": {
+        "181": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
-                "Name": "Plate_13__1",
+                "Name": "Tube_13__1",
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 240,
+                "HierarchyIndex": 242,
                 "HierarchyChildren": []
             },
             "Transform": {
                 "Position": {
-                    "x": 2031.479736328125,
-                    "y": 202.72581481933594,
-                    "z": -1169.2071533203125
+                    "x": 2032.7313232421875,
+                    "y": 288.44281005859375,
+                    "z": -1117.942626953125
                 },
                 "Scale": {
                     "x": 1.100000023841858,
@@ -1143,7 +1121,7 @@
                 "Mesh Renderer": true,
                 "Debug": false,
                 "ModelName": "Mansion Layout_Bin.bin",
-                "MeshName": "Plate_13__1",
+                "MeshName": "Tube_13__1",
                 "Color": {
                     "x": 0.0,
                     "y": 0.0,
@@ -1155,6 +1133,7 @@
         },
         "308": {
             "ArchetypeID": "11000000000010",
+            "Enabled": false,
             "Name Tag": {
                 "Name": "Item Text",
                 "Tag": "",
@@ -1215,21 +1194,22 @@
                 }
             }
         },
-        "177": {
+        "179": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
-                "Name": "Toilet Door",
+                "Name": "Plate_13__1",
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 92,
+                "HierarchyIndex": 240,
                 "HierarchyChildren": []
             },
             "Transform": {
                 "Position": {
-                    "x": 2026.956298828125,
-                    "y": 231.79159545898438,
-                    "z": -1118.168212890625
+                    "x": 2031.479736328125,
+                    "y": 202.72581481933594,
+                    "z": -1169.2071533203125
                 },
                 "Scale": {
                     "x": 1.100000023841858,
@@ -1244,11 +1224,11 @@
             },
             "Graphics Component": {
                 "PointLight": false,
-                "TextureName": "GoldColor.dds",
+                "TextureName": "",
                 "Mesh Renderer": true,
                 "Debug": false,
                 "ModelName": "Mansion Layout_Bin.bin",
-                "MeshName": "Door_13__1",
+                "MeshName": "Plate_13__1",
                 "Color": {
                     "x": 0.0,
                     "y": 0.0,
@@ -1260,6 +1240,7 @@
         },
         "298": {
             "ArchetypeID": "11000000000010",
+            "Enabled": false,
             "Name Tag": {
                 "Name": "Box8",
                 "Tag": "",
@@ -1322,21 +1303,22 @@
                 }
             }
         },
-        "171": {
+        "177": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
-                "Name": "Engraving_13",
+                "Name": "Toilet Door",
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 235,
+                "HierarchyIndex": 92,
                 "HierarchyChildren": []
             },
             "Transform": {
                 "Position": {
-                    "x": 1789.447265625,
-                    "y": 284.3987121582031,
-                    "z": -738.1676025390625
+                    "x": 2026.956298828125,
+                    "y": 231.79159545898438,
+                    "z": -1118.168212890625
                 },
                 "Scale": {
                     "x": 1.100000023841858,
@@ -1345,17 +1327,17 @@
                 },
                 "Rotation": {
                     "x": 0.0,
-                    "y": -1.570796251296997,
+                    "y": 0.0,
                     "z": 0.0
                 }
             },
             "Graphics Component": {
                 "PointLight": false,
-                "TextureName": "",
+                "TextureName": "GoldColor.dds",
                 "Mesh Renderer": true,
                 "Debug": false,
                 "ModelName": "Mansion Layout_Bin.bin",
-                "MeshName": "Engraving_13",
+                "MeshName": "Door_13__1",
                 "Color": {
                     "x": 0.0,
                     "y": 0.0,
@@ -1367,6 +1349,7 @@
         },
         "300": {
             "ArchetypeID": "11000000000010",
+            "Enabled": false,
             "Name Tag": {
                 "Name": "Box10",
                 "Tag": "",
@@ -1429,40 +1412,41 @@
                 }
             }
         },
-        "169": {
+        "171": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
-                "Name": "Dinning Wall (7)",
+                "Name": "Engraving_13",
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 64,
+                "HierarchyIndex": 235,
                 "HierarchyChildren": []
             },
             "Transform": {
                 "Position": {
-                    "x": -868.8063354492188,
-                    "y": 296.5840148925781,
-                    "z": -722.0784912109375
+                    "x": 1789.447265625,
+                    "y": 284.3987121582031,
+                    "z": -738.1676025390625
                 },
                 "Scale": {
-                    "x": 2.1999950408935547,
-                    "y": 1.8299992084503174,
-                    "z": 2.199995517730713
+                    "x": 1.100000023841858,
+                    "y": 1.2200000286102295,
+                    "z": 1.100000023841858
                 },
                 "Rotation": {
                     "x": 0.0,
-                    "y": 1.5707958936691284,
+                    "y": -1.570796251296997,
                     "z": 0.0
                 }
             },
             "Graphics Component": {
                 "PointLight": false,
-                "TextureName": "Wood008_1K-PNG_Color.dds",
+                "TextureName": "",
                 "Mesh Renderer": true,
                 "Debug": false,
                 "ModelName": "Mansion Layout_Bin.bin",
-                "MeshName": "LivKit_R",
+                "MeshName": "Engraving_13",
                 "Color": {
                     "x": 0.0,
                     "y": 0.0,
@@ -1474,6 +1458,7 @@
         },
         "290": {
             "ArchetypeID": "11000000000010",
+            "Enabled": false,
             "Name Tag": {
                 "Name": "Box1",
                 "Tag": "",
@@ -1536,40 +1521,41 @@
                 }
             }
         },
-        "163": {
+        "169": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
-                "Name": "Oil_Tank__11",
+                "Name": "Dinning Wall (7)",
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 231,
+                "HierarchyIndex": 64,
                 "HierarchyChildren": []
             },
             "Transform": {
                 "Position": {
-                    "x": 1780.222900390625,
-                    "y": 228.71627807617188,
-                    "z": 115.6181640625
+                    "x": -868.8063354492188,
+                    "y": 296.5840148925781,
+                    "z": -722.0784912109375
                 },
                 "Scale": {
-                    "x": 1.100000023841858,
-                    "y": 1.2200000286102295,
-                    "z": 1.100000023841858
+                    "x": 2.1999950408935547,
+                    "y": 1.8299992084503174,
+                    "z": 2.199995517730713
                 },
                 "Rotation": {
                     "x": 0.0,
-                    "y": -1.570796251296997,
+                    "y": 1.5707958936691284,
                     "z": 0.0
                 }
             },
             "Graphics Component": {
                 "PointLight": false,
-                "TextureName": "",
+                "TextureName": "Wood008_1K-PNG_Color.dds",
                 "Mesh Renderer": true,
                 "Debug": false,
                 "ModelName": "Mansion Layout_Bin.bin",
-                "MeshName": "Oil_Tank__11",
+                "MeshName": "LivKit_R",
                 "Color": {
                     "x": 0.0,
                     "y": 0.0,
@@ -1581,6 +1567,7 @@
         },
         "292": {
             "ArchetypeID": "11000000000010",
+            "Enabled": false,
             "Name Tag": {
                 "Name": "Box3",
                 "Tag": "",
@@ -1643,21 +1630,22 @@
                 }
             }
         },
-        "135": {
+        "163": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
-                "Name": "Living Door Frame (1)",
+                "Name": "Oil_Tank__11",
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 211,
+                "HierarchyIndex": 231,
                 "HierarchyChildren": []
             },
             "Transform": {
                 "Position": {
-                    "x": 936.8729858398438,
-                    "y": 236.07003784179688,
-                    "z": -12.3939208984375
+                    "x": 1780.222900390625,
+                    "y": 228.71627807617188,
+                    "z": 115.6181640625
                 },
                 "Scale": {
                     "x": 1.100000023841858,
@@ -1666,17 +1654,61 @@
                 },
                 "Rotation": {
                     "x": 0.0,
-                    "y": 1.570796251296997,
+                    "y": -1.570796251296997,
                     "z": 0.0
                 }
             },
             "Graphics Component": {
                 "PointLight": false,
-                "TextureName": "Door Border Color.dds",
+                "TextureName": "",
                 "Mesh Renderer": true,
                 "Debug": false,
                 "ModelName": "Mansion Layout_Bin.bin",
-                "MeshName": "Border_2__4",
+                "MeshName": "Oil_Tank__11",
+                "Color": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 0.0
+                },
+                "Used In 2D": false
+            }
+        },
+        "7": {
+            "ArchetypeID": "11000010000000",
+            "Enabled": true,
+            "Name Tag": {
+                "Name": "Study Door Top Part (1)",
+                "Tag": "",
+                "IsActive": true,
+                "HierarchyParent": 1,
+                "HierarchyIndex": 2,
+                "HierarchyChildren": []
+            },
+            "Transform": {
+                "Position": {
+                    "x": -2334.27099609375,
+                    "y": 427.71728515625,
+                    "z": 174.99998474121094
+                },
+                "Scale": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                },
+                "Rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                }
+            },
+            "Graphics Component": {
+                "PointLight": false,
+                "TextureName": "White.dds",
+                "Mesh Renderer": true,
+                "Debug": false,
+                "ModelName": "Mansion Layout_Bin.bin",
+                "MeshName": "OUTSing_Study",
                 "Color": {
                     "x": 0.0,
                     "y": 0.0,
@@ -1688,6 +1720,7 @@
         },
         "312": {
             "ArchetypeID": "11000000000010",
+            "Enabled": false,
             "Name Tag": {
                 "Name": "Close Text",
                 "Tag": "",
@@ -1748,21 +1781,66 @@
                 }
             }
         },
-        "7": {
+        "135": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
-                "Name": "Study Door Top Part (1)",
+                "Name": "Living Door Frame (1)",
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 2,
+                "HierarchyIndex": 211,
                 "HierarchyChildren": []
             },
             "Transform": {
                 "Position": {
-                    "x": -2334.27099609375,
-                    "y": 427.71728515625,
-                    "z": 174.99998474121094
+                    "x": 936.8729858398438,
+                    "y": 236.07003784179688,
+                    "z": -12.3939208984375
+                },
+                "Scale": {
+                    "x": 1.100000023841858,
+                    "y": 1.2200000286102295,
+                    "z": 1.100000023841858
+                },
+                "Rotation": {
+                    "x": 0.0,
+                    "y": 1.570796251296997,
+                    "z": 0.0
+                }
+            },
+            "Graphics Component": {
+                "PointLight": false,
+                "TextureName": "Door Border Color.dds",
+                "Mesh Renderer": true,
+                "Debug": false,
+                "ModelName": "Mansion Layout_Bin.bin",
+                "MeshName": "Border_2__4",
+                "Color": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 0.0
+                },
+                "Used In 2D": false
+            }
+        },
+        "5": {
+            "ArchetypeID": "11000010000000",
+            "Enabled": true,
+            "Name Tag": {
+                "Name": "Ceiling",
+                "Tag": "",
+                "IsActive": true,
+                "HierarchyParent": 1,
+                "HierarchyIndex": 0,
+                "HierarchyChildren": []
+            },
+            "Transform": {
+                "Position": {
+                    "x": -399.70147705078125,
+                    "y": 487.03643798828125,
+                    "z": -152.4196319580078
                 },
                 "Scale": {
                     "x": 1.0,
@@ -1778,53 +1856,10 @@
             "Graphics Component": {
                 "PointLight": false,
                 "TextureName": "White.dds",
-                "Mesh Renderer": true,
+                "Mesh Renderer": false,
                 "Debug": false,
                 "ModelName": "Mansion Layout_Bin.bin",
-                "MeshName": "OUTSing_Study",
-                "Color": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0,
-                    "w": 0.0
-                },
-                "Used In 2D": false
-            }
-        },
-        "133": {
-            "ArchetypeID": "11000010000000",
-            "Name Tag": {
-                "Name": "Oil_Tank__7",
-                "Tag": "",
-                "IsActive": true,
-                "HierarchyParent": 1,
-                "HierarchyIndex": 209,
-                "HierarchyChildren": []
-            },
-            "Transform": {
-                "Position": {
-                    "x": -1940.46923828125,
-                    "y": 228.71627807617188,
-                    "z": -66.1168212890625
-                },
-                "Scale": {
-                    "x": 1.100000023841858,
-                    "y": 1.2200000286102295,
-                    "z": 1.100000023841858
-                },
-                "Rotation": {
-                    "x": 0.0,
-                    "y": -1.570796251296997,
-                    "z": 0.0
-                }
-            },
-            "Graphics Component": {
-                "PointLight": false,
-                "TextureName": "",
-                "Mesh Renderer": true,
-                "Debug": false,
-                "ModelName": "Mansion Layout_Bin.bin",
-                "MeshName": "Oil_Tank__7",
+                "MeshName": "Ceiling",
                 "Color": {
                     "x": 0.0,
                     "y": 0.0,
@@ -1836,6 +1871,7 @@
         },
         "318": {
             "ArchetypeID": "11000000000010",
+            "Enabled": false,
             "Name Tag": {
                 "Name": "Box6",
                 "Tag": "",
@@ -1898,64 +1934,22 @@
                 }
             }
         },
-        "5": {
+        "133": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
-                "Name": "Ceiling",
+                "Name": "Oil_Tank__7",
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 0,
+                "HierarchyIndex": 209,
                 "HierarchyChildren": []
             },
             "Transform": {
                 "Position": {
-                    "x": -399.70147705078125,
-                    "y": 487.03643798828125,
-                    "z": -152.4196319580078
-                },
-                "Scale": {
-                    "x": 1.0,
-                    "y": 1.0,
-                    "z": 1.0
-                },
-                "Rotation": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                }
-            },
-            "Graphics Component": {
-                "PointLight": false,
-                "TextureName": "White.dds",
-                "Mesh Renderer": false,
-                "Debug": false,
-                "ModelName": "Mansion Layout_Bin.bin",
-                "MeshName": "Ceiling",
-                "Color": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0,
-                    "w": 0.0
-                },
-                "Used In 2D": false
-            }
-        },
-        "129": {
-            "ArchetypeID": "11000010000000",
-            "Name Tag": {
-                "Name": "Engraving__7",
-                "Tag": "",
-                "IsActive": true,
-                "HierarchyParent": 1,
-                "HierarchyIndex": 205,
-                "HierarchyChildren": []
-            },
-            "Transform": {
-                "Position": {
-                    "x": -1991.7135009765625,
-                    "y": 284.0278625488281,
-                    "z": -65.49522399902344
+                    "x": -1940.46923828125,
+                    "y": 228.71627807617188,
+                    "z": -66.1168212890625
                 },
                 "Scale": {
                     "x": 1.100000023841858,
@@ -1974,7 +1968,7 @@
                 "Mesh Renderer": true,
                 "Debug": false,
                 "ModelName": "Mansion Layout_Bin.bin",
-                "MeshName": "Engraving__7",
+                "MeshName": "Oil_Tank__7",
                 "Color": {
                     "x": 0.0,
                     "y": 0.0,
@@ -1984,70 +1978,9 @@
                 "Used In 2D": false
             }
         },
-        "314": {
-            "ArchetypeID": "11000000000010",
-            "Name Tag": {
-                "Name": "Item2",
-                "Tag": "",
-                "IsActive": true,
-                "HierarchyParent": 291,
-                "HierarchyIndex": 0,
-                "HierarchyChildren": []
-            },
-            "Transform": {
-                "Position": {
-                    "x": -0.6390001773834229,
-                    "y": 0.3149999976158142,
-                    "z": 0.0
-                },
-                "Scale": {
-                    "x": 0.19999998807907104,
-                    "y": 0.3500000238418579,
-                    "z": 1.0
-                },
-                "Rotation": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                }
-            },
-            "UI Sprite": {
-                "Texture": "",
-                "EnableSprite": true,
-                "LayerID": 1,
-                "is Font": false,
-                "message": "",
-                "Font Texture": "",
-                "ForeGroundColour": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0,
-                    "w": 0.0
-                },
-                "Sprite Color": {
-                    "x": 0.10000000149011612,
-                    "y": 0.10000000149011612,
-                    "z": 0.10000000149011612,
-                    "w": 1.0
-                },
-                "BackGroundColour": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0,
-                    "w": 1.0
-                },
-                "BoundingBoxMin": {
-                    "x": -0.7390002012252808,
-                    "y": 0.13999998569488525
-                },
-                "BoundingBoxMax": {
-                    "x": -0.5390001535415649,
-                    "y": 0.49000000953674316
-                }
-            }
-        },
         "1": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Mansion Layout",
                 "Tag": "",
@@ -2373,8 +2306,116 @@
                 "Used In 2D": false
             }
         },
+        "314": {
+            "ArchetypeID": "11000000000010",
+            "Enabled": false,
+            "Name Tag": {
+                "Name": "Item2",
+                "Tag": "",
+                "IsActive": true,
+                "HierarchyParent": 291,
+                "HierarchyIndex": 0,
+                "HierarchyChildren": []
+            },
+            "Transform": {
+                "Position": {
+                    "x": -0.6390001773834229,
+                    "y": 0.3149999976158142,
+                    "z": 0.0
+                },
+                "Scale": {
+                    "x": 0.19999998807907104,
+                    "y": 0.3500000238418579,
+                    "z": 1.0
+                },
+                "Rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                }
+            },
+            "UI Sprite": {
+                "Texture": "",
+                "EnableSprite": true,
+                "LayerID": 1,
+                "is Font": false,
+                "message": "",
+                "Font Texture": "",
+                "ForeGroundColour": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 0.0
+                },
+                "Sprite Color": {
+                    "x": 0.10000000149011612,
+                    "y": 0.10000000149011612,
+                    "z": 0.10000000149011612,
+                    "w": 1.0
+                },
+                "BackGroundColour": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "BoundingBoxMin": {
+                    "x": -0.7390002012252808,
+                    "y": 0.13999998569488525
+                },
+                "BoundingBoxMax": {
+                    "x": -0.5390001535415649,
+                    "y": 0.49000000953674316
+                }
+            }
+        },
+        "129": {
+            "ArchetypeID": "11000010000000",
+            "Enabled": true,
+            "Name Tag": {
+                "Name": "Engraving__7",
+                "Tag": "",
+                "IsActive": true,
+                "HierarchyParent": 1,
+                "HierarchyIndex": 205,
+                "HierarchyChildren": []
+            },
+            "Transform": {
+                "Position": {
+                    "x": -1991.7135009765625,
+                    "y": 284.0278625488281,
+                    "z": -65.49522399902344
+                },
+                "Scale": {
+                    "x": 1.100000023841858,
+                    "y": 1.2200000286102295,
+                    "z": 1.100000023841858
+                },
+                "Rotation": {
+                    "x": 0.0,
+                    "y": -1.570796251296997,
+                    "z": 0.0
+                }
+            },
+            "Graphics Component": {
+                "PointLight": false,
+                "TextureName": "",
+                "Mesh Renderer": true,
+                "Debug": false,
+                "ModelName": "Mansion Layout_Bin.bin",
+                "MeshName": "Engraving__7",
+                "Color": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 0.0
+                },
+                "Used In 2D": false
+            }
+        },
         "2": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Gallery Door Top Part (1)",
                 "Tag": "",
@@ -2418,6 +2459,7 @@
         },
         "4": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Cube",
                 "Tag": "",
@@ -2461,6 +2503,7 @@
         },
         "6": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Tube__3",
                 "Tag": "",
@@ -2504,6 +2547,7 @@
         },
         "8": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Study Door Top Part (2)",
                 "Tag": "",
@@ -2547,6 +2591,7 @@
         },
         "10": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Dinning To Kitchen Top Part (4)",
                 "Tag": "",
@@ -2590,6 +2635,7 @@
         },
         "11": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Gallery To Study Top Part (2)",
                 "Tag": "",
@@ -2633,6 +2679,7 @@
         },
         "12": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Gallery To Study Top Part (1)",
                 "Tag": "",
@@ -2676,6 +2723,7 @@
         },
         "13": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Extrude_13",
                 "Tag": "",
@@ -2719,6 +2767,7 @@
         },
         "14": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Plate",
                 "Tag": "",
@@ -2762,6 +2811,7 @@
         },
         "16": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Main Door Top Part",
                 "Tag": "",
@@ -2805,6 +2855,7 @@
         },
         "17": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Plate__11",
                 "Tag": "",
@@ -2848,6 +2899,7 @@
         },
         "18": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Gallery Door Top Part (2)",
                 "Tag": "",
@@ -2891,6 +2943,7 @@
         },
         "19": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Oil_Tank__1",
                 "Tag": "",
@@ -2934,6 +2987,7 @@
         },
         "20": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Living Door Top Part (1)",
                 "Tag": "",
@@ -2977,6 +3031,7 @@
         },
         "21": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Dinning To Kitchen Top Part (2)",
                 "Tag": "",
@@ -3020,6 +3075,7 @@
         },
         "22": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Cube__3",
                 "Tag": "",
@@ -3063,6 +3119,7 @@
         },
         "23": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Dinning To Kitchen Top Part (1)",
                 "Tag": "",
@@ -3106,6 +3163,7 @@
         },
         "24": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Dinning Wall (1)",
                 "Tag": "",
@@ -3149,6 +3207,7 @@
         },
         "25": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Bedroom Double Door Right Side",
                 "Tag": "",
@@ -3192,6 +3251,7 @@
         },
         "26": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Living To Dinning Top Part (1)",
                 "Tag": "",
@@ -3235,6 +3295,7 @@
         },
         "27": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Toilet Wall (1)",
                 "Tag": "",
@@ -3278,6 +3339,7 @@
         },
         "28": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Tube",
                 "Tag": "",
@@ -3321,6 +3383,7 @@
         },
         "29": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Living To Dinning Top Part (2)",
                 "Tag": "",
@@ -3364,6 +3427,7 @@
         },
         "30": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Living Door Top Part (2)",
                 "Tag": "",
@@ -3407,6 +3471,7 @@
         },
         "31": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Study Wall (1)",
                 "Tag": "",
@@ -3450,6 +3515,7 @@
         },
         "32": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Mini Hall To Living Top Part (1)",
                 "Tag": "",
@@ -3493,6 +3559,7 @@
         },
         "33": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Toilet Door Part (2)",
                 "Tag": "",
@@ -3536,6 +3603,7 @@
         },
         "34": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Toilet Door Part (1)",
                 "Tag": "",
@@ -3579,6 +3647,7 @@
         },
         "35": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Cube__2",
                 "Tag": "",
@@ -3622,6 +3691,7 @@
         },
         "36": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Dinning Door Frame (1)",
                 "Tag": "",
@@ -3665,6 +3735,7 @@
         },
         "37": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Gallery Pillar (1)",
                 "Tag": "",
@@ -3708,6 +3779,7 @@
         },
         "38": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Bedroom Single Door Top Part",
                 "Tag": "",
@@ -3751,6 +3823,7 @@
         },
         "39": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Dinning Unused Stuff (1)",
                 "Tag": "",
@@ -3794,6 +3867,7 @@
         },
         "40": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Handle_13",
                 "Tag": "",
@@ -3837,6 +3911,7 @@
         },
         "41": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Extrude__4",
                 "Tag": "",
@@ -3880,6 +3955,7 @@
         },
         "42": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Bedroom Double Door Top Part (2)",
                 "Tag": "",
@@ -3923,6 +3999,7 @@
         },
         "43": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Bedroom Double Door Top Part (1)",
                 "Tag": "",
@@ -3966,6 +4043,7 @@
         },
         "44": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Oil_Tank__2",
                 "Tag": "",
@@ -4009,6 +4087,7 @@
         },
         "45": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Dinning Door Top Part (2)",
                 "Tag": "",
@@ -4052,6 +4131,7 @@
         },
         "46": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Oil_Tank__5",
                 "Tag": "",
@@ -4095,6 +4175,7 @@
         },
         "47": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Dinning Door Top Part (1)",
                 "Tag": "",
@@ -4138,6 +4219,7 @@
         },
         "48": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Tube__1",
                 "Tag": "",
@@ -4181,6 +4263,7 @@
         },
         "49": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Engraving",
                 "Tag": "",
@@ -4224,6 +4307,7 @@
         },
         "50": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Study Wall (10)",
                 "Tag": "",
@@ -4267,6 +4351,7 @@
         },
         "51": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Engraving__6",
                 "Tag": "",
@@ -4310,6 +4395,7 @@
         },
         "52": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Left Hallway Door Top Part",
                 "Tag": "",
@@ -4353,6 +4439,7 @@
         },
         "53": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Engraving__1",
                 "Tag": "",
@@ -4396,6 +4483,7 @@
         },
         "54": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Gallery Wall (6)",
                 "Tag": "",
@@ -4439,6 +4527,7 @@
         },
         "55": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Gallery Wall (7)",
                 "Tag": "",
@@ -4482,6 +4571,7 @@
         },
         "56": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Right Hallway Door Top Part",
                 "Tag": "",
@@ -4525,6 +4615,7 @@
         },
         "57": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Dinning Wall Interior (1)",
                 "Tag": "",
@@ -4568,6 +4659,7 @@
         },
         "58": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Main Door Frame (1)",
                 "Tag": "",
@@ -4611,6 +4703,7 @@
         },
         "385": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "4",
                 "Tag": "",
@@ -4654,6 +4747,7 @@
         },
         "59": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Left Hallway Door Frame (1)",
                 "Tag": "",
@@ -4697,6 +4791,7 @@
         },
         "60": {
             "ArchetypeID": "11000010100000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Main Door Left Side",
                 "Tag": "",
@@ -4746,11 +4841,13 @@
                     "z": 0.0
                 },
                 "Radius": 10.0,
-                "AImode": "INTERACTABLE"
+                "AImode": "INTERACTABLE",
+                "ColliderName": ""
             }
         },
         "61": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Right Hallway Door Frame (1)",
                 "Tag": "",
@@ -4794,6 +4891,7 @@
         },
         "62": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Right Hallway Window (4)",
                 "Tag": "",
@@ -4835,8 +4933,74 @@
                 "Used In 2D": false
             }
         },
+        "389": {
+            "ArchetypeID": "11000000000010",
+            "Enabled": false,
+            "Name Tag": {
+                "Name": "QTE for interaction",
+                "Tag": "",
+                "IsActive": true,
+                "HierarchyParent": 0,
+                "HierarchyIndex": 19,
+                "HierarchyChildren": [
+                    390
+                ]
+            },
+            "Transform": {
+                "Position": {
+                    "x": -0.17647063732147217,
+                    "y": -0.8250540494918823,
+                    "z": 0.0
+                },
+                "Scale": {
+                    "x": 0.13841892778873444,
+                    "y": 0.23093469440937042,
+                    "z": 0.42340004444122314
+                },
+                "Rotation": {
+                    "x": 0.0,
+                    "y": -0.0,
+                    "z": 0.0
+                }
+            },
+            "UI Sprite": {
+                "Texture": "QTE E Key.dds",
+                "EnableSprite": true,
+                "LayerID": 2,
+                "is Font": false,
+                "message": "",
+                "Font Texture": "",
+                "ForeGroundColour": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 0.0
+                },
+                "Sprite Color": {
+                    "x": 0.10000000149011612,
+                    "y": 0.10000000149011612,
+                    "z": 0.10000000149011612,
+                    "w": 1.0
+                },
+                "BackGroundColour": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "BoundingBoxMin": {
+                    "x": -0.2456800937652588,
+                    "y": -0.9405214190483093
+                },
+                "BoundingBoxMax": {
+                    "x": -0.10726117342710495,
+                    "y": -0.7095866799354553
+                }
+            }
+        },
         "63": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Main Door Right Side",
                 "Tag": "",
@@ -4880,6 +5044,7 @@
         },
         "64": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Kitchen Wall (1)",
                 "Tag": "",
@@ -4923,6 +5088,7 @@
         },
         "65": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Dinning Door Right Side",
                 "Tag": "",
@@ -4966,6 +5132,7 @@
         },
         "66": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Left Hallway Door Left Side",
                 "Tag": "",
@@ -5009,6 +5176,7 @@
         },
         "67": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Handle",
                 "Tag": "",
@@ -5052,6 +5220,7 @@
         },
         "68": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Oil_Tank",
                 "Tag": "",
@@ -5095,6 +5264,7 @@
         },
         "69": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Dinning Unused Stuff (2)",
                 "Tag": "",
@@ -5138,6 +5308,7 @@
         },
         "70": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Left Hallway Door Right Side",
                 "Tag": "",
@@ -5181,6 +5352,7 @@
         },
         "71": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Extrude",
                 "Tag": "",
@@ -5224,6 +5396,7 @@
         },
         "72": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Handle__1",
                 "Tag": "",
@@ -5267,6 +5440,7 @@
         },
         "73": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Cube__1",
                 "Tag": "",
@@ -5310,6 +5484,7 @@
         },
         "74": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Extrude__1",
                 "Tag": "",
@@ -5353,6 +5528,7 @@
         },
         "75": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Right Hallway Door Left Side",
                 "Tag": "",
@@ -5396,6 +5572,7 @@
         },
         "76": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Engraving__9",
                 "Tag": "",
@@ -5439,6 +5616,7 @@
         },
         "77": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Handle__2",
                 "Tag": "",
@@ -5482,6 +5660,7 @@
         },
         "78": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Plate__2",
                 "Tag": "",
@@ -5525,6 +5704,7 @@
         },
         "79": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Handle__9",
                 "Tag": "",
@@ -5568,6 +5748,7 @@
         },
         "80": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Engraving__2",
                 "Tag": "",
@@ -5611,6 +5792,7 @@
         },
         "81": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Extrude__2",
                 "Tag": "",
@@ -5654,6 +5836,7 @@
         },
         "82": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Dinning Wall (2)",
                 "Tag": "",
@@ -5697,6 +5880,7 @@
         },
         "83": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Right Hallway Door Right Side",
                 "Tag": "",
@@ -5740,6 +5924,7 @@
         },
         "84": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Engraving__8",
                 "Tag": "",
@@ -5783,6 +5968,7 @@
         },
         "85": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Handle__3",
                 "Tag": "",
@@ -5826,6 +6012,7 @@
         },
         "86": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Right Hallway Wall (1)",
                 "Tag": "",
@@ -5869,6 +6056,7 @@
         },
         "87": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Plate__3",
                 "Tag": "",
@@ -5912,6 +6100,7 @@
         },
         "88": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Handle__8",
                 "Tag": "",
@@ -5955,6 +6144,7 @@
         },
         "89": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Engraving__3",
                 "Tag": "",
@@ -5998,6 +6188,7 @@
         },
         "90": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Oil_Tank__3",
                 "Tag": "",
@@ -6041,6 +6232,7 @@
         },
         "91": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Kitchen Unused Stuff",
                 "Tag": "",
@@ -6084,6 +6276,7 @@
         },
         "92": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Dinning Wall (3)",
                 "Tag": "",
@@ -6127,6 +6320,7 @@
         },
         "93": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Extrude__3",
                 "Tag": "",
@@ -6170,6 +6364,7 @@
         },
         "94": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Cube__10",
                 "Tag": "",
@@ -6213,6 +6408,7 @@
         },
         "95": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Handle__4",
                 "Tag": "",
@@ -6256,6 +6452,7 @@
         },
         "96": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Plate__4",
                 "Tag": "",
@@ -6299,6 +6496,7 @@
         },
         "97": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Oil_Tank_13__1",
                 "Tag": "",
@@ -6342,6 +6540,7 @@
         },
         "98": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Engraving__4",
                 "Tag": "",
@@ -6385,6 +6584,7 @@
         },
         "99": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Tube__4",
                 "Tag": "",
@@ -6428,6 +6628,7 @@
         },
         "100": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Cube__4",
                 "Tag": "",
@@ -6471,6 +6672,7 @@
         },
         "101": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Oil_Tank__4",
                 "Tag": "",
@@ -6514,6 +6716,7 @@
         },
         "102": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Kitchen Wall (2)",
                 "Tag": "",
@@ -6557,6 +6760,7 @@
         },
         "103": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Dinning Door Left Side",
                 "Tag": "",
@@ -6600,6 +6804,7 @@
         },
         "104": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Cube__11",
                 "Tag": "",
@@ -6643,6 +6848,7 @@
         },
         "105": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Handle__5",
                 "Tag": "",
@@ -6686,6 +6892,7 @@
         },
         "106": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Plate__5",
                 "Tag": "",
@@ -6729,6 +6936,7 @@
         },
         "107": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Engraving__5",
                 "Tag": "",
@@ -6772,6 +6980,7 @@
         },
         "108": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Tube__5",
                 "Tag": "",
@@ -6815,6 +7024,7 @@
         },
         "109": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Cube__5",
                 "Tag": "",
@@ -6858,6 +7068,7 @@
         },
         "110": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Kitchen Wall (3)",
                 "Tag": "",
@@ -6901,6 +7112,7 @@
         },
         "111": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Extrude__5",
                 "Tag": "",
@@ -6944,6 +7156,7 @@
         },
         "112": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Gallery Door Frame (1)",
                 "Tag": "",
@@ -6987,6 +7200,7 @@
         },
         "113": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Dinning Unused Stuff (3)",
                 "Tag": "",
@@ -7030,6 +7244,7 @@
         },
         "114": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Gallery Door Right Side",
                 "Tag": "",
@@ -7073,6 +7288,7 @@
         },
         "115": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Handle__6",
                 "Tag": "",
@@ -7116,6 +7332,7 @@
         },
         "116": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Main Wall (1)",
                 "Tag": "",
@@ -7159,6 +7376,7 @@
         },
         "117": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Plate__6",
                 "Tag": "",
@@ -7202,6 +7420,7 @@
         },
         "118": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Tube__6",
                 "Tag": "",
@@ -7245,6 +7464,7 @@
         },
         "119": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Cube__6",
                 "Tag": "",
@@ -7288,6 +7508,7 @@
         },
         "120": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Tube__10",
                 "Tag": "",
@@ -7331,6 +7552,7 @@
         },
         "121": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Oil_Tank__6",
                 "Tag": "",
@@ -7374,6 +7596,7 @@
         },
         "122": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Dinning Wall (6)",
                 "Tag": "",
@@ -7417,6 +7640,7 @@
         },
         "123": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Extrude__6",
                 "Tag": "",
@@ -7460,6 +7684,7 @@
         },
         "124": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Gallery Door Left Side",
                 "Tag": "",
@@ -7503,6 +7728,7 @@
         },
         "125": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Handle__7",
                 "Tag": "",
@@ -7546,6 +7772,7 @@
         },
         "126": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Main Wall (2)",
                 "Tag": "",
@@ -7589,6 +7816,7 @@
         },
         "127": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Plate__7",
                 "Tag": "",
@@ -7632,6 +7860,7 @@
         },
         "128": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Oil_Tank_13__2",
                 "Tag": "",
@@ -7675,6 +7904,7 @@
         },
         "130": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Tube__7",
                 "Tag": "",
@@ -7718,6 +7948,7 @@
         },
         "131": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Cube__7",
                 "Tag": "",
@@ -7761,6 +7992,7 @@
         },
         "260": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Toilet Unused Stuff ()",
                 "Tag": "",
@@ -7804,6 +8036,7 @@
         },
         "132": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Tube__11",
                 "Tag": "",
@@ -7847,6 +8080,7 @@
         },
         "134": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Extrude__7",
                 "Tag": "",
@@ -7890,6 +8124,7 @@
         },
         "136": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Dinning Wall (5)",
                 "Tag": "",
@@ -7933,6 +8168,7 @@
         },
         "137": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Living Door Right Side",
                 "Tag": "",
@@ -7976,6 +8212,7 @@
         },
         "258": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Mini Hallway Wall (2)",
                 "Tag": "",
@@ -8019,6 +8256,7 @@
         },
         "138": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Plate__8",
                 "Tag": "",
@@ -8062,6 +8300,7 @@
         },
         "139": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Tube__8",
                 "Tag": "",
@@ -8105,6 +8344,7 @@
         },
         "268": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Toilet Wall ()",
                 "Tag": "",
@@ -8148,6 +8388,7 @@
         },
         "140": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Cube__8",
                 "Tag": "",
@@ -8191,6 +8432,7 @@
         },
         "141": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Oil_Tank__8",
                 "Tag": "",
@@ -8234,6 +8476,7 @@
         },
         "262": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Toilet Wall Tiles (2)",
                 "Tag": "",
@@ -8277,6 +8520,7 @@
         },
         "142": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Toilet Wall Tiles (1)",
                 "Tag": "",
@@ -8320,6 +8564,7 @@
         },
         "143": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Extrude__8",
                 "Tag": "",
@@ -8363,6 +8608,7 @@
         },
         "256": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Toilet Unused Stuff ()",
                 "Tag": "",
@@ -8406,6 +8652,7 @@
         },
         "144": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Living Door Left Side",
                 "Tag": "",
@@ -8449,6 +8696,7 @@
         },
         "145": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Plate__9",
                 "Tag": "",
@@ -8492,6 +8740,7 @@
         },
         "266": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Bedroom Wall ()",
                 "Tag": "",
@@ -8535,6 +8784,7 @@
         },
         "146": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Tube__9",
                 "Tag": "",
@@ -8578,6 +8828,7 @@
         },
         "147": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Main Wall (3)",
                 "Tag": "",
@@ -8621,6 +8872,7 @@
         },
         "276": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Left Hallway Window (2)",
                 "Tag": "",
@@ -8664,6 +8916,7 @@
         },
         "148": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Cube__9",
                 "Tag": "",
@@ -8707,6 +8960,7 @@
         },
         "149": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Oil_Tank__9",
                 "Tag": "",
@@ -8750,6 +9004,7 @@
         },
         "270": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Toilet_Right_Wall",
                 "Tag": "",
@@ -8793,6 +9048,7 @@
         },
         "150": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Extrude__9",
                 "Tag": "",
@@ -8836,6 +9092,7 @@
         },
         "151": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Back_Wall",
                 "Tag": "",
@@ -8879,6 +9136,7 @@
         },
         "264": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Toilet Wall ()",
                 "Tag": "",
@@ -8922,6 +9180,7 @@
         },
         "152": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Bedroom Door Frame (1)",
                 "Tag": "",
@@ -8965,6 +9224,7 @@
         },
         "153": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Handle__10",
                 "Tag": "",
@@ -9008,6 +9268,7 @@
         },
         "274": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Main Wall (9)",
                 "Tag": "",
@@ -9051,6 +9312,7 @@
         },
         "154": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Cube_15__1",
                 "Tag": "",
@@ -9094,6 +9356,7 @@
         },
         "155": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Plate__10",
                 "Tag": "",
@@ -9137,6 +9400,7 @@
         },
         "284": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Mansion Floor",
                 "Tag": "",
@@ -9185,6 +9449,7 @@
         },
         "156": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Engraving__10",
                 "Tag": "",
@@ -9228,6 +9493,7 @@
         },
         "157": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Oil_Tank__10",
                 "Tag": "",
@@ -9271,6 +9537,7 @@
         },
         "278": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Study Window (1)",
                 "Tag": "",
@@ -9314,6 +9581,7 @@
         },
         "158": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Extrude__10",
                 "Tag": "",
@@ -9357,6 +9625,7 @@
         },
         "159": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Dinning Wall (4)",
                 "Tag": "",
@@ -9400,6 +9669,7 @@
         },
         "272": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Living Window (2)",
                 "Tag": "",
@@ -9443,6 +9713,7 @@
         },
         "160": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Bedroom Double Door Left Side",
                 "Tag": "",
@@ -9486,6 +9757,7 @@
         },
         "161": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Handle__11",
                 "Tag": "",
@@ -9529,6 +9801,7 @@
         },
         "162": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Engraving__11",
                 "Tag": "",
@@ -9572,6 +9845,7 @@
         },
         "164": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Extrude__11",
                 "Tag": "",
@@ -9615,6 +9889,7 @@
         },
         "165": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Bedroom Single Door Frame (1)",
                 "Tag": "",
@@ -9658,6 +9933,7 @@
         },
         "166": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Bedroom Single Door Frame (2)",
                 "Tag": "",
@@ -9701,6 +9977,7 @@
         },
         "167": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Bedroom Single Door",
                 "Tag": "",
@@ -9744,6 +10021,7 @@
         },
         "168": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Plate_13",
                 "Tag": "",
@@ -9787,6 +10065,7 @@
         },
         "170": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Cube_15__2",
                 "Tag": "",
@@ -9830,6 +10109,7 @@
         },
         "172": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Tube_13",
                 "Tag": "",
@@ -9873,6 +10153,7 @@
         },
         "173": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Cube_15",
                 "Tag": "",
@@ -9916,6 +10197,7 @@
         },
         "174": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Oil_Tank_13",
                 "Tag": "",
@@ -9959,6 +10241,7 @@
         },
         "175": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Toilet Door Frame (1)",
                 "Tag": "",
@@ -10002,6 +10285,7 @@
         },
         "288": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Gallery_F",
                 "Tag": "",
@@ -10045,6 +10329,7 @@
         },
         "176": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Toilet Door Frame (2)",
                 "Tag": "",
@@ -10088,6 +10373,7 @@
         },
         "178": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Handle_13__1",
                 "Tag": "",
@@ -10131,6 +10417,7 @@
         },
         "180": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Engraving_13__1",
                 "Tag": "",
@@ -10174,6 +10461,7 @@
         },
         "182": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Extrude_14",
                 "Tag": "",
@@ -10217,6 +10505,7 @@
         },
         "184": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Study Door Frame (2)",
                 "Tag": "",
@@ -10260,6 +10549,7 @@
         },
         "186": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Study Door",
                 "Tag": "",
@@ -10303,6 +10593,7 @@
         },
         "188": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Right Hallway Wall (2)",
                 "Tag": "",
@@ -10346,6 +10637,7 @@
         },
         "190": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Engraving_13__2",
                 "Tag": "",
@@ -10389,6 +10681,7 @@
         },
         "192": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Study Door Keyhole",
                 "Tag": "",
@@ -10432,6 +10725,7 @@
         },
         "378": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Body2",
                 "Tag": "",
@@ -10475,6 +10769,7 @@
         },
         "193": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Gallery Pillar (2)",
                 "Tag": "",
@@ -10518,6 +10813,7 @@
         },
         "194": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Kitchen Vent",
                 "Tag": "",
@@ -10561,6 +10857,7 @@
         },
         "196": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Gallery Vent",
                 "Tag": "",
@@ -10604,6 +10901,7 @@
         },
         "197": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Gallery Pillar (4)",
                 "Tag": "",
@@ -10647,6 +10945,7 @@
         },
         "382": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "1",
                 "Tag": "",
@@ -10690,6 +10989,7 @@
         },
         "198": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Gallery Wall (4)",
                 "Tag": "",
@@ -10733,6 +11033,7 @@
         },
         "376": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Handle_22",
                 "Tag": "",
@@ -10776,6 +11077,7 @@
         },
         "199": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Gallery Wall (5)",
                 "Tag": "",
@@ -10819,6 +11121,7 @@
         },
         "200": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Left Hallway Wall (1)",
                 "Tag": "",
@@ -10862,6 +11165,7 @@
         },
         "202": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Study Wall (3)",
                 "Tag": "",
@@ -10905,6 +11209,7 @@
         },
         "203": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Study Wall (4)",
                 "Tag": "",
@@ -10948,6 +11253,7 @@
         },
         "332": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Art",
                 "Tag": "",
@@ -10991,6 +11297,7 @@
         },
         "204": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Study Wall (5)",
                 "Tag": "",
@@ -11034,6 +11341,7 @@
         },
         "205": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Study Wall (6)",
                 "Tag": "",
@@ -11077,6 +11385,7 @@
         },
         "326": {
             "ArchetypeID": "11001010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "PlayerCamera",
                 "Tag": "",
@@ -11132,6 +11441,7 @@
         },
         "206": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Study Wall (7)",
                 "Tag": "",
@@ -11175,6 +11485,7 @@
         },
         "208": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Gallery Wall (2)",
                 "Tag": "",
@@ -11218,6 +11529,7 @@
         },
         "209": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Gallery Wall (1)",
                 "Tag": "",
@@ -11261,6 +11573,7 @@
         },
         "330": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Painting",
                 "Tag": "",
@@ -11307,6 +11620,7 @@
         },
         "210": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Gallery Pillar (3)",
                 "Tag": "",
@@ -11350,6 +11664,7 @@
         },
         "211": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Living Fireplace (1)",
                 "Tag": "",
@@ -11393,6 +11708,7 @@
         },
         "340": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Book_Generator____NitroMan2",
                 "Tag": "",
@@ -11436,6 +11752,7 @@
         },
         "212": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Main Wall (5)",
                 "Tag": "",
@@ -11479,6 +11796,7 @@
         },
         "213": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Dinning Unused Stuff (4)",
                 "Tag": "",
@@ -11522,6 +11840,7 @@
         },
         "334": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Shelf1",
                 "Tag": "",
@@ -11568,6 +11887,7 @@
         },
         "214": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Kitchen Wall (5)",
                 "Tag": "",
@@ -11611,6 +11931,7 @@
         },
         "215": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Dinning Wall (8)",
                 "Tag": "",
@@ -11654,6 +11975,7 @@
         },
         "216": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Kitchen Wall (6)",
                 "Tag": "",
@@ -11697,6 +12019,7 @@
         },
         "217": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Left Hallway Wall (2)",
                 "Tag": "",
@@ -11740,6 +12063,7 @@
         },
         "338": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Shelf2",
                 "Tag": "",
@@ -11786,6 +12110,7 @@
         },
         "218": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Main Wall (6)",
                 "Tag": "",
@@ -11829,6 +12154,7 @@
         },
         "219": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Dinning Wall Interior (2)",
                 "Tag": "",
@@ -11872,6 +12198,7 @@
         },
         "348": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Sofa",
                 "Tag": "",
@@ -11920,6 +12247,7 @@
         },
         "220": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Toilet Wall (3)",
                 "Tag": "",
@@ -11963,6 +12291,7 @@
         },
         "221": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Dinning Wall Interior (3)",
                 "Tag": "",
@@ -12006,6 +12335,7 @@
         },
         "342": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Hide Closet",
                 "Tag": "",
@@ -12055,6 +12385,7 @@
         },
         "222": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Dinning Unused Stuff (5)",
                 "Tag": "",
@@ -12098,6 +12429,7 @@
         },
         "223": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Living Wall ()",
                 "Tag": "",
@@ -12141,6 +12473,7 @@
         },
         "336": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Book_Generator____NitroMan1",
                 "Tag": "",
@@ -12184,6 +12517,7 @@
         },
         "224": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Dinning Wall Interior (4)",
                 "Tag": "",
@@ -12227,6 +12561,7 @@
         },
         "225": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Living Wall ()",
                 "Tag": "",
@@ -12270,6 +12605,7 @@
         },
         "282": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Right Hallway Window (1)",
                 "Tag": "",
@@ -12313,6 +12649,7 @@
         },
         "226": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Right Hallway Wall (6)",
                 "Tag": "",
@@ -12356,6 +12693,7 @@
         },
         "227": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Dinning Wall Interior (5)",
                 "Tag": "",
@@ -12399,6 +12737,7 @@
         },
         "356": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "borders",
                 "Tag": "",
@@ -12442,6 +12781,7 @@
         },
         "228": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Main Wall (7)",
                 "Tag": "",
@@ -12485,6 +12825,7 @@
         },
         "229": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Living Wall ()",
                 "Tag": "",
@@ -12528,6 +12869,7 @@
         },
         "286": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Main_F",
                 "Tag": "",
@@ -12571,6 +12913,7 @@
         },
         "230": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Living Wall ()",
                 "Tag": "",
@@ -12614,6 +12957,7 @@
         },
         "231": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Dinning Wall Interior (6)",
                 "Tag": "",
@@ -12657,6 +13001,7 @@
         },
         "280": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Right Hallway Wall (3)",
                 "Tag": "",
@@ -12700,6 +13045,7 @@
         },
         "232": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Dinning Wall (9)",
                 "Tag": "",
@@ -12743,6 +13089,7 @@
         },
         "233": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Dinning Wall Interior (7)",
                 "Tag": "",
@@ -12786,6 +13133,7 @@
         },
         "234": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Dinning Wall (10)",
                 "Tag": "",
@@ -12829,6 +13177,7 @@
         },
         "364": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Cube_2",
                 "Tag": "",
@@ -12872,6 +13221,7 @@
         },
         "235": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Dinning Wall Interior (8)",
                 "Tag": "",
@@ -12915,6 +13265,7 @@
         },
         "236": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Kitchen Wall (4)",
                 "Tag": "",
@@ -12958,6 +13309,7 @@
         },
         "237": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Dinning Unused Stuff (6)",
                 "Tag": "",
@@ -13001,6 +13353,7 @@
         },
         "358": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Vanity",
                 "Tag": "",
@@ -13046,6 +13399,7 @@
         },
         "238": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Living Fireplace (2)",
                 "Tag": "",
@@ -13089,6 +13443,7 @@
         },
         "239": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Living Fireplace (3)",
                 "Tag": "",
@@ -13132,6 +13487,7 @@
         },
         "352": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "stand",
                 "Tag": "",
@@ -13175,6 +13531,7 @@
         },
         "240": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Living Wall ()",
                 "Tag": "",
@@ -13218,6 +13575,7 @@
         },
         "362": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Pillow",
                 "Tag": "",
@@ -13261,6 +13619,7 @@
         },
         "241": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Living Wall ()",
                 "Tag": "",
@@ -13304,6 +13663,7 @@
         },
         "242": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Bedroom Wall ()",
                 "Tag": "",
@@ -13347,6 +13707,7 @@
         },
         "372": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "New Entity",
                 "Tag": "",
@@ -13390,6 +13751,7 @@
         },
         "243": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Bedroom Wall ()",
                 "Tag": "",
@@ -13433,6 +13795,7 @@
         },
         "244": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Living Wall ()",
                 "Tag": "",
@@ -13476,6 +13839,7 @@
         },
         "366": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "pCube1_end",
                 "Tag": "",
@@ -13519,6 +13883,7 @@
         },
         "245": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Right Hallway Wall (7)",
                 "Tag": "",
@@ -13562,6 +13927,7 @@
         },
         "246": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Study Wall (9)",
                 "Tag": "",
@@ -13605,6 +13971,7 @@
         },
         "247": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Bedroom Wall ()",
                 "Tag": "",
@@ -13648,6 +14015,7 @@
         },
         "360": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "pCube1",
                 "Tag": "",
@@ -13691,6 +14059,7 @@
         },
         "248": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Bedroom Wall ()",
                 "Tag": "",
@@ -13734,6 +14103,7 @@
         },
         "249": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Right Hallway Wall (8)",
                 "Tag": "",
@@ -13777,6 +14147,7 @@
         },
         "250": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Bedroom Wall ()",
                 "Tag": "",
@@ -13820,6 +14191,7 @@
         },
         "251": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Bedroom Wall ()",
                 "Tag": "",
@@ -13863,6 +14235,7 @@
         },
         "380": {
             "ArchetypeID": "11000000000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Waypoints",
                 "Tag": "",
@@ -13898,6 +14271,7 @@
         },
         "252": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Living Wall ()",
                 "Tag": "",
@@ -13941,6 +14315,7 @@
         },
         "374": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Handle1",
                 "Tag": "",
@@ -13984,6 +14359,7 @@
         },
         "253": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Right Hallway Wall (9)",
                 "Tag": "",
@@ -14027,6 +14403,7 @@
         },
         "254": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Toilet Unused Stuff ()",
                 "Tag": "",
@@ -14070,6 +14447,7 @@
         },
         "368": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "pasted__pCube2",
                 "Tag": "",
@@ -14113,6 +14491,7 @@
         },
         "255": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Right Hallway Window (3)",
                 "Tag": "",
@@ -14156,6 +14535,7 @@
         },
         "257": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Mini Hallway Wall (1)",
                 "Tag": "",
@@ -14199,6 +14579,7 @@
         },
         "259": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Toilet Unused Stuff ()",
                 "Tag": "",
@@ -14242,6 +14623,7 @@
         },
         "261": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Toilet Wall (2)",
                 "Tag": "",
@@ -14285,6 +14667,7 @@
         },
         "263": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Toilet Wall ()",
                 "Tag": "",
@@ -14328,6 +14711,7 @@
         },
         "265": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Toilet Wall Tiles ()",
                 "Tag": "",
@@ -14371,6 +14755,7 @@
         },
         "267": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Toilet Wall Tiles ()",
                 "Tag": "",
@@ -14414,6 +14799,7 @@
         },
         "269": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Toilet_Back_Wall",
                 "Tag": "",
@@ -14457,6 +14843,7 @@
         },
         "271": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Living Window (1)",
                 "Tag": "",
@@ -14500,6 +14887,7 @@
         },
         "273": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Main Wall (8)",
                 "Tag": "",
@@ -14543,6 +14931,7 @@
         },
         "275": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Left Hallway Window (1)",
                 "Tag": "",
@@ -14586,6 +14975,7 @@
         },
         "277": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Study Wall ()",
                 "Tag": "",
@@ -14629,6 +15019,7 @@
         },
         "279": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Study Window (2)",
                 "Tag": "",
@@ -14672,6 +15063,7 @@
         },
         "281": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Right Hallway Wall (4)",
                 "Tag": "",
@@ -14715,6 +15107,7 @@
         },
         "283": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Right Hallway Window (2)",
                 "Tag": "",
@@ -14758,6 +15151,7 @@
         },
         "285": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Toilet_F",
                 "Tag": "",
@@ -14801,6 +15195,7 @@
         },
         "287": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Kitchen_F",
                 "Tag": "",
@@ -14844,6 +15239,7 @@
         },
         "289": {
             "ArchetypeID": "11000000000010",
+            "Enabled": false,
             "Name Tag": {
                 "Name": "Inventory",
                 "Tag": "",
@@ -14924,6 +15320,7 @@
         },
         "291": {
             "ArchetypeID": "11000000000010",
+            "Enabled": false,
             "Name Tag": {
                 "Name": "Box2",
                 "Tag": "",
@@ -14988,6 +15385,7 @@
         },
         "293": {
             "ArchetypeID": "11000000000010",
+            "Enabled": false,
             "Name Tag": {
                 "Name": "Box4",
                 "Tag": "",
@@ -15052,6 +15450,7 @@
         },
         "295": {
             "ArchetypeID": "11000000000010",
+            "Enabled": false,
             "Name Tag": {
                 "Name": "Box5",
                 "Tag": "",
@@ -15116,6 +15515,7 @@
         },
         "297": {
             "ArchetypeID": "11000000000010",
+            "Enabled": false,
             "Name Tag": {
                 "Name": "Box7",
                 "Tag": "",
@@ -15180,6 +15580,7 @@
         },
         "299": {
             "ArchetypeID": "11000000000010",
+            "Enabled": false,
             "Name Tag": {
                 "Name": "Box9",
                 "Tag": "",
@@ -15244,6 +15645,7 @@
         },
         "301": {
             "ArchetypeID": "11000000000010",
+            "Enabled": false,
             "Name Tag": {
                 "Name": "Box11",
                 "Tag": "",
@@ -15308,6 +15710,7 @@
         },
         "303": {
             "ArchetypeID": "11000000000010",
+            "Enabled": false,
             "Name Tag": {
                 "Name": "ItemTab",
                 "Tag": "",
@@ -15372,6 +15775,7 @@
         },
         "305": {
             "ArchetypeID": "11000000000010",
+            "Enabled": false,
             "Name Tag": {
                 "Name": "PaintingsTab",
                 "Tag": "",
@@ -15434,6 +15838,7 @@
         },
         "307": {
             "ArchetypeID": "11000000000010",
+            "Enabled": false,
             "Name Tag": {
                 "Name": "I Key",
                 "Tag": "",
@@ -15498,6 +15903,7 @@
         },
         "309": {
             "ArchetypeID": "11000000000010",
+            "Enabled": false,
             "Name Tag": {
                 "Name": "Notes Text",
                 "Tag": "",
@@ -15560,6 +15966,7 @@
         },
         "311": {
             "ArchetypeID": "11000000000010",
+            "Enabled": false,
             "Name Tag": {
                 "Name": "Use Text",
                 "Tag": "",
@@ -15622,6 +16029,7 @@
         },
         "313": {
             "ArchetypeID": "11000000000010",
+            "Enabled": false,
             "Name Tag": {
                 "Name": "Item1",
                 "Tag": "",
@@ -15684,6 +16092,7 @@
         },
         "315": {
             "ArchetypeID": "11000000000010",
+            "Enabled": false,
             "Name Tag": {
                 "Name": "Item3",
                 "Tag": "",
@@ -15746,6 +16155,7 @@
         },
         "317": {
             "ArchetypeID": "11000000000010",
+            "Enabled": false,
             "Name Tag": {
                 "Name": "Item5",
                 "Tag": "",
@@ -15808,6 +16218,7 @@
         },
         "319": {
             "ArchetypeID": "11000000000010",
+            "Enabled": false,
             "Name Tag": {
                 "Name": "Item7",
                 "Tag": "",
@@ -15870,6 +16281,7 @@
         },
         "321": {
             "ArchetypeID": "11000000000010",
+            "Enabled": false,
             "Name Tag": {
                 "Name": "Item9",
                 "Tag": "",
@@ -15932,6 +16344,7 @@
         },
         "323": {
             "ArchetypeID": "11000000000010",
+            "Enabled": false,
             "Name Tag": {
                 "Name": "Item11",
                 "Tag": "",
@@ -15994,6 +16407,7 @@
         },
         "325": {
             "ArchetypeID": "11000010100000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Player",
                 "Tag": "",
@@ -16045,11 +16459,13 @@
                     "z": 0.0
                 },
                 "Radius": 100.0,
-                "AImode": "PLAYER"
+                "AImode": "PLAYER",
+                "ColliderName": ""
             }
         },
         "327": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Bathtub",
                 "Tag": "",
@@ -16093,6 +16509,7 @@
         },
         "329": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Toilet",
                 "Tag": "",
@@ -16136,6 +16553,7 @@
         },
         "331": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Frame",
                 "Tag": "",
@@ -16179,6 +16597,7 @@
         },
         "337": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Shelf1",
                 "Tag": "",
@@ -16222,6 +16641,7 @@
         },
         "341": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Shelf2",
                 "Tag": "",
@@ -16265,6 +16685,7 @@
         },
         "343": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Handle",
                 "Tag": "",
@@ -16308,6 +16729,7 @@
         },
         "344": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Closet Door1",
                 "Tag": "",
@@ -16351,6 +16773,7 @@
         },
         "345": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Handle_2",
                 "Tag": "",
@@ -16394,6 +16817,7 @@
         },
         "346": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Closer Door2",
                 "Tag": "",
@@ -16437,6 +16861,7 @@
         },
         "347": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Body",
                 "Tag": "",
@@ -16480,6 +16905,7 @@
         },
         "349": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "arm_outer",
                 "Tag": "",
@@ -16523,6 +16949,7 @@
         },
         "350": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "arm_inner",
                 "Tag": "",
@@ -16566,6 +16993,7 @@
         },
         "351": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "seat",
                 "Tag": "",
@@ -16609,6 +17037,7 @@
         },
         "353": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Coffee Table",
                 "Tag": "",
@@ -16656,6 +17085,7 @@
         },
         "355": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Legs",
                 "Tag": "",
@@ -16699,6 +17129,7 @@
         },
         "357": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "flaz",
                 "Tag": "",
@@ -16742,6 +17173,7 @@
         },
         "361": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "New Entity",
                 "Tag": "",
@@ -16793,6 +17225,7 @@
         },
         "363": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Cube",
                 "Tag": "",
@@ -16836,6 +17269,7 @@
         },
         "365": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Pillow_2",
                 "Tag": "",
@@ -16879,6 +17313,7 @@
         },
         "367": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "pCube1",
                 "Tag": "",
@@ -16922,6 +17357,7 @@
         },
         "369": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "New Entity",
                 "Tag": "",
@@ -16965,6 +17401,7 @@
         },
         "373": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "New Entity",
                 "Tag": "",
@@ -17014,6 +17451,7 @@
         },
         "375": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Door1",
                 "Tag": "",
@@ -17057,6 +17495,7 @@
         },
         "377": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Door_22",
                 "Tag": "",
@@ -17100,6 +17539,7 @@
         },
         "379": {
             "ArchetypeID": "11000010100000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Monster",
                 "Tag": "",
@@ -17149,11 +17589,13 @@
                     "z": 0.0
                 },
                 "Radius": 350.0,
-                "AImode": "MONSTER"
+                "AImode": "MONSTER",
+                "ColliderName": ""
             }
         },
         "381": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "0",
                 "Tag": "",
@@ -17197,6 +17639,7 @@
         },
         "383": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "2",
                 "Tag": "",
@@ -17240,6 +17683,7 @@
         },
         "384": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "3",
                 "Tag": "",
@@ -17283,6 +17727,7 @@
         },
         "386": {
             "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "5",
                 "Tag": "",
@@ -17323,49 +17768,112 @@
                 },
                 "Used In 2D": false
             }
+        },
+        "390": {
+            "ArchetypeID": "11000000000010",
+            "Enabled": false,
+            "Name Tag": {
+                "Name": "interact",
+                "Tag": "",
+                "IsActive": true,
+                "HierarchyParent": 389,
+                "HierarchyIndex": 0,
+                "HierarchyChildren": []
+            },
+            "Transform": {
+                "Position": {
+                    "x": -0.08288758993148804,
+                    "y": -0.8768110275268555,
+                    "z": 0.0
+                },
+                "Scale": {
+                    "x": 0.08754995465278625,
+                    "y": 0.12015373259782791,
+                    "z": 0.133899986743927
+                },
+                "Rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                }
+            },
+            "UI Sprite": {
+                "Texture": "",
+                "EnableSprite": true,
+                "LayerID": 1,
+                "is Font": true,
+                "message": "Interact",
+                "Font Texture": "Roboto-Medium.dds",
+                "ForeGroundColour": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 0.0
+                },
+                "Sprite Color": {
+                    "x": 0.10000000149011612,
+                    "y": 0.10000000149011612,
+                    "z": 0.10000000149011612,
+                    "w": 1.0
+                },
+                "BackGroundColour": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "BoundingBoxMin": {
+                    "x": -0.12666256725788116,
+                    "y": -0.9368879199028015
+                },
+                "BoundingBoxMax": {
+                    "x": -0.03911261260509491,
+                    "y": -0.8167341351509094
+                }
+            }
         }
     },
     "Scripts": {
+        "191": {},
+        "304": {},
         "15": {},
         "207": {},
         "320": {},
-        "191": {},
-        "304": {},
         "9": {},
         "201": {},
         "322": {},
-        "324": {},
-        "195": {},
         "3": {},
-        "189": {},
+        "195": {},
+        "324": {},
         "310": {},
-        "187": {},
+        "189": {},
         "316": {},
-        "185": {},
+        "187": {},
         "306": {},
-        "183": {},
+        "185": {},
         "296": {},
-        "181": {},
+        "183": {},
         "302": {},
-        "179": {},
+        "181": {},
         "308": {},
-        "177": {},
+        "179": {},
         "298": {},
-        "171": {},
+        "177": {},
         "300": {},
-        "169": {},
+        "171": {},
         "290": {},
-        "163": {},
+        "169": {},
         "292": {},
-        "135": {},
-        "312": {},
+        "163": {},
         "7": {},
-        "133": {},
-        "318": {},
+        "312": {},
+        "135": {},
         "5": {},
-        "129": {},
-        "314": {},
+        "318": {},
+        "133": {},
         "1": {},
+        "314": {},
+        "129": {},
         "2": {},
         "4": {},
         "6": {},
@@ -17444,6 +17952,7 @@
         "60": {},
         "61": {},
         "62": {},
+        "389": {},
         "63": {},
         "64": {},
         "65": {},
@@ -17780,6 +18289,12 @@
                 "isWalking": {
                     "Bool": false
                 },
+                "isCollided": {
+                    "Bool": false
+                },
+                "collidedEntity": {
+                    "GameObject": 0
+                },
                 "enableSprint": {
                     "Bool": true
                 },
@@ -17902,6 +18417,26 @@
                 },
                 "timer": {
                     "Float": 0.0
+                },
+                "gameObject": {
+                    "GameObject": 325
+                },
+                "is_Enabled": {
+                    "Bool": true
+                },
+                "is_Awake": {
+                    "Bool": true
+                },
+                "is_Start": {
+                    "Bool": true
+                }
+            },
+            "QTE": {
+                "isQTE": {
+                    "Bool": false
+                },
+                "interaction": {
+                    "GameObject": 389
                 },
                 "gameObject": {
                     "GameObject": 325
@@ -18065,49 +18600,50 @@
                     "Bool": true
                 }
             }
-        }
+        },
+        "390": {}
     },
     "Active Archetype": {
+        "191": "1100001000000",
+        "304": "1100000000001",
         "15": "1100001000000",
         "207": "1100001000000",
         "320": "1100000000000",
-        "191": "1100001000000",
-        "304": "1100000000001",
         "9": "1100001000000",
         "201": "1100001000000",
         "322": "1100000000000",
-        "324": "1100000000000",
-        "195": "1100001000000",
         "3": "1100001000000",
-        "189": "1100001000000",
+        "195": "1100001000000",
+        "324": "1100000000000",
         "310": "1100000000001",
-        "187": "1100001000000",
+        "189": "1100001000000",
         "316": "1100000000000",
-        "185": "1100001000000",
+        "187": "1100001000000",
         "306": "1100000000001",
-        "183": "1100001000000",
+        "185": "1100001000000",
         "296": "1100000000000",
-        "181": "1100001000000",
+        "183": "1100001000000",
         "302": "1100000000001",
-        "179": "1100001000000",
+        "181": "1100001000000",
         "308": "1100000000001",
-        "177": "1100001000000",
+        "179": "1100001000000",
         "298": "1100000000001",
-        "171": "1100001000000",
+        "177": "1100001000000",
         "300": "1100000000001",
-        "169": "1100001000000",
+        "171": "1100001000000",
         "290": "1100000000001",
-        "163": "1100001000000",
+        "169": "1100001000000",
         "292": "1100000000001",
-        "135": "1100001000000",
-        "312": "1100000000001",
+        "163": "1100001000000",
         "7": "1100001000000",
-        "133": "1100001000000",
-        "318": "1100000000001",
+        "312": "1100000000001",
+        "135": "1100001000000",
         "5": "1100001000000",
-        "129": "1100001000000",
-        "314": "1100000000000",
+        "318": "1100000000001",
+        "133": "1100001000000",
         "1": "1100001000000",
+        "314": "1100000000000",
+        "129": "1100001000000",
         "2": "1100001000000",
         "4": "1100001000000",
         "6": "1100001000000",
@@ -18165,6 +18701,7 @@
         "60": "1100001010000",
         "61": "1100001000000",
         "62": "1100001000000",
+        "389": "11000000000010",
         "63": "1100001000000",
         "64": "1100001000000",
         "65": "1100001000000",
@@ -18444,6 +18981,7 @@
         "381": "11000010000000",
         "383": "11000010000000",
         "384": "11000010000000",
-        "386": "11000010000000"
+        "386": "11000010000000",
+        "390": "11000000000010"
     }
 }

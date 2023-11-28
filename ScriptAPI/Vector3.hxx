@@ -23,5 +23,6 @@ namespace ScriptAPI
 		static Vector3 operator*(Vector3 lhs, float rhs);
 		void Normalize();
 		Vector3 normalise();
+		static float Dot(Vector3 lhs, Vector3 rhs);
 	};
 }

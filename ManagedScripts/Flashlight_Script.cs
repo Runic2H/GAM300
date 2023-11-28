@@ -12,25 +12,29 @@ public class Flashlight_Script : Script
     [SerializeField] private bool flicker = false;
     [SerializeField] private float flickerTimer;
 
-    private void Update()
+    public override void Update()
     {
+        lightSourceObj = GameObjectScriptFind("Pointlight");
+        lightIntensity = lightSourceObj.GetGraphicComponent().getColourAlpha();
+
         //For Inspector Display Can Be Removed When Building
         //lightIntensity = lightSource.intensity;
 
-        if (Input.GetKeyDown(Keycode.F) /*&& lightSource.intensity > 0*/)
+        if (Input.GetKeyDown(Keycode.F))
         {
-            if (activateLight)
+            activateLight = !activateLight;
+            if(activateLight == false)
             {
-                activateLight = false;
+                lightSourceObj.GetGraphicComponent().SetColourAlpha(0.0f);
             }
             else
             {
-                activateLight = true;
+                lightSourceObj.GetGraphicComponent().SetColourAlpha(0.3f);
             }
         }
 
         //Remove this chunck of code when building
-        if (Input.GetKeyDown(Keycode.ZERO))
+        /*if (Input.GetKeyDown(Keycode.ZERO))
         {
             if (flicker)
             {
@@ -40,7 +44,7 @@ public class Flashlight_Script : Script
             {
                 flicker = true;
             }
-        }
+        }*/
 
         if (flicker)
         {
@@ -49,32 +53,32 @@ public class Flashlight_Script : Script
 
         if (activateLight)
         {
-            //gameObject.GetComponent<MeshRenderer>().enabled = true;
-            //gameObject.GetComponent<CapsuleColliderComponent>().enabled = true;
-            //lightSourceObj.SetActive(true);
+            /*gameObject.GetComponent<MeshRenderer>().enabled = true;
+            gameObject.GetComponent<CapsuleColliderComponent>().enabled = true;*/
+            lightSourceObj.SetActive(lightSourceObj.GetEntityID(),true);
         }
         else
         {
-            //gameObject.GetComponent<MeshRenderer>().enabled = false;
-            //gameObject.GetComponent<CapsuleColliderComponent>().enabled = false;
-            //lightSourceObj.SetActive(false);
+           /* gameObject.GetComponent<MeshRenderer>().enabled = false;
+            gameObject.GetComponent<CapsuleColliderComponent>().enabled = false;*/
+            lightSourceObj.SetActive(lightSourceObj.GetEntityID(),false);
         }
 
-        BatteryLife();
+        //BatteryLife();
     }
 
     void BatteryLife()
     {
-        //if (lightSource.intensity <= 0)
-        //{
-        //    activateLight = false;
-        //    lightSource.intensity = 0;
-        //}
+        if (lightIntensity <= 0)
+        {
+            activateLight = false;
+            lightSourceObj.GetGraphicComponent().SetColourAlpha(0.0f);
+        }
 
-        //if (activateLight)
-        //{
-        //    lightSource.intensity -= 0.01f * Time.deltaTime;
-        //}
+        if (activateLight)
+        {
+            lightIntensity -= 0.0001f * Time.deltaTime;
+        }
     }
 
     void FlickeringLight()

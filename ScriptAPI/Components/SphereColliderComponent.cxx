@@ -1,5 +1,5 @@
 #include "SphereColliderComponent.hxx"
-
+#include "../TypeConversion.hxx"
 namespace ScriptAPI
 {
 	// ISTRIGGER =============================================================================
@@ -63,9 +63,19 @@ namespace ScriptAPI
 		return IsInteract;
 	}
 
-	void SphereColliderComponent::GetIsInteract(bool value)
+	void SphereColliderComponent::SetIsInteract(bool value)
 	{
 		IsInteract = value;
+	}
+
+	System::String^ SphereColliderComponent::GetColliderName()
+	{
+		return  toSystemString(TDS::GetSphereCollider(entityID)->getColliderName());
+	}
+
+	System::String^ SphereColliderComponent::ColliderName::get()
+	{
+		return ColliderName;
 	}
 
 	// CENTER ================================================================================	

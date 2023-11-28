@@ -90,6 +90,8 @@ class Quat
     // Return yaw value of euler angles
     static float yaw(Quat const& q);
     
+    static Quat euler(Vec3 const& v);
+    
     // Component Access
     float& operator[](int index);
     float const& operator[](int index) const;

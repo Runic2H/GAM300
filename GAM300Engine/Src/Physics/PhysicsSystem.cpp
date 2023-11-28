@@ -212,10 +212,22 @@ namespace TDS
 						{
 
 							_collider[i].SetIsInteract(true);
+							_collider[j].SetIsInteract(true);
+
+							_collider[j].SetIsTrigger(true);
 						}
 						else
 						{
 							_collider[i].SetIsInteract(false);
+							_collider[j].SetIsInteract(false);
+
+							_collider[j].SetIsTrigger(false);
+						}
+
+						if (_collider[j].GetIsTrigger())
+						{
+							NameTag* vNameTag = ecs.getComponent<NameTag>(entities[i]);
+							_collider[j].setColliderName(vNameTag->GetName());
 						}
 					}
 				}

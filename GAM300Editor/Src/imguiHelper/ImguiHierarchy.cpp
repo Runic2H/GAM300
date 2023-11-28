@@ -38,6 +38,7 @@ namespace TDS
 		for (EntityID& entity : allEntities)
 		{
 			NameTag* nameTagComponent = ecs.getComponent<NameTag>(entity);
+
 			if (nameTagComponent->GetHierarchyParent() == 0) // no parent
 			{
 				bool inserted = false;

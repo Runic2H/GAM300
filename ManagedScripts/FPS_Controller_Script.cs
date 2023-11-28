@@ -44,6 +44,9 @@ public class FPS_Controller_Script : Script
     public float walkSpeed = 2f;
     public float maxVelocityChange = 10f;
     public bool isWalking = false;
+    public bool isCollided = false;
+    private GameObject collidedEntity;
+
 
     #region Sprint
     public bool enableSprint = true;
@@ -352,7 +355,8 @@ public class FPS_Controller_Script : Script
     public override void FixedUpdate()
     {
         #region Movement
-        if (playerCanMove)
+        isCollided = gameObject.GetSphereColliderComponent().GetIsInteract();
+        if (playerCanMove && !isCollided)
         {
             // Calculate how fast we should be moving
             Vector3 targetVelocity = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
@@ -439,6 +443,49 @@ public class FPS_Controller_Script : Script
                 Vector3 transformPosition = transform.GetPosition();
                 transform.SetPosition(new Vector3(transformPosition.X + velocityChange.X, transformPosition.Y, transformPosition.Z + velocityChange.Z));
             }
+
+        }
+       
+        if (isCollided)
+        {
+            Vector3 targetVelocity = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+
+            if (targetVelocity.X != 0 || targetVelocity.Z != 0 && isGrounded)
+            {
+                isWalking = true;
+            }
+            else
+            {
+                isWalking = false;
+            }
+
+            if (Input.GetKey(Keycode.W) || Input.GetKey(Keycode.S) || Input.GetKey(Keycode.A) || Input.GetKey(Keycode.D))
+            {
+                isWalking = true;
+            }
+            else
+            {
+                isWalking = false;
+            }
+            Vector3 velocityChange = targetVelocity /*- velocity*/;
+            velocityChange.X = Mathf.Clamp(velocityChange.X, -maxVelocityChange, maxVelocityChange);
+            velocityChange.Z = Mathf.Clamp(velocityChange.Z, -maxVelocityChange, maxVelocityChange);
+            velocityChange.Y = 0;
+
+            collidedEntity = GameObjectScriptFind(gameObject.GetSphereColliderComponent().GetColliderName());
+
+            Vector3 direction = (gameObject.GetTransformComponent().GetPosition() - collidedEntity.GetTransformComponent().GetPosition()).normalise();
+            float dotProduct = Vector3.Dot(direction, velocityChange);
+            if (dotProduct > 0)
+            {
+                Vector3 transformPosition = transform.GetPosition();
+                transform.SetPosition(new Vector3(transformPosition.X + velocityChange.X, transformPosition.Y, transformPosition.Z + velocityChange.Z));
+
+            }
+
+            //rb.AddForce(velocityChange/*, ForceMode.VelocityChange*/);
+
+
 
         }
         #endregion

@@ -700,6 +700,72 @@ namespace TDS
 											}
 										}
 									}
+									else if (scriptValue.type == "Graphics Component")
+									{
+										if (ImGui::Selectable("None", false, ImGuiSelectableFlags_SpanAllColumns))
+										{
+											sceneManagerInstance->setComponent(selectedEntity, scriptName, scriptValue.name, 0);
+											ImGui::CloseCurrentPopup();
+										}
+
+										for (EntityID entityID : ecs.getEntities())
+										{
+											if (entityID == selectedEntity || GetGraphicsComponent(entityID) == nullptr)
+											{
+												continue;
+											}
+
+											if (ImGui::Selectable(ecs.getComponent<NameTag>(entityID)->GetName().c_str(), entityID == selectedEntity, ImGuiSelectableFlags_SpanAllColumns))
+											{
+												sceneManagerInstance->setComponent(selectedEntity, scriptName, scriptValue.name, entityID);
+												ImGui::CloseCurrentPopup();
+											}
+										}
+									}
+									//else if (scriptValue.type == "Audio")
+									//{
+									//	if (ImGui::Selectable("None", false, ImGuiSelectableFlags_SpanAllColumns))
+									//	{
+									//		sceneManagerInstance->setComponent(selectedEntity, scriptName, scriptValue.name, 0);
+									//		ImGui::CloseCurrentPopup();
+									//	}
+
+									//	for (EntityID entityID : ecs.getEntities())
+									//	{
+									//		if (entityID == selectedEntity || GetAudioCom(entityID) == nullptr)
+									//		{
+									//			continue;
+									//		}
+
+									//		if (ImGui::Selectable(ecs.getComponent<NameTag>(entityID)->GetName().c_str(), entityID == selectedEntity, ImGuiSelectableFlags_SpanAllColumns))
+									//		{
+									//			sceneManagerInstance->setComponent(selectedEntity, scriptName, scriptValue.name, entityID);
+									//			ImGui::CloseCurrentPopup();
+									//		}
+									//	}
+									//}
+									else if (scriptValue.type == "UI Sprite")
+									{
+										if (ImGui::Selectable("None", false, ImGuiSelectableFlags_SpanAllColumns))
+										{
+											sceneManagerInstance->setComponent(selectedEntity, scriptName, scriptValue.name, 0);
+											ImGui::CloseCurrentPopup();
+										}
+
+										for (EntityID entityID : ecs.getEntities())
+										{
+											if (entityID == selectedEntity || GetUISprite(entityID) == nullptr)
+											{
+												continue;
+											}
+
+											if (ImGui::Selectable(ecs.getComponent<NameTag>(entityID)->GetName().c_str(), entityID == selectedEntity, ImGuiSelectableFlags_SpanAllColumns))
+											{
+												sceneManagerInstance->setComponent(selectedEntity, scriptName, scriptValue.name, entityID);
+												ImGui::CloseCurrentPopup();
+											}
+										}
+									}
 									// Script =========================================================================================
 									else
 									{

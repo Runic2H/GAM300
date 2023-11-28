@@ -80,4 +80,8 @@ namespace ScriptAPI
 		v.Normalize();
 		return v;
 	}
+	float Vector3::Dot(Vector3 lhs, Vector3 rhs)
+	{
+		return lhs.X * rhs.X + lhs.Y * rhs.Y + lhs.Z * rhs.Z;
+	}
 }

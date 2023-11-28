@@ -19,6 +19,10 @@ namespace ScriptAPI
 	}
 	Quaternion::Quaternion(Vector3 euler) // Quaternion.Euler
 	{
+		float radianX = euler.X * TDS::Mathf::Deg2Rad;
+		float radianY = euler.Y * TDS::Mathf::Deg2Rad;
+		float radianZ = euler.Z * TDS::Mathf::Deg2Rad;
+
 		Vector3 c = Vector3(Mathf::Cos(euler.X * 0.5f), Mathf::Cos(euler.Y * 0.5f), Mathf::Cos(euler.Z * 0.5f));
 		Vector3 s = Vector3(Mathf::Sin(euler.X * 0.5f), Mathf::Sin(euler.Y * 0.5f), Mathf::Sin(euler.Z * 0.5f));
 
@@ -26,6 +30,7 @@ namespace ScriptAPI
 		Y = c.X * s.Y * c.Z + s.X * c.Y * s.Z;
 		Z = c.X * c.Y * s.Z - s.X * s.Y * c.Z;
 		W = c.X * c.Y * c.Z + s.X * s.Y * s.Z;
+
 	}
 
 	Quaternion Quaternion::AngleAxis(float angle, Vector3 axis)
