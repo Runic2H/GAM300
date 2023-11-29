@@ -1,9 +1,9 @@
 {
     "Archetype Sizes": {
         "11000010000000": {
-            "0": 45832,
-            "1": 67400,
-            "6": 88968
+            "0": 45696,
+            "1": 67200,
+            "6": 88704
         },
         "11001010000000": {
             "0": 136,
@@ -12,19 +12,24 @@
             "6": 264
         },
         "11000010100000": {
-            "0": 408,
-            "1": 600,
-            "6": 792,
-            "8": 216
+            "0": 680,
+            "1": 1000,
+            "6": 1320,
+            "8": 360
         },
         "11000000000000": {
-            "0": 136,
-            "1": 200
+            "0": 680,
+            "1": 1000
         },
         "11000000000010": {
-            "0": 5032,
-            "1": 7400,
-            "12": 13320
+            "0": 5304,
+            "1": 7800,
+            "12": 14040
+        },
+        "11001000000000": {
+            "0": 136,
+            "1": 200,
+            "4": 56
         }
     },
     "Entity Data": {
@@ -36,7 +41,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 248,
+                "HierarchyIndex": 218,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -145,7 +150,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 122,
+                "HierarchyIndex": 120,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -295,8 +300,8 @@
                 "Name": "Tube__2",
                 "Tag": "",
                 "IsActive": true,
-                "HierarchyParent": 1,
-                "HierarchyIndex": 144,
+                "HierarchyParent": 391,
+                "HierarchyIndex": 9,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -311,9 +316,9 @@
                     "z": 1.100000023841858
                 },
                 "Rotation": {
-                    "x": 3.1415927410125732,
-                    "y": -8.742277657347586e-8,
-                    "z": 3.1415927410125732
+                    "x": -3.1415908336639404,
+                    "y": -8.742276236262114e-8,
+                    "z": -3.1415908336639404
                 }
             },
             "Graphics Component": {
@@ -447,7 +452,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 141,
+                "HierarchyIndex": 139,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -663,7 +668,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 246,
+                "HierarchyIndex": 216,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -770,7 +775,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 245,
+                "HierarchyIndex": 215,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -879,7 +884,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 135,
+                "HierarchyIndex": 133,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -1095,7 +1100,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 242,
+                "HierarchyIndex": 212,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -1202,7 +1207,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 240,
+                "HierarchyIndex": 210,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -1420,7 +1425,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 235,
+                "HierarchyIndex": 205,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -1632,13 +1637,13 @@
         },
         "163": {
             "ArchetypeID": "11000010000000",
-            "Enabled": true,
+            "Enabled": false,
             "Name Tag": {
                 "Name": "Oil_Tank__11",
                 "Tag": "",
                 "IsActive": true,
-                "HierarchyParent": 1,
-                "HierarchyIndex": 231,
+                "HierarchyParent": 397,
+                "HierarchyIndex": 10,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -1648,13 +1653,13 @@
                     "z": 115.6181640625
                 },
                 "Scale": {
-                    "x": 1.100000023841858,
+                    "x": 1.0999997854232788,
                     "y": 1.2200000286102295,
-                    "z": 1.100000023841858
+                    "z": 1.0999997854232788
                 },
                 "Rotation": {
                     "x": 0.0,
-                    "y": -1.570796251296997,
+                    "y": -1.5707958936691284,
                     "z": 0.0
                 }
             },
@@ -1789,23 +1794,23 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 211,
+                "HierarchyIndex": 190,
                 "HierarchyChildren": []
             },
             "Transform": {
                 "Position": {
                     "x": 936.8729858398438,
-                    "y": 236.07003784179688,
+                    "y": 234.85845947265625,
                     "z": -12.3939208984375
                 },
                 "Scale": {
-                    "x": 1.100000023841858,
+                    "x": 1.0999997854232788,
                     "y": 1.2200000286102295,
-                    "z": 1.100000023841858
+                    "z": 1.0999997854232788
                 },
                 "Rotation": {
                     "x": 0.0,
-                    "y": 1.570796251296997,
+                    "y": 1.5707958936691284,
                     "z": 0.0
                 }
             },
@@ -1942,7 +1947,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 209,
+                "HierarchyIndex": 188,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -2084,18 +2089,16 @@
                     32,
                     257,
                     258,
+                    397,
                     38,
                     165,
                     166,
                     167,
-                    25,
-                    160,
                     43,
                     42,
                     56,
                     61,
-                    83,
-                    75,
+                    391,
                     86,
                     188,
                     280,
@@ -2131,18 +2134,12 @@
                     274,
                     3,
                     4,
-                    6,
-                    9,
                     13,
                     14,
-                    17,
                     19,
-                    22,
                     28,
-                    35,
                     40,
                     41,
-                    44,
                     46,
                     48,
                     49,
@@ -2155,19 +2152,9 @@
                     73,
                     74,
                     76,
-                    77,
-                    78,
                     79,
-                    80,
-                    81,
                     84,
-                    85,
-                    87,
                     88,
-                    89,
-                    90,
-                    93,
-                    94,
                     95,
                     96,
                     97,
@@ -2175,7 +2162,6 @@
                     99,
                     100,
                     101,
-                    104,
                     105,
                     106,
                     107,
@@ -2187,7 +2173,6 @@
                     117,
                     118,
                     119,
-                    120,
                     121,
                     123,
                     125,
@@ -2196,7 +2181,6 @@
                     129,
                     130,
                     131,
-                    132,
                     133,
                     134,
                     135,
@@ -2211,16 +2195,7 @@
                     149,
                     150,
                     152,
-                    153,
                     154,
-                    155,
-                    156,
-                    157,
-                    158,
-                    161,
-                    162,
-                    163,
-                    164,
                     168,
                     170,
                     171,
@@ -2377,7 +2352,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 205,
+                "HierarchyIndex": 185,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -2457,6 +2432,69 @@
                 "Used In 2D": false
             }
         },
+        "393": {
+            "ArchetypeID": "11000000000010",
+            "Enabled": false,
+            "Name Tag": {
+                "Name": "OuterLock",
+                "Tag": "",
+                "IsActive": true,
+                "HierarchyParent": 392,
+                "HierarchyIndex": 0,
+                "HierarchyChildren": []
+            },
+            "Transform": {
+                "Position": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": -20.0
+                },
+                "Scale": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                },
+                "Rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                }
+            },
+            "UI Sprite": {
+                "Texture": "OuterLock.dds",
+                "EnableSprite": true,
+                "LayerID": 0,
+                "is Font": false,
+                "message": "",
+                "Font Texture": "",
+                "ForeGroundColour": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 0.0
+                },
+                "Sprite Color": {
+                    "x": 0.10000000149011612,
+                    "y": 0.10000000149011612,
+                    "z": 0.10000000149011612,
+                    "w": 1.0
+                },
+                "BackGroundColour": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "BoundingBoxMin": {
+                    "x": -0.5,
+                    "y": -0.5
+                },
+                "BoundingBoxMax": {
+                    "x": 0.5,
+                    "y": 0.5
+                }
+            }
+        },
         "4": {
             "ArchetypeID": "11000010000000",
             "Enabled": true,
@@ -2465,7 +2503,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 142,
+                "HierarchyIndex": 140,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -2501,6 +2539,52 @@
                 "Used In 2D": false
             }
         },
+        "397": {
+            "ArchetypeID": "11000000000000",
+            "Enabled": false,
+            "Name Tag": {
+                "Name": "Bedroom Double Door",
+                "Tag": "",
+                "IsActive": true,
+                "HierarchyParent": 1,
+                "HierarchyIndex": 96,
+                "HierarchyChildren": [
+                    25,
+                    160,
+                    94,
+                    156,
+                    120,
+                    157,
+                    17,
+                    161,
+                    155,
+                    153,
+                    163,
+                    132,
+                    104,
+                    162,
+                    164,
+                    158
+                ]
+            },
+            "Transform": {
+                "Position": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "Scale": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                },
+                "Rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                }
+            }
+        },
         "6": {
             "ArchetypeID": "11000010000000",
             "Enabled": true,
@@ -2508,8 +2592,8 @@
                 "Name": "Tube__3",
                 "Tag": "",
                 "IsActive": true,
-                "HierarchyParent": 1,
-                "HierarchyIndex": 143,
+                "HierarchyParent": 391,
+                "HierarchyIndex": 14,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -2587,6 +2671,37 @@
                     "w": 0.0
                 },
                 "Used In 2D": false
+            }
+        },
+        "401": {
+            "ArchetypeID": "11000000000000",
+            "Enabled": true,
+            "Name Tag": {
+                "Name": "Painting to disappear",
+                "Tag": "",
+                "IsActive": true,
+                "HierarchyParent": 330,
+                "HierarchyIndex": 1,
+                "HierarchyChildren": [
+                    331
+                ]
+            },
+            "Transform": {
+                "Position": {
+                    "x": 0.7552490234375,
+                    "y": -0.01055908203125,
+                    "z": 0.00006103515625
+                },
+                "Scale": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                },
+                "Rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                }
             }
         },
         "10": {
@@ -2721,6 +2836,50 @@
                 "Used In 2D": false
             }
         },
+        "395": {
+            "ArchetypeID": "11000010000000",
+            "Enabled": false,
+            "Name Tag": {
+                "Name": "Lockpick",
+                "Tag": "",
+                "IsActive": true,
+                "HierarchyParent": 396,
+                "HierarchyIndex": 0,
+                "HierarchyChildren": []
+            },
+            "Transform": {
+                "Position": {
+                    "x": -0.005770564079284668,
+                    "y": 0.6000000238418579,
+                    "z": -2.9999945163726807
+                },
+                "Scale": {
+                    "x": 0.3500000238418579,
+                    "y": 0.1600000262260437,
+                    "z": 1.0
+                },
+                "Rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                }
+            },
+            "Graphics Component": {
+                "PointLight": false,
+                "TextureName": "",
+                "Mesh Renderer": true,
+                "Debug": false,
+                "ModelName": "LockPickingPin_Bin.bin",
+                "MeshName": "",
+                "Color": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0,
+                    "w": 1.0
+                },
+                "Used In 2D": true
+            }
+        },
         "13": {
             "ArchetypeID": "11000010000000",
             "Enabled": true,
@@ -2729,7 +2888,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 145,
+                "HierarchyIndex": 141,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -2773,7 +2932,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 146,
+                "HierarchyIndex": 142,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -2817,7 +2976,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 128,
+                "HierarchyIndex": 126,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -2855,13 +3014,13 @@
         },
         "17": {
             "ArchetypeID": "11000010000000",
-            "Enabled": true,
+            "Enabled": false,
             "Name Tag": {
                 "Name": "Plate__11",
                 "Tag": "",
                 "IsActive": true,
-                "HierarchyParent": 1,
-                "HierarchyIndex": 147,
+                "HierarchyParent": 397,
+                "HierarchyIndex": 6,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -2871,13 +3030,13 @@
                     "z": 115.213623046875
                 },
                 "Scale": {
-                    "x": 1.100000023841858,
+                    "x": 1.0999997854232788,
                     "y": 1.2200000286102295,
-                    "z": 1.100000023841858
+                    "z": 1.0999997854232788
                 },
                 "Rotation": {
                     "x": 0.0,
-                    "y": -1.570796251296997,
+                    "y": -1.5707958936691284,
                     "z": 0.0
                 }
             },
@@ -2949,7 +3108,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 148,
+                "HierarchyIndex": 143,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -3080,8 +3239,8 @@
                 "Name": "Cube__3",
                 "Tag": "",
                 "IsActive": true,
-                "HierarchyParent": 1,
-                "HierarchyIndex": 149,
+                "HierarchyParent": 391,
+                "HierarchyIndex": 4,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -3207,13 +3366,13 @@
         },
         "25": {
             "ArchetypeID": "11000010000000",
-            "Enabled": true,
+            "Enabled": false,
             "Name Tag": {
                 "Name": "Bedroom Double Door Right Side",
                 "Tag": "",
                 "IsActive": true,
-                "HierarchyParent": 1,
-                "HierarchyIndex": 100,
+                "HierarchyParent": 397,
+                "HierarchyIndex": 0,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -3223,13 +3382,13 @@
                     "z": 109.16917419433594
                 },
                 "Scale": {
-                    "x": 1.100000023841858,
+                    "x": 1.0999997854232788,
                     "y": 1.2200000286102295,
-                    "z": 1.100000023841858
+                    "z": 1.0999997854232788
                 },
                 "Rotation": {
                     "x": 0.0,
-                    "y": 1.570796251296997,
+                    "y": 1.5707958936691284,
                     "z": 0.0
                 }
             },
@@ -3345,7 +3504,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 150,
+                "HierarchyIndex": 144,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -3652,8 +3811,8 @@
                 "Name": "Cube__2",
                 "Tag": "",
                 "IsActive": true,
-                "HierarchyParent": 1,
-                "HierarchyIndex": 151,
+                "HierarchyParent": 391,
+                "HierarchyIndex": 5,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -3668,9 +3827,9 @@
                     "z": 1.100000023841858
                 },
                 "Rotation": {
-                    "x": 3.1415927410125732,
-                    "y": -8.742277657347586e-8,
-                    "z": 3.1415927410125732
+                    "x": -3.1415908336639404,
+                    "y": -8.742276236262114e-8,
+                    "z": -3.1415908336639404
                 }
             },
             "Graphics Component": {
@@ -3785,7 +3944,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 96,
+                "HierarchyIndex": 97,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -3873,7 +4032,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 152,
+                "HierarchyIndex": 145,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -3917,7 +4076,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 153,
+                "HierarchyIndex": 146,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -3961,7 +4120,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 103,
+                "HierarchyIndex": 102,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -4005,7 +4164,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 102,
+                "HierarchyIndex": 101,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -4048,8 +4207,8 @@
                 "Name": "Oil_Tank__2",
                 "Tag": "",
                 "IsActive": true,
-                "HierarchyParent": 1,
-                "HierarchyIndex": 154,
+                "HierarchyParent": 391,
+                "HierarchyIndex": 8,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -4064,9 +4223,9 @@
                     "z": 1.100000023841858
                 },
                 "Rotation": {
-                    "x": 3.1415927410125732,
-                    "y": -8.742277657347586e-8,
-                    "z": 3.1415927410125732
+                    "x": -3.1415915489196777,
+                    "y": -8.742276236262114e-8,
+                    "z": -3.1415915489196777
                 }
             },
             "Graphics Component": {
@@ -4137,7 +4296,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 155,
+                "HierarchyIndex": 147,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -4225,7 +4384,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 156,
+                "HierarchyIndex": 148,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -4269,7 +4428,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 157,
+                "HierarchyIndex": 149,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -4357,7 +4516,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 158,
+                "HierarchyIndex": 150,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -4401,7 +4560,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 123,
+                "HierarchyIndex": 121,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -4445,7 +4604,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 159,
+                "HierarchyIndex": 151,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -4577,7 +4736,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 104,
+                "HierarchyIndex": 103,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -4611,6 +4770,52 @@
                     "w": 0.0
                 },
                 "Used In 2D": false
+            }
+        },
+        "391": {
+            "ArchetypeID": "11000000000000",
+            "Enabled": true,
+            "Name Tag": {
+                "Name": "Right Hallway Double Door",
+                "Tag": "",
+                "IsActive": true,
+                "HierarchyParent": 1,
+                "HierarchyIndex": 105,
+                "HierarchyChildren": [
+                    83,
+                    75,
+                    87,
+                    77,
+                    22,
+                    35,
+                    78,
+                    80,
+                    44,
+                    9,
+                    90,
+                    81,
+                    93,
+                    85,
+                    6,
+                    89
+                ]
+            },
+            "Transform": {
+                "Position": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "Scale": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                },
+                "Rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                }
             }
         },
         "57": {
@@ -4665,7 +4870,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 129,
+                "HierarchyIndex": 127,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -4753,7 +4958,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 121,
+                "HierarchyIndex": 119,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -4797,7 +5002,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 130,
+                "HierarchyIndex": 128,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -4853,7 +5058,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 105,
+                "HierarchyIndex": 104,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -4897,7 +5102,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 120,
+                "HierarchyIndex": 118,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -5006,7 +5211,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 131,
+                "HierarchyIndex": 129,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -5138,7 +5343,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 125,
+                "HierarchyIndex": 123,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -5182,7 +5387,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 160,
+                "HierarchyIndex": 152,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -5226,7 +5431,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 161,
+                "HierarchyIndex": 153,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -5314,7 +5519,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 124,
+                "HierarchyIndex": 122,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -5358,7 +5563,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 162,
+                "HierarchyIndex": 154,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -5402,7 +5607,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 163,
+                "HierarchyIndex": 155,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -5446,7 +5651,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 164,
+                "HierarchyIndex": 156,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -5490,7 +5695,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 165,
+                "HierarchyIndex": 157,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -5533,8 +5738,8 @@
                 "Name": "Right Hallway Door Left Side",
                 "Tag": "",
                 "IsActive": true,
-                "HierarchyParent": 1,
-                "HierarchyIndex": 107,
+                "HierarchyParent": 391,
+                "HierarchyIndex": 1,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -5549,9 +5754,9 @@
                     "z": 1.100000023841858
                 },
                 "Rotation": {
-                    "x": 3.1415927410125732,
-                    "y": -8.742277657347586e-8,
-                    "z": 3.1415927410125732
+                    "x": 0.0000018432222077535698,
+                    "y": 0.0,
+                    "z": 0.0000018432222077535698
                 }
             },
             "Graphics Component": {
@@ -5578,7 +5783,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 166,
+                "HierarchyIndex": 158,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -5621,8 +5826,8 @@
                 "Name": "Handle__2",
                 "Tag": "",
                 "IsActive": true,
-                "HierarchyParent": 1,
-                "HierarchyIndex": 167,
+                "HierarchyParent": 391,
+                "HierarchyIndex": 3,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -5637,9 +5842,9 @@
                     "z": 1.100000023841858
                 },
                 "Rotation": {
-                    "x": 3.1415927410125732,
-                    "y": -8.742277657347586e-8,
-                    "z": 3.1415927410125732
+                    "x": -3.1415908336639404,
+                    "y": -8.742276236262114e-8,
+                    "z": -3.1415908336639404
                 }
             },
             "Graphics Component": {
@@ -5665,8 +5870,8 @@
                 "Name": "Plate__2",
                 "Tag": "",
                 "IsActive": true,
-                "HierarchyParent": 1,
-                "HierarchyIndex": 168,
+                "HierarchyParent": 391,
+                "HierarchyIndex": 6,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -5681,9 +5886,9 @@
                     "z": 1.100000023841858
                 },
                 "Rotation": {
-                    "x": 3.1415927410125732,
-                    "y": -8.742277657347586e-8,
-                    "z": 3.1415927410125732
+                    "x": -3.1415908336639404,
+                    "y": -8.742276236262114e-8,
+                    "z": -3.1415908336639404
                 }
             },
             "Graphics Component": {
@@ -5710,7 +5915,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 169,
+                "HierarchyIndex": 159,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -5753,8 +5958,8 @@
                 "Name": "Engraving__2",
                 "Tag": "",
                 "IsActive": true,
-                "HierarchyParent": 1,
-                "HierarchyIndex": 170,
+                "HierarchyParent": 391,
+                "HierarchyIndex": 7,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -5769,9 +5974,9 @@
                     "z": 1.100000023841858
                 },
                 "Rotation": {
-                    "x": 3.1415927410125732,
-                    "y": -8.742277657347586e-8,
-                    "z": 3.1415927410125732
+                    "x": -3.1415908336639404,
+                    "y": -8.742276236262114e-8,
+                    "z": -3.1415908336639404
                 }
             },
             "Graphics Component": {
@@ -5797,8 +6002,8 @@
                 "Name": "Extrude__2",
                 "Tag": "",
                 "IsActive": true,
-                "HierarchyParent": 1,
-                "HierarchyIndex": 171,
+                "HierarchyParent": 391,
+                "HierarchyIndex": 11,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -5813,9 +6018,9 @@
                     "z": 1.100000023841858
                 },
                 "Rotation": {
-                    "x": 3.1415927410125732,
-                    "y": -8.742277657347586e-8,
-                    "z": 3.1415927410125732
+                    "x": -3.1415913105010986,
+                    "y": -8.742276236262114e-8,
+                    "z": -3.1415913105010986
                 }
             },
             "Graphics Component": {
@@ -5879,14 +6084,14 @@
             }
         },
         "83": {
-            "ArchetypeID": "11000010000000",
+            "ArchetypeID": "11000010100000",
             "Enabled": true,
             "Name Tag": {
                 "Name": "Right Hallway Door Right Side",
                 "Tag": "",
                 "IsActive": true,
-                "HierarchyParent": 1,
-                "HierarchyIndex": 106,
+                "HierarchyParent": 391,
+                "HierarchyIndex": 0,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -5896,14 +6101,14 @@
                     "z": 233.48500061035156
                 },
                 "Scale": {
-                    "x": 1.100000023841858,
+                    "x": 1.0999996662139893,
                     "y": 1.2200000286102295,
-                    "z": 1.100000023841858
+                    "z": 1.0999996662139893
                 },
                 "Rotation": {
-                    "x": 0.0,
+                    "x": -3.1415915489196777,
                     "y": 0.0,
-                    "z": 0.0
+                    "z": -3.1415915489196777
                 }
             },
             "Graphics Component": {
@@ -5920,6 +6125,18 @@
                     "w": 0.0
                 },
                 "Used In 2D": false
+            },
+            "Sphere Collider": {
+                "IsTrigger": false,
+                "IsInteract": false,
+                "Center": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "Radius": 60.0,
+                "AImode": "INTERACTABLE",
+                "ColliderName": ""
             }
         },
         "84": {
@@ -5930,7 +6147,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 172,
+                "HierarchyIndex": 160,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -5973,8 +6190,8 @@
                 "Name": "Handle__3",
                 "Tag": "",
                 "IsActive": true,
-                "HierarchyParent": 1,
-                "HierarchyIndex": 173,
+                "HierarchyParent": 391,
+                "HierarchyIndex": 13,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -6018,7 +6235,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 108,
+                "HierarchyIndex": 106,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -6061,8 +6278,8 @@
                 "Name": "Plate__3",
                 "Tag": "",
                 "IsActive": true,
-                "HierarchyParent": 1,
-                "HierarchyIndex": 174,
+                "HierarchyParent": 391,
+                "HierarchyIndex": 2,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -6106,7 +6323,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 175,
+                "HierarchyIndex": 161,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -6149,8 +6366,8 @@
                 "Name": "Engraving__3",
                 "Tag": "",
                 "IsActive": true,
-                "HierarchyParent": 1,
-                "HierarchyIndex": 176,
+                "HierarchyParent": 391,
+                "HierarchyIndex": 15,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -6193,8 +6410,8 @@
                 "Name": "Oil_Tank__3",
                 "Tag": "",
                 "IsActive": true,
-                "HierarchyParent": 1,
-                "HierarchyIndex": 177,
+                "HierarchyParent": 391,
+                "HierarchyIndex": 10,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -6325,8 +6542,8 @@
                 "Name": "Extrude__3",
                 "Tag": "",
                 "IsActive": true,
-                "HierarchyParent": 1,
-                "HierarchyIndex": 178,
+                "HierarchyParent": 391,
+                "HierarchyIndex": 12,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -6364,13 +6581,13 @@
         },
         "94": {
             "ArchetypeID": "11000010000000",
-            "Enabled": true,
+            "Enabled": false,
             "Name Tag": {
                 "Name": "Cube__10",
                 "Tag": "",
                 "IsActive": true,
-                "HierarchyParent": 1,
-                "HierarchyIndex": 179,
+                "HierarchyParent": 397,
+                "HierarchyIndex": 2,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -6380,13 +6597,13 @@
                     "z": 105.36200714111328
                 },
                 "Scale": {
-                    "x": 1.100000023841858,
+                    "x": 1.0999997854232788,
                     "y": 1.2200000286102295,
-                    "z": 1.100000023841858
+                    "z": 1.0999997854232788
                 },
                 "Rotation": {
                     "x": 0.0,
-                    "y": 1.570796251296997,
+                    "y": 1.5707958936691284,
                     "z": 0.0
                 }
             },
@@ -6414,7 +6631,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 180,
+                "HierarchyIndex": 162,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -6458,7 +6675,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 181,
+                "HierarchyIndex": 163,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -6502,7 +6719,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 182,
+                "HierarchyIndex": 164,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -6546,7 +6763,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 183,
+                "HierarchyIndex": 165,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -6590,7 +6807,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 184,
+                "HierarchyIndex": 166,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -6634,7 +6851,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 185,
+                "HierarchyIndex": 167,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -6678,7 +6895,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 186,
+                "HierarchyIndex": 168,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -6804,13 +7021,13 @@
         },
         "104": {
             "ArchetypeID": "11000010000000",
-            "Enabled": true,
+            "Enabled": false,
             "Name Tag": {
                 "Name": "Cube__11",
                 "Tag": "",
                 "IsActive": true,
-                "HierarchyParent": 1,
-                "HierarchyIndex": 187,
+                "HierarchyParent": 397,
+                "HierarchyIndex": 12,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -6854,7 +7071,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 188,
+                "HierarchyIndex": 169,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -6898,7 +7115,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 189,
+                "HierarchyIndex": 170,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -6942,7 +7159,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 190,
+                "HierarchyIndex": 171,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -6986,7 +7203,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 191,
+                "HierarchyIndex": 172,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -7030,7 +7247,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 192,
+                "HierarchyIndex": 173,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -7118,7 +7335,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 193,
+                "HierarchyIndex": 174,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -7162,7 +7379,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 194,
+                "HierarchyIndex": 175,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -7294,7 +7511,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 195,
+                "HierarchyIndex": 176,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -7338,7 +7555,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 132,
+                "HierarchyIndex": 130,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -7382,7 +7599,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 196,
+                "HierarchyIndex": 177,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -7426,7 +7643,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 197,
+                "HierarchyIndex": 178,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -7470,7 +7687,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 198,
+                "HierarchyIndex": 179,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -7508,13 +7725,13 @@
         },
         "120": {
             "ArchetypeID": "11000010000000",
-            "Enabled": true,
+            "Enabled": false,
             "Name Tag": {
                 "Name": "Tube__10",
                 "Tag": "",
                 "IsActive": true,
-                "HierarchyParent": 1,
-                "HierarchyIndex": 199,
+                "HierarchyParent": 397,
+                "HierarchyIndex": 4,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -7524,13 +7741,13 @@
                     "z": 103.39411163330078
                 },
                 "Scale": {
-                    "x": 1.100000023841858,
+                    "x": 1.0999997854232788,
                     "y": 1.2200000286102295,
-                    "z": 1.100000023841858
+                    "z": 1.0999997854232788
                 },
                 "Rotation": {
                     "x": 0.0,
-                    "y": 1.570796251296997,
+                    "y": 1.5707958936691284,
                     "z": 0.0
                 }
             },
@@ -7558,7 +7775,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 200,
+                "HierarchyIndex": 180,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -7646,7 +7863,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 201,
+                "HierarchyIndex": 181,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -7734,7 +7951,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 202,
+                "HierarchyIndex": 182,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -7778,7 +7995,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 133,
+                "HierarchyIndex": 131,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -7822,7 +8039,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 203,
+                "HierarchyIndex": 183,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -7866,7 +8083,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 204,
+                "HierarchyIndex": 184,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -7910,7 +8127,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 206,
+                "HierarchyIndex": 186,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -7954,7 +8171,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 207,
+                "HierarchyIndex": 187,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -7998,7 +8215,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 268,
+                "HierarchyIndex": 238,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -8036,13 +8253,13 @@
         },
         "132": {
             "ArchetypeID": "11000010000000",
-            "Enabled": true,
+            "Enabled": false,
             "Name Tag": {
                 "Name": "Tube__11",
                 "Tag": "",
                 "IsActive": true,
-                "HierarchyParent": 1,
-                "HierarchyIndex": 208,
+                "HierarchyParent": 397,
+                "HierarchyIndex": 11,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -8052,13 +8269,13 @@
                     "z": 116.4652328491211
                 },
                 "Scale": {
-                    "x": 1.100000023841858,
+                    "x": 1.0999997854232788,
                     "y": 1.2200000286102295,
-                    "z": 1.100000023841858
+                    "z": 1.0999997854232788
                 },
                 "Rotation": {
                     "x": 0.0,
-                    "y": -1.570796251296997,
+                    "y": -1.5707958936691284,
                     "z": 0.0
                 }
             },
@@ -8086,7 +8303,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 210,
+                "HierarchyIndex": 189,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -8262,7 +8479,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 212,
+                "HierarchyIndex": 191,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -8306,7 +8523,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 213,
+                "HierarchyIndex": 192,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -8350,7 +8567,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 273,
+                "HierarchyIndex": 243,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -8394,7 +8611,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 214,
+                "HierarchyIndex": 193,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -8438,7 +8655,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 215,
+                "HierarchyIndex": 194,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -8570,7 +8787,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 216,
+                "HierarchyIndex": 195,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -8614,7 +8831,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 266,
+                "HierarchyIndex": 236,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -8702,7 +8919,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 217,
+                "HierarchyIndex": 196,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -8746,7 +8963,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 264,
+                "HierarchyIndex": 234,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -8790,7 +9007,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 218,
+                "HierarchyIndex": 197,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -8834,7 +9051,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 134,
+                "HierarchyIndex": 132,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -8878,7 +9095,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 279,
+                "HierarchyIndex": 249,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -8922,7 +9139,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 219,
+                "HierarchyIndex": 198,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -8966,7 +9183,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 220,
+                "HierarchyIndex": 199,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -9010,7 +9227,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 275,
+                "HierarchyIndex": 245,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -9054,7 +9271,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 221,
+                "HierarchyIndex": 200,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -9142,7 +9359,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 272,
+                "HierarchyIndex": 242,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -9186,7 +9403,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 222,
+                "HierarchyIndex": 201,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -9224,13 +9441,13 @@
         },
         "153": {
             "ArchetypeID": "11000010000000",
-            "Enabled": true,
+            "Enabled": false,
             "Name Tag": {
                 "Name": "Handle__10",
                 "Tag": "",
                 "IsActive": true,
-                "HierarchyParent": 1,
-                "HierarchyIndex": 223,
+                "HierarchyParent": 397,
+                "HierarchyIndex": 9,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -9240,13 +9457,13 @@
                     "z": 102.217529296875
                 },
                 "Scale": {
-                    "x": 1.100000023841858,
+                    "x": 1.0999997854232788,
                     "y": 1.2200000286102295,
-                    "z": 1.100000023841858
+                    "z": 1.0999997854232788
                 },
                 "Rotation": {
                     "x": 0.0,
-                    "y": 1.570796251296997,
+                    "y": 1.5707958936691284,
                     "z": 0.0
                 }
             },
@@ -9274,7 +9491,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 140,
+                "HierarchyIndex": 138,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -9318,7 +9535,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 224,
+                "HierarchyIndex": 202,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -9356,13 +9573,13 @@
         },
         "155": {
             "ArchetypeID": "11000010000000",
-            "Enabled": true,
+            "Enabled": false,
             "Name Tag": {
                 "Name": "Plate__10",
                 "Tag": "",
                 "IsActive": true,
-                "HierarchyParent": 1,
-                "HierarchyIndex": 225,
+                "HierarchyParent": 397,
+                "HierarchyIndex": 8,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -9372,13 +9589,13 @@
                     "z": 104.645751953125
                 },
                 "Scale": {
-                    "x": 1.100000023841858,
+                    "x": 1.0999997854232788,
                     "y": 1.2200000286102295,
-                    "z": 1.100000023841858
+                    "z": 1.0999997854232788
                 },
                 "Rotation": {
                     "x": 0.0,
-                    "y": 1.570796251296997,
+                    "y": 1.5707958936691284,
                     "z": 0.0
                 }
             },
@@ -9406,7 +9623,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 0,
-                "HierarchyIndex": 1,
+                "HierarchyIndex": 20,
                 "HierarchyChildren": [
                     285,
                     286,
@@ -9449,13 +9666,13 @@
         },
         "156": {
             "ArchetypeID": "11000010000000",
-            "Enabled": true,
+            "Enabled": false,
             "Name Tag": {
                 "Name": "Engraving__10",
                 "Tag": "",
                 "IsActive": true,
-                "HierarchyParent": 1,
-                "HierarchyIndex": 226,
+                "HierarchyParent": 397,
+                "HierarchyIndex": 3,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -9465,13 +9682,13 @@
                     "z": 103.61961364746094
                 },
                 "Scale": {
-                    "x": 1.100000023841858,
+                    "x": 1.0999997854232788,
                     "y": 1.2200000286102295,
-                    "z": 1.100000023841858
+                    "z": 1.0999997854232788
                 },
                 "Rotation": {
                     "x": 0.0,
-                    "y": 1.570796251296997,
+                    "y": 1.5707958936691284,
                     "z": 0.0
                 }
             },
@@ -9493,13 +9710,13 @@
         },
         "157": {
             "ArchetypeID": "11000010000000",
-            "Enabled": true,
+            "Enabled": false,
             "Name Tag": {
                 "Name": "Oil_Tank__10",
                 "Tag": "",
                 "IsActive": true,
-                "HierarchyParent": 1,
-                "HierarchyIndex": 227,
+                "HierarchyParent": 397,
+                "HierarchyIndex": 5,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -9509,13 +9726,13 @@
                     "z": 104.2412109375
                 },
                 "Scale": {
-                    "x": 1.100000023841858,
+                    "x": 1.0999997854232788,
                     "y": 1.2200000286102295,
-                    "z": 1.100000023841858
+                    "z": 1.0999997854232788
                 },
                 "Rotation": {
                     "x": 0.0,
-                    "y": 1.570796251296997,
+                    "y": 1.5707958936691284,
                     "z": 0.0
                 }
             },
@@ -9543,7 +9760,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 281,
+                "HierarchyIndex": 251,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -9581,13 +9798,13 @@
         },
         "158": {
             "ArchetypeID": "11000010000000",
-            "Enabled": true,
+            "Enabled": false,
             "Name Tag": {
                 "Name": "Extrude__10",
                 "Tag": "",
                 "IsActive": true,
-                "HierarchyParent": 1,
-                "HierarchyIndex": 228,
+                "HierarchyParent": 397,
+                "HierarchyIndex": 15,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -9597,13 +9814,13 @@
                     "z": 103.480224609375
                 },
                 "Scale": {
-                    "x": 1.100000023841858,
+                    "x": 1.0999997854232788,
                     "y": 1.2200000286102295,
-                    "z": 1.100000023841858
+                    "z": 1.0999997854232788
                 },
                 "Rotation": {
                     "x": 0.0,
-                    "y": 1.570796251296997,
+                    "y": 1.5707958936691284,
                     "z": 0.0
                 }
             },
@@ -9675,7 +9892,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 277,
+                "HierarchyIndex": 247,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -9713,13 +9930,13 @@
         },
         "160": {
             "ArchetypeID": "11000010000000",
-            "Enabled": true,
+            "Enabled": false,
             "Name Tag": {
                 "Name": "Bedroom Double Door Left Side",
                 "Tag": "",
                 "IsActive": true,
-                "HierarchyParent": 1,
-                "HierarchyIndex": 101,
+                "HierarchyParent": 397,
+                "HierarchyIndex": 1,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -9757,13 +9974,13 @@
         },
         "161": {
             "ArchetypeID": "11000010000000",
-            "Enabled": true,
+            "Enabled": false,
             "Name Tag": {
                 "Name": "Handle__11",
                 "Tag": "",
                 "IsActive": true,
-                "HierarchyParent": 1,
-                "HierarchyIndex": 229,
+                "HierarchyParent": 397,
+                "HierarchyIndex": 7,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -9773,13 +9990,13 @@
                     "z": 117.641845703125
                 },
                 "Scale": {
-                    "x": 1.100000023841858,
+                    "x": 1.0999997854232788,
                     "y": 1.2200000286102295,
-                    "z": 1.100000023841858
+                    "z": 1.0999997854232788
                 },
                 "Rotation": {
                     "x": 0.0,
-                    "y": -1.570796251296997,
+                    "y": -1.5707958936691284,
                     "z": 0.0
                 }
             },
@@ -9801,13 +10018,13 @@
         },
         "162": {
             "ArchetypeID": "11000010000000",
-            "Enabled": true,
+            "Enabled": false,
             "Name Tag": {
                 "Name": "Engraving__11",
                 "Tag": "",
                 "IsActive": true,
-                "HierarchyParent": 1,
-                "HierarchyIndex": 230,
+                "HierarchyParent": 397,
+                "HierarchyIndex": 13,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -9845,13 +10062,13 @@
         },
         "164": {
             "ArchetypeID": "11000010000000",
-            "Enabled": true,
+            "Enabled": false,
             "Name Tag": {
                 "Name": "Extrude__11",
                 "Tag": "",
                 "IsActive": true,
-                "HierarchyParent": 1,
-                "HierarchyIndex": 232,
+                "HierarchyParent": 397,
+                "HierarchyIndex": 14,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -9861,13 +10078,13 @@
                     "z": 116.379150390625
                 },
                 "Scale": {
-                    "x": 1.100000023841858,
+                    "x": 1.0999997854232788,
                     "y": 1.2200000286102295,
-                    "z": 1.100000023841858
+                    "z": 1.0999997854232788
                 },
                 "Rotation": {
                     "x": 0.0,
-                    "y": -1.570796251296997,
+                    "y": -1.5707958936691284,
                     "z": 0.0
                 }
             },
@@ -9895,7 +10112,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 97,
+                "HierarchyIndex": 98,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -9939,7 +10156,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 98,
+                "HierarchyIndex": 99,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -9983,7 +10200,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 99,
+                "HierarchyIndex": 100,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -10027,7 +10244,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 233,
+                "HierarchyIndex": 203,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -10071,7 +10288,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 234,
+                "HierarchyIndex": 204,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -10115,7 +10332,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 236,
+                "HierarchyIndex": 206,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -10159,7 +10376,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 237,
+                "HierarchyIndex": 207,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -10203,7 +10420,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 238,
+                "HierarchyIndex": 208,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -10379,7 +10596,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 239,
+                "HierarchyIndex": 209,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -10423,7 +10640,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 241,
+                "HierarchyIndex": 211,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -10467,7 +10684,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 243,
+                "HierarchyIndex": 213,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -10511,7 +10728,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 244,
+                "HierarchyIndex": 214,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -10599,7 +10816,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 109,
+                "HierarchyIndex": 107,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -10643,7 +10860,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 247,
+                "HierarchyIndex": 217,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -10687,7 +10904,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 249,
+                "HierarchyIndex": 219,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -11127,7 +11344,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 126,
+                "HierarchyIndex": 124,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -11259,24 +11476,24 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 330,
-                "HierarchyIndex": 7,
+                "HierarchyIndex": 0,
                 "HierarchyChildren": []
             },
             "Transform": {
                 "Position": {
-                    "x": 937.7159423828125,
-                    "y": 383.6775207519531,
-                    "z": -1111.1055908203125
+                    "x": 1582.4603271484375,
+                    "y": 303.81707763671875,
+                    "z": -338.0168151855469
                 },
                 "Scale": {
-                    "x": 0.32360902428627014,
+                    "x": 0.32357609272003174,
                     "y": 0.1827000081539154,
-                    "z": 0.1827000081539154
+                    "z": 0.1826835423707962
                 },
                 "Rotation": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
+                    "x": -3.1415908336639404,
+                    "y": 1.5707924365997314,
+                    "z": -3.1415908336639404
                 }
             },
             "Graphics Component": {
@@ -11581,25 +11798,25 @@
                 "HierarchyParent": 0,
                 "HierarchyIndex": 6,
                 "HierarchyChildren": [
-                    331,
-                    332
+                    332,
+                    401
                 ]
             },
             "Transform": {
                 "Position": {
-                    "x": 937.7159423828125,
-                    "y": 383.67755126953125,
-                    "z": -1111.1055908203125
+                    "x": 1582.4603271484375,
+                    "y": 303.820068359375,
+                    "z": -338.0168151855469
                 },
                 "Scale": {
-                    "x": 0.32360902428627014,
+                    "x": 0.32357609272003174,
                     "y": 0.1827000081539154,
-                    "z": 0.1827000081539154
+                    "z": 0.1826835423707962
                 },
                 "Rotation": {
-                    "x": 0.0,
-                    "y": -0.0,
-                    "z": 0.0
+                    "x": -3.1415908336639404,
+                    "y": 1.5707924365997314,
+                    "z": -3.1415908336639404
                 }
             },
             "Graphics Component": {
@@ -11758,7 +11975,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 136,
+                "HierarchyIndex": 134,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -12025,7 +12242,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 127,
+                "HierarchyIndex": 125,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -12116,7 +12333,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 137,
+                "HierarchyIndex": 135,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -12435,7 +12652,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 250,
+                "HierarchyIndex": 220,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -12567,7 +12784,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 251,
+                "HierarchyIndex": 221,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -12611,7 +12828,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 117,
+                "HierarchyIndex": 115,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -12655,7 +12872,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 113,
+                "HierarchyIndex": 111,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -12787,7 +13004,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 138,
+                "HierarchyIndex": 136,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -12831,7 +13048,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 252,
+                "HierarchyIndex": 222,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -12919,7 +13136,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 253,
+                "HierarchyIndex": 223,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -13007,7 +13224,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 110,
+                "HierarchyIndex": 108,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -13537,7 +13754,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 254,
+                "HierarchyIndex": 224,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -13625,7 +13842,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 255,
+                "HierarchyIndex": 225,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -13669,7 +13886,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 258,
+                "HierarchyIndex": 228,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -13757,7 +13974,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 259,
+                "HierarchyIndex": 229,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -13801,7 +14018,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 256,
+                "HierarchyIndex": 226,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -13889,7 +14106,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 114,
+                "HierarchyIndex": 112,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -13977,7 +14194,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 260,
+                "HierarchyIndex": 230,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -14065,7 +14282,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 261,
+                "HierarchyIndex": 231,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -14109,7 +14326,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 115,
+                "HierarchyIndex": 113,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -14153,7 +14370,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 262,
+                "HierarchyIndex": 232,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -14197,7 +14414,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 263,
+                "HierarchyIndex": 233,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -14277,7 +14494,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 257,
+                "HierarchyIndex": 227,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -14365,7 +14582,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 116,
+                "HierarchyIndex": 114,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -14409,7 +14626,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 265,
+                "HierarchyIndex": 235,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -14497,7 +14714,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 119,
+                "HierarchyIndex": 117,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -14585,7 +14802,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 267,
+                "HierarchyIndex": 237,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -14673,7 +14890,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 271,
+                "HierarchyIndex": 241,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -14717,7 +14934,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 269,
+                "HierarchyIndex": 239,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -14761,7 +14978,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 270,
+                "HierarchyIndex": 240,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -14805,7 +15022,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 274,
+                "HierarchyIndex": 244,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -14849,7 +15066,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 276,
+                "HierarchyIndex": 246,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -14893,7 +15110,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 139,
+                "HierarchyIndex": 137,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -14937,7 +15154,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 278,
+                "HierarchyIndex": 248,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -14981,7 +15198,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 280,
+                "HierarchyIndex": 250,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -15025,7 +15242,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 282,
+                "HierarchyIndex": 252,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -15069,7 +15286,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 111,
+                "HierarchyIndex": 109,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -15113,7 +15330,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 1,
-                "HierarchyIndex": 118,
+                "HierarchyIndex": 116,
                 "HierarchyChildren": []
             },
             "Transform": {
@@ -15245,7 +15462,7 @@
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 0,
-                "HierarchyIndex": 2,
+                "HierarchyIndex": 1,
                 "HierarchyChildren": [
                     290,
                     291,
@@ -16552,31 +16769,31 @@
             }
         },
         "331": {
-            "ArchetypeID": "11000010000000",
+            "ArchetypeID": "11000010100000",
             "Enabled": true,
             "Name Tag": {
                 "Name": "Frame",
                 "Tag": "",
                 "IsActive": true,
-                "HierarchyParent": 330,
-                "HierarchyIndex": 7,
+                "HierarchyParent": 401,
+                "HierarchyIndex": 0,
                 "HierarchyChildren": []
             },
             "Transform": {
                 "Position": {
-                    "x": 937.7159423828125,
-                    "y": 383.6775207519531,
-                    "z": -1111.1055908203125
+                    "x": 1587.1866455078125,
+                    "y": 303.7994079589844,
+                    "z": -338.0168151855469
                 },
                 "Scale": {
-                    "x": 0.32360902428627014,
-                    "y": 0.1827000081539154,
-                    "z": 0.1827000081539154
+                    "x": 0.32355189323425293,
+                    "y": 0.1827000379562378,
+                    "z": 0.1826714277267456
                 },
                 "Rotation": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
+                    "x": -3.1415863037109375,
+                    "y": 1.5707851648330688,
+                    "z": -3.1415863037109375
                 }
             },
             "Graphics Component": {
@@ -16593,6 +16810,18 @@
                     "w": 1.0
                 },
                 "Used In 2D": false
+            },
+            "Sphere Collider": {
+                "IsTrigger": false,
+                "IsInteract": false,
+                "Center": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "Radius": 20.0,
+                "AImode": "INTERACTABLE",
+                "ColliderName": ""
             }
         },
         "337": {
@@ -17550,9 +17779,9 @@
             },
             "Transform": {
                 "Position": {
-                    "x": 2552.817138671875,
+                    "x": 1872.7874755859375,
                     "y": 135.05929565429688,
-                    "z": 345.308837890625
+                    "z": -333.87060546875
                 },
                 "Scale": {
                     "x": 1.0,
@@ -17831,6 +18060,145 @@
                     "y": -0.8167341351509094
                 }
             }
+        },
+        "392": {
+            "ArchetypeID": "11000000000000",
+            "Enabled": false,
+            "Name Tag": {
+                "Name": "Lockpick Group",
+                "Tag": "",
+                "IsActive": true,
+                "HierarchyParent": 0,
+                "HierarchyIndex": 2,
+                "HierarchyChildren": [
+                    393,
+                    394,
+                    396
+                ]
+            },
+            "Transform": {
+                "Position": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "Scale": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                },
+                "Rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                }
+            }
+        },
+        "394": {
+            "ArchetypeID": "11000000000010",
+            "Enabled": false,
+            "Name Tag": {
+                "Name": "InnerLock",
+                "Tag": "",
+                "IsActive": true,
+                "HierarchyParent": 392,
+                "HierarchyIndex": 1,
+                "HierarchyChildren": []
+            },
+            "Transform": {
+                "Position": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": -20.0
+                },
+                "Scale": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                },
+                "Rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                }
+            },
+            "UI Sprite": {
+                "Texture": "InnerLock.dds",
+                "EnableSprite": true,
+                "LayerID": 0,
+                "is Font": false,
+                "message": "",
+                "Font Texture": "",
+                "ForeGroundColour": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 0.0
+                },
+                "Sprite Color": {
+                    "x": 0.10000000149011612,
+                    "y": 0.10000000149011612,
+                    "z": 0.10000000149011612,
+                    "w": 1.0
+                },
+                "BackGroundColour": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "BoundingBoxMin": {
+                    "x": -0.5,
+                    "y": -0.5
+                },
+                "BoundingBoxMax": {
+                    "x": 0.5,
+                    "y": 0.5
+                }
+            }
+        },
+        "396": {
+            "ArchetypeID": "11001000000000",
+            "Enabled": false,
+            "Name Tag": {
+                "Name": "Lock Camera",
+                "Tag": "",
+                "IsActive": true,
+                "HierarchyParent": 392,
+                "HierarchyIndex": 2,
+                "HierarchyChildren": [
+                    395
+                ]
+            },
+            "Transform": {
+                "Position": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "Scale": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                },
+                "Rotation": {
+                    "x": 0.0,
+                    "y": 180.0,
+                    "z": 0.0
+                }
+            },
+            "Camera Component": {
+                "Yaw": 0.0,
+                "Pitch": 0.0,
+                "Position": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "Speed": 1.0,
+                "FOV": 45.0,
+                "MouseSensitivity": 0.10000000149011612
+            }
         }
     },
     "Scripts": {
@@ -17875,12 +18243,129 @@
         "314": {},
         "129": {},
         "2": {},
+        "393": {},
         "4": {},
+        "397": {},
         "6": {},
         "8": {},
+        "401": {},
         "10": {},
         "11": {},
         "12": {},
+        "395": {
+            "LockPick1": {
+                "_TutorialStep": {
+                    "Int": 0
+                },
+                "_TutorialCompleted": {
+                    "Bool": true
+                },
+                "innerLock": {
+                    "Component": 394
+                },
+                "player": {
+                    "GameObject": 325
+                },
+                "lockObject": {
+                    "GameObject": 392
+                },
+                "door": {
+                    "GameObject": 391
+                },
+                "difficultyLvl": {
+                    "String": ""
+                },
+                "maxAngle": {
+                    "Float": 90.0
+                },
+                "lockSpeed": {
+                    "Float": 10.0
+                },
+                "unlocked": {
+                    "Bool": false
+                },
+                "lockSoundEffects": {
+                    "System.String[]": 0
+                },
+                "rattleSoundEffects": {
+                    "System.String[]": 0
+                },
+                "delay": {
+                    "Float": 0.4
+                },
+                "lockRange": {
+                    "Float": 10.0
+                },
+                "numOfTries": {
+                    "Int": 10
+                },
+                "percentage": {
+                    "Float": 0.0
+                },
+                "eulerAngle": {
+                    "Float": 0.0
+                },
+                "eulerAngleDegree": {
+                    "Float": 0.0
+                },
+                "unlockAngle": {
+                    "Float": -46.0
+                },
+                "unlockRange": {
+                    "Vector3": {
+                        "X": -56.0,
+                        "Y": -36.0,
+                        "Z": 0.0
+                    }
+                },
+                "keyPressTime": {
+                    "Float": 0.0
+                },
+                "movePick": {
+                    "Bool": true
+                },
+                "deduct": {
+                    "Bool": true
+                },
+                "displayTutorial": {
+                    "Bool": false
+                },
+                "played": {
+                    "Bool": false
+                },
+                "originalPosition": {
+                    "Vector3": {
+                        "X": -0.005770564079284668,
+                        "Y": 0.6000000238418579,
+                        "Z": -2.9999945163726807
+                    }
+                },
+                "currentRattlePlaying": {
+                    "Int": 0
+                },
+                "timer": {
+                    "Float": 1.2
+                },
+                "passed": {
+                    "Bool": false
+                },
+                "failed": {
+                    "Bool": false
+                },
+                "gameObject": {
+                    "GameObject": 395
+                },
+                "is_Enabled": {
+                    "Bool": true
+                },
+                "is_Awake": {
+                    "Bool": false
+                },
+                "is_Start": {
+                    "Bool": true
+                }
+            }
+        },
         "13": {},
         "14": {},
         "16": {},
@@ -17924,6 +18409,7 @@
         "54": {},
         "55": {},
         "56": {},
+        "391": {},
         "57": {},
         "58": {},
         "385": {
@@ -17973,7 +18459,31 @@
         "80": {},
         "81": {},
         "82": {},
-        "83": {},
+        "83": {
+            "Door_Script": {
+                "playerCamera": {
+                    "GameObject": 325
+                },
+                "lockpickGroup": {
+                    "GameObject": 392
+                },
+                "locked": {
+                    "Bool": true
+                },
+                "gameObject": {
+                    "GameObject": 83
+                },
+                "is_Enabled": {
+                    "Bool": true
+                },
+                "is_Awake": {
+                    "Bool": false
+                },
+                "is_Start": {
+                    "Bool": true
+                }
+            }
+        },
         "84": {},
         "85": {},
         "86": {},
@@ -18454,7 +18964,46 @@
         },
         "327": {},
         "329": {},
-        "331": {},
+        "331": {
+            "Painting_Script": {
+                "paintingParent": {
+                    "GameObject": 330
+                },
+                "opened": {
+                    "Bool": false
+                },
+                "collided": {
+                    "Bool": false
+                },
+                "voClip": {
+                    "System.String[]": 0
+                },
+                "playedAudio": {
+                    "Bool": false
+                },
+                "timer": {
+                    "Float": 1.0
+                },
+                "receiptFound": {
+                    "Bool": false
+                },
+                "paintingTaken": {
+                    "Bool": false
+                },
+                "gameObject": {
+                    "GameObject": 331
+                },
+                "is_Enabled": {
+                    "Bool": true
+                },
+                "is_Awake": {
+                    "Bool": true
+                },
+                "is_Start": {
+                    "Bool": true
+                }
+            }
+        },
         "337": {},
         "341": {},
         "343": {},
@@ -18485,7 +19034,7 @@
                     "Int": 0
                 },
                 "deltaTime": {
-                    "Float": 0.0
+                    "Float": 27.860542
                 },
                 "NumOfWaypoints": {
                     "Int": 6
@@ -18601,7 +19150,10 @@
                 }
             }
         },
-        "390": {}
+        "390": {},
+        "392": {},
+        "394": {},
+        "396": {}
     },
     "Active Archetype": {
         "191": "1100001000000",
@@ -18645,12 +19197,16 @@
         "314": "1100000000000",
         "129": "1100001000000",
         "2": "1100001000000",
+        "393": "11000000000010",
         "4": "1100001000000",
+        "397": "11000000000000",
         "6": "1100001000000",
         "8": "1100001000000",
+        "401": "11000000000000",
         "10": "1100001000000",
         "11": "1100001000000",
         "12": "1100001000000",
+        "395": "11000010000000",
         "13": "1100001000000",
         "14": "1100001000000",
         "16": "1100001000000",
@@ -18694,6 +19250,7 @@
         "54": "1100001000000",
         "55": "1100001000000",
         "56": "1100001000000",
+        "391": "11000000000000",
         "57": "1100001000000",
         "58": "1100001000000",
         "385": "11000010000000",
@@ -18722,7 +19279,7 @@
         "80": "1100001000000",
         "81": "1100001000000",
         "82": "1100001000000",
-        "83": "1100001000000",
+        "83": "1100001010000",
         "84": "1100001000000",
         "85": "1100001000000",
         "86": "1100001000000",
@@ -18955,7 +19512,7 @@
         "325": "11000010100000",
         "327": "11000010000000",
         "329": "11000010000000",
-        "331": "11000010000000",
+        "331": "11000010100000",
         "337": "11000010000000",
         "341": "11000010000000",
         "343": "11000010000000",
@@ -18982,6 +19539,9 @@
         "383": "11000010000000",
         "384": "11000010000000",
         "386": "11000010000000",
-        "390": "11000000000010"
+        "390": "11000000000010",
+        "392": "11000000000000",
+        "394": "11000000000010",
+        "396": "11001000000000"
     }
 }

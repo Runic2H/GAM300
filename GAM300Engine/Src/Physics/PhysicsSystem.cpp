@@ -171,6 +171,7 @@ namespace TDS
 			{
 				for (int j = 0; j < entities.size(); ++j)
 				{
+					if (!ecs.getEntityIsEnabled(entities[j]) || !ecs.getComponentIsEnabled<SphereCollider>(entities[j])) continue;
 					if (i == j) continue;
 					if (_collider[i].getAImode() != SphereCollider::AImode::PLAYER) continue;
 					if (_collider[j].getAImode() == SphereCollider::AImode::MONSTER)

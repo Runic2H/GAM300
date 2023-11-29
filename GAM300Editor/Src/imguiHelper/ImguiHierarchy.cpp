@@ -347,7 +347,7 @@ namespace TDS
 	void Hierarchy::drawHierarchy(EntityID entityID)
 	{
 		ImGuiTreeNodeFlags nodeFlags =
-			ImGuiTreeNodeFlags_DefaultOpen |
+			//ImGuiTreeNodeFlags_DefaultOpen |
 			ImGuiTreeNodeFlags_FramePadding |
 			ImGuiTreeNodeFlags_SpanFullWidth | 
 			ImGuiTreeNodeFlags_OpenOnArrow;
