@@ -243,7 +243,7 @@ namespace TDS
                 executeFixedUpdate();
                 ecs.runSystems(1, DeltaTime); // Other systems
                 executeUpdate();
-                executeLateUpdate();
+                //executeLateUpdate();
             }
             else
             {

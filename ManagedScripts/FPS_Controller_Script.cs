@@ -4,6 +4,11 @@ using System;
 public class FPS_Controller_Script : Script
 {
     public RigidBodyComponent rb;
+    public string startingVOstr;   //To be changed
+    public AudioComponent startingVO;   //To be changed
+    public string[] footStepSoundEffects;
+    private int currentFootStepPlaying;
+    AudioComponent audio;
 
     #region Camera Movement Variables
     [Header("Camera Movement Variables")]
@@ -118,7 +123,8 @@ public class FPS_Controller_Script : Script
     public override void Awake()
     {
         rb = gameObject.GetComponent<RigidBodyComponent>();
-
+        startingVO = gameObject.GetComponent<AudioComponent>();
+        startingVOstr = "pc_lockpickstart";
         // Set internal variables
         playerCamera.SetFieldOfView(fov);
         originalScale = transform.GetScale();
@@ -129,6 +135,16 @@ public class FPS_Controller_Script : Script
             sprintRemaining = sprintDuration;
             sprintCooldownReset = sprintCooldown;
         }
+
+        footStepSoundEffects = new string[5];
+        footStepSoundEffects[0] = "temp_step1";
+        footStepSoundEffects[1] = "temp_step2";
+        footStepSoundEffects[2] = "temp_step3";
+        footStepSoundEffects[3] = "temp_step4";
+        footStepSoundEffects[4] = "temp_step5";
+
+        currentFootStepPlaying = 0;
+        audio = gameObject.GetComponent<AudioComponent>();
     }
     public override void Start()
     {
@@ -175,6 +191,7 @@ public class FPS_Controller_Script : Script
             //sprintBar.gameObject.SetActive(false);
         }
         #endregion
+
     }
     public override void Update()
     {
@@ -351,6 +368,7 @@ public class FPS_Controller_Script : Script
         {
             //HeadBob();
         }
+        startingVO.play(startingVOstr);
     }
     public override void FixedUpdate()
     {
@@ -375,10 +393,12 @@ public class FPS_Controller_Script : Script
             if (Input.GetKey(Keycode.W) || Input.GetKey(Keycode.S) || Input.GetKey(Keycode.A) || Input.GetKey(Keycode.D))
             {
                 isWalking = true;
+                //audio.play(footStepSoundEffects[0]);
             }
             else
             {
                 isWalking = false;
+                //audio.stop(footStepSoundEffects[0]);
             }
 
             // All movement calculations shile sprint is active

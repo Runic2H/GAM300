@@ -8,9 +8,16 @@ public class Flashlight_Script : Script
     public GameObject lightSourceObj;
     public bool activateLight = false;
     public GameDataManager myGameDataManager;
+    public string flashAudiostr = "temp_flashlight";
+    public AudioComponent flashAudio;                             
 
     [SerializeField] private bool flicker = false;
     [SerializeField] private float flickerTimer;
+
+    public override void Awake()
+    {
+        flashAudio = gameObject.GetComponent<AudioComponent>();
+    }
 
     public override void Update()
     {
@@ -23,14 +30,19 @@ public class Flashlight_Script : Script
         if (Input.GetKeyDown(Keycode.F))
         {
             activateLight = !activateLight;
+            if (flashAudio.finished(flashAudiostr))
+            {
+                flashAudio.play(flashAudiostr);
+            }
             if(activateLight == false)
             {
                 lightSourceObj.GetGraphicComponent().SetColourAlpha(0.0f);
             }
             else
             {
-                lightSourceObj.GetGraphicComponent().SetColourAlpha(0.3f);
+                lightSourceObj.GetGraphicComponent().SetColourAlpha(0.6f);
             }
+            Input.KeyRelease(Keycode.F);
         }
 
         //Remove this chunck of code when building
@@ -65,6 +77,11 @@ public class Flashlight_Script : Script
         }
 
         //BatteryLife();
+    }
+
+    public override void LateUpdate()
+    {
+        flashAudio.stop(flashAudiostr);
     }
 
     void BatteryLife()

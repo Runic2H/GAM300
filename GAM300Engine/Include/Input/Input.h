@@ -159,6 +159,11 @@ namespace TDS
 		static bool wasKeyHit(uint32_t keycode);
 
 		/*!*************************************************************************
+		Manaually Reset KeyPress
+		****************************************************************************/
+		static void KeyRelease(uint32_t keycode);
+
+		/*!*************************************************************************
 		Returns true if mouse wheel is being scrolled up.
 		****************************************************************************/
 		static bool isMouseScrollUp();

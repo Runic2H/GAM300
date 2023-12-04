@@ -32,6 +32,7 @@ public class LockPick1 : Script
     public bool unlocked;
     public string[] lockSoundEffects;
     public string[] rattleSoundEffects;
+    public string successVOclip;
     float delay = 0.4f;
     //public GameObject _NumOfTries;
     //public Text _AmtOfTries;
@@ -74,6 +75,8 @@ public class LockPick1 : Script
         rattleSoundEffects[5] = "temp_lockrattle6";
 
         currentRattlePlaying = 0;
+
+        successVOclip = "pc_lockpicksuccess1";
 
         newLock();
         passed = false;
@@ -260,8 +263,9 @@ public class LockPick1 : Script
                     GraphicsManagerWrapper.ToggleViewFrom2D(false);
 
                     door.SetActive(door.GetEntityID(), false);
-
                     //is_Enabled = false;
+
+                    //audio.play(successVOclip);
                 }
                 else
                 {

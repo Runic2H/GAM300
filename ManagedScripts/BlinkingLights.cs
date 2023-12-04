@@ -11,12 +11,18 @@ public class BlinkingLights : Script
     float timingcounter;
     [SerializeField]
     int flickercount;
+
+    public string blinkinglightsound;
+    public AudioComponent audio;
+
     public override void Awake()
     {
         IsOn = true;
         timingcounter = 0;
         OriginalIntensity = (float)gameObject.GetComponent<GraphicComponent>().getColourAlpha();
         flickercount = 0;
+        blinkinglightsound = "lightshut2";
+        audio = gameObject.GetComponent<AudioComponent>();
     }
 
     public override void Update()
@@ -32,7 +38,7 @@ public class BlinkingLights : Script
             flickercount++;
         }
 
-        if (flickercount > 5) 
+        if (flickercount > 15) 
             IsOn = false;
 
         if (!IsOn)
@@ -42,7 +48,6 @@ public class BlinkingLights : Script
         else
         {
             gameObject.GetComponent<GraphicComponent>().SetColourAlpha(OriginalIntensity);
-
         }
     }
 }

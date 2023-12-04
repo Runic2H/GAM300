@@ -76,6 +76,11 @@ namespace ScriptAPI
 		return TDS::Input::isKeyReleased(keycode);
 	}
 
+	void Input::KeyRelease(uint32_t keycode)
+	{
+		return TDS::Input::KeyRelease(keycode);
+	}
+
 	bool Input::GetMouseButton(uint32_t button)
 	{
 		return TDS::Input::isMouseButtonPressed(button - Keycode::MAX_KEYS);
