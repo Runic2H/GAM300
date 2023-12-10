@@ -57,7 +57,7 @@ public class Painting_Script : Script
         //    collided = false;
         //}
 
-        if (gameObject.GetComponent<SphereColliderComponent>().GetIsInteract()) // returns true if player is near it
+        if (gameObject.GetComponent<RigidBodyComponent>().IsSensorActivated()) // returns true if player is near it
         {
             if (timer <= 0.0f)
             {

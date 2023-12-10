@@ -8,7 +8,7 @@
  * \brief         Implementation of the collision system.
  *******************************************************************************/
 #include "Physics/CollisionSystem.h"
-
+#include "AssetManagement/AssetManager.h"
 namespace TDS
 {
 	// Static variables
@@ -18,8 +18,6 @@ namespace TDS
 	std::vector<unsigned int>		CollisionSystem::sphereIndices;
 	std::vector<float>				CollisionSystem::capsuleVertices;
 	std::vector<unsigned int>		CollisionSystem::capsuleIndices;
-
-
 
 	void CollisionSystem::CollisionSystemInit()
 	{
@@ -33,26 +31,87 @@ namespace TDS
 	{
 		for (int i = 0; i < entities.size(); ++i)
 		{
+			Mat4 modelMatrix = Mat4::identity();
 			if (!ecs.getEntityIsEnabled(entities[i]) || !ecs.getComponentIsEnabled<GraphicsComponent>(entities[i]))
 			{
 				continue;
 			}
-
 			if (GetSphereCollider(entities[i]))
 			{
 				SphereCollider* vSphere = GetSphereCollider(entities[i]);
-				_transform[i].SetOffSetPos(vSphere->GetCenter());
-				float radius = vSphere->GetRadius() * 2.f;
-				Vec3 vScale = Vec3(radius) - Vec3(1.f);
-				_transform[i].SetOffSetScale(vScale);
+				_transform[i].SetOffSetPos(vSphere->GetColliderCenter());
+				float radiusFactor = (vSphere->GetRadiusFactor() - 1.f);
+				_transform[i].SetOffSetScale(radiusFactor);
+
+				float newRadius = (vSphere->GetRadiusFactor() * _transform[i].GetScale().x);
+				if (newRadius != vSphere->GetColliderRadius())
+				{
+					vSphere->SetColliderRadius(newRadius);
+				}
+
 			}
 
 			else if (GetBoxCollider(entities[i]))
 			{
 				BoxCollider* vBox = GetBoxCollider(entities[i]);
-				_transform[i].SetOffSetPos(vBox->GetCenter());
-				Vec3 vScale = vBox->GetSize() - Vec3(1.f);
-				_transform[i].SetOffSetScale(vScale);
+				if (_graphics[i].GetModelName() == "cube_Bin.bin")
+				{
+					vBox->SetColliderSize(_transform[i].GetScale());
+					vBox->SetColliderCenter(_transform[i].GetPosition());
+				}
+				else
+				{
+					if (!vBox->GetModelInit())
+					{
+						TDS::AssetModel* tmp_assetModel = AssetManager::GetInstance()->GetModelFactory().GetModel(_graphics[i].GetModelName(), _graphics[i].GetAsset());
+						std::string key = _graphics[i].GetMeshName();
+						auto it = tmp_assetModel->m_Meshes.find(key);
+						if (it != tmp_assetModel->m_Meshes.end())
+						{
+							MeshData* tmp_MeshData = &(it->second);
+							Vec3 minBoundingBox(FLT_MAX, FLT_MAX, FLT_MAX);
+							Vec3 maxBoundingBox(-FLT_MAX, -FLT_MAX, -FLT_MAX);
+							for (auto& modelCoord : tmp_MeshData->m_VertexData)
+							{
+								minBoundingBox.x = Mathf::Min(minBoundingBox.x, modelCoord.m_Pos.x);
+								minBoundingBox.y = Mathf::Min(minBoundingBox.y, modelCoord.m_Pos.y);
+								minBoundingBox.z = Mathf::Min(minBoundingBox.z, modelCoord.m_Pos.z);
+
+								maxBoundingBox.x = Mathf::Max(maxBoundingBox.x, modelCoord.m_Pos.x);
+								maxBoundingBox.y = Mathf::Max(maxBoundingBox.y, modelCoord.m_Pos.y);
+								maxBoundingBox.z = Mathf::Max(maxBoundingBox.z, modelCoord.m_Pos.z);
+
+							}
+
+							Vec3 vSize = (maxBoundingBox - minBoundingBox) * 0.5f;
+							vBox->SetColliderSize(vSize);
+							vBox->SetModelSize(vSize); // scale
+							vBox->SetModelRotation(_transform[i].GetRotation()); // rotate
+							vBox->SetModelCenter(_transform[i].GetPosition()); // translate
+
+
+						}
+						vBox->SetModelInit(true);
+					}
+					// scaling the box collider & other offset values
+					else
+					{
+						if (_transform[i].GetScale() + 1.f != vBox->GetColliderScale() || vBox->GetOffsetScale() != Vec3(0.f))
+						{
+							Vec3 vScale = _transform[i].GetScale() + vBox->GetOffsetScale();
+							Vec3 vSize = vBox->GetModelSize();
+							vSize.x *= vScale.x;
+							vSize.y *= vScale.y;
+							vSize.z *= vScale.z;
+							vBox->SetColliderSize(vSize);
+							vBox->SetColliderScale(vScale);
+						}
+					}
+				}
+				vBox->SetColliderCenter(_transform[i].GetPosition() + vBox->GetOffsetCenter());
+				_transform[i].SetOffSetPos(vBox->GetOffsetCenter());
+				Vec3 vScale = _transform[i].GetScale() - vBox->GetColliderScale() ;
+				_transform[i].SetOffSetScale(vBox->GetOffsetScale());
 			}
 
 			else if (GetCapsuleCollider(entities[i]))

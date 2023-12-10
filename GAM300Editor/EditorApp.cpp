@@ -299,6 +299,8 @@ namespace TDS
         skyboxrender.ShutDown();
         GraphicsManager::getInstance().ShutDown();
         DDSConverter::Destroy();
+
+        PhysicsSystem::JPH_SystemShutdown();
     }
 
     void Application::Run()
