@@ -194,11 +194,13 @@ xcopy /y /d "$(SolutionDir)Libs\rttr_core.dll" "$(OutDir)"</Command>
     <ClCompile Include="..\Shared_Libs\Vector3.cpp" />
     <ClCompile Include="..\Shared_Libs\Vector4.cpp" />
     <ClCompile Include="Include\ecs\ecs.cpp" />
+    <ClInclude Include="Include\Physics\ContactListenerImpl.h" />
     <ClCompile Include="Include\Rendering\GraphicsManagerWrapperCalls.cpp" />
     <ClCompile Include="Src\components\AudioSource.cpp" />
     <ClCompile Include="Src\AI\UIPopupManager.cpp" />
     <ClCompile Include="src\components\SoundInfo.cpp" />
     <ClCompile Include="src\fmod_engine\AudioEngine.cpp" />
+    <ClCompile Include="Src\Physics\ContactListenerImpl.cpp" />
     <ClCompile Include="Src\Physics\Interface\PhysicsInterface.cpp" />
     <ClCompile Include="Src\AI\aiSystem.cpp" />
     <ClCompile Include="Src\AI\behaviourTree.cpp" />

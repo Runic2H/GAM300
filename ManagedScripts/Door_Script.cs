@@ -31,7 +31,7 @@ public class Door_Script : Script
     // Update is called once per frame
     override public void Update()
     {
-        if (gameObject.GetComponent<SphereColliderComponent>().GetIsInteract())
+        if (gameObject.GetComponent<RigidBodyComponent>().IsSensorActivated())
         {
             if (Input.GetKeyDown(Keycode.E))
             {

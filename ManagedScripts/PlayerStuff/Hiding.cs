@@ -38,7 +38,7 @@ public class Hiding : Script
         _flashlight = player.GetComponent<Flashlight_Script>();
         hidingPos = closet.transform.GetPosition();
         _RotationAngle = 180;
-        if (interactable && closet.GetSphereColliderComponent().GetIsInteract())
+        if (interactable && closet.GetRigidBodyComponent().IsSensorActivated())
         {
             if (Input.GetKeyDown(Keycode.E) && hiding == false)
             {
