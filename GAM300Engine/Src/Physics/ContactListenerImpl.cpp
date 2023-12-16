@@ -94,10 +94,16 @@ namespace TDS
 		auto sensorID2 = PhysicsSystem::findEntityByID(inSubShapePair.GetBody2ID().GetIndex());
 		if (sensorID1.has_value())
 		{
+			//std::cout << "1sensorID1: " << sensorID1.value() << std::endl;
+			//std::cout << "1sensorID2: " << sensorID2.value() << std::endl;
 			GetRigidBody(sensorID1.value())->setSensorActivate(false);
+			GetRigidBody(sensorID2.value())->setSensorActivate(false);
 		}
 		else if (sensorID2.has_value())
 		{
+			//std::cout << "2sensorID1: " << sensorID1.value() << std::endl;
+			//std::cout << "2sensorID2: " << sensorID2.value() << std::endl;
+			GetRigidBody(sensorID1.value())->setSensorActivate(false);
 			GetRigidBody(sensorID2.value())->setSensorActivate(false);
 		}
 		// Update existing manifold in state map
