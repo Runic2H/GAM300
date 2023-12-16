@@ -11,11 +11,6 @@ namespace ScriptAPI
 		bool GetIsTrigger();
 		void SetIsTrigger(bool value);
 
-		bool GetIsInteract();
-		void SetIsInteract(bool value);
-
-		System::String^ GetColliderName();
-
 		Vector3 GetCenter();
 		void SetCenter(Vector3 value);
 		void SetCenterX(float valueX);
@@ -34,11 +29,6 @@ namespace ScriptAPI
 		TDS::EntityID GetEntityID();
 
 	private:
-		property bool IsInteract
-		{
-			bool get();
-			void set(bool value);
-		}
 		property bool IsTrigger
 		{
 			bool get();
@@ -53,10 +43,6 @@ namespace ScriptAPI
 		{
 			float get();
 			void set(float value);
-		}
-		property System::String^ ColliderName
-		{
-			System::String^ get();
 		}
 		TDS::EntityID entityID;
 	};

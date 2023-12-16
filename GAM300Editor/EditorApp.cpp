@@ -243,7 +243,7 @@ namespace TDS
                 executeFixedUpdate();
                 ecs.runSystems(1, DeltaTime); // Other systems
                 executeUpdate();
-                executeLateUpdate();
+                //executeLateUpdate();
             }
             else
             {
@@ -299,6 +299,8 @@ namespace TDS
         skyboxrender.ShutDown();
         GraphicsManager::getInstance().ShutDown();
         DDSConverter::Destroy();
+
+        PhysicsSystem::JPH_SystemShutdown();
     }
 
     void Application::Run()

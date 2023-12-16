@@ -214,7 +214,7 @@ namespace TDS
     void GamApp::Run()
     {
         startScriptEngine();
-        compileScriptAssembly();
+        //compileScriptAssembly();
 
         // Step 1: Get Functions
         auto init = GetFunctionPtr<void(*)(void)>

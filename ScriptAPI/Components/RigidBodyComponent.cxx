@@ -319,6 +319,16 @@ namespace ScriptAPI
 		return TDS::GetGravityFactor(*TDS::GetRigidBody(entityID));
 	}
 
+	bool RigidBodyComponent::IsSensorActivated()
+	{
+		if (!TDS::GetRigidBody(entityID))
+		{
+			// throw error instead (not sure how)
+			return false;
+		}
+		return TDS::GetRigidBody(entityID)->getSensorActivate();
+	}
+
 	// CONSTRUCTOR ===========================================================================
 	RigidBodyComponent::RigidBodyComponent(TDS::EntityID ID) : entityID (ID), transform(TransformComponent(ID))
 	{ }

@@ -23,8 +23,7 @@ namespace TDS
 		enum class MotionType : uint8_t//EMotionType in Jolt/.../MotionType.h
 		{
 			STATIC = 0,		///< Non movable
-			KINEMATIC,		///< Movable using velocities only, does not respond to forces
-			DYNAMIC			///< Responds to forces as a normal physics object
+			DYNAMIC,		///< Responds to forces as a normal physics object
 		};
 
 		/*!*************************************************************************
@@ -82,12 +81,6 @@ namespace TDS
 		DLL_API bool& getSensorActivate() { return sensorActivated; }
 		DLL_API void setSensorActivate(bool input) { sensorActivated = input; }
 
-		DLL_API void setAABBmin(Vec3 minpt) { AABBmin = minpt; }
-		DLL_API Vec3& getAABBmin() { return AABBmin; }
-
-		DLL_API void setAABBmax(Vec3 maxpt) { AABBmax = maxpt; }
-		DLL_API Vec3& getAABBmax() { return AABBmax; }
-
 		RTTR_ENABLE(IComponent);
 		RTTR_REGISTRATION_FRIEND
 
@@ -109,8 +102,6 @@ namespace TDS
 		MotionType	mMotionType;
 		JoltBodyID	mBodyID;
 
-		Vec3 AABBmin;
-		Vec3 AABBmax;
 	};
 
 	DLL_API RigidBody* GetRigidBody(EntityID entityID);

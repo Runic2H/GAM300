@@ -37,47 +37,6 @@ namespace ScriptAPI
 		IsTrigger = value;
 	}
 
-	bool SphereColliderComponent::IsInteract::get()
-	{
-		// May wanna change to a function
-		if (!TDS::GetSphereCollider(entityID))
-		{
-			// throw error instead (not sure how)
-			return false;
-		}
-		return TDS::GetSphereCollider(entityID)->GetIsInteract();
-	}
-	void SphereColliderComponent::IsInteract::set(bool value)
-	{
-		// May wanna change to a function
-		if (!TDS::GetSphereCollider(entityID))
-		{
-			// throw error instead (not sure how)
-			return;
-		}
-
-		return TDS::GetSphereCollider(entityID)->SetIsInteract(value);
-	}
-	bool SphereColliderComponent::GetIsInteract()
-	{
-		return IsInteract;
-	}
-
-	void SphereColliderComponent::SetIsInteract(bool value)
-	{
-		IsInteract = value;
-	}
-
-	System::String^ SphereColliderComponent::GetColliderName()
-	{
-		return  toSystemString(TDS::GetSphereCollider(entityID)->getColliderName());
-	}
-
-	System::String^ SphereColliderComponent::ColliderName::get()
-	{
-		return ColliderName;
-	}
-
 	// CENTER ================================================================================	
 	// Private
 	Vector3 SphereColliderComponent::Center::get()
@@ -89,7 +48,7 @@ namespace ScriptAPI
 			return Vector3(0.f, 0.f, 0.f);
 		}
 
-		return Vector3(TDS::GetSphereCollider(entityID)->GetCenter());
+		return Vector3(TDS::GetSphereCollider(entityID)->GetColliderCenter());
 
 		//return TDS::GetTransform(entityID)->GetPosition();
 	}
@@ -102,7 +61,7 @@ namespace ScriptAPI
 			return;
 		}
 
-		TDS::GetSphereCollider(entityID)->SetCenter(value.X, value.Y, value.Z);
+		TDS::GetSphereCollider(entityID)->SetColliderCenter(value.X, value.Y, value.Z);
 	}
 
 	// Public
@@ -141,7 +100,7 @@ namespace ScriptAPI
 			return 0.f;
 		}
 
-		return TDS::GetSphereCollider(entityID)->GetRadius();
+		return TDS::GetSphereCollider(entityID)->GetColliderRadius();
 
 		//return TDS::GetTransform(entityID)->GetPosition();
 	}
@@ -154,7 +113,7 @@ namespace ScriptAPI
 			return;
 		}
 
-		TDS::GetSphereCollider(entityID)->SetRadius(value);
+		TDS::GetSphereCollider(entityID)->SetColliderRadius(value);
 	}
 
 	// Public

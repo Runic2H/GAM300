@@ -4,7 +4,8 @@ using System;
 public class Painting_Script : Script
 {
     //public Material _PaintingMaterial;
-    public GameObject _OpenPaintingTrigger;
+    //public GameObject _OpenPaintingTrigger;
+    public GameObject paintingParent;
     //public Animator _PaintingAnimator;
     public bool opened;
     //public Flashlight_Script _FlashlightScript;
@@ -21,8 +22,10 @@ public class Painting_Script : Script
     bool playedAudio;
 
     public float timer;
+    public bool receiptFound = false;
+    public bool paintingTaken = false;
 
-    override public void Start()
+    override public void Awake()
     {
         voClip = new string[2];
         voClip[0] = "pc_shinelightbeforereceipt";
@@ -30,6 +33,7 @@ public class Painting_Script : Script
         //_color.a = 1;
         timer = 1.0f;
         Console.WriteLine("what");
+        paintingTaken = false;
     }
 
     // Update is called once per frame
@@ -53,15 +57,28 @@ public class Painting_Script : Script
         //    collided = false;
         //}
 
-        if (gameObject.GetComponent<SphereColliderComponent>().GetIsInteract()) // returns true if player is near it
+        if (gameObject.GetComponent<RigidBodyComponent>().IsSensorActivated()) // returns true if player is near it
         {
             if (timer <= 0.0f)
             {
-                //gameObject.GetComponent<AudioComponent>().play(voClip[0]);
+                if (!receiptFound)
+                {
+                    Audio.play(voClip[0]);
+                }
+                else
+                {
+                    Audio.play(voClip[1]);
+                }
             }
             else
             {
                 timer -= Time.deltaTime;
+            }
+
+            if (Input.GetKeyDown(Keycode.E) && !paintingTaken && paintingParent.GetEntityID() != 0)
+            {
+                paintingParent.SetActive(paintingParent.GetEntityID(), false);
+                paintingTaken = true;
             }
         }
         else

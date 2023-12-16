@@ -19,20 +19,24 @@ namespace TDS
 
 	void CameraSystem::CameraSystemUpdate(const float dt, const std::vector<EntityID>& entities, Transform* _transform, CameraComponent* _cameracomponent)
 	{
+		static bool set = false;
+
 		if (!entities.size())
 		{
 			return;
 		}
 
 		int entityIndex = 0;
-		for (; !ecs.getEntityIsEnabled(entities[entityIndex]) && !ecs.getComponentIsEnabled<CameraComponent>(entities[entityIndex]) && entityIndex < entities.size(); ++entityIndex);
+		for (; entityIndex < entities.size() && (!ecs.getEntityIsEnabled(entities[entityIndex]) || !ecs.getComponentIsEnabled<CameraComponent>(entities[entityIndex])); ++entityIndex);
 		if (entityIndex == entities.size())
 		{
+			set = false;
 			return;
 		}
 
 		if (!GetIsPlaying())
 		{
+			set = true;
 			m_GameCamera = &GraphicsManager::getInstance().GetCamera();
 			SetGameCamera(_cameracomponent[entityIndex]);
 			SetIsPlaying(true);

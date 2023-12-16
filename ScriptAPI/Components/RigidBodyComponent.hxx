@@ -54,6 +54,9 @@ namespace ScriptAPI
 
 		TransformComponent transform;
 
+		// SENSOR
+		bool IsSensorActivated();
+
 	internal:
 		RigidBodyComponent(TDS::EntityID ID);
 		TDS::EntityID GetEntityID();

@@ -325,7 +325,7 @@
                     "Float": 10.0
                 },
                 "numOfTries": {
-                    "Int": -2
+                    "Int": 5
                 },
                 "percentage": {
                     "Float": 45.0
@@ -334,12 +334,12 @@
                     "Float": 0.2991557
                 },
                 "unlockAngle": {
-                    "Float": -36.0
+                    "Float": -67.0
                 },
                 "unlockRange": {
                     "Vector3": {
-                        "X": -46.0,
-                        "Y": -26.0,
+                        "X": -77.0,
+                        "Y": -57.0,
                         "Z": 0.0
                     }
                 },
@@ -372,6 +372,9 @@
                     "Float": 1.2
                 },
                 "passed": {
+                    "Bool": false
+                },
+                "failed": {
                     "Bool": false
                 },
                 "gameObject": {

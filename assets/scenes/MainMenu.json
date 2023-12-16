@@ -1,10 +1,10 @@
 {
     "Archetype Sizes": {
         "11000010000010": {
-            "0": 816,
+            "0": 672,
             "1": 1200,
-            "6": 1584,
-            "12": 2160
+            "6": 1344,
+            "12": 1920
         }
     },
     "Entity Data": {
@@ -99,7 +99,7 @@
             },
             "Transform": {
                 "Position": {
-                    "x": 0.6836446523666382,
+                    "x": 0.6848055124282837,
                     "y": 0.1465616226196289,
                     "z": 0.0
                 },
@@ -155,11 +155,11 @@
                     "w": 1.0
                 },
                 "BoundingBoxMin": {
-                    "x": 0.5487796664237976,
+                    "x": 0.5499405264854431,
                     "y": 0.011696621775627136
                 },
                 "BoundingBoxMax": {
-                    "x": 0.8185096383094788,
+                    "x": 0.8196704983711243,
                     "y": 0.2814266085624695
                 }
             }
@@ -481,6 +481,12 @@
         "1": {},
         "2": {
             "PlayButton": {
+                "bgm": {
+                    "Component": 2
+                },
+                "bgmName": {
+                    "String": "skyclad_sound_ambience_dark_loop_dynamic_tones_howling_moaning_mournful_eerie_105"
+                },
                 "gameObject": {
                     "GameObject": 2
                 },

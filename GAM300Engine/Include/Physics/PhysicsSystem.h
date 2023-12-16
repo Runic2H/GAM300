@@ -10,19 +10,22 @@
 
 #ifndef PHYSICSSYSTEM_H
 #define PHYSICSSYSTEM_H
-
+// Engine includes
 #include "ecs/ecs.h"
+#include "dotnet/ImportExport.h"
+#include "Timestep/Timestep.h"
+#include "Logger/Logger.h"
+#include "eventmanager/eventHandler.h"
+// Component includes
 #include "components/rigidBody.h"
 #include "components/boxCollider.h"
 #include "components/sphereCollider.h"
 #include "components/capsuleCollider.h"
 #include "components/transform.h"
-#include "dotnet/ImportExport.h"
-#include "Timestep/Timestep.h"
-#include "Logger/Logger.h"
-#include "Physics/JPHLayers.h"
-#include "eventmanager/eventHandler.h"
 #include "components/GraphicsComponent.h"
+// Physics includes
+#include "Physics/JPHLayers.h"
+#include "Physics/ContactListenerImpl.h"
 
 #include "JoltPhysics/Utils/JoltConversionUtils.h"
 
@@ -54,16 +57,16 @@ namespace TDS
 		 * Physics System Init and Update (Will be used by the ECS)
 		 ***************************************************************************/
 		static void PhysicsSystemInit();
-		static void PhysicsSystemUpdate(const float dt, const std::vector<EntityID>& entities, Transform* _transform, SphereCollider* _collider);
+		static void PhysicsSystemUpdate(const float dt, const std::vector<EntityID>& entities, Transform* _transform, RigidBody* _rigibody);
 		
 		// potentially need move somewhere
 		static void SetIsPlaying(bool input) { m_oneTimeInit = input; }
 		static bool GetIsPlaying() { return m_oneTimeInit; }
 		static std::unique_ptr<JPH::PhysicsSystem>			m_pSystem; // unsafe to be public but for now it is
 
-		static void SensorActivated( RigidBody* _rigidbody);
+		static void JPH_SystemShutdown();
+		static std::optional<EntityID> findEntityByID(uint32_t key);
 	private:
-		void JPH_SystemShutdown();
 
 		static void JPH_SystemUpdate(Transform* _transform, RigidBody* _rigidbody);
 		static void JPH_CreateBodyID(const EntityID& entities, Transform* _transform, RigidBody* _rigidbody);
@@ -72,18 +75,20 @@ namespace TDS
 		// TDS Physics System
 		static const double fixedDt;
 		static double accumulatedTime;
-		//PhysicsSystem* pSystem_ptr;
+		inline static bool m_oneTimeInit					= false;
 
 	
+		// Container that holds all the bodyID
+		static std::vector<JoltBodyID>					    m_pBodyIDVector;
+		static std::unordered_map<uint32_t, EntityID>		m_pBodyIDMap;
+
 	private:
 		// Jolt Physics Global Settings
 		static std::unique_ptr<JPH::TempAllocatorImpl>		m_pTempAllocator;
 		static std::unique_ptr<JPH::JobSystemThreadPool>	m_pJobSystem;
-		static std::unique_ptr<JPH::BodyManager>			m_BodyManager;
-		inline static bool m_oneTimeInit					= false;
+		static MyContactListener*							contact_listener;
 
-		// Container that holds all the bodyID
-		static std::vector<JoltBodyID>					    m_pBodyIDVector;
+
 	};
 
 }
