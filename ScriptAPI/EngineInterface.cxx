@@ -569,6 +569,21 @@ namespace ScriptAPI
                         newScriptValue.type = "Transform";
                         newScriptValue.referenceEntityID = safe_cast<TransformComponent^>(field->GetValue(obj))->GetEntityID();
                     }
+                    else if (field->FieldType->ToString() == "ScriptAPI.UISpriteComponent")
+                    {
+                        newScriptValue.type = "UI Sprite";
+                        newScriptValue.referenceEntityID = safe_cast<UISpriteComponent^>(field->GetValue(obj))->GetEntityID();
+                    }
+                    else if (field->FieldType->ToString() == "ScriptAPI.GraphicComponent")
+                    {
+                        newScriptValue.type = "Graphics Component";
+                        newScriptValue.referenceEntityID = safe_cast<GraphicComponent^>(field->GetValue(obj))->GetEntityID();
+                    }
+                    else if (field->FieldType->ToString() == "ScriptAPI.AudioComponent")
+                    {
+                        newScriptValue.type = "Audio";
+                        newScriptValue.referenceEntityID = safe_cast<AudioComponent^>(field->GetValue(obj))->GetEntityID();
+                    }
                     // Script =========================================================================================
                     else if (field->FieldType->ToString()->Contains("ScriptAPI"))
                     {
@@ -684,6 +699,21 @@ namespace ScriptAPI
                 {
                     newScriptValue.type = "Component";
                     newScriptValue.referenceEntityID = safe_cast<TransformComponent^>(field->GetValue(obj))->GetEntityID();
+                }
+                else if (field->FieldType->ToString() == "ScriptAPI.UISpriteComponent")
+                {
+                    newScriptValue.type = "Component";
+                    newScriptValue.referenceEntityID = safe_cast<UISpriteComponent^>(field->GetValue(obj))->GetEntityID();
+                }
+                else if (field->FieldType->ToString() == "ScriptAPI.GraphicComponent")
+                {
+                    newScriptValue.type = "Component";
+                    newScriptValue.referenceEntityID = safe_cast<GraphicComponent^>(field->GetValue(obj))->GetEntityID();
+                }
+                else if (field->FieldType->ToString() == "ScriptAPI.AudioComponent")
+                {
+                    newScriptValue.type = "Component";
+                    newScriptValue.referenceEntityID = safe_cast<AudioComponent^>(field->GetValue(obj))->GetEntityID();
                 }
                 else if (field->FieldType->ToString()->Contains("ScriptAPI")) // Script
                 {
@@ -1063,6 +1093,12 @@ namespace ScriptAPI
     System::Collections::Generic::SortedList<TDS::EntityID, EngineInterface::ScriptList^>^ EngineInterface::GetScriptList()
     {
         return scripts;
+    }
+
+    Object^ EngineInterface::GetScriptByEntityID(TDS::EntityID entityID, System::String^ scriptName)
+    {
+        Object^ currentObject = scripts[entityID][scriptName];
+        return currentObject;
     }
 
     // To do

@@ -37,15 +37,10 @@ namespace TDS
 	****************************************************************************/
 	CapsuleCollider::CapsuleCollider() : mIsTrigger(false),
 		mCenter(Vec3(0.0f, 0.0f, 0.0f)),
-		mRadius(0.5f),
-		mHeight(2.0f),
+		mRadius(0.25f),
+		mHeight(1.0f),
 		mDirection(Direction::Y_AXIS)
 	{
-
-		//CreateJPHCapsuleCollider(mHeight, mRadius); //height set to 10 and radius 5 by default, jph throws error when any value is <= 0
-		//std::cout << "jph capsule collider created" << std::endl;
-
-
 	}
 
 	/*!*************************************************************************

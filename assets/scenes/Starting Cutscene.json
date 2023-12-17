@@ -9,6 +9,7 @@
     "Entity Data": {
         "1": {
             "ArchetypeID": "11000000000010",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Images",
                 "Tag": "",
@@ -71,6 +72,7 @@
         },
         "2": {
             "ArchetypeID": "11000000000010",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Narration",
                 "Tag": "",
@@ -148,7 +150,7 @@
                     "Bool": true
                 },
                 "is_Awake": {
-                    "Bool": true
+                    "Bool": false
                 },
                 "is_Start": {
                     "Bool": true
@@ -170,7 +172,7 @@
                     "Bool": true
                 },
                 "is_Awake": {
-                    "Bool": true
+                    "Bool": false
                 },
                 "is_Start": {
                     "Bool": true

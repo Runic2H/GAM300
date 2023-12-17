@@ -13,6 +13,7 @@ public class Hiding : Script
     public Flashlight_Script _flashlight;
     public GameObject _InteractUI;
     public CheckGameState myGameState;
+    public GameObject closet;
     /*[Header("AudioStuff")]
     public AudioSource playerVOSource;
     public AudioClip voClip;
@@ -20,29 +21,43 @@ public class Hiding : Script
 
     bool playedAudio;
 
+
+    public override void Awake()
+    {
+    }
+
+    public override void Start()
+    {
+    }
+
     public override void Update()
     {
-        if (interactable)
+        player = GameObjectScriptFind("Player");
+        nonHidingPos = new Vector3(2257,250,-111);
+        closet = GameObjectScriptFind("Body2");
+        _flashlight = player.GetComponent<Flashlight_Script>();
+        hidingPos = closet.transform.GetPosition();
+        _RotationAngle = 180;
+        if (interactable && closet.GetRigidBodyComponent().IsSensorActivated())
         {
             if (Input.GetKeyDown(Keycode.E) && hiding == false)
             {
-                _InteractUI.SetActive(_InteractUI.GetEntityID(), false);
+                Console.WriteLine("Here");
+                //_InteractUI.SetActive(_InteractUI.GetEntityID(), false);
                 hiding = true;
                 interactable = false;
                 player.transform.SetPosition(hidingPos);
                 Vector3 vec3 = new Vector3(0, _RotationAngle, 0);
-                Quaternion quat = new Quaternion(vec3);
-                vec3 = new Vector3(quat.X,quat.Y, quat.Z);
                 player.transform.SetRotation(vec3);
                 player.GetComponent<FPS_Controller_Script>().playerCanMove = false;
                 player.GetComponent<FPS_Controller_Script>().enableHeadBob = false;
                 _flashlight.activateLight = false;
-                _flashlight.gameObject.SetActive(_flashlight.gameObject.GetEntityID(),false);
+                _flashlight.is_Enabled = false;
 
 
-                if (gameObject.GetNameTagComponent().GetName() == "Bedroom_Body" && myGameState._CurrentState == GameState.Gameplay)
+                /*if (gameObject.GetNameTagComponent().GetName() == "Bedroom_Body" && myGameState._CurrentState == GameState.Gameplay)
                 {
-                    /*if (!playedAudio)
+                    if (!playedAudio)
                     {
                         playerVOSource.clip = voClip;
                         playerVOSource.Play();
@@ -54,31 +69,27 @@ public class Hiding : Script
                     if (!playerVOSource.isPlaying && playedAudio)
                     {
                         subtitles.enabled = false;
-                    }*/
-                }
-
-                /*if (enemyPathfinding._detected)
-                {
-
-                }
-                else
-                {
-
+                    }
                 }*/
+
+                Input.KeyRelease(Keycode.E);
             }
         }
         else if (hiding)
         {
             if (Input.GetKeyDown(Keycode.E))
             {
+                Console.WriteLine("There");
                 hiding = false;
                 interactable = false;
                 player.transform.SetPosition(nonHidingPos);
                 player.GetComponent<FPS_Controller_Script>().playerCanMove = true;
                 player.GetComponent<FPS_Controller_Script>().enableHeadBob = true;
-                _flashlight.gameObject.SetActive(_flashlight.gameObject.GetEntityID(),true);
+                _flashlight.is_Enabled = true;
+                Input.KeyRelease(Keycode.E);
             }
         }
+        
     }
 
     private void OnTriggerEnter(GameObject other)
@@ -90,7 +101,7 @@ public class Hiding : Script
                 player.transform.SetPosition(nonHidingPos);
                 hiding = false;
                 interactable = false;
-                _flashlight.gameObject.SetActive(_flashlight.gameObject.GetEntityID(), true);
+                _flashlight.is_Enabled = true;
                 //Debug.LogError("Pulled Out");
                 //Play Attack Player Animation
             }

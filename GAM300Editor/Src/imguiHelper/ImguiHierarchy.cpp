@@ -38,6 +38,7 @@ namespace TDS
 		for (EntityID& entity : allEntities)
 		{
 			NameTag* nameTagComponent = ecs.getComponent<NameTag>(entity);
+
 			if (nameTagComponent->GetHierarchyParent() == 0) // no parent
 			{
 				bool inserted = false;
@@ -346,7 +347,7 @@ namespace TDS
 	void Hierarchy::drawHierarchy(EntityID entityID)
 	{
 		ImGuiTreeNodeFlags nodeFlags =
-			ImGuiTreeNodeFlags_DefaultOpen |
+			//ImGuiTreeNodeFlags_DefaultOpen |
 			ImGuiTreeNodeFlags_FramePadding |
 			ImGuiTreeNodeFlags_SpanFullWidth | 
 			ImGuiTreeNodeFlags_OpenOnArrow;

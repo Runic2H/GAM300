@@ -5,33 +5,36 @@ using ScriptAPI;
 public class LockPick1 : Script
 {
     [Header("Tutorial UI Variables")]
-/*    public Image _TutorialImage;
+/*  public Image _TutorialImage;
     public Sprite[] _TutorialImgSprites;
     public Text _Press2Continue;*/
     [SerializeField] int _TutorialStep;
 
-/*    public Text mySubtitles;
+/*  public Text mySubtitles;
     public Image mySubtitlesBG;
     public AudioSource myVOSource;*/
     public bool _TutorialCompleted;
 
     [Header("Lockpick Variables")]
-    public GameDataManager myGameDataManager;
-    public GameObject Door_UI;
-    public CameraComponent cam;
-    public CameraComponent playerCam;
+    //public GameDataManager myGameDataManager;
+    //public GameObject Door_UI;
+    //public CameraComponent cam;
+    //public CameraComponent playerCam;
     public TransformComponent innerLock;
-    public TransformComponent pickPosition;
-    public FPS_Controller_Script playerController;
+    //public TransformComponent pickPosition;
+    //public FPS_Controller_Script playerController;
+    public GameObject player;
     public GameObject lockObject;
+    public GameObject door;
     public string difficultyLvl;
     public float maxAngle = 90;
     public float lockSpeed = 10;
     public bool unlocked;
     public string[] lockSoundEffects;
     public string[] rattleSoundEffects;
+    public string successVOclip;
     float delay = 0.4f;
-    public GameObject _NumOfTries;
+    //public GameObject _NumOfTries;
     //public Text _AmtOfTries;
 
     [Range(1, 25)]
@@ -39,25 +42,29 @@ public class LockPick1 : Script
 
     [SerializeField] private int numOfTries;
     private float percentage;
-    private float eulerAngle;
+    public float eulerAngle;
+    public float eulerAngleDegree;
     private float unlockAngle;
-    private Vector3 unlockRange;
+    public Vector3 unlockRange;
     private float keyPressTime;
-    private bool movePick;
+    public bool movePick;
     private bool deduct;
     private bool displayTutorial;
     [SerializeField] bool played;
 
     private Vector3 originalPosition;
     private int currentRattlePlaying = 0;
+    public float timer = 1.2f;
+    public bool passed = false;
+    private bool failed = false;
 
     // Start is called before the first frame update
     override public void Awake() 
     {
-        lockSoundEffects = new string[3];
-        lockSoundEffects[0] = "Lock Turning Audio";
-        lockSoundEffects[1] = "lockpick success";
-        lockSoundEffects[2] = "lockpick_failtryl";
+        //lockSoundEffects = new string[3];
+        //lockSoundEffects[0] = "Lock Turning Audio";
+        //lockSoundEffects[1] = "lockpick success";
+        //lockSoundEffects[2] = "lockpick_failtryl";
 
         rattleSoundEffects = new string[6];
         rattleSoundEffects[0] = "temp_lockrattle1";
@@ -69,12 +76,24 @@ public class LockPick1 : Script
 
         currentRattlePlaying = 0;
 
+        successVOclip = "pc_lockpicksuccess1";
+
         newLock();
+        passed = false;
     }
 
     // Update is called once per frame
     override public void Update()
     {
+        lockSoundEffects = new string[3];
+        lockSoundEffects[0] = "Lock Turning Audio";
+        lockSoundEffects[1] = "lockpick success";
+        lockSoundEffects[2] = "lockpick_failtryl";
+
+        numOfTries = 5;
+        eulerAngleDegree = toDegree(eulerAngle);
+        AudioComponent audio = gameObject.GetComponent<AudioComponent>();
+
         if (!_TutorialCompleted)
         {
             //if (!myVOSource.isPlaying && !played)
@@ -119,14 +138,14 @@ public class LockPick1 : Script
             {
                 movePick = false;
                 keyPressTime = 1;
-                gameObject.GetComponent<AudioComponent>().play(lockSoundEffects[0]);
+                audio.play(lockSoundEffects[0]);
             }
             if (Input.GetKeyUp(Keycode.E))
             {
                 movePick = true;
                 keyPressTime = 0;
                 deduct = true;
-                gameObject.GetComponent<AudioComponent>().stop(lockSoundEffects[0]);
+                audio.stop(lockSoundEffects[0]);
             }
             #endregion
 
@@ -144,16 +163,18 @@ public class LockPick1 : Script
             float lockLerp = Mathf.LerpAngle(toDegree(innerLock.GetRotation().Z), lockRotation, Time.deltaTime * lockSpeed);
             innerLock.SetRotation(new Vector3(0, 0, toRadians(lockLerp)));
 
-            if (lockLerp >= maxRotation - 1)
+            if (!movePick && (lockLerp >= maxRotation - 1))
             {
-                if (toDegree(eulerAngle) < Mathf.Abs(unlockRange.Y) && toDegree(eulerAngle) > Mathf.Abs(unlockRange.X)) // Means unlocked?
+                Console.WriteLine("hmm");
+                if (toDegree(eulerAngle) <= /*Mathf.Abs(*/unlockRange.Y && toDegree(eulerAngle) >= /*Mathf.Abs(*/unlockRange.X) // Means unlocked?
                 {
                     movePick = true;
                     keyPressTime = 0;
                     Console.WriteLine("passed");
-                    gameObject.GetComponent<AudioComponent>().stop(lockSoundEffects[0]);
-                    gameObject.GetComponent<AudioComponent>().play(lockSoundEffects[1]);
+                    audio.stop(lockSoundEffects[0]);
+                    audio.play(lockSoundEffects[1]);
 
+                    passed = true;
                     //Coroutine(StartDelay());
                     //async Task<int> StartDelay()
                     //IEnumerator StartDelay()
@@ -193,14 +214,14 @@ public class LockPick1 : Script
                     if (deduct == true)
                     {
                         numOfTries -= 1;
+                        movePick = true;
                         deduct = false;
                     }
 
                     if (numOfTries <= 0)
                     {
-                        //gameObject.GetComponent<AudioComponent>().clip = lockSoundEffects[2];
-                        gameObject.GetComponent<AudioComponent>().setVolume(0.5f);
-                        gameObject.GetComponent<AudioComponent>().play(lockSoundEffects[2]);
+                        //audio.play(lockSoundEffects[2]);
+                        //gameObject.GetComponent<AudioComponent>().setVolume(0.5f);
                         movePick = false;
 
                         //Coroutine(Deactivate(), 1);
@@ -225,6 +246,51 @@ public class LockPick1 : Script
             {
                 //_AmtOfTries.color = Color.red;
             }
+
+            if (passed)
+            {
+                if (timer <= 0)
+                {
+                    //playerController.enabled = true;
+                    //playerController.lockCursor = true;
+                    //playerCam.enabled = true;
+                    //Door_UI.SetActive(false);
+                    //unlocked = true;
+                    //_NumOfTries.SetActive(false);
+
+                    lockObject.SetActive(lockObject.GetEntityID(), false);
+                    player.SetActive(player.GetEntityID(), true);
+                    GraphicsManagerWrapper.ToggleViewFrom2D(false);
+
+                    door.SetActive(door.GetEntityID(), false);
+                    //is_Enabled = false;
+
+                    //audio.play(successVOclip);
+                }
+                else
+                {
+                    timer -= Time.deltaTime;
+                }
+            }
+
+            if (failed)
+            {
+                if (timer <= 0)
+                {
+                    //_NumOfTries.SetActive(false);
+                    //playerController.enabled = true;
+                    //playerController.lockCursor = true;
+                    //playerCam.enabled = true;
+                    //Door_UI.SetActive(false);
+
+                    //lockObject.SetActive(lockObject.GetEntityID(), false);
+                    //GraphicsManagerWrapper.ToggleViewFrom2D(false);
+                }
+                else
+                {
+                    timer -= Time.deltaTime;
+                }
+            }
         }
     }
 
@@ -232,7 +298,7 @@ public class LockPick1 : Script
     {
         innerLock = GameObjectScriptFind("InnerLock").GetTransformComponent();
         //Cursor.visible = false;
-        gameObject.GetComponent<AudioComponent>().setVolume(1f);
+        //gameObject.GetComponent<AudioComponent>().setVolume(1f);
 
         //Door_UI.SetActive(Door_UI.GetEntityID(), true);
 
@@ -265,6 +331,7 @@ public class LockPick1 : Script
         {
             movePick = true;
         }
+        movePick = true;
     }
 
     float toDegree(float radians)
