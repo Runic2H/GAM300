@@ -22,7 +22,6 @@ rttr::registration::class_<BoxCollider>("Box Collider")
 	.property("Collider Scale", &BoxCollider::mColliderScale)
 	.property("Offset Scale", &BoxCollider::mOffsetScale)
 	.property("Offset Center", &BoxCollider::mOffsetCenter);
-
 }
 
 namespace TDS
