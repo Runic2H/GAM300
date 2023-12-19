@@ -31,7 +31,6 @@ namespace TDS
 		ContactListener* mNext = nullptr;
 	};
 	
-
 }
 
 #endif // !CONTACTLISTENERIMPL_H

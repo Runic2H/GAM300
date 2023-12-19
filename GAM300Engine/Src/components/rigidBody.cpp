@@ -49,7 +49,7 @@ namespace TDS
 							 mAngularDamping(0.05f),
 							 mBodyID(JoltBodyID()),
 							 mMotionType(MotionType::STATIC),
-							 mUseGravity(true),
+							 mUseGravity(false),
 							 sensorActivated(false)
 	{ }
 

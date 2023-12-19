@@ -9,6 +9,7 @@
  *******************************************************************************/
 #include "Physics/CollisionSystem.h"
 #include "AssetManagement/AssetManager.h"
+#include "Physics/PhysicsSystem.h"
 namespace TDS
 {
 	// Static variables
@@ -36,6 +37,7 @@ namespace TDS
 			{
 				continue;
 			}
+			if (PhysicsSystem::GetIsPlaying()) continue;
 			if (GetSphereCollider(entities[i]))
 			{
 				SphereCollider* vSphere = GetSphereCollider(entities[i]);
@@ -61,7 +63,7 @@ namespace TDS
 				}
 				else
 				{
-					if (!vBox->GetModelInit())
+					//if (!vBox->GetModelInit())
 					{
 						TDS::AssetModel* tmp_assetModel = AssetManager::GetInstance()->GetModelFactory().GetModel(_graphics[i].GetModelName(), _graphics[i].GetAsset());
 						std::string key = _graphics[i].GetMeshName();
@@ -84,17 +86,21 @@ namespace TDS
 							}
 
 							Vec3 vSize = (maxBoundingBox - minBoundingBox) * 0.5f;
+							Vec3 vCenter = (maxBoundingBox + minBoundingBox) * 0.5f;
+							Vec4 worldCenter = _transform[i].GetTransformMatrix() * Vec4(vCenter, 1.f);
+							
 							vBox->SetColliderSize(vSize);
+							vBox->SetColliderCenter(Vec3(worldCenter.x, worldCenter.y, worldCenter.z));
 							vBox->SetModelSize(vSize); // scale
 							vBox->SetModelRotation(_transform[i].GetRotation()); // rotate
-							vBox->SetModelCenter(_transform[i].GetPosition()); // translate
+							vBox->SetModelCenter(vCenter); // translate
 
 
 						}
 						vBox->SetModelInit(true);
 					}
 					// scaling the box collider & other offset values
-					else
+					//else
 					{
 						if (_transform[i].GetScale() + 1.f != vBox->GetColliderScale() || vBox->GetOffsetScale() != Vec3(0.f))
 						{
@@ -108,7 +114,8 @@ namespace TDS
 						}
 					}
 				}
-				vBox->SetColliderCenter(_transform[i].GetPosition() + vBox->GetOffsetCenter());
+				//vBox->SetColliderCenter(_transform[i].GetPosition() + vBox->GetOffsetCenter());
+				
 				_transform[i].SetOffSetPos(vBox->GetOffsetCenter());
 				Vec3 vScale = _transform[i].GetScale() - vBox->GetColliderScale() ;
 				_transform[i].SetOffSetScale(vBox->GetOffsetScale());
