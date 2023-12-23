@@ -81,6 +81,9 @@ namespace TDS
         case WM_MBUTTONDOWN:
         case WM_MBUTTONUP:
         case WM_XBUTTONDOWN:
+        {
+            Input::processMouseInput(wParam, lParam);
+        }break;
         case WM_XBUTTONUP:
         {
             Input::processMouseInput(wParam, lParam);
@@ -111,15 +114,20 @@ namespace TDS
 
             bool wasDown = (lParam & (1 << 30)) != 0;
             bool isDown = (static_cast<unsigned int>(lParam) & (1 << 31)) == 0;
-            Input::processKeyboardInput(VKcode, wasDown, isDown);
+            bool isPressed = 1;
+            bool isReleased = 0;
+
+            Input::processKeyboardInput(VKcode, isPressed, isReleased);
         }break;
         case WM_KEYUP:
         {
             uint32_t VKcode = static_cast<uint32_t>(wParam);
             bool wasDown = (lParam & (1 << 30)) != 0;
             bool isDown = (static_cast<unsigned int>(lParam) & (1 << 31)) == 0;
+            bool isPressed = 0;
+            bool isReleased = 1;
 
-            Input::processKeyboardInput(VKcode, wasDown, isDown);
+            Input::processKeyboardInput(VKcode, isPressed, isReleased);
             Input::keystatus = Input::KeyStatus::RELEASED;
             Input::keystatus = Input::KeyStatus::IDLE;
         }break;
@@ -285,7 +293,8 @@ namespace TDS
             }
 
             Input::scrollStop();
-            
+            Input::InputUpdateLoop();
+            Input::InputUpdateMouseLoop();
         }
         stopScriptEngine();
       

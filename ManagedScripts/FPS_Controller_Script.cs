@@ -1,5 +1,6 @@
 ﻿using ScriptAPI;
 using System;
+using System.Diagnostics;
 
 public class FPS_Controller_Script : Script
 {
@@ -120,6 +121,7 @@ public class FPS_Controller_Script : Script
 
     public override void Awake()
     {
+
         rb = gameObject.GetComponent<RigidBodyComponent>();
         playerCamera = GameObjectScriptFind("playerCameraObject").GetComponent<CameraComponent>();
         startingVO = gameObject.GetComponent<AudioComponent>();
@@ -195,8 +197,24 @@ public class FPS_Controller_Script : Script
     }
     public override void Update()
     {
-        #region Camera
-        // Control camera movement
+        //if(Input.GetKeyDown(Keycode.L))
+        //{
+        //    Console.WriteLine("Key Pressed");
+        //    Input.KeyRelease(Keycode.L);
+        //}
+
+        //if(Input.GetMouseButtonDown(Keycode.M1))
+        //{
+        //    Console.WriteLine("Mouse Pressed");
+        //}
+
+        //if (Input.GetMouseButtonHeld(Keycode.M1))
+        //{
+        //    Console.WriteLine("Mouse Held");
+        //}
+
+            #region Camera
+            // Control camera movement
         if (cameraCanMove)
         {
             if (Input.GetAxis("Mouse X") != 0 || Input.GetAxis("Mouse Y") != 0)
