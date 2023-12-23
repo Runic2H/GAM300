@@ -27,6 +27,10 @@ namespace TDS
 	ObjectVsBroadPhaseLayerFilterImpl			object_vs_broadphase_layer_filter;
 	ObjectLayerPairFilterImpl					object_vs_object_layer_filter;
 
+	void (*PhysicsSystem::OnTriggerEnter)(EntityID trigger, EntityID collider);
+	void (*PhysicsSystem::OnTriggerStay)(EntityID trigger, EntityID collider);
+	void (*PhysicsSystem::OnTriggerExit)(EntityID trigger, EntityID collider);
+
 	/*!*************************************************************************
 	 * Configuration
 	 ***************************************************************************/
@@ -214,6 +218,7 @@ namespace TDS
 			b_sphereSetting.mLinearDamping = _rigidbody->GetLinearDamping();
 			b_sphereSetting.mAngularDamping = _rigidbody->GetAngularDamping();
 			b_sphereSetting.mIsSensor = vSphere->GetIsTrigger();
+			b_sphereSetting.mAllowSleeping = false;
 
 			JPH::BodyID sphereID = m_pSystem->GetBodyInterface().CreateAndAddBody(b_sphereSetting, JPH::EActivation::Activate);
 			JoltBodyID vJoltBodyID(sphereID.GetIndexAndSequenceNumber());
@@ -247,6 +252,7 @@ namespace TDS
 			b_BoxSetting.mLinearDamping = _rigidbody->GetLinearDamping();
 			b_BoxSetting.mAngularDamping = _rigidbody->GetAngularDamping();
 			b_BoxSetting.mIsSensor = vBox->GetIsTrigger();
+			b_BoxSetting.mAllowSleeping = false;
 			
 			JPH::BodyID boxID = m_pSystem->GetBodyInterface().CreateAndAddBody(b_BoxSetting, JPH::EActivation::Activate);
 

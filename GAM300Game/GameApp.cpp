@@ -29,10 +29,10 @@
 #include "Physics/PhysicsSystem.h"
 #include "Rendering/ObjectPicking.h"
 
-
-
 namespace TDS
 {
+    bool SceneManager::isPlaying;
+
     GamApp::GamApp(HINSTANCE hinstance, int& nCmdShow, const wchar_t* classname, WNDPROC wndproc)
         :m_window(hinstance, nCmdShow, classname)
     {
@@ -275,6 +275,7 @@ namespace TDS
                 "RemoveEntity"
             );
 
+        /*
         SceneManager::GetInstance()->setBool = GetFunctionPtr<void(*)(EntityID, std::string, std::string, bool)>
             (
                 "ScriptAPI",
@@ -344,6 +345,21 @@ namespace TDS
                 "ScriptAPI.EngineInterface",
                 "SetScript"
             );
+        */
+
+        SceneManager::GetInstance()->setScriptValue = GetFunctionPtr<void(*)(EntityID, std::string, ScriptValues)>
+            (
+                "ScriptAPI",
+                "ScriptAPI.EngineInterface",
+                "SetVariable"
+            );
+
+        SceneManager::GetInstance()->setScriptValues = GetFunctionPtr<void(*)(EntityID, std::string, std::vector<ScriptValues>&)>
+            (
+                "ScriptAPI",
+                "ScriptAPI.EngineInterface",
+                "SetVariables"
+            );
 
         SceneManager::GetInstance()->updateName = GetFunctionPtr<bool(*)(EntityID, std::string)>
             (
@@ -373,17 +389,27 @@ namespace TDS
                 "ExecuteStart"
             );
 
+        SceneManager::GetInstance()->isPlaying = true;
         SceneManager::GetInstance()->Init();
         ecs.initializeSystems(1);
         ecs.initializeSystems(2);
         ecs.initializeSystems(3);
-        //auto awake = GetFunctionPtr<void(*)(void)>
-        //    (
-        //        "ScriptAPI",
-        //        "ScriptAPI.EngineInterface",
-        //        "ExecuteAwake"
-        //    );
-        //awake();
+
+        auto awake = GetFunctionPtr<void(*)(void)>
+            (
+                "ScriptAPI",
+                "ScriptAPI.EngineInterface",
+                "ExecuteAwake"
+            );
+        awake();
+
+        auto start = GetFunctionPtr<void(*)(void)>
+            (
+                "ScriptAPI",
+                "ScriptAPI.EngineInterface",
+                "ExecuteStart"
+            );
+        start();
     }
 
     void GamApp::Awake()

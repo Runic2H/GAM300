@@ -114,6 +114,12 @@
     <ClInclude Include="Components\GraphicComponent.hxx">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Serialization.hxx">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Components\ColliderComponent.hxx">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EngineInterface.cxx">
@@ -201,6 +207,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Components\GraphicComponent.cxx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Serialization.cxx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Components\ColliderComponent.cxx">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

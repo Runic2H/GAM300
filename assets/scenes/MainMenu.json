@@ -1,10 +1,10 @@
 {
     "Archetype Sizes": {
         "11000010000010": {
-            "0": 672,
+            "0": 816,
             "1": 1200,
-            "6": 1344,
-            "12": 1920
+            "6": 1584,
+            "12": 2160
         }
     },
     "Entity Data": {
@@ -482,22 +482,22 @@
         "2": {
             "PlayButton": {
                 "bgm": {
-                    "Component": 2
+                    "ScriptAPI.AudioComponent": 2
                 },
                 "bgmName": {
-                    "String": "skyclad_sound_ambience_dark_loop_dynamic_tones_howling_moaning_mournful_eerie_105"
+                    "System.String": "skyclad_sound_ambience_dark_loop_dynamic_tones_howling_moaning_mournful_eerie_105"
                 },
                 "gameObject": {
-                    "GameObject": 2
+                    "ScriptAPI.GameObject": 2
                 },
                 "is_Enabled": {
-                    "Bool": true
+                    "System.Boolean": "True"
                 },
                 "is_Awake": {
-                    "Bool": true
+                    "System.Boolean": "True"
                 },
                 "is_Start": {
-                    "Bool": true
+                    "System.Boolean": "True"
                 }
             }
         },

@@ -66,6 +66,11 @@ namespace TDS
 
 		static void JPH_SystemShutdown();
 		static std::optional<EntityID> findEntityByID(uint32_t key);
+
+		static void (*OnTriggerEnter)(EntityID trigger, EntityID collider);
+		static void (*OnTriggerStay)(EntityID trigger, EntityID collider);
+		static void (*OnTriggerExit)(EntityID trigger, EntityID collider);
+
 	private:
 
 		static void JPH_SystemUpdate(Transform* _transform, RigidBody* _rigidbody);

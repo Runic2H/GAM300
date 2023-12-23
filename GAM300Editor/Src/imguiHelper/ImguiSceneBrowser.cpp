@@ -54,10 +54,9 @@ namespace TDS
 					{
 						std::string tempNewSceneName = "NewScene" + (newSceneCount ? ("(" + std::to_string(newSceneCount) + ")") : "");
 						recheck = false;
-						std::filesystem::path filePath = sceneManager->getScenePath();
-						for (auto& directory_entry : std::filesystem::directory_iterator(filePath))
+						for (auto& scriptName : sceneManager->getAllScripts())
 						{
-							if (tempNewSceneName == directory_entry.path().stem().string())
+							if (tempNewSceneName == scriptName)
 							{
 								++newSceneCount;
 								recheck = true;

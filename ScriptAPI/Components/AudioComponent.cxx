@@ -278,16 +278,4 @@ namespace ScriptAPI
 	{
 		TDS::GetSoundInfo(entityID)->setReverbAmount(value);
 	}
-
-
-	// Audio class
-	void Audio::play(System::String^ pathing)
-	{
-		TDS::proxy_audio_system::ScriptPlay(toStdString(pathing));
-	}
-
-	void Audio::stop(System::String^ pathing)
-	{
-		TDS::proxy_audio_system::ScriptStop(toStdString(pathing));
-	}
 }

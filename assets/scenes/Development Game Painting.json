@@ -18163,22 +18163,22 @@
         "385": {
             "Waypoint": {
                 "runtimePosx": {
-                    "Float": 1968.1067
+                    "System.Single": "1968.1067"
                 },
                 "runtimePosz": {
-                    "Float": -1575.4396
+                    "System.Single": "-1575.4396"
                 },
                 "gameObject": {
-                    "GameObject": 385
+                    "ScriptAPI.GameObject": 385
                 },
                 "is_Enabled": {
-                    "Bool": true
+                    "System.Boolean": "True"
                 },
                 "is_Awake": {
-                    "Bool": true
+                    "System.Boolean": "True"
                 },
                 "is_Start": {
-                    "Bool": true
+                    "System.Boolean": "True"
                 }
             }
         },
@@ -18325,22 +18325,22 @@
         "382": {
             "Waypoint": {
                 "runtimePosx": {
-                    "Float": 1859.0992
+                    "System.Single": "1859.0992"
                 },
                 "runtimePosz": {
-                    "Float": 234.54688
+                    "System.Single": "234.54688"
                 },
                 "gameObject": {
-                    "GameObject": 382
+                    "ScriptAPI.GameObject": 382
                 },
                 "is_Enabled": {
-                    "Bool": true
+                    "System.Boolean": "True"
                 },
                 "is_Awake": {
-                    "Bool": true
+                    "System.Boolean": "True"
                 },
                 "is_Start": {
-                    "Bool": true
+                    "System.Boolean": "True"
                 }
             }
         },
@@ -18461,208 +18461,167 @@
         "325": {
             "FPS_Controller_Script": {
                 "rb": {
-                    "Component": 325
+                    "ScriptAPI.RigidBodyComponent": 325
+                },
+                "startingVOstr": {
+                    "System.String": "pc_lockpickstart"
+                },
+                "startingVO": {
+                    "ScriptAPI.AudioComponent": 325
+                },
+                "footStepSoundEffects": {
+                    "System.String[]": "System.String[]"
                 },
                 "playerCamera": {
-                    "Component": 326
+                    "ScriptAPI.CameraComponent": 326
                 },
                 "fov": {
-                    "Float": 60.0
+                    "System.Single": "60"
                 },
                 "invertCamera": {
-                    "Bool": false
+                    "System.Boolean": "False"
                 },
                 "cameraCanMove": {
-                    "Bool": true
+                    "System.Boolean": "True"
                 },
                 "mouseSensitivity": {
-                    "Float": 20.0
+                    "System.Single": "20"
                 },
                 "maxLookAngle": {
-                    "Float": 250.0
+                    "System.Single": "250"
                 },
                 "lockCursor": {
-                    "Bool": true
+                    "System.Boolean": "True"
                 },
                 "crosshair": {
-                    "Bool": true
-                },
-                "yaw": {
-                    "Float": 0.0
-                },
-                "pitch": {
-                    "Float": 0.0
+                    "System.Boolean": "True"
                 },
                 "enableZoom": {
-                    "Bool": true
+                    "System.Boolean": "True"
                 },
                 "holdToZoom": {
-                    "Bool": false
+                    "System.Boolean": "False"
                 },
                 "zoomKey": {
-                    "UInt": 56
+                    "System.UInt32": "56"
                 },
                 "zoomFOV": {
-                    "Float": 30.0
+                    "System.Single": "30"
                 },
                 "zoomStepTime": {
-                    "Float": 5.0
-                },
-                "isZoomed": {
-                    "Bool": false
+                    "System.Single": "5"
                 },
                 "playerCanMove": {
-                    "Bool": true
+                    "System.Boolean": "True"
                 },
                 "walkSpeed": {
-                    "Float": 10.0
+                    "System.Single": "10"
                 },
                 "maxVelocityChange": {
-                    "Float": 15.0
+                    "System.Single": "15"
                 },
                 "isWalking": {
-                    "Bool": false
+                    "System.Boolean": "False"
                 },
                 "isCollided": {
-                    "Bool": false
-                },
-                "collidedEntity": {
-                    "GameObject": 0
+                    "System.Boolean": "False"
                 },
                 "enableSprint": {
-                    "Bool": true
+                    "System.Boolean": "True"
                 },
                 "unlimitedSprint": {
-                    "Bool": false
+                    "System.Boolean": "False"
                 },
                 "sprintKey": {
-                    "UInt": 42
+                    "System.UInt32": "42"
                 },
                 "sprintSpeed": {
-                    "Float": 3.0
+                    "System.Single": "3"
                 },
                 "currentSprintSpeed": {
-                    "Float": 0.0
+                    "System.Single": "0"
                 },
                 "sprintDuration": {
-                    "Float": 5.0
+                    "System.Single": "5"
                 },
                 "sprintCooldown": {
-                    "Float": 0.5
+                    "System.Single": "0.5"
                 },
                 "sprintFOV": {
-                    "Float": 80.0
+                    "System.Single": "80"
                 },
                 "sprintFOVStepTime": {
-                    "Float": 10.0
+                    "System.Single": "10"
                 },
                 "useSprintBar": {
-                    "Bool": true
+                    "System.Boolean": "True"
                 },
                 "hideBarWhenFull": {
-                    "Bool": true
+                    "System.Boolean": "True"
                 },
                 "sprintBarWidthPercent": {
-                    "Float": 0.3
+                    "System.Single": "0.3"
                 },
                 "sprintBarHeightPercent": {
-                    "Float": 0.015
+                    "System.Single": "0.015"
                 },
                 "isSprinting": {
-                    "Bool": false
-                },
-                "sprintRemaining": {
-                    "Float": 5.0
-                },
-                "sprintBarWidth": {
-                    "Float": 0.0
-                },
-                "sprintBarHeight": {
-                    "Float": 0.0
-                },
-                "isSprintCooldown": {
-                    "Bool": false
-                },
-                "sprintCooldownReset": {
-                    "Float": 0.5
+                    "System.Boolean": "False"
                 },
                 "enableJump": {
-                    "Bool": true
+                    "System.Boolean": "True"
                 },
                 "jumpKey": {
-                    "UInt": 45
+                    "System.UInt32": "45"
                 },
                 "jumpPower": {
-                    "Float": 5.0
-                },
-                "isGrounded": {
-                    "Bool": false
+                    "System.Single": "5"
                 },
                 "enableCrouch": {
-                    "Bool": true
+                    "System.Boolean": "True"
                 },
                 "holdToCrouch": {
-                    "Bool": true
+                    "System.Boolean": "True"
                 },
                 "crouchKey": {
-                    "UInt": 43
+                    "System.UInt32": "43"
                 },
                 "crouchHeight": {
-                    "Float": 0.75
+                    "System.Single": "0.75"
                 },
                 "speedReduction": {
-                    "Float": 0.5
-                },
-                "isCrouched": {
-                    "Bool": false
-                },
-                "originalScale": {
-                    "Vector3": {
-                        "X": 1.0,
-                        "Y": 1.0,
-                        "Z": 1.0
-                    }
+                    "System.Single": "0.5"
                 },
                 "playerHealth": {
-                    "Int": 100
+                    "System.Int32": "100"
                 },
                 "enableHeadBob": {
-                    "Bool": true
+                    "System.Boolean": "True"
                 },
                 "joint": {
-                    "Component": 0
+                    "ScriptAPI.TransformComponent": 0
                 },
                 "bobSpeed": {
-                    "Float": 10.0
+                    "System.Single": "10"
                 },
                 "bobAmount": {
-                    "Vector3": {
+                    "ScriptAPI.Vector3": {
                         "X": 0.15000000596046448,
                         "Y": 0.05000000074505806,
                         "Z": 0.0
                     }
                 },
-                "jointOriginalPos": {
-                    "Vector3": {
-                        "X": 0.0,
-                        "Y": 0.0,
-                        "Z": 0.0
-                    }
-                },
-                "timer": {
-                    "Float": 0.0
-                },
                 "gameObject": {
-                    "GameObject": 325
+                    "ScriptAPI.GameObject": 325
                 },
                 "is_Enabled": {
-                    "Bool": true
+                    "System.Boolean": "True"
                 },
                 "is_Awake": {
-                    "Bool": true
+                    "System.Boolean": "True"
                 },
                 "is_Start": {
-                    "Bool": true
+                    "System.Boolean": "True"
                 }
             }
         },
@@ -18693,165 +18652,159 @@
         "379": {
             "GhostMovement": {
                 "patrolSpeed": {
-                    "Float": 3.0
+                    "System.Single": "3"
                 },
                 "currTargetWaypt": {
-                    "Int": 0
+                    "System.Int32": "0"
                 },
                 "deltaTime": {
-                    "Float": 0.0
+                    "System.Single": "0"
                 },
                 "NumOfWaypoints": {
-                    "Int": 6
+                    "System.Int32": "6"
                 },
                 "isPatrol": {
-                    "Bool": true
+                    "System.Boolean": "True"
                 },
                 "isChasingPlayer": {
-                    "Bool": false
-                },
-                "player": {
-                    "GameObject": 0
+                    "System.Boolean": "False"
                 },
                 "gameObject": {
-                    "GameObject": 379
+                    "ScriptAPI.GameObject": 379
                 },
                 "is_Enabled": {
-                    "Bool": true
+                    "System.Boolean": "True"
                 },
                 "is_Awake": {
-                    "Bool": false
+                    "System.Boolean": "False"
                 },
                 "is_Start": {
-                    "Bool": true
+                    "System.Boolean": "True"
                 }
             }
         },
         "381": {
             "Waypoint": {
                 "runtimePosx": {
-                    "Float": 2585.924
+                    "System.Single": "2585.924"
                 },
                 "runtimePosz": {
-                    "Float": 331.63898
+                    "System.Single": "331.63898"
                 },
                 "gameObject": {
-                    "GameObject": 381
+                    "ScriptAPI.GameObject": 381
                 },
                 "is_Enabled": {
-                    "Bool": true
+                    "System.Boolean": "True"
                 },
                 "is_Awake": {
-                    "Bool": true
+                    "System.Boolean": "True"
                 },
                 "is_Start": {
-                    "Bool": true
+                    "System.Boolean": "True"
                 }
             }
         },
         "383": {
             "Waypoint": {
                 "runtimePosx": {
-                    "Float": 2335.087
+                    "System.Single": "2335.087"
                 },
                 "runtimePosz": {
-                    "Float": -458.59
+                    "System.Single": "-458.59"
                 },
                 "gameObject": {
-                    "GameObject": 383
+                    "ScriptAPI.GameObject": 383
                 },
                 "is_Enabled": {
-                    "Bool": true
+                    "System.Boolean": "True"
                 },
                 "is_Awake": {
-                    "Bool": true
+                    "System.Boolean": "True"
                 },
                 "is_Start": {
-                    "Bool": true
+                    "System.Boolean": "True"
                 }
             }
         },
         "384": {
             "Waypoint": {
                 "runtimePosx": {
-                    "Float": 2316.6267
+                    "System.Single": "2316.6267"
                 },
                 "runtimePosz": {
-                    "Float": -1193.2382
+                    "System.Single": "-1193.2382"
                 },
                 "gameObject": {
-                    "GameObject": 384
+                    "ScriptAPI.GameObject": 384
                 },
                 "is_Enabled": {
-                    "Bool": true
+                    "System.Boolean": "True"
                 },
                 "is_Awake": {
-                    "Bool": true
+                    "System.Boolean": "True"
                 },
                 "is_Start": {
-                    "Bool": true
+                    "System.Boolean": "True"
                 }
             }
         },
         "386": {
             "Waypoint": {
                 "runtimePosx": {
-                    "Float": 1290.7875
+                    "System.Single": "1290.7875"
                 },
                 "runtimePosz": {
-                    "Float": -915.8706
+                    "System.Single": "-915.8706"
                 },
                 "gameObject": {
-                    "GameObject": 386
+                    "ScriptAPI.GameObject": 386
                 },
                 "is_Enabled": {
-                    "Bool": true
+                    "System.Boolean": "True"
                 },
                 "is_Awake": {
-                    "Bool": true
+                    "System.Boolean": "True"
                 },
                 "is_Start": {
-                    "Bool": true
+                    "System.Boolean": "True"
                 }
             }
         },
         "388": {
             "Painting_Script": {
                 "paintingParent": {
-                    "GameObject": 387
+                    "ScriptAPI.GameObject": 387
                 },
                 "opened": {
-                    "Bool": false
+                    "System.Boolean": "False"
                 },
                 "collided": {
-                    "Bool": false
+                    "System.Boolean": "False"
                 },
                 "voClip": {
-                    "System.String[]": 0
-                },
-                "playedAudio": {
-                    "Bool": false
+                    "System.String[]": "System.String[]"
                 },
                 "timer": {
-                    "Float": 1.0
+                    "System.Single": "1"
                 },
                 "receiptFound": {
-                    "Bool": false
+                    "System.Boolean": "False"
                 },
                 "paintingTaken": {
-                    "Bool": false
+                    "System.Boolean": "False"
                 },
                 "gameObject": {
-                    "GameObject": 388
+                    "ScriptAPI.GameObject": 388
                 },
                 "is_Enabled": {
-                    "Bool": true
+                    "System.Boolean": "True"
                 },
                 "is_Awake": {
-                    "Bool": true
+                    "System.Boolean": "True"
                 },
                 "is_Start": {
-                    "Bool": true
+                    "System.Boolean": "True"
                 }
             }
         },

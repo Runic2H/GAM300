@@ -2,7 +2,7 @@
 #include "components/GraphicsComponent.h"
 
 namespace ScriptAPI {
-	GraphicComponent::GraphicComponent(TDS::EntityID ID) : entityID(ID) {}
+	GraphicComponent::GraphicComponent(TDS::EntityID ID) : entityID(ID), transform(TransformComponent(ID)) {}
 	
 	float GraphicComponent::getColourAlpha() 
 	{

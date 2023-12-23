@@ -10,7 +10,6 @@
 
 namespace ScriptAPI
 {
-
 	/*enum class Keycode : uint32_t
 	{
 		A = TDS_A,

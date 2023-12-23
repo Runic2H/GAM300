@@ -1,24 +1,32 @@
 {
     "Archetype Sizes": {
-        "110000100000": {
-            "0": 2184,
-            "1": 2352,
-            "6": 4536
+        "11000010000000": {
+            "0": 2448,
+            "1": 3600,
+            "6": 4752
         },
-        "110000000000": {
-            "0": 104,
-            "1": 112
+        "11000000000000": {
+            "0": 136,
+            "1": 200
+        },
+        "11001010000000": {
+            "0": 136,
+            "1": 200,
+            "4": 56,
+            "6": 264
         }
     },
     "Entity Data": {
         "1": {
-            "ArchetypeID": "110000100000",
+            "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "New Entity",
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 0,
-                "HierarchyIndex": 0
+                "HierarchyIndex": 0,
+                "HierarchyChildren": []
             },
             "Transform": {
                 "Position": {
@@ -40,23 +48,29 @@
             "Graphics Component": {
                 "PointLight": false,
                 "TextureName": "",
+                "Mesh Renderer": true,
+                "Debug": false,
                 "ModelName": "Mansion_layout_Bin.bin",
+                "MeshName": "",
                 "Color": {
                     "x": 1.0,
                     "y": 1.0,
                     "z": 1.0,
                     "w": 1.0
-                }
+                },
+                "Used In 2D": false
             }
         },
         "2": {
-            "ArchetypeID": "110000100000",
+            "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "New Entity",
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 0,
-                "HierarchyIndex": 1
+                "HierarchyIndex": 1,
+                "HierarchyChildren": []
             },
             "Transform": {
                 "Position": {
@@ -78,23 +92,29 @@
             "Graphics Component": {
                 "PointLight": true,
                 "TextureName": "",
+                "Mesh Renderer": true,
+                "Debug": false,
                 "ModelName": "",
+                "MeshName": "",
                 "Color": {
                     "x": 1.0,
                     "y": 1.0,
                     "z": 1.0,
                     "w": 1.0
-                }
+                },
+                "Used In 2D": false
             }
         },
         "3": {
-            "ArchetypeID": "110000100000",
+            "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "New Entity",
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 0,
-                "HierarchyIndex": 2
+                "HierarchyIndex": 2,
+                "HierarchyChildren": []
             },
             "Transform": {
                 "Position": {
@@ -116,23 +136,29 @@
             "Graphics Component": {
                 "PointLight": false,
                 "TextureName": "RoundTable_SSurface_Color.dds",
+                "Mesh Renderer": true,
+                "Debug": false,
                 "ModelName": "Quad2_Bin.bin",
+                "MeshName": "",
                 "Color": {
                     "x": 1.0,
                     "y": 1.0,
                     "z": 1.0,
                     "w": 1.0
-                }
+                },
+                "Used In 2D": false
             }
         },
         "4": {
-            "ArchetypeID": "110000100000",
+            "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "New Entity",
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 0,
-                "HierarchyIndex": 3
+                "HierarchyIndex": 3,
+                "HierarchyChildren": []
             },
             "Transform": {
                 "Position": {
@@ -154,23 +180,29 @@
             "Graphics Component": {
                 "PointLight": false,
                 "TextureName": "",
+                "Mesh Renderer": true,
+                "Debug": false,
                 "ModelName": "bedside lamp_Bin.bin",
+                "MeshName": "",
                 "Color": {
                     "x": 1.0,
                     "y": 1.0,
                     "z": 1.0,
                     "w": 1.0
-                }
+                },
+                "Used In 2D": false
             }
         },
         "5": {
-            "ArchetypeID": "110000100000",
+            "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "New Entity",
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 0,
-                "HierarchyIndex": 4
+                "HierarchyIndex": 4,
+                "HierarchyChildren": []
             },
             "Transform": {
                 "Position": {
@@ -192,23 +224,29 @@
             "Graphics Component": {
                 "PointLight": false,
                 "TextureName": "RoundTable_SSurface_Color.dds",
+                "Mesh Renderer": true,
+                "Debug": false,
                 "ModelName": "RoundTable_S_Bin.bin",
+                "MeshName": "",
                 "Color": {
                     "x": 1.0,
                     "y": 1.0,
                     "z": 1.0,
                     "w": 1.0
-                }
+                },
+                "Used In 2D": false
             }
         },
         "6": {
-            "ArchetypeID": "110000100000",
+            "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "New Entity",
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 0,
-                "HierarchyIndex": 5
+                "HierarchyIndex": 5,
+                "HierarchyChildren": []
             },
             "Transform": {
                 "Position": {
@@ -230,23 +268,29 @@
             "Graphics Component": {
                 "PointLight": false,
                 "TextureName": "",
+                "Mesh Renderer": true,
+                "Debug": false,
                 "ModelName": "bedside lamp_Bin.bin",
+                "MeshName": "",
                 "Color": {
                     "x": 1.0,
                     "y": 1.0,
                     "z": 1.0,
                     "w": 1.0
-                }
+                },
+                "Used In 2D": false
             }
         },
         "7": {
-            "ArchetypeID": "110000100000",
+            "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "New Entity",
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 0,
-                "HierarchyIndex": 6
+                "HierarchyIndex": 6,
+                "HierarchyChildren": []
             },
             "Transform": {
                 "Position": {
@@ -268,23 +312,29 @@
             "Graphics Component": {
                 "PointLight": false,
                 "TextureName": "",
+                "Mesh Renderer": true,
+                "Debug": false,
                 "ModelName": "Painting_Living_Bin.bin",
+                "MeshName": "",
                 "Color": {
                     "x": 1.0,
                     "y": 1.0,
                     "z": 1.0,
                     "w": 1.0
-                }
+                },
+                "Used In 2D": false
             }
         },
         "8": {
-            "ArchetypeID": "110000100000",
+            "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "New Entity",
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 0,
-                "HierarchyIndex": 7
+                "HierarchyIndex": 7,
+                "HierarchyChildren": []
             },
             "Transform": {
                 "Position": {
@@ -306,23 +356,29 @@
             "Graphics Component": {
                 "PointLight": false,
                 "TextureName": "",
+                "Mesh Renderer": true,
+                "Debug": false,
                 "ModelName": "Between-Table_Bin.bin",
+                "MeshName": "",
                 "Color": {
                     "x": 1.0,
                     "y": 1.0,
                     "z": 1.0,
                     "w": 1.0
-                }
+                },
+                "Used In 2D": false
             }
         },
         "9": {
-            "ArchetypeID": "110000100000",
+            "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "New Entity",
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 0,
-                "HierarchyIndex": 8
+                "HierarchyIndex": 8,
+                "HierarchyChildren": []
             },
             "Transform": {
                 "Position": {
@@ -344,23 +400,29 @@
             "Graphics Component": {
                 "PointLight": false,
                 "TextureName": "",
+                "Mesh Renderer": true,
+                "Debug": false,
                 "ModelName": "Bed_Bedroom_Bin.bin",
+                "MeshName": "",
                 "Color": {
                     "x": 1.0,
                     "y": 1.0,
                     "z": 1.0,
                     "w": 1.0
-                }
+                },
+                "Used In 2D": false
             }
         },
         "10": {
-            "ArchetypeID": "110000000000",
+            "ArchetypeID": "11000000000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "New Entity",
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 0,
-                "HierarchyIndex": 9
+                "HierarchyIndex": 9,
+                "HierarchyChildren": []
             },
             "Transform": {
                 "Position": {
@@ -381,13 +443,15 @@
             }
         },
         "11": {
-            "ArchetypeID": "110000100000",
+            "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "New Entity",
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 0,
-                "HierarchyIndex": 10
+                "HierarchyIndex": 10,
+                "HierarchyChildren": []
             },
             "Transform": {
                 "Position": {
@@ -409,23 +473,29 @@
             "Graphics Component": {
                 "PointLight": false,
                 "TextureName": "",
+                "Mesh Renderer": true,
+                "Debug": false,
                 "ModelName": "Bedside table_Bin.bin",
+                "MeshName": "",
                 "Color": {
                     "x": 1.0,
                     "y": 1.0,
                     "z": 1.0,
                     "w": 1.0
-                }
+                },
+                "Used In 2D": false
             }
         },
         "12": {
-            "ArchetypeID": "110000100000",
+            "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "New Entity",
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 0,
-                "HierarchyIndex": 11
+                "HierarchyIndex": 11,
+                "HierarchyChildren": []
             },
             "Transform": {
                 "Position": {
@@ -447,23 +517,29 @@
             "Graphics Component": {
                 "PointLight": false,
                 "TextureName": "",
+                "Mesh Renderer": true,
+                "Debug": false,
                 "ModelName": "Bedside table_Bin.bin",
+                "MeshName": "",
                 "Color": {
                     "x": 1.0,
                     "y": 1.0,
                     "z": 1.0,
                     "w": 1.0
-                }
+                },
+                "Used In 2D": false
             }
         },
         "15": {
-            "ArchetypeID": "110000100000",
+            "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "New Entity",
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 0,
-                "HierarchyIndex": 12
+                "HierarchyIndex": 12,
+                "HierarchyChildren": []
             },
             "Transform": {
                 "Position": {
@@ -485,23 +561,29 @@
             "Graphics Component": {
                 "PointLight": false,
                 "TextureName": "",
+                "Mesh Renderer": true,
+                "Debug": false,
                 "ModelName": "bedside lamp_Bin.bin",
+                "MeshName": "",
                 "Color": {
                     "x": 1.0,
                     "y": 1.0,
                     "z": 1.0,
                     "w": 1.0
-                }
+                },
+                "Used In 2D": false
             }
         },
         "16": {
-            "ArchetypeID": "110000100000",
+            "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "New Entity",
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 0,
-                "HierarchyIndex": 13
+                "HierarchyIndex": 13,
+                "HierarchyChildren": []
             },
             "Transform": {
                 "Position": {
@@ -523,23 +605,29 @@
             "Graphics Component": {
                 "PointLight": false,
                 "TextureName": "",
+                "Mesh Renderer": true,
+                "Debug": false,
                 "ModelName": "bedside lamp_Bin.bin",
+                "MeshName": "",
                 "Color": {
                     "x": 1.0,
                     "y": 1.0,
                     "z": 1.0,
                     "w": 1.0
-                }
+                },
+                "Used In 2D": false
             }
         },
         "17": {
-            "ArchetypeID": "110000100000",
+            "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "New Entity",
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 0,
-                "HierarchyIndex": 14
+                "HierarchyIndex": 14,
+                "HierarchyChildren": []
             },
             "Transform": {
                 "Position": {
@@ -561,23 +649,29 @@
             "Graphics Component": {
                 "PointLight": false,
                 "TextureName": "",
+                "Mesh Renderer": true,
+                "Debug": false,
                 "ModelName": "capsule_Bin.bin",
+                "MeshName": "",
                 "Color": {
                     "x": 1.0,
                     "y": 1.0,
                     "z": 1.0,
                     "w": 1.0
-                }
+                },
+                "Used In 2D": false
             }
         },
         "18": {
-            "ArchetypeID": "110000100000",
+            "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "New Entity",
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 0,
-                "HierarchyIndex": 15
+                "HierarchyIndex": 15,
+                "HierarchyChildren": []
             },
             "Transform": {
                 "Position": {
@@ -599,23 +693,29 @@
             "Graphics Component": {
                 "PointLight": false,
                 "TextureName": "",
+                "Mesh Renderer": true,
+                "Debug": false,
                 "ModelName": "Gam300_Bathtub_Bin.bin",
+                "MeshName": "",
                 "Color": {
                     "x": 1.0,
                     "y": 1.0,
                     "z": 1.0,
                     "w": 1.0
-                }
+                },
+                "Used In 2D": false
             }
         },
         "20": {
-            "ArchetypeID": "110000100000",
+            "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "New Entity",
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 0,
-                "HierarchyIndex": 16
+                "HierarchyIndex": 16,
+                "HierarchyChildren": []
             },
             "Transform": {
                 "Position": {
@@ -637,23 +737,29 @@
             "Graphics Component": {
                 "PointLight": false,
                 "TextureName": "",
+                "Mesh Renderer": true,
+                "Debug": false,
                 "ModelName": "Gam300_Bucket_Bin.bin",
+                "MeshName": "",
                 "Color": {
                     "x": 1.0,
                     "y": 1.0,
                     "z": 1.0,
                     "w": 1.0
-                }
+                },
+                "Used In 2D": false
             }
         },
         "21": {
-            "ArchetypeID": "110010100000",
+            "ArchetypeID": "11001010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "New Entity",
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 0,
-                "HierarchyIndex": 17
+                "HierarchyIndex": 17,
+                "HierarchyChildren": []
             },
             "Transform": {
                 "Position": {
@@ -672,27 +778,44 @@
                     "z": -2.5461537234150455e-7
                 }
             },
-            "Camera Component": {},
+            "Camera Component": {
+                "Yaw": -90.0,
+                "Pitch": 0.0,
+                "Position": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "Speed": 1.0,
+                "FOV": 45.0,
+                "MouseSensitivity": 0.10000000149011612
+            },
             "Graphics Component": {
                 "PointLight": false,
                 "TextureName": "",
+                "Mesh Renderer": true,
+                "Debug": false,
                 "ModelName": "Gam300_Bucket_Bin.bin",
+                "MeshName": "",
                 "Color": {
                     "x": 1.0,
                     "y": 1.0,
                     "z": 1.0,
                     "w": 1.0
-                }
+                },
+                "Used In 2D": false
             }
         },
         "22": {
-            "ArchetypeID": "110000100000",
+            "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "New Entity",
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 0,
-                "HierarchyIndex": 18
+                "HierarchyIndex": 18,
+                "HierarchyChildren": []
             },
             "Transform": {
                 "Position": {
@@ -714,23 +837,29 @@
             "Graphics Component": {
                 "PointLight": false,
                 "TextureName": "",
+                "Mesh Renderer": true,
+                "Debug": false,
                 "ModelName": "Gam300_Bucket_Bin.bin",
+                "MeshName": "",
                 "Color": {
                     "x": 1.0,
                     "y": 1.0,
                     "z": 1.0,
                     "w": 1.0
-                }
+                },
+                "Used In 2D": false
             }
         },
         "23": {
-            "ArchetypeID": "110000100000",
+            "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "New Entity",
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 0,
-                "HierarchyIndex": 19
+                "HierarchyIndex": 19,
+                "HierarchyChildren": []
             },
             "Transform": {
                 "Position": {
@@ -752,13 +881,17 @@
             "Graphics Component": {
                 "PointLight": false,
                 "TextureName": "",
+                "Mesh Renderer": true,
+                "Debug": false,
                 "ModelName": "Toilet_bowl_Bin.bin",
+                "MeshName": "",
                 "Color": {
                     "x": 1.0,
                     "y": 1.0,
                     "z": 1.0,
                     "w": 1.0
-                }
+                },
+                "Used In 2D": false
             }
         }
     },
@@ -783,5 +916,27 @@
         "21": {},
         "22": {},
         "23": {}
+    },
+    "Active Archetype": {
+        "1": "11000010000000",
+        "2": "11000010000000",
+        "3": "11000010000000",
+        "4": "11000010000000",
+        "5": "11000010000000",
+        "6": "11000010000000",
+        "7": "11000010000000",
+        "8": "11000010000000",
+        "9": "11000010000000",
+        "10": "11000000000000",
+        "11": "11000010000000",
+        "12": "11000010000000",
+        "15": "11000010000000",
+        "16": "11000010000000",
+        "17": "11000010000000",
+        "18": "11000010000000",
+        "20": "11000010000000",
+        "21": "11001010000000",
+        "22": "11000010000000",
+        "23": "11000010000000"
     }
 }

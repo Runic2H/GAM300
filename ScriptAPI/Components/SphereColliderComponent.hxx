@@ -1,15 +1,14 @@
 #pragma once
 
-#include "ComponentBase.hxx"
-#include "TransformComponent.hxx"
+#include "ColliderComponent.hxx"
 
 namespace ScriptAPI
 {
-	public value class SphereColliderComponent : ComponentBase
+	public ref class SphereColliderComponent : ColliderComponent
 	{
 	public:
-		bool GetIsTrigger();
-		void SetIsTrigger(bool value);
+		virtual bool GetIsTrigger() override;
+		virtual void SetIsTrigger(bool value) override;
 
 		Vector3 GetCenter();
 		void SetCenter(Vector3 value);
@@ -20,13 +19,13 @@ namespace ScriptAPI
 		float GetRadius();
 		void SetRadius(float value);
 
-		virtual void SetEntityID(TDS::EntityID ID);
+		virtual TDS::EntityID GetEntityID() override;
+		virtual void SetEntityID(TDS::EntityID ID) override;
 
-		TransformComponent^transform;
+		TransformComponent transform;
 
 	internal:
 		SphereColliderComponent(TDS::EntityID ID);
-		TDS::EntityID GetEntityID();
 
 	private:
 		property bool IsTrigger

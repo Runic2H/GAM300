@@ -57,13 +57,13 @@ namespace ScriptAPI
 		//Add to a queue of sound to be played sequentially
 		void Queue(System::String^ str);
 
+		virtual TDS::EntityID GetEntityID();
 		virtual void SetEntityID(TDS::EntityID ID);
 
 		TransformComponent transform;
 
 	internal:
 		AudioComponent(TDS::EntityID ID);
-		TDS::EntityID GetEntityID();
 
 	private:
 		property unsigned int uniqueID
@@ -117,13 +117,5 @@ namespace ScriptAPI
 		}
 
 		TDS::EntityID entityID;
-	};
-
-	public ref class Audio
-	{
-	public:
-		//Pass in the audio file name without the extensions
-		static void play(System::String^ pathing);
-		static void stop(System::String^ pathing);
 	};
 }

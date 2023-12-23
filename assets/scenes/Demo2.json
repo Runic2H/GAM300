@@ -1,20 +1,22 @@
 {
     "Archetype Sizes": {
-        "110000100000": {
-            "0": 416,
-            "1": 448,
-            "6": 864
+        "11000010000000": {
+            "0": 544,
+            "1": 800,
+            "6": 1056
         }
     },
     "Entity Data": {
         "1": {
-            "ArchetypeID": "110000100000",
+            "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Mansion",
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 0,
-                "HierarchyIndex": 0
+                "HierarchyIndex": 0,
+                "HierarchyChildren": []
             },
             "Transform": {
                 "Position": {
@@ -36,23 +38,29 @@
             "Graphics Component": {
                 "PointLight": false,
                 "TextureName": "",
+                "Mesh Renderer": true,
+                "Debug": false,
                 "ModelName": "Mansion_layout_Bin.bin",
+                "MeshName": "",
                 "Color": {
                     "x": 1.0,
                     "y": 1.0,
                     "z": 1.0,
                     "w": 1.0
-                }
+                },
+                "Used In 2D": false
             }
         },
         "3": {
-            "ArchetypeID": "110000100000",
+            "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "PointLight",
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 0,
-                "HierarchyIndex": 1
+                "HierarchyIndex": 1,
+                "HierarchyChildren": []
             },
             "Transform": {
                 "Position": {
@@ -74,23 +82,29 @@
             "Graphics Component": {
                 "PointLight": true,
                 "TextureName": "",
+                "Mesh Renderer": true,
+                "Debug": false,
                 "ModelName": "",
+                "MeshName": "",
                 "Color": {
                     "x": 1.0,
                     "y": 1.0,
                     "z": 1.0,
                     "w": 1.0
-                }
+                },
+                "Used In 2D": false
             }
         },
         "4": {
-            "ArchetypeID": "110000100000",
+            "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Mansion Floor",
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 0,
-                "HierarchyIndex": 2
+                "HierarchyIndex": 2,
+                "HierarchyChildren": []
             },
             "Transform": {
                 "Position": {
@@ -112,23 +126,29 @@
             "Graphics Component": {
                 "PointLight": false,
                 "TextureName": "RoundTable_SSurface_Color.dds",
+                "Mesh Renderer": true,
+                "Debug": false,
                 "ModelName": "Quad2_Bin.bin",
+                "MeshName": "",
                 "Color": {
                     "x": 1.0,
                     "y": 1.0,
                     "z": 1.0,
                     "w": 1.0
-                }
+                },
+                "Used In 2D": false
             }
         },
         "5": {
-            "ArchetypeID": "110000100000",
+            "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Enemy Placeholder",
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 0,
-                "HierarchyIndex": 3
+                "HierarchyIndex": 3,
+                "HierarchyChildren": []
             },
             "Transform": {
                 "Position": {
@@ -150,13 +170,17 @@
             "Graphics Component": {
                 "PointLight": false,
                 "TextureName": "",
+                "Mesh Renderer": true,
+                "Debug": false,
                 "ModelName": "capsule_Bin.bin",
+                "MeshName": "",
                 "Color": {
                     "x": 1.0,
                     "y": 1.0,
                     "z": 1.0,
                     "w": 1.0
-                }
+                },
+                "Used In 2D": false
             }
         }
     },
@@ -165,5 +189,11 @@
         "3": {},
         "4": {},
         "5": {}
+    },
+    "Active Archetype": {
+        "1": "11000010000000",
+        "3": "11000010000000",
+        "4": "11000010000000",
+        "5": "11000010000000"
     }
 }
