@@ -123,33 +123,33 @@ namespace TDS
 	****************************************************************************/
 	IComponent* getComponentByName(std::string componentName, const EntityID& entityID)
 	{
-		if (componentName == "AI")
+		if (componentName == "AI" || componentName == "ScriptAPI.AIComponent")
 			return ecs.getComponent<AI>(entityID);
-		else if (componentName == "Box Collider")
+		else if (componentName == "Box Collider" || componentName == "ScriptAPI.BoxColliderComponent")
 			return ecs.getComponent<BoxCollider>(entityID);
-		else if (componentName == "Camera Component")
+		else if (componentName == "Camera Component" || componentName == "ScriptAPI.CameraComponent")
 			return ecs.getComponent<CameraComponent>(entityID);
-		else if (componentName == "Capsule Collider")
+		else if (componentName == "Capsule Collider" || componentName == "ScriptAPI.CapsuleColliderComponent")
 			return ecs.getComponent<CapsuleCollider>(entityID);
-		else if (componentName == "Graphics Component")
+		else if (componentName == "Graphics Component" || componentName == "ScriptAPI.GraphicComponent")
 			return ecs.getComponent<GraphicsComponent>(entityID);
-		else if (componentName == "Name Tag")
+		else if (componentName == "Name Tag" || componentName == "ScriptAPI.NameTagComponent")
 			return ecs.getComponent<NameTag>(entityID);
-		else if (componentName == "Rigid Body")
+		else if (componentName == "Rigid Body" || componentName == "ScriptAPI.RigidBodyComponent")
 			return ecs.getComponent<RigidBody>(entityID);
-		else if (componentName == "Sphere Collider")
+		else if (componentName == "Sphere Collider" || componentName == "ScriptAPI.SphereColliderComponent")
 			return ecs.getComponent<SphereCollider>(entityID);
-		else if (componentName == "Sprite")
+		else if (componentName == "Sprite" || componentName == "ScriptAPI.SpriteComponent")
 			return ecs.getComponent<Sprite>(entityID);
-		else if (componentName == "Tag")
+		else if (componentName == "Tag" || componentName == "ScriptAPI.TagComponent")
 			return ecs.getComponent<Tag>(entityID);
-		else if (componentName == "Transform")
+		else if (componentName == "Transform" || componentName == "ScriptAPI.TransformComponent")
 			return ecs.getComponent<Transform>(entityID);
-		else if (componentName == "Win Data")
+		else if (componentName == "Win Data" || componentName == "ScriptAPI.WinDataComponent")
 			return ecs.getComponent<WinData>(entityID);
-		else if (componentName == "UI Sprite")
+		else if (componentName == "UI Sprite" || componentName == "ScriptAPI.UISpriteComponent")
 			return ecs.getComponent<UISprite>(entityID);
-		else if (componentName == "Audio")
+		else if (componentName == "Audio" || componentName == "ScriptAPI.AudioComponent")
 			return ecs.getComponent<SoundInfo>(entityID);
 		else
 			return nullptr;

@@ -9,7 +9,6 @@
  *******************************************************************************/
 #include "Physics/PhysicsSystem.h"
 
-
 namespace TDS
 {
 	/*!*************************************************************************
@@ -27,6 +26,10 @@ namespace TDS
 	BPLayerInterfaceImpl						broad_phase_layer_interface;
 	ObjectVsBroadPhaseLayerFilterImpl			object_vs_broadphase_layer_filter;
 	ObjectLayerPairFilterImpl					object_vs_object_layer_filter;
+
+	void (*PhysicsSystem::OnTriggerEnter)(EntityID trigger, EntityID collider);
+	void (*PhysicsSystem::OnTriggerStay)(EntityID trigger, EntityID collider);
+	void (*PhysicsSystem::OnTriggerExit)(EntityID trigger, EntityID collider);
 
 	/*!*************************************************************************
 	 * Configuration
@@ -115,10 +118,10 @@ namespace TDS
 		{
 			if (m_pSystem->GetNumBodies() != 0)
 			{
-				m_pBodyIDMap.clear();
 				pBodies->RemoveBodies(JoltToTDS::ToBodyID(m_pBodyIDVector.data()), m_pBodyIDVector.size());
 				pBodies->DestroyBodies(JoltToTDS::ToBodyID(m_pBodyIDVector.data()), m_pBodyIDVector.size());
 				m_pBodyIDVector.clear();
+				m_pBodyIDMap.clear();
 			}
 			SetIsPlaying(true);
 		}
@@ -139,7 +142,7 @@ namespace TDS
 			{
 				using namespace JoltToTDS;
 				EActivation mode = EActivation::Activate;
-				pBodies->SetPosition(ToBodyID(_rigidbody[i]), ToVec3(_transform[i].GetPosition()), mode); // debugging
+				//pBodies->SetPosition(ToBodyID(_rigidbody[i]), ToVec3(_transform[i].GetPosition()), mode); // debugging
 			}
 
 			m_pSystem->Update(TimeStep::GetFixedDeltaTime(), 1, m_pTempAllocator.get(), m_pJobSystem.get());
@@ -176,8 +179,11 @@ namespace TDS
 	{
 		JPH::BodyID JPHBodyID = JoltToTDS::ToBodyID(*_rigidbody);
 		JPH::BodyInterface* pBodies = &m_pSystem->GetBodyInterface();
-		_transform->SetPosition(JoltToTDS::ToVec3(pBodies->GetPosition(JPHBodyID)));
-		_rigidbody->SetLinearVel(JoltToTDS::ToVec3(pBodies->GetLinearVelocity(JPHBodyID)));
+		if (pBodies->GetMotionType(JPHBodyID) == JPH::EMotionType::Dynamic)
+		{
+			_transform->SetPosition(JoltToTDS::ToVec3(pBodies->GetPosition(JPHBodyID)));
+			_rigidbody->SetLinearVel(JoltToTDS::ToVec3(pBodies->GetLinearVelocity(JPHBodyID)));
+		}
 	}
 	void PhysicsSystem::JPH_SystemShutdown()
 	{
@@ -212,6 +218,7 @@ namespace TDS
 			b_sphereSetting.mLinearDamping = _rigidbody->GetLinearDamping();
 			b_sphereSetting.mAngularDamping = _rigidbody->GetAngularDamping();
 			b_sphereSetting.mIsSensor = vSphere->GetIsTrigger();
+			b_sphereSetting.mAllowSleeping = false;
 
 			JPH::BodyID sphereID = m_pSystem->GetBodyInterface().CreateAndAddBody(b_sphereSetting, JPH::EActivation::Activate);
 			JoltBodyID vJoltBodyID(sphereID.GetIndexAndSequenceNumber());
@@ -226,13 +233,15 @@ namespace TDS
 			BoxCollider* vBox = GetBoxCollider(_entityID);
 			Vec3 halfExtents = vBox->GetColliderSize();
 			JPH::Vec3 JPHextents = JoltToTDS::ToVec3(halfExtents);
+	
 			JPH::BoxShapeSettings s_boxSettings(JPHextents);
 			JPH::ShapeSettings::ShapeResult result = s_boxSettings.Create();
 			JPH::ShapeRefC boxShape = result.Get();
+
 			JPH::BodyCreationSettings b_BoxSetting
 				(
 					boxShape,
-					JoltToTDS::ToVec3(_transform->GetPosition()),
+					JoltToTDS::ToVec3(vBox->GetColliderCenter()),
 					JoltToTDS::ToQuat((_transform->GetRotation())),
 					vMotionType,
 					JoltLayers::GetObjectLayer(_rigidbody->GetMotionTypeInt(), vBox->GetIsTrigger())
@@ -243,9 +252,10 @@ namespace TDS
 			b_BoxSetting.mLinearDamping = _rigidbody->GetLinearDamping();
 			b_BoxSetting.mAngularDamping = _rigidbody->GetAngularDamping();
 			b_BoxSetting.mIsSensor = vBox->GetIsTrigger();
-
-
+			b_BoxSetting.mAllowSleeping = false;
+			
 			JPH::BodyID boxID = m_pSystem->GetBodyInterface().CreateAndAddBody(b_BoxSetting, JPH::EActivation::Activate);
+
 			JoltBodyID vJoltBodyID(boxID.GetIndexAndSequenceNumber());
 			m_pBodyIDVector.push_back(vJoltBodyID);
 

@@ -258,11 +258,15 @@ namespace TDS
 					{
 						if (scriptValue.type == "ScriptAPI.GameObject")
 						{
-							sceneManagerInstance->setGameObject(currentEntity, scriptName, scriptValue.name, 0);
+							scriptValue.referenceEntityID = 0;
+							sceneManagerInstance->setScriptValue(selectedEntity, scriptName, scriptValue);
+							//sceneManagerInstance->setGameObject(currentEntity, scriptName, scriptValue.name, 0);
 						}
 						else
 						{
-							sceneManagerInstance->setScriptReference(currentEntity, scriptName, scriptValue.name, 0, scriptValue.type);
+							scriptValue.referenceEntityID = 0;
+							sceneManagerInstance->setScriptValue(selectedEntity, scriptName, scriptValue);
+							//sceneManagerInstance->setScriptReference(currentEntity, scriptName, scriptValue.name, 0, scriptValue.type);
 						}
 					}
 				}
@@ -375,8 +379,10 @@ namespace TDS
 			if (ImGui::BeginDragDropSource())
 			{
 				ImGui::SetDragDropPayload("draggedEntity", &entityID, sizeof(int));
+				ImGui::SetDragDropPayload("draggedEntityProperty", &entityID, sizeof(int));
 				ImGui::EndDragDropSource();
 			}
+
 			if (ImGui::BeginDragDropTarget())
 			{
 				if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("draggedEntity"))
@@ -388,6 +394,7 @@ namespace TDS
 				}
 				ImGui::EndDragDropTarget();
 			}
+
 			if (opened)
 			{
 				selectedEntity = entityID;
@@ -446,8 +453,34 @@ namespace TDS
 		if (ImGui::BeginDragDropSource())
 		{
 			ImGui::SetDragDropPayload("draggedEntity", &entityID, sizeof(int));
+			ImGui::SetDragDropPayload("draggedEntityProperty", &entityID, sizeof(int));
 			ImGui::EndDragDropSource();
 		}
+
+		static int tempEntity = 0;
+		static float timer = 0.0f;
+		if (ImGui::IsMouseClicked(ImGuiMouseButton_Left) && currentItemHovered)
+		{
+			tempEntity = entityID;
+			timer = 0.5f;
+		}
+
+		if (tempEntity == entityID)
+		{
+			if (timer > 0)
+			{
+				if (!ImGui::IsMouseDown(ImGuiMouseButton_Left))
+				{
+					selectedEntity = tempEntity;
+				}
+				timer -= GetDeltaTime();
+			}
+			else 
+			{
+				tempEntity = 0;
+			}
+		}
+
 		if (ImGui::BeginDragDropTarget())
 		{
 			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("draggedEntity"))
@@ -458,10 +491,6 @@ namespace TDS
 				makingChildHierarchy(payloadEntityID, entityID);
 			}
 			ImGui::EndDragDropTarget();
-		}
-		if (ImGui::IsMouseClicked(ImGuiMouseButton_Left) && currentItemHovered)
-		{
-			selectedEntity = entityID;
 		}
 
 		if (ImGui::BeginPopupContextItem())

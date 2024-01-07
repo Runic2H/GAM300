@@ -84,14 +84,6 @@ namespace ScriptAPI
 		***************************************************************************/
 		static bool HasScriptViaName(TDS::EntityID entityId, std::string script);
 		/*!*************************************************************************
-		* Getting script fields for editor
-		***************************************************************************/
-		static std::vector<TDS::ScriptValues> GetScriptVariablesEditor(TDS::EntityID entityId, std::string script);
-		/*!*************************************************************************
-		* Getting script fields for serializing
-		***************************************************************************/
-		static std::vector<TDS::ScriptValues> GetScriptVariables(TDS::EntityID entityID, std::string scriptName);
-		/*!*************************************************************************
 		* Remove Entity from scriptList
 		* Call this function when entity gets removed
 		***************************************************************************/
@@ -106,18 +98,48 @@ namespace ScriptAPI
 		***************************************************************************/
 		static bool IsScriptEnabled(TDS::EntityID entityId, std::string script);
 
-		static void SetValueBool(TDS::EntityID entityId, std::string script, std::string variableName, bool value);
-		static void SetValueInt(TDS::EntityID entityId, std::string script, std::string variableName, int value, bool isInt);
-		static void SetValueDouble(TDS::EntityID entityId, std::string script, std::string variableName, double value);
-		static void SetValueFloat(TDS::EntityID entityId, std::string script, std::string variableName, float value);
-		static void SetValueString(TDS::EntityID entityId, std::string script, std::string variableName, std::string value);
-		//static void SetValueChar(TDS::EntityID entityId, std::string script, std::string variableName, char value);
-		static void SetVector3(TDS::EntityID entityId, std::string script, std::string variableName, TDS::Vec3 value);
-		static void SetGameObject(TDS::EntityID entityId, std::string script, std::string variableName, TDS::EntityID gameObjectEntityID);
-		static void SetComponent(TDS::EntityID entityId, std::string script, std::string variableName, TDS::EntityID gameObjectEntityID);
-		static void SetScript(TDS::EntityID entityId, std::string script, std::string variableName, TDS::EntityID gameObjectEntityID, std::string scriptReference);
-		
-		static Object^ GetScriptByEntityID(TDS::EntityID entityID, System::String^ scriptName);
+		// Updated functions to handle all variable types
+		//static TDS::ScriptValues GetVariable(TDS::EntityID entityId, std::string script, std::string variableName);
+		/*!*************************************************************************
+		* Getting variables in the script (that is either SerializedField or 
+		public)
+		***************************************************************************/
+		static std::vector<TDS::ScriptValues> GetVariables(TDS::EntityID entityId, std::string script);
+		/*!*************************************************************************
+		* Getting variables in the script (that is either SerializedField or 
+		public, but not in HideInInspector)
+		***************************************************************************/
+		static std::vector<TDS::ScriptValues> GetVariablesEditor(TDS::EntityID entityId, std::string script);
+		/*!*************************************************************************
+		* Setting a variable in the script
+		***************************************************************************/
+		static void SetVariable(TDS::EntityID entityId, std::string script, TDS::ScriptValues variableInfo);
+		/*!*************************************************************************
+		* Setting all variables in the script (that was serialized)
+		***************************************************************************/
+		static void SetVariables(TDS::EntityID entityId, std::string script, std::vector<TDS::ScriptValues>& allVariableInfo);
+
+		/*!*************************************************************************
+		* Getting the entity's gameObject (used in Serialization class)
+		***************************************************************************/
+		static GameObject^ GetGameObject(TDS::EntityID entityId);
+		/*!*************************************************************************
+		* Getting the script reference of the entity (used in Serialization class)
+		***************************************************************************/
+		static Script^ GetScriptReference(TDS::EntityID entityId, System::String^ script);
+
+		/*!*************************************************************************
+		* Calls all script OnTriggerEnter function
+		***************************************************************************/
+		static void ExecuteOnTriggerEnter(TDS::EntityID trigger, TDS::EntityID collider);
+		/*!*************************************************************************
+		* Calls all script OnTriggerEnter function
+		***************************************************************************/
+		static void ExecuteOnTriggerStay(TDS::EntityID trigger, TDS::EntityID collider);
+		/*!*************************************************************************
+		* Calls all script OnTriggerEnter function
+		***************************************************************************/
+		static void ExecuteOnTriggerExit(TDS::EntityID trigger, TDS::EntityID collider);
 
 		using ScriptList = System::Collections::Generic::Dictionary<String^, Script^>;
 		using NameScriptPair = System::Collections::Generic::KeyValuePair<String^, Script^>;
@@ -136,8 +158,5 @@ namespace ScriptAPI
 
 		static float fixedUpdateTimer{0.0f};
 		static float mAccumulatedTime{0.0f};
-
-		//static array<FieldInfo^>^ currentFieldArray;
-		//static Object^ currentObject;
 	};
 }

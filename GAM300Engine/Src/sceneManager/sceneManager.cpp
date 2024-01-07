@@ -18,6 +18,7 @@ namespace TDS
 {
 	// Unique pointer to instance of Scene
 	std::unique_ptr<SceneManager> SceneManager::m_instance;
+	bool SceneManager::isPlaying;
 
 	/*!*************************************************************************
 	Returns an instance of the SceneManager
@@ -97,7 +98,6 @@ namespace TDS
 		//SerializeToFile(filePath + "Game.json");
 
 		bindSystemFunctions();
-		allScripts = getAllScripts();
 		// Setting default scene
 		sceneDeserialize();
 	}
@@ -107,6 +107,7 @@ namespace TDS
 	****************************************************************************/
 	bool SceneManager::Deserialize(const rapidjson::Value& obj, rapidjson::Document& doc)
 	{
+		// Archetype Sizes =======================
 		obj.GetObject();
 		for (rapidjson::Value::ConstMemberIterator itr = obj["Archetype Sizes"].MemberBegin(); itr != obj["Archetype Sizes"].MemberEnd(); ++itr)
 		{
@@ -131,6 +132,7 @@ namespace TDS
 			ecs.commitArchetype(archetypeID);
 		}
 
+		// Engine component data =================
 		EntityID currentEntity = 0;
 		EntityID lastEntity = 0;
 		int i = 0;
@@ -187,99 +189,104 @@ namespace TDS
 
 		ecs.setIDCounter(lastEntity + 1);
 
-		std::vector<ScriptReferenceVariable> scriptReferences;
+		// Script Component data =================
+		// EntityID, ScriptName, ScriptValues to set
+		std::vector<std::tuple<EntityID, std::string, ScriptValues>> scriptReferences;
+
 		for (rapidjson::Value::ConstMemberIterator itr = obj["Scripts"].MemberBegin(); itr != obj["Scripts"].MemberEnd(); ++itr, ++i)
 		{
 			EntityID currentEntity = static_cast<EntityID>(std::stoi(itr->name.GetString()));
 
-			for (auto& script : itr->value.GetObject())
+			for (auto& script : itr->value.GetObject()) // For each script
 			{
-				std::string scriptName = script.name.GetString();
+				std::string scriptName = script.name.GetString(); // Script Name
 
-				//std::cout << "script" << std::endl;
 				addScript(currentEntity, scriptName);
+				std::vector<ScriptValues> allVariableInfo;
 
-				for (auto& variable : script.value.GetObject())
+				for (auto& variable : script.value.GetObject()) // For each variable
 				{
-					std::string variableName = variable.name.GetString();
+					ScriptValues values;
+					values.name = variable.name.GetString();
 					auto variableTypeValue = variable.value.GetObject();
 
-					std::string variableType = variableTypeValue.MemberBegin()->name.GetString();
+					values.type = variableTypeValue.MemberBegin()->name.GetString();
 
-					if (variableType == "Bool")
-					{
-						bool value = variableTypeValue.MemberBegin()->value.GetBool();
-						setBool(currentEntity, scriptName, variableName, value);
-					}
-					else if (variableType == "Int")
-					{
-						int value = variableTypeValue.MemberBegin()->value.GetInt();
-						setInt(currentEntity, scriptName, variableName, value, true);
-					}
-					else if (variableType == "UInt")
-					{
-						int value = variableTypeValue.MemberBegin()->value.GetUint();
-						setInt(currentEntity, scriptName, variableName, value, false);
-					}
-					else if (variableType == "Double")
-					{
-						double value = variableTypeValue.MemberBegin()->value.GetDouble();
-						setDouble(currentEntity, scriptName, variableName, value);
-					}
-					else if (variableType == "Float")
-					{
-						float value = variableTypeValue.MemberBegin()->value.GetDouble();
-						setFloat(currentEntity, scriptName, variableName, value);
-					}
-					else if (variableType == "String")
-					{
-						std::string value = variableTypeValue.MemberBegin()->value.GetString();
-						setString(currentEntity, scriptName, variableName, value);
-					}
-					else if (variableType == "Char")
-					{
-						//std::string value = variableTypeValue.MemberBegin()->value.GetString();
-						//if (value != "")
-						//{
-						//	setChar(currentEntity, scriptName, variableName, value[0]);
-						//}
-					}
-					else if (variableType == "Vector3")
+					if (values.type.find("System") != values.type.npos && values.type.find("[]") == values.type.npos)
+						values.value = variableTypeValue.MemberBegin()->value.GetString();
+					else if (values.type == "ScriptAPI.Vector2")
 					{
 						auto object = variableTypeValue.MemberBegin()->value.GetObj();
-						Vec3 value = Vec3(object["X"].GetFloat(), object["Y"].GetFloat(), object["Z"].GetFloat());
-						setVector3(currentEntity, scriptName, variableName, value);
+						values.vectorValueX = object["X"].GetFloat();
+						values.vectorValueY = object["Y"].GetFloat();
 					}
-					else if (variableType == "GameObject")
+					else if (values.type == "ScriptAPI.Vector3")
 					{
-						EntityID value = variableTypeValue.MemberBegin()->value.GetInt();
-						if (value > 0)
+						auto object = variableTypeValue.MemberBegin()->value.GetObj();
+						values.vectorValueX = object["X"].GetFloat();
+						values.vectorValueY = object["Y"].GetFloat();
+						values.vectorValueZ = object["Z"].GetFloat();
+					}
+					else if (values.type == "ScriptAPI.Vector4" || values.type == "ScriptAPI.Quaternion")
+					{
+						auto object = variableTypeValue.MemberBegin()->value.GetObj();
+						values.vectorValueX = object["X"].GetFloat();
+						values.vectorValueY = object["Y"].GetFloat();
+						values.vectorValueZ = object["Z"].GetFloat();
+						values.vectorValueW = object["W"].GetFloat();
+					}
+					else if (values.type.find("GameObject") != values.type.npos || values.type.find("Component") != values.type.npos) // Other entities & components
+					{
+						values.referenceEntityID = variableTypeValue.MemberBegin()->value.GetUint64();
+					}
+					else if (values.type.find("ScriptAPI") != values.type.npos) // Scripts
+					{
+						values.referenceEntityID = variableTypeValue.MemberBegin()->value.GetUint64();
+						scriptReferences.emplace_back(std::tuple<EntityID, std::string, ScriptValues>(currentEntity, scriptName, values));
+
+						continue; // Set value later
+					}
+					else
+					{
+						std::cout << "Deserialize: Invalid type" << std::endl;
+
+						// Old code, in case there is old files using the old serialization method
+						if (values.type == "Bool")
+							values.value = variableTypeValue.MemberBegin()->value.GetBool() ? "true" : "false";
+						else if (values.type == "Int")
+							values.value = std::to_string(static_cast<int>(variableTypeValue.MemberBegin()->value.GetInt()));
+						else if (values.type == "UInt")
+							values.value = std::to_string(static_cast<uint32_t>(variableTypeValue.MemberBegin()->value.GetUint()));
+						else if (values.type == "Double")
+							values.value = std::to_string(static_cast<double>(variableTypeValue.MemberBegin()->value.GetDouble()));
+						else if (values.type == "Float")
+							values.value = std::to_string(static_cast<double>(variableTypeValue.MemberBegin()->value.GetDouble()));
+						else if (values.type == "String")
+							values.value = variableTypeValue.MemberBegin()->value.GetString();
+						else if (values.type == "Vector3")
 						{
-							setGameObject(currentEntity, scriptName, variableName, value);
+							auto object = variableTypeValue.MemberBegin()->value.GetObj();
+							values.vectorValueX = object["X"].GetFloat();
+							values.vectorValueY = object["Y"].GetFloat();
+							values.vectorValueZ = object["Z"].GetFloat();
 						}
 					}
-					else if (variableType == "Component")
-					{
-						EntityID value = variableTypeValue.MemberBegin()->value.GetInt();
-						if (value > 0)
-						{
-							setComponent(currentEntity, scriptName, variableName, value);
-						}
-					}
-					else if (variableTypeValue.MemberBegin()->value.GetInt() > 0) // scripts (saving to add later)
-					{
-						scriptReferences.emplace_back(ScriptReferenceVariable(currentEntity, scriptName, variableName, variableTypeValue.MemberBegin()->value.GetInt(), variableType));
-					}
+
+					allVariableInfo.emplace_back(values);
+
 				}
+
+				setScriptValues(currentEntity, scriptName, allVariableInfo);
 			}
 		}
-
 		for (auto reference : scriptReferences)
 		{
 			// add in a parameter for isEnabled
-			setScriptReference(reference.entityHoldingScript, reference.scriptName, reference.variableName, reference.entityScriptReference, reference.scriptReference);
+			//setScriptReference(reference.entityHoldingScript, reference.scriptName, reference.variableName, reference.entityScriptReference, reference.scriptReference);
+			setScriptValue(std::get<EntityID>(reference), std::get<std::string>(reference), std::get<ScriptValues>(reference));
 		}
 
+		// Active Archetypes =====================
 		if (obj.FindMember("Active Archetype") != obj.MemberEnd())
 		{
 			for (rapidjson::Value::ConstMemberIterator itr = obj["Active Archetype"].MemberBegin(); itr != obj["Active Archetype"].MemberEnd(); ++itr)
@@ -301,6 +308,8 @@ namespace TDS
 	{
 		writer->StartObject();
 
+
+		// Archetype Sizes =======================
 		// Serialize archetype sizes first
 		writer->String("Archetype Sizes", static_cast<rapidjson::SizeType>(std::string("Archetype Sizes").length()), false);
 
@@ -333,7 +342,7 @@ namespace TDS
 		// End of archetype sizes
 		writer->EndObject();
 
-		// =======================================================
+		// Engine component data =================
 		// Serialize entity data
 		writer->String("Entity Data", static_cast<rapidjson::SizeType>(std::string("Entity Data").length()), false);
 		writer->StartObject();
@@ -370,8 +379,7 @@ namespace TDS
 		// End of entity data
 		writer->EndObject();
 
-		// =======================================================
-		// Start of scripts
+		// Script Component data =================
 		writer->String("Scripts", static_cast<rapidjson::SizeType>(std::string("Scripts").length()), false);
 		writer->StartObject();
 
@@ -381,7 +389,7 @@ namespace TDS
 			writer->String(std::to_string(entityList[i]).c_str(), static_cast<rapidjson::SizeType>(std::to_string(entityList[i]).length()), false);
 			writer->StartObject();
 
-			for (std::string scriptName : allScripts)
+			for (std::string scriptName : getAllScripts())
 			{
 				if (hasScript(entityList[i], scriptName))
 				{
@@ -394,60 +402,26 @@ namespace TDS
 						writer->String(scriptValues.name.c_str(), static_cast<rapidjson::SizeType>(scriptValues.name.length()), false);
 						writer->StartObject();
 
-						if (scriptValues.type == "System.Boolean")
+						writer->String(scriptValues.type.c_str(), static_cast<rapidjson::SizeType>(scriptValues.type.length()), false);
+
+						// Updated
+						if (scriptValues.type.find("System") != scriptValues.type.npos)
 						{
-							writer->String("Bool", static_cast<rapidjson::SizeType>(std::string("Bool").length()), false);
-							scriptValues.value == "False" ? writer->Bool(false) : writer->Bool(true);
-						}
-						else if (scriptValues.type == "System.UInt16"
-							|| scriptValues.type == "System.UInt32"
-							|| scriptValues.type == "System.UInt64")
-						{
-							writer->String("UInt", static_cast<rapidjson::SizeType>(std::string("UInt").length()), false);
-							scriptValues.value == "" ? writer->Uint(0) : writer->Uint(std::stoi(scriptValues.value));
-						}
-						else if (scriptValues.type == "System.Int16"
-							|| scriptValues.type == "System.Int32"
-							|| scriptValues.type == "System.Int64"
-							|| scriptValues.type == "System.Byte"
-							|| scriptValues.type == "System.SByte")
-						{
-							writer->String("Int", static_cast<rapidjson::SizeType>(std::string("Int").length()), false);
-							scriptValues.value == "" ? writer->Int(0) : writer->Int(std::stoi(scriptValues.value));
-						}
-						else if (scriptValues.type == "System.Double")
-						{
-							writer->String("Double", static_cast<rapidjson::SizeType>(std::string("Double").length()), false);
-							scriptValues.value == "" ? writer->Double(0) : writer->Double(std::stod(scriptValues.value));
-						}
-						else if (scriptValues.type == "System.Single")
-						{
-							writer->String("Float", static_cast<rapidjson::SizeType>(std::string("Float").length()), false);
-							scriptValues.value == "" ? writer->Double(0) : writer->Double(std::stod(scriptValues.value));
-						}
-						else if (scriptValues.type == "System.String")
-						{
-							writer->String("String", static_cast<rapidjson::SizeType>(std::string("String").length()), false);
 							writer->String(scriptValues.value.c_str(), static_cast<rapidjson::SizeType>(scriptValues.value.length()), false);
 						}
-						else if (scriptValues.type == "ScriptAPI.GameObject")
+						else if (scriptValues.type == "ScriptAPI.Vector2")
 						{
-							writer->String("GameObject", static_cast<rapidjson::SizeType>(std::string("GameObject").length()), false);
-							writer->Int(scriptValues.referenceEntityID);
-						}
-						else if (scriptValues.type == "Component")
-						{
-							writer->String("Component", static_cast<rapidjson::SizeType>(std::string("Component").length()), false);
-							writer->Int(scriptValues.referenceEntityID);
-						}
-						else if (scriptValues.type == "System.Char")
-						{
-							writer->String("Char", static_cast<rapidjson::SizeType>(std::string("Char").length()), false);
-							writer->String(scriptValues.value.c_str(), static_cast<rapidjson::SizeType>(scriptValues.value.length()), false);
+							writer->StartObject();
+							{
+								writer->String("X", 1, false);
+								writer->Double(scriptValues.vectorValueX);
+								writer->String("Y", 1, false);
+								writer->Double(scriptValues.vectorValueY);
+							}
+							writer->EndObject();
 						}
 						else if (scriptValues.type == "ScriptAPI.Vector3")
 						{
-							writer->String("Vector3", static_cast<rapidjson::SizeType>(std::string("Vector3").length()), false);
 							writer->StartObject();
 							{
 								writer->String("X", 1, false);
@@ -459,12 +433,103 @@ namespace TDS
 							}
 							writer->EndObject();
 						}
-						else // scripts 
+						else if (scriptValues.type == "ScriptAPI.Vector4" || scriptValues.type == "ScriptAPI.Quaternion")
 						{
-							// To Do 
-							writer->String(scriptValues.type.c_str(), static_cast<rapidjson::SizeType>(scriptValues.type.length()), false);
-							writer->Int(scriptValues.referenceEntityID);
+							writer->StartObject();
+							{
+								writer->String("X", 1, false);
+								writer->Double(scriptValues.vectorValueX);
+								writer->String("Y", 1, false);
+								writer->Double(scriptValues.vectorValueY);
+								writer->String("Z", 1, false);
+								writer->Double(scriptValues.vectorValueZ);
+								writer->String("W", 1, false);
+								writer->Double(scriptValues.vectorValueW);
+							}
+							writer->EndObject();
 						}
+						else if (scriptValues.type.find("GameObject") != scriptValues.type.npos	// Game objects 
+							|| scriptValues.type.find("Component") != scriptValues.type.npos	// Components 
+							|| scriptValues.type.find("ScriptAPI") != scriptValues.type.npos)	// Scripts 
+						{
+							writer->Uint64(scriptValues.referenceEntityID);
+						}
+						else
+						{
+							std::cout << "Serialize: Invalid type" << std::endl;
+						}
+
+						//if (scriptValues.type == "System.Boolean")
+						//{
+						//	writer->String("Bool", static_cast<rapidjson::SizeType>(std::string("Bool").length()), false);
+						//	scriptValues.value == "False" ? writer->Bool(false) : writer->Bool(true);
+						//}
+						//else if (scriptValues.type == "System.UInt16"
+						//	|| scriptValues.type == "System.UInt32"
+						//	|| scriptValues.type == "System.UInt64")
+						//{
+						//	writer->String("UInt", static_cast<rapidjson::SizeType>(std::string("UInt").length()), false);
+						//	scriptValues.value == "" ? writer->Uint(0) : writer->Uint(std::stoi(scriptValues.value));
+						//}
+						//else if (scriptValues.type == "System.Int16"
+						//	|| scriptValues.type == "System.Int32"
+						//	|| scriptValues.type == "System.Int64"
+						//	|| scriptValues.type == "System.Byte"
+						//	|| scriptValues.type == "System.SByte")
+						//{
+						//	writer->String("Int", static_cast<rapidjson::SizeType>(std::string("Int").length()), false);
+						//	scriptValues.value == "" ? writer->Int(0) : writer->Int(std::stoi(scriptValues.value));
+						//}
+						//else if (scriptValues.type == "System.Double")
+						//{
+						//	writer->String("Double", static_cast<rapidjson::SizeType>(std::string("Double").length()), false);
+						//	scriptValues.value == "" ? writer->Double(0) : writer->Double(std::stod(scriptValues.value));
+						//}
+						//else if (scriptValues.type == "System.Single")
+						//{
+						//	writer->String("Float", static_cast<rapidjson::SizeType>(std::string("Float").length()), false);
+						//	scriptValues.value == "" ? writer->Double(0) : writer->Double(std::stod(scriptValues.value));
+						//}
+						//else if (scriptValues.type == "System.String")
+						//{
+						//	writer->String("String", static_cast<rapidjson::SizeType>(std::string("String").length()), false);
+						//	writer->String(scriptValues.value.c_str(), static_cast<rapidjson::SizeType>(scriptValues.value.length()), false);
+						//}
+						//else if (scriptValues.type == "ScriptAPI.GameObject")
+						//{
+						//	writer->String("GameObject", static_cast<rapidjson::SizeType>(std::string("GameObject").length()), false);
+						//	writer->Int(scriptValues.referenceEntityID);
+						//}
+						//else if (scriptValues.type == "Component")
+						//{
+						//	writer->String("Component", static_cast<rapidjson::SizeType>(std::string("Component").length()), false);
+						//	writer->Int(scriptValues.referenceEntityID);
+						//}
+						//else if (scriptValues.type == "System.Char")
+						//{
+						//	writer->String("Char", static_cast<rapidjson::SizeType>(std::string("Char").length()), false);
+						//	writer->String(scriptValues.value.c_str(), static_cast<rapidjson::SizeType>(scriptValues.value.length()), false);
+						//}
+						//else if (scriptValues.type == "ScriptAPI.Vector3")
+						//{
+						//	writer->String("Vector3", static_cast<rapidjson::SizeType>(std::string("Vector3").length()), false);
+						//	writer->StartObject();
+						//	{
+						//		writer->String("X", 1, false);
+						//		writer->Double(scriptValues.vectorValueX);
+						//		writer->String("Y", 1, false);
+						//		writer->Double(scriptValues.vectorValueY);
+						//		writer->String("Z", 1, false);
+						//		writer->Double(scriptValues.vectorValueZ);
+						//	}
+						//	writer->EndObject();
+						//}
+						//else // scripts 
+						//{
+						//	// To Do 
+						//	writer->String(scriptValues.type.c_str(), static_cast<rapidjson::SizeType>(scriptValues.type.length()), false);
+						//	writer->Int(scriptValues.referenceEntityID);
+						//}
 						writer->EndObject();
 					}
 
@@ -478,8 +543,7 @@ namespace TDS
 		// End of scripts
 		writer->EndObject();
 
-		// =======================================================
-		// Serialize active archetypes
+		// Active Archetypes =====================
 		writer->String("Active Archetype", static_cast<rapidjson::SizeType>(std::string("Active Archetype").length()), false);
 		writer->StartObject();
 
@@ -569,29 +633,6 @@ namespace TDS
 		return true;
 	}
 
-	/*!*************************************************************************
-	This function finds scripts in project
-	****************************************************************************/
-	void SceneManager::scriptsDeserialize(std::string filepath)
-	{
-		if (filepath == "")
-		{
-			filepath = scriptFilePath;
-		}
-
-		for (auto& directory_entry : std::filesystem::directory_iterator(filepath))
-		{
-			if (directory_entry.path().extension() == ".cs")
-			{
-				allScripts.emplace_back(directory_entry.path().stem().string());
-			}
-			if (directory_entry.is_directory() && directory_entry.path().filename() != "obj" && directory_entry.path().filename() != ".bin")
-			{
-				scriptsDeserialize(directory_entry.path().string());
-			}
-		}
-	}
-
 	bool SceneManager::stringCompare(std::string a, std::string b)
 	{
 		for (int index = 0; index < a.size() && index < b.size(); ++index)
@@ -640,8 +681,11 @@ namespace TDS
 		DeserializeFromFile(filePath + scene + ".json");
 		currentScene = scene;
 		currentSceneSaved = true;
-		start();
-		awake();
+
+		if (isPlaying)
+		{
+			awake();
+		}
 	}
 
 	/*!*************************************************************************

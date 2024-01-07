@@ -5,6 +5,7 @@
 #include "Time.hxx"
 #include "SceneLoader.hxx"
 #include "Screen.hxx"
+#include "Serialization.hxx"
 #include "../GAM300Engine/Include/Timestep/Timestep.h"
 using namespace System;
 using namespace System::Runtime::InteropServices;
@@ -169,11 +170,11 @@ namespace ScriptAPI
                 for each (NameScriptPair ^ script in scripts[i])
                 {
                     SAFE_NATIVE_CALL_BEGIN
-                        //if (!script->Value->getAwakeFlag())
-                        //{
+                        if (!script->Value->getAwakeFlag())
+                        {
                             script->Value->Awake();
                             script->Value->setAwakeFlag();
-                        //}
+                        }
                     SAFE_NATIVE_CALL_END
                 }
             }
@@ -455,7 +456,7 @@ namespace ScriptAPI
         return scripts[entityId][scriptName]->isScriptEnabled();
     }
 
-    std::vector<TDS::ScriptValues> EngineInterface::GetScriptVariablesEditor(TDS::EntityID entityId, std::string script)
+    std::vector<TDS::ScriptValues> EngineInterface::GetVariables(TDS::EntityID entityId, std::string script)
     {
         std::vector<TDS::ScriptValues> scriptValues;
 
@@ -466,7 +467,6 @@ namespace ScriptAPI
 
         // Remove any whitespaces
         auto scriptName = toSystemString(script);
-
         scriptName = scriptName->Trim();
 
         Object^ obj = scripts[entityId][scriptName];
@@ -482,123 +482,28 @@ namespace ScriptAPI
 
         for each (FieldInfo ^ field in fields)
         {
-            if (field->GetCustomAttributes(HeaderAttribute::typeid, true)->Length > 0)
+            TDS::ScriptValues newScriptValue;
+
+            if (field->GetValue(obj) == nullptr || field->Name == "transform")
             {
-                TDS::ScriptValues newScriptValue;
-
-                auto headerName = reinterpret_cast<HeaderAttribute^>(field->GetCustomAttributes(HeaderAttribute::typeid, true)[0]);
-                newScriptValue.headerString = toStdString(headerName->string);
-
-                scriptValues.emplace_back(newScriptValue);
+                continue;
+            }
+            
+            if (field->Name == "is_Enabled" || field->Name == "is_Awake" || field->Name == "is_Start")
+            {
+                continue;
             }
 
-            if ((field->GetCustomAttributes(SerializeFieldAttribute::typeid, true)->Length > 0 || field->IsPublic) && field->GetCustomAttributes(HideInInspectorAttribute::typeid, true)->Length <= 0)
+            if (field->GetCustomAttributes(SerializeFieldAttribute::typeid, true)->Length > 0 || field->IsPublic) // Either SerializedField or public variables
             {
-                if (field->Name == "transform")
-                {
-                    continue;
-                }
-
-                TDS::ScriptValues newScriptValue;
-
-                newScriptValue.name = toStdString(field->Name);
-                newScriptValue.type = toStdString(field->FieldType->ToString());
-
-                if (field->GetValue(obj) != nullptr)
-                {
-                    if (field->FieldType->ToString() == "ScriptAPI.GameObject")
-                    {
-                        newScriptValue.referenceEntityID = safe_cast<GameObject^>(field->GetValue(obj))->GetEntityID();
-                    }
-                    else if (field->FieldType->ToString() == "System.Boolean"
-                        || field->FieldType->ToString() == "System.Int16"
-                        || field->FieldType->ToString() == "System.Int32"
-                        || field->FieldType->ToString() == "System.Int64"
-                        || field->FieldType->ToString() == "System.UInt16"
-                        || field->FieldType->ToString() == "System.UInt32"
-                        || field->FieldType->ToString() == "System.UInt64"
-                        || field->FieldType->ToString() == "System.Byte"
-                        || field->FieldType->ToString() == "System.SByte"
-                        || field->FieldType->ToString() == "System.Double"
-                        || field->FieldType->ToString() == "System.Single"
-                        || field->FieldType->ToString() == "System.Char"
-                        || field->FieldType->ToString() == "System.String")
-                    {
-                        newScriptValue.value = toStdString(field->GetValue(obj)->ToString());
-                    }
-                    else if (field->FieldType->ToString() == "ScriptAPI.Vector3") // Vector3
-                    {
-                        auto value = safe_cast<Vector3^>(field->GetValue(obj));
-                        newScriptValue.vectorValueX = value->X;
-                        newScriptValue.vectorValueY = value->Y;
-                        newScriptValue.vectorValueZ = value->Z;
-                    }
-                    // Components =====================================================================================
-                    else if (field->FieldType->ToString() == "ScriptAPI.BoxColliderComponent")
-                    {
-                        newScriptValue.type = "Box Collider";
-                        newScriptValue.referenceEntityID = safe_cast<BoxColliderComponent^>(field->GetValue(obj))->GetEntityID();
-                    }
-                    else if (field->FieldType->ToString() == "ScriptAPI.CameraComponent")
-                    {
-                        newScriptValue.type = "Camera";
-                        newScriptValue.referenceEntityID = safe_cast<CameraComponent^>(field->GetValue(obj))->GetEntityID();
-                    }
-                    else if (field->FieldType->ToString() == "ScriptAPI.CapsuleColliderComponent")
-                    {
-                        newScriptValue.type = "Capsule Collider";
-                        newScriptValue.referenceEntityID = safe_cast<CapsuleColliderComponent^>(field->GetValue(obj))->GetEntityID();
-                    }
-                    else if (field->FieldType->ToString() == "ScriptAPI.NameTagComponent")
-                    {
-                        newScriptValue.type = "Name Tag";
-                        newScriptValue.referenceEntityID = safe_cast<NameTagComponent^>(field->GetValue(obj))->GetEntityID();
-                    }
-                    else if (field->FieldType->ToString() == "ScriptAPI.RigidBodyComponent")
-                    {
-                        newScriptValue.type = "Rigid Body";
-                        newScriptValue.referenceEntityID = safe_cast<RigidBodyComponent^>(field->GetValue(obj))->GetEntityID();
-                    }
-                    else if (field->FieldType->ToString() == "ScriptAPI.SphereColliderComponent")
-                    {
-                        newScriptValue.type = "Sphere Collider";
-                        newScriptValue.referenceEntityID = safe_cast<SphereColliderComponent^>(field->GetValue(obj))->GetEntityID();
-                    }
-                    else if (field->FieldType->ToString() == "ScriptAPI.TransformComponent")
-                    {
-                        newScriptValue.type = "Transform";
-                        newScriptValue.referenceEntityID = safe_cast<TransformComponent^>(field->GetValue(obj))->GetEntityID();
-                    }
-                    else if (field->FieldType->ToString() == "ScriptAPI.UISpriteComponent")
-                    {
-                        newScriptValue.type = "UI Sprite";
-                        newScriptValue.referenceEntityID = safe_cast<UISpriteComponent^>(field->GetValue(obj))->GetEntityID();
-                    }
-                    else if (field->FieldType->ToString() == "ScriptAPI.GraphicComponent")
-                    {
-                        newScriptValue.type = "Graphics Component";
-                        newScriptValue.referenceEntityID = safe_cast<GraphicComponent^>(field->GetValue(obj))->GetEntityID();
-                    }
-                    else if (field->FieldType->ToString() == "ScriptAPI.AudioComponent")
-                    {
-                        newScriptValue.type = "Audio";
-                        newScriptValue.referenceEntityID = safe_cast<AudioComponent^>(field->GetValue(obj))->GetEntityID();
-                    }
-                    // Script =========================================================================================
-                    else if (field->FieldType->ToString()->Contains("ScriptAPI"))
-                    {
-                        newScriptValue.referenceEntityID = safe_cast<Script^>(field->GetValue(obj))->gameObject->GetEntityID();
-                    }
-                }
-
+                newScriptValue = Serialization::GetValue(obj, field);
                 scriptValues.emplace_back(newScriptValue);
             }
         }
 
         return scriptValues;
     }
-
-    std::vector<TDS::ScriptValues> EngineInterface::GetScriptVariables(TDS::EntityID entityId, std::string script)
+    std::vector<TDS::ScriptValues> EngineInterface::GetVariablesEditor(TDS::EntityID entityId, std::string script)
     {
         std::vector<TDS::ScriptValues> scriptValues;
 
@@ -609,7 +514,6 @@ namespace ScriptAPI
 
         // Remove any whitespaces
         auto scriptName = toSystemString(script);
-
         scriptName = scriptName->Trim();
 
         Object^ obj = scripts[entityId][scriptName];
@@ -623,353 +527,42 @@ namespace ScriptAPI
         Type^ type = obj->GetType();
         array<FieldInfo^>^ fields = type->GetFields(BindingFlags::Public | BindingFlags::Instance | BindingFlags::NonPublic);
 
-        for each (FieldInfo ^ field in fields) 
+        for each (FieldInfo ^ field in fields)
         {
             TDS::ScriptValues newScriptValue;
 
-            newScriptValue.name = toStdString(field->Name);
-            newScriptValue.type = toStdString(field->FieldType->ToString());
-
-            if (field->GetValue(obj) != nullptr)
+            if (field->GetCustomAttributes(HeaderAttribute::typeid, true)->Length > 0)
             {
-                if (field->Name == "transform")
-                {
-                    continue;
-                }
+                auto headerName = reinterpret_cast<HeaderAttribute^>(field->GetCustomAttributes(HeaderAttribute::typeid, true)[0]);
+                newScriptValue.headerString = toStdString(headerName->string);
 
-                if (field->FieldType->ToString() == "ScriptAPI.GameObject")
-                {
-                    newScriptValue.referenceEntityID = safe_cast<GameObject^>(field->GetValue(obj))->GetEntityID();
-                }
-                else if (field->FieldType->ToString() == "System.Boolean"
-                    || field->FieldType->ToString() == "System.Int16"
-                    || field->FieldType->ToString() == "System.Int32"
-                    || field->FieldType->ToString() == "System.Int64"
-                    || field->FieldType->ToString() == "System.UInt16"
-                    || field->FieldType->ToString() == "System.UInt32"
-                    || field->FieldType->ToString() == "System.UInt64"
-                    || field->FieldType->ToString() == "System.Byte"
-                    || field->FieldType->ToString() == "System.SByte"
-                    || field->FieldType->ToString() == "System.Double"
-                    || field->FieldType->ToString() == "System.Single"
-                    || field->FieldType->ToString() == "System.Char"
-                    || field->FieldType->ToString() == "System.String")
-                {
-                    newScriptValue.value = toStdString(field->GetValue(obj)->ToString());
-                }
-                else if (field->FieldType->ToString() == "ScriptAPI.Vector3") // Vector3
-                {
-                    auto value = safe_cast<Vector3^>(field->GetValue(obj));
-                    newScriptValue.vectorValueX = value->X;
-                    newScriptValue.vectorValueY = value->Y;
-                    newScriptValue.vectorValueZ = value->Z;
-                }
-                // Components =====================================================================================
-                else if (field->FieldType->ToString() == "ScriptAPI.BoxColliderComponent")
-                {
-                    newScriptValue.type = "Component";
-                    newScriptValue.referenceEntityID = safe_cast<BoxColliderComponent^>(field->GetValue(obj))->GetEntityID();
-                }
-                else if (field->FieldType->ToString() == "ScriptAPI.CameraComponent")
-                {
-                    newScriptValue.type = "Component";
-                    newScriptValue.referenceEntityID = safe_cast<CameraComponent^>(field->GetValue(obj))->GetEntityID();
-                }
-                else if (field->FieldType->ToString() == "ScriptAPI.CapsuleColliderComponent")
-                {
-                    newScriptValue.type = "Component";
-                    newScriptValue.referenceEntityID = safe_cast<CapsuleColliderComponent^>(field->GetValue(obj))->GetEntityID();
-                }
-                else if (field->FieldType->ToString() == "ScriptAPI.NameTagComponent")
-                {
-                    newScriptValue.type = "Component";
-                    newScriptValue.referenceEntityID = safe_cast<NameTagComponent^>(field->GetValue(obj))->GetEntityID();
-                }
-                else if (field->FieldType->ToString() == "ScriptAPI.RigidBodyComponent")
-                {
-                    newScriptValue.type = "Component";
-                    newScriptValue.referenceEntityID = safe_cast<RigidBodyComponent^>(field->GetValue(obj))->GetEntityID();
-                }
-                else if (field->FieldType->ToString() == "ScriptAPI.SphereColliderComponent")
-                {
-                    newScriptValue.type = "Component";
-                    newScriptValue.referenceEntityID = safe_cast<SphereColliderComponent^>(field->GetValue(obj))->GetEntityID();
-                }
-                else if (field->FieldType->ToString() == "ScriptAPI.TransformComponent")
-                {
-                    newScriptValue.type = "Component";
-                    newScriptValue.referenceEntityID = safe_cast<TransformComponent^>(field->GetValue(obj))->GetEntityID();
-                }
-                else if (field->FieldType->ToString() == "ScriptAPI.UISpriteComponent")
-                {
-                    newScriptValue.type = "Component";
-                    newScriptValue.referenceEntityID = safe_cast<UISpriteComponent^>(field->GetValue(obj))->GetEntityID();
-                }
-                else if (field->FieldType->ToString() == "ScriptAPI.GraphicComponent")
-                {
-                    newScriptValue.type = "Component";
-                    newScriptValue.referenceEntityID = safe_cast<GraphicComponent^>(field->GetValue(obj))->GetEntityID();
-                }
-                else if (field->FieldType->ToString() == "ScriptAPI.AudioComponent")
-                {
-                    newScriptValue.type = "Component";
-                    newScriptValue.referenceEntityID = safe_cast<AudioComponent^>(field->GetValue(obj))->GetEntityID();
-                }
-                else if (field->FieldType->ToString()->Contains("ScriptAPI")) // Script
-                {
-                    newScriptValue.referenceEntityID = safe_cast<Script^>(field->GetValue(obj))->gameObject->GetEntityID();
-                }
+                scriptValues.emplace_back(newScriptValue);
             }
 
-            scriptValues.emplace_back(newScriptValue);
+            if (field->GetValue(obj) == nullptr || field->Name == "transform")
+            {
+                continue;
+            }
+
+            if (field->Name == "is_Enabled" || field->Name == "is_Awake" || field->Name == "is_Start")
+            {
+                continue;
+            }
+
+            if ((field->GetCustomAttributes(SerializeFieldAttribute::typeid, true)->Length > 0 || field->IsPublic) && 
+                field->GetCustomAttributes(HideInInspectorAttribute::typeid, true)->Length <= 0) // Either SerializedField or public variables, but not HideInInspector
+            {
+                newScriptValue = Serialization::GetValue(obj, field);
+                scriptValues.emplace_back(newScriptValue);
+            }
         }
 
         return scriptValues;
     }
 
-    void EngineInterface::SetValueBool(TDS::EntityID entityId, std::string script, std::string variableName, bool value)
+    void EngineInterface::SetVariable(TDS::EntityID entityId, std::string script, TDS::ScriptValues variableInfo)
     {
-        String^ variable = toSystemString(variableName);
-
-        Object^ currentObject = scripts[entityId][toSystemString(script)];
-
-        if (currentObject == nullptr)
-        {
-            return;
-        }
-
-        array<FieldInfo^>^ currentFieldArray = currentObject->GetType()->GetFields(BindingFlags::Public | BindingFlags::Instance | BindingFlags::NonPublic);
-
-        if (currentFieldArray == nullptr)
-        {
-            return;
-        }
-
-        for each (FieldInfo^ field in currentFieldArray)
-        {
-            if (field->Name == variable)
-            {
-                field->SetValue(currentObject, value);
-                return;
-            }
-        }
-    }
-
-    void EngineInterface::SetValueInt(TDS::EntityID entityId, std::string script, std::string variableName, int value, bool isInt)
-    {
-        String^ variable = toSystemString(variableName);
-
-        Object^ currentObject = scripts[entityId][toSystemString(script)];
-
-        if (currentObject == nullptr)
-        {
-            return;
-        }
-
-        array<FieldInfo^>^ currentFieldArray = currentObject->GetType()->GetFields(BindingFlags::Public | BindingFlags::Instance | BindingFlags::NonPublic);
-
-        if (currentFieldArray == nullptr)
-        {
-            return;
-        }
-
-        for each (FieldInfo^ field in currentFieldArray)
-        {
-            if (field->Name == variable)
-            {
-                if (!isInt)
-                {
-                    field->SetValue(currentObject, (uint32_t)value);
-                }
-                else
-                {
-                    field->SetValue(currentObject, value);
-                }
-                return;
-            }
-        }
-    }
-
-    void EngineInterface::SetValueDouble(TDS::EntityID entityId, std::string script, std::string variableName, double value)
-    {
-        String^ variable = toSystemString(variableName);
-
-        Object^ currentObject = scripts[entityId][toSystemString(script)];
-
-        if (currentObject == nullptr)
-        {
-            return;
-        }
-
-        array<FieldInfo^>^ currentFieldArray = currentObject->GetType()->GetFields(BindingFlags::Public | BindingFlags::Instance | BindingFlags::NonPublic);
-
-        if (currentFieldArray == nullptr)
-        {
-            return;
-        }
-
-        for each (FieldInfo^ field in currentFieldArray)
-        {
-            if (field->Name == variable)
-            {
-                field->SetValue(currentObject, value);
-                return;
-            }
-        }
-    }
-
-    void EngineInterface::SetValueFloat(TDS::EntityID entityId, std::string script, std::string variableName, float value)
-    {
-        String^ variable = toSystemString(variableName);
-
-        Object^ currentObject = scripts[entityId][toSystemString(script)];
-
-        if (currentObject == nullptr)
-        {
-            return;
-        }
-
-        array<FieldInfo^>^ currentFieldArray = currentObject->GetType()->GetFields(BindingFlags::Public | BindingFlags::Instance | BindingFlags::NonPublic);
-
-        if (currentFieldArray == nullptr)
-        {
-            return;
-        }
-
-        for each (FieldInfo^ field in currentFieldArray)
-        {
-            if (field->Name == variable)
-            {
-                field->SetValue(currentObject, value);
-                return;
-            }
-        }
-    }
-
-    void EngineInterface::SetValueString(TDS::EntityID entityId, std::string script, std::string variableName, std::string value)
-    {
-        String^ variable = toSystemString(variableName);
-
-        Object^ currentObject = scripts[entityId][toSystemString(script)];
-
-        if (currentObject == nullptr)
-        {
-            return;
-        }
-
-        array<FieldInfo^>^ currentFieldArray = currentObject->GetType()->GetFields(BindingFlags::Public | BindingFlags::Instance | BindingFlags::NonPublic);
-
-        if (currentFieldArray == nullptr)
-        {
-            return;
-        }
-
-        for each (FieldInfo^ field in currentFieldArray)
-        {
-            if (field->Name == variable)
-            {
-                field->SetValue(currentObject, toSystemString(value));
-                return;
-            }
-        }
-    }
-
-    //void EngineInterface::SetValueChar(TDS::EntityID entityId, std::string script, std::string variableName, char value)
-    //{
-    //    String^ variable = toSystemString(variableName);
-
-    //    Object^ currentObject = scripts[entityId][toSystemString(script)];
-
-    //    if (currentObject == nullptr)
-    //    {
-    //        return;
-    //    }
-
-    //    array<FieldInfo^>^ currentFieldArray = currentObject->GetType()->GetFields(BindingFlags::Public | BindingFlags::Instance | BindingFlags::NonPublic);
-
-    //    if (currentFieldArray == nullptr)
-    //    {
-    //        return;
-    //    }
-
-    //    for each (FieldInfo^ field in currentFieldArray)
-    //    {
-    //        if (field->Name == variable)
-    //        {
-    //            if (value == '\0')
-    //            {
-    //                value = 'a';
-    //            }
-    //            System::Console::WriteLine(value);
-    //            field->SetValue(currentObject, value);
-    //            System::Console::WriteLine(value);
-    //            return;
-    //        }
-    //    }
-    //}
-
-    void EngineInterface::SetVector3(TDS::EntityID entityId, std::string script, std::string variableName, TDS::Vec3 value)
-    {
-        String^ variable = toSystemString(variableName);
-
-        Object^ currentObject = scripts[entityId][toSystemString(script)];
-
-        if (currentObject == nullptr)
-        {
-            return;
-        }
-
-        array<FieldInfo^>^ currentFieldArray = currentObject->GetType()->GetFields(BindingFlags::Public | BindingFlags::Instance | BindingFlags::NonPublic);
-
-        if (currentFieldArray == nullptr)
-        {
-            return;
-        }
-
-        for each (FieldInfo^ field in currentFieldArray)
-        {
-            if (field->Name == variable)
-            {
-                Vector3 newValue(value);
-                field->SetValue(currentObject, newValue);
-                return;
-            }
-        }
-    }
-
-    void EngineInterface::SetGameObject(TDS::EntityID entityId, std::string script, std::string variableName, TDS::EntityID gameObjectEntityID)
-    {
-        String^ variable = toSystemString(variableName);
-
-        Object^ currentObject = scripts[entityId][toSystemString(script)];
-
-        if (currentObject == nullptr)
-        {
-            return;
-        }
-
-        array<FieldInfo^>^ currentFieldArray = currentObject->GetType()->GetFields(BindingFlags::Public | BindingFlags::Instance | BindingFlags::NonPublic);
-
-        if (currentFieldArray == nullptr)
-        {
-            return;
-        }
-
-        for each (FieldInfo^ field in currentFieldArray)
-        {
-            if (field->Name == variable)
-            {
-                field->SetValue(currentObject, (gameObjectEntityID > 0 ? gameObjectList[gameObjectEntityID]->Item2 : nullptr));
-                return;
-            }
-        }
-    }
-
-    void EngineInterface::SetComponent(TDS::EntityID entityId, std::string script, std::string variableName, TDS::EntityID gameObjectEntityID)
-    {
-        String^ variable = toSystemString(variableName);
-
-        Object^ currentObject = scripts[entityId][toSystemString(script)];
+        System::Object^ currentObject = scripts[entityId][toSystemString(script)];
 
         if (currentObject == nullptr)
         {
@@ -985,21 +578,20 @@ namespace ScriptAPI
 
         for each (FieldInfo ^ field in currentFieldArray)
         {
-            if (field->Name == variable)
+            if (field->Name == toSystemString(variableInfo.name))
             {
-                auto component = static_cast<ComponentBase^>(field->GetValue(currentObject));
-                component->SetEntityID(gameObjectEntityID);
-                field->SetValue(currentObject, component);
+                if (field->Name != "is_Enabled" && field->Name != "is_Awake" && field->Name != "is_Start")
+                {
+                    Serialization::SetValue(currentObject, field, variableInfo);
+                }
+
                 return;
             }
         }
     }
-
-    void EngineInterface::SetScript(TDS::EntityID entityId, std::string script, std::string variableName, TDS::EntityID gameObjectEntityID, std::string scriptReference)
+    void EngineInterface::SetVariables(TDS::EntityID entityId, std::string script, std::vector<TDS::ScriptValues>& allVariableInfo)
     {
-        String^ variable = toSystemString(variableName);
-
-        Object^ currentObject = scripts[entityId][toSystemString(script)];
+        System::Object^ currentObject = scripts[entityId][toSystemString(script)];
 
         if (currentObject == nullptr)
         {
@@ -1010,18 +602,35 @@ namespace ScriptAPI
 
         if (currentFieldArray == nullptr)
         {
-            Console::WriteLine("right...");
             return;
         }
 
-        for each (FieldInfo^ field in currentFieldArray)
+        int currentVariableIndex = 0;
+        for each (FieldInfo ^ field in currentFieldArray)
         {
-            if (field->Name == variable)
+            if (field->Name == toSystemString(allVariableInfo[currentVariableIndex].name))
             {
-                field->SetValue(currentObject, (gameObjectEntityID > 0 ? scripts[gameObjectEntityID][toSystemString(scriptReference)] : nullptr));
-                return;
+                if (field->Name != "is_Enabled" && field->Name != "is_Awake" && field->Name != "is_Start")
+                {
+                    Serialization::SetValue(currentObject, field, allVariableInfo[currentVariableIndex]);
+                }
+
+                ++currentVariableIndex;
+                if (currentVariableIndex == allVariableInfo.size())
+                {
+                    return;
+                }
             }
         }
+    }
+
+    GameObject^ EngineInterface::GetGameObject(TDS::EntityID entityId)
+    {
+        return (entityId > 0 ? gameObjectList[entityId]->Item2 : nullptr);
+    }
+    Script^ EngineInterface::GetScriptReference(TDS::EntityID entityId, System::String^ script)
+    {
+        return (entityId > 0 ? scripts[entityId][script] : nullptr);
     }
 
     void EngineInterface::RemoveEntity(TDS::EntityID entityId)
@@ -1095,12 +704,6 @@ namespace ScriptAPI
         return scripts;
     }
 
-    Object^ EngineInterface::GetScriptByEntityID(TDS::EntityID entityID, System::String^ scriptName)
-    {
-        Object^ currentObject = scripts[entityID][scriptName];
-        return currentObject;
-    }
-
     // To do
     GameObject^ FindGameObjectViaName(System::String^ name)
     {
@@ -1130,4 +733,87 @@ namespace ScriptAPI
 
         // return list;
     // }
+
+
+    /*!*************************************************************************
+    * Calls all script OnTriggerEnter function
+    ***************************************************************************/
+    void EngineInterface::ExecuteOnTriggerEnter(TDS::EntityID trigger, TDS::EntityID collider)
+    {
+        ColliderComponent^ colliderComponent;
+
+        if (TDS::GetBoxCollider(collider))
+        {
+            colliderComponent = gcnew BoxColliderComponent(collider);
+        }
+        else if (TDS::GetCapsuleCollider(collider))
+        {
+            colliderComponent = gcnew CapsuleColliderComponent(collider);
+        }
+        else if (TDS::GetSphereCollider(collider))
+        {
+            colliderComponent = gcnew SphereColliderComponent(collider);
+        }
+
+        for each (NameScriptPair ^ script in scripts[trigger])
+        {
+            SAFE_NATIVE_CALL_BEGIN
+                script->Value->OnTriggerEnter(colliderComponent);
+            SAFE_NATIVE_CALL_END
+        }
+    }
+    /*!*************************************************************************
+    * Calls all script OnTriggerEnter function
+    ***************************************************************************/
+    void EngineInterface::ExecuteOnTriggerStay(TDS::EntityID trigger, TDS::EntityID collider)
+    {
+        ColliderComponent^ colliderComponent;
+
+        if (TDS::GetBoxCollider(collider))
+        {
+            colliderComponent = gcnew BoxColliderComponent(collider);
+        }
+        else if (TDS::GetCapsuleCollider(collider))
+        {
+            colliderComponent = gcnew CapsuleColliderComponent(collider);
+        }
+        else if (TDS::GetSphereCollider(collider))
+        {
+            colliderComponent = gcnew SphereColliderComponent(collider);
+        }
+
+        for each (NameScriptPair ^ script in scripts[trigger])
+        {
+            SAFE_NATIVE_CALL_BEGIN
+                script->Value->OnTriggerStay(colliderComponent);
+            SAFE_NATIVE_CALL_END
+        }
+    }
+    /*!*************************************************************************
+    * Calls all script OnTriggerEnter function
+    ***************************************************************************/
+    void EngineInterface::ExecuteOnTriggerExit(TDS::EntityID trigger, TDS::EntityID collider)
+    {
+        ColliderComponent^ colliderComponent;
+
+        if (TDS::GetBoxCollider(collider))
+        {
+            colliderComponent = gcnew BoxColliderComponent(collider);
+        }
+        else if (TDS::GetCapsuleCollider(collider))
+        {
+            colliderComponent = gcnew CapsuleColliderComponent(collider);
+        }
+        else if (TDS::GetSphereCollider(collider))
+        {
+            colliderComponent = gcnew SphereColliderComponent(collider);
+        }
+
+        for each (NameScriptPair ^ script in scripts[trigger])
+        {
+            SAFE_NATIVE_CALL_BEGIN
+                script->Value->OnTriggerExit(colliderComponent);
+            SAFE_NATIVE_CALL_END
+        }
+    }
 }

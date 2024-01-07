@@ -39,6 +39,8 @@ bool startPlaying = false;
 
 namespace TDS
 {
+    bool SceneManager::isPlaying;
+
     Application::Application(HINSTANCE hinstance, int& nCmdShow, const wchar_t* classname, WNDPROC wndproc)
         :m_window(hinstance, nCmdShow, classname)
     {
@@ -79,6 +81,9 @@ namespace TDS
         case WM_MBUTTONDOWN:
         case WM_MBUTTONUP:
         case WM_XBUTTONDOWN:
+        {
+            Input::processMouseInput(wParam, lParam);
+        }break;
         case WM_XBUTTONUP:
         {
             Input::processMouseInput(wParam, lParam);
@@ -109,15 +114,20 @@ namespace TDS
 
             bool wasDown = (lParam & (1 << 30)) != 0;
             bool isDown = (static_cast<unsigned int>(lParam) & (1 << 31)) == 0;
-            Input::processKeyboardInput(VKcode, wasDown, isDown);
+            bool isPressed = 1;
+            bool isReleased = 0;
+
+            Input::processKeyboardInput(VKcode, isPressed, isReleased);
         }break;
         case WM_KEYUP:
         {
             uint32_t VKcode = static_cast<uint32_t>(wParam);
             bool wasDown = (lParam & (1 << 30)) != 0;
             bool isDown = (static_cast<unsigned int>(lParam) & (1 << 31)) == 0;
+            bool isPressed = 0;
+            bool isReleased = 1;
 
-            Input::processKeyboardInput(VKcode, wasDown, isDown);
+            Input::processKeyboardInput(VKcode, isPressed, isReleased);
             Input::keystatus = Input::KeyStatus::RELEASED;
             Input::keystatus = Input::KeyStatus::IDLE;
         }break;
@@ -237,9 +247,11 @@ namespace TDS
             {
                 if (startPlaying)
                 {
+                    SceneManager::GetInstance()->isPlaying = true;
                     SceneManager::GetInstance()->loadScene(SceneManager::GetInstance()->getCurrentScene());
                     startPlaying = false;
                 }
+                SceneManager::GetInstance()->start();
                 executeFixedUpdate();
                 ecs.runSystems(1, DeltaTime); // Other systems
                 executeUpdate();
@@ -248,6 +260,7 @@ namespace TDS
             else
             {
                 startPlaying = true;
+                SceneManager::GetInstance()->isPlaying = false;
                 if (PhysicsSystem::GetIsPlaying() || CameraSystem::GetIsPlaying()) // consider moving it to another seperate system (EditorApp?)
                 {
                     PhysicsSystem::SetIsPlaying(false);
@@ -280,7 +293,8 @@ namespace TDS
             }
 
             Input::scrollStop();
-            
+            Input::InputUpdateLoop();
+            Input::InputUpdateMouseLoop();
         }
         stopScriptEngine();
       
@@ -345,14 +359,14 @@ namespace TDS
             (
                 "ScriptAPI",
                 "ScriptAPI.EngineInterface",
-                "GetScriptVariablesEditor"
+                "GetVariablesEditor"
             );
 
         SceneManager::GetInstance()->getScriptVariables = GetFunctionPtr<std::vector<ScriptValues>(*)(EntityID, std::string)>
             (
                 "ScriptAPI",
                 "ScriptAPI.EngineInterface",
-                "GetScriptVariables"
+                "GetVariables"
             );
 
         SceneManager::GetInstance()->hasScript = GetFunctionPtr<bool(*)(EntityID, std::string)>
@@ -383,6 +397,7 @@ namespace TDS
                 "RemoveEntity"
             );
 
+        /*
         SceneManager::GetInstance()->setBool = GetFunctionPtr<void(*)(EntityID, std::string, std::string, bool)>
             (
                 "ScriptAPI",
@@ -452,6 +467,21 @@ namespace TDS
                 "ScriptAPI.EngineInterface",
                 "SetScript"
             );
+        */
+
+        SceneManager::GetInstance()->setScriptValue = GetFunctionPtr<void(*)(EntityID, std::string, ScriptValues)>
+            (
+                "ScriptAPI",
+                "ScriptAPI.EngineInterface",
+                "SetVariable"
+            );
+
+        SceneManager::GetInstance()->setScriptValues = GetFunctionPtr<void(*)(EntityID, std::string, std::vector<ScriptValues>&)>
+            (
+                "ScriptAPI",
+                "ScriptAPI.EngineInterface",
+                "SetVariables"
+            );
 
         SceneManager::GetInstance()->updateName = GetFunctionPtr<bool(*)(EntityID, std::string)>
             (
@@ -479,6 +509,27 @@ namespace TDS
                 "ScriptAPI",
                 "ScriptAPI.EngineInterface",
                 "ExecuteStart"
+            );
+
+        PhysicsSystem::OnTriggerEnter = GetFunctionPtr<void(*)(EntityID, EntityID)>
+            (
+                "ScriptAPI",
+                "ScriptAPI.EngineInterface",
+                "ExecuteOnTriggerEnter"
+            );
+
+        PhysicsSystem::OnTriggerStay = GetFunctionPtr<void(*)(EntityID, EntityID)>
+            (
+                "ScriptAPI",
+                "ScriptAPI.EngineInterface",
+                "ExecuteOnTriggerStay"
+            );
+
+        PhysicsSystem::OnTriggerExit = GetFunctionPtr<void(*)(EntityID, EntityID)>
+            (
+                "ScriptAPI",
+                "ScriptAPI.EngineInterface",
+                "ExecuteOnTriggerExit"
             );
 
 

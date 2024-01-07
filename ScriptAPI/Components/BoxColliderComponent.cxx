@@ -1,4 +1,6 @@
 #include "BoxColliderComponent.hxx"
+#include "../GameObject.hxx"
+#include "../EngineInterface.hxx"
 
 namespace ScriptAPI
 {
@@ -143,12 +145,15 @@ namespace ScriptAPI
 
 	// CONSTRUCTOR ===========================================================================
 	BoxColliderComponent::BoxColliderComponent(TDS::EntityID ID) : entityID(ID), transform(TransformComponent(ID))
-	{ }
+	{
+		gameObject = EngineInterface::GetGameObject(ID);
+	}
 
 	void BoxColliderComponent::SetEntityID(TDS::EntityID ID)
 	{
 		entityID = ID;
 		transform = TransformComponent(ID);
+		gameObject = EngineInterface::GetGameObject(ID);
 	}
 
 	TDS::EntityID BoxColliderComponent::GetEntityID()

@@ -19,17 +19,6 @@ namespace ScriptAPI
         generic <typename T>
         T GetComponent();
 
-        BoxColliderComponent GetBoxColliderComponent();
-        CameraComponent GetCameraComponent();
-        CapsuleColliderComponent GetCapsuleColliderComponent();
-        NameTagComponent GetNameTagComponent();
-        RigidBodyComponent GetRigidBodyComponent();
-        SphereColliderComponent GetSphereColliderComponent();
-        TransformComponent GetTransformComponent();
-        UISpriteComponent GetUISpriteComponent();
-        AudioComponent GetAudioComponent();
-        GraphicComponent GetGraphicComponent();
-
         bool activeInHierarchy(TDS::EntityID entityID);
         void SetActive(TDS::EntityID entityID, bool status);
 
@@ -38,6 +27,8 @@ namespace ScriptAPI
         TransformComponent transform;
 
     internal:
+        GameObject() { }
+        GameObject(TDS::EntityID ID);
         void SetEntityID(TDS::EntityID ID);
     private:
 

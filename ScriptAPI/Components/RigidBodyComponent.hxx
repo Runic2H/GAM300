@@ -50,6 +50,7 @@ namespace ScriptAPI
 		void SetGravityFactor(float inGravityFactor);
 		float GetGravityFactor();
 
+		virtual TDS::EntityID GetEntityID();
 		virtual void SetEntityID(TDS::EntityID ID);
 
 		TransformComponent transform;
@@ -59,7 +60,6 @@ namespace ScriptAPI
 
 	internal:
 		RigidBodyComponent(TDS::EntityID ID);
-		TDS::EntityID GetEntityID();
 
 	private:
 		TDS::EntityID entityID;

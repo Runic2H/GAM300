@@ -137,6 +137,7 @@
     <ClInclude Include="Components\BoxColliderComponent.hxx" />
     <ClInclude Include="Components\CameraComponent.hxx" />
     <ClInclude Include="Components\CapsuleColliderComponent.hxx" />
+    <ClInclude Include="Components\ColliderComponent.hxx" />
     <ClInclude Include="Components\ComponentBase.hxx" />
     <ClInclude Include="Components\GraphicComponent.hxx" />
     <ClInclude Include="Components\NameTagComponent.hxx" />
@@ -160,6 +161,7 @@
     <ClInclude Include="Screen.hxx" />
     <ClInclude Include="SceneLoader.hxx" />
     <ClInclude Include="Script.hxx" />
+    <ClInclude Include="Serialization.hxx" />
     <ClInclude Include="TypeConversion.hxx" />
     <ClInclude Include="UIPopUp.hxx" />
     <ClInclude Include="Vector2.hxx" />
@@ -172,6 +174,7 @@
     <ClCompile Include="Components\BoxColliderComponent.cxx" />
     <ClCompile Include="Components\CameraComponent.cxx" />
     <ClCompile Include="Components\CapsuleColliderComponent.cxx" />
+    <ClCompile Include="Components\ColliderComponent.cxx" />
     <ClCompile Include="Components\GraphicComponent.cxx" />
     <ClCompile Include="Components\NameTagComponent.cxx" />
     <ClCompile Include="Components\RigidBodyComponent.cxx" />
@@ -190,6 +193,7 @@
     <ClCompile Include="Screen.cxx" />
     <ClCompile Include="SceneLoader.cxx" />
     <ClCompile Include="Script.cxx" />
+    <ClCompile Include="Serialization.cxx" />
     <ClCompile Include="Time.hxx" />
     <ClCompile Include="TypeConversion.cxx" />
     <ClCompile Include="UIPopUp.cxx" />

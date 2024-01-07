@@ -90,7 +90,7 @@ public class GhostMovement : Script
     {
 
         isChasingPlayer = !isPatrol;//can only be one or another
-        if (gameObject.GetSphereColliderComponent().GetIsTrigger())
+        if (gameObject.GetComponent<SphereColliderComponent>().GetIsTrigger())
         {
             isPatrol = false;
         }

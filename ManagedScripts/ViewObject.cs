@@ -146,7 +146,7 @@ public class ViewObject : Script
     {
         for (int x = 0; x < viewableObjTransforms.Length; x++)
         {
-            if(examineObject == viewableObjTransforms[x].gameObject.GetNameTagComponent().GetName())
+            if(examineObject == viewableObjTransforms[x].gameObject.GetComponent<NameTagComponent>().GetName())
             {
                 target = viewableObjTransforms[x];
                 target.gameObject.SetActive(target.gameObject.GetEntityID(), true);
@@ -159,7 +159,7 @@ public class ViewObject : Script
     {
         for (int x = 0; x < _Inventory.noteObjsInInventory.Count; x++)
         {
-            if(_Inventory.noteObjsInInventory[x] == target.gameObject.GetNameTagComponent().GetName())
+            if(_Inventory.noteObjsInInventory[x] == target.gameObject.GetComponent<NameTagComponent>().GetName())
             {
                 gameObject.GetComponent<FPS_Controller_Script>().playerCanMove = true;
                 gameObject.GetComponent<FPS_Controller_Script>().cameraCanMove = true;
@@ -176,7 +176,7 @@ public class ViewObject : Script
 
             else if(_Inventory.noteObjsInInventory[x] == "")
             {
-                if(target.gameObject.GetNameTagComponent().GetName() == "Reciept")
+                if(target.gameObject.GetComponent<NameTagComponent>().GetName() == "Reciept")
                 {
             //        if (!playedAudio)
             //        {
@@ -213,7 +213,7 @@ public class ViewObject : Script
                 {
                     //subtitles.enabled = false;
                     //added.enabled = true;
-                    _Inventory.noteObjsInInventory[x] = target.gameObject.GetNameTagComponent().GetName();
+                    _Inventory.noteObjsInInventory[x] = target.gameObject.GetComponent<NameTagComponent>().GetName();
                     gameObject.GetComponent<FPS_Controller_Script>().playerCanMove = true;
                     gameObject.GetComponent<FPS_Controller_Script>().cameraCanMove = true;
                     examineCam.SetActive(examineCam.GetEntityID(), false);
@@ -240,7 +240,7 @@ public class ViewObject : Script
     {
         for (int x = 0; x < _Inventory.itemObjsInInventory.Count; x++)
         {
-            if(_Inventory.itemObjsInInventory[x] == target.gameObject.GetNameTagComponent().GetName())
+            if(_Inventory.itemObjsInInventory[x] == target.gameObject.GetComponent<NameTagComponent>().GetName())
             {
                 gameObject.GetComponent<FPS_Controller_Script>().playerCanMove = true;
                 gameObject.GetComponent<FPS_Controller_Script>().cameraCanMove = true;
@@ -258,7 +258,7 @@ public class ViewObject : Script
             else if (_Inventory.itemObjsInInventory[x] == "")
             {
                 //added.enabled = true;
-                _Inventory.itemObjsInInventory[x] = target.gameObject.GetNameTagComponent().GetName();
+                _Inventory.itemObjsInInventory[x] = target.gameObject.GetComponent<NameTagComponent>().GetName();
                 gameObject.GetComponent<FPS_Controller_Script>().playerCanMove = true;
                 gameObject.GetComponent<FPS_Controller_Script>().cameraCanMove = true;
                 examineCam.SetActive(examineCam.GetEntityID(), false);
@@ -283,7 +283,7 @@ public class ViewObject : Script
     {
         for (int x = 0; x < _Inventory.paintingObjsInInventory.Count; x++)
         {
-            if(_Inventory.paintingObjsInInventory[x] == target.gameObject.GetNameTagComponent().GetName())
+            if(_Inventory.paintingObjsInInventory[x] == target.gameObject.GetComponent<NameTagComponent>().GetName())
             {
                 gameObject.GetComponent<FPS_Controller_Script>().playerCanMove = true;
                 gameObject.GetComponent<FPS_Controller_Script>().cameraCanMove = true;
@@ -303,7 +303,7 @@ public class ViewObject : Script
             else if (_Inventory.paintingObjsInInventory[x] == "")
             {
                 //added.enabled = true;
-                _Inventory.paintingObjsInInventory[x] = target.gameObject.GetNameTagComponent().GetName();
+                _Inventory.paintingObjsInInventory[x] = target.gameObject.GetComponent<NameTagComponent>().GetName();
                 gameObject.GetComponent<FPS_Controller_Script>().playerCanMove = true;
                 gameObject.GetComponent<FPS_Controller_Script>().cameraCanMove = true;
                 examineCam.SetActive(examineCam.GetEntityID(), false);

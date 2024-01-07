@@ -22,7 +22,7 @@ public class Flashlight_Script : Script
     public override void Update()
     {
         lightSourceObj = GameObjectScriptFind("Pointlight");
-        lightIntensity = lightSourceObj.GetGraphicComponent().getColourAlpha();
+        lightIntensity = lightSourceObj.GetComponent<GraphicComponent>().getColourAlpha();
 
         //For Inspector Display Can Be Removed When Building
         //lightIntensity = lightSource.intensity;
@@ -36,13 +36,13 @@ public class Flashlight_Script : Script
             }
             if(activateLight == false)
             {
-                lightSourceObj.GetGraphicComponent().SetColourAlpha(0.0f);
+                lightSourceObj.GetComponent<GraphicComponent>().SetColourAlpha(0.0f);
             }
             else
             {
-                lightSourceObj.GetGraphicComponent().SetColourAlpha(0.6f);
+                lightSourceObj.GetComponent<GraphicComponent>().SetColourAlpha(0.6f);
             }
-            Input.KeyRelease(Keycode.F);
+            //Input.KeyRelease(Keycode.F);
         }
 
         //Remove this chunck of code when building
@@ -89,7 +89,7 @@ public class Flashlight_Script : Script
         if (lightIntensity <= 0)
         {
             activateLight = false;
-            lightSourceObj.GetGraphicComponent().SetColourAlpha(0.0f);
+            lightSourceObj.GetComponent<GraphicComponent>().SetColourAlpha(0.0f);
         }
 
         if (activateLight)

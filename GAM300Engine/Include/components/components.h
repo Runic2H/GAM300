@@ -40,13 +40,20 @@ namespace TDS
 	DLL_API struct ScriptValues
 	{
 		std::string name;
-		std::string value;
 		std::string type;
+
+		std::string value;
+
+		// For game objects and components
 		EntityID referenceEntityID = 0;
 
+		// For vector info
 		float vectorValueX;
 		float vectorValueY;
 		float vectorValueZ;
+		float vectorValueW;
+
+		// Header
 		std::string headerString;
 	};
 

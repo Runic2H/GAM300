@@ -63,11 +63,11 @@ public class Painting_Script : Script
             {
                 if (!receiptFound)
                 {
-                    Audio.play(voClip[0]);
+                    //Audio.play(voClip[0]);
                 }
                 else
                 {
-                    Audio.play(voClip[1]);
+                    //Audio.play(voClip[1]);
                 }
             }
             else

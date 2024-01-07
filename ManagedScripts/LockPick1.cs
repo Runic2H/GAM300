@@ -296,7 +296,7 @@ public class LockPick1 : Script
 
     public void newLock()
     {
-        innerLock = GameObjectScriptFind("InnerLock").GetTransformComponent();
+        innerLock = GameObjectScriptFind("InnerLock").GetComponent<TransformComponent>();
         //Cursor.visible = false;
         //gameObject.GetComponent<AudioComponent>().setVolume(1f);
 

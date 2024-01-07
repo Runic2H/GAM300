@@ -1,25 +1,26 @@
 {
     "Archetype Sizes": {
-        "110000100000": {
+        "11000010000000": {
             "0": 408,
             "1": 600,
-            "6": 672
+            "6": 792
         },
-        "1100100000000": {
+        "11001000000000": {
             "0": 136,
             "1": 200,
-            "4": 40
+            "4": 56
         },
-        "110010100000": {
+        "11001010000000": {
             "0": 136,
             "1": 200,
-            "4": 40,
-            "6": 224
+            "4": 56,
+            "6": 264
         }
     },
     "Entity Data": {
         "1": {
-            "ArchetypeID": "110000100000",
+            "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "entity1",
                 "Tag": "",
@@ -51,6 +52,7 @@
                 "Mesh Renderer": true,
                 "Debug": false,
                 "ModelName": "capsule_Bin.bin",
+                "MeshName": "",
                 "Color": {
                     "x": 1.0,
                     "y": 0.0,
@@ -61,7 +63,8 @@
             }
         },
         "2": {
-            "ArchetypeID": "110000100000",
+            "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Player",
                 "Tag": "",
@@ -95,6 +98,7 @@
                 "Mesh Renderer": true,
                 "Debug": false,
                 "ModelName": "capsule_Bin.bin",
+                "MeshName": "",
                 "Color": {
                     "x": 1.0,
                     "y": 1.0,
@@ -105,7 +109,8 @@
             }
         },
         "3": {
-            "ArchetypeID": "110000100000",
+            "ArchetypeID": "11000010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "entity3",
                 "Tag": "",
@@ -137,6 +142,7 @@
                 "Mesh Renderer": true,
                 "Debug": false,
                 "ModelName": "cube_Bin.bin",
+                "MeshName": "",
                 "Color": {
                     "x": 1.0,
                     "y": 1.0,
@@ -147,7 +153,8 @@
             }
         },
         "4": {
-            "ArchetypeID": "110010100000",
+            "ArchetypeID": "11001010000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "entity4",
                 "Tag": "",
@@ -191,6 +198,7 @@
                 "Mesh Renderer": true,
                 "Debug": false,
                 "ModelName": "capsule_Bin.bin",
+                "MeshName": "",
                 "Color": {
                     "x": 0.0,
                     "y": 0.0,
@@ -201,7 +209,8 @@
             }
         },
         "5": {
-            "ArchetypeID": "1100100000000",
+            "ArchetypeID": "11001000000000",
+            "Enabled": true,
             "Name Tag": {
                 "Name": "Camera",
                 "Tag": "",
@@ -245,216 +254,230 @@
         "1": {
             "Test": {
                 "gameObjectTest": {
-                    "GameObject": 4
-                },
-                "scriptTest": {
-                    "Testing": 2
+                    "ScriptAPI.GameObject": 4
                 },
                 "stringTest": {
-                    "String": ""
+                    "System.String": ""
                 },
                 "boolTest": {
-                    "Bool": true
+                    "System.Boolean": "True"
                 },
                 "doubleTest": {
-                    "Double": 2.0
+                    "System.Double": "2"
                 },
                 "intTest": {
-                    "Int": 8
+                    "System.Int32": "8"
                 },
                 "floatTest": {
-                    "Float": 3.0
+                    "System.Single": "3"
                 },
                 "gameObject": {
-                    "GameObject": 1
+                    "ScriptAPI.GameObject": 1
+                },
+                "is_Enabled": {
+                    "System.Boolean": "True"
+                },
+                "is_Awake": {
+                    "System.Boolean": "False"
+                },
+                "is_Start": {
+                    "System.Boolean": "True"
                 }
             }
         },
         "2": {
             "FPS_Controller_Script": {
+                "rb": {
+                    "ScriptAPI.RigidBodyComponent": 2
+                },
+                "startingVOstr": {
+                    "System.String": "pc_lockpickstart"
+                },
+                "startingVO": {
+                    "ScriptAPI.AudioComponent": 2
+                },
+                "footStepSoundEffects": {
+                    "System.String[]": "System.String[]"
+                },
                 "playerCamera": {
-                    "Component": 0
+                    "ScriptAPI.CameraComponent": 0
                 },
                 "fov": {
-                    "Float": 60.0
+                    "System.Single": "60"
                 },
                 "invertCamera": {
-                    "Bool": false
+                    "System.Boolean": "False"
                 },
                 "cameraCanMove": {
-                    "Bool": true
+                    "System.Boolean": "True"
                 },
                 "mouseSensitivity": {
-                    "Float": 2.0
+                    "System.Single": "2"
                 },
                 "maxLookAngle": {
-                    "Float": 50.0
+                    "System.Single": "50"
                 },
                 "lockCursor": {
-                    "Bool": true
+                    "System.Boolean": "True"
                 },
                 "crosshair": {
-                    "Bool": true
-                },
-                "yaw": {
-                    "Float": 0.0
-                },
-                "pitch": {
-                    "Float": 0.0
+                    "System.Boolean": "True"
                 },
                 "enableZoom": {
-                    "Bool": true
+                    "System.Boolean": "True"
                 },
                 "holdToZoom": {
-                    "Bool": false
+                    "System.Boolean": "False"
+                },
+                "zoomKey": {
+                    "System.UInt32": "56"
                 },
                 "zoomFOV": {
-                    "Float": 30.0
+                    "System.Single": "30"
                 },
                 "zoomStepTime": {
-                    "Float": 5.0
-                },
-                "isZoomed": {
-                    "Bool": false
+                    "System.Single": "5"
                 },
                 "playerCanMove": {
-                    "Bool": true
+                    "System.Boolean": "True"
                 },
                 "walkSpeed": {
-                    "Float": 2.0
+                    "System.Single": "2"
                 },
                 "maxVelocityChange": {
-                    "Float": 10.0
+                    "System.Single": "10"
                 },
                 "isWalking": {
-                    "Bool": false
+                    "System.Boolean": "False"
+                },
+                "isCollided": {
+                    "System.Boolean": "False"
                 },
                 "enableSprint": {
-                    "Bool": true
+                    "System.Boolean": "True"
                 },
                 "unlimitedSprint": {
-                    "Bool": false
+                    "System.Boolean": "False"
+                },
+                "sprintKey": {
+                    "System.UInt32": "42"
                 },
                 "sprintSpeed": {
-                    "Float": 3.0
+                    "System.Single": "3"
                 },
                 "currentSprintSpeed": {
-                    "Float": 0.0
+                    "System.Single": "0"
                 },
                 "sprintDuration": {
-                    "Float": 5.0
+                    "System.Single": "5"
                 },
                 "sprintCooldown": {
-                    "Float": 0.5
+                    "System.Single": "0.5"
                 },
                 "sprintFOV": {
-                    "Float": 80.0
+                    "System.Single": "80"
                 },
                 "sprintFOVStepTime": {
-                    "Float": 10.0
+                    "System.Single": "10"
                 },
                 "useSprintBar": {
-                    "Bool": true
+                    "System.Boolean": "True"
                 },
                 "hideBarWhenFull": {
-                    "Bool": true
+                    "System.Boolean": "True"
                 },
                 "sprintBarWidthPercent": {
-                    "Float": 0.3
+                    "System.Single": "0.3"
                 },
                 "sprintBarHeightPercent": {
-                    "Float": 0.015
+                    "System.Single": "0.015"
                 },
                 "isSprinting": {
-                    "Bool": false
-                },
-                "sprintRemaining": {
-                    "Float": 0.0
-                },
-                "sprintBarWidth": {
-                    "Float": 0.0
-                },
-                "sprintBarHeight": {
-                    "Float": 0.0
-                },
-                "isSprintCooldown": {
-                    "Bool": false
-                },
-                "sprintCooldownReset": {
-                    "Float": 0.0
+                    "System.Boolean": "False"
                 },
                 "enableJump": {
-                    "Bool": true
+                    "System.Boolean": "True"
+                },
+                "jumpKey": {
+                    "System.UInt32": "45"
                 },
                 "jumpPower": {
-                    "Float": 5.0
-                },
-                "isGrounded": {
-                    "Bool": false
+                    "System.Single": "5"
                 },
                 "enableCrouch": {
-                    "Bool": true
+                    "System.Boolean": "True"
                 },
                 "holdToCrouch": {
-                    "Bool": true
+                    "System.Boolean": "True"
+                },
+                "crouchKey": {
+                    "System.UInt32": "43"
                 },
                 "crouchHeight": {
-                    "Float": 0.75
+                    "System.Single": "0.75"
                 },
                 "speedReduction": {
-                    "Float": 0.5
-                },
-                "isCrouched": {
-                    "Bool": false
-                },
-                "originalScale": {
-                    "Vector3": {
-                        "X": 0.0,
-                        "Y": 0.0,
-                        "Z": 0.0
-                    }
+                    "System.Single": "0.5"
                 },
                 "playerHealth": {
-                    "Int": 100
+                    "System.Int32": "100"
                 },
                 "enableHeadBob": {
-                    "Bool": true
+                    "System.Boolean": "True"
+                },
+                "joint": {
+                    "ScriptAPI.TransformComponent": 0
                 },
                 "bobSpeed": {
-                    "Float": 10.0
+                    "System.Single": "10"
                 },
                 "bobAmount": {
-                    "Vector3": {
+                    "ScriptAPI.Vector3": {
                         "X": 0.15000000596046448,
                         "Y": 0.05000000074505806,
                         "Z": 0.0
                     }
                 },
-                "jointOriginalPos": {
-                    "Vector3": {
-                        "X": 0.0,
-                        "Y": 0.0,
-                        "Z": 0.0
-                    }
-                },
-                "timer": {
-                    "Float": 0.0
-                },
                 "gameObject": {
-                    "GameObject": 2
+                    "ScriptAPI.GameObject": 2
+                },
+                "is_Enabled": {
+                    "System.Boolean": "True"
+                },
+                "is_Awake": {
+                    "System.Boolean": "False"
+                },
+                "is_Start": {
+                    "System.Boolean": "True"
                 }
             },
             "Testing": {
                 "hihi": {
-                    "Bool": true
+                    "System.Boolean": "True"
                 },
                 "gameObject": {
-                    "GameObject": 2
+                    "ScriptAPI.GameObject": 2
+                },
+                "is_Enabled": {
+                    "System.Boolean": "True"
+                },
+                "is_Awake": {
+                    "System.Boolean": "False"
+                },
+                "is_Start": {
+                    "System.Boolean": "True"
                 }
             }
         },
         "3": {},
         "4": {},
         "5": {}
+    },
+    "Active Archetype": {
+        "1": "11000010000000",
+        "2": "11000010000000",
+        "3": "11000010000000",
+        "4": "11001010000000",
+        "5": "11001000000000"
     }
 }
