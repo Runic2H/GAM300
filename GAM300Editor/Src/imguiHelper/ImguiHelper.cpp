@@ -14,6 +14,7 @@
 #include "ImguiHelper/ImguiFunctionHelper.h"
 #include "imguiHelper/ImguiScene.h"
 #include "imguiHelper/ImguiGamePlayScene.h"
+#include "imguiHelper/ImguiCompilerDescriptor.h"
 
 namespace TDS
 {
@@ -38,6 +39,7 @@ namespace TDS
 			m_instance->panels[PanelTypes::BEHAVIOURTREEEDITOR] = std::make_shared<BehaviourTreePanel>();
 			m_instance->panels[PanelTypes::SCENE] = std::make_shared<EditorScene>();
 			m_instance->panels[PanelTypes::GAMEPLAYSCENE] = std::make_shared<GamePlayScene>();
+			m_instance->panels[PanelTypes::COMPILER_DESCRIPTOR] = std::make_shared<CompilerDescriptors>();
 		}
 		return m_instance;
 	}

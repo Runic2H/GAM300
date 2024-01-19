@@ -1,6 +1,6 @@
 #pragma once
 #include "ecs/ecs.h"
-#include "ResourceManagement/ResourceManager.h"
+#include "ResourceManagement/ResourceRef.h"
 #include "GraphicsResource/FontInfo.h"
 #include "ResourceManagement/ResourceRef.h"
 namespace TDS

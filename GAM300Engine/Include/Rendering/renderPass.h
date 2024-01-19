@@ -37,6 +37,8 @@ namespace TDS {
 		DLL_API void setViewportSize(uint32_t w, uint32_t h) { m_Width = w; m_Height = h; }
 
 		DLL_API VkRenderPass& getRenderPass() { return m_RenderPass; }
+
+		DLL_API std::vector<VkClearValue>& getClearValues() { return m_clearValues; }
 	private:
 		VkRenderPass m_RenderPass{};
 		uint32_t m_Width{};

@@ -1029,7 +1029,7 @@ namespace TDS
 								AssetBrowser assetbroswer;
 								assetbroswer.getFileNameFromPath(str.c_str(), nullptr, nullptr, &finalmodel, nullptr);
 								//g.m_TextureName = final;
-								g->SetModelName(assetbroswer.LoadAsset(finalmodel));
+								g->SetModelName(assetbroswer.LoadAssetRevamped(finalmodel));
 								
 								std::wcout << " Path of dragged file is: " << path << std::endl;
 							}

@@ -9,8 +9,10 @@
 #include "vulkanTools/vulkanInstance.h"
 #include "vulkanTools/VulkanTexture.h"
 #include "imguiHelper/ImguiAudio.h"
+#include "Tools/CompilerRevamped/MeshLoader.h"
 #include <string>
-
+#include "GraphicsResource/Revamped/ModelPack.h"
+#include "AssetManagement/Revamped/MeshFactory.h"
 
 #define ASSET_PATH "../assets"
 namespace TDS
@@ -22,44 +24,6 @@ namespace TDS
 	VkDescriptorSet file_DescSet{}, folder_DescSet{};
 	//int file_image_count = 0, folder_image_count = 0;
 
-	aiVector3D ExtractEulerAngles(const aiMatrix4x4& mat) 
-	{
-		aiVector3D euler{};
-
-
-		float sy = sqrt(mat.a1 * mat.a1 + mat.b1 * mat.b1);
-
-		bool singular = sy < 1e-6;
-
-		if (!singular) 
-		{
-			euler.x = atan2(mat.c2, mat.c3); 
-			euler.y = atan2(-mat.c1, sy);    
-			euler.z = atan2(mat.b1, mat.a1); 
-		}
-		else 
-		{
-
-			euler.x = atan2(-mat.b3, mat.b2); 
-			euler.y = atan2(-mat.c1, sy);     
-			euler.z = 0;                     
-		}
-
-		return euler;
-	}
-	void ExtractTranslation(const aiMatrix4x4& mat, aiVector3D& translation) 
-	{
-		translation.x = mat.a4;
-		translation.y = mat.b4;
-		translation.z = mat.c4;
-	}
-
-	void ExtractScale(const aiMatrix4x4& mat, aiVector3D& scale)
-	{
-		scale.x = sqrt(mat.a1 * mat.a1 + mat.b1 * mat.b1 + mat.c1 * mat.c1);
-		scale.y = sqrt(mat.a2 * mat.a2 + mat.b2 * mat.b2 + mat.c2 * mat.c2);
-		scale.z = sqrt(mat.a3 * mat.a3 + mat.b3 * mat.b3 + mat.c3 * mat.c3);
-	}
 	void CreateNewEntityWithSubMesh(EntityID ParentEntity, aiMatrix4x4& aiTransform, TypeReference<AssetModel>& model, std::string_view MeshName)
 	{
 		std::shared_ptr<Hierarchy> panel = static_pointer_cast<Hierarchy>(LevelEditorManager::GetInstance()->panels[HIERARCHY]);
@@ -90,12 +54,12 @@ namespace TDS
 		ExtractScale(aiTransform, scale);
 		aiVector3D EulerRotate = ExtractEulerAngles(aiTransform);
 		ExtractTranslation(aiTransform, Translate);
-		Vec3 Translation = Vec3(Translate.x, Translate.y, Translate.z);
-		Vec3 Rotatation = Vec3(EulerRotate.x, EulerRotate.y, EulerRotate.z);
-		Vec3 Scaling = Vec3(scale.x, scale.y, scale.z);
-		transformComp->SetPosition(Translation);
-		transformComp->SetRotation(Rotatation);
-		transformComp->SetScale(Scaling);
+		//Vec3 Translation = Vec3(Translate.x, Translate.y, Translate.z);
+		//Vec3 Rotatation = Vec3(EulerRotate.x, EulerRotate.y, EulerRotate.z);
+		//Vec3 Scaling = Vec3(scale.x, scale.y, scale.z);
+		//transformComp->SetPosition(Translation);
+		//transformComp->SetRotation(Rotatation);
+		//transformComp->SetScale(Scaling);
 
 		if (ParentEntity != 0) 
 		{
@@ -105,6 +69,129 @@ namespace TDS
 			
 		}
 
+	}
+
+	void BuildEntityMesh(GraphicsComponent* ParentgraphComponent, EntityID parentEntityID, EntityID newEntityID, MeshNode& node)
+	{
+
+
+	}
+
+	void BuildEntityMeshHierachy(std::string_view ModelAssetName, EntityID rootEntity)
+	{
+
+		//Get Panel
+		std::shared_ptr<Hierarchy> panel = static_pointer_cast<Hierarchy>(LevelEditorManager::GetInstance()->panels[HIERARCHY]);
+		
+		//Get mesh reference
+		TypeReference<MeshController> refMeshController{};
+		auto meshcontroller = AssetManager::GetInstance()->GetMeshFactory().GetMeshController(ModelAssetName, refMeshController);
+		auto& modelHandle = meshcontroller->GetModelPack()->m_ModelHandle;
+		
+		if (modelHandle.m_Mesh.size() == 1)
+		{
+			GraphicsComponent* graphComponent = reinterpret_cast<GraphicsComponent*>(getComponentByName("Graphics Component", rootEntity));
+			graphComponent->m_MeshName = modelHandle.m_Mesh[0].m_Name;
+			graphComponent->m_MeshNodeName = ModelAssetName;
+
+		}
+		else
+		{
+			//Get mainRoot tag
+			NameTag* mainRoot = reinterpret_cast<NameTag*>(getComponentByName("Name Tag", rootEntity));
+			mainRoot->SetName(ModelAssetName.data());
+			GraphicsComponent* graphComponent = reinterpret_cast<GraphicsComponent*>(getComponentByName("Graphics Component", rootEntity));
+			graphComponent->m_MeshName = ModelAssetName;
+			graphComponent->m_MeshNodeName = ModelAssetName;
+
+
+			for (auto& rootNodes : meshcontroller->GetRoots())
+			{
+				Entity nodeEntity;
+				EntityID nodeEntityID = nodeEntity.getID();
+				
+				//Add components
+				{
+					addComponentByName("Name Tag", nodeEntityID);
+					addComponentByName("Graphics Component", nodeEntityID);
+					addComponentByName("Transform", nodeEntityID);
+				}
+
+				GraphicsComponent* graphComp = reinterpret_cast<GraphicsComponent*>(getComponentByName("Graphics Component", nodeEntityID));
+				NameTag* rootTag = reinterpret_cast<NameTag*>(getComponentByName("Name Tag", nodeEntityID));
+				Transform* transformComp = reinterpret_cast<Transform*>(getComponentByName("Transform", nodeEntityID));
+				graphComp->m_MeshNodeName = rootNodes.first;
+
+				 
+
+				{
+					//Get asset reference,
+					AssetManager::GetInstance()->GetMeshFactory().GetMeshController(ModelAssetName, graphComp->m_MeshControllerRef);
+
+					//This is a root, so no rendered mesh
+					graphComp->m_MeshName = rootNodes.first;
+					graphComp->m_ModelName = ModelAssetName;
+					graphComp->m_MeshNodeName = rootNodes.first;
+					//set root node name, 
+					rootTag->SetName(rootNodes.first);
+					rootTag->SetHierarchyParent(rootEntity);
+					rootTag->SetHierarchyIndex(panel->hierarchyList.size());
+					//set initial transform position,
+					transformComp->SetPosition(rootNodes.second.m_LayerAABB.getCenter());
+					// push this entity into the main root
+					mainRoot->GetHierarchyChildren().push_back(nodeEntityID);
+				}
+
+
+				// Iterate the meshlist for this root node
+				for (auto& meshNode : rootNodes.second.m_MeshList)
+				{
+					Entity newEntity;
+					EntityID newEntityID = newEntity.getID();
+
+					//If entity validity check
+					if (nodeEntityID != 0)
+					{
+						//Push into the root parent
+						NameTag* parentNameTag = ecs.getComponent<NameTag>(nodeEntityID);
+						if (parentNameTag)
+							parentNameTag->GetHierarchyChildren().push_back(newEntityID);
+					}
+					
+					{
+						//Add components
+						addComponentByName("Name Tag", newEntityID);
+						addComponentByName("Graphics Component", newEntityID);
+						addComponentByName("Transform", newEntityID);
+		
+						//Get components
+						GraphicsComponent* childGrapComp = reinterpret_cast<GraphicsComponent*>(getComponentByName("Name Tag", newEntityID));
+						NameTag* childTag = reinterpret_cast<NameTag*>(getComponentByName("Graphics Component", newEntityID));
+						Transform* childTransformComp = reinterpret_cast<Transform*>(getComponentByName("Transform", newEntityID));
+
+
+						rootTag->SetName(meshNode.first);
+						rootTag->SetHierarchyParent(nodeEntityID);
+						rootTag->SetHierarchyIndex(panel->hierarchyList.size());
+
+						//Get Reference
+						AssetManager::GetInstance()->GetMeshFactory().GetMeshController(ModelAssetName, childGrapComp->m_MeshControllerRef);
+						
+						//Set the correct mesh name and model name
+						childGrapComp->m_MeshName = meshNode.first;
+						childGrapComp->m_ModelName = ModelAssetName;
+						childGrapComp->m_MeshNodeName = rootNodes.first;
+						//Set initial transform positions
+						childTransformComp->SetPosition(meshNode.second.m_InitPos);
+
+					}
+				}
+
+
+			}
+		}
+
+		
 	}
 	void DivideSubmesh(EntityID entity, TypeReference<AssetModel>& model)
 	{
@@ -586,18 +673,33 @@ namespace TDS
 			if (currEntity < 1)
 				return std::string();
 			IComponent* Graph = getComponentByName("Graphics Component", panel->getSelectedEntity());
+
+
 			if (Graph == nullptr)
 				Graph = addComponentByName("Graphics Component", panel->getSelectedEntity());
+
+
 			GraphicsComponent* graphComp = reinterpret_cast<GraphicsComponent*>(Graph);
 
 			if (lookUp == false)
 			{
 				GeomDescriptor m_GeomDescriptor{};
 				m_GeomDescriptor.m_Descriptor.m_FilePath = std::filesystem::path(FileName).filename().string();
+
+				MeshLoader::Request req{};
+				req.m_FileName = std::filesystem::path(FileName).filename().string();
+				req.m_OutFile = OutPath;
+				req.m_OutFile += "_Bin";
+				req.m_OutFile += ".bin";
+
+
 				GeomCompiler::GetInstance()->InitDesc(m_GeomDescriptor);
 				std::string OutputFile = GeomCompiler::GetInstance()->LoadModel();
 
 				AssetManager::GetInstance()->GetModelFactory().LoadModel(OutputFile);
+
+
+
 				OutputPath = OutputFile;
 				
 				
@@ -611,9 +713,153 @@ namespace TDS
 			if (graphComp->m_AssetReference.m_ResourcePtr->m_Meshes.size() > 1)
 				DivideSubmesh(currEntity, graphComp->m_AssetReference);
 
-
 			
 
+		}
+		//if .json, load scene...
+		if (strstr(FileName.c_str(), ".ttf"))
+		{
+			std::string selectedTextureDir = m_curr_path.string();
+			selectedTextureDir += "/";
+			selectedTextureDir += FileName;
+			std::string inputPath = selectedTextureDir;
+			std::string outPath = m_curr_path.string();
+			selectedTextureDir = RemoveFileExtension(selectedTextureDir, ".ttf");
+
+			std::string FileName = std::filesystem::path(selectedTextureDir).filename().string();
+
+			outPath += ("/OutFont_" + FileName);
+			if (!std::filesystem::exists(outPath))
+			{
+				if (!std::filesystem::create_directory(outPath))
+					TDS_ERROR("Failed to create directory");
+			}
+			std::string folderName = outPath;
+			outPath += "/" + FileName;
+			LoaderDescriptor FontDescriptor{};
+			FontDescriptor.OutPath = outPath;
+			FontDescriptor.m_InputPath = inputPath;
+
+			std::string ddsFontPath{};
+			if (FontLoader::RunFontLoader(FontDescriptor, ddsFontPath))
+			{
+				std::shared_ptr<Hierarchy> panel = static_pointer_cast<Hierarchy>(LevelEditorManager::GetInstance()->panels[HIERARCHY]);
+
+				IComponent* font = getComponentByName("UI Sprite", panel->getSelectedEntity());
+				if (font != nullptr)
+				{
+					AssetManager::GetInstance()->GetFontFactory().Load(folderName);
+				}
+			}
+			OutputPath = ddsFontPath;
+
+		}
+		std::filesystem::path FilePath(OutputPath);
+		return FilePath.filename().string();
+	}
+
+	std::string AssetBrowser::LoadAssetRevamped(const std::string& FileName)
+	{
+		std::string OutputPath{};
+		if (strstr(FileName.c_str(), ".jpg") || strstr(FileName.c_str(), ".png") || strstr(FileName.c_str(), ".dds"))
+		{
+			lookUp = false;
+			std::shared_ptr<Hierarchy> panel = static_pointer_cast<Hierarchy>(LevelEditorManager::GetInstance()->panels[HIERARCHY]);
+
+			EntityID currEntity = panel->getSelectedEntity();
+			//IComponent* Graph = getComponentByName("Graphics Component", panel->getSelectedEntity());
+			//if (Graph == nullptr)
+			//	return std::string();
+
+
+			std::string OutPath = ASSET_PATH;
+			OutPath += "/textures/";
+			OutPath += FileName.c_str();
+			std::string inPath = OutPath;
+			if (strstr(FileName.c_str(), ".jpg"))
+				OutPath = RemoveFileExtension(OutPath, ".jpg");
+			else if (strstr(FileName.c_str(), ".png"))
+				OutPath = RemoveFileExtension(OutPath, ".png");
+
+
+			if (strstr(FileName.c_str(), ".dds"))
+				lookUp = true;
+			else
+				OutPath += ".dds";
+
+
+			if (lookUp == false)
+				TextureCompressor::GetInstance().Run(inPath, OutPath);
+
+			//GraphicsComponent* graphComp = reinterpret_cast<GraphicsComponent*>(Graph);
+			//if (graphComp)
+			AssetManager::GetInstance()->GetTextureFactory().Load(OutPath);
+			OutputPath = OutPath;
+
+		}
+		if (strstr(FileName.c_str(), ".obj") || strstr(FileName.c_str(), ".fbx") || strstr(FileName.c_str(), ".gltf") || strstr(FileName.c_str(), ".bin"))
+		{
+			lookUp = false;
+			std::string& OutPath = GeomCompiler::GetInstance()->OutPath;
+			OutPath = "../assets/models/";
+			OutPath += FileName.c_str();
+			if (strstr(FileName.c_str(), ".fbx"))
+				OutPath = RemoveFileExtension(OutPath, ".fbx");
+			else if (strstr(FileName.c_str(), ".gltf"))
+				OutPath = RemoveFileExtension(OutPath, ".gltf");
+			else if (strstr(FileName.c_str(), ".obj"))
+				OutPath = RemoveFileExtension(OutPath, ".obj");
+			else if (strstr(FileName.c_str(), ".bin"))
+			{
+				lookUp = true;
+				/*OutPath = std::filesystem::path(OutPath).filename().string();*/
+			}
+			std::shared_ptr<Hierarchy> panel = static_pointer_cast<Hierarchy>(LevelEditorManager::GetInstance()->panels[HIERARCHY]);
+
+			EntityID currEntity = panel->getSelectedEntity();
+			if (currEntity < 1)
+				return std::string();
+			IComponent* Graph = getComponentByName("Graphics Component", panel->getSelectedEntity());
+
+
+			if (Graph == nullptr)
+				Graph = addComponentByName("Graphics Component", panel->getSelectedEntity());
+
+			GraphicsComponent* graphComp = reinterpret_cast<GraphicsComponent*>(Graph);
+
+
+			if (lookUp == false)
+			{
+				GeomDescriptor m_GeomDescriptor{};
+				m_GeomDescriptor.m_Descriptor.m_FilePath = std::filesystem::path(FileName).filename().string();
+
+				MeshLoader::Request req{};
+				req.m_FileName = std::filesystem::path(FileName).filename().string();
+				req.m_OutFile = OutPath;
+				req.m_OutFile += "_Bin";
+				req.m_OutFile += ".bin";
+
+
+				MeshLoader::GetInstance().RunCompiler(req);
+
+				std::string OutputFile = req.m_OutFile;
+				AssetManager::GetInstance()->GetMeshFactory().LoadModel(OutputFile);
+				OutputPath = OutputFile;
+
+	
+			}
+			else
+			{
+				AssetManager::GetInstance()->GetMeshFactory().LoadModel(OutPath);
+				OutputPath = OutPath;
+			}
+
+			std::filesystem::path FilePath(OutputPath);
+			std::string assetName = FilePath.filename().string();
+
+			BuildEntityMeshHierachy(assetName, currEntity);
+
+			return assetName;
 		}
 		//if .json, load scene...
 		if (strstr(FileName.c_str(), ".ttf"))

@@ -16,6 +16,7 @@
 #include "vulkanTools/FrameBuffer.h"
 #include "Rendering/Renderer2D.h"
 #include "Rendering/FontRenderer.h"
+#include "Rendering/Revamped/DeferredController.h"
 namespace TDS
 {
 	GraphicsManager::GraphicsManager()
@@ -319,6 +320,10 @@ namespace TDS
 	std::shared_ptr<VulkanInstance> GraphicsManager::getVkInstancePtr()
 	{
 		return m_MainVkContext;
+	}
+	std::shared_ptr<DeferredController> GraphicsManager::GetDeferredController()
+	{
+		return m_DeferredController;
 	}
 	GraphicsManager& GraphicsManager::getInstance()
 	{

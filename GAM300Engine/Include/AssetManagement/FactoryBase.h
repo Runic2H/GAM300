@@ -1,6 +1,6 @@
 #pragma once
 #include "Logger/Logger.h"
-#include "AssetManagement/ResourceAllocator.h"
+#include "ResourceManagement/ResourceRef.h"
 #include "GraphicsResource/AssetModel.h"
 #include "GraphicsResource/TextureInfo.h"
 namespace TDS

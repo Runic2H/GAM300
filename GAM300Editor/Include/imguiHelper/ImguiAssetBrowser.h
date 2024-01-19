@@ -5,6 +5,8 @@
 
 namespace TDS 
 {
+
+
 	class AssetBrowser : public LevelEditorPanel
 	{
 	public:
@@ -13,6 +15,9 @@ namespace TDS
 		void init() {}
 		void update();
 		std::string LoadAsset(const std::string& fileName);
+		std::string LoadAssetRevamped(const std::string& fileName);
+	
+
 		static void destroyIcons();
 		static inline std::filesystem::path m_curr_path;
 	private:

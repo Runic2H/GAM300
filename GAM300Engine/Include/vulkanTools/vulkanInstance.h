@@ -111,6 +111,10 @@ namespace TDS
 			VkImage& image, VkDeviceMemory& imageMemory);
 
 
+		VkFormat CheckForValidDepthStencil(const std::vector<VkFormat>& depthFormats);
+
+
+
 		inline std::uint32_t GetGraphicsQueueIndex()
 		{
 			return m_SelectedIndices.graphicsFamily.value();
@@ -123,7 +127,15 @@ namespace TDS
 		{
 			return m_SelectedIndices.presentFamily.value();
 		}
+		inline VkPhysicalDeviceProperties& GetDeviceProperties()
+		{
+			return m_Properties;
+		}
 
+		inline VkPhysicalDeviceFeatures& GetDeviceFeatures()
+		{
+			return m_Features;
+		}
 
 	private:
 
@@ -143,7 +155,7 @@ namespace TDS
 
 		VkPhysicalDeviceProperties m_Properties;
 		VkPhysicalDeviceFeatures   m_Features;
-		
+
 		std::vector<std::string> supportedInstanceExtensions{};
 		std::vector<const char*> enabledInstanceExtensions{};
 

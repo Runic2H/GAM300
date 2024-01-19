@@ -68,13 +68,13 @@ namespace TDS
         {
             bool isPressed = 1;
             bool isReleased = 0;
-            Input::processMouseInput(wParam, lParam, isPressed, isReleased);
+            Input::processMouseInput(wParam, lParam);
         }break;
         case WM_XBUTTONUP:
         {
             bool isPressed  = 0;
             bool isReleased = 1;
-            Input::processMouseInput(wParam, lParam, isPressed, isReleased);
+            Input::processMouseInput(wParam, lParam);
         }break;
 
         case WM_MOUSEMOVE:

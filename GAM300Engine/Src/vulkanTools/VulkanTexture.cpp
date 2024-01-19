@@ -320,6 +320,94 @@ namespace TDS
 		return texture;
 	}
 
+	std::shared_ptr<VulkanTexture> VulkanTexture::CreateShadowCubeMapTexture(std::uint32_t width, std::uint32_t Height, VkFormat format, bool useAnistrophy)
+	{
+		std::shared_ptr<VulkanTexture> texture = std::make_shared<VulkanTexture>();
+		VkImageCreateInfo imageCI = { VK_STRUCTURE_TYPE_IMAGE_CREATE_INFO };
+		imageCI.imageType = VK_IMAGE_TYPE_2D;
+		imageCI.format = format;
+		imageCI.mipLevels = 1;
+		imageCI.samples = VK_SAMPLE_COUNT_1_BIT;
+		imageCI.tiling = VK_IMAGE_TILING_OPTIMAL;
+		imageCI.sharingMode = VK_SHARING_MODE_EXCLUSIVE;
+		imageCI.initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
+		imageCI.extent = { width, Height, 1 };
+		imageCI.usage = VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT | VK_IMAGE_USAGE_SAMPLED_BIT;
+		imageCI.arrayLayers = 6;
+		imageCI.flags = VK_IMAGE_CREATE_CUBE_COMPATIBLE_BIT;
+
+		texture->m_Allocation = GraphicsAllocator::Allocate(&imageCI, VMA_MEMORY_USAGE_GPU_ONLY, texture->m_ImageHdl);
+
+		CommandBufferInfo cmdBufferInfo{};
+		CommandManager& cmdMgr = GraphicsManager::getInstance().getCommandManager();
+
+		cmdMgr.CreateSingleUseCommandBuffer(cmdBufferInfo);
+
+		VkImageSubresourceRange subresourceRange = {};
+		subresourceRange.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
+		subresourceRange.baseMipLevel = 0;
+		subresourceRange.levelCount = 1;
+		subresourceRange.layerCount = 6;
+
+		setImageLayout(cmdBufferInfo.m_CommandBuffer.m_CmdBuffer, texture->GetImage(), VK_IMAGE_LAYOUT_UNDEFINED, VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL, subresourceRange);
+
+		cmdMgr.EndExecution(cmdBufferInfo);
+
+		VkDevice deviceRef = GraphicsManager::getInstance().getVkInstance().getVkLogicalDevice();
+		VkPhysicalDevice physical = GraphicsManager::getInstance().getVkInstance().getVkPhysicalDevice();
+
+		VkSamplerCreateInfo samplerCreateInfo = { VK_STRUCTURE_TYPE_SAMPLER_CREATE_INFO };
+		samplerCreateInfo.sType = VK_STRUCTURE_TYPE_SAMPLER_CREATE_INFO;
+		samplerCreateInfo.magFilter = VK_FILTER_LINEAR;
+		samplerCreateInfo.minFilter = VK_FILTER_LINEAR;
+		samplerCreateInfo.mipmapMode = VK_SAMPLER_MIPMAP_MODE_LINEAR;
+		samplerCreateInfo.addressModeU = VK_SAMPLER_ADDRESS_MODE_CLAMP_TO_BORDER;
+		samplerCreateInfo.addressModeV = samplerCreateInfo.addressModeU;
+		samplerCreateInfo.addressModeW = samplerCreateInfo.addressModeV;
+		samplerCreateInfo.compareOp = VK_COMPARE_OP_NEVER;
+		samplerCreateInfo.borderColor = VK_BORDER_COLOR_FLOAT_OPAQUE_WHITE;
+		samplerCreateInfo.mipLodBias = 0.f;
+		samplerCreateInfo.minLod = 0.f;
+		samplerCreateInfo.maxLod = static_cast<float>(1.f);
+
+		VkPhysicalDeviceFeatures features{};
+		vkGetPhysicalDeviceFeatures(physical, &features);
+		if (useAnistrophy && features.samplerAnisotropy)
+		{
+			VkPhysicalDeviceProperties properties{};
+			vkGetPhysicalDeviceProperties(physical, &properties);
+			samplerCreateInfo.maxAnisotropy = properties.limits.maxSamplerAnisotropy;
+			samplerCreateInfo.anisotropyEnable = VK_TRUE;
+		}
+		else
+		{
+			samplerCreateInfo.maxAnisotropy = 1.0f;
+			samplerCreateInfo.anisotropyEnable = VK_FALSE;
+		}
+		VkResult result = vkCreateSampler(deviceRef, &samplerCreateInfo, 0, &texture->m_Sampler);
+		VK_ASSERT(result, "Failed to create sampler");
+
+		VkImageViewCreateInfo imgView = { VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO };
+		imgView.image = VK_NULL_HANDLE;
+		imgView.viewType = VK_IMAGE_VIEW_TYPE_CUBE;
+		imgView.format = format;
+		imgView.components = { VK_COMPONENT_SWIZZLE_R };
+		imgView.subresourceRange = { VK_IMAGE_ASPECT_COLOR_BIT, 0, 1, 0, 1 };
+		imgView.subresourceRange.layerCount = 6;
+		imgView.image = texture->m_ImageHdl;
+
+		VK_ASSERT(vkCreateImageView(deviceRef, &imgView, nullptr, &texture->m_BaseImageView), "Failed to create base cubemap view");
+		texture->m_ImageViews.resize(6);
+		for (std::uint32_t face = 0; face < 6; ++face)
+		{
+			imgView.subresourceRange.baseArrayLayer = face;
+			VK_ASSERT(vkCreateImageView(deviceRef, &imgView, nullptr, &texture->m_ImageViews[face]), "Failed to create individual cubemap views");
+		}
+
+		return texture;
+
+	}
+
 	//std::shared_ptr<VulkanTexture> VulkanTexture::CreateFontTextures(FontData& fontBatch)
 	//{
 	//	VulkanInstance& instance = GraphicsManager::getInstance().getVkInstance();
@@ -769,8 +857,105 @@ namespace TDS
 
 	}
 
+	void VulkanTexture::setImageLayout(VkCommandBuffer& commandBuffer, VkImage image, VkImageLayout oldLayout, VkImageLayout newLayout, VkImageSubresourceRange subresourceRange, VkPipelineStageFlags srcStageMask, VkPipelineStageFlags dstStageMask)
+	{
+		VkImageMemoryBarrier imageMemoryBarrier = { VK_STRUCTURE_TYPE_IMAGE_MEMORY_BARRIER };
+		imageMemoryBarrier.srcQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED;
+		imageMemoryBarrier.dstQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED;
+		imageMemoryBarrier.oldLayout = oldLayout;
+		imageMemoryBarrier.newLayout = newLayout;
+		imageMemoryBarrier.image = image;
+		imageMemoryBarrier.subresourceRange = subresourceRange;
+
+
+		switch (oldLayout)
+		{
+		case VK_IMAGE_LAYOUT_UNDEFINED:
+			imageMemoryBarrier.srcAccessMask = 0;
+			break;
+
+		case VK_IMAGE_LAYOUT_PREINITIALIZED:
+			imageMemoryBarrier.srcAccessMask = VK_ACCESS_HOST_WRITE_BIT;
+			break;
+
+		case VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL:
+			imageMemoryBarrier.srcAccessMask = VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT;
+			break;
+
+		case VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL:
+			imageMemoryBarrier.srcAccessMask = VK_ACCESS_DEPTH_STENCIL_ATTACHMENT_WRITE_BIT;
+			break;
+
+		case VK_IMAGE_LAYOUT_TRANSFER_SRC_OPTIMAL:
+			imageMemoryBarrier.srcAccessMask = VK_ACCESS_TRANSFER_READ_BIT;
+			break;
+
+		case VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL:
+			imageMemoryBarrier.srcAccessMask = VK_ACCESS_TRANSFER_WRITE_BIT;
+			break;
+
+		case VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL:
+			imageMemoryBarrier.srcAccessMask = VK_ACCESS_SHADER_READ_BIT;
+			break;
+		default:
+			break;
+		}
+		switch (newLayout)
+		{
+		case VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL:
+			imageMemoryBarrier.dstAccessMask = VK_ACCESS_TRANSFER_WRITE_BIT;
+			break;
+
+		case VK_IMAGE_LAYOUT_TRANSFER_SRC_OPTIMAL:
+			imageMemoryBarrier.dstAccessMask = VK_ACCESS_TRANSFER_READ_BIT;
+			break;
+
+		case VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL:
+			imageMemoryBarrier.dstAccessMask = VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT;
+			break;
+
+		case VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL:
+			imageMemoryBarrier.dstAccessMask = imageMemoryBarrier.dstAccessMask | VK_ACCESS_DEPTH_STENCIL_ATTACHMENT_WRITE_BIT;
+			break;
+
+		case VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL:
+			if (imageMemoryBarrier.srcAccessMask == 0)
+				imageMemoryBarrier.srcAccessMask = VK_ACCESS_HOST_WRITE_BIT | VK_ACCESS_TRANSFER_WRITE_BIT;
+
+			imageMemoryBarrier.dstAccessMask = VK_ACCESS_SHADER_READ_BIT;
+			break;
+		default:
+			break;
+		}
+
+		vkCmdPipelineBarrier
+		(commandBuffer, srcStageMask,
+			dstStageMask, 0,
+			0,
+			nullptr,
+			0,
+			nullptr,
+			1,
+			&imageMemoryBarrier
+
+		);
+	}
+
+
+
+	void VulkanTexture::setImageLayout(VkCommandBuffer& cmdbuffer, VkImage image, VkImageAspectFlags aspectMask, VkImageLayout oldImageLayout, VkImageLayout newImageLayout, VkPipelineStageFlags srcStageMask, VkPipelineStageFlags dstStageMask)
+	{
+		VkImageSubresourceRange subresourceRange{};
+		subresourceRange.aspectMask = aspectMask;
+		subresourceRange.baseMipLevel = 0;
+		subresourceRange.levelCount = 1;
+		subresourceRange.layerCount = 1;
+		setImageLayout(cmdbuffer, image, oldImageLayout, newImageLayout, subresourceRange, srcStageMask, dstStageMask);
+	}
+
 	void VulkanTexture::Destroy()
 	{
+		//Need to remove this
 		VkDevice deviceRef = GraphicsManager::getInstance().getVkInstance().getVkLogicalDevice();
 		if (GraphicsManager::getInstance().IfFrameHasBegin())
 		{
@@ -792,6 +977,16 @@ namespace TDS
 			vkDestroyImageView(deviceRef, m_BaseImageView, 0);
 			m_BaseImageView = nullptr;
 		}
+		if (m_ImageViews.empty() == false)
+		{
+			for (auto& views : m_ImageViews)
+			{
+				vkDestroyImageView(deviceRef, views, 0);
+				views = nullptr;
+			}
+			m_ImageViews.clear();
+		}
+
 
 		if (m_Sampler)
 		{
@@ -891,6 +1086,11 @@ namespace TDS
 	VkImage& VulkanTexture::GetImage()
 	{
 		return m_ImageHdl;
+	}
+
+	std::vector<VkImageView>& VulkanTexture::GetImageViews()
+	{
+		return m_ImageViews;
 	}
 
 

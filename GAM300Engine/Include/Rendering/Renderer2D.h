@@ -1,6 +1,6 @@
 #pragma once
 #include "camera/SphereFrustum.h"
-#include "ResourceManagement/ResourceManager.h"
+#include "ResourceManagement/ResourceRef.h"
 #include "GraphicsResource/AssetModel.h"
 #include "Rendering/Batch2D.h"
 

@@ -27,7 +27,10 @@ namespace TDS
 	}
 	void EventHandler::changeChildTransformation(EntityID childEntity, Vec3& positionChange, Vec3& scaleChange, Vec3& rotationChange)
 	{
+		
+
 		Transform* childTransform = GetTransform(childEntity);
+
 		childTransform->SetPosition(childTransform->GetPosition() + positionChange);
 		childTransform->SetScale(childTransform->GetScale() + scaleChange);
 		childTransform->SetRotation(childTransform->GetRotation() + rotationChange);

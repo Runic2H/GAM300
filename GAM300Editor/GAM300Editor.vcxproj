@@ -49,6 +49,7 @@
     <ClInclude Include="Include\imguiHelper\ImguiAssetBrowser.h" />
     <ClInclude Include="Include\imguiHelper\ImguiAudio.h" />
     <ClInclude Include="Include\imguiHelper\ImguiBehaviourTree.h" />
+    <ClInclude Include="Include\imguiHelper\ImguiCompilerDescriptor.h" />
     <ClInclude Include="Include\imguiHelper\ImguiConsole.h" />
     <ClInclude Include="Include\imguiHelper\ImguiFunctionHelper.h" />
     <ClInclude Include="Include\imguiHelper\ImguiGamePlayScene.h" />
@@ -61,6 +62,8 @@
     <ClInclude Include="Include\imguiHelper\ImguiScriptBrowser.h" />
     <ClInclude Include="Include\imguiHelper\ImguiToolbar.h" />
     <ClInclude Include="Include\imguiHelper\ImGuiViewport.h" />
+    <ClInclude Include="Include\Tools\CompilerFormats.h" />
+    <ClInclude Include="Include\Tools\CompilerRevamped\MeshLoader.h" />
     <ClInclude Include="Include\Tools\CompilerSettings.h" />
     <ClInclude Include="Include\Tools\DDSConverter.h" />
     <ClInclude Include="Include\Tools\EditorHistory.h" />
@@ -94,6 +97,7 @@
     <ClCompile Include="Src\imguiHelper\ImguiAssetBrowser.cpp" />
     <ClCompile Include="Src\imguiHelper\ImguiAudio.cpp" />
     <ClCompile Include="Src\imguiHelper\ImguiBehaviourTree.cpp" />
+    <ClCompile Include="Src\imguiHelper\ImguiCompilerDescriptor.cpp" />
     <ClCompile Include="Src\imguiHelper\ImguiConsole.cpp" />
     <ClCompile Include="Src\imguiHelper\ImguiGamePlayScene.cpp" />
     <ClCompile Include="Src\imguiHelper\ImguiHelper.cpp" />
@@ -104,6 +108,7 @@
     <ClCompile Include="Src\imguiHelper\ImguiSceneBrowser.cpp" />
     <ClCompile Include="Src\imguiHelper\ImguiScriptBrowser.cpp" />
     <ClCompile Include="Src\imguiHelper\ImguiToolBar.cpp" />
+    <ClCompile Include="Src\Tools\CompilerRevamped\MeshLoader.cpp" />
     <ClCompile Include="Src\Tools\CompilerSettings.cpp" />
     <ClCompile Include="Src\Tools\DDSConverter.cpp" />
     <ClCompile Include="Src\Tools\EditorHistory.cpp" />

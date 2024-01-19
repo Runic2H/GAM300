@@ -36,8 +36,9 @@ namespace TDS
 		// TILEMAP,
 		GAMEPLAYSCENE,
 		SCENE,
-		AUDIOLER
+		AUDIOLER,
 		// ANIMATION
+		COMPILER_DESCRIPTOR
 	};
 
 	class LevelEditorPanel

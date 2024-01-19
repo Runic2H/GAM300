@@ -1,5 +1,4 @@
 #include "AssetManagement/AssetManager.h"
-#include "AssetManagement/FontFactory.h"
 
 namespace TDS
 {
@@ -21,7 +20,7 @@ namespace TDS
 		m_FontFactory.Preload();
 	}
 
-	void DLL_API AssetManager::ShutDown()
+	void AssetManager::ShutDown()
 	{
 		m_ModelFactory.DestroyAllModels();
 		m_TextureFactory.DestroyAllTextures();
@@ -42,6 +41,11 @@ namespace TDS
 	AssetFactory<FontAtlas>& AssetManager::GetFontFactory()
 	{
 		return m_FontFactory;
+	}
+
+	 AssetFactory<MeshController>& AssetManager::GetMeshFactory()
+	{
+		 return m_MeshFactory;
 	}
 
 	std::shared_ptr<AssetManager> AssetManager::GetInstance()

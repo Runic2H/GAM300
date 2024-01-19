@@ -3,6 +3,7 @@
 
 #include "components/nameTag.h"
 #include "components/transform.h"
+#include "components/GraphicsComponent.h"
 #include "eventManager/eventmanager.h"
 
 namespace TDS

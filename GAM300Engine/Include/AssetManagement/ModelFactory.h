@@ -16,6 +16,7 @@
 #include <iostream>
 #include <ecs/ecs.h>
 #include "components/components.h"
+#include "GraphicsResource/GeomStruct.h"
 #define MODEL_PATH "../assets/models/"
 #define MAX_PRELOAD_MODELS 1000
 
@@ -251,6 +252,7 @@ namespace TDS
 				}
 			}
 		}
+		//Load directly from editor for testing, because I having issue with my serializer
 		void LoadModel(std::string_view path)
 		{
 			std::filesystem::path FilePath(path);

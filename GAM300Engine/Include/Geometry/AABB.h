@@ -79,6 +79,12 @@ namespace TDS
 
 		// Computes the square distance between a point p and an AABB box
 		DLL_API float SqrDistPointAABB(const Vec3& p, const AABB& box);
+
+		inline void SetMinMax(const Vec3& min, const Vec3& max)
+		{
+			m_min = min;
+			m_max = max;
+		}
 	private:
 		Vec3 m_min; // minimum point
 		Vec3 m_max; // maximum point

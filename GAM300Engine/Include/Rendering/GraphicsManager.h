@@ -7,6 +7,7 @@
 #include "camera/Camerasystem/CameraSystem.h"
 #include "DebugRenderer.h"
 #include "Rendering/ObjectPicking.h"
+
 namespace TDS
 {
 
@@ -19,6 +20,8 @@ namespace TDS
 	class RenderPass;
 	class FrameBuffer;
 	class PointLightSystem;
+	class DeferredController;
+
 
 	struct FullScreenVertex
 	{
@@ -46,6 +49,9 @@ namespace TDS
 		RenderTarget*							m_PickAttachment{ nullptr };
 		RenderPass*								m_Renderpass{ nullptr };
 		FrameBuffer*							m_Framebuffer{ nullptr };
+		std::shared_ptr<DeferredController>		m_DeferredController {nullptr};
+
+
 		int										m_LayerID = 0;
 		bool									m_RenderAllLayer = true;
 		bool									m_ViewingFrom2D = false;
@@ -56,8 +62,10 @@ namespace TDS
 		Vec4									m_ViewportScreen{};
 	public:
 		inline static std::shared_ptr<GraphicsManager> m_Instance;
+
 		GraphicsManager();
 		~GraphicsManager();
+
 
 		void								SetClearColor(Vec4 clearColor);
 		void								ToggleViewFrom2D(bool condition);
@@ -75,7 +83,7 @@ namespace TDS
 		void								UpdateClearColor();
 		void								setCamera(TDSCamera& camera);
 		std::shared_ptr<VulkanInstance>		getVkInstancePtr();
-
+		std::shared_ptr<DeferredController>	GetDeferredController();
 		WindowsWin*							GetWindow();
 		
 		void								SetLayerToRender(int ID);
@@ -107,7 +115,6 @@ namespace TDS
 		std::unique_ptr<PointLightSystem> m_PointLightRenderer;
 		std::unique_ptr<DebugRenderer> m_DebugRenderer;
 		ObjectPick& getObjectPicker();
-
 
 		WindowsWin* getWindow() const { return m_pWindow;}
 		Vec4& getViewportScreen() { return m_ViewportScreen; }
