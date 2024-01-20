@@ -19,6 +19,8 @@ namespace TDS
 
 		static void		OnRender(const float dt, const std::vector<EntityID>& entities, Transform* _Component, GraphicsComponent* _Graphics);
 		static void		onRenderTempFixed(const float dt, const std::vector<EntityID>& entities, Transform* _Component, GraphicsComponent* _Graphics);
+		static void		RenderPointLight(Transform* _Component, GraphicsComponent* _Graphics);
+
 
 		static void		UpdateGraphicsData(GraphicsComponent* _Graphics);
 		static void		UpdateTexture(GraphicsComponent* _Graphics);

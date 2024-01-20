@@ -16,9 +16,9 @@ namespace TDS
 
 	struct MeshNode
 	{
-		std::string											m_MeshName;
+		bool												m_FirstRender;
 		AABB												m_MeshAABB;
-		Vec3												m_InitPos;
+		std::string											m_MeshName;
 	};
 
 	struct SceneNode
@@ -26,6 +26,7 @@ namespace TDS
 		AABB												m_LayerAABB;
 		std::string											m_NodeName = "";
 		std::map<std::string, MeshNode>						m_MeshList;
+		Vec3												m_SceneTranslation;
 	};
 
 

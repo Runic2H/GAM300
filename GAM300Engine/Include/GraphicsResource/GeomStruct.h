@@ -47,7 +47,8 @@ namespace TDS
 			Vec3				m_Normal;
 			Vec2				m_UV;
 			Vec4				m_Color;
-			BoneWeights			m_WeightPerVertex;
+			Vec4							m_BoneID;
+			Vec4							m_Weights;
 		};
 		
 		std::vector<Mesh>			m_Mesh;

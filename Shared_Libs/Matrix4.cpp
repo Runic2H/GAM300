@@ -260,6 +260,41 @@ namespace TDS
         return ss.str();
     }
 
+    Vec3 Mat4::GetRotation() const 
+    {
+        Vec3 scale = GetScale();
+
+        // Create a 3x3 matrix without scale
+        Mat3 rotationMatrix = Mat3(
+            m[0][0] / scale.x, m[0][1] / scale.y, m[0][2] / scale.z,
+            m[1][0] / scale.x, m[1][1] / scale.y, m[1][2] / scale.z,
+            m[2][0] / scale.x, m[2][1] / scale.y, m[2][2] / scale.z
+        );
+
+        // Assuming Euler angles in Y-X-Z order
+        Vec3 euler;
+        euler.y = asin(-std::clamp(rotationMatrix.m[2][0], -1.0f, 1.0f));
+        if (abs(rotationMatrix.m[2][0]) < 0.999999) {
+            euler.x = atan2(rotationMatrix.m[2][1], rotationMatrix.m[2][2]);
+            euler.z = atan2(rotationMatrix.m[1][0], rotationMatrix.m[0][0]);
+        }
+        else {
+            euler.x = atan2(-rotationMatrix.m[0][1], rotationMatrix.m[1][1]);
+            euler.z = 0;
+        }
+
+        return euler;
+    }
+
+    Vec3 Mat4::GetScale() const {
+        Vec3 scales;
+        scales.x = Vec3(m[0][0], m[1][0], m[2][0]).magnitude();
+        scales.y = Vec3(m[0][1], m[1][1], m[2][1]).magnitude();
+        scales.z = Vec3(m[0][2], m[1][2], m[2][2]).magnitude();
+        return scales;
+    }
+
+
     Mat4 Mat4::Frustum(float left, float right, float bottom, float top, float zNear, float zFar)
     {
         Mat4 result{};
@@ -339,6 +374,18 @@ namespace TDS
         Vec4 v3(0.f, 0.f, 1.f, 0.f);
         Vec4 v4(vec.x, vec.y, vec.z, 1.f);
         return Mat4(v1, v2, v3, v4);
+    }
+    Mat4 Mat4::Rotate(const Vec3& eulerAngles)
+    {
+        float xRad = Mathf::Deg2Rad * eulerAngles.x;
+        float yRad = Mathf::Deg2Rad * eulerAngles.y;
+        float zRad = Mathf::Deg2Rad * eulerAngles.z;
+
+        Mat4 rotX = Mat4::Rotate(Vec3(1.0f, 0.0f, 0.0f), xRad);
+        Mat4 rotY = Mat4::Rotate(Vec3(0.0f, 1.0f, 0.0f), yRad);
+        Mat4 rotZ = Mat4::Rotate(Vec3(0.0f, 0.0f, 1.0f), zRad);
+
+        return rotZ * rotY * rotX;
     }
     Mat4 Mat4::Rotate(const Vec3& axis, float angleDegrees)
     {

@@ -95,7 +95,9 @@ namespace TDS
 			serializeVec3(vertex.m_Normal);
 			serializeVec2(vertex.m_UV);
 			serializeVec4(vertex.m_Color);
-			serializeBoneWeights(vertex.m_WeightPerVertex);
+			serializeVec4(vertex.m_BoneID);
+			serializeVec4(vertex.m_Weights);
+
 		};
 
 		auto serializeIndices = [&](const std::vector<std::uint32_t>& indices)
@@ -214,7 +216,8 @@ namespace TDS
 			deserializeVec3(vertex.m_Normal);
 			deserializeVec2(vertex.m_UV);
 			deserializeVec4(vertex.m_Color);
-			deserializeBoneWeights(vertex.m_WeightPerVertex);
+			deserializeVec4(vertex.m_BoneID);
+			deserializeVec4(vertex.m_Weights);
 		};
 
 		auto deserializeMesh = [&](Mesh& mesh)

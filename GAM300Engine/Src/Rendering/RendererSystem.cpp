@@ -12,7 +12,7 @@ namespace TDS
 {
 #define _OLD
 	GlobalUBO ubo{};
-	
+
 	struct PushConstantData {
 		Mat4 ModelMat{ 1.f };
 		Mat4 NormalMat{ 1.f };
@@ -21,6 +21,18 @@ namespace TDS
 		uint32_t Id{};
 
 	};
+
+	void UpdateTransformHierachy(Transform& childTransform, Transform& ParentTransform)
+	{
+		Mat4 parentTransformMat = ParentTransform.GetTransformMatrix();
+		Mat4 childTransformMat = childTransform.GetTransformMatrix();
+
+		Mat4 accumulated = parentTransformMat * childTransformMat;
+
+		childTransform.SetPosition(accumulated.GetPosition());
+		childTransform.SetScale(accumulated.GetScale());
+	}
+
 
 	float RendererSystem::lightPosX = 0.f;
 	void RendererSystem::OnInit()
@@ -32,17 +44,15 @@ namespace TDS
 		//Update point lights
 		GraphicsManager::getInstance().m_PointLightRenderer->newupdate(ubo, entities, _TransformComponent, _Graphics);
 
-
-		#ifdef _OLD
-			onRenderTempFixed(dt, entities, _TransformComponent, _Graphics);
-		#else
-			OnRenderInstance(dt, entities, _TransformComponent, _Graphics);
-		#endif
+#ifdef _OLD
+		onRenderTempFixed(dt, entities, _TransformComponent, _Graphics);
+#else
+		OnRenderDeferred(dt, entities, _TransformComponent, _Graphics);
+#endif
 	}
 
 	void RendererSystem::OnRenderDeferred(const float dt, const std::vector<EntityID>& entities, Transform* _TransComponent, GraphicsComponent* _Graphics)
 	{
-		GraphicsManager::getInstance().m_PointLightRenderer->newupdate(ubo, entities, _TransComponent, _Graphics);
 		auto deferredController = GraphicsManager::getInstance().GetDeferredController();
 
 		deferredController->m_InstIndex = 0;
@@ -66,11 +76,6 @@ namespace TDS
 				}
 
 				UpdateGraphicsData(&GraphicsComp);
-
-				/* Frustrum culling logic here... */
-				// if (Frustrum culling)
-				//		continue;
-
 
 				DeferredController::InstanceData& meshInstance = deferredController->m_MeshInstances[GraphicsComp.m_MeshName];
 
@@ -289,21 +294,8 @@ namespace TDS
 			PushConstantData pushData{};
 			pushData.Id = entities[i];
 
-			MeshController* pModelController = nullptr;
-			if (_Graphics[i].m_ModelName != _Graphics[i].m_MeshControllerRef.m_AssetName)
-			{
-				pModelController = AssetManager::GetInstance()->GetMeshFactory().GetMeshController(_Graphics[i].m_ModelName, _Graphics[i].m_MeshControllerRef);
-				if (pModelController == nullptr)
-				{
-					//TDS_WARN("No such model called {}", _Graphics[i].m_AssetReference.m_AssetName);
-				}
-				else
-				{
-					_Graphics[i].m_MeshControllerRef.m_AssetName = _Graphics[i].m_ModelName;
-					_Graphics[i].m_MeshControllerRef.m_ResourcePtr = pModelController;
-				}
 
-			}
+
 			std::string texName = _Graphics[i].m_TextureName;
 			int textureID = AssetManager::GetInstance()->GetTextureFactory().GetTextureIndex(_Graphics[i].m_TextureName, _Graphics[i].m_TextureReference);
 
@@ -316,92 +308,123 @@ namespace TDS
 				pushData.textureIndex = textureID;
 			}
 
-			Renderer3D::getPipeline()->SetCommandBuffer(commandBuffer);
+			Renderer3D::getTempPipeline()->SetCommandBuffer(commandBuffer);
 			GraphicsManager::getInstance().m_PointLightRenderer->GetPipeline().SetCommandBuffer(commandBuffer);
 			GraphicsManager::getInstance().m_DebugRenderer->GetPipeline().SetCommandBuffer(commandBuffer);
 
-
-			if (Renderer3D::getPipeline()->GetCreateEntry().m_EnableDoubleBuffering)
+			if (Renderer3D::getTempPipeline()->GetCreateEntry().m_EnableDoubleBuffering)
 			{
 
-				auto& sceneNodeContainer = pModelController->GetRoots();
-				MeshNode& node = sceneNodeContainer[_Graphics[i].m_MeshNodeName].m_MeshList[_Graphics[i].m_MeshName];
 
-				if (Vec3 Scale = _TransformComponent[i].GetScale(); Scale.x <= 0.f || Scale.y <= 0.f || Scale.z <= 0.f) {
+				MeshController* pModelController = _Graphics[i].m_MeshControllerRef.m_ResourcePtr;
+				if (_Graphics[i].m_ModelName != _Graphics[i].m_MeshControllerRef.m_AssetName)
+				{
+					MeshController* temp = AssetManager::GetInstance()->GetMeshFactory().GetMeshController(_Graphics[i].m_ModelName, _Graphics[i].m_MeshControllerRef);
+					if (temp == nullptr)
+					{
+						temp = _Graphics[i].m_MeshControllerRef.m_ResourcePtr;
+						//TDS_WARN("No such model called {}", _Graphics[i].m_AssetReference.m_AssetName);
+					}
+					else
+					{
+						_Graphics[i].m_MeshControllerRef.m_AssetName = _Graphics[i].m_ModelName;
+						_Graphics[i].m_MeshControllerRef.m_ResourcePtr = temp;
+						pModelController = temp;
+					}
+					pModelController = temp;
+				}
+
+				if (pModelController == nullptr)
+					continue;
+
+				
+
+
+				if (Vec3 Scale = _TransformComponent[i].GetScale(); Scale.x <= 0.f || Scale.y <= 0.f || Scale.z <= 0.f) 
+				{
+					std::cout << "Here" << std::endl;
 				}
 				else {
 					_TransformComponent[i].GenerateTransform();
 				}
-
-				Mat4 temp{};
-				if (node.m_InitPos == _TransformComponent[i].GetPosition())
-				{
-
-					Transform tempTransform{};
-
-					tempTransform.SetPosition(Vec3(0.f, 0.f, 0.f));
-					tempTransform.SetRotation(Vec3(0.f, 0.f, 0.f));
-					tempTransform.SetScale(Vec3(1.f, 1.f, 1.f));
-
-					temp = tempTransform.GenerateTransform();
-
-				}
-				else
-				{
-					temp = _TransformComponent[i].GetTransformMatrix();
-				}
-
-
-				pushData.ModelMat = temp;
-				temp.inverse();
-				temp.transpose();
-				pushData.NormalMat = temp;
-
-				ubo.m_View = GraphicsManager::getInstance().GetCamera().GetViewMatrix();
-
-				ubo.m_Projection = Mat4::Perspective(GraphicsManager::getInstance().GetCamera().m_Fov * Mathf::Deg2Rad,
-					GraphicsManager::getInstance().GetSwapchainRenderer().getAspectRatio(), 0.1f, 1000000.f);
-				ubo.m_Projection.m[1][1] *= -1;
-
-				if (_Graphics[i].IsPointLight())
-				{
-					GraphicsManager::getInstance().m_PointLightRenderer->GetPipeline().BindDescriptor(frame, 1);
-					GraphicsManager::getInstance().m_PointLightRenderer->GetPipeline().UpdateUBO(&ubo, sizeof(GlobalUBO), 1, frame);
-					GraphicsManager::getInstance().m_PointLightRenderer->render(&_Graphics[i], &_TransformComponent[i]);
-				}
-				else 
+				if (_Graphics[i].IsPointLight() == false)
 				{//if not point light render using model
-					if (_Graphics[i].m_AssetReference.m_ResourcePtr != nullptr)
+					auto& sceneNodeContainer = pModelController->GetRoots();
+					auto& rootNode = sceneNodeContainer[_Graphics[i].m_MeshNodeName];
+					auto& MeshList = sceneNodeContainer[_Graphics[i].m_MeshNodeName].m_MeshList;
+					auto sceneNodeItr = MeshList.find(_Graphics[i].m_MeshName);
+
+					if (sceneNodeContainer.size() > 1 && sceneNodeItr == MeshList.end())
+						continue;
+
+					MeshNode& node = sceneNodeItr->second;
+
+
+					Mat4 temp{};
+					//if (rootNode.m_SceneTranslation == _TransformComponent[i].GetPosition() && node.m_FirstRender)
+					//{
+					//	node.m_FirstRender = false;
+					//}
+					//else
+					//{
+						temp = _TransformComponent[i].GetTransformMatrix();
+					/*}*/
+
+
+					pushData.ModelMat = temp;
+					temp.inverse();
+					temp.transpose();
+					pushData.NormalMat = temp;
+
+					ubo.m_View = GraphicsManager::getInstance().GetCamera().GetViewMatrix();
+
+					ubo.m_Projection = Mat4::Perspective(GraphicsManager::getInstance().GetCamera().m_Fov * Mathf::Deg2Rad,
+						GraphicsManager::getInstance().GetSwapchainRenderer().getAspectRatio(), 0.1f, 1000000.f);
+					ubo.m_Projection.m[1][1] *= -1;
+
+
+
+					if (_Graphics[i].m_MeshControllerRef.m_ResourcePtr != nullptr)
 					{
 
 						MeshBuffer& meshBuffer = pModelController->GetMeshData(_Graphics[i].m_MeshName);
 
-						Renderer3D::getPipeline()->BindPipeline();
+						Renderer3D::getTempPipeline()->BindPipeline();
 
 						if (AssetManager::GetInstance()->GetTextureFactory().m_UpdateTextureArray3D)
 						{
-							Renderer3D::getPipeline()->UpdateTextureArray(4, VkDescriptorType::VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, AssetManager::GetInstance()->GetTextureFactory().GetTextureArray());
+							Renderer3D::getTempPipeline()->UpdateTextureArray(4, VkDescriptorType::VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, AssetManager::GetInstance()->GetTextureFactory().GetTextureArray());
 							AssetManager::GetInstance()->GetTextureFactory().m_UpdateTextureArray3D = false;
 						}
 
-						Renderer3D::getPipeline()->UpdateUBO(&ubo, sizeof(GlobalUBO), 0, frame);
+						Renderer3D::getTempPipeline()->UpdateUBO(&ubo, sizeof(GlobalUBO), 0, frame);
 
-						Renderer3D::getPipeline()->SubmitPushConstant(&pushData, sizeof(PushConstantData), SHADER_FLAG::VERTEX | SHADER_FLAG::FRAGMENT);
-						Renderer3D::getPipeline()->BindVertexBuffer(*meshBuffer.m_VertexBuffer);
-						Renderer3D::getPipeline()->BindIndexBuffer(*meshBuffer.m_IndexBuffer);
-						Renderer3D::getPipeline()->BindDescriptor(frame, 1);
-						Renderer3D::getPipeline()->BindArrayDescriptorSet(0, 1, 1);
+						Renderer3D::getTempPipeline()->SubmitPushConstant(&pushData, sizeof(PushConstantData), SHADER_FLAG::VERTEX | SHADER_FLAG::FRAGMENT);
+						Renderer3D::getTempPipeline()->BindVertexBuffer(*meshBuffer.m_VertexBuffer);
+						Renderer3D::getTempPipeline()->BindIndexBuffer(*meshBuffer.m_IndexBuffer);
+						Renderer3D::getTempPipeline()->BindDescriptor(frame, 1);
+						Renderer3D::getTempPipeline()->BindArrayDescriptorSet(0, 1, 1);
 						if (_Graphics[i].ShowMesh())
 						{
-							Renderer3D::getPipeline()->DrawIndexed(*meshBuffer.m_VertexBuffer,
-								*meshBuffer.m_IndexBuffer,
-								frame);
+							Renderer3D::getTempPipeline()->DrawIndexed(*meshBuffer.m_VertexBuffer, *meshBuffer.m_IndexBuffer, frame);
 						}
 						if (_Graphics[i].IsDebugOn())
 						{
 
 						}
 					}
+				}
+				else
+				{
+					if (Vec3 Scale = _TransformComponent[i].GetScale(); Scale.x <= 0.f || Scale.y <= 0.f || Scale.z <= 0.f) {
+					}
+					else {
+						_TransformComponent[i].GenerateTransform();
+					}
+					GraphicsManager::getInstance().m_PointLightRenderer->GetPipeline().BindDescriptor(frame, 1);
+					GraphicsManager::getInstance().m_PointLightRenderer->GetPipeline().UpdateUBO(&ubo, sizeof(GlobalUBO), 1, frame);
+					GraphicsManager::getInstance().m_PointLightRenderer->render(&_Graphics[i], &_TransformComponent[i]);
+
 				}
 
 			}
@@ -430,6 +453,7 @@ namespace TDS
 
 		}
 	}
+
 
 
 

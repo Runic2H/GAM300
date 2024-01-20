@@ -5,7 +5,7 @@
 
 layout(set = 1, binding = 4) uniform sampler2D texArraySampler[500];
 
-layout(location = 0) in vec3 fragColor;
+layout(location = 0) in vec4 fragColor;
 layout(location = 1) in vec2 fragTexCoord;
 layout(location = 2) in vec3 fragPosWorld;
 layout(location = 3) in vec3 fragNormalWorld; 
@@ -31,13 +31,6 @@ layout(set = 0, binding = 0) uniform GlobalUBO{
     int activelights;
     vec4 pad[15];    
 }PL;
-
-/*
-    layout(std140, binding = 3) uniform texArrayUBO
-    {
-        vec4 m_TextureID;
-    }textureArrUniform;
-*/
 
 
 //updated per frame per model
@@ -76,5 +69,6 @@ void main() {
     //vec4 texColor = texture(texArraySampler, fragTexCoord);
     //outColor = vec4((diffuselight*ambientlight)*fragColor,1.0);
     //outColor = texture(texSampler, fragTexCoord);
-    outColor = texColor * vec4((diffuselight + ambientlight), 1.0);
+    //outColor = texColor * vec4((diffuselight + ambientlight), 1.0);
+    outColor = texColor;
 }

@@ -61,9 +61,17 @@ namespace TDS
 				  VertexBufferElement(VAR_TYPE::VEC4, "Weights"),
 				});
 
-		entry.m_ShaderInputs.m_InputVertex.push_back(VertexBufferInfo(false, layout2, sizeof(TDSModel::Vertex)));
+		PipelineCreateEntry entry2{};
+		entry2.m_ShaderInputs.m_Shaders.insert(std::make_pair(SHADER_FLAG::VERTEX, "../assets/shaders/TempShaderVert.spv"));
+		entry2.m_ShaderInputs.m_Shaders.insert(std::make_pair(SHADER_FLAG::FRAGMENT, "../assets/shaders/TempShaderFrag.spv"));
+		entry2.m_PipelineConfig.m_DstClrBlend = VK_BLEND_FACTOR_ZERO;
+		entry2.m_PipelineConfig.m_SrcClrBlend = VK_BLEND_FACTOR_ZERO;
+		entry2.m_PipelineConfig.m_SrcAlphaBlend = VK_BLEND_FACTOR_ZERO;
+		entry2.m_PipelineConfig.m_DstAlphaBlend = VK_BLEND_FACTOR_ZERO;
+		entry2.m_PipelineConfig.m_CullMode = VkCullModeFlagBits::VK_CULL_MODE_NONE;
+		entry2.m_ShaderInputs.m_InputVertex.push_back(VertexBufferInfo(false, layout2, sizeof(TDSModel::Vertex)));
 
-		inst.m_TempPipeline->Create(entry);
+		inst.m_TempPipeline->Create(entry2);
 	}
 	std::shared_ptr<VulkanPipeline>& Renderer3D::getPipeline()
 	{

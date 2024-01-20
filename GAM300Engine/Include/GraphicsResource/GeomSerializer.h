@@ -136,7 +136,7 @@ namespace TDS
 		SerializeGeom(obj.m_Normal, out);
 		SerializeGeom(obj.m_UV, out);
 		SerializeGeom(obj.m_Color, out);
-		SerializeGeom(obj.m_WeightPerVertex, out);
+		/*SerializeGeom(obj.m_WeightPerVertex, out);*/
 	}
 
 	//Do an overload for std::vector
@@ -308,7 +308,7 @@ namespace TDS
 		DeserializeGeom(obj.m_Normal, in);
 		DeserializeGeom(obj.m_UV, in);
 		DeserializeGeom(obj.m_Color, in);
-		DeserializeGeom(obj.m_WeightPerVertex, in);
+		/*DeserializeGeom(obj.m_WeightPerVertex, in);*/
 	}
 
 	template <typename T>

@@ -54,12 +54,12 @@ namespace TDS
 		ExtractScale(aiTransform, scale);
 		aiVector3D EulerRotate = ExtractEulerAngles(aiTransform);
 		ExtractTranslation(aiTransform, Translate);
-		//Vec3 Translation = Vec3(Translate.x, Translate.y, Translate.z);
-		//Vec3 Rotatation = Vec3(EulerRotate.x, EulerRotate.y, EulerRotate.z);
-		//Vec3 Scaling = Vec3(scale.x, scale.y, scale.z);
-		//transformComp->SetPosition(Translation);
-		//transformComp->SetRotation(Rotatation);
-		//transformComp->SetScale(Scaling);
+		Vec3 Translation = Vec3(Translate.x, Translate.y, Translate.z);
+		Vec3 Rotatation = Vec3(EulerRotate.x, EulerRotate.y, EulerRotate.z);
+		Vec3 Scaling = Vec3(scale.x, scale.y, scale.z);
+		transformComp->SetPosition(Translation);
+		transformComp->SetRotation(Rotatation);
+		transformComp->SetScale(Scaling);
 
 		if (ParentEntity != 0) 
 		{
@@ -129,17 +129,24 @@ namespace TDS
 					AssetManager::GetInstance()->GetMeshFactory().GetMeshController(ModelAssetName, graphComp->m_MeshControllerRef);
 
 					//This is a root, so no rendered mesh
-					graphComp->m_MeshName = rootNodes.first;
+					graphComp->m_MeshName = "";
 					graphComp->m_ModelName = ModelAssetName;
 					graphComp->m_MeshNodeName = rootNodes.first;
 					//set root node name, 
 					rootTag->SetName(rootNodes.first);
 					rootTag->SetHierarchyParent(rootEntity);
 					rootTag->SetHierarchyIndex(panel->hierarchyList.size());
+					if (rootEntity != 0)
+					{
+						if (rootTag)
+							mainRoot->GetHierarchyChildren().push_back(nodeEntityID);
+					}
 					//set initial transform position,
-					transformComp->SetPosition(rootNodes.second.m_LayerAABB.getCenter());
+					transformComp->SetPosition(rootNodes.second.m_SceneTranslation);
+					//transformComp->SetScale(Vec3(1.f, 1.f, 1.f));
+					//transformComp->SetRotation(Vec3(0.f, 0.f, 0.f));
 					// push this entity into the main root
-					mainRoot->GetHierarchyChildren().push_back(nodeEntityID);
+					
 				}
 
 
@@ -149,14 +156,6 @@ namespace TDS
 					Entity newEntity;
 					EntityID newEntityID = newEntity.getID();
 
-					//If entity validity check
-					if (nodeEntityID != 0)
-					{
-						//Push into the root parent
-						NameTag* parentNameTag = ecs.getComponent<NameTag>(nodeEntityID);
-						if (parentNameTag)
-							parentNameTag->GetHierarchyChildren().push_back(newEntityID);
-					}
 					
 					{
 						//Add components
@@ -165,14 +164,14 @@ namespace TDS
 						addComponentByName("Transform", newEntityID);
 		
 						//Get components
-						GraphicsComponent* childGrapComp = reinterpret_cast<GraphicsComponent*>(getComponentByName("Name Tag", newEntityID));
-						NameTag* childTag = reinterpret_cast<NameTag*>(getComponentByName("Graphics Component", newEntityID));
+						GraphicsComponent* childGrapComp = reinterpret_cast<GraphicsComponent*>(getComponentByName("Graphics Component", newEntityID));
+						NameTag* childTag = reinterpret_cast<NameTag*>(getComponentByName("Name Tag", newEntityID));
 						Transform* childTransformComp = reinterpret_cast<Transform*>(getComponentByName("Transform", newEntityID));
 
 
-						rootTag->SetName(meshNode.first);
-						rootTag->SetHierarchyParent(nodeEntityID);
-						rootTag->SetHierarchyIndex(panel->hierarchyList.size());
+						childTag->SetName(meshNode.first);
+						childTag->SetHierarchyParent(nodeEntityID);
+						childTag->SetHierarchyIndex(panel->hierarchyList.size());
 
 						//Get Reference
 						AssetManager::GetInstance()->GetMeshFactory().GetMeshController(ModelAssetName, childGrapComp->m_MeshControllerRef);
@@ -182,7 +181,17 @@ namespace TDS
 						childGrapComp->m_ModelName = ModelAssetName;
 						childGrapComp->m_MeshNodeName = rootNodes.first;
 						//Set initial transform positions
-						childTransformComp->SetPosition(meshNode.second.m_InitPos);
+						childTransformComp->SetPosition(rootNodes.second.m_SceneTranslation);
+						//childTransformComp->SetScale(Vec3(1.f, 1.f, 1.f));
+						//childTransformComp->SetRotation(Vec3(0.f, 0.f, 0.f));
+						//If entity validity check
+						if (nodeEntityID != 0)
+						{
+							//Push into the root parent
+							NameTag* parentNameTag = ecs.getComponent<NameTag>(nodeEntityID);
+							if (parentNameTag)
+								parentNameTag->GetHierarchyChildren().push_back(newEntityID);
+						}
 
 					}
 				}
@@ -838,7 +847,6 @@ namespace TDS
 				req.m_OutFile = OutPath;
 				req.m_OutFile += "_Bin";
 				req.m_OutFile += ".bin";
-
 
 				MeshLoader::GetInstance().RunCompiler(req);
 

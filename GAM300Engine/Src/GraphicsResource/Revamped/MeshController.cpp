@@ -119,9 +119,9 @@ namespace TDS
         {
             auto& submesh = modelRef.m_SubMesh[i++];
 
-            m_RootNodes[mesh.m_NodeName].m_MeshList[mesh.m_Name] = (MeshNode(mesh.m_Name, submesh.m_AABB, submesh.m_ScenePos));;
+            m_RootNodes[mesh.m_NodeName].m_MeshList[mesh.m_Name] = (MeshNode(true, submesh.m_AABB, mesh.m_Name));
             m_RootNodes[mesh.m_NodeName].m_LayerAABB.extend(submesh.m_AABB);
-
+            m_RootNodes[mesh.m_NodeName].m_SceneTranslation = submesh.m_ScenePos;
             m_SceneAABB.extend(submesh.m_AABB);
         }
     }
