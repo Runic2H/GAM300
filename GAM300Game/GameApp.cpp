@@ -65,15 +65,8 @@ namespace TDS
         case WM_MBUTTONDOWN:
         case WM_MBUTTONUP:
         case WM_XBUTTONDOWN:
-        {
-            bool isPressed = 1;
-            bool isReleased = 0;
-            Input::processMouseInput(wParam, lParam);
-        }break;
         case WM_XBUTTONUP:
         {
-            bool isPressed  = 0;
-            bool isReleased = 1;
             Input::processMouseInput(wParam, lParam);
         }break;
 
@@ -102,20 +95,15 @@ namespace TDS
 
             bool wasDown = (lParam & (1 << 30)) != 0;
             bool isDown = (static_cast<unsigned int>(lParam) & (1 << 31)) == 0;
-            bool isPressed = 1;
-            bool isReleased = 0;
-            //Input::processKeyboardInput(VKcode, wasDown, isDown);
-            Input::processKeyboardInput(VKcode, isPressed, isReleased);
+            Input::processKeyboardInput(VKcode, wasDown, isDown);
         }break;
         case WM_KEYUP:
         {
             uint32_t VKcode = static_cast<uint32_t>(wParam);
             bool wasDown = (lParam & (1 << 30)) != 0;
             bool isDown = (static_cast<unsigned int>(lParam) & (1 << 31)) == 0;
-            bool isPressed = 0;
-            bool isReleased = 1;
 
-            Input::processKeyboardInput(VKcode, isPressed, isReleased);
+            Input::processKeyboardInput(VKcode, wasDown, isDown);
             Input::keystatus = Input::KeyStatus::RELEASED;
             Input::keystatus = Input::KeyStatus::IDLE;
         }break;
@@ -202,8 +190,7 @@ namespace TDS
             GraphicsManager::getInstance().EndFrame();
 
             Input::scrollStop();
-            Input::InputUpdateLoop();
-            Input::InputUpdateMouseLoop();
+
         }
         stopScriptEngine();
         AssetManager::GetInstance()->ShutDown();

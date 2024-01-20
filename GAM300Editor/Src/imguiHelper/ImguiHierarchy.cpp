@@ -379,7 +379,6 @@ namespace TDS
 			if (ImGui::BeginDragDropSource())
 			{
 				ImGui::SetDragDropPayload("draggedEntity", &entityID, sizeof(int));
-				ImGui::SetDragDropPayload("draggedEntityProperty", &entityID, sizeof(int));
 				ImGui::EndDragDropSource();
 			}
 
@@ -404,6 +403,14 @@ namespace TDS
 			{
 				selectedEntity = entityID;
 				popupOpened = true;
+				if (ImGui::Selectable("Reset Parent"))
+				{
+					reorderingHierarchy(entityID, hierarchyList[hierarchyList.size() - 1]);
+					ImGui::EndPopup();
+					ImGui::Unindent();
+					ImGui::PopID();
+					return;
+				}
 				if (ImGui::Selectable("Remove Entity"))
 				{
 					removeEntity(selectedEntity);
@@ -453,7 +460,6 @@ namespace TDS
 		if (ImGui::BeginDragDropSource())
 		{
 			ImGui::SetDragDropPayload("draggedEntity", &entityID, sizeof(int));
-			ImGui::SetDragDropPayload("draggedEntityProperty", &entityID, sizeof(int));
 			ImGui::EndDragDropSource();
 		}
 
@@ -497,6 +503,17 @@ namespace TDS
 		{
 			selectedEntity = entityID;
 			popupOpened = true;
+			if (ImGui::Selectable("Reset Parent"))
+			{
+				reorderingHierarchy(entityID, hierarchyList[hierarchyList.size() - 1]);
+				ImGui::EndPopup();
+				ImGui::PopID();
+				if (opened)
+				{
+					ImGui::TreePop();
+				}
+				return;
+			}
 			if (ImGui::Selectable("Remove Entity"))
 			{
 				removeEntity(selectedEntity);
@@ -671,6 +688,12 @@ namespace TDS
 					bool currentItemHovered = false;
 					selected = ImGui::Selectable(nameTagComponent->GetName().c_str(), selectedEntity == entityID, ImGuiSelectableFlags_SpanAllColumns);
 
+					if (ImGui::BeginDragDropSource())
+					{
+						ImGui::SetDragDropPayload("draggedEntity", &entityID, sizeof(int));
+						ImGui::EndDragDropSource();
+					}
+
 					if (ImGui::IsItemHovered())
 					{
 						anyItemHovered = true;
@@ -685,6 +708,14 @@ namespace TDS
 					{
 						selectedEntity = entityID;
 						popupOpened = true;
+						if (ImGui::Selectable("Reset Parent"))
+						{
+							reorderingHierarchy(entityID, hierarchyList[hierarchyList.size() - 1]);
+							ImGui::EndPopup();
+							ImGui::Unindent();
+							ImGui::PopID();
+							return;
+						}
 						if (ImGui::Selectable("Remove Entity"))
 						{
 							removeEntity(selectedEntity);

@@ -100,7 +100,7 @@ namespace TDS
 	public:
 		struct keyState
 		{
-			bool wasDown, isDown, isPressed, isReleased;
+			bool wasDown, isDown;
 		};
 		enum class KeyStatus
 		{
@@ -116,7 +116,7 @@ namespace TDS
 
 		struct buttonState
 		{
-			bool wasDown, isDown, isPressed, isReleased, isScrollUp, isScrollDown;
+			bool wasDown, isDown, isScrollUp, isScrollDown;
 		};
 
 		struct mousePosition
@@ -149,10 +149,6 @@ namespace TDS
 		static bool isKeyPressed(uint32_t keycode);
 
 		/*!*************************************************************************
-		Returns true if key is being held.
-		****************************************************************************/
-		static bool isKeyHeld(uint32_t keycode);
-		/*!*************************************************************************
 		Returns true if key is released.
 		****************************************************************************/
 		static bool isKeyReleased(uint32_t keycode);
@@ -167,13 +163,6 @@ namespace TDS
 		****************************************************************************/
 		static void KeyRelease(uint32_t keycode);
 
-		/*!*************************************************************************
-		Used to reset the keystate in the update loop
-		****************************************************************************/
-		static void InputUpdateLoop();
-
-		static void InputUpdateMouseLoop();
-		
 		/*!*************************************************************************
 		Returns true if mouse wheel is being scrolled up.
 		****************************************************************************/
@@ -193,20 +182,12 @@ namespace TDS
 		Returns true if mouse button is being pressed.
 		****************************************************************************/
 		static bool isMouseButtonPressed(unsigned int buttonCode);
-		
-		/*!*************************************************************************
-		Returns true if mouse button is being held.
-		****************************************************************************/
-		static bool isMouseButtonHeld(unsigned int buttonCode);
-		
+
 		/*!*************************************************************************
 		Returns true if mouse button is being released.
 		****************************************************************************/
 		static bool isMouseButtonReleased(unsigned int buttonCode);
 
-		/*!*************************************************************************
-		Resets mouse state.
-		****************************************************************************/
 		static void releaseTheMouse(unsigned int buttonCode);
 
 		/*!*************************************************************************
@@ -228,7 +209,7 @@ namespace TDS
 		Maps the keycodes to the macros defined by offseting them from the win32 API
 		keycode numbers.
 		****************************************************************************/
-		static void processKeyboardInput(uint32_t VKcode, bool isPressed, bool isReleased); //bool wasDown, bool isDown
+		static void processKeyboardInput(uint32_t VKcode, bool wasDown, bool isDown);
 
 		/*!*************************************************************************
 		Updates the mouse button bools
@@ -263,7 +244,6 @@ namespace TDS
 	private:
 		static bool exit_cursor;
 		static Vec2 local_MousePos;
-
 
 	}; //end of Input class
 

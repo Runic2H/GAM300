@@ -31,12 +31,12 @@ class Quat
     // Functions
 
     // Returns the q rotation angle
-    static float angle(Quat const& q);
+    DLL_API static float angle(Quat const& q);
     // Build a quaternion from an angle and an axis
-    static Quat angleAxis(float const& angle, float const& x, float const& y, float const& z);
+    DLL_API static Quat angleAxis(float const& angle, float const& x, float const& y, float const& z);
     static Quat angleAxis(float const& angle, Vec3 const& axis);
     // Returns the q rotation axis
-    static Vec3 axis(Quat const& q);
+    DLL_API static Vec3 axis(Quat const& q);
     // Returns the q conjugate
     static Quat conjugate(Quat const& q);
     // Returns the cross product of q1 and q2

@@ -12,8 +12,12 @@ namespace ScriptAPI
 		System::String^ fieldType = variable->FieldType->ToString();
 		variableInfo.type = toStdString(fieldType);
 
-		if (fieldType->Contains("System"))
-			variableInfo.value = toStdString(variable->GetValue(object)->ToString());
+		if (fieldType->Contains("[]"))
+		{
+
+		}
+		else if (fieldType->Contains("System"))
+			variableInfo.value = variable->GetValue(object) ? toStdString(variable->GetValue(object)->ToString()) : "";
 		else if (fieldType == "ScriptAPI.Vector2")
 		{
 			Vector2 value = safe_cast<Vector2>(variable->GetValue(object));
@@ -45,20 +49,16 @@ namespace ScriptAPI
 		}
 		else if (fieldType->Contains("GameObject")) // Other entities
 		{
-			variableInfo.referenceEntityID = safe_cast<GameObject^>(variable->GetValue(object))->GetEntityID();
+			variableInfo.referenceEntityID = variable->GetValue(object) ? safe_cast<GameObject^>(variable->GetValue(object))->GetEntityID() : 0;
 		}
 		else if (fieldType->Contains("Component")) // Components
 		{
-			variableInfo.referenceEntityID = safe_cast<ComponentBase^>(variable->GetValue(object))->GetEntityID();
-		}
-		else if (fieldType->Contains("ScriptAPI")) // All other scripts
-		{
-			variableInfo.referenceEntityID = safe_cast<Script^>(variable->GetValue(object))->gameObject->GetEntityID();
+			variableInfo.referenceEntityID = variable->GetValue(object) ? safe_cast<ComponentBase^>(variable->GetValue(object))->GetEntityID() : 0;
 		}
 		else
 		{
-			variableInfo.value = toStdString(variable->GetValue(object)->ToString());
-			System::Console::WriteLine("What type is this even?");
+			variableInfo.referenceEntityID = variable->GetValue(object) ? safe_cast<Script^>(variable->GetValue(object))->gameObject->GetEntityID() : 0;
+			//System::Console::WriteLine("Assuming it is a script");
 		}
 
 		return variableInfo;
@@ -71,7 +71,11 @@ namespace ScriptAPI
 		System::String^ fieldType = variable->FieldType->ToString();
 		System::String^ value = toSystemString(variableInfo.value);
 
-		if (fieldType == "System.Boolean")
+		if (fieldType->Contains("[]"))
+		{
+
+		}
+		else if (fieldType == "System.Boolean")
 			variable->SetValue(object, Convert::ToBoolean(value));
 		else if (fieldType == "System.Int16")
 			variable->SetValue(object, Convert::ToInt16(value));
@@ -117,12 +121,6 @@ namespace ScriptAPI
 			component->SetEntityID(variableInfo.referenceEntityID);
 			variable->SetValue(object, component);
 		}
-		else if (fieldType->Contains("ScriptAPI") && !fieldType->Contains("Vector3")) // All other scripts, remove vector3 after all files have be resaved
-		{
-			System::String^ scriptName = toSystemString(variableInfo.type)->Substring(10); // Removing "ScriptAPI."
-			Script^ scriptReference = EngineInterface::GetScriptReference(variableInfo.referenceEntityID, scriptName);
-			variable->SetValue(object, scriptReference);
-		}
 		else
 		{
 			// Old code, in case there is old files using the old serialization method
@@ -144,6 +142,8 @@ namespace ScriptAPI
 				variable->SetValue(object, value);
 			else if (fieldType == "Vector3")
 				variable->SetValue(object, Vector3(variableInfo.vectorValueX, variableInfo.vectorValueY, variableInfo.vectorValueZ));
+			else // Not old code, assumuing that it is a script
+				variable->SetValue(object, EngineInterface::GetScriptReference(variableInfo.referenceEntityID, fieldType));
 
 
 			System::Console::WriteLine("what even: " + fieldType);

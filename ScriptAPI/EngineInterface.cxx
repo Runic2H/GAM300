@@ -539,7 +539,7 @@ namespace ScriptAPI
                 scriptValues.emplace_back(newScriptValue);
             }
 
-            if (field->GetValue(obj) == nullptr || field->Name == "transform")
+            if (/*field->GetValue(obj) == nullptr || */field->Name == "transform")
             {
                 continue;
             }

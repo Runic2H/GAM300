@@ -29,10 +29,6 @@ namespace TDS
 	}
 	bool Input::isKeyPressed(uint32_t keycode)
 	{
-		return keyboard.keys[keycode].isPressed;
-	}
-	bool Input::isKeyHeld(uint32_t keycode)
-	{
 		return keyboard.keys[keycode].isDown;
 	}
 	bool Input::isKeyReleased(uint32_t keycode)
@@ -52,163 +48,167 @@ namespace TDS
 		return (!keyboard.keys[keycode].wasDown) && keyboard.keys[keycode].isDown;
 	}
 
-	void Input::processKeyboardInput(uint32_t VKcode, bool isPressed, bool isReleased)
+	void Input::processKeyboardInput(uint32_t VKcode, bool wasDown, bool isDown)
 	{
+		if (wasDown != isDown) // if there is a change in state of keys
+		{
 			if (VKcode >= 'A' && VKcode <= 'Z')
 			{
 				uint32_t TDCkeycode = VKcode - 'A';
 				keyCode = VKcode - 'A';
-				keyboard.keys[TDCkeycode].isPressed  = isPressed;
-				keyboard.keys[TDCkeycode].isReleased = isReleased;
+				keyboard.keys[TDCkeycode].isDown = isDown;
+				keyboard.keys[TDCkeycode].wasDown = wasDown;
 			}
 
 			else if (VKcode == VK_UP)
 			{
 				keyCode = VKcode;
-				keyboard.keys[TDS_UP].isPressed = isPressed;
-				keyboard.keys[TDS_UP].isReleased = isReleased;
+				keyboard.keys[TDS_UP].isDown = isDown;
+				keyboard.keys[TDS_UP].wasDown = wasDown;
 			}
 
 			else if (VKcode == VK_DOWN)
 			{
 				keyCode = VKcode;
-				keyboard.keys[TDS_DOWN].isPressed = isPressed;
-				keyboard.keys[TDS_DOWN].isReleased = isReleased;
+				keyboard.keys[TDS_DOWN].isDown = isDown;
+				keyboard.keys[TDS_DOWN].wasDown = wasDown;
 			}
 
 			else if (VKcode == VK_LEFT)
 			{
 				keyCode = VKcode;
-				keyboard.keys[TDS_LEFT].isPressed = isPressed;
-				keyboard.keys[TDS_LEFT].isReleased = isReleased;
+				keyboard.keys[TDS_LEFT].isDown = isDown;
+				keyboard.keys[TDS_LEFT].wasDown = wasDown;
 			}
 
 			else if (VKcode == VK_RIGHT)
 			{
 				keyCode = VKcode;
-				keyboard.keys[TDS_RIGHT].isPressed = isPressed;
-				keyboard.keys[TDS_RIGHT].isReleased = isReleased;
+				keyboard.keys[TDS_RIGHT].isDown = isDown;
+				keyboard.keys[TDS_RIGHT].wasDown = wasDown;
 			}
 
 			else if (VKcode >= '0' && VKcode <= '9')
 			{
 				keyCode = VKcode;
 				uint32_t TDS_keycode = VKcode - '0' + TDS_0;
-				keyboard.keys[TDS_keycode].isPressed = isPressed;
-				keyboard.keys[TDS_keycode].isReleased = isReleased;
+				keyboard.keys[TDS_keycode].isDown = isDown;
+				keyboard.keys[TDS_keycode].wasDown = wasDown;
 			}
 
 			else if (VKcode == VK_OEM_MINUS)
 			{
 				keyCode = VKcode;
-				keyboard.keys[TDS_MINUS].isPressed = isPressed;
-				keyboard.keys[TDS_MINUS].isReleased = isReleased;
+				keyboard.keys[TDS_MINUS].isDown = isDown;
+				keyboard.keys[TDS_MINUS].wasDown = wasDown;
 			}
 
 			else if (VKcode == VK_OEM_PLUS)
 			{
 				keyCode = VKcode;
-				keyboard.keys[TDS_PLUS].isPressed = isPressed;
-				keyboard.keys[TDS_PLUS].isReleased = isReleased;
+				keyboard.keys[TDS_PLUS].isDown = isDown;
+				keyboard.keys[TDS_PLUS].wasDown = wasDown;
 			}
 
 			else if (VKcode == VK_SHIFT)
 			{
 				keyCode = VKcode;
-				keyboard.keys[TDS_SHIFT].isPressed = isPressed;
-				keyboard.keys[TDS_SHIFT].isReleased = isReleased;
+				keyboard.keys[TDS_SHIFT].isDown = isDown;
+				keyboard.keys[TDS_SHIFT].wasDown = wasDown;
 			}
 
 			else if (VKcode == VK_CONTROL)
 			{
 				keyCode = VKcode;
-				keyboard.keys[TDS_CONTROL].isPressed = isPressed;
-				keyboard.keys[TDS_CONTROL].isReleased = isReleased;
+				keyboard.keys[TDS_CONTROL].isDown = isDown;
+				keyboard.keys[TDS_CONTROL].wasDown = wasDown;
 			}
 
 			else if (VKcode == VK_MENU)
 			{
 				keyCode = VKcode;
-				keyboard.keys[TDS_ALT].isPressed = isPressed;
-				keyboard.keys[TDS_ALT].isReleased = isReleased;
+				keyboard.keys[TDS_ALT].isDown = isDown;
+				keyboard.keys[TDS_ALT].wasDown = wasDown;
 			}
 
 			else if (VKcode == VK_SPACE)
 			{
 				keyCode = VKcode;
-				keyboard.keys[TDS_SPACE].isPressed = isPressed;
-				keyboard.keys[TDS_SPACE].isReleased = isReleased;
+				keyboard.keys[TDS_SPACE].isDown = isDown;
+				keyboard.keys[TDS_SPACE].wasDown = wasDown;
 			}
 
 			else if (VKcode == VK_ESCAPE)
 			{
 				keyCode = VKcode;
-				keyboard.keys[TDS_ESCAPE].isPressed = isPressed;
-				keyboard.keys[TDS_ESCAPE].isReleased = isReleased;
+				keyboard.keys[TDS_ESCAPE].isDown = isDown;
+				keyboard.keys[TDS_ESCAPE].wasDown = wasDown;
 			}
 
 			else if (VKcode == VK_CAPITAL)
 			{
 				keyCode = VKcode;
-				keyboard.keys[TDS_CAPSLOCK].isPressed = isPressed;
-				keyboard.keys[TDS_CAPSLOCK].isReleased = isReleased;
+				keyboard.keys[TDS_CAPSLOCK].isDown = isDown;
+				keyboard.keys[TDS_CAPSLOCK].wasDown = wasDown;
 			}
 
 			else if (VKcode == VK_TAB)
 			{
 				keyCode = VKcode;
-				keyboard.keys[TDS_TAB].isPressed = isPressed;
-				keyboard.keys[TDS_TAB].isReleased = isReleased;
+				keyboard.keys[TDS_TAB].isDown = isDown;
+				keyboard.keys[TDS_TAB].wasDown = wasDown;
 			}
 
 			else if (VKcode == VK_RETURN)
 			{
 				keyCode = VKcode;
-				keyboard.keys[TDS_ENTER].isPressed = isPressed;
-				keyboard.keys[TDS_ENTER].isReleased = isReleased;
+				keyboard.keys[TDS_ENTER].isDown = isDown;
+				keyboard.keys[TDS_ENTER].wasDown = wasDown;
 			}
 
 			else if (VKcode == VK_BACK)
 			{
 				keyCode = VKcode;
-				keyboard.keys[TDS_BACKSPACE].isPressed = isPressed;
-				keyboard.keys[TDS_BACKSPACE].isReleased = isReleased;
+				keyboard.keys[TDS_BACKSPACE].isDown = isDown;
+				keyboard.keys[TDS_BACKSPACE].wasDown = wasDown;
 			}
 
 			else if (VKcode == VK_OEM_3)
 			{
 				keyCode = VKcode;
-				keyboard.keys[TDS_TILDE].isPressed = isPressed;
-				keyboard.keys[TDS_TILDE].isReleased = isReleased;
+				keyboard.keys[TDS_TILDE].isDown = isDown;
+				keyboard.keys[TDS_TILDE].wasDown = wasDown;
 			}
 
 			else if (VKcode == VK_OEM_COMMA)
 			{
 				keyCode = VKcode;
-				keyboard.keys[TDS_COMMA].isPressed = isPressed;
-				keyboard.keys[TDS_COMMA].isReleased = isReleased;
+				keyboard.keys[TDS_COMMA].isDown = isDown;
+				keyboard.keys[TDS_COMMA].wasDown = wasDown;
 			}
 
 			else if (VKcode == VK_OEM_PERIOD)
 			{
 				keyCode = VKcode;
-				keyboard.keys[TDS_PERIOD].isPressed = isPressed;
-				keyboard.keys[TDS_PERIOD].isReleased = isReleased;
+				keyboard.keys[TDS_PERIOD].isDown = isDown;
+				keyboard.keys[TDS_PERIOD].wasDown = wasDown;
 			}
 
 			else if (VKcode == VK_OEM_2)
 			{
 				keyCode = VKcode;
-				keyboard.keys[TDS_SLASH].isPressed = isPressed;
-				keyboard.keys[TDS_SLASH].isReleased = isReleased;
+				keyboard.keys[TDS_SLASH].isDown = isDown;
+				keyboard.keys[TDS_SLASH].wasDown = wasDown;
 			}
 
 			else if (VKcode == VK_OEM_1)
 			{
 				keyCode = VKcode;
-				keyboard.keys[TDS_SEMICOLON].isPressed = isPressed;
-				keyboard.keys[TDS_SEMICOLON].isReleased = isReleased;
+				keyboard.keys[TDS_SEMICOLON].isDown = isDown;
+				keyboard.keys[TDS_SEMICOLON].wasDown = wasDown;
 			}
+
+		}
 	}
 
 	Input::mousePosition Input::getMousePosition()
@@ -217,11 +217,6 @@ namespace TDS
 	}
 
 	bool Input::isMouseButtonPressed(unsigned int buttonCode)
-	{
-		return mouse.buttons[buttonCode].isPressed;
-	}
-
-	bool Input::isMouseButtonHeld(unsigned int buttonCode)
 	{
 		return mouse.buttons[buttonCode].isDown;
 	}
@@ -240,38 +235,6 @@ namespace TDS
 		TDS::Input::releaseTheKey(keycode);
 	}
 
-	void Input::InputUpdateLoop()
-	{
-		for (int i = 0; i < TDS_MAX_KEYS; i++)
-		{
-			if (keyboard.keys[i].isPressed)
-			{
-				keyboard.keys[i].isPressed = false;
-				keyboard.keys[i].isDown = true;
-			}
-			if(keyboard.keys[i].isReleased)
-			{
-				keyboard.keys[i].isDown = false;
-			}
-		}
-	}
-
-	void Input::InputUpdateMouseLoop()
-	{
-		for (int i = 0; i < TDS_MAX_MOUSE_BUTTONS; i++)
-		{
-			if (mouse.buttons[i].isPressed)
-			{
-				mouse.buttons[i].isPressed = false;
-				mouse.buttons[i].isDown = true;
-			}
-			if (mouse.buttons[i].isReleased)
-			{
-				mouse.buttons[i].isDown = false;
-			}
-		}
-	}
-
 	bool Input::wasMouseButtonHit(unsigned int buttonCode)
 	{
 		return (!mouse.buttons[buttonCode].wasDown) && mouse.buttons[buttonCode].isDown;
@@ -279,29 +242,17 @@ namespace TDS
 
 	void Input::processMouseInput(WPARAM wParam, LPARAM lParam)
 	{
-		//mouse.buttons[TDS_MOUSE_LEFT].wasDown = mouse.buttons[TDS_MOUSE_LEFT].isDown;
-		//mouse.buttons[TDS_MOUSE_RIGHT].wasDown = mouse.buttons[TDS_MOUSE_RIGHT].isDown;
-		//mouse.buttons[TDS_MOUSE_MIDDLE].wasDown = mouse.buttons[TDS_MOUSE_MIDDLE].isDown;
-		//mouse.buttons[TDS_MOUSE_X1].wasDown = mouse.buttons[TDS_MOUSE_X1].isDown;
-		//mouse.buttons[TDS_MOUSE_X2].wasDown = mouse.buttons[TDS_MOUSE_X2].isDown;
+		mouse.buttons[TDS_MOUSE_LEFT].wasDown = mouse.buttons[TDS_MOUSE_LEFT].isDown;
+		mouse.buttons[TDS_MOUSE_RIGHT].wasDown = mouse.buttons[TDS_MOUSE_RIGHT].isDown;
+		mouse.buttons[TDS_MOUSE_MIDDLE].wasDown = mouse.buttons[TDS_MOUSE_MIDDLE].isDown;
+		mouse.buttons[TDS_MOUSE_X1].wasDown = mouse.buttons[TDS_MOUSE_X1].isDown;
+		mouse.buttons[TDS_MOUSE_X2].wasDown = mouse.buttons[TDS_MOUSE_X2].isDown;
 
-		//mouse.buttons[TDS_MOUSE_LEFT].isDown = wParam & MK_LBUTTON;
-		//mouse.buttons[TDS_MOUSE_RIGHT].isDown = wParam & MK_RBUTTON;
-		//mouse.buttons[TDS_MOUSE_MIDDLE].isDown = wParam & MK_MBUTTON;
-		//mouse.buttons[TDS_MOUSE_X1].isDown = wParam & MK_XBUTTON1;
-		//mouse.buttons[TDS_MOUSE_X2].isDown = wParam & MK_XBUTTON2;
-		
-		
-		if (wParam & MK_LBUTTON)
-		{
-			mouse.buttons[TDS_MOUSE_LEFT].isPressed = 1;
-			mouse.buttons[TDS_MOUSE_LEFT].isReleased = 0;
-		}
-		else
-		{
-			mouse.buttons[TDS_MOUSE_LEFT].isPressed = 0;
-			mouse.buttons[TDS_MOUSE_LEFT].isReleased = 1;
-		}
+		mouse.buttons[TDS_MOUSE_LEFT].isDown = wParam & MK_LBUTTON;
+		mouse.buttons[TDS_MOUSE_RIGHT].isDown = wParam & MK_RBUTTON;
+		mouse.buttons[TDS_MOUSE_MIDDLE].isDown = wParam & MK_MBUTTON;
+		mouse.buttons[TDS_MOUSE_X1].isDown = wParam & MK_XBUTTON1;
+		mouse.buttons[TDS_MOUSE_X2].isDown = wParam & MK_XBUTTON2;
 
 		updateMousePosition(lParam);
 

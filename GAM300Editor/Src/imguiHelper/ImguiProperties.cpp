@@ -493,74 +493,60 @@ namespace TDS
 
 								// Game Object
 								ImGui::PushItemWidth(-ImGui::GetContentRegionAvail().x * 0.15f);
+								ImGui::BeginDisabled();
 
+								char temp[100] = "None";
+
+								ImGui::PushID(selectedEntity);
 								if (scriptValue.referenceEntityID) // there is a entity reference 
 								{
 									if (scriptValue.type == "ScriptAPI.GameObject")
 									{
-										ImGui::BeginDisabled();
-										char temp[100];
 										strcpy_s(temp, ecs.getComponent<NameTag>(scriptValue.referenceEntityID)->GetName().c_str());
-										ImGui::InputText("###", temp, 100, ImGuiInputTextFlags_ReadOnly);
-
-										if (ImGui::BeginDragDropTarget())
-										{
-											if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("draggedEntityProperty"))
-											{
-												// Changing game object
-												scriptValue.referenceEntityID = *(static_cast<EntityID*>(payload->Data));
-												sceneManagerInstance->setScriptValue(selectedEntity, scriptName, scriptValue);
-											}
-											ImGui::EndDragDropTarget();
-										}
-
-										ImGui::EndDisabled();
 									}
 									else
 									{
-										ImGui::BeginDisabled();
-										char temp[100];
 										strcpy_s(temp, (ecs.getComponent<NameTag>(scriptValue.referenceEntityID)->GetName() + " (" + scriptValue.type + ")").c_str());
-
-										ImGui::InputText("###", temp, 100, ImGuiInputTextFlags_ReadOnly);
-
-										if (ImGui::BeginDragDropTarget())
-										{
-											if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("draggedEntityProperty"))
-											{
-												// Changing either component / script
-												// Need to check if dragged entity has such component / script
-												EntityID payloadEntityID = *(static_cast<EntityID*>(payload->Data));
-
-												if (scriptValue.type.find("Component") != scriptValue.type.npos) // Component
-												{
-													if (payloadEntityID != selectedEntity && getComponentByName(scriptValue.type, payloadEntityID))
-													{
-														scriptValue.referenceEntityID = payloadEntityID;
-														sceneManagerInstance->setScriptValue(selectedEntity, scriptName, scriptValue);
-													}
-												}
-												else // Script
-												{
-													if (payloadEntityID != selectedEntity && sceneManagerInstance->hasScript(payloadEntityID, scriptValue.type))
-													{
-														scriptValue.referenceEntityID = payloadEntityID;
-														sceneManagerInstance->setScriptValue(selectedEntity, scriptName, scriptValue);
-													}
-												}
-											}
-											ImGui::EndDragDropTarget();
-										}
-										ImGui::EndDisabled();
 									}
 								}
-								else
+								ImGui::InputText("###", temp, 100, ImGuiInputTextFlags_ReadOnly);
+
+								if (ImGui::BeginDragDropTarget())
 								{
-									ImGui::BeginDisabled();
-									char temp[100] = "None";
-									ImGui::InputText("###", temp, 100, ImGuiInputTextFlags_ReadOnly);
-									ImGui::EndDisabled();
+									if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("draggedEntity"))
+									{
+										// Changing either component / script
+										// Need to check if dragged entity has such component / script
+										EntityID payloadEntityID = *(static_cast<EntityID*>(payload->Data));
+
+										if (scriptValue.type.find("GameObject") != scriptValue.type.npos)
+										{
+											// Changing game object
+											scriptValue.referenceEntityID = payloadEntityID;
+											sceneManagerInstance->setScriptValue(selectedEntity, scriptName, scriptValue);
+										}
+										else if (scriptValue.type.find("Component") != scriptValue.type.npos) // Component
+										{
+											if (/*payloadEntityID != selectedEntity &&*/ getComponentByName(scriptValue.type, payloadEntityID))
+											{
+												scriptValue.referenceEntityID = payloadEntityID;
+												sceneManagerInstance->setScriptValue(selectedEntity, scriptName, scriptValue);
+											}
+										}
+										else // Script
+										{
+											if (/*payloadEntityID != selectedEntity &&*/ sceneManagerInstance->hasScript(payloadEntityID, scriptValue.type))
+											{
+												scriptValue.referenceEntityID = payloadEntityID;
+												sceneManagerInstance->setScriptValue(selectedEntity, scriptName, scriptValue);
+											}
+										}
+									}
+									ImGui::EndDragDropTarget();
 								}
+
+								ImGui::PopID();
+								ImGui::EndDisabled();
 
 								ImGui::PushID(buttonID++);
 								ImGui::SameLine();

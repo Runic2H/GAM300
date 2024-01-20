@@ -71,11 +71,6 @@ namespace ScriptAPI
 		return TDS::Input::isKeyPressed(keycode);
 	}
 
-	bool Input::GetKeyHeld(uint32_t keycode)
-	{
-		return TDS::Input::isKeyHeld(keycode);
-	}
-
 	bool Input::GetKeyUp(uint32_t keycode)
 	{
 		return TDS::Input::isKeyReleased(keycode);
@@ -94,11 +89,6 @@ namespace ScriptAPI
 	bool Input::GetMouseButtonDown(uint32_t button)
 	{
 		return TDS::Input::isMouseButtonPressed(button - Keycode::MAX_KEYS);
-	}
-
-	bool Input::GetMouseButtonHeld(uint32_t button)
-	{
-		return TDS::Input::isMouseButtonHeld(button - Keycode::MAX_KEYS);
 	}
 
 	bool Input::GetMouseButtonUp(uint32_t button)
