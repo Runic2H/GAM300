@@ -17,16 +17,16 @@ namespace TDS
 	struct MeshNode
 	{
 		bool												m_FirstRender;
-		AABB												m_MeshAABB;
 		std::string											m_MeshName;
 	};
 
 	struct SceneNode
 	{
-		AABB												m_LayerAABB;
 		std::string											m_NodeName = "";
 		std::map<std::string, MeshNode>						m_MeshList;
 		Vec3												m_SceneTranslation;
+		Vec3												m_SceneRotation;
+		Vec3												m_SceneScale;
 	};
 
 
@@ -37,7 +37,6 @@ namespace TDS
 		std::map<std::string, SceneNode>					m_RootNodes;
 		std::vector<MeshBuffer>								m_MeshData;
 		std::unordered_map<std::string, std::uint32_t>		m_MeshIndexMap;
-		AABB												m_SceneAABB;
 
 	public:
 
@@ -56,11 +55,10 @@ namespace TDS
 
 		DLL_API Modelpack*		GetModelPack();
 
-		DLL_API MeshBuffer&		GetMeshData(std::string_view meshName);
+		DLL_API MeshBuffer*		GetMeshData(std::string_view meshName);
 
 		DLL_API std::map<std::string, SceneNode>& GetRoots();
 
-		DLL_API AABB&			GetSceneAABB();
 
 	};
 

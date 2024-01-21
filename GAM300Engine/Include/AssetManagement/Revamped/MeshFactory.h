@@ -2,6 +2,8 @@
 #include "GraphicsResource/Revamped/ModelPack.h"
 #include "AssetManagement/FactoryBase.h"
 #include "GraphicsResource/Revamped/MeshController.h"
+#define MODEL_PATH "../assets/models/"
+#define MAX_PRELOAD_MODELS 1000
 namespace TDS
 {
 	
@@ -12,6 +14,10 @@ namespace TDS
 		static constexpr int MAX_MODELS = 8196;
 
 		private:
+
+			std::array<const char*, 6>										m_PrimitiveModels = { "capsule_bin.bin", "cube_bin.bin", "Quad1_bin.bin",
+				"Quad2_bin.bin","sphere_bin.bin", "torus_bin.bin" };
+
 			std::array<Modelpack, MAX_MODELS>								m_Models;
 			std::array<MeshController, MAX_MODELS>							m_MeshControllers;
 			std::unordered_map<std::string, std::uint32_t>					m_ModelIndices;
@@ -82,6 +88,18 @@ namespace TDS
 				}
 			}
 
+			void PreloadDefaultPrimitives()
+			{
+				for (auto& primitive : m_PrimitiveModels)
+				{;
+					std::string Path = MODEL_PATH;
+					Path += primitive;
+					std::string primitiveName = std::filesystem::path(Path).filename().string();
+					LoadModel(Path);
+
+				}
+			}
+
 			MeshController* GetMeshController(std::string_view modelName, TypeReference<MeshController>& model)
 			{
 				auto itr = m_ModelIndices.find(modelName.data());
@@ -110,7 +128,32 @@ namespace TDS
 				
 				modelRef.m_ResourcePtr = GetMeshController(fileName, modelRef);
 			}
+			void Preload()
+			{
+				std::filesystem::path dir = MODEL_PATH;
 
+				if (!std::filesystem::exists(dir) || !std::filesystem::is_directory(dir))
+				{
+					std::cout << "Invalid directory" << std::endl;
+					return;
+				}
+				std::uint32_t numPreLoadedModels = 0;
+				for (const auto& entry : std::filesystem::directory_iterator(dir))
+				{
+					if (numPreLoadedModels >= MAX_PRELOAD_MODELS)
+						break;
+
+
+					const std::filesystem::path& path = entry.path();
+
+					if (path.extension() == ".bin")
+					{
+						std::string pathInString = entry.path().string();
+						LoadModel(pathInString);
+						++numPreLoadedModels;
+					}
+				}
+			}
 			void UnloadReference(TypeReference<MeshController>& modelRef)
 			{
 				
@@ -126,7 +169,14 @@ namespace TDS
 				modelRef.m_AssetName = "";
 
 			}
-
+			void DestroyAllMesh()
+			{
+				for (auto& model : m_MeshControllers)
+				{
+					model.Destroy();
+				}
+				m_ModelIndices.clear();
+			}
 
 
 	};

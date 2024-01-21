@@ -28,7 +28,11 @@ namespace TDS
 	Transform::Transform() : mPosition(Vec3(0.0f, 0.0f, 0.0f)),
 							mScale(Vec3(1.0f, 1.0f, 1.0f)),
 							mRotation(Vec3(0.0f, 0.f, 0.0f)),
+							mFakePosition(Vec3(0.0f, 0.0f, 0.0f)),
+							mFakeScale(Vec3(1.0f, 1.0f, 1.0f)),
+							mFakeRotation(Vec3(0.0f, 0.0f, 0.0f)),
 							mTransformMatrix(Mat4::zero()),
+							mFakeTransform(Mat4::zero()),
 							mOffsetScale(Vec3(0.f, 0.f, 0.f)),
 							mOffsetPos(Vec3(0.f, 0.f, 0.f)),
 							mOffsetMatrix(Mat4::zero())
@@ -41,7 +45,11 @@ namespace TDS
 	Transform::Transform(Transform&& toMove) noexcept : mPosition			(toMove.mPosition),
 														mScale				(toMove.mScale),
 														mRotation			(toMove.mRotation),
-														mTransformMatrix	(toMove.mTransformMatrix)
+														mTransformMatrix	(toMove.mTransformMatrix),
+														mFakePosition		(toMove.mFakePosition),
+														mFakeRotation		(toMove.mFakeRotation),
+														mFakeScale			(toMove.mFakeScale),
+														mFakeTransform		(toMove.mFakeTransform)
 	{ }
 
 	Vec4 Transform::getLocalPosition(EntityID parent)
@@ -62,11 +70,13 @@ namespace TDS
 	}
 	void Transform::setLocalPosition(EntityID parent, Vec4 localPosition)
 	{
+
 		localPosition.x *= localPosition.w;
 		localPosition.y *= localPosition.w;
 		localPosition.z *= localPosition.w;
 
 		mPosition = GetTransform(parent)->GenerateTransform() * localPosition;
+		mFakePosition = GetTransform(parent)->GenerateFakeTransform() * localPosition;
 	}
 
 	Vec4 Transform::getLocalScale(EntityID parent)

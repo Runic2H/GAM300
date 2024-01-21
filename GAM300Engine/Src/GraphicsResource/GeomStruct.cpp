@@ -78,7 +78,8 @@ namespace TDS
 		auto serializeSubMesh = [&](const SubMesh& subMesh)
 		{
 			serializeVec3(subMesh.m_ScenePos);
-			serializeAABB(subMesh.m_AABB);
+			serializeVec3(subMesh.m_SceneRotate);
+			serializeVec3(subMesh.m_SceneScale);
 			fileStream.write(reinterpret_cast<const char*>(&subMesh.m_nFaces), sizeof(std::uint32_t));
 			fileStream.write(reinterpret_cast<const char*>(&subMesh.m_iIndices), sizeof(std::uint32_t));
 			fileStream.write(reinterpret_cast<const char*>(&subMesh.m_nIndices), sizeof(std::uint32_t));
@@ -232,7 +233,8 @@ namespace TDS
 		auto deserializeSubMesh = [&](SubMesh& subMesh)
 		{
 			deserializeVec3(subMesh.m_ScenePos);
-			deserializeAABB(subMesh.m_AABB);
+			deserializeVec3(subMesh.m_SceneRotate);
+			deserializeVec3(subMesh.m_SceneScale);
 			fileStream.read(reinterpret_cast<char*>(&subMesh.m_nFaces), sizeof(subMesh.m_nFaces));
 			fileStream.read(reinterpret_cast<char*>(&subMesh.m_iIndices), sizeof(subMesh.m_iIndices));
 			fileStream.read(reinterpret_cast<char*>(&subMesh.m_nIndices), sizeof(subMesh.m_nIndices));

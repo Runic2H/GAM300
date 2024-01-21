@@ -26,7 +26,7 @@ namespace TDS
 			Vec3				m_SkylinePositions{};
 			Vec3				m_SkylineScale{2000.f,2000.f,2000.f};
 			Vec3				m_SkylineRot{};
-			TypeReference<AssetModel>		m_CubeMapModel;
+			TypeReference<MeshController>		m_CubeMapModel;
 			std::shared_ptr<VMABuffer>		m_CubeMapVertexBuffer = nullptr;
 			std::shared_ptr<VMABuffer>		m_CubeMapIndexBuffer = nullptr;
 		public:

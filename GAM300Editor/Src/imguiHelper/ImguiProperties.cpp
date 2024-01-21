@@ -989,7 +989,7 @@ namespace TDS
 
 								if (filesystempath.extension() != ".dds")
 								{
-									g->SetTextureName(assetbroswer.LoadAsset(finaltexture));
+									g->SetTextureName(assetbroswer.LoadAssetRevamped(finaltexture));
 								}
 								else
 								{
@@ -1056,7 +1056,7 @@ namespace TDS
 								}
 								else
 								{
-									ui->m_TextureName = Assetbrowser->LoadAsset(finaltexture);
+									ui->m_TextureName = Assetbrowser->LoadAssetRevamped(finaltexture);
 								}
 
 								
@@ -1072,7 +1072,7 @@ namespace TDS
 							if (filesystempath.extension() == ".ttf")
 							{
 								Assetbrowser->getFileNameFromPath(str.c_str(), nullptr, nullptr, &finalFont, nullptr);
-								ui->m_FontName = Assetbrowser->LoadAsset(finalFont);
+								ui->m_FontName = Assetbrowser->LoadAssetRevamped(finalFont);
 								std::wcout << " Path of dragged file is: " << path << std::endl;
 							}
 							else if (filesystempath.extension() == ".dds")

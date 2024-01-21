@@ -24,7 +24,8 @@ namespace TDS
 		struct SubMesh
 		{
 			Vec3					m_ScenePos;
-			AABB					m_AABB;
+			Vec3					m_SceneRotate;
+			Vec3					m_SceneScale;
 			std::uint32_t			m_nFaces;			
 			std::uint32_t			m_iIndices;			
 			std::uint32_t			m_nIndices;		
@@ -47,8 +48,8 @@ namespace TDS
 			Vec3				m_Normal;
 			Vec2				m_UV;
 			Vec4				m_Color;
-			Vec4							m_BoneID;
-			Vec4							m_Weights;
+			Vec4				m_BoneID;
+			Vec4				m_Weights;
 		};
 		
 		std::vector<Mesh>			m_Mesh;

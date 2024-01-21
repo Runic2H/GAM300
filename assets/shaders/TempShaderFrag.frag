@@ -69,6 +69,5 @@ void main() {
     //vec4 texColor = texture(texArraySampler, fragTexCoord);
     //outColor = vec4((diffuselight*ambientlight)*fragColor,1.0);
     //outColor = texture(texSampler, fragTexCoord);
-    //outColor = texColor * vec4((diffuselight + ambientlight), 1.0);
-    outColor = texColor;
+    outColor = texColor * vec4((diffuselight + ambientlight), 1.0);
 }

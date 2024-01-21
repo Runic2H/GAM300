@@ -102,10 +102,10 @@ class Mat4
 
   static Mat4 Rotate(const Vec3& axis, float angleDegress);
 
+  static Mat4 GetShaderTransform();
+
 
   static float* Mat4Value_ptr(const Mat4& mat);
-
-
 
 
   // unary arithmetic operators

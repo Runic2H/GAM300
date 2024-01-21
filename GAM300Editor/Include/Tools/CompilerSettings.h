@@ -39,7 +39,7 @@ namespace TDS
 			bool MergeMesh = false;
 		};
 
-
+		bool		m_Compress = true;
 		bool		m_LoadMesh = true;
 		bool		m_LoadAnimation = false; //Sometimes u might want to load mesh only OR animation data only
 		bool		m_LoadMaterials = false;

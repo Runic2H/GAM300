@@ -58,8 +58,9 @@ namespace TDS
             //If have duplicates
             if (itr != m_MeshIndexMap.end())
             {
-                Mesh.m_Name += "_";
-                Mesh.m_Name += ++duplicates[itr->first];
+                Mesh.m_Name += "__";
+                Mesh.m_Name += std::to_string(++duplicates[itr->first]);
+
             }
 
             m_MeshIndexMap[Mesh.m_Name] = m_MeshData.size();
@@ -99,7 +100,6 @@ namespace TDS
         m_RootNodes.clear();
         m_MeshData.clear();
         m_MeshIndexMap.clear();
-        m_SceneAABB.setNull();
         m_Loaded = false;
        
     }
@@ -113,16 +113,15 @@ namespace TDS
             return;
         }
 
-
         std::uint32_t i = 0;
         for (auto mesh : modelRef.m_Mesh)
         {
             auto& submesh = modelRef.m_SubMesh[i++];
 
-            m_RootNodes[mesh.m_NodeName].m_MeshList[mesh.m_Name] = (MeshNode(true, submesh.m_AABB, mesh.m_Name));
-            m_RootNodes[mesh.m_NodeName].m_LayerAABB.extend(submesh.m_AABB);
+            m_RootNodes[mesh.m_NodeName].m_MeshList[mesh.m_Name] = (MeshNode(true, mesh.m_Name));
             m_RootNodes[mesh.m_NodeName].m_SceneTranslation = submesh.m_ScenePos;
-            m_SceneAABB.extend(submesh.m_AABB);
+            m_RootNodes[mesh.m_NodeName].m_SceneRotation = submesh.m_SceneRotate;
+            m_RootNodes[mesh.m_NodeName].m_SceneScale = submesh.m_SceneScale;
         }
     }
 
@@ -136,10 +135,15 @@ namespace TDS
         return m_RefToModelPack;
     }
 
-    MeshBuffer& MeshController::GetMeshData(std::string_view meshName)
+    MeshBuffer* MeshController::GetMeshData(std::string_view meshName)
     {
-        std::uint32_t index = m_MeshIndexMap[meshName.data()];
-        return m_MeshData[index];
+        auto IndexItr = m_MeshIndexMap.find(meshName.data());
+
+        if (IndexItr == m_MeshIndexMap.end()) return nullptr;
+       
+           
+
+        return &m_MeshData[IndexItr->second];
     }
 
     std::map<std::string, SceneNode>& MeshController::GetRoots()
@@ -147,10 +151,7 @@ namespace TDS
         return m_RootNodes;
     }
 
-    AABB& MeshController::GetSceneAABB()
-    {
-        return m_SceneAABB;
-    }
+
 
 
 }

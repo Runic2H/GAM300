@@ -37,26 +37,83 @@ namespace TDS
 		class
 		****************************************************************************/
 		DLL_API Vec3 GetPosition() { return mPosition;  }
-		DLL_API void SetPosition(Vec3 position) { mPosition = position; mIsDirty = true; }
-		DLL_API void SetPosition(float positionX, float positionY, float positionZ) { mPosition = Vec3(positionX, positionY, positionZ); mIsDirty = true; }
+
+		DLL_API void SetRealPosition(Vec3 position)
+		{
+			mPosition = position;
+			mIsDirty = true;
+		}
+		DLL_API void SetRealScale(Vec3 scale)
+		{
+			mScale = scale;
+			mIsDirty = true;
+		}
+		DLL_API void SetRealRotate(Vec3 rotate)
+		{
+			mRotation = rotate;
+			mIsDirty = true;
+		}
+		DLL_API void SetPosition(Vec3 position) 
+		{ 
+			mOldPosition = mPosition;
+			mPosition = position;
+			mFakePosition += (mPosition - mOldPosition);
+			mIsDirty = true; 
+		}
+		DLL_API void SetPosition(float positionX, float positionY, float positionZ) 
+		{ 
+			mOldPosition = mPosition;  
+			mPosition = Vec3(positionX, positionY, positionZ);
+			mFakePosition += (mPosition - mOldPosition);
+			mIsDirty = true;
+		
+		}
 
 		DLL_API Vec3& GetOffsetPos() { return mOffsetPos; };
 		DLL_API void SetOffSetPos(Vec3 Pos) { mOffsetPos = Pos; mIsDirty = true; }
 		DLL_API void SetOffSetPos(float posX, float posY, float posZ) { mOffsetPos = { posX, posY, posZ }; mIsDirty = true; }
 		
 		DLL_API Vec3 GetScale() { return mScale; }
-		DLL_API void SetScale(Vec3 scale) { mScale = scale; mIsDirty = true; }
-		DLL_API void SetScale(float scaleX, float scaleY, float scaleZ) { mScale = Vec3(scaleX, scaleY, scaleZ); mIsDirty = true; }
+		DLL_API void SetScale(Vec3 scale) 
+		{ 
+			Vec3 oldScale = mScale;
+			mScale = scale;
+			mFakeScale += (mScale - oldScale);
+			mIsDirty = true;
+		}
+		DLL_API void SetScale(float scaleX, float scaleY, float scaleZ)
+		{ 
+			Vec3 oldScale = mScale;
+			mScale = Vec3(scaleX, scaleY, scaleZ);
+			mFakeScale += (mScale - oldScale);
+			mIsDirty = true;
+		
+		}
 
 		DLL_API Vec3& GetOffsetScale() { return mOffsetScale; }
 		DLL_API void SetOffSetScale(Vec3 Scale) { mOffsetScale = Scale; mIsDirty = true; }
 		DLL_API void SetOffSetScale(float scaleX, float scaleY, float scaleZ) { mOffsetScale = { scaleX, scaleY, scaleZ }; mIsDirty = true; }
 
 		DLL_API Vec3 GetRotation() { return mRotation; }
-		DLL_API void SetRotation(Vec3 rotation) { mRotation = rotation; mIsDirty = true; }
-		DLL_API void SetRotation(float rotationX, float rotationY, float rotationZ) { mRotation = Vec3(rotationX, rotationY, rotationZ); mIsDirty = true; }
+		DLL_API void SetRotation(Vec3 rotation)
+		{
+			Vec3 oldRotation = mRotation;
+			mRotation = rotation;
+			mFakeRotation += (mRotation - oldRotation);
+			mIsDirty = true;
+			
+		}
+		DLL_API void SetRotation(float rotationX, float rotationY, float rotationZ)
+		{ 
+			Vec3 oldRotation = mRotation;
+			mRotation = Vec3(rotationX, rotationY, rotationZ);
+			mFakeRotation += (mRotation - oldRotation);
+			mIsDirty = true;	
+		
+		}
 
 		DLL_API Mat4 GetTransformMatrix() const { return mTransformMatrix; }
+		DLL_API Mat4 GetFakeTransform() const { return mFakeTransform; }
 		DLL_API Mat4 GetOffsetMatrix() const { return mOffsetMatrix; }
 		DLL_API void SetTransform(Vec3 translate, Vec3 rotate, Vec3 scale)
 		{
@@ -107,6 +164,18 @@ namespace TDS
 			return rightVector;
 		}
 
+		DLL_API Vec3 GetFakePosition()
+		{
+			return mFakePosition;
+		}
+		DLL_API Vec3 GetFakeRotation()
+		{
+			return mFakeRotation;
+		}
+		DLL_API Vec3 GetFakeScale()
+		{
+			return mFakeScale;
+		}
 		DLL_API void SetDirty(bool condition)
 		{
 			mIsDirty = condition;
@@ -115,6 +184,18 @@ namespace TDS
 		{
 			return mIsDirty;
 		}
+
+		DLL_API Mat4 GenerateFakeTransform()
+		{
+			Quat qRot = Quat(mFakeRotation);
+			Mat4 scaleM4 = Mat4::Scale(mFakeScale);
+			Mat4 rotM4 = Mat4(Quat::toMat4(qRot));
+			Mat4 transM4 = Mat4::Translate(mFakePosition);
+			mFakeTransform = transM4 * rotM4 * scaleM4;
+			return mFakeTransform;
+		}
+
+
 		RTTR_ENABLE(IComponent);
 		RTTR_REGISTRATION_FRIEND
 
@@ -127,8 +208,20 @@ namespace TDS
 		Vec3 mOffsetScale;
 		Vec3 mOffsetPos;
 
+		Vec3 mFakeRotation;
+		Vec3 mFakeScale;
+		Vec3 mFakePosition;
+		Vec3 mOldPosition;
+		Vec3 mOldScale;
+		Vec3 mOldRotation; 
+
 		Mat4 mTransformMatrix;
 		Mat4 mOffsetMatrix;
+		Mat4 m_ShaderTransform;
+		Mat4 mFakeTransform;
+
+	
+
 	};
 
 	DLL_API Transform* GetTransform(EntityID entityID);
