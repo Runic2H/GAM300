@@ -91,54 +91,54 @@ namespace TDS
 				else
 				{
 					//if (!vBox->GetModelInit())
-					{
-						TDS::AssetModel* tmp_assetModel = AssetManager::GetInstance()->GetModelFactory().GetModel(_graphics[i].GetModelName(), _graphics[i].GetAsset());
-						std::string key = _graphics[i].GetMeshName();
-						auto it = tmp_assetModel->m_Meshes.find(key);
-						if (it != tmp_assetModel->m_Meshes.end())
-						{
-							MeshData* tmp_MeshData = &(it->second);
-							Vec3 minBoundingBox(FLT_MAX, FLT_MAX, FLT_MAX);
-							Vec3 maxBoundingBox(-FLT_MAX, -FLT_MAX, -FLT_MAX);
-							for (auto& modelCoord : tmp_MeshData->m_VertexData)
-							{
-								minBoundingBox.x = Mathf::Min(minBoundingBox.x, modelCoord.m_Pos.x);
-								minBoundingBox.y = Mathf::Min(minBoundingBox.y, modelCoord.m_Pos.y);
-								minBoundingBox.z = Mathf::Min(minBoundingBox.z, modelCoord.m_Pos.z);
+					//{
+					//	TDS::AssetModel* tmp_assetModel = AssetManager::GetInstance()->GetModelFactory().GetModel(_graphics[i].GetModelName(), _graphics[i].GetAsset());
+					//	std::string key = _graphics[i].GetMeshName();
+					//	auto it = tmp_assetModel->m_Meshes.find(key);
+					//	if (it != tmp_assetModel->m_Meshes.end())
+					//	{
+					//		MeshData* tmp_MeshData = &(it->second);
+					//		Vec3 minBoundingBox(FLT_MAX, FLT_MAX, FLT_MAX);
+					//		Vec3 maxBoundingBox(-FLT_MAX, -FLT_MAX, -FLT_MAX);
+					//		for (auto& modelCoord : tmp_MeshData->m_VertexData)
+					//		{
+					//			minBoundingBox.x = Mathf::Min(minBoundingBox.x, modelCoord.m_Pos.x);
+					//			minBoundingBox.y = Mathf::Min(minBoundingBox.y, modelCoord.m_Pos.y);
+					//			minBoundingBox.z = Mathf::Min(minBoundingBox.z, modelCoord.m_Pos.z);
 
-								maxBoundingBox.x = Mathf::Max(maxBoundingBox.x, modelCoord.m_Pos.x);
-								maxBoundingBox.y = Mathf::Max(maxBoundingBox.y, modelCoord.m_Pos.y);
-								maxBoundingBox.z = Mathf::Max(maxBoundingBox.z, modelCoord.m_Pos.z);
+					//			maxBoundingBox.x = Mathf::Max(maxBoundingBox.x, modelCoord.m_Pos.x);
+					//			maxBoundingBox.y = Mathf::Max(maxBoundingBox.y, modelCoord.m_Pos.y);
+					//			maxBoundingBox.z = Mathf::Max(maxBoundingBox.z, modelCoord.m_Pos.z);
 
-							}
+					//		}
 
-							Vec3 vSize = (maxBoundingBox - minBoundingBox) * 0.5f; // size of the box collider
-							Vec3 vCenter = (maxBoundingBox + minBoundingBox) * 0.5f; // center of the box collider
-							Vec4 worldCenter = _transform[i].GetTransformMatrix() * Vec4(vCenter, 1.f);
-							
-							vBox->SetColliderSize(vSize);
-							vBox->SetColliderCenter(Vec3(worldCenter.x, worldCenter.y, worldCenter.z));
-							vBox->SetModelSize(vSize); // scale
-							vBox->SetModelRotation(_transform[i].GetRotation()); // rotate
-							vBox->SetModelCenter(vCenter); // translate
+					//		Vec3 vSize = (maxBoundingBox - minBoundingBox) * 0.5f; // size of the box collider
+					//		Vec3 vCenter = (maxBoundingBox + minBoundingBox) * 0.5f; // center of the box collider
+					//		Vec4 worldCenter = _transform[i].GetTransformMatrix() * Vec4(vCenter, 1.f);
+					//		
+					//		vBox->SetColliderSize(vSize);
+					//		vBox->SetColliderCenter(Vec3(worldCenter.x, worldCenter.y, worldCenter.z));
+					//		vBox->SetModelSize(vSize); // scale
+					//		vBox->SetModelRotation(_transform[i].GetRotation()); // rotate
+					//		vBox->SetModelCenter(vCenter); // translate
 
-						}
-						vBox->SetModelInit(true);
-					}
-					// scaling the box collider & other offset values
-					//else
-					{
-						if (_transform[i].GetScale() + 1.f != vBox->GetColliderScale() || vBox->GetOffsetScale() != Vec3(0.f))
-						{
-							Vec3 vScale = _transform[i].GetScale() + vBox->GetOffsetScale();
-							Vec3 vSize = vBox->GetModelSize();
-							vSize.x *= vScale.x;
-							vSize.y *= vScale.y;
-							vSize.z *= vScale.z;
-							vBox->SetColliderSize(vSize);
-							vBox->SetColliderScale(vScale);
-						}
-					}
+					//	}
+					//	vBox->SetModelInit(true);
+					//}
+					//// scaling the box collider & other offset values
+					////else
+					//{
+					//	if (_transform[i].GetScale() + 1.f != vBox->GetColliderScale() || vBox->GetOffsetScale() != Vec3(0.f))
+					//	{
+					//		Vec3 vScale = _transform[i].GetScale() + vBox->GetOffsetScale();
+					//		Vec3 vSize = vBox->GetModelSize();
+					//		vSize.x *= vScale.x;
+					//		vSize.y *= vScale.y;
+					//		vSize.z *= vScale.z;
+					//		vBox->SetColliderSize(vSize);
+					//		vBox->SetColliderScale(vScale);
+					//	}
+					//}
 				}
 				//vBox->SetColliderCenter(_transform[i].GetPosition() + vBox->GetOffsetCenter());
 				

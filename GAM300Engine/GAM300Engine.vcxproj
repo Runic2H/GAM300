@@ -329,7 +329,6 @@ xcopy /y /d "$(SolutionDir)Libs\rttr_core.dll" "$(OutDir)"</Command>
     <ClInclude Include="Include\AssetManagement\AssetManager.h" />
     <ClInclude Include="Include\AssetManagement\FactoryBase.h" />
     <ClInclude Include="Include\AssetManagement\FontFactory.h" />
-    <ClInclude Include="Include\AssetManagement\ModelFactory.h" />
     <ClInclude Include="Include\AssetManagement\TextureFactory.h" />
     <ClInclude Include="Include\camera\Camerasystem\CameraSystem.h" />
     <ClInclude Include="Include\camera\SphereFrustum.h" />

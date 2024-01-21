@@ -14,26 +14,29 @@ namespace TDS
 		m_SkyBoxTexture.LoadTexture("../assets/textures/skybox1.dds");
 
 	
-		if (!AssetManager::GetInstance()->GetModelFactory().GetModel("cube_Bin.bin", m_CubeMapModel))
+		if (!AssetManager::GetInstance()->GetMeshFactory().GetMeshController("cube_Bin.bin", m_CubeMapModel))
 		{
 			TDS_ERROR("FAILED TO LOAD SKYBOX!");
 			return;
 		}
 
 		m_CubeMapVertexBuffer = std::make_shared<VMABuffer>();
-		std::vector<Vec3> pos(m_CubeMapModel.m_ResourcePtr->GetVertexData().size());
 
-		for (size_t i = 0; i < m_CubeMapModel.m_ResourcePtr->GetVertexData().size(); ++i)
+		auto* modelPack = m_CubeMapModel.m_ResourcePtr->GetModelPack();
+
+		std::vector<Vec3> pos(modelPack->m_ModelHandle.m_ModelVertex.size());
+
+		for (size_t i = 0; i < pos.size(); ++i)
 		{
-			pos[i] = m_CubeMapModel.m_ResourcePtr->GetVertexData().at(i).m_Pos;
+			pos[i] = modelPack->m_ModelHandle.m_ModelVertex[i].m_Position;
 		}
 
 		m_CubeMapVertexBuffer->CreateVertexBuffer(pos.size() * sizeof(Vec3), true, pos.data());
 		m_CubeMapVertexBuffer->SetDataCnt(static_cast<uint32_t>(pos.size()));
 
 		m_CubeMapIndexBuffer = std::make_shared<VMABuffer>();
-		m_CubeMapIndexBuffer->CreateIndexBuffer(m_CubeMapModel.m_ResourcePtr->GetIndexData().size() * sizeof(uint32_t), true, m_CubeMapModel.m_ResourcePtr->GetIndexData().data());
-		m_CubeMapIndexBuffer->SetDataCnt(static_cast<uint32_t>(m_CubeMapModel.m_ResourcePtr->GetIndexData().size()));
+		m_CubeMapIndexBuffer->CreateIndexBuffer(modelPack->m_ModelHandle.m_Indices.size() * sizeof(uint32_t), true, modelPack->m_ModelHandle.m_Indices.data());
+		m_CubeMapIndexBuffer->SetDataCnt(static_cast<uint32_t>(modelPack->m_ModelHandle.m_Indices.size()));
 
 
 		PipelineCreateEntry skyboxCE{};

@@ -91,8 +91,9 @@ namespace TDS
 					std::vector<std::uint32_t>		m_Indices;
 					std::vector<lod>				m_Lods;
 					std::string						m_SubMeshName;
-					AABB							m_BoundingBox;
 					Vec3							m_ScenePos;
+					Vec3							m_SceneRotate;
+					Vec3							m_SceneScale;
 					std::int32_t					m_iMaterial;
 	
 				};

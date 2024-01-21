@@ -17,6 +17,7 @@
 #include "Rendering/Renderer2D.h"
 #include "Rendering/FontRenderer.h"
 #include "Rendering/Revamped/DeferredController.h"
+
 namespace TDS
 {
 	GraphicsManager::GraphicsManager()

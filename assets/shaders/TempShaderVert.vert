@@ -55,9 +55,8 @@ void main()
     
     vec4 clipspacepos = PL.proj * PL.view * position_in_world;
     gl_Position = clipspacepos;
-
-
-    fragNormalWorld = mat3(transpose(inverse(push.modelMatrix))) * vNormals;
+    
+    fragNormalWorld = normalize(mat3(push.normalMatrix) * vNormals);
     fragPosWorld = position_in_world.xyz;
 
     fragColor = vColor;

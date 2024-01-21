@@ -18,51 +18,67 @@ namespace TDS
 			Transform* parentComp = ecs.getComponent<Transform>(event->id);
 			std::shared_ptr<ChildTransformationEvent> currentEvent = static_pointer_cast<ChildTransformationEvent>(event);
 			
-			Mat4 parenttransform = parentComp->GetTransformMatrix();
+
 			for (auto childID : nameTagComponent->GetHierarchyChildren())
 			{
-				changeChildTransformation(childID, currentEvent->positionChange, currentEvent->scaleChange, currentEvent->rotationChange, parenttransform);
+				changeChildTransformation(childID, currentEvent->positionChange, currentEvent->scaleChange, currentEvent->rotationChange);
 			}
+			
+
 		}
 		eventManager.clearQueue(EventTypes::CHILD_TRANSFORMATION);
 	}
-	void EventHandler::changeChildTransformation(EntityID childEntity,  Vec3& positionChange,  Vec3& scaleChange,  Vec3& rotationChange, Mat4& parentTransform)
+	void EventHandler::changeChildTransformation(EntityID childEntity,  Vec3& positionChange,  Vec3& scaleChange,  Vec3& rotationChange)
 	{
 		Transform* childTransform = GetTransform(childEntity);
 
-		Mat4 parentRotation = Mat4::Rotate(rotationChange);
-		Mat4 childRotation = Mat4::Rotate(childTransform->GetRotation());
+		Vec3 newPosition = childTransform->GetPosition();
+		Vec3 newScale = childTransform->GetScale();
+		Vec3 newRotation = childTransform->GetRotation();
 
-		Mat4 combined = parentRotation * childRotation;
-		Vec3 totalScale = Vec3(childTransform->GetScale().x * scaleChange.x, childTransform->GetScale().y * scaleChange.y, childTransform->GetScale().z * scaleChange.z);
+		newPosition += positionChange;
+		newScale += scaleChange;
+		newRotation += rotationChange;
 
-		//Vec3 newPosition = childTransform->GetPosition();
-		//Vec3 newScale = childTransform->GetScale();
-		//Vec3 newRotation = childTransform->GetRotation();
+		childTransform->SetPosition(newPosition);
+		childTransform->SetScale(newScale);
+		childTransform->SetRotation(newRotation);
 
-		//newPosition = parentTransform * newPosition;
-		//newScale = parentTransform * newScale;
-		//newRotation = parentTransform * newRotation;
-		
-		//newPosition += positionChange;
-		//newScale += scaleChange;
-		//newRotation += rotationChange;
-		childTransform->SetPosition(childTransform->GetPosition() + positionChange);
-		childTransform->SetScale(totalScale);
-		childTransform->SetRotation(combined.GetRotation());
-
-		Mat4 newTransform{};
-		if (childTransform->GetScale().x <= 0 || childTransform->GetScale().y <= 0 || childTransform->GetScale().z <= 0) {
-		}
-		else {
-			newTransform = childTransform->GenerateTransform();
-		}
 		NameTag* childNameTag = GetNameTag(childEntity);
 
 		for (auto childID : childNameTag->GetHierarchyChildren())
 		{
-			changeChildTransformation(childID, positionChange, scaleChange, rotationChange, newTransform);
+			changeChildTransformation(childID, positionChange, scaleChange, rotationChange);
 		}
+	}
+	void EventHandler::TransformChildSubMesh(EntityID childEntity, EntityID parentEntity, Vec3& positionChange, Vec3& scaleChange, Vec3& rotationChange, Mat4& parentTransform)
+	{
+		//Transform* childTransform = GetTransform(childEntity);
+
+		//Vec3 newPosition = childTransform->getLocalPosition(parentEntity);
+		//Vec3 newScale = childTransform->getLocalPosition(parentEntity);
+		//Vec3 newRotation = childTransform->getLocalPosition(parentEntity);
+
+		//newPosition += positionChange;
+		//newScale += scaleChange;
+		//newRotation += rotationChange;
+		//
+		////Convert to global position
+		//newPosition = parentTransform * newPosition;
+		//newScale = parentTransform * newScale;
+		//newRotation = parentTransform * newRotation;
+
+		//childTransform->SetPosition(newPosition);
+		//childTransform->SetRotation(newRotation);
+		//childTransform->SetScale(newScale);
+
+		//Mat4::Translate()
+		//NameTag* childNameTag = GetNameTag(childEntity);
+
+		//for (auto childID : childNameTag->GetHierarchyChildren())
+		//{
+		//	TransformChildSubMesh(childID, parentEntity, positionChange, scaleChange, rotationChange, parentTransform);
+		//}
 	}
 	void EventHandler::postChildTransformationEvent(EntityID entityID, Vec3 oldPosition, Vec3 oldScale, Vec3 oldRotation)
 	{

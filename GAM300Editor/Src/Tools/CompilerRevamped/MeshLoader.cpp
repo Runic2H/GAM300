@@ -14,8 +14,9 @@ namespace TDS
 		std::string						m_MeshName = "";
 		std::vector<TDSModel::Vertex>	m_Vertices;
 		std::vector<MeshLoader::GeomData::lod>				m_Lod;
-		AABB							m_AABB;
 		Vec3							m_ScenePos;
+		Vec3							m_SceneRotate;
+		Vec3							m_SceneScale;
 		std::vector<std::uint32_t>		m_Indices;
 		int								iMatertialInstance;
 	};
@@ -33,7 +34,7 @@ namespace TDS
 		Vec3 test;
 	};
 
-	void ListNodes(const aiNode* pNode, int level = 0) 
+	void ListNodes(const aiNode* pNode, int level = 0)
 	{
 		if (pNode == nullptr) return;
 
@@ -47,7 +48,7 @@ namespace TDS
 
 	void ListAllNodeNames(const aiScene* scene)
 	{
-		if (scene != nullptr && scene->mRootNode != nullptr) 
+		if (scene != nullptr && scene->mRootNode != nullptr)
 		{
 			ListNodes(scene->mRootNode);
 		}
@@ -146,8 +147,8 @@ namespace TDS
 			| aiProcess_TransformUVCoords
 			| aiProcess_FindInstances
 			| aiProcess_CalcTangentSpace
-			| aiProcess_GenSmoothNormals
 			| aiProcess_GenBoundingBoxes
+			| aiProcess_GenSmoothNormals
 			| aiProcess_RemoveRedundantMaterials
 			| aiProcess_FindInvalidData
 			| aiProcess_FlipUVs;
@@ -161,7 +162,7 @@ namespace TDS
 
 		if (currSceneInfo->MeshValidityCheck(request) == false)
 			return;
-		
+
 
 		std::vector<RawMeshData> assimpData;
 		ImportMeshData(request, *currSceneInfo, assimpData);
@@ -266,12 +267,12 @@ namespace TDS
 	}
 
 
-	aiVector3D GetScale(const aiMatrix4x4& m) 
+	aiVector3D GetScale(const aiMatrix4x4& m)
 	{
 		return aiVector3D(GetScaleMatrix(m).a1, GetScaleMatrix(m).b2, GetScaleMatrix(m).c3);
 	}
 
-	aiMatrix4x4 GetRotationMatrix(const aiMatrix4x4& m) 
+	aiMatrix4x4 GetRotationMatrix(const aiMatrix4x4& m)
 	{
 		aiVector3D scale = GetScale(m); // Assuming GetScale returns a vector of scales
 
@@ -351,13 +352,13 @@ namespace TDS
 	{
 		aiMatrix4x4 AccumulatedTransform = ParentTransform * Node.mTransformation;
 		size_t iNode = assimpData.size();
-		
+
 		assimpData.resize(iNode + Scene.mNumMeshes);
 
 		for (std::uint32_t i = 0; i < Node.mNumMeshes; ++i)
 		{
 			aiMesh& mesh = *Scene.mMeshes[Node.mMeshes[i]];
-			
+
 			std::int32_t iUV = -1, iColor = -1;
 
 			if (mesh.HasPositions() == false || mesh.HasFaces() == false)
@@ -411,9 +412,9 @@ namespace TDS
 			auto& rawMesh = assimpData[iNode++];
 			aiQuaternion currRotation;
 
-			aiVector3D rotate;
-			AccumulatedTransform.DecomposeNoScaling(currRotation, rotate);
-
+			aiVector3D pos;
+			AccumulatedTransform.DecomposeNoScaling(currRotation, pos);
+			
 			aiMatrix4x4 translateMat = GetTranslationMatrix(AccumulatedTransform);
 			aiMatrix4x4 rotationMat = GetRotationMatrix(AccumulatedTransform);
 			aiMatrix4x4 scaleMat = GetScaleMatrix(AccumulatedTransform);
@@ -422,8 +423,12 @@ namespace TDS
 
 			aiMatrix4x4 transformWithoutTrans = identity * rotationMat * scaleMat;
 
-			aiVector3D translate;
-			ExtractTranslation(AccumulatedTransform, translate);
+			aiVector3D translate{};
+			
+			ExtractTranslation(Node.mTransformation, translate);
+			aiVector3D rot = ExtractEulerAngles(Node.mTransformation);
+			aiVector3D scaling;
+			ExtractScale(Node.mTransformation, scaling);
 			rawMesh.m_ParentNode = parentNode;
 			rawMesh.m_NodeName = std::string(Node.mName.C_Str());
 			rawMesh.m_MeshName = std::string(mesh.mName.C_Str());
@@ -435,22 +440,15 @@ namespace TDS
 			aMin = translateMat * aMin;
 			aMax = translateMat * aMax;
 
-			AccumulatedTransform = transformWithoutTrans;
 
 			Vec3 min = Vec3(aMin.x, aMin.y, aMin.z);
 			Vec3 max = Vec3(aMax.x, aMax.y, aMax.z);
 
 
-			rawMesh.m_AABB.SetMinMax
-			(
-				min,
-				max
-			);
-
 			rawMesh.m_Vertices.resize(mesh.mNumVertices);
 			rawMesh.m_ScenePos = Vec3(translate.x, translate.y, translate.z);
-			
-
+			rawMesh.m_SceneRotate = Vec3(rot.x, rot.y, rot.z);
+			rawMesh.m_SceneScale = Vec3(scaling.x, scaling.y, scaling.z);
 			for (std::uint32_t i = 0; i < mesh.mNumVertices; ++i)
 			{
 				auto& vert = rawMesh.m_Vertices[i];
@@ -458,7 +456,7 @@ namespace TDS
 				auto L = AccumulatedTransform * mesh.mVertices[i];
 
 				vert.m_Position = Vec3(static_cast<float>(L.x), static_cast<float>(L.y), static_cast<float>(L.z));
-				
+
 				if (iUV == -1)
 					vert.m_UV = Vec2(0.f, 0.f);
 				else
@@ -495,7 +493,6 @@ namespace TDS
 				else
 				{
 					const auto N = currRotation.Rotate(mesh.mNormals[i]);
-
 					vert.m_Normal = { N.x, N.y, N.z };
 					vert.m_Tangent = { 1.f, 0.f, 0.f };
 					vert.m_Bitangent = { 1.f, 0.f, 0.f };
@@ -704,14 +701,14 @@ namespace TDS
 		for (auto& mesh : rawMesh)
 		{
 			int iMyMesh = -1;
-		/*	for (size_t i = 0; i < geom.m_Meshes.size(); ++i)
-			{
-				if (geom.m_Meshes[i].m_Name == mesh.m_MeshName)
+			/*	for (size_t i = 0; i < geom.m_Meshes.size(); ++i)
 				{
-					iMyMesh = i;
-					break;
-				}
-			}*/
+					if (geom.m_Meshes[i].m_Name == mesh.m_MeshName)
+					{
+						iMyMesh = i;
+						break;
+					}
+				}*/
 
 			if (iMyMesh == -1)
 			{
@@ -726,7 +723,8 @@ namespace TDS
 			auto& myMesh = geom.m_Meshes[iMyMesh];
 			auto& subMesh = myMesh.m_Submeshes.emplace_back();
 			subMesh.m_ScenePos = mesh.m_ScenePos;
-			subMesh.m_BoundingBox = mesh.m_AABB;
+			subMesh.m_SceneRotate = mesh.m_SceneRotate;
+			subMesh.m_SceneScale = mesh.m_SceneScale;
 			subMesh.m_Vertex = mesh.m_Vertices;
 			subMesh.m_Indices = mesh.m_Indices;
 			subMesh.m_iMaterial = mesh.iMatertialInstance;
@@ -907,8 +905,9 @@ namespace TDS
 			compressedMesh.m_Vertices.resize(VtxCnt);
 			compressedMesh.iMatertialInstance = mesh.iMatertialInstance;
 			compressedMesh.m_MeshName = mesh.m_MeshName;
-			compressedMesh.m_AABB = mesh.m_AABB;
 			compressedMesh.m_ScenePos = mesh.m_ScenePos;
+			compressedMesh.m_SceneRotate = mesh.m_SceneRotate;
+			compressedMesh.m_SceneScale = mesh.m_SceneScale;
 			compressedMesh.m_NodeName = mesh.m_NodeName;
 			compressedMesh.m_ParentNode = mesh.m_ParentNode;
 
@@ -930,7 +929,7 @@ namespace TDS
 
 	void MeshLoader::GeomData::ConvertToTDSModel(TDSModel& model)
 	{
-		
+
 		std::uint32_t iLod = 0;
 		for (auto& inputMesh : m_Meshes)
 		{
@@ -939,18 +938,19 @@ namespace TDS
 			mesh.m_NodeName = inputMesh.m_NodeName;
 			mesh.m_ParentNode = inputMesh.m_ParentNode;
 			mesh.m_iLOD = iLod;
-			
+
 			for (const auto& inputSubMesh : inputMesh.m_Submeshes)
 			{
 				TDSModel::SubMesh submesh{};
 				submesh.m_nFaces = std::uint32_t(inputSubMesh.m_Indices.size() / 3);
-				submesh.m_AABB = inputSubMesh.m_BoundingBox;
 				submesh.m_iIndices = std::uint32_t(model.m_Indices.size());
 				submesh.m_iVertices = std::uint32_t(model.m_ModelVertex.size());
 				submesh.m_nIndices = inputSubMesh.m_Indices.size();
 				submesh.m_nVertices = inputSubMesh.m_Vertex.size();
 				submesh.m_iMaterial = inputSubMesh.m_iMaterial;
 				submesh.m_ScenePos = inputSubMesh.m_ScenePos;
+				submesh.m_SceneRotate = inputSubMesh.m_SceneRotate;
+				submesh.m_SceneScale = inputSubMesh.m_SceneScale;
 				model.m_ModelVertex.insert(model.m_ModelVertex.end(), inputSubMesh.m_Vertex.begin(), inputSubMesh.m_Vertex.end());
 				model.m_Indices.insert(model.m_Indices.end(), inputSubMesh.m_Indices.begin(), inputSubMesh.m_Indices.end());
 				model.m_SubMesh.push_back(submesh);
@@ -960,7 +960,7 @@ namespace TDS
 			iLod = mesh.m_nLODs;
 			model.m_Mesh.push_back(mesh);
 
-			
+
 
 		}
 

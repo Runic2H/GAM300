@@ -6,6 +6,17 @@ namespace TDS
 	class AssetModel;
 	class Texture;
 	class MeshController;
+
+
+
+	typedef enum 
+	{
+		MAIN_ROOT,
+		CHILD_ROOT,
+		CHILD,
+		NOT_CHILD_MESH
+	}MESH_NODE_TYPE;
+
 	class GraphicsComponent : public IComponent
 	{
 	public:
@@ -56,6 +67,7 @@ namespace TDS
 		std::string						m_MeshNodeName = "";
 		std::string						m_TextureName = "";
 		bool							m_UsedIn2D{ false };
+		
 
 
 	};

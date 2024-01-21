@@ -111,7 +111,7 @@ namespace TDS
 	template <>
 	void SerializeGeom<TDSModel::SubMesh>(TDSModel::SubMesh& obj, std::ofstream& out)
 	{
-		SerializeGeom(obj.m_AABB, out);
+		/*SerializeGeom(obj, out);*/
 		SerializeGeom(obj.m_nFaces, out);
 		SerializeGeom(obj.m_iIndices, out);
 		SerializeGeom(obj.m_nIndices, out);
@@ -283,7 +283,7 @@ namespace TDS
 	template <>
 	void DeserializeGeom<TDSModel::SubMesh>(TDSModel::SubMesh& obj, std::ifstream& in)
 	{
-		DeserializeGeom(obj.m_AABB, in);
+		//DeserializeGeom(obj.m_AABB, in);
 		DeserializeGeom(obj.m_nFaces, in);
 		DeserializeGeom(obj.m_iIndices, in);
 		DeserializeGeom(obj.m_nIndices, in);

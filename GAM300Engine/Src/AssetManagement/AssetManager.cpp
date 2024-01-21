@@ -15,23 +15,20 @@ namespace TDS
 	}
 	void AssetManager::PreloadAssets()
 	{
-		m_ModelFactory.Preload();
+		m_MeshFactory.Preload();
 		m_TextureFactory.Preload();
 		m_FontFactory.Preload();
 	}
 
 	void AssetManager::ShutDown()
 	{
-		m_ModelFactory.DestroyAllModels();
+		m_MeshFactory.DestroyAllMesh();
 		m_TextureFactory.DestroyAllTextures();
 		m_FontFactory.DestroyAllFonts();
 
 	}
 
-	AssetFactory<AssetModel>& AssetManager::GetModelFactory()
-	{
-		return m_ModelFactory;
-	}
+
 
 	AssetFactory<Texture>& AssetManager::GetTextureFactory()
 	{
