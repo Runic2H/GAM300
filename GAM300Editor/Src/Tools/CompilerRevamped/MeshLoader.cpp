@@ -453,7 +453,7 @@ namespace TDS
 			{
 				auto& vert = rawMesh.m_Vertices[i];
 
-				auto L = AccumulatedTransform * mesh.mVertices[i];
+				auto L = mesh.mVertices[i];
 
 				vert.m_Position = Vec3(static_cast<float>(L.x), static_cast<float>(L.y), static_cast<float>(L.z));
 
