@@ -9,6 +9,7 @@
 #include <stdexcept>
 #include <iomanip>
 #include <limits>
+#include <algorithm>
 
 
 #include "Vector2.h"
