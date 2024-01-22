@@ -34,7 +34,7 @@ public:
 
     // Public Methods
     DLL_API bool Equals(const Vec4& v);
-    DLL_API void Normalize();
+    inline DLL_API void Normalize();
     DLL_API void Set(float newX, float newY, float newZ, float newW);
     std::string ToString();
 
