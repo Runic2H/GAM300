@@ -41,12 +41,12 @@ public class MilestoneScript : Script
         {
             voClip.play(soundEffectstring[0]);
             bedroomLights.GetComponent<BlinkingLights>().is_Enabled = true;
-            bedroomDoor.SetActive(bedroomDoor.GetEntityID(), true);
+            bedroomDoor.SetActive(true);
             scriptEventtimer += Time.deltaTime;
             if (closet.GetComponent<Hiding>().hiding)
             {
                 voClip.play(soundEffectstring[1]);
-                monster.SetActive(monster.GetEntityID(), true);
+                monster.SetActive(true);
                 timer += Time.deltaTime;
                 Vector3 vec = monster.transform.GetPosition();
                 vec.X += 15.0f * Time.deltaTime;
@@ -60,14 +60,14 @@ public class MilestoneScript : Script
 
                 if (timer > 2.0f)
                 {
-                    monster.SetActive(monster.GetEntityID(), false);
+                    monster.SetActive(false);
                     timer = 0.0f;
                 }
             }
         }
         if (scriptEventtimer > 12.0f)
         {
-            monster.SetActive(monster.GetEntityID(), false);
+            monster.SetActive(false);
             voClip.playQueue();
             if (counter < 4)
             {
@@ -86,13 +86,13 @@ public class MilestoneScript : Script
 
         if (scriptEventtimer > 15.0f)
         {
-            monster.SetActive(monster.GetEntityID(), true);
+            monster.SetActive(true);
             voClip.play(soundEffectstring[1]);
         }
 
         if (scriptEventtimer > 16.0f)
         {
-            monster.SetActive(monster.GetEntityID(), false);
+            monster.SetActive(false);
         }
     }
 }

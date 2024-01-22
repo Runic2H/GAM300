@@ -307,4 +307,9 @@ namespace ScriptAPI
 	{
 		return entityID;
 	}
+
+	void CameraComponent::SetEnabled(bool enabled)
+	{
+		TDS::ecs.setEntityIsEnabled(GetEntityID(), enabled);
+	}
 }

@@ -77,7 +77,7 @@ public class Painting_Script : Script
 
             if (Input.GetKeyDown(Keycode.E) && !paintingTaken && paintingParent.GetEntityID() != 0)
             {
-                paintingParent.SetActive(paintingParent.GetEntityID(), false);
+                paintingParent.SetActive(false);
                 paintingTaken = true;
             }
         }

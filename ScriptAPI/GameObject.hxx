@@ -19,8 +19,8 @@ namespace ScriptAPI
         generic <typename T>
         T GetComponent();
 
-        bool activeInHierarchy(TDS::EntityID entityID);
-        void SetActive(TDS::EntityID entityID, bool status);
+        bool ActiveInHierarchy();
+        void SetActive(bool status);
 
         TDS::EntityID GetEntityID();
 
@@ -31,7 +31,6 @@ namespace ScriptAPI
         GameObject(TDS::EntityID ID);
         void SetEntityID(TDS::EntityID ID);
     private:
-
         //entityID and is_Enabled set at SetEntityID
         TDS::EntityID entityID;
     };

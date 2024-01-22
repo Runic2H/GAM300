@@ -12,5 +12,6 @@ namespace ScriptAPI
 	{
 		virtual TDS::EntityID GetEntityID() = 0;
 		virtual void SetEntityID(TDS::EntityID ID) = 0;
+		virtual void SetEnabled(bool enabled) = 0;
 	};
 }

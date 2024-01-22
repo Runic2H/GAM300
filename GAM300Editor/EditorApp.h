@@ -19,9 +19,11 @@
 #include "dotnet/ImportExport.h"
 #include "dotnet/include/coreclrhost.h" 
 #include "Rendering/Skybox.h"
+#include "Input/InputListener.h"
+
 namespace TDS
 {
-	class Application
+	class Application/* : public InputListener*/
 	{
 	public:
 
@@ -144,7 +146,15 @@ namespace TDS
 		coreclr_shutdown_ptr        shutdownCoreClr = nullptr;
 
 
-	};//class application
+
+		// Inherited via InputListener
+		//virtual void onKeyPressed(int key) override;
+
+		//virtual void onKeyDown(int key) override;
+
+		//virtual void onKeyUp(int key) override;
+
+};//class application
 
 
 

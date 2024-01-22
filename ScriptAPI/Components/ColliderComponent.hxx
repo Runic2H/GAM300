@@ -14,6 +14,7 @@ namespace ScriptAPI
 
 		virtual bool GetIsTrigger() = 0;
 		virtual void SetIsTrigger(bool value) = 0;
+		virtual void SetEnabled(bool enabled) = 0;
 
 		GameObject^ gameObject;
 	};

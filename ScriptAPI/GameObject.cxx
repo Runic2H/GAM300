@@ -3,14 +3,14 @@
 
 namespace ScriptAPI
 {
-	bool GameObject::activeInHierarchy(TDS::EntityID entityID)
+	bool GameObject::ActiveInHierarchy()
 	{
-		return TDS::ecs.getEntityIsEnabled(entityID);
+		return TDS::ecs.getEntityIsEnabled(GetEntityID());
 	}
 
-	void GameObject::SetActive(TDS::EntityID entityID, bool status)
+	void GameObject::SetActive(bool status)
 	{
-		TDS::ecs.setEntityIsEnabled(entityID, status);
+		TDS::ecs.setEntityIsEnabled(GetEntityID(), status);
 		return;
 	}
 

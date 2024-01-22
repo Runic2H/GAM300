@@ -11,6 +11,7 @@ namespace ScriptAPI {
 
 		virtual TDS::EntityID GetEntityID();
 		virtual void SetEntityID(TDS::EntityID);
+		virtual void SetEnabled(bool enabled);
 
 		TransformComponent transform;
 

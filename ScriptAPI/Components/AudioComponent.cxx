@@ -183,6 +183,11 @@ namespace ScriptAPI
 		entityID = id;
 	}
 
+	void AudioComponent::SetEnabled(bool enabled)
+	{
+		TDS::ecs.setEntityIsEnabled(GetEntityID(), enabled);
+	}
+
 	//unique ID
 	unsigned int AudioComponent::uniqueID::get()
 	{

@@ -67,13 +67,13 @@ public class Flashlight_Script : Script
         {
             /*gameObject.GetComponent<MeshRenderer>().enabled = true;
             gameObject.GetComponent<CapsuleColliderComponent>().enabled = true;*/
-            lightSourceObj.SetActive(lightSourceObj.GetEntityID(),true);
+            lightSourceObj.SetActive(true);
         }
         else
         {
            /* gameObject.GetComponent<MeshRenderer>().enabled = false;
             gameObject.GetComponent<CapsuleColliderComponent>().enabled = false;*/
-            lightSourceObj.SetActive(lightSourceObj.GetEntityID(),false);
+            lightSourceObj.SetActive(false);
         }
 
         //BatteryLife();

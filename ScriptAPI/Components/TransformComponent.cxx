@@ -215,5 +215,10 @@ namespace ScriptAPI
 	TDS::EntityID TransformComponent::GetEntityID()
 	{
 		return entityID;
-	}	
+	}
+
+	void TransformComponent::SetEnabled(bool enabled)
+	{
+		TDS::ecs.setEntityIsEnabled(GetEntityID(), enabled);
+	}
 }

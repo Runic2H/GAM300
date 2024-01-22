@@ -88,7 +88,7 @@ namespace TDS
 					strcpy_s(temp, newValue.c_str());
 					ImGui::InputText(("##" + newValue).c_str(), temp, 100);
 
-					if (ImGui::IsItemDeactivatedAfterEdit())
+					if (ImGui::IsItemDeactivatedAfterEdit() && std::string(temp) != "")
 					{
 						nameTagComponent->SetName(std::string(temp));
 						sceneManagerInstance->updateName(selectedEntity, std::string(temp));

@@ -33,6 +33,7 @@
 #include "imguiHelper/ImguiGamePlayScene.h"
 #include "Physics/PhysicsSystem.h"
 #include "Rendering/ObjectPicking.h"
+#include "Input/InputSystem.h"
 
 bool isPlaying = false;
 bool startPlaying = false;
@@ -139,6 +140,7 @@ namespace TDS
         GraphicsManager::getInstance().Init(&m_window);
         AssetManager::GetInstance()->PreloadAssets();
         skyboxrender.Init();
+        //InputSystem::get()->addListener(this);
     }
 
     void Application::Update()
@@ -191,6 +193,8 @@ namespace TDS
 
         while (m_window.processInputEvent())
         {
+            InputSystem::GetInstance()->update();
+
             TimeStep::CalculateDeltaTime();
             float DeltaTime = TimeStep::GetDeltaTime();
             std::shared_ptr<EditorScene> pScene = static_pointer_cast<EditorScene>(LevelEditorManager::GetInstance()->panels[SCENE]);
@@ -819,6 +823,42 @@ namespace TDS
         }
         return "";
     }
+
+    //void Application::onKeyPressed(int key)
+    //{
+    //    if (key == 'W')
+    //    {
+    //        std::cout << "W is pressed!" << std::endl;
+    //    }
+    //    if (key == 'A')
+    //    {
+    //        std::cout << "A is pressed!" << std::endl;
+    //    }
+    //}
+
+    //void Application::onKeyDown(int key)
+    //{
+    //    if (key == 'W')
+    //    {
+    //        std::cout << "W is down!" << std::endl;
+    //    }
+    //    if (key == 'A')
+    //    {
+    //        std::cout << "A is down!" << std::endl;
+    //    }
+    //}
+
+    //void Application::onKeyUp(int key)
+    //{
+    //    if (key == 'W')
+    //    {
+    //        std::cout << "W is up!" << std::endl;
+    //    }
+    //    if (key == 'A')
+    //    {
+    //        std::cout << "A is up!" << std::endl;
+    //    }
+    //}
 
     bool Application::initImgui()
     {

@@ -343,4 +343,9 @@ namespace ScriptAPI
 	{
 		return entityID;
 	}
+
+	void RigidBodyComponent::SetEnabled(bool enabled)
+	{
+		TDS::ecs.setEntityIsEnabled(GetEntityID(), enabled);
+	}
 }

@@ -21,7 +21,7 @@ public class InventoryBox : Script
     {
         if (storedObjName != "")
         {
-            if(gameObject.GetComponent<NameTagComponent>().GetTag() == "Note" && notesGrp.activeInHierarchy(notesGrp.GetEntityID()))
+            if(gameObject.GetComponent<NameTagComponent>().GetTag() == "Note" && notesGrp.ActiveInHierarchy())
             {
                 if(storedObjName != gameObject.GetComponent<UISpriteComponent>().GetTextureName())
                 {
@@ -37,7 +37,7 @@ public class InventoryBox : Script
                 }
             }
 
-            else if (gameObject.GetComponent<NameTagComponent>().GetTag() == "Item" && itemsGrp.activeInHierarchy(itemsGrp.GetEntityID()))
+            else if (gameObject.GetComponent<NameTagComponent>().GetTag() == "Item" && itemsGrp.ActiveInHierarchy())
             {
                 if (storedObjName != gameObject.GetComponent<UISpriteComponent>().GetTextureName())
                 {
@@ -52,7 +52,7 @@ public class InventoryBox : Script
                 }
             }
 
-            else if (gameObject.GetComponent<NameTagComponent>().GetTag() == "Painting" && paintingsGrp.activeInHierarchy(paintingsGrp.GetEntityID()))
+            else if (gameObject.GetComponent<NameTagComponent>().GetTag() == "Painting" && paintingsGrp.ActiveInHierarchy())
             {
                 if (storedObjName != gameObject.GetComponent<UISpriteComponent>().GetTextureName())
                 {

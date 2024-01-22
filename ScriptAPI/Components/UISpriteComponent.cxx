@@ -123,4 +123,9 @@ namespace ScriptAPI
 	{
 		return entityID;
 	}
+
+	void UISpriteComponent::SetEnabled(bool enabled)
+	{
+		TDS::ecs.setEntityIsEnabled(GetEntityID(), enabled);
+	}
 }

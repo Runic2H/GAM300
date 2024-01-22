@@ -1,8 +1,11 @@
 ﻿using ScriptAPI;
 using System;
+using static System.Net.Mime.MediaTypeNames;
+using static System.Runtime.CompilerServices.RuntimeHelpers;
 
 public class Door_Script : Script
 {
+    /*
     //public GameObject _InteractUI;
     //public Animator doorAnimator;
     public GameObject playerCamera;
@@ -137,4 +140,127 @@ public class Door_Script : Script
     //        changedAudio = false;
     //    }
     //}
+    */
+
+    public GameObject _InteractUI;
+    //public Animator doorAnimator;
+    public GameObject lockpick;
+    public LockPick1 lockpickScript;
+    public float doorState = 0; //0 is closed, 1 is open
+    public bool locked = true;
+    public bool forcedLocked;
+    public bool chainedShut;
+    public AudioClip[] _DoorSounds;
+    public AudioSource _DoorAudioSource;
+    public bool collided;
+
+    [Header("VO Variables")]
+    //public Text mySubtitles;
+    public string[] myVOTexts;
+    public AudioClip[] forceLocked_VOLines;
+    public AudioSource voSource;
+    int forcelockedAudioCount = -1;
+    bool playForcedLockedAudio;
+
+    // Update is called once per frame
+    override public void Update()
+    {
+        if (collided)
+        {
+            if (Input.GetKeyDown(Keycode.E))
+            {
+                if (!locked)
+                {
+                    Open_CloseFunction();
+                    _InteractUI.SetActive(true);
+                }
+                else if (chainedShut)
+                {
+
+                }
+                else if (forcedLocked)
+                {
+                    playForcedLockedAudio = true;
+                    forcelockedAudioCount = -1;
+                }
+                else if (!lockpick.ActiveInHierarchy() && !forcedLocked)
+                {
+                    _InteractUI.SetActive(false);
+                    lockpick.SetActive(true);
+                    lockpickScript.newLock();
+                }
+            }
+
+            if (lockpickScript.unlocked)
+            {
+                lockpickScript.unlocked = false;
+                lockpick.SetActive(false);
+                locked = false;
+                _InteractUI.SetActive(true);
+            }
+        }
+
+        if (playForcedLockedAudio)
+        {
+            PlayVO();
+        }
+    }
+
+    private void OnTriggerEnter(ColliderComponent other)
+    {
+        if (other.gameObject.GetComponent<NameTagComponent>().GetName() == "Enemy")
+        {
+            Open_CloseFunction();
+        }
+    }
+
+    private void OnTriggerExit(ColliderComponent other)
+    {
+        if (other.gameObject.GetComponent<NameTagComponent>().GetName() == "Enemy")
+        {
+            Open_CloseFunction();
+        }
+    }
+
+    public void Open_CloseFunction()
+    {
+        if (doorState == 0)
+        {
+            //doorAnimator.SetBool("Open", true);
+            doorState = 1;
+        }
+        else
+        {
+            //doorAnimator.SetBool("Open", false);
+            doorState = 0;
+        }
+    }
+
+    public void PlayVO()
+    {
+        bool changedAudio = false;
+
+        if (!voSource.isPlaying())
+        {
+            if (!changedAudio && forcelockedAudioCount < 2)
+            {
+                //select audio clip
+                voSource.clip = forceLocked_VOLines[forcelockedAudioCount += 1];
+                //voSource.Play();
+
+                //select subtitle
+                //mySubtitles.enabled = true;
+                //mySubtitles.text = myVOTexts[forcelockedAudioCount];
+                changedAudio = true;
+            }
+            else
+            {
+                //mySubtitles.enabled = false;
+            }
+        }
+        else if (voSource.isPlaying())
+        {
+            changedAudio = false;
+        }
+    }
 }

@@ -1,7 +1,10 @@
 #include "camera/camera.h"
 #include "camera/Camerasystem/CameraSystem.h"
 #include "Rendering/GraphicsManager.h"
+#include "Input/InputSystem.h"
+
 #include<iostream>
+
 namespace TDS
 {
 	TDSCamera::TDSCamera(float Yaw, float pitch, /*float aspectRatio,*/ float zNear, float zFar, Vec3 position, Vec3 up)
@@ -154,37 +157,76 @@ namespace TDS
 
 	bool TDSCamera::moving()
 	{
-		if (Input::keystatus == Input::KeyStatus::PRESSED || Input::keystatus == Input::KeyStatus::REPEATED)
+		auto& inputSystem = InputSystem::GetInstance();
+		if (inputSystem->isKeyDown('W'))
 		{
-			switch (Input::keyCode)
-			{
-			case TDS_W:
-				return keys.up = true;
-				break;
-
-			case TDS_A:
-				return keys.left = true;
-				break;
-
-			case TDS_S:
-				return keys.down = true;
-				break;
-
-			case TDS_D:
-				return keys.right = true;
-
-			default:
-				return false;
-			}
+			keys.up = true;
 		}
 		else
 		{
 			keys.up = false;
+		}
+
+		if (inputSystem->isKeyDown('A'))
+		{
+			keys.left = true;
+		}
+		else
+		{
 			keys.left = false;
+		}
+
+		if (inputSystem->isKeyDown('S'))
+		{
+			keys.down = true;
+		}
+		else
+		{
 			keys.down = false;
+		}
+
+		if (inputSystem->isKeyDown('D'))
+		{
+			keys.right = true;
+		}
+		else
+		{
 			keys.right = false;
 		}
-		return false;
+
+		return keys.up || keys.left || keys.down || keys.right;
+
+		//if (Input::keystatus == Input::KeyStatus::PRESSED || Input::keystatus == Input::KeyStatus::REPEATED)
+		//{
+		//	switch (Input::keyCode)
+		//	{
+		//	case TDS_W:
+		//		return keys.up = true;
+		//		break;
+
+		//	case TDS_A:
+		//		return keys.left = true;
+		//		break;
+
+		//	case TDS_S:
+		//		return keys.down = true;
+		//		break;
+
+		//	case TDS_D:
+		//		return keys.right = true;
+
+		//	default:
+		//		return false;
+		//	}
+		//}
+		//else
+		//{
+		//	keys.up = false;
+		//	keys.left = false;
+		//	keys.down = false;
+		//	keys.right = false;
+		//}
+		//return false;
 	}
 
 	void TDSCamera::translate(const float& deltaWheel)

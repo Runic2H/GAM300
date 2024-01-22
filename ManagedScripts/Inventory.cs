@@ -36,11 +36,11 @@ public class InventoryScript : Script
     {
         var entityID = gameObject.GetEntityID();
 
-        if (!_InventoryObj.activeInHierarchy(entityID))
+        if (!_InventoryObj.ActiveInHierarchy())
         {
             if (Input.GetKeyDown(Keycode.I))
             {
-                _InventoryObj.SetActive(entityID, true);
+                _InventoryObj.SetActive(true);
                 //Cursor.visible = true;
                 Cursor.LockState = CursorLockMode.None;
 
@@ -56,11 +56,11 @@ public class InventoryScript : Script
         {
             if (Input.GetKeyDown(Keycode.I))
             {
-                _InventoryObj.SetActive(entityID, false);
+                _InventoryObj.SetActive(false);
                 //Cursor.visible = false;
                 Cursor.LockState = CursorLockMode.Locked;
 
-                if (playedInventoryOpenClose && !_InventoryObj.activeInHierarchy(entityID))
+                if (playedInventoryOpenClose && !_InventoryObj.ActiveInHierarchy())
                 {
                     //audio here
                     playedInventoryOpenClose = false;
@@ -72,7 +72,7 @@ public class InventoryScript : Script
     {
         _ViewObjectScript.OnDisable();
         _ViewObjectScript.isExaming = true;
-        _InventoryObj.SetActive(_InventoryObj.GetEntityID(), false);
+        _InventoryObj.SetActive(false);
     }
 
     void ShowPaintingInInventory()
@@ -122,9 +122,9 @@ public class InventoryScript : Script
         paintingsBttn.interactable = true;
         notesBttn.interactable = true;
 
-        paintingBttnGrp.SetActive(paintingBttnGrp.GetEntityID(), false);
-        itemBttnGrp.SetActive(itemBttnGrp.GetEntityID(), true);
-        noteBttnGrp.SetActive(noteBttnGrp.GetEntityID(), false);
+        paintingBttnGrp.SetActive(false);
+        itemBttnGrp.SetActive(true);
+        noteBttnGrp.SetActive(false);
 
         //examineOruseTxt.text = "Use";
 
@@ -137,9 +137,9 @@ public class InventoryScript : Script
         paintingsBttn.interactable = false;
         notesBttn.interactable = true;
 
-        paintingBttnGrp.SetActive(paintingBttnGrp.GetEntityID(), true);
-        itemBttnGrp.SetActive(itemBttnGrp.GetEntityID(), false);
-        noteBttnGrp.SetActive(noteBttnGrp.GetEntityID(), false);
+        paintingBttnGrp.SetActive( true);
+        itemBttnGrp.SetActive(false);
+        noteBttnGrp.SetActive(false);
 
         ShowPaintingInInventory();
 
@@ -152,9 +152,9 @@ public class InventoryScript : Script
         paintingsBttn.interactable = true;
         notesBttn.interactable = false;
 
-        paintingBttnGrp.SetActive(paintingBttnGrp.GetEntityID(), false);
-        itemBttnGrp.SetActive(itemBttnGrp.GetEntityID(), false);
-        noteBttnGrp.SetActive(noteBttnGrp.GetEntityID(), true);
+        paintingBttnGrp.SetActive(false);
+        itemBttnGrp.SetActive(false);
+        noteBttnGrp.SetActive(true);
 
         ShowNoteInInventory();
 

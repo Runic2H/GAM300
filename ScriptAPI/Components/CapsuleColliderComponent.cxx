@@ -218,4 +218,9 @@ namespace ScriptAPI
 	{
 		return entityID;
 	}
+
+	void CapsuleColliderComponent::SetEnabled(bool enabled)
+	{
+		TDS::ecs.setEntityIsEnabled(GetEntityID(), enabled);
+	}
 }

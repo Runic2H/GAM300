@@ -33,6 +33,11 @@ namespace ScriptAPI {
 		entityID = ID;
 	}
 
+	void GraphicComponent::SetEnabled(bool enabled)
+	{
+		TDS::ecs.setEntityIsEnabled(GetEntityID(), enabled);
+	}
+
 	Vector4 GraphicComponent::Color::get() 
 	{
 		if (!TDS::GetGraphicsComponent(entityID))

@@ -123,4 +123,9 @@ namespace ScriptAPI
 	{
 		return entityID;
 	}
+
+	void NameTagComponent::SetEnabled(bool enabled)
+	{
+		TDS::ecs.setEntityIsEnabled(GetEntityID(), enabled);
+	}
 }
