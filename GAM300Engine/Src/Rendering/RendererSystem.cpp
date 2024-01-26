@@ -357,10 +357,6 @@ namespace TDS
 							temp = _TransformComponent[i].GetFakeTransform();
 						}
 					}
-					if (_Graphics[i].m_MeshNodeName == "Main_entrance")
-					{
-						std::cout << "stop here" << temp.GetPosition().x << std::endl;
-					}
 
 
 
