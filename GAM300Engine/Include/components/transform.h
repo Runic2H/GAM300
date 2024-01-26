@@ -36,7 +36,7 @@ namespace TDS
 		Getter and setter functions for the variables in the Transform component
 		class
 		****************************************************************************/
-		DLL_API Vec3 GetPosition() { return mPosition;  }
+		DLL_API Vec3 GetPosition() { return mPosition; }
 
 		DLL_API void SetRealPosition(Vec3 position)
 		{
@@ -53,41 +53,41 @@ namespace TDS
 			mRotation = rotate;
 			mIsDirty = true;
 		}
-		DLL_API void SetPosition(Vec3 position) 
-		{ 
+		DLL_API void SetPosition(Vec3 position)
+		{
 			mOldPosition = mPosition;
 			mPosition = position;
 			mFakePosition += (mPosition - mOldPosition);
-			mIsDirty = true; 
+			mIsDirty = true;
 		}
-		DLL_API void SetPosition(float positionX, float positionY, float positionZ) 
-		{ 
-			mOldPosition = mPosition;  
+		DLL_API void SetPosition(float positionX, float positionY, float positionZ)
+		{
+			mOldPosition = mPosition;
 			mPosition = Vec3(positionX, positionY, positionZ);
 			mFakePosition += (mPosition - mOldPosition);
 			mIsDirty = true;
-		
+
 		}
 
 		DLL_API Vec3& GetOffsetPos() { return mOffsetPos; };
 		DLL_API void SetOffSetPos(Vec3 Pos) { mOffsetPos = Pos; mIsDirty = true; }
 		DLL_API void SetOffSetPos(float posX, float posY, float posZ) { mOffsetPos = { posX, posY, posZ }; mIsDirty = true; }
-		
+
 		DLL_API Vec3 GetScale() { return mScale; }
-		DLL_API void SetScale(Vec3 scale) 
-		{ 
+		DLL_API void SetScale(Vec3 scale)
+		{
 			Vec3 oldScale = mScale;
 			mScale = scale;
 			mFakeScale += (mScale - oldScale);
 			mIsDirty = true;
 		}
 		DLL_API void SetScale(float scaleX, float scaleY, float scaleZ)
-		{ 
+		{
 			Vec3 oldScale = mScale;
 			mScale = Vec3(scaleX, scaleY, scaleZ);
 			mFakeScale += (mScale - oldScale);
 			mIsDirty = true;
-		
+
 		}
 
 		DLL_API Vec3& GetOffsetScale() { return mOffsetScale; }
@@ -101,15 +101,15 @@ namespace TDS
 			mRotation = rotation;
 			mFakeRotation += (mRotation - oldRotation);
 			mIsDirty = true;
-			
+
 		}
 		DLL_API void SetRotation(float rotationX, float rotationY, float rotationZ)
-		{ 
+		{
 			Vec3 oldRotation = mRotation;
 			mRotation = Vec3(rotationX, rotationY, rotationZ);
 			mFakeRotation += (mRotation - oldRotation);
-			mIsDirty = true;	
-		
+			mIsDirty = true;
+
 		}
 
 		DLL_API Mat4 GetTransformMatrix() const { return mTransformMatrix; }
@@ -200,7 +200,7 @@ namespace TDS
 		RTTR_REGISTRATION_FRIEND
 
 	private:
-		bool mIsDirty{false};
+		bool mIsDirty{ false };
 		Vec3 mPosition;
 		Vec3 mScale;
 		Vec3 mRotation;
@@ -213,13 +213,13 @@ namespace TDS
 		Vec3 mFakePosition;
 		Vec3 mOldPosition;
 		Vec3 mOldScale;
-		Vec3 mOldRotation; 
+		Vec3 mOldRotation;
 
 		Mat4 mTransformMatrix;
 		Mat4 mOffsetMatrix;
 		Mat4 mFakeTransform;
 
-	
+
 
 	};
 

@@ -387,23 +387,23 @@ namespace TDS
 			}
 
 			auto GetTextureIndex = [&]()->int
-			{
-				for (std::uint32_t i = 0; i < mesh.GetNumUVChannels(); ++i)
 				{
-					if (mesh.HasTextureCoords(i))
-						return i;
-				}
-				return -1;
-			};
+					for (std::uint32_t i = 0; i < mesh.GetNumUVChannels(); ++i)
+					{
+						if (mesh.HasTextureCoords(i))
+							return i;
+					}
+					return -1;
+				};
 			auto GetColorIndex = [&]()->int
-			{
-				for (std::uint32_t i = 0; i < mesh.GetNumUVChannels(); ++i)
 				{
-					if (mesh.HasVertexColors(i))
-						return i;
-				}
-				return -1;
-			};
+					for (std::uint32_t i = 0; i < mesh.GetNumUVChannels(); ++i)
+					{
+						if (mesh.HasVertexColors(i))
+							return i;
+					}
+					return -1;
+				};
 			iUV = GetTextureIndex();
 			iColor = GetColorIndex();
 
@@ -413,7 +413,7 @@ namespace TDS
 
 			aiVector3D pos;
 			AccumulatedTransform.DecomposeNoScaling(currRotation, pos);
-			
+
 			aiMatrix4x4 translateMat = GetTranslationMatrix(AccumulatedTransform);
 			aiMatrix4x4 rotationMat = GetRotationMatrix(AccumulatedTransform);
 			aiMatrix4x4 scaleMat = GetScaleMatrix(AccumulatedTransform);
@@ -423,7 +423,6 @@ namespace TDS
 			aiMatrix4x4 transformWithoutTrans = identity * rotationMat * scaleMat;
 
 			aiVector3D translate{};
-			
 			ExtractTranslation(AccumulatedTransform, translate);
 			aiVector3D rot = ExtractEulerAngles(AccumulatedTransform);
 			aiVector3D scaling;
@@ -583,19 +582,19 @@ namespace TDS
 	{
 		m_MeshRef.resize(m_Scene->mNumMeshes);
 		std::function<void(const aiNode& Node)> ProcessNode = [&](const aiNode& Node) noexcept
-		{
-			for (std::uint32_t i = 0; i < Node.mNumMeshes; ++i)
 			{
-				aiMesh* pMesh = m_Scene->mMeshes[Node.mMeshes[i]];
+				for (std::uint32_t i = 0; i < Node.mNumMeshes; ++i)
+				{
+					aiMesh* pMesh = m_Scene->mMeshes[Node.mMeshes[i]];
 
-				m_MeshRef[Node.mMeshes[i]].m_Nodes.emplace_back(&Node);
-			}
+					m_MeshRef[Node.mMeshes[i]].m_Nodes.emplace_back(&Node);
+				}
 
-			for (std::uint32_t i = 0; i < Node.mNumChildren; ++i)
-			{
-				ProcessNode(*Node.mChildren[i]);
-			}
-		};
+				for (std::uint32_t i = 0; i < Node.mNumChildren; ++i)
+				{
+					ProcessNode(*Node.mChildren[i]);
+				}
+			};
 
 		ProcessNode(*m_Scene->mRootNode);
 

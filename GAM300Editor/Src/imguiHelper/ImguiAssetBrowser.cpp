@@ -33,7 +33,7 @@ namespace TDS
 		addComponentByName("Name Tag", newEntityID);
 		addComponentByName("Graphics Component", newEntityID);
 		addComponentByName("Transform", newEntityID);
-		
+
 		IComponent* nameTag = getComponentByName("Name Tag", newEntityID);
 		IComponent* GraphicComponent = getComponentByName("Graphics Component", newEntityID);
 		IComponent* TransformComp = getComponentByName("Transform", newEntityID);
@@ -61,12 +61,12 @@ namespace TDS
 		transformComp->SetRotation(Rotatation);
 		transformComp->SetScale(Scaling);
 
-		if (ParentEntity != 0) 
+		if (ParentEntity != 0)
 		{
 			NameTag* parentNameTag = ecs.getComponent<NameTag>(ParentEntity);
-			if (parentNameTag) 
+			if (parentNameTag)
 				parentNameTag->GetHierarchyChildren().push_back(newEntityID);
-			
+
 		}
 
 	}
@@ -77,12 +77,12 @@ namespace TDS
 
 		//Get Panel
 		std::shared_ptr<Hierarchy> panel = static_pointer_cast<Hierarchy>(LevelEditorManager::GetInstance()->panels[HIERARCHY]);
-		
+
 		//Get mesh reference
 		TypeReference<MeshController> refMeshController{};
 		auto meshcontroller = AssetManager::GetInstance()->GetMeshFactory().GetMeshController(ModelAssetName, refMeshController);
 		auto& modelHandle = meshcontroller->GetModelPack()->m_ModelHandle;
-		
+
 		if (modelHandle.m_Mesh.size() == 1)
 		{
 			GraphicsComponent* graphComponent = reinterpret_cast<GraphicsComponent*>(getComponentByName("Graphics Component", rootEntity));
@@ -104,7 +104,7 @@ namespace TDS
 			{
 				Entity nodeEntity;
 				EntityID nodeEntityID = nodeEntity.getID();
-				
+
 				//Add components
 				{
 					addComponentByName("Name Tag", nodeEntityID);
@@ -124,7 +124,7 @@ namespace TDS
 					graphComp->m_MeshName = "";
 					graphComp->m_ModelName = ModelAssetName;
 					graphComp->m_MeshNodeName = rootNodes.first;
-			
+
 					//set root node name, 
 					rootTag->SetName(rootNodes.first);
 					rootTag->SetHierarchyParent(rootEntity);
@@ -135,12 +135,12 @@ namespace TDS
 							mainRoot->GetHierarchyChildren().push_back(nodeEntityID);
 					}
 					//set initial transform position,
-		
+
 					transformComp->SetRealPosition(rootNodes.second.m_SceneTranslation);
 					transformComp->SetRealScale(rootNodes.second.m_SceneScale);
 					transformComp->SetRealRotate(rootNodes.second.m_SceneRotation);
 					// push this entity into the main root
-					
+
 				}
 
 
@@ -150,13 +150,13 @@ namespace TDS
 					Entity newEntity;
 					EntityID newEntityID = newEntity.getID();
 
-					
+
 					{
 						//Add components
 						addComponentByName("Name Tag", newEntityID);
 						addComponentByName("Graphics Component", newEntityID);
 						addComponentByName("Transform", newEntityID);
-		
+
 						//Get components
 						GraphicsComponent* childGrapComp = reinterpret_cast<GraphicsComponent*>(getComponentByName("Graphics Component", newEntityID));
 						NameTag* childTag = reinterpret_cast<NameTag*>(getComponentByName("Name Tag", newEntityID));
@@ -169,7 +169,7 @@ namespace TDS
 
 						//Get Reference
 						AssetManager::GetInstance()->GetMeshFactory().GetMeshController(ModelAssetName, childGrapComp->m_MeshControllerRef);
-						
+
 						//Set the correct mesh name and model name
 						childGrapComp->m_MeshName = meshNode.first;
 						childGrapComp->m_ModelName = ModelAssetName;
@@ -196,7 +196,7 @@ namespace TDS
 			}
 		}
 
-		
+
 	}
 	void DivideSubmesh(EntityID entity, TypeReference<AssetModel>& model)
 	{
@@ -206,7 +206,7 @@ namespace TDS
 
 			CreateNewEntityWithSubMesh(entity, originalModelTransform, model, childMeshes.first);
 		}
-		
+
 	}
 
 
@@ -289,7 +289,7 @@ namespace TDS
 			if (ImGui::Button("<-")) //will only show if u went into a folder in the current directory above
 			{
 				m_curr_path = m_curr_path.parent_path();
-				
+
 				/*if (audimg.ToggleControls())
 				{
 					std::cout << "Stopping Audio Imgui controls" << '\n';
@@ -319,7 +319,7 @@ namespace TDS
 		ImGui::Columns(std::max(columnCount, 1), 0, false);
 
 		//load texture info ONCE
-		
+
 		if (loadonce == true)
 		{
 			fileIcon.LoadTexture("../assets/icons/icon.dds"); //can only take dds files for now
@@ -331,7 +331,7 @@ namespace TDS
 			loadonce = false;
 		}
 
-		
+
 
 		for (auto& directory_entry : std::filesystem::directory_iterator(m_curr_path))
 		{
@@ -391,7 +391,7 @@ namespace TDS
 				}
 				else if (show_png && !show_dds)
 				{
-					if (!strstr(filename.c_str(), ".png")) 
+					if (!strstr(filename.c_str(), ".png"))
 					{
 						continue;
 					}
@@ -399,9 +399,9 @@ namespace TDS
 
 			}
 			ImGui::PushID(filename.c_str()); //store the current id in each button that is created in each iteration of files
-			
+
 			ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0, 0, 0, 0));
-			
+
 
 			if (directory_entry.is_directory()) //draw folder icon
 			{
@@ -410,7 +410,7 @@ namespace TDS
 			}
 			else //draw file icon
 			{
-				
+
 				//then render button
 				ImGui::ImageButton(reinterpret_cast<void*>(file_DescSet), ImVec2{ thumbnail_size, thumbnail_size }, ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
 				//do drag drop ONLY on files, not folder
@@ -431,19 +431,19 @@ namespace TDS
 
 			if (ImGui::IsItemClicked(0))
 			{
-				
+
 				//if it has a "." in it, it is a file, do not add to path
 				//only directories/folders can be added to path
 
 				//if it is a folder, open it and update the asset broswer curr dir
-				if (!strstr(filename.c_str(), ".")) 
+				if (!strstr(filename.c_str(), "."))
 				{
 					m_curr_path += "/" + filename;
-				
+
 
 					//attempt at drag drop
 					selectedpath = path1;
-					
+
 
 				}
 				//use the rest of the checks below to handle what happens when u press different kinds of file extensions
@@ -599,7 +599,7 @@ namespace TDS
 
 			}
 			ImGui::TextWrapped(filename.c_str()); //currently using this to display full file name
-			
+
 			/*if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_SourceExtern))
 			{
 				ImGui::SetDragDropPayload("path", path1.c_str(), 1);
@@ -624,7 +624,7 @@ namespace TDS
 		//ImGui::SliderFloat("Thumbnail Size", &thumbnail_size, 16, 512);
 		//ImGui::SliderFloat("Padding", &padding, 0, 32);
 	}
-	
+
 	std::string AssetBrowser::LoadAssetRevamped(const std::string& FileName)
 	{
 		std::string OutputPath{};
@@ -711,7 +711,7 @@ namespace TDS
 				AssetManager::GetInstance()->GetMeshFactory().LoadModel(OutputFile);
 				OutputPath = OutputFile;
 
-	
+
 			}
 			else
 			{
@@ -771,9 +771,9 @@ namespace TDS
 	{
 		fileIcon.m_VulkanTexture->Destroy(); //temp, to prevent mem leak
 		folderIcon.m_VulkanTexture->Destroy(); //temp, to prevent mem leak
-		
+
 		/* when breakpoint, these 2 lines below free nothing
-		
+
 		fileIcon.Destroy();
 		folderIcon.Destroy();*/
 

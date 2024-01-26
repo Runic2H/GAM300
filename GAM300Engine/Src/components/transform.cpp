@@ -32,30 +32,30 @@ namespace TDS
 	Initializes the Transform component when created
 	****************************************************************************/
 	Transform::Transform() : mPosition(Vec3(0.0f, 0.0f, 0.0f)),
-							mScale(Vec3(1.0f, 1.0f, 1.0f)),
-							mRotation(Vec3(0.0f, 0.f, 0.0f)),
-							mFakePosition(Vec3(0.0f, 0.0f, 0.0f)),
-							mFakeScale(Vec3(1.0f, 1.0f, 1.0f)),
-							mFakeRotation(Vec3(0.0f, 0.0f, 0.0f)),
-							mTransformMatrix(Mat4::zero()),
-							mFakeTransform(Mat4::zero()),
-							mOffsetScale(Vec3(0.f, 0.f, 0.f)),
-							mOffsetPos(Vec3(0.f, 0.f, 0.f)),
-							mOffsetMatrix(Mat4::zero())
+		mScale(Vec3(1.0f, 1.0f, 1.0f)),
+		mRotation(Vec3(0.0f, 0.f, 0.0f)),
+		mFakePosition(Vec3(0.0f, 0.0f, 0.0f)),
+		mFakeScale(Vec3(1.0f, 1.0f, 1.0f)),
+		mFakeRotation(Vec3(0.0f, 0.0f, 0.0f)),
+		mTransformMatrix(Mat4::zero()),
+		mFakeTransform(Mat4::zero()),
+		mOffsetScale(Vec3(0.f, 0.f, 0.f)),
+		mOffsetPos(Vec3(0.f, 0.f, 0.f)),
+		mOffsetMatrix(Mat4::zero())
 	{ }
 
 	/*!*************************************************************************
 	Initializes the Transform component when created, given another Transform
 	component to move (for ECS)
 	****************************************************************************/
-	Transform::Transform(Transform&& toMove) noexcept : mPosition			(toMove.mPosition),
-														mScale				(toMove.mScale),
-														mRotation			(toMove.mRotation),
-														mTransformMatrix	(toMove.mTransformMatrix),
-														mFakePosition		(toMove.mFakePosition),
-														mFakeRotation		(toMove.mFakeRotation),
-														mFakeScale			(toMove.mFakeScale),
-														mFakeTransform		(toMove.mFakeTransform)
+	Transform::Transform(Transform&& toMove) noexcept : mPosition(toMove.mPosition),
+		mScale(toMove.mScale),
+		mRotation(toMove.mRotation),
+		mTransformMatrix(toMove.mTransformMatrix),
+		mFakePosition(toMove.mFakePosition),
+		mFakeRotation(toMove.mFakeRotation),
+		mFakeScale(toMove.mFakeScale),
+		mFakeTransform(toMove.mFakeTransform)
 	{ }
 
 	Vec4 Transform::getLocalPosition(EntityID parent)
