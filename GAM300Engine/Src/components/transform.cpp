@@ -14,10 +14,16 @@ RTTR_REGISTRATION
 {
 	using namespace TDS;
 
-rttr::registration::class_<Transform>("Transform")
+	rttr::registration::class_<Transform>("Transform")
 		.property("Position", &Transform::mPosition)
 		.property("Scale", &Transform::mScale)
-		.property("Rotation", &Transform::mRotation);
+		.property("Rotation", &Transform::mRotation)
+		.property("FakePosition", &Transform::mFakePosition)
+		.property("FakeRotation", &Transform::mFakeRotation)
+		.property("FakeScale", &Transform::mFakeScale)
+		.property("OldPosition", &Transform::mOldPosition)
+		.property("OldScale", &Transform::mOldScale)
+		.property("OldRotation", &Transform::mOldRotation);
 }
 
 namespace TDS

@@ -1129,6 +1129,13 @@ namespace TDS
 			}
 			else if (propertyName.get_type() == rttr::type::get<Vec3>())
 			{
+				if (propertyName.get_name().to_string() == "FakePosition"
+					|| propertyName.get_name().to_string() == "FakeRotation"
+					|| propertyName.get_name().to_string() == "FakeScale"
+					|| propertyName.get_name().to_string() == "OldPosition"
+					|| propertyName.get_name().to_string() == "OldScale"
+					|| propertyName.get_name().to_string() == "OldRotation") continue;
+
 				Vec3 newValue = propertyName.get_value(componentInstance).convert<Vec3>();
 				ImguiInput(propertyName.get_name().to_string(), newValue);
 				propertyName.set_value(componentInstance, newValue);

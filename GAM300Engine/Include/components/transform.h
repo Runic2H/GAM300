@@ -217,7 +217,6 @@ namespace TDS
 
 		Mat4 mTransformMatrix;
 		Mat4 mOffsetMatrix;
-		Mat4 m_ShaderTransform;
 		Mat4 mFakeTransform;
 
 	
