@@ -358,7 +358,6 @@ namespace TDS
 		for (std::uint32_t i = 0; i < Node.mNumMeshes; ++i)
 		{
 			aiMesh& mesh = *Scene.mMeshes[Node.mMeshes[i]];
-
 			std::int32_t iUV = -1, iColor = -1;
 
 			if (mesh.HasPositions() == false || mesh.HasFaces() == false)
@@ -425,10 +424,10 @@ namespace TDS
 
 			aiVector3D translate{};
 			
-			ExtractTranslation(Node.mTransformation, translate);
-			aiVector3D rot = ExtractEulerAngles(Node.mTransformation);
+			ExtractTranslation(AccumulatedTransform, translate);
+			aiVector3D rot = ExtractEulerAngles(AccumulatedTransform);
 			aiVector3D scaling;
-			ExtractScale(Node.mTransformation, scaling);
+			ExtractScale(AccumulatedTransform, scaling);
 			rawMesh.m_ParentNode = parentNode;
 			rawMesh.m_NodeName = std::string(Node.mName.C_Str());
 			rawMesh.m_MeshName = std::string(mesh.mName.C_Str());

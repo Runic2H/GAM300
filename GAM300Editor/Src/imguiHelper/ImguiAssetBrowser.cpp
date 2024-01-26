@@ -137,8 +137,8 @@ namespace TDS
 					//set initial transform position,
 		
 					transformComp->SetRealPosition(rootNodes.second.m_SceneTranslation);
-					//transformComp->SetScale(rootNodes.second.m_SceneScale);
-					//transformComp->SetRotation(rootNodes.second.m_SceneRotation);
+					transformComp->SetRealScale(rootNodes.second.m_SceneScale);
+					transformComp->SetRealRotate(rootNodes.second.m_SceneRotation);
 					// push this entity into the main root
 					
 				}
@@ -176,8 +176,8 @@ namespace TDS
 						childGrapComp->m_MeshNodeName = rootNodes.first;
 						//Set initial transform positions
 						childTransformComp->SetRealPosition(rootNodes.second.m_SceneTranslation);
-		/*				childTransformComp->SetScale(rootNodes.second.m_SceneScale);
-						childTransformComp->SetRotation(rootNodes.second.m_SceneRotation);*/
+						childTransformComp->SetRealScale(rootNodes.second.m_SceneScale);
+						childTransformComp->SetRealRotate(rootNodes.second.m_SceneRotation);
 						//childTransformComp->SetScale(Vec3(1.f, 1.f, 1.f));
 						//childTransformComp->SetRotation(Vec3(0.f, 0.f, 0.f));
 						//If entity validity check

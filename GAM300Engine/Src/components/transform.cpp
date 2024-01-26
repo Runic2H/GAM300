@@ -81,8 +81,10 @@ namespace TDS
 		localPosition.y *= localPosition.w;
 		localPosition.z *= localPosition.w;
 
-		mPosition = GetTransform(parent)->GenerateTransform() * localPosition;
-		mFakePosition = GetTransform(parent)->GenerateFakeTransform() * localPosition;
+		Vec3 newPosition = GetTransform(parent)->GenerateTransform() * localPosition;
+		SetPosition(newPosition);
+		//mPosition = GetTransform(parent)->GenerateTransform() * localPosition;
+		//mFakePosition = GetTransform(parent)->GenerateFakeTransform() * localPosition;
 	}
 
 	Vec4 Transform::getLocalScale(EntityID parent)
@@ -102,7 +104,9 @@ namespace TDS
 		localScale.y *= localScale.w;
 		localScale.z *= localScale.w;
 
-		mPosition = GetTransform(parent)->GenerateTransform() * localScale;
+		Vec3 newPosition = GetTransform(parent)->GenerateTransform() * localScale;
+		SetPosition(newPosition);
+		/*mPosition = GetTransform(parent)->GenerateTransform() * localScale;*/
 	}
 
 	Vec4 Transform::getLocalRotation(EntityID parent)
@@ -122,7 +126,9 @@ namespace TDS
 		localRotation.y *= localRotation.w;
 		localRotation.z *= localRotation.w;
 
-		mPosition = GetTransform(parent)->GenerateTransform() * localRotation;
+		Vec3 newPosition = GetTransform(parent)->GenerateTransform() * localRotation;
+		SetPosition(newPosition);
+		/*mPosition = GetTransform(parent)->GenerateTransform() * localRotation;*/
 	}
 
 	Transform* GetTransform(EntityID entityID)
