@@ -57,6 +57,7 @@ namespace TDS
 		{
 			mOldPosition = mPosition;
 			mPosition = position;
+			mOldFakePosition = mFakePosition;
 			mFakePosition += (mPosition - mOldPosition);
 			mIsDirty = true;
 		}
@@ -64,6 +65,7 @@ namespace TDS
 		{
 			mOldPosition = mPosition;
 			mPosition = Vec3(positionX, positionY, positionZ);
+			mOldFakePosition = mFakePosition;
 			mFakePosition += (mPosition - mOldPosition);
 			mIsDirty = true;
 
@@ -78,14 +80,16 @@ namespace TDS
 		{
 			Vec3 oldScale = mScale;
 			mScale = scale;
+			mOldFakeScale = mFakeScale;
 			mFakeScale += (mScale - oldScale);
 			mIsDirty = true;
 		}
 		DLL_API void SetScale(float scaleX, float scaleY, float scaleZ)
 		{
-			Vec3 oldScale = mScale;
+			mOldRotation = mScale;
 			mScale = Vec3(scaleX, scaleY, scaleZ);
-			mFakeScale += (mScale - oldScale);
+			mOldFakeScale = mFakeScale;
+			mFakeScale += (mScale - mOldRotation);
 			mIsDirty = true;
 
 		}
@@ -97,9 +101,10 @@ namespace TDS
 		DLL_API Vec3 GetRotation() { return mRotation; }
 		DLL_API void SetRotation(Vec3 rotation)
 		{
-			Vec3 oldRotation = mRotation;
+			mOldScale = mRotation;
 			mRotation = rotation;
-			mFakeRotation += (mRotation - oldRotation);
+			mOldFakeRotation = mFakeRotation;
+			mFakeRotation += (mRotation - mOldScale);
 			mIsDirty = true;
 
 		}
@@ -107,6 +112,7 @@ namespace TDS
 		{
 			Vec3 oldRotation = mRotation;
 			mRotation = Vec3(rotationX, rotationY, rotationZ);
+			mOldFakeRotation = mFakeRotation;
 			mFakeRotation += (mRotation - oldRotation);
 			mIsDirty = true;
 
@@ -137,7 +143,8 @@ namespace TDS
 
 			return mTransformMatrix;
 		}
-		DLL_API Mat4 GenerateTransformInverse() {
+		DLL_API Mat4 GenerateTransformInverse() 
+		{
 			GenerateTransform();
 			return mTransformMatrix.inverse();
 		}
@@ -185,15 +192,7 @@ namespace TDS
 			return mIsDirty;
 		}
 
-		DLL_API Mat4 GenerateFakeTransform()
-		{
-			Quat qRot = Quat(mFakeRotation);
-			Mat4 scaleM4 = Mat4::Scale(mFakeScale);
-			Mat4 rotM4 = Mat4(Quat::toMat4(qRot));
-			Mat4 transM4 = Mat4::Translate(mFakePosition);
-			mFakeTransform = transM4 * rotM4 * scaleM4;
-			return mFakeTransform;
-		}
+		DLL_API Mat4 GenerateFakeTransform();
 
 
 		RTTR_ENABLE(IComponent);
@@ -211,6 +210,11 @@ namespace TDS
 		Vec3 mFakeRotation;
 		Vec3 mFakeScale;
 		Vec3 mFakePosition;
+
+		Vec3 mOldFakePosition;
+		Vec3 mOldFakeRotation;
+		Vec3 mOldFakeScale;
+
 		Vec3 mOldPosition;
 		Vec3 mOldScale;
 		Vec3 mOldRotation;

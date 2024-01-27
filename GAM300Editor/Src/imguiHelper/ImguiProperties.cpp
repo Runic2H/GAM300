@@ -1134,7 +1134,10 @@ namespace TDS
 					|| propertyName.get_name().to_string() == "FakeScale"
 					|| propertyName.get_name().to_string() == "OldPosition"
 					|| propertyName.get_name().to_string() == "OldScale"
-					|| propertyName.get_name().to_string() == "OldRotation") continue;
+					|| propertyName.get_name().to_string() == "OldRotation"
+					|| propertyName.get_name().to_string() == "OldFakePosition"
+					|| propertyName.get_name().to_string() == "OldFakeScale"
+					|| propertyName.get_name().to_string() == "OldFakeRotation") continue;
 
 				Vec3 newValue = propertyName.get_value(componentInstance).convert<Vec3>();
 				ImguiInput(propertyName.get_name().to_string(), newValue);

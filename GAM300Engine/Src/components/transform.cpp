@@ -23,7 +23,11 @@ RTTR_REGISTRATION
 		.property("FakeScale", &Transform::mFakeScale)
 		.property("OldPosition", &Transform::mOldPosition)
 		.property("OldScale", &Transform::mOldScale)
-		.property("OldRotation", &Transform::mOldRotation);
+		.property("OldRotation", &Transform::mOldRotation)
+		.property("OldFakePosition", &Transform::mOldFakePosition)
+		.property("OldFakeScale", &Transform::mOldFakeScale)
+		.property("OldFakeRotation", &Transform::mOldFakeRotation);
+
 }
 
 namespace TDS
@@ -48,7 +52,8 @@ namespace TDS
 	Initializes the Transform component when created, given another Transform
 	component to move (for ECS)
 	****************************************************************************/
-	Transform::Transform(Transform&& toMove) noexcept : mPosition(toMove.mPosition),
+	Transform::Transform(Transform&& toMove) noexcept : 
+		mPosition(toMove.mPosition),
 		mScale(toMove.mScale),
 		mRotation(toMove.mRotation),
 		mTransformMatrix(toMove.mTransformMatrix),
@@ -129,6 +134,17 @@ namespace TDS
 		Vec3 newPosition = GetTransform(parent)->GenerateTransform() * localRotation;
 		SetPosition(newPosition);
 		/*mPosition = GetTransform(parent)->GenerateTransform() * localRotation;*/
+	}
+
+	DLL_API Mat4 Transform::GenerateFakeTransform()
+	{
+		Quat qRot = Quat(mFakeRotation);
+		Mat4 scaleM4 = Mat4::Scale(mFakeScale);
+		Mat4 rotM4 = Mat4(Quat::toMat4(qRot));
+		Mat4 transM4 = Mat4::Translate(mFakePosition);
+		mFakeTransform = transM4 * rotM4 * scaleM4;
+		return mFakeTransform;
+		
 	}
 
 	Transform* GetTransform(EntityID entityID)

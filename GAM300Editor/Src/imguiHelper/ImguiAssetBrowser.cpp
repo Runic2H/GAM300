@@ -11,7 +11,6 @@
 #include "imguiHelper/ImguiAudio.h"
 #include "Tools/CompilerRevamped/MeshLoader.h"
 #include <string>
-#include "GraphicsResource/Revamped/ModelPack.h"
 #include "AssetManagement/Revamped/MeshFactory.h"
 
 #define ASSET_PATH "../assets"
@@ -628,6 +627,7 @@ namespace TDS
 	std::string AssetBrowser::LoadAssetRevamped(const std::string& FileName)
 	{
 		std::string OutputPath{};
+		std::string OutName{};
 		if (strstr(FileName.c_str(), ".jpg") || strstr(FileName.c_str(), ".png") || strstr(FileName.c_str(), ".dds"))
 		{
 			lookUp = false;
@@ -708,23 +708,24 @@ namespace TDS
 				MeshLoader::GetInstance().RunCompiler(req);
 
 				std::string OutputFile = req.m_OutFile;
-				AssetManager::GetInstance()->GetMeshFactory().LoadModel(OutputFile);
-				OutputPath = OutputFile;
+				OutName = AssetManager::GetInstance()->GetMeshFactory().LoadModel(OutputFile);
+
+				/*OutputPath = OutputFile;*/
 
 
 			}
 			else
 			{
-				AssetManager::GetInstance()->GetMeshFactory().LoadModel(OutPath);
-				OutputPath = OutPath;
+				OutName = AssetManager::GetInstance()->GetMeshFactory().LoadModel(OutPath);
+				/*OutputPath = OutPath;*/
 			}
 
-			std::filesystem::path FilePath(OutputPath);
-			std::string assetName = FilePath.filename().string();
+			//std::filesystem::path FilePath(OutputPath);
+			//std::string assetName = FilePath.filename().string();
 
-			BuildEntityMeshHierachy(assetName, currEntity);
+			BuildEntityMeshHierachy(OutName, currEntity);
 
-			return assetName;
+			return OutName;
 		}
 		//if .json, load scene...
 		if (strstr(FileName.c_str(), ".ttf"))

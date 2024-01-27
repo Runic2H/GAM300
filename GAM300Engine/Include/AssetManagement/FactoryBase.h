@@ -3,6 +3,7 @@
 #include "ResourceManagement/ResourceRef.h"
 #include "GraphicsResource/AssetModel.h"
 #include "GraphicsResource/TextureInfo.h"
+#include "Identifier/UniqueID.h"
 namespace TDS
 {
 	template <typename T>

@@ -140,6 +140,7 @@ namespace TDS
         GraphicsManager::getInstance().Init(&m_window);
         AssetManager::GetInstance()->PreloadAssets();
         skyboxrender.Init();
+        GraphicsManager::getInstance().GetDebugRenderer().Init();
         //InputSystem::get()->addListener(this);
     }
 

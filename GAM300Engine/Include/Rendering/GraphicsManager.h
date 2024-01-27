@@ -41,14 +41,14 @@ namespace TDS
 
 
 
-		TDSCamera*								m_Camera = nullptr;
+		TDSCamera* m_Camera = nullptr;
 		VkCommandBuffer							currentCommand = nullptr;
-		WindowsWin*								m_pWindow = nullptr;
-		RenderTarget*							m_RenderingAttachment{ nullptr };
-		RenderTarget*							m_RenderingDepthAttachment{ nullptr };
-		RenderTarget*							m_PickAttachment{ nullptr };
-		RenderPass*								m_Renderpass{ nullptr };
-		FrameBuffer*							m_Framebuffer{ nullptr };
+		WindowsWin* m_pWindow = nullptr;
+		RenderTarget* m_RenderingAttachment{ nullptr };
+		RenderTarget* m_RenderingDepthAttachment{ nullptr };
+		RenderTarget* m_PickAttachment{ nullptr };
+		RenderPass* m_Renderpass{ nullptr };
+		FrameBuffer* m_Framebuffer{ nullptr };
 		std::shared_ptr<DeferredController>		m_DeferredController {nullptr};
 
 
@@ -76,6 +76,7 @@ namespace TDS
 		}
 		void								AddRenderLayer(RenderLayer* layer);
 		void								Init(WindowsWin* window);
+		void								InitDebugRenderers();
 		void								StartFrame();
 		void								EndFrame();
 		void								ShutDown();
@@ -84,14 +85,14 @@ namespace TDS
 		void								setCamera(TDSCamera& camera);
 		std::shared_ptr<VulkanInstance>		getVkInstancePtr();
 		std::shared_ptr<DeferredController>	GetDeferredController();
-		WindowsWin*							GetWindow();
-		
+		WindowsWin* GetWindow();
+
 		void								SetLayerToRender(int ID);
 		bool								RenderAllLayer();
 		std::uint32_t						PickedObject();
 		void								ToggleRenderAllLayer(bool condition);
 		int									LayerToRender();
-		
+
 
 		void								RenderFullScreen();
 		std::shared_ptr<VulkanPipeline>		m_FinalQuad = nullptr;
@@ -112,11 +113,12 @@ namespace TDS
 		RenderTarget& getFinalDepthAttachment() { return *m_RenderingDepthAttachment; }
 		FrameBuffer& getFrameBuffer() { return *m_Framebuffer; }
 		RenderPass& getRenderPass() { return *m_Renderpass; }
+		inline DebugRenderer& GetDebugRenderer() { return *m_DebugRenderer; }
 		std::unique_ptr<PointLightSystem> m_PointLightRenderer;
 		std::unique_ptr<DebugRenderer> m_DebugRenderer;
 		ObjectPick& getObjectPicker();
 
-		WindowsWin* getWindow() const { return m_pWindow;}
+		WindowsWin* getWindow() const { return m_pWindow; }
 		Vec4& getViewportScreen() { return m_ViewportScreen; }
 		float& getOffset() { return m_TabOffset; }
 	};

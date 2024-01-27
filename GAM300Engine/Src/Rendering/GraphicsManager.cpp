@@ -34,6 +34,7 @@ namespace TDS
 		ShaderLoader::GetInstance()->DeserializeShaderReflection(REFLECTED_BIN);
 		GraphicsAllocator::GetInstance().Init(*m_MainVkContext);
 		m_CommandManager->Init();
+		m_DeferredController = std::make_shared<DeferredController>();
 		m_SwapchainRenderer = std::make_shared<Renderer>(*m_pWindow, *m_MainVkContext);
 		DefaultTextures::GetInstance().Init();
 
@@ -90,11 +91,13 @@ namespace TDS
 		m_Framebuffer = new FrameBuffer(m_MainVkContext->getVkLogicalDevice(), m_Renderpass->getRenderPass(), attachments);
 
 		m_ViewingFrom2D = true;
-		Renderer3D::Init();
+		m_DeferredController->CreatePipelines();
+
 		Renderer2D::GetInstance()->Init();
 		FontRenderer::GetInstance()->Init();
 		m_PointLightRenderer = std::make_unique<PointLightSystem>(*m_MainVkContext);
 		m_DebugRenderer = std::make_unique<DebugRenderer>(*m_MainVkContext);
+
 		m_ObjectPicking = std::make_shared<ObjectPick>(m_MainVkContext, size);
 		for (auto& renderLayer : m_RenderLayer)
 		{
@@ -104,20 +107,20 @@ namespace TDS
 
 
 		std::vector<FullScreenVertex> fullScreen{};
-		fullScreen.push_back(FullScreenVertex({ Vec3(1.f, 1.f, 0.f), Vec2(1.f, 1.f) }));   
+		fullScreen.push_back(FullScreenVertex({ Vec3(1.f, 1.f, 0.f), Vec2(1.f, 1.f) }));
 		fullScreen.push_back(FullScreenVertex({ Vec3(1.f, -1.f, 0.f), Vec2(1.f, 0.f) }));
 		fullScreen.push_back(FullScreenVertex({ Vec3(-1.f, -1.f, 0.f), Vec2(0.f, 0.f) }));
-		fullScreen.push_back(FullScreenVertex({ Vec3(-1.f, 1.f, 0.f), Vec2(0.f, 1.f) })); 
+		fullScreen.push_back(FullScreenVertex({ Vec3(-1.f, 1.f, 0.f), Vec2(0.f, 1.f) }));
 
 
 		std::vector<std::uint32_t> IndexFullScreen;
-		IndexFullScreen.push_back(0); 
-		IndexFullScreen.push_back(1); 
+		IndexFullScreen.push_back(0);
+		IndexFullScreen.push_back(1);
 		IndexFullScreen.push_back(2);
 
-		IndexFullScreen.push_back(2); 
-		IndexFullScreen.push_back(3); 
-		IndexFullScreen.push_back(0); 
+		IndexFullScreen.push_back(2);
+		IndexFullScreen.push_back(3);
+		IndexFullScreen.push_back(0);
 		m_FinalQuadVertexBuffer = std::make_shared<VMABuffer>();
 		m_FinalQuadVertexBuffer->CreateVertexBuffer(fullScreen.size() * sizeof(FullScreenVertex), false, fullScreen.data());
 		m_FinalQuadVertexBuffer->SetDataCnt(fullScreen.size());
@@ -148,11 +151,15 @@ namespace TDS
 		Vec2 Dimension = { static_cast<float>(GraphicsManager::getInstance().GetWindow()->getWidth()), static_cast<float>(GraphicsManager::getInstance().GetWindow()->getHeight()) };
 
 
-		m_FinalQuad = std::make_shared<VulkanPipeline>();		
+		m_FinalQuad = std::make_shared<VulkanPipeline>();
 		m_FinalQuad->SetRenderTarget(m_SwapchainRenderer->getSwapChainRenderPass());
 		m_FinalQuad->Create(entry);
 
 
+	}
+	void GraphicsManager::InitDebugRenderers()
+	{
+		m_DebugRenderer->Init();
 	}
 	void GraphicsManager::SetClearColor(Vec4 clearColor)
 	{
@@ -203,15 +210,16 @@ namespace TDS
 		{
 			renderlayer->ShutDown();
 		}
-		Renderer3D::getInstance()->ShutDown();
 		Renderer2D::GetInstance()->ShutDown();
-		m_DebugRenderer->GetPipeline().ShutDown();
+		m_DebugRenderer->DestroyPipeline();
+		m_DeferredController->ShutDown();
+		m_DebugRenderer->DestroyPipeline();
 		FontRenderer::GetInstance()->ShutDown();
 		m_ObjectPicking->Shutdown();
 		m_FinalQuad->ShutDown();
 		m_FinalQuadVertexBuffer->DestroyBuffer();
 		m_FinalQuadIndexBuffer->DestroyBuffer();
-		
+
 		GlobalBufferPool::GetInstance()->Destroy();
 		m_RenderingAttachment->~RenderTarget();
 		m_RenderingDepthAttachment->~RenderTarget();
@@ -220,8 +228,10 @@ namespace TDS
 		DefaultTextures::GetInstance().DestroyDefaultTextures();
 		m_SwapchainRenderer->ShutDown();
 		m_CommandManager->Shutdown();
+
 		RendererDataManager::Destroy();
 		GraphicsAllocator::GetInstance().ShutDown();
+
 
 		m_MainVkContext->ShutDown();
 	}
@@ -233,10 +243,10 @@ namespace TDS
 	{
 		std::vector<VkClearAttachment> clearAttachments(2);
 
-		clearAttachments[0].clearValue = {{m_CurrClearColor.x,  m_CurrClearColor.y,  m_CurrClearColor.z,  m_CurrClearColor.w}};
+		clearAttachments[0].clearValue = { {m_CurrClearColor.x,  m_CurrClearColor.y,  m_CurrClearColor.z,  m_CurrClearColor.w} };
 		clearAttachments[0].aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
 		clearAttachments[0].colorAttachment = 0;
-		
+
 		clearAttachments[1].clearValue = { {m_CurrClearColor.x,  m_CurrClearColor.y,  m_CurrClearColor.z,  m_CurrClearColor.w} };
 		clearAttachments[1].aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
 		clearAttachments[1].colorAttachment = 3;
@@ -245,7 +255,7 @@ namespace TDS
 		clearRect.layerCount = 1;
 		clearRect.baseArrayLayer = 0;
 		clearRect.rect.offset = { 0, 0 };
-		clearRect.rect.extent = { static_cast<std::uint32_t>(m_Framebuffer->getDimensions().x), static_cast<std::uint32_t>(m_Framebuffer->getDimensions().y)};
+		clearRect.rect.extent = { static_cast<std::uint32_t>(m_Framebuffer->getDimensions().x), static_cast<std::uint32_t>(m_Framebuffer->getDimensions().y) };
 		vkCmdClearAttachments(this->currentCommand, static_cast<uint32_t>(clearAttachments.size()), clearAttachments.data(), 1, &clearRect);
 
 	}
