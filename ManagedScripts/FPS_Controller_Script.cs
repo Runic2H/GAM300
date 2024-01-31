@@ -186,6 +186,9 @@ public class FPS_Controller_Script : Script
     }
     public override void Update()
     {
+        cameraCanMove = !InventoryScript.InventoryIsOpen;
+        playerCanMove = !InventoryScript.InventoryIsOpen;
+
         #region Camera
         if (cameraCanMove)
         {

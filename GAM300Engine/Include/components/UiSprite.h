@@ -49,6 +49,8 @@ namespace TDS
 		void	DLL_API					SetFontColourViaFloat(float x, float y, float z, float w);
 		void	DLL_API					SetFontBackgroundColour(Vec4 Color);
 		void	DLL_API					SetFontBackgroundColourViaFloat(float x, float y, float z, float w);
+		void	DLL_API					SetEnableSprite(bool status);
+
 	public:
 		//If is font data
 		inline TypeReference<FontAtlas>& GetFontReference()

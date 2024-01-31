@@ -25,7 +25,7 @@ public class MilestoneScript : Script
         next = true;
     }
 
-    public override void Update()
+    public override void Start()
     {
         soundEffectstring[0] = "pc_monsterrattledoor";
         soundEffectstring[1] = "Heartbeating_Sound";
@@ -36,8 +36,11 @@ public class MilestoneScript : Script
         bedroomDoor = GameObjectScriptFind("Bedroom Double Door");
         painting = GameObjectScriptFind("Frame");
         closet = GameObjectScriptFind("Body2");
+    }
 
-        if (painting.GetComponent<Painting_Script>().paintingTaken && scriptEventtimer < 12.0f)
+    public override void Update()
+    {
+        if (!painting.ActiveInHierarchy() && scriptEventtimer < 12.0f)
         {
             voClip.play(soundEffectstring[0]);
             bedroomLights.GetComponent<BlinkingLights>().is_Enabled = true;

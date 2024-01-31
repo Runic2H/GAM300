@@ -55,7 +55,7 @@ public class Hiding : Script
                 _flashlight.is_Enabled = false;
 
 
-                /*if (gameObject.GetNameTagComponent().GetName() == "Bedroom_Body" && myGameState._CurrentState == GameState.Gameplay)
+                /*if (gameObject.GetComponent<NameTagComponent>().GetName() == "Bedroom_Body" && myGameState._CurrentState == GameState.Gameplay)
                 {
                     if (!playedAudio)
                     {

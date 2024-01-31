@@ -27,7 +27,8 @@ namespace TDS
 		.method("SetFontName", &UISprite::SetFontName)
 		.method("SetFontMessage", &UISprite::SetFontMessage)
 		.method("SetFontColour", &UISprite::SetFontColour)
-		.method("SetFontBackgroundColour", &UISprite::SetFontBackgroundColour);
+		.method("SetFontBackgroundColour", &UISprite::SetFontBackgroundColour)
+		.method("SetEnableSprite", &UISprite::SetEnableSprite);
 	}
 		UISprite::UISprite() :
 		m_TextureReference(),
@@ -141,6 +142,9 @@ namespace TDS
 		m_BackGroundColour = Vec4(x, y, z, w);
 	}
 
-
+	void TDS::UISprite::SetEnableSprite(bool status)
+	{
+		m_EnableSprite = status;
+	}
 
 }

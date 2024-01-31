@@ -145,6 +145,7 @@
     <ClInclude Include="Components\SphereColliderComponent.hxx" />
     <ClInclude Include="Components\TransformComponent.hxx" />
     <ClInclude Include="Components\UISpriteComponent.hxx" />
+    <ClInclude Include="Components\ViewObject.hxx" />
     <ClInclude Include="Cursor.hxx" />
     <ClInclude Include="CustomAttributeHeaders.hxx" />
     <ClInclude Include="Debug.hxx" />
@@ -181,6 +182,7 @@
     <ClCompile Include="Components\SphereColliderComponent.cxx" />
     <ClCompile Include="Components\TransformComponent.cxx" />
     <ClCompile Include="Components\UISpriteComponent.cxx" />
+    <ClCompile Include="Components\ViewObject.cxx" />
     <ClCompile Include="Cursor.cxx" />
     <ClCompile Include="EngineInterface.cxx" />
     <ClCompile Include="GameObject.cxx" />

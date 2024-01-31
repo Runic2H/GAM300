@@ -169,16 +169,12 @@ namespace ScriptAPI
 	//void Input::CenterMouseX() {
 	//	POINT currentMousePos;
 	//	GetCursorPos(&currentMousePos);
-
 	//	int width = TDS::GetScreenWidth();
-
-	//	//get top left of window
+	//	get top left of window
 	//	int windowX = TDS::GraphicsManagerWrapperCalls::GetWinPosX();
-
 	//	int centerX = windowX + (width / 2);
-
-	//	//std::cout << mousePositionX << "\n";
-	//	//std::cout << centerX<<"\n";
+	//	std::cout << mousePositionX << "\n";
+	//	std::cout << centerX<<"\n";
 	//	SetCursorPos(centerX, currentMousePos.y);
 	//	//mousePositionX = TDS::Input::getMousePosition().x;
 	//	mousePositionX = width / 2;
@@ -192,19 +188,19 @@ namespace ScriptAPI
 
 	//	int height = TDS::GetScreenHeight();
 
-	//	//get top left of window
+	//	get top left of window
 	//	int windowY = TDS::GraphicsManagerWrapperCalls::GetWinPosY();
 
 	//	int centerY = windowY + (height / 2);
 
-	//	//std::cout << mousePositionX << "\n";
-	//	//std::cout << centerX<<"\n";
+	//	std::cout << mousePositionX << "\n";
+	//	std::cout << centerX<<"\n";
 	//	SetCursorPos(currentMousePos.x, centerY);
 	//	mousePositionY = height / 2;
-	//	//mousePositionY = TDS::Input::getMousePosition().y;
-	//	//mousePositionY = height / 2;
+	//	mousePositionY = TDS::Input::getMousePosition().y;
+	//	mousePositionY = height / 2;
 
-	//	//LastMousePosY = height/2;*/
+	//	LastMousePosY = height/2;*/
 
 	//}
 

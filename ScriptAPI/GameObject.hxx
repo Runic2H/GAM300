@@ -33,5 +33,7 @@ namespace ScriptAPI
     private:
         //entityID and is_Enabled set at SetEntityID
         TDS::EntityID entityID;
+
+        System::String^ tag;
     };
 }

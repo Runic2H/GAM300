@@ -25,6 +25,7 @@ namespace TDS
 	short					Input::wheelDelta;
 	Vec2					Input::local_MousePos;
 	bool					Input::exit_cursor;
+	Vec2					Input::ui_MousePos;
 
 	Input::keyState Input::GetKeyState(uint32_t keycode)
 	{
@@ -328,6 +329,21 @@ namespace TDS
 	float Input::getLocalMousePosY()
 	{
 		return local_MousePos.y;
+	}
+
+	void Input::setUIMousePos(Vec2 mousePos)
+	{
+		ui_MousePos = mousePos;
+	}
+
+	float Input::getUIMousePosX()
+	{
+		return ui_MousePos.x;
+	}
+
+	float Input::getUIMousePosY()
+	{
+		return ui_MousePos.y;
 	}
 
 	void Input::centerandhidemouse(HWND hwnd) {

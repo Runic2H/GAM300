@@ -170,7 +170,7 @@ public class ViewObject : MonoBehaviour
                         playerVOSource.clip = voClip;
                         playerVOSource.Play();
                         subtitles.enabled = true;
-                        subtitles.text = "Martin (Internal): \"According to this, there’s a painting somewhere in here. But where?\"";
+                        subtitles.text = "Martin (Internal): \"According to this, thereï¿½s a painting somewhere in here. But where?\"";
                         playedAudio = true;
                     }
 
