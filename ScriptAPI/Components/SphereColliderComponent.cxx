@@ -148,6 +148,10 @@ namespace ScriptAPI
 
 	void SphereColliderComponent::SetEnabled(bool enabled)
 	{
-		TDS::ecs.setEntityIsEnabled(GetEntityID(), enabled);
+		TDS::setComponentIsEnable("Sphere Collider", GetEntityID(), enabled);
+	}
+	bool SphereColliderComponent::GetEnabled()
+	{
+		return TDS::getComponentIsEnable("Sphere Collider", GetEntityID());
 	}
 }

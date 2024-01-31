@@ -34,9 +34,12 @@ namespace ScriptAPI
 
 		virtual TDS::EntityID GetEntityID() override;
 		virtual void SetEntityID(TDS::EntityID ID) override;
+
 		virtual void SetEnabled(bool enabled) override;
+		virtual bool GetEnabled() override;
 
 		TransformComponent transform;
+		GameObject^ gameObject;
 
 	internal:
 		CapsuleColliderComponent(TDS::EntityID ID);

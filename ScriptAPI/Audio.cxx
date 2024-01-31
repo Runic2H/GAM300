@@ -106,11 +106,11 @@ namespace ScriptAPI
 		return temp.isPlaying();
 	}
 
-	template<typename T>
-	T& AudioSource::operator=(float val)
-	{
-		value = val;
-	}
+	//template<typename T>
+	//T& AudioSource::operator=(float val)
+	//{
+	//	value = val;
+	//}
 
 	void AudioClip::add_clips(std::filesystem::path file)
 	{

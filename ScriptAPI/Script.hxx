@@ -45,6 +45,9 @@ namespace ScriptAPI
         void virtual OnTriggerStay(ColliderComponent^ collider) {};
         void virtual OnTriggerExit(ColliderComponent^ collider) {};
 
+        void SetEnabled(bool enabled) { is_Enabled = enabled; };
+        bool GetEnabled() { return is_Enabled; };
+
         void ToggleScript();
 
         generic <typename TResult>

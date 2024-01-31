@@ -337,7 +337,7 @@ namespace TDS
 								bool value = scriptValue.value == "False" ? false : true;
 								if (ImguiInput(scriptValue.name, value))
 								{
-									scriptValue.value = std::to_string(value);
+									scriptValue.value = value ? "True" : "False";
 									sceneManagerInstance->setScriptValue(selectedEntity, scriptName, scriptValue);
 									//sceneManagerInstance->setBool(selectedEntity, scriptName, scriptValue.name, value);
 								}
@@ -416,7 +416,7 @@ namespace TDS
 								if (value > TDS_MAX_KEYS)
 								{
 									value -= TDS_MAX_KEYS;
-									value += 55; // cus shift
+									value += 55; // cus shift for mouse...
 								}
 
 								if (ImguiInput(scriptValue.name, KeyCodeTypeString, value))

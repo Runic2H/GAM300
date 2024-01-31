@@ -221,6 +221,10 @@ namespace ScriptAPI
 
 	void CapsuleColliderComponent::SetEnabled(bool enabled)
 	{
-		TDS::ecs.setEntityIsEnabled(GetEntityID(), enabled);
+		TDS::setComponentIsEnable("Capsule Collider", GetEntityID(), enabled);
+	}
+	bool CapsuleColliderComponent::GetEnabled()
+	{
+		return TDS::getComponentIsEnable("Capsule Collider", GetEntityID());
 	}
 }

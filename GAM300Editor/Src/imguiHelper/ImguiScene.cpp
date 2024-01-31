@@ -12,7 +12,6 @@
 #include "eventManager/eventHandler.h"
 #include "../EditorApp.h"
 
-//#include "Input/Input.h"
 namespace TDS
 {
 	Texture data{};
@@ -154,7 +153,8 @@ namespace TDS
 
 		selectedEntity = hierarchyPanel->getSelectedEntity();
 
-		if (Input::isMouseButtonPressed(TDS_MOUSE_LEFT) && !ImGuizmo::IsUsing() && !ImGuizmo::IsOver())
+		//if (Input::isMouseButtonPressed(TDS_MOUSE_LEFT) && !ImGuizmo::IsUsing() && !ImGuizmo::IsOver())
+		if (InputSystem::GetInstance()->isMousePressed(VK_LBUTTON) && !ImGuizmo::IsUsing() && !ImGuizmo::IsOver())
 		{
 			if (GraphicsManager::getInstance().getObjectPicker().getActiveObject() != 0 && GraphicsManager::getInstance().getObjectPicker().getActiveObject() < 10000)
 			{
@@ -162,7 +162,7 @@ namespace TDS
 
 				hierarchyPanel->setSelectedEntity(selectedEntity);
 			}
-			Input::releaseTheMouse(TDS_MOUSE_LEFT);
+			//Input::releaseTheMouse(TDS_MOUSE_LEFT);
 		}
 
 
@@ -238,9 +238,12 @@ namespace TDS
 			float* _view = Mat4::Mat4Value_ptr(view);
 			float* _trans = Mat4::Mat4Value_ptr(trans->GetTransformMatrix());
 			float* _snap = Vec3::Vec3Value_ptr(snap);
-			if (TDS::Input::isKeyPressed(TDS_1)) { m_gizmoType = static_cast<int>(ImGuizmo::OPERATION::TRANSLATE); }
-			else if (TDS::Input::isKeyPressed(TDS_2)) { m_gizmoType = static_cast<int>(ImGuizmo::OPERATION::SCALE); }
-			else if (TDS::Input::isKeyPressed(TDS_3)) { m_gizmoType = static_cast<int>(ImGuizmo::OPERATION::ROTATE); }
+			//if (TDS::Input::isKeyPressed(TDS_1)) { m_gizmoType = static_cast<int>(ImGuizmo::OPERATION::TRANSLATE); }
+			//else if (TDS::Input::isKeyPressed(TDS_2)) { m_gizmoType = static_cast<int>(ImGuizmo::OPERATION::SCALE); }
+			//else if (TDS::Input::isKeyPressed(TDS_3)) { m_gizmoType = static_cast<int>(ImGuizmo::OPERATION::ROTATE); }
+			if (InputSystem::GetInstance()->isKeyPressed(VK_NUMPAD1)) { m_gizmoType = static_cast<int>(ImGuizmo::OPERATION::TRANSLATE); }
+			else if (InputSystem::GetInstance()->isKeyPressed(VK_NUMPAD2)) { m_gizmoType = static_cast<int>(ImGuizmo::OPERATION::SCALE); }
+			else if (InputSystem::GetInstance()->isKeyPressed(VK_NUMPAD3)) { m_gizmoType = static_cast<int>(ImGuizmo::OPERATION::ROTATE); }
 			bool val = ImGuizmo::Manipulate(
 				_view, _proj, (ImGuizmo::OPERATION)m_gizmoType, ImGuizmo::WORLD, _trans,
 				nullptr, false ? _snap : nullptr

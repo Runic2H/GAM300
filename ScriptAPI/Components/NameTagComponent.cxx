@@ -1,5 +1,6 @@
 #include "NameTagComponent.hxx"
 #include "../TypeConversion.hxx"
+#include "../EngineInterface.hxx"
 
 namespace ScriptAPI
 {
@@ -111,12 +112,15 @@ namespace ScriptAPI
 
 	// CONSTRUCTOR ===========================================================================
 	NameTagComponent::NameTagComponent(TDS::EntityID ID) : entityID(ID), transform(TransformComponent(ID))
-	{ }
+	{
+		gameObject = EngineInterface::GetGameObject(ID);
+	}
 
 	void NameTagComponent::SetEntityID(TDS::EntityID ID)
 	{
 		entityID = ID;
 		transform = TransformComponent(ID);
+		gameObject = EngineInterface::GetGameObject(ID);
 	}
 
 	TDS::EntityID NameTagComponent::GetEntityID()
@@ -126,6 +130,10 @@ namespace ScriptAPI
 
 	void NameTagComponent::SetEnabled(bool enabled)
 	{
-		TDS::ecs.setEntityIsEnabled(GetEntityID(), enabled);
+		TDS::setComponentIsEnable("Name Tag", GetEntityID(), enabled);
+	}
+	bool NameTagComponent::GetEnabled()
+	{
+		return TDS::getComponentIsEnable("Name Tag", GetEntityID());
 	}
 }

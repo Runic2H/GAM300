@@ -206,7 +206,7 @@ public class Door_Script : Script
         }
     }
 
-    private void OnTriggerEnter(ColliderComponent other)
+    override public void OnTriggerEnter(ColliderComponent other)
     {
         if (other.gameObject.GetComponent<NameTagComponent>().GetName() == "Enemy")
         {
@@ -214,7 +214,7 @@ public class Door_Script : Script
         }
     }
 
-    private void OnTriggerExit(ColliderComponent other)
+    override public void OnTriggerExit(ColliderComponent other)
     {
         if (other.gameObject.GetComponent<NameTagComponent>().GetName() == "Enemy")
         {
@@ -240,27 +240,28 @@ public class Door_Script : Script
     {
         bool changedAudio = false;
 
-        if (!voSource.isPlaying())
-        {
-            if (!changedAudio && forcelockedAudioCount < 2)
-            {
-                //select audio clip
-                voSource.clip = forceLocked_VOLines[forcelockedAudioCount += 1];
-                //voSource.Play();
+        // NOTE: Audio
+        //if (!voSource.isPlaying())
+        //{
+        //    if (!changedAudio && forcelockedAudioCount < 2)
+        //    {
+        //        //select audio clip
+        //        voSource.clip = forceLocked_VOLines[forcelockedAudioCount += 1];
+        //        voSource.Play();
 
-                //select subtitle
-                //mySubtitles.enabled = true;
-                //mySubtitles.text = myVOTexts[forcelockedAudioCount];
-                changedAudio = true;
-            }
-            else
-            {
-                //mySubtitles.enabled = false;
-            }
-        }
-        else if (voSource.isPlaying())
-        {
-            changedAudio = false;
-        }
+        //        //select subtitle
+        //        mySubtitles.enabled = true;
+        //        mySubtitles.text = myVOTexts[forcelockedAudioCount];
+        //        changedAudio = true;
+        //    }
+        //    else
+        //    {
+        //        mySubtitles.enabled = false;
+        //    }
+        //}
+        //else if (voSource.isPlaying())
+        //{
+        //    changedAudio = false;
+        //}
     }
 }

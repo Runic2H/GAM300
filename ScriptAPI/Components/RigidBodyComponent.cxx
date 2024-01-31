@@ -1,5 +1,6 @@
 #include "RigidBodyComponent.hxx"
 #include "Physics/Interface/PhysicsInterface.h"
+#include "../EngineInterface.hxx"
 
 namespace ScriptAPI
 {
@@ -331,12 +332,15 @@ namespace ScriptAPI
 
 	// CONSTRUCTOR ===========================================================================
 	RigidBodyComponent::RigidBodyComponent(TDS::EntityID ID) : entityID (ID), transform(TransformComponent(ID))
-	{ }
+	{
+		gameObject = EngineInterface::GetGameObject(ID);
+	}
 
 	void RigidBodyComponent::SetEntityID(TDS::EntityID ID)
 	{
 		entityID = ID;
 		transform = TransformComponent(ID);
+		gameObject = EngineInterface::GetGameObject(ID);
 	}
 
 	TDS::EntityID RigidBodyComponent::GetEntityID()
@@ -346,6 +350,10 @@ namespace ScriptAPI
 
 	void RigidBodyComponent::SetEnabled(bool enabled)
 	{
-		TDS::ecs.setEntityIsEnabled(GetEntityID(), enabled);
+		TDS::setComponentIsEnable("Rigid Body", GetEntityID(), enabled);
+	}
+	bool RigidBodyComponent::GetEnabled()
+	{
+		return TDS::getComponentIsEnable("Rigid Body", GetEntityID());
 	}
 }

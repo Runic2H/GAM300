@@ -17,7 +17,7 @@
 #include "dotnet/ImportExport.h"
 #include "components/cameraComponent.h"
 #include "camera/camera.h"
-#include "Input/Input.h"
+#include "Input/InputSystem.h"
 
 namespace TDS 
 {

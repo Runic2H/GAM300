@@ -60,6 +60,7 @@ namespace TDS
 		DLL_API void setFOV(float fov) { m_Fov = fov; }
 		DLL_API Vec3 getForwardVector() { return m_Front; }
 		DLL_API void setForwardVector(Vec3 front) { m_Front = front; }
+		DLL_API Vec3 getRightVector() { return m_Right; }
 		RTTR_ENABLE(IComponent);
 		RTTR_REGISTRATION_FRIEND
 				
@@ -77,6 +78,7 @@ namespace TDS
 		float	m_mouseSensitivity;
 
 		Vec3 m_Front;
+		Vec3 m_Right;
 
 	};
 		DLL_API CameraComponent* GetCameraComponent(EntityID entityID);

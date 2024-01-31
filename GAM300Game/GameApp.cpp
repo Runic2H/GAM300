@@ -67,17 +67,17 @@ namespace TDS
         case WM_XBUTTONDOWN:
         case WM_XBUTTONUP:
         {
-            Input::processMouseInput(wParam, lParam);
+            //Input::processMouseInput(wParam, lParam);
         }break;
 
         case WM_MOUSEMOVE:
         {
-            Input::updateMousePosition(lParam);
+            //Input::updateMousePosition(lParam);
         }break;
 
         case WM_MOUSEWHEEL:
         {
-            Input::processMouseScroll(wParam);
+            //Input::processMouseScroll(wParam);
         }break;
 
         case WM_SYSKEYDOWN:

@@ -40,17 +40,18 @@ namespace TDS
 
 		m_Down = -m_Up;
 
-		Input::wheelDelta = 0;
+		//Input::wheelDelta = 0;
 	}
 
 	void TDSCamera::UpdateCamera(float deltaTime, bool gameIsPlaying)
 	{
 		if (!gameIsPlaying)
 		{
-			static Input::mousePosition mouse = Input::mousePosition(std::numeric_limits<int>::max(), std::numeric_limits<int>::max());
+			static Vec2 mouse = Vec2(std::numeric_limits<int>::max(), std::numeric_limits<int>::max());
 			if (getEditorCamera() && getScrollWheel())
 			{
-				translate(static_cast<float>(Input::wheelDelta * 0.05f));
+				//translate(static_cast<float>(Input::wheelDelta * 0.05f));
+				translate(static_cast<float>(InputSystem::GetInstance()->getWheelDelta() * 0.05f));
 				if (moving())
 				{
 					float CameraSpeed = m_Speed;
@@ -66,33 +67,40 @@ namespace TDS
 						m_Position += m_Right * CameraSpeed;
 				}
 
-				if (Input::isMouseButtonPressed(TDS_MOUSE_RIGHT))
+				//if (Input::isMouseButtonPressed(TDS_MOUSE_RIGHT))
+				if (InputSystem::GetInstance()->isMouseDown(VK_RBUTTON))
 				{
 					if (mouse.x == std::numeric_limits<int>::max() && mouse.y == std::numeric_limits<int>::max())
 					{
-						mouse = Input::getMousePosition();
+						//mouse = Input::getMousePosition();
+						mouse = InputSystem::GetInstance()->getLocalMousePos();
 					}
 
-					if (!Input::isMouseButtonReleased(TDS_MOUSE_RIGHT))
+					//if (!Input::isMouseButtonReleased(TDS_MOUSE_RIGHT))
+					if (!InputSystem::GetInstance()->isMouseReleased(VK_RBUTTON))
 					{
 						float GetMousex = static_cast<float>(mouse.x);
 						float GetMousey = static_cast<float>(mouse.y);
 
-						float getNewMousex = static_cast<float>(Input::getMousePosition().x);
-						float getNewMousey = static_cast<float>(Input::getMousePosition().y);
+						//float getNewMousex = static_cast<float>(Input::getMousePosition().x);
+						//float getNewMousey = static_cast<float>(Input::getMousePosition().y);
+						float getNewMousex = static_cast<float>(InputSystem::GetInstance()->getLocalMousePos().x);
+						float getNewMousey = static_cast<float>(InputSystem::GetInstance()->getLocalMousePos().y);
 
 						float offsetx = getNewMousex - GetMousex;
 						float offsety = GetMousey - getNewMousey;
 
 						ProcessMouseMovement(offsetx, offsety);
 
-						mouse = Input::getMousePosition();
+						//mouse = Input::getMousePosition();
+						mouse = InputSystem::GetInstance()->getLocalMousePos();
 					}
 
 				}
 				else
 				{
-					mouse = Input::mousePosition(std::numeric_limits<int>::max(), std::numeric_limits<int>::max());
+					//mouse = Input::mousePosition(std::numeric_limits<int>::max(), std::numeric_limits<int>::max());
+					mouse = Vec2(std::numeric_limits<int>::max(), std::numeric_limits<int>::max());
 				}
 			}
 
@@ -144,21 +152,22 @@ namespace TDS
 			GetClientRect(GraphicsManager::getInstance().GetWindow()->getWindowHandler(), &win);
 			float Width = (win.right - win.left);
 			float Height = (win.bottom - win.top);
-			Input::mousePosition globalMousePos = Input::getMousePosition();
+			//Input::mousePosition globalMousePos = Input::getMousePosition();
+			Vec2 globalMousePos = InputSystem::GetInstance()->getRawMouseInput();
 			
 			float normalizedLocalMouseX = (globalMousePos.x / Width) * 2 - 1;
 			float normalizedLocalMouseY = (globalMousePos.y / Height) * 2 - 1;
 			Vec2 localMousePos = { normalizedLocalMouseX, normalizedLocalMouseY };
 
-			Input::setLocalMousePos(localMousePos);
+			//Input::setLocalMousePos(localMousePos);
 		}
 	}
 
 
 	bool TDSCamera::moving()
 	{
-		auto& inputSystem = TDS::InputSystem::GetInstance();
-		if (inputSystem->isKeyDown('W'))
+		auto& inputSystem = InputSystem::GetInstance();
+		if (/*inputSystem->isKeyPressed('W') ||*/ inputSystem->isKeyDown('W'))
 		{
 			keys.up = true;
 		}
@@ -167,7 +176,7 @@ namespace TDS
 			keys.up = false;
 		}
 
-		if (inputSystem->isKeyDown('A'))
+		if (/*inputSystem->isKeyPressed('A') ||*/ inputSystem->isKeyDown('A'))
 		{
 			keys.left = true;
 		}
@@ -176,7 +185,7 @@ namespace TDS
 			keys.left = false;
 		}
 
-		if (inputSystem->isKeyDown('S'))
+		if (/*inputSystem->isKeyPressed('S') ||*/ inputSystem->isKeyDown('S'))
 		{
 			keys.down = true;
 		}
@@ -185,7 +194,7 @@ namespace TDS
 			keys.down = false;
 		}
 
-		if (inputSystem->isKeyDown('D'))
+		if (/*inputSystem->isKeyPressed('D') ||*/ inputSystem->isKeyDown('D'))
 		{
 			keys.right = true;
 		}

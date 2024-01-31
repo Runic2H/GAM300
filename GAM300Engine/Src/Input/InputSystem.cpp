@@ -36,7 +36,6 @@ namespace TDS
 			m_first_time = false;
 		}
 		m_mouseMoved = false;
-
 		if (current_mouse_pos.x != m_old_mouse_pos.x || current_mouse_pos.y != m_old_mouse_pos.y)
 		{
 			m_mouseMoved = true;
@@ -57,24 +56,6 @@ namespace TDS
 				{
 					allKeyStates[i].pressed = true;
 					m_KeyDelayTimer = 0.25f;
-
-					// For Debug Purposes
-					/*if (i == 'G')
-					{
-						setCursorVisible(false);
-					}
-					if (i == 'H')
-					{
-						setCursorVisible(true);
-					}
-					if (i == 'B')
-					{
-						setMouseLock(true);
-					}
-					if (i == 'N') 
-					{
-						setMouseLock(false);
-					}*/
 				}
 				// KEY IS DOWN
 				else if ((m_keys_state[i] & 0x80) && m_keys_state[i] == m_old_keys_state[i])
@@ -99,7 +80,6 @@ namespace TDS
 			::memcpy(m_old_keys_state, m_keys_state, sizeof(unsigned char) * 256);
 		}
 	}
-
 
 	bool InputSystem::isKeyPressed(int key)
 	{
@@ -131,8 +111,35 @@ namespace TDS
 	}
 	TDS::Vec2 InputSystem::getLocalMousePos()
 	{
+		return Vec2(m_localMousePos.x, m_localMousePos.y);
+	}
+	int InputSystem::getLocalMousePosX()
+	{
+		return m_localMousePos.x;
+	}
+	int InputSystem::getLocalMousePosY()
+	{
+		return m_localMousePos.y;
+	}
+
+	void InputSystem::setLocalMousePos(int x, int y)
+	{
+		m_localMousePos = Point(x, y);
+	}
+
+	TDS::Vec2 InputSystem::getGlobalMousePos()
+	{
 		return TDS::Vec2(m_old_mouse_pos.x, m_old_mouse_pos.y);
 	}
+	int InputSystem::getGlobalMousePosX()
+	{
+		return m_old_mouse_pos.x;
+	}
+	int InputSystem::getGlobalMousePosY()
+	{
+		return m_old_mouse_pos.y;
+	}
+
 	TDS::Vec2 InputSystem::getMouseDelta()
 	{
 		return TDS::Vec2(m_mouse_delta.x, m_mouse_delta.y);
@@ -189,6 +196,60 @@ namespace TDS
 		return m_rawMouseInput.y;
 	}
 
+	int InputSystem::getAxisX()
+	{
+		//if (m_rawMouseInput.x < 0)
+		//{
+		//	return -1;
+		//}
+		//if (m_rawMouseInput.x > 0)
+		//{
+		//	return 1;
+		//}
+		//return 0;
+		return Mathf::Clamp(m_rawMouseInput.x, -1, 1);
+	}
+
+	int InputSystem::getAxisY()
+	{
+		//if (m_rawMouseInput.y < 0)
+		//{
+		//	return -1;
+		//}
+		//if (m_rawMouseInput.y > 0)
+		//{
+		//	return 1;
+		//}
+		//return 0;
+		return Mathf::Clamp(m_rawMouseInput.y, -1, 1);
+	}
+
+	int InputSystem::getHorizontalAxis()
+	{
+		if (isKeyPressed('A') || isKeyDown('A'))
+		{
+			return -1;
+		}
+		if (isKeyPressed('D') || isKeyDown('D'))
+		{
+			return 1;
+		}
+		return 0;
+	}
+
+	int InputSystem::getVerticalAxis()
+	{
+		if (isKeyPressed('W') || isKeyDown('W'))
+		{
+			return 1;
+		}
+		if (isKeyPressed('S') || isKeyDown('S'))
+		{
+			return -1;
+		}
+		return 0;
+	}
+
 	void InputSystem::setRawMouseInput(int x, int y)
 	{
 		m_rawMouseInput = Point(x, y);
@@ -197,9 +258,16 @@ namespace TDS
 	void InputSystem::setCursorVisible(bool visible)
 	{
 		ShowCursor(visible ? TRUE : FALSE);
+		mouseVisible = visible;
 	}
 
-	void InputSystem::lockMouseCenter(HWND hwnd) {
+	bool InputSystem::getCursorVisible()
+	{
+		return mouseVisible;
+	}
+
+	void InputSystem::lockMouseCenter(HWND hwnd) 
+	{
 		POINT centerScreen = { m_winCenter.x, m_winCenter.y };
 		ClientToScreen(hwnd, &centerScreen);
 		SetCursorPos(centerScreen.x, centerScreen.y);
@@ -232,5 +300,10 @@ namespace TDS
 	void InputSystem::setWindowCenter(int x, int y)
 	{
 		m_winCenter = Point(x, y);
+	}
+
+	short& InputSystem::getWheelDelta()
+	{
+		return wheelDelta;
 	}
 }

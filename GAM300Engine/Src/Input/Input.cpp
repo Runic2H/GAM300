@@ -14,6 +14,8 @@
 
 #include "Input/Input.h"
 #include "Windows.h"
+//#include "Rendering/ObjectPicking.h"
+//#include "Rendering/GraphicsManager.h"
 namespace TDS
 {
 	Input::keyboardInputMap Input::keyboard;
@@ -329,15 +331,30 @@ namespace TDS
 	}
 
 	void Input::centerandhidemouse(HWND hwnd) {
-		POINT center;
-		LPRECT windowsrect{};
-		GetWindowRect(hwnd,windowsrect);
-		center.x = windowsrect->right - windowsrect->left;
-		center.y = windowsrect->top - windowsrect->bottom;
-		ScreenToClient(hwnd, &center);
-		SetCursorPos(center.x, center.y);
+		//POINT center;
+		//LPRECT windowsrect{};
+		//GetWindowRect(hwnd,windowsrect);
+		//center.x = windowsrect->right - windowsrect->left;
+		//center.y = windowsrect->top - windowsrect->bottom;
+		//ScreenToClient(hwnd, &center);
+		//SetCursorPos(center.x, center.y);
 		//ShowCursor(FALSE);
 	}
 
 	
+	// float Input::GetObjectPickPosX()
+	// {
+	// 	mX = GraphicsManager::getInstance().getViewportScreen().x;
+	// 	mWidth = GraphicsManager::getInstance().getViewportScreen().z;
+
+	// 	return (Input::final_x_pos * mWidth) + mX /*ObjectPick::final_x_pos*/;
+	// }
+
+	// float Input::GetObjectPickPosY()
+	// {
+	// 	mY = GraphicsManager::getInstance().getViewportScreen().y;
+	// 	mHeight = GraphicsManager::getInstance().getViewportScreen().w;
+	// 	return ((Input::final_y_pos - mY) - (GraphicsManager::getInstance().getOffset() - mHeight)) / (mHeight)/*ObjectPick::final_y_pos*/;
+	// }
+
 } //end of namespace

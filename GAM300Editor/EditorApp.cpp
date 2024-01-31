@@ -35,6 +35,8 @@
 #include "Physics/PhysicsSystem.h"
 #include "Rendering/ObjectPicking.h"
 #include "Input/InputSystem.h"
+#include "Rendering/GridRenderer.h"
+#include "Tools/Pathfinder.h"
 
 bool isPlaying = false;
 bool startPlaying = false;
@@ -42,7 +44,7 @@ bool startPlaying = false;
 namespace TDS
 {
     bool SceneManager::isPlaying;
-    
+    Pathfinder pathfinder{};
 
     Application::Application(HINSTANCE hinstance, int& nCmdShow, const wchar_t* classname, WNDPROC wndproc)
         :m_window(hinstance, nCmdShow, classname)
@@ -81,13 +83,13 @@ namespace TDS
             break;
         case WM_XBUTTONUP:
         {
-            Input::processMouseInput(wParam, lParam);
+            //Input::processMouseInput(wParam, lParam);
         }break;
 
-        case WM_MOUSEMOVE:
+        /*case WM_MOUSEMOVE:
         {
             Input::updateMousePosition(lParam);
-        }break;
+        }break;*/
 
         case WM_KEYDOWN:
         {
@@ -143,6 +145,13 @@ namespace TDS
             case WM_MOUSEWHEEL: {
                 InputSystem::GetInstance()->processMouseScroll(wParam);
             }break;
+            case WM_MOUSEMOVE:
+            {
+                POINT p;
+                GetCursorPos(&p);
+                ScreenToClient(GetActiveWindow(), &p);
+                InputSystem::GetInstance()->setLocalMousePos(p.x, p.y);
+            }break;
         }
     }
     void Application::SetWindowHandle(HWND hWnd)
@@ -159,6 +168,15 @@ namespace TDS
         GraphicsManager::getInstance().Init(&m_window);
         AssetManager::GetInstance()->PreloadAssets();
         skyboxrender.Init();
+
+        //register the grid
+        for (size_t i = 0; i < pathfinder.GetGrid().size(); ++i)
+        {
+            for (size_t j = 0; j < pathfinder.GetGrid()[i].size(); ++j)
+            {
+                // do some RegisterEntity using pathfinder.GetGrid()[i][j].get();
+            }
+        }
 
         // Raw Input for Mouse Movement
         RAWINPUTDEVICE rid;
@@ -251,7 +269,7 @@ namespace TDS
             RendererSystem::lightPosX = lightx;
 
             Vec3 m_windowdimension{ static_cast<float>(m_window.getWidth()), static_cast<float>(m_window.getHeight()), 1.f };
-            if (GraphicsManager::getInstance().getFrameBuffer().getDimensions() != m_windowdimension && m_windowdimension.x >0 && m_windowdimension.y > 0)
+            if (GraphicsManager::getInstance().getFrameBuffer().getDimensions() != m_windowdimension && m_windowdimension.x > 0 && m_windowdimension.y > 0)
             {
                 GraphicsManager::getInstance().getFrameBuffer().resize(m_windowdimension, GraphicsManager::getInstance().getRenderPass().getRenderPass());
                 std::shared_ptr<EditorScene> pScene = static_pointer_cast<EditorScene>(LevelEditorManager::GetInstance()->panels[SCENE]);
@@ -267,6 +285,11 @@ namespace TDS
             GraphicsManager::getInstance().getRenderPass().beginRenderPass(commandBuffer, &GraphicsManager::getInstance().getFrameBuffer());
             if (GraphicsManager::getInstance().IsViewingFrom2D() == false)
                 skyboxrender.RenderSkyBox(commandBuffer, frame);
+
+            //render grid
+            //gridrender.Render(commandBuffer, frame);
+            //gridrender.SetColour(0, 0, Color(1.0f, 0.0f, 0.0f, 1.0f));
+            pathfinder.DisplayPathAnimated(DeltaTime); //display path
            
             if (isPlaying)
             {
@@ -275,12 +298,16 @@ namespace TDS
                     SceneManager::GetInstance()->isPlaying = true;
                     SceneManager::GetInstance()->loadScene(SceneManager::GetInstance()->getCurrentScene());
                     startPlaying = false;
+                    SceneManager::GetInstance()->start();
                 }
-                SceneManager::GetInstance()->start();
-                executeFixedUpdate();
-                ecs.runSystems(1, DeltaTime); // Other systems
-                executeUpdate();
-                executeLateUpdate();
+
+                if (!InputSystem::GetInstance()->getCursorVisible())
+                {
+                    executeFixedUpdate();
+                    ecs.runSystems(1, DeltaTime); // Other systems
+                    executeUpdate();
+                    executeLateUpdate();
+                }
             }
             else
             {
@@ -300,7 +327,8 @@ namespace TDS
             // event handling systems 
             GraphicsManager::getInstance().getRenderPass().endRenderPass(commandBuffer);
 
-           GraphicsManager::getInstance().getObjectPicker().Update(commandBuffer, frame, Vec2( Input::getMousePosition().x, Input::getMousePosition().y ));
+            //GraphicsManager::getInstance().getObjectPicker().Update(commandBuffer, frame, Vec2( Input::getMousePosition().x, Input::getMousePosition().y ));
+            GraphicsManager::getInstance().getObjectPicker().Update(commandBuffer, frame, InputSystem::GetInstance()->getLocalMousePos());
             GraphicsManager::getInstance().GetSwapchainRenderer().BeginSwapChainRenderPass(commandBuffer);
 
             imguiHelper::Draw(commandBuffer);
@@ -318,7 +346,7 @@ namespace TDS
             }
 
             Input::scrollStop();
-            
+            TDS::InputSystem::GetInstance()->setRawMouseInput(0, 0);
         }
         stopScriptEngine();
       
@@ -337,6 +365,8 @@ namespace TDS
         skyboxrender.ShutDown();
         GraphicsManager::getInstance().ShutDown();
         DDSConverter::Destroy();
+        //shutdown grid
+        //gridrender.ShutDown();
 
         PhysicsSystem::JPH_SystemShutdown();
     }

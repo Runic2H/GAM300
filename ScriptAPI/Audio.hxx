@@ -17,39 +17,39 @@ namespace ScriptAPI
     
     public ref class AudioSource
     {
-    public:
-        static ref struct volume
-        {
-            float value;
-        };
-        
-        static ref struct pitch
-        {
-            float value;
-        };
+    //public:
+    //    static ref struct volume
+    //    {
+    //        float value;
+    //    };
+    //    
+    //    static ref struct pitch
+    //    {
+    //        float value;
+    //    };
 
     public:
         AudioSource();
         
-        void Play(unsigned long delay);
-        void Pause();
-        void Stop();
+        static void Play(unsigned long delay);
+        static void Pause();
+        static void Stop();
 
         /*float get_volume();
         void set_volume(float vol);*/
-        void Loop(bool set);
-        bool enabled();
+        static void Loop(bool set);
+        static bool enabled();
         /*float get_pitch();
         void set_pitch(float set);*/
 
-        template<typename T>
-        T& operator=(float val);
+        //template<typename T>
+        //T& operator=(float val);
 
-        bool isPlaying();
+        static bool isPlaying();
 
-        AudioClip^ clip; //AudioClips are attached to AudioSource
-        TDS::AudioWerks::AudioEngine* audio_engine;
-        unsigned long wait;
-        float deltatime;
+        static AudioClip^ clip; //AudioClips are attached to AudioSource
+        static TDS::AudioWerks::AudioEngine* audio_engine;
+        static unsigned long wait;
+        static float deltatime;
     };
 }

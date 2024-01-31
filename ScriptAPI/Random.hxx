@@ -1,4 +1,5 @@
 #include "IncludeFromEngine.hxx"
+#include "Vector2.hxx"
 
 namespace ScriptAPI
 {

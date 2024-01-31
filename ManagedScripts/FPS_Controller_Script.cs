@@ -33,7 +33,7 @@ public class FPS_Controller_Script : Script
     #region Camera Zoom Variables
     public bool enableZoom = true;
     public bool holdToZoom = false;
-    public uint zoomKey = Keycode.M1;
+    public uint zoomKey = Keycode.M2;
     public float zoomFOV = 30f;
     public float zoomStepTime = 5f;
 
@@ -150,20 +150,10 @@ public class FPS_Controller_Script : Script
     {
 
         #region Setting Cursor & Crosshair
-        //if (lockCursor)
-        //{
-        //    Cursor.lockState = CursorLockMode.Locked;
-        //}
-
-        //if (crosshair)
-        //{
-        //    crosshairObject.sprite = crosshairImage;
-        //    crosshairObject.color = crosshairColor;
-        //}
-        //else
-        //{
-        //    crosshairObject.gameObject.SetActive(false);
-        //}
+        if (lockCursor)
+        {
+            Input.Lock(lockCursor);
+        }
         #endregion
 
         #region Setting Sprint Bar
@@ -197,24 +187,20 @@ public class FPS_Controller_Script : Script
     public override void Update()
     {
         #region Camera
-        // Control camera movement
-        //Input.HideMouse();
-        
         if (cameraCanMove)
         {
-            
-            if (Input.GetAxis("Mouse X") != 0 || Input.GetAxis("Mouse Y") != 0)
+            if (Input.GetAxisX() != 0 || Input.GetAxisY() != 0)
             {
-                yaw = transform.GetRotation().Y + Input.GetAxis("Mouse X") * mouseSensitivity;
+                yaw = transform.GetRotation().Y + Input.GetAxisX() * mouseSensitivity;
 
                 if (!invertCamera)
                 {
-                    pitch -= mouseSensitivity * Input.GetAxis("Mouse Y");
+                    pitch -= mouseSensitivity * Input.GetAxisY();
                 }
                 else
                 {
                     // Inverted Y
-                    pitch += mouseSensitivity * Input.GetAxis("Mouse Y");
+                    pitch += mouseSensitivity * Input.GetAxisY();
                 }
 
                 // Clamp pitch between lookAngle
@@ -224,35 +210,10 @@ public class FPS_Controller_Script : Script
                 playerCamera.transform.SetRotationX(pitch);
                 playerCamera.transform.SetRotationY(transform.GetRotation().Y);
             }
-            //Input.CenterMouseX();
-            //Input.CenterMouseY();
-            //else if (Input.GetLocalMousePosX() > 0.95f || Input.GetLocalMousePosX() < -0.95f)
-            //{
-            //    //set mouse pos to center
-            //    //Console.WriteLine(Input.GetScreenMouseX());
-            //    Input.CenterMouseX();
-            //    //Console.WriteLine(Input.GetScreenMouseX());
-
-            //}
-            //else if (Input.GetLocalMousePoxY() > 0.9f || Input.GetLocalMousePoxY() < -0.9f)
-            //{
-            //    Input.CenterMouseY();
-            //}
-            //if (Input.GetLocalMousePosX() > 0.8f)
-            //{
-            //    yaw++;
-            //    transform.SetRotationY(yaw);
-            //}
-            //if (Input.GetLocalMousePosX() < -0.8f)
-            //{
-            //    yaw--;
-            //    transform.SetRotationY(yaw);
-            //}   
         }
 
 
         #region Camera Zoom
-
         if (enableZoom)
         {
             // Changes isZoomed when key is pressed
@@ -348,46 +309,47 @@ public class FPS_Controller_Script : Script
 
         #endregion
 
-        #region Jump
+        /*#region Jump
 
         // Gets input and calls jump method
-        //if (enableJump && Input.GetKeyDown(jumpKey) && isGrounded)
-        //{
-        //    Jump();
-        //}
+        if (enableJump && Input.GetKeyDown(jumpKey) && isGrounded)
+        {
+            Jump();
+        }
 
         #endregion
 
         #region Crouch
 
-        //if (enableCrouch)
-        //{
-        //    if (Input.GetKeyDown(crouchKey) && !holdToCrouch)
-        //    {
-        //        Crouch();
-        //    }
+        if (enableCrouch)
+        {
+            if (Input.GetKeyDown(crouchKey) && !holdToCrouch)
+            {
+                Crouch();
+            }
 
-        //    if (Input.GetKeyDown(crouchKey) && holdToCrouch)
-        //    {
-        //        isCrouched = false;
-        //        Crouch();
-        //    }
-        //    else if (Input.GetKeyUp(crouchKey) && holdToCrouch)
-        //    {
-        //        isCrouched = true;
-        //        Crouch();
-        //    }
-        //}
+            if (Input.GetKeyDown(crouchKey) && holdToCrouch)
+            {
+                isCrouched = false;
+                Crouch();
+            }
+            else if (Input.GetKeyUp(crouchKey) && holdToCrouch)
+            {
+                isCrouched = true;
+                Crouch();
+            }
+        }
 
-        #endregion
+        #endregion*/
 
         //CheckGround();
 
         if (enableHeadBob)
         {
-            //HeadBob();
+            HeadBob();
         }
         startingVO.play(startingVOstr);
+
     }
     public override void FixedUpdate()
     {
@@ -395,11 +357,11 @@ public class FPS_Controller_Script : Script
         if (playerCanMove)
         {
             // Calculate how fast we should be moving
-            Vector3 targetVelocity = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+            Vector3 targetVelocity = new Vector3(Input.GetHorizontalAxis(), 0, Input.GetVerticalAxis());
 
             // Checks if player is walking and isGrounded
             // Will allow head bob
-            if (targetVelocity.X != 0 || targetVelocity.Z != 0 && isGrounded)
+            if (targetVelocity.X != 0 || targetVelocity.Z != 0 /*&& isGrounded*/)
             {
                 isWalking = true;
             }
@@ -441,10 +403,10 @@ public class FPS_Controller_Script : Script
                 {
                     isSprinting = true;
 
-                    //if (isCrouched)
-                    //{
-                    //    Crouch();
-                    //}
+                    /*if (isCrouched)
+                    {
+                        Crouch();
+                    }*/
 
                     if (hideBarWhenFull && !unlimitedSprint)
                     {
@@ -588,36 +550,36 @@ public class FPS_Controller_Script : Script
     //}
     #endregion
 
-    //#region HeadBob Method
-    //private void HeadBob()
-    //{
-    //    if (isWalking)
-    //    {
-    //        // Calculates HeadBob speed during sprint
-    //        if (isSprinting)
-    //        {
-    //            timer += Time.deltaTime * (bobSpeed + sprintSpeed);
-    //        }
-    //        // Calculates HeadBob speed during crouched movement
-    //        else if (isCrouched)
-    //        {
-    //            timer += Time.deltaTime * (bobSpeed * speedReduction);
-    //        }
-    //        // Calculates HeadBob speed during walking
-    //        else
-    //        {
-    //            timer += Time.deltaTime * bobSpeed;
-    //        }
-    //        // Applies HeadBob movement
-    //        joint.localPosition = new Vector3(jointOriginalPos.x + Mathf.Sin(timer) * bobAmount.x, jointOriginalPos.y + Mathf.Sin(timer) * bobAmount.y, jointOriginalPos.z + Mathf.Sin(timer) * bobAmount.z);
-    //    }
-    //    else
-    //    {
-    //        // Resets when play stops moving
-    //        timer = 0;
-    //        joint.localPosition = new Vector3(Mathf.Lerp(joint.localPosition.x, jointOriginalPos.x, Time.deltaTime * bobSpeed), Mathf.Lerp(joint.localPosition.y, jointOriginalPos.y, Time.deltaTime * bobSpeed), Mathf.Lerp(joint.localPosition.z, jointOriginalPos.z, Time.deltaTime * bobSpeed));
-    //    }
-    //}
-    //#endregion
+    #region HeadBob Method
+    private void HeadBob()
+    {
+        if (isWalking)
+        {
+            // Calculates HeadBob speed during sprint
+            if (isSprinting)
+            {
+                timer += Time.deltaTime * (bobSpeed + sprintSpeed);
+            }
+            // Calculates HeadBob speed during crouched movement
+            else if (isCrouched)
+            {
+                timer += Time.deltaTime * (bobSpeed * speedReduction);
+            }
+            // Calculates HeadBob speed during walking
+            else
+            {
+                timer += Time.deltaTime * bobSpeed;
+            }
+            // Applies HeadBob movement
+            joint.SetPosition(new Vector3(jointOriginalPos.X + Mathf.Sin(timer) * bobAmount.X, jointOriginalPos.Y + Mathf.Sin(timer) * bobAmount.Y, jointOriginalPos.Z + Mathf.Sin(timer) * bobAmount.Z)); 
+        }
+        else
+        {
+            // Resets when play stops moving
+            timer = 0;
+            joint.SetPosition(new Vector3(Mathf.Lerp(joint.GetPosition().X, jointOriginalPos.X, Time.deltaTime * bobSpeed), Mathf.Lerp(joint.GetPosition().Y, jointOriginalPos.Y, Time.deltaTime * bobSpeed), Mathf.Lerp(joint.GetPosition().Z, jointOriginalPos.Z, Time.deltaTime * bobSpeed))); 
+        }
+    }
+    #endregion
 
 }
