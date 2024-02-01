@@ -15,6 +15,7 @@
 #include "components/components.h"
 
 extern bool isPlaying;
+extern bool gamePaused;
 
 namespace TDS 
 {

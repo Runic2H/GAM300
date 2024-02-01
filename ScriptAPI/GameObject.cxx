@@ -10,8 +10,13 @@ namespace ScriptAPI
 
 	void GameObject::SetActive(bool status)
 	{
-		TDS::ecs.setEntityIsEnabled(GetEntityID(), status);
-		return;
+		if (GetEntityID())
+		{
+			TDS::ecs.setEntityIsEnabled(GetEntityID(), status);
+			return;
+		}
+
+		Console::WriteLine("Unreferenced Game Object");
 	}
 
 	TDS::EntityID GameObject::GetEntityID()

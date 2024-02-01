@@ -367,7 +367,7 @@ public class LockPick1 : Script
     public TransformComponent innerLock;
     public TransformComponent pickPosition;
     public FPS_Controller_Script playerController;
-    public GameObject lockObject;
+    //public GameObject lockObject;
     public string difficultyLvl;
     public float maxAngle = 90;
     public float lockSpeed = 10;
@@ -432,12 +432,10 @@ public class LockPick1 : Script
             //_NumOfTries.SetActive(true);
 
             #region Move Pick
-            //if (movePick)
-            //{
+            if (movePick)
+            {
                 //Vector3 dir = Input.mousePosition - cam.WorldToScreenPoint(transform.position);
                 Vector3 dir = Input.GetLocalMousePos() - new Vector3(Screen.width / 2, Screen.height / 2, 0); // cam.WorldToScreenPoint(transform.GetPosition());
-
-                Console.WriteLine("Mouse:\t" + Input.GetGlobalMousePosX() + "\t" + Input.GetGlobalMousePosY() + "\t" + dir.Z);
 
                 //eulerAngle = Vector3.Angle(dir, Vector3.Up());
                 eulerAngle = Vector3.Angle(dir, Vector3.Down());
@@ -451,9 +449,10 @@ public class LockPick1 : Script
 
                 Vector3 originalRotation = transform.GetRotation();
                 transform.SetRotation(new Vector3(originalRotation.X, originalRotation.Y, eulerAngle));
-                //Vector2 addedPosition = new Vector2(-Mathf.Sin(eulerAngle) * 2.5f, Mathf.Cos(eulerAngle) * 2.5f);
-                //transform.SetPosition(new Vector3(originalPosition.X + addedPosition.X, originalPosition.X + addedPosition.Y, -15));
-            //}
+
+                Vector2 addedPosition = new Vector2(-Mathf.Sin(eulerAngle), Mathf.Cos(eulerAngle));
+                transform.SetPosition(new Vector3(originalPosition.X + addedPosition.X * 1000, originalPosition.Y + addedPosition.Y * 300, -4000));
+            }
 
             if (Input.GetKeyDown(Keycode.E))
             {
@@ -571,13 +570,15 @@ public class LockPick1 : Script
         //Cursor.lockState = CursorLockMode.None;
         // NOTE: Audio
         //GetComponent<AudioSource>().volume = 1f;
-        Door_UI.SetActive(true);
+
+        //Door_UI.SetActive(true);
+
         //_AmtOfTries.color = Color.white;
         keyPressTime = 0;
         unlocked = false;
         deduct = true;
-        playerController.SetEnabled(false);
-        playerCam.SetEnabled(false);
+        //playerController.SetEnabled(false);
+        //playerCam.SetEnabled(false);
         cam.transform.SetRotation(new Vector3(0, 0, 0));
         unlockAngle = ScriptAPI.Random.Range(-maxAngle + lockRange, maxAngle - lockRange);
         unlockRange = new Vector2(unlockAngle - lockRange, unlockAngle + lockRange);

@@ -39,6 +39,7 @@
 #include "Tools/Pathfinder.h"
 
 bool isPlaying = false;
+bool gamePaused = false;
 bool startPlaying = false;
 
 namespace TDS
@@ -298,10 +299,11 @@ namespace TDS
                     SceneManager::GetInstance()->isPlaying = true;
                     SceneManager::GetInstance()->loadScene(SceneManager::GetInstance()->getCurrentScene());
                     startPlaying = false;
+                    SceneManager::GetInstance()->awake();
                     SceneManager::GetInstance()->start();
                 }
 
-                if (!InputSystem::GetInstance()->getCursorVisible())
+                if (!gamePaused)
                 {
                     executeFixedUpdate();
                     ecs.runSystems(1, DeltaTime); // Other systems

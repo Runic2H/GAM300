@@ -683,10 +683,10 @@ namespace TDS
 		currentScene = scene;
 		currentSceneSaved = true;
 
-		if (isPlaying)
-		{
-			awake();
-		}
+		//if (isPlaying)
+		//{
+		//	awake();
+		//}
 	}
 
 	/*!*************************************************************************
