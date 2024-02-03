@@ -9,7 +9,7 @@ namespace ScriptAPI
     public ref class AudioClip
     {
     public:        
-        void add_clips(std::filesystem::path file);
+        void add_clips(System::String^ filePath);
         
         System::Collections::Generic::List<System::String^> clips;
         int sub;

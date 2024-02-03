@@ -112,11 +112,11 @@ namespace ScriptAPI
 	//	value = val;
 	//}
 
-	void AudioClip::add_clips(std::filesystem::path file)
+	void AudioClip::add_clips(System::String^ filePath)
 	{
-		System::String^ temp = gcnew System::String(file.string().c_str());
+		//System::String^ temp = gcnew System::String(file.string().c_str());
 		
-		clips.Add(temp);
+		clips.Add(filePath);
 		++sub;
 	}
 }

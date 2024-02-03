@@ -180,13 +180,13 @@ namespace TDS
                 if(soundInfo.isLoop())
                 {
                     ERRCHECK(loopsPlaying[soundInfo.getUniqueID()]->stop());
-                    loopsPlaying.erase(soundInfo.getUniqueID());
+                    //loopsPlaying.erase(soundInfo.getUniqueID());
                     soundInfo.setState(SOUND_LOADED); //set the sound back to loaded state
                 }
                 else
                 {
                     ERRCHECK(normalPlaying[soundInfo.getUniqueID()]->stop());
-                    normalPlaying.erase(soundInfo.getUniqueID());
+                    //normalPlaying.erase(soundInfo.getUniqueID());
                     soundInfo.setState(SOUND_LOADED);
                 }
                 //std::cout << "Stopping sound" << std::endl;

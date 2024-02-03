@@ -282,7 +282,7 @@ namespace ScriptAPI
 
 	void Input::HideMouse(bool value)
 	{
-		return TDS::InputSystem::GetInstance()->setCursorVisible(value);
+		return TDS::InputSystem::GetInstance()->setCursorVisible(!value);
 	}
 
 	void Input::Lock(bool value)
