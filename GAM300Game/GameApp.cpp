@@ -171,7 +171,19 @@ namespace TDS
             skyboxrender.RenderSkyBox(commandBuffer, frame);
 
             FixedUpdate();
-            ecs.runSystems(1, DeltaTime); // Other systems
+
+            if (Input::isKeyPressed(VK_ESCAPE))
+            {
+                isPaused = !isPaused;
+                //std::cout << "system paused" << std::endl;
+            }
+
+            if (!isPaused)
+            {
+                ecs.runSystems(1, DeltaTime); // Other systems
+                
+            }
+
             executeUpdate();
             LateUpdate();
             ecs.runSystems(2, DeltaTime); // Event handler
