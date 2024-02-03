@@ -294,6 +294,12 @@ namespace TDS
            
             if (isPlaying)
             {
+                if (Input::isKeyPressed(VK_ESCAPE))
+                {
+                    gamePaused = !gamePaused;
+                    std::cout << "editor system paused = " << gamePaused << std::endl;
+                }
+
                 if (startPlaying)
                 {
                     SceneManager::GetInstance()->isPlaying = true;

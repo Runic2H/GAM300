@@ -54,6 +54,7 @@ namespace TDS
 			false,
 			VK_SAMPLE_COUNT_1_BIT
 		};
+		//depth
 		RenderTargetCI rendertargetCI2{
 			VK_FORMAT_D32_SFLOAT,
 			VK_IMAGE_ASPECT_DEPTH_BIT,

@@ -1,5 +1,9 @@
 {
     "Archetype Sizes": {
+        "110000000000000": {
+            "0": 1768,
+            "1": 4368
+        },
         "110000100000000": {
             "0": 124848,
             "1": 308448,
@@ -25,10 +29,6 @@
             "7": 64,
             "8": 32
         },
-        "110000000000000": {
-            "0": 1360,
-            "1": 3360
-        },
         "110000000000100": {
             "0": 3128,
             "1": 7728,
@@ -38,6 +38,12 @@
             "0": 136,
             "1": 336,
             "4": 64
+        },
+        "110000100000100": {
+            "0": 408,
+            "1": 1008,
+            "6": 1056,
+            "12": 1080
         }
     },
     "Entity Data": {
@@ -4485,81 +4491,6 @@
                 "Used In 2D": false
             }
         },
-        "411": {
-            "ArchetypeID": "110000100000000",
-            "Enabled": false,
-            "Name Tag": {
-                "Name": "Beak_3",
-                "Tag": "",
-                "IsActive": true,
-                "HierarchyParent": 381,
-                "HierarchyIndex": 26,
-                "HierarchyChildren": []
-            },
-            "Transform": {
-                "Position": {
-                    "x": 472.573974609375,
-                    "y": 525.6205444335938,
-                    "z": -801.534912109375
-                },
-                "Scale": {
-                    "x": 1.0,
-                    "y": 1.3000000715255737,
-                    "z": 1.0
-                },
-                "Rotation": {
-                    "x": -1.5707963705062866,
-                    "y": -1.087182879447937,
-                    "z": 0.0
-                },
-                "FakePosition": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                },
-                "FakeRotation": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                },
-                "FakeScale": {
-                    "x": 1.0,
-                    "y": 1.0,
-                    "z": 1.0
-                },
-                "OldPosition": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                },
-                "OldScale": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                },
-                "OldRotation": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                }
-            },
-            "Graphics Component": {
-                "PointLight": false,
-                "TextureName": "",
-                "Mesh Renderer": true,
-                "Debug": false,
-                "ModelName": "Wall Slaves_Bin.bin",
-                "MeshName": "Beak_3",
-                "MeshNodeName": "",
-                "Color": {
-                    "x": 1.0,
-                    "y": 1.0,
-                    "z": 1.0,
-                    "w": 1.0
-                },
-                "Used In 2D": false
-            }
-        },
         "1024": {
             "ArchetypeID": "110000100000000",
             "Enabled": true,
@@ -4629,6 +4560,81 @@
                 "ModelName": "Mansion Layout_Bin.bin",
                 "MeshName": "",
                 "MeshNodeName": "ninja_star_3",
+                "Color": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0,
+                    "w": 1.0
+                },
+                "Used In 2D": false
+            }
+        },
+        "411": {
+            "ArchetypeID": "110000100000000",
+            "Enabled": false,
+            "Name Tag": {
+                "Name": "Beak_3",
+                "Tag": "",
+                "IsActive": true,
+                "HierarchyParent": 381,
+                "HierarchyIndex": 26,
+                "HierarchyChildren": []
+            },
+            "Transform": {
+                "Position": {
+                    "x": 472.573974609375,
+                    "y": 525.6205444335938,
+                    "z": -801.534912109375
+                },
+                "Scale": {
+                    "x": 1.0,
+                    "y": 1.3000000715255737,
+                    "z": 1.0
+                },
+                "Rotation": {
+                    "x": -1.5707963705062866,
+                    "y": -1.087182879447937,
+                    "z": 0.0
+                },
+                "FakePosition": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "FakeRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "FakeScale": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                },
+                "OldPosition": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "OldScale": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "OldRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                }
+            },
+            "Graphics Component": {
+                "PointLight": false,
+                "TextureName": "",
+                "Mesh Renderer": true,
+                "Debug": false,
+                "ModelName": "Wall Slaves_Bin.bin",
+                "MeshName": "Beak_3",
+                "MeshNodeName": "",
                 "Color": {
                     "x": 1.0,
                     "y": 1.0,
@@ -4788,6 +4794,81 @@
                 "Used In 2D": false
             }
         },
+        "1026": {
+            "ArchetypeID": "110000100000000",
+            "Enabled": true,
+            "Name Tag": {
+                "Name": "ninja_star_3__1",
+                "Tag": "",
+                "IsActive": true,
+                "HierarchyParent": 1024,
+                "HierarchyIndex": 11,
+                "HierarchyChildren": []
+            },
+            "Transform": {
+                "Position": {
+                    "x": 83.12020111083984,
+                    "y": 0.041011273860931396,
+                    "z": -26.88520050048828
+                },
+                "Scale": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                },
+                "Rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "FakePosition": {
+                    "x": 0.0,
+                    "y": 0.041011273860931396,
+                    "z": 0.0
+                },
+                "FakeRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "FakeScale": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                },
+                "OldPosition": {
+                    "x": 83.12020111083984,
+                    "y": 0.04921332001686096,
+                    "z": -26.88520050048828
+                },
+                "OldScale": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "OldRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                }
+            },
+            "Graphics Component": {
+                "PointLight": false,
+                "TextureName": "",
+                "Mesh Renderer": true,
+                "Debug": false,
+                "ModelName": "Mansion Layout_Bin.bin",
+                "MeshName": "ninja_star_3__1",
+                "MeshNodeName": "ninja_star_3",
+                "Color": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0,
+                    "w": 1.0
+                },
+                "Used In 2D": false
+            }
+        },
         "485": {
             "ArchetypeID": "110000000000100",
             "Enabled": true,
@@ -4879,81 +4960,6 @@
                     "x": -0.41345784068107605,
                     "y": 0.8459999561309814
                 }
-            }
-        },
-        "1026": {
-            "ArchetypeID": "110000100000000",
-            "Enabled": true,
-            "Name Tag": {
-                "Name": "ninja_star_3__1",
-                "Tag": "",
-                "IsActive": true,
-                "HierarchyParent": 1024,
-                "HierarchyIndex": 11,
-                "HierarchyChildren": []
-            },
-            "Transform": {
-                "Position": {
-                    "x": 83.12020111083984,
-                    "y": 0.041011273860931396,
-                    "z": -26.88520050048828
-                },
-                "Scale": {
-                    "x": 1.0,
-                    "y": 1.0,
-                    "z": 1.0
-                },
-                "Rotation": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                },
-                "FakePosition": {
-                    "x": 0.0,
-                    "y": 0.041011273860931396,
-                    "z": 0.0
-                },
-                "FakeRotation": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                },
-                "FakeScale": {
-                    "x": 1.0,
-                    "y": 1.0,
-                    "z": 1.0
-                },
-                "OldPosition": {
-                    "x": 83.12020111083984,
-                    "y": 0.04921332001686096,
-                    "z": -26.88520050048828
-                },
-                "OldScale": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                },
-                "OldRotation": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                }
-            },
-            "Graphics Component": {
-                "PointLight": false,
-                "TextureName": "",
-                "Mesh Renderer": true,
-                "Debug": false,
-                "ModelName": "Mansion Layout_Bin.bin",
-                "MeshName": "ninja_star_3__1",
-                "MeshNodeName": "ninja_star_3",
-                "Color": {
-                    "x": 1.0,
-                    "y": 1.0,
-                    "z": 1.0,
-                    "w": 1.0
-                },
-                "Used In 2D": false
             }
         },
         "30": {
@@ -9267,6 +9273,121 @@
                     "w": 1.0
                 },
                 "Used In 2D": false
+            }
+        },
+        "1046": {
+            "ArchetypeID": "110000100000100",
+            "Enabled": true,
+            "Name Tag": {
+                "Name": "PauseMenu",
+                "Tag": "",
+                "IsActive": true,
+                "HierarchyParent": 0,
+                "HierarchyIndex": 12,
+                "HierarchyChildren": [
+                    1048,
+                    1049,
+                    1050,
+                    1051,
+                    1052
+                ]
+            },
+            "Transform": {
+                "Position": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "Scale": {
+                    "x": 2.0,
+                    "y": 2.0,
+                    "z": 1.0
+                },
+                "Rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "FakePosition": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "FakeRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "FakeScale": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                },
+                "OldPosition": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "OldScale": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "OldRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                }
+            },
+            "Graphics Component": {
+                "PointLight": false,
+                "TextureName": "",
+                "Mesh Renderer": true,
+                "Debug": false,
+                "ModelName": "",
+                "MeshName": "",
+                "MeshNodeName": "",
+                "Color": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0,
+                    "w": 1.0
+                },
+                "Used In 2D": false
+            },
+            "UI Sprite": {
+                "Texture": "pause_menu.dds",
+                "EnableSprite": true,
+                "LayerID": 1,
+                "is Font": false,
+                "message": "",
+                "Font Texture": "",
+                "ForeGroundColour": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 0.0
+                },
+                "Sprite Color": {
+                    "x": 0.10000000149011612,
+                    "y": 0.10000000149011612,
+                    "z": 0.10000000149011612,
+                    "w": 1.0
+                },
+                "BackGroundColour": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "BoundingBoxMin": {
+                    "x": -1.0,
+                    "y": -1.0
+                },
+                "BoundingBoxMax": {
+                    "x": 1.0,
+                    "y": 1.0
+                }
             }
         },
         "385": {
@@ -47095,6 +47216,65 @@
                 "Used In 2D": false
             }
         },
+        "1052": {
+            "ArchetypeID": "110000000000000",
+            "Enabled": true,
+            "Name Tag": {
+                "Name": "OptionsButton",
+                "Tag": "",
+                "IsActive": true,
+                "HierarchyParent": 1046,
+                "HierarchyIndex": 4,
+                "HierarchyChildren": []
+            },
+            "Transform": {
+                "Position": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "Scale": {
+                    "x": 2.0,
+                    "y": 2.0,
+                    "z": 1.0
+                },
+                "Rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "FakePosition": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "FakeRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "FakeScale": {
+                    "x": 2.0,
+                    "y": 2.0,
+                    "z": 1.0
+                },
+                "OldPosition": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "OldScale": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "OldRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                }
+            }
+        },
         "609": {
             "ArchetypeID": "110000100000000",
             "Enabled": true,
@@ -53130,8 +53310,8 @@
                     "z": 1.0
                 },
                 "OldPosition": {
-                    "x": -0.8549849987030029,
-                    "y": -0.8814587593078613,
+                    "x": 0.0,
+                    "y": 0.0,
                     "z": 0.0
                 },
                 "OldScale": {
@@ -53149,9 +53329,9 @@
                 "Texture": "",
                 "EnableSprite": true,
                 "LayerID": 3,
-                "is Font": true,
+                "is Font": false,
                 "message": "Use",
-                "Font Texture": "Font1.dds",
+                "Font Texture": "",
                 "ForeGroundColour": {
                     "x": 0.0,
                     "y": 0.0,
@@ -76183,6 +76363,65 @@
                 "Used In 2D": false
             }
         },
+        "1051": {
+            "ArchetypeID": "110000000000000",
+            "Enabled": true,
+            "Name Tag": {
+                "Name": "BTMButton",
+                "Tag": "",
+                "IsActive": true,
+                "HierarchyParent": 1046,
+                "HierarchyIndex": 3,
+                "HierarchyChildren": []
+            },
+            "Transform": {
+                "Position": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "Scale": {
+                    "x": 2.0,
+                    "y": 2.0,
+                    "z": 1.0
+                },
+                "Rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "FakePosition": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "FakeRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "FakeScale": {
+                    "x": 2.0,
+                    "y": 2.0,
+                    "z": 1.0
+                },
+                "OldPosition": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "OldScale": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "OldRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                }
+            }
+        },
         "907": {
             "ArchetypeID": "110000100000000",
             "Enabled": true,
@@ -83625,6 +83864,283 @@
                 "FOV": 45.0,
                 "MouseSensitivity": 0.10000000149011612
             }
+        },
+        "1048": {
+            "ArchetypeID": "110000100000100",
+            "Enabled": false,
+            "Name Tag": {
+                "Name": "Background",
+                "Tag": "",
+                "IsActive": true,
+                "HierarchyParent": 1046,
+                "HierarchyIndex": 0,
+                "HierarchyChildren": []
+            },
+            "Transform": {
+                "Position": {
+                    "x": 0.0,
+                    "y": -0.12121200561523438,
+                    "z": 0.0
+                },
+                "Scale": {
+                    "x": 4.0,
+                    "y": 4.0,
+                    "z": 1.0
+                },
+                "Rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "FakePosition": {
+                    "x": 0.0,
+                    "y": -0.12121200561523438,
+                    "z": 0.0
+                },
+                "FakeRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "FakeScale": {
+                    "x": 4.0,
+                    "y": 4.0,
+                    "z": 1.0
+                },
+                "OldPosition": {
+                    "x": 0.0,
+                    "y": -0.12121200561523438,
+                    "z": 0.0
+                },
+                "OldScale": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "OldRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                }
+            },
+            "Graphics Component": {
+                "PointLight": false,
+                "TextureName": "",
+                "Mesh Renderer": true,
+                "Debug": false,
+                "ModelName": "",
+                "MeshName": "",
+                "MeshNodeName": "",
+                "Color": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0,
+                    "w": 1.0
+                },
+                "Used In 2D": false
+            },
+            "UI Sprite": {
+                "Texture": "pause_menu.dds",
+                "EnableSprite": true,
+                "LayerID": 1,
+                "is Font": false,
+                "message": "",
+                "Font Texture": "",
+                "ForeGroundColour": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 0.0
+                },
+                "Sprite Color": {
+                    "x": 0.10000000149011612,
+                    "y": 0.10000000149011612,
+                    "z": 0.10000000149011612,
+                    "w": 1.0
+                },
+                "BackGroundColour": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "BoundingBoxMin": {
+                    "x": -1.5,
+                    "y": -1.6212120056152344
+                },
+                "BoundingBoxMax": {
+                    "x": 1.5,
+                    "y": 1.3787879943847656
+                }
+            }
+        },
+        "1049": {
+            "ArchetypeID": "110000100000100",
+            "Enabled": true,
+            "Name Tag": {
+                "Name": "ContinueButton",
+                "Tag": "",
+                "IsActive": true,
+                "HierarchyParent": 1046,
+                "HierarchyIndex": 1,
+                "HierarchyChildren": []
+            },
+            "Transform": {
+                "Position": {
+                    "x": 0.02444446086883545,
+                    "y": 0.2860778570175171,
+                    "z": 0.0
+                },
+                "Scale": {
+                    "x": 0.6915788650512695,
+                    "y": 0.22862136363983154,
+                    "z": 1.0
+                },
+                "Rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "FakePosition": {
+                    "x": 0.02444446086883545,
+                    "y": 0.2860778570175171,
+                    "z": 0.0
+                },
+                "FakeRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "FakeScale": {
+                    "x": 0.6915788650512695,
+                    "y": 0.22862136363983154,
+                    "z": 1.0
+                },
+                "OldPosition": {
+                    "x": 0.02444446086883545,
+                    "y": 0.2860778570175171,
+                    "z": 0.0
+                },
+                "OldScale": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "OldRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                }
+            },
+            "Graphics Component": {
+                "PointLight": false,
+                "TextureName": "",
+                "Mesh Renderer": true,
+                "Debug": false,
+                "ModelName": "",
+                "MeshName": "",
+                "MeshNodeName": "",
+                "Color": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0,
+                    "w": 1.0
+                },
+                "Used In 2D": false
+            },
+            "UI Sprite": {
+                "Texture": "Play_Button.dds",
+                "EnableSprite": false,
+                "LayerID": 2,
+                "is Font": false,
+                "message": "",
+                "Font Texture": "",
+                "ForeGroundColour": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 0.0
+                },
+                "Sprite Color": {
+                    "x": 0.10000000149011612,
+                    "y": 0.10000000149011612,
+                    "z": 0.10000000149011612,
+                    "w": 1.0
+                },
+                "BackGroundColour": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "BoundingBoxMin": {
+                    "x": -0.3213449716567993,
+                    "y": 0.17176717519760132
+                },
+                "BoundingBoxMax": {
+                    "x": 0.3702338933944702,
+                    "y": 0.40038853883743286
+                }
+            }
+        },
+        "1050": {
+            "ArchetypeID": "110000000000000",
+            "Enabled": true,
+            "Name Tag": {
+                "Name": "RestartButton",
+                "Tag": "",
+                "IsActive": true,
+                "HierarchyParent": 1046,
+                "HierarchyIndex": 2,
+                "HierarchyChildren": []
+            },
+            "Transform": {
+                "Position": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "Scale": {
+                    "x": 2.0,
+                    "y": 2.0,
+                    "z": 1.0
+                },
+                "Rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "FakePosition": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "FakeRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "FakeScale": {
+                    "x": 2.0,
+                    "y": 2.0,
+                    "z": 1.0
+                },
+                "OldPosition": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "OldScale": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "OldRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                }
+            }
         }
     },
     "Scripts": {
@@ -83708,12 +84224,12 @@
         "26": {},
         "27": {},
         "28": {},
-        "411": {},
         "1024": {},
+        "411": {},
         "908": {},
         "29": {},
-        "485": {},
         "1026": {},
+        "485": {},
         "30": {},
         "31": {},
         "32": {},
@@ -83768,6 +84284,13 @@
         "936": {},
         "57": {},
         "58": {},
+        "1046": {
+            "PopupUI": {
+                "gameObject": {
+                    "ScriptAPI.GameObject": 1046
+                }
+            }
+        },
         "385": {},
         "59": {},
         "60": {},
@@ -84457,6 +84980,7 @@
         "396": {},
         "398": {},
         "399": {},
+        "1052": {},
         "609": {},
         "400": {},
         "402": {},
@@ -84895,6 +85419,7 @@
         "903": {},
         "905": {},
         "906": {},
+        "1051": {},
         "907": {},
         "909": {},
         "910": {},
@@ -84992,7 +85517,22 @@
         "1040": {},
         "1041": {},
         "1042": {},
-        "1045": {}
+        "1045": {},
+        "1048": {
+            "PopupUI": {
+                "gameObject": {
+                    "ScriptAPI.GameObject": 1048
+                }
+            }
+        },
+        "1049": {
+            "ReturnToGame": {
+                "gameObject": {
+                    "ScriptAPI.GameObject": 1049
+                }
+            }
+        },
+        "1050": {}
     },
     "Active Archetype": {
         "44": "11000010000000",
@@ -85045,12 +85585,12 @@
         "26": "11000010000000",
         "27": "11010011000000",
         "28": "11000010000000",
-        "411": "11000010000000",
         "1024": "110000100000000",
+        "411": "11000010000000",
         "908": "110000100000000",
         "29": "11000010000000",
-        "485": "11000000000010",
         "1026": "110000100000000",
+        "485": "11000000000010",
         "30": "11000010000000",
         "31": "11010011000000",
         "32": "11000010000000",
@@ -85105,6 +85645,7 @@
         "936": "110000100000000",
         "57": "11000010000000",
         "58": "11000010000000",
+        "1046": "110000100000000",
         "385": "11000010000000",
         "59": "11000010000000",
         "60": "11000010000000",
@@ -85554,6 +86095,7 @@
         "396": "11000010000000",
         "398": "11000010000000",
         "399": "11000010000000",
+        "1052": "110000000000000",
         "609": "110000100000000",
         "400": "11000010000000",
         "402": "11000010000000",
@@ -85935,6 +86477,7 @@
         "903": "110000100000000",
         "905": "110000100000000",
         "906": "110000100000000",
+        "1051": "110000000000000",
         "907": "110000100000000",
         "909": "110000100000000",
         "910": "110000100000000",
@@ -86032,6 +86575,9 @@
         "1040": "110000100000000",
         "1041": "110000100000000",
         "1042": "110000000000000",
-        "1045": "110010000000000"
+        "1045": "110010000000000",
+        "1048": "110000100000000",
+        "1049": "110000100000100",
+        "1050": "110000000000000"
     }
 }

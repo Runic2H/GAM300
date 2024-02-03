@@ -129,6 +129,8 @@ namespace TDS
 		coreclr_create_delegate_ptr createManagedDelegate = nullptr;
 		coreclr_shutdown_ptr        shutdownCoreClr = nullptr;
 		double mAccumulatedTime = 0.0;
+		
+		bool isPaused = false;
 
 	};//class GamApp
 

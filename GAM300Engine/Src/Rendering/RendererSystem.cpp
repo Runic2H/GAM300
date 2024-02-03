@@ -337,7 +337,7 @@ namespace TDS
 
 					Mat4 temp{};
 
-					if (Vec3 Scale = _TransformComponent[i].GetScale(); Scale.x < FLT_MIN || Scale.y < 0.0f + FLT_MIN || Scale.z < FLT_MIN)
+					if (Vec3 Scale = _TransformComponent[i].GetScale(); Scale.x < FLT_MIN || Scale.y < FLT_MIN || Scale.z < FLT_MIN)
 					{
 
 					}
