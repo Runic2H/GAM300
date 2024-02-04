@@ -1,14 +1,14 @@
 {
     "Archetype Sizes": {
-        "110000000000100000": {
+        "110000000000100": {
             "0": 272,
-            "1": 768,
+            "1": 672,
             "12": 720
         }
     },
     "Entity Data": {
         "1": {
-            "ArchetypeID": "110000000000100000",
+            "ArchetypeID": "110000000000100",
             "Enabled": true,
             "Name Tag": {
                 "Name": "Images",
@@ -63,26 +63,6 @@
                     "x": 0.0,
                     "y": 0.0,
                     "z": 0.0
-                },
-                "OldFakePosition": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                },
-                "OldFakeScale": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                },
-                "OldFakeRotation": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                },
-                "ParentPosition": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
                 }
             },
             "UI Sprite": {
@@ -121,7 +101,7 @@
             }
         },
         "2": {
-            "ArchetypeID": "110000000000100000",
+            "ArchetypeID": "110000000000100",
             "Enabled": true,
             "Name Tag": {
                 "Name": "Narration",
@@ -173,26 +153,6 @@
                     "z": 0.0
                 },
                 "OldRotation": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                },
-                "OldFakePosition": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                },
-                "OldFakeScale": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                },
-                "OldFakeRotation": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                },
-                "ParentPosition": {
                     "x": 0.0,
                     "y": 0.0,
                     "z": 0.0
