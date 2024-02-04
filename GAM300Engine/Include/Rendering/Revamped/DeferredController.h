@@ -1,21 +1,31 @@
 #pragma once
+#include "vulkanTools/FrameInfo.h"
 namespace TDS
 {
 	enum DEFERRED_STAGE
 	{
-		STAGE_G_BUFFER = 0,
+		STAGE_G_BUFFER_BATCH = 0,
+		STAGE_G_BUFFER_INSTANCE,
 		STAGE_LIGTHING,
-		STAGE_SHADOW,
+		//STAGE_SHADOW,
+		//STAGE_DEPTH_SHADOW,
+		//STAGE_SHADOW_OMNI,
+
 		STAGE_COMPOSITION,
 		STAGE_MAX
 
 	};
 
-
-	struct alignas(16) InstanceBuffer
+	enum RENDER_PASS
 	{
-		Vec4 InstData;
-		Mat4 model;
+		RENDER_G_BUFFER = 0,
+		//RENDER_SHADOW_MAPPING,
+		//RENDER_SHADOW_OMNI,
+		RENDER_LIGTHING,
+		//RENDER_POST,
+
+		RENDER_COMPOSITION,
+		RENDER_TOTAL
 	};
 
 
@@ -25,65 +35,230 @@ namespace TDS
 
 	struct Transform;
 	struct GraphicsComponent;
-	struct MeshData;
-	
-	class FBO;
+	struct MeshBuffer;
 
-	static constexpr int MAX_INSTANCE_BUFFER = 14000;
+	class FrameBufferObject;
 
+	static constexpr int MAX_INSTANCE_BUFFER = 10000;
+	static constexpr int MAX_POSSIBLE_BATCH = 10000;
+	static constexpr int MAX_POINT_LIGHTS = 100;
+	static constexpr int MAX_DIR_LIGHTS = 100;
+	static constexpr int MAX_SPOT_LIGHTS = 100;
 
 	struct Transform;
 
-	//1. Put ur update data here
-	struct UpdateData
+
+
+
+
+	struct MeshUpdate
 	{
-		Transform*				m_pTransform = nullptr;
+		Transform* m_pTransform = nullptr;
+		int						m_MeshID;
 		int						m_EntityID = -1;
 		int						m_TextureID = -1;
+		bool					m_IsAnimated = false;
+		bool					m_ShowMesh = false;
+	};
+
+	struct UpdateData
+	{
+		std::vector<MeshUpdate>		m_MeshUpdates;
+		MeshBuffer* m_MeshBuffer = nullptr;
+	};
+
+
+	struct alignas(16) BatchData
+	{
+		std::uint32_t	m_MaterialID;
+		std::uint32_t	m_TextureID;
+		std::uint32_t	m_IsRender;
+		std::uint32_t	m_EntityID;
+		Mat4			m_modelMatrix;
+	};
+
+	//Batch Rendering Data
+
+	struct Batch3D
+	{
+
+		std::array<BatchData, MAX_POSSIBLE_BATCH>												m_BatchBuffers;
+		std::map<std::string, UpdateData>														m_BatchUpdateInfo;
+		std::uint32_t																			m_BatchCnt;
+
+
+	};
+
+	//For single mesh, I would prefer to use instancing.
+	struct Instance3D
+	{
+
+		struct InstanceRenderManager
+		{
+			struct RenderInstanceInfo
+			{
+				std::uint32_t			m_Instances = 0;
+				std::uint32_t			m_InstanceOffset = 0;
+			};
+
+
+			struct InstanceRequest
+			{
+				MeshBuffer* m_MeshBuffer = nullptr;
+				RenderInstanceInfo				m_RenderInstanceInfo;
+			};
+
+
+			struct InstanceUpdatePack
+			{
+				std::uint32_t				m_Index = 0;
+				std::vector<MeshUpdate>		m_Updates;
+			};
+			std::map<MeshBuffer*, InstanceUpdatePack>	m_InstanceUpdateInfo;
+		};
+		std::uint32_t																m_TotalInstances = 0;
+		std::uint32_t																m_GroupIdx = 0;
+		InstanceRenderManager														m_instanceRenderManager;
+		std::array<InstanceRenderManager::InstanceRequest, MAX_INSTANCE_BUFFER>		m_InstanceRequests;
+		std::array<BatchData, MAX_INSTANCE_BUFFER>									m_InstanceBuffers;
+
+
+	};
+
+
+	struct alignas(16) SceneCamera
+	{
+		Mat4 view;
+		Mat4 projection;
+		Vec4 cameraPos;
+	};
+
+
+	struct alignas(16) LightingPushConstant
+	{
+		Vec4 ambientlightcolor = { 1.f, 1.f, 1.f, 0.02f };
+		int activepointlights;
+		int activeDirLights;
+		int activeSpotLights;
+		int toggleDebugLight = 1;
+	};
+
+	struct alignas(16) SpotLight
+	{
+		Vec4 Position;
+		Vec4 direction;
+		Vec4 Color;
+		Vec4 attenuation;
+		float cutoff;
+		float outerCutoff;
+		float padding[2] = { 0.f, 0.f };
+
+		//float radius;
+		//float padding;
+	};
+	struct alignas(16) Pointlight
+	{
+		Vec4 Position;
+		Vec4 Color;
+		Vec4 attenuation;
+
+		//float radius;
+		//float padding[3];
+	};
+
+	struct alignas(16) DirectionalLight
+	{
+		Vec4 direction = { 0.f, 0.f, -1.f, 0.f };
+		Vec4 Color;
+	};
+
+	struct LightBuffers
+	{
+		std::array<Pointlight, 100>			m_PointLights;
+		std::array<SpotLight, 100>			m_SpotLights;
+		std::array<DirectionalLight, 100>	m_DirectionalLight;
+	};
+	struct alignas(16) LightSourceProperties
+	{
+		Vec4 Position;
+		Vec4 Color;
+		float Radius;
+		float padding[3];
 	};
 
 
 
+	struct SceneUniform
+	{
+		Mat4 m_Proj = Mat4(1.f);
+		Mat4 m_View = Mat4(1.f);
+	};
+
+
+
+
+	class FBO;
+	class PointLightComponent;
+	class DirectionalLightComponent;
+	class SpotLightComponent;
+
 	class DeferredController
 	{
-		public:
-			struct MeshInstanceTrack
-			{
-				std::string			m_MeshName;
-				std::uint32_t		m_Instances = 0;
-				std::uint32_t		m_Offset = 0;
-			};
+	public:
+		typedef std::array<std::shared_ptr<VulkanPipeline>, DEFERRED_STAGE::STAGE_MAX>			PIPELINE_LIST;
 
-			struct InstanceData
-			{
-				std::uint32_t				m_Index = 0;
-				std::vector<UpdateData>		m_Updates;
-			};
-			
-			void								Init();
-			void								CreatePipelines();
-			void								CreateFrameBuffers();
-			void								Resize(std::uint32_t width, std::uint32_t height);
-			void								UpdateInstanceData();
+		void											Init(std::uint32_t w, std::uint32_t h);
+		void											CreatePipelines();
+		void											CreateFrameBuffers(std::uint32_t width, std::uint32_t height);
+		void											Resize(std::uint32_t width, std::uint32_t height);
+		void											UpdateDeferredTextures();
+		//GBuffers
+		void											G_BufferPassBatch(VkCommandBuffer commandBuffer, std::uint32_t frameIndex);
+		void											G_BufferInstanced(VkCommandBuffer commandBuffer, std::uint32_t frameIndex);
+		void											G_BufferPass(VkCommandBuffer commandBuffer, std::uint32_t frameIndex);
+		//LightingPass
+		void											LightingPass(VkCommandBuffer commandBuffer, std::uint32_t frameIndex);
+
+		//Composition
+		void											CombinationPass(VkCommandBuffer commandBuffer, std::uint32_t frameIndex);
+		void											SubmitPointLight(std::uint32_t entityID, PointLightComponent* graphComp, Transform* transformComp);
+		void											SubmitDirectionalLight(std::uint32_t entityID, DirectionalLightComponent* graphComp, Transform* transformComp);
+		void											SubmitSpotLight(std::uint32_t entityID, SpotLightComponent* graphComp, Transform* transformComp);
+
+		void											ClearBatchSubmission();
+		void											SubmitMesh(std::uint32_t entityID, GraphicsComponent* graphComp, Transform* transformComp);
+		void											SubmitBatch(std::uint32_t entityID, int TextureID, Transform* transformComp, GraphicsComponent* graphComp);
+		void											SubmitInstance(std::uint32_t entityID, int TextureID, Transform* transformComp, GraphicsComponent* graphComp);
+		std::shared_ptr<VulkanPipeline>					GetDeferredPipeline(DEFERRED_STAGE stage);
+		void											ShutDown();
+		void											SetClearColour(Vec4 clearColor);
+		void											UpdateClearColur();
+		FBO* GetFrameBuffer(RENDER_PASS renderpassType);
+
+		SceneUniform& GetSceneUniform();
 
 
-			std::shared_ptr<VulkanPipeline>		GetDeferredPipeline(DEFERRED_STAGE stage);
+	public:
+		GlobalUBO globalUBO{}; //Temp for testing
 
-		public:
-			typedef std::array<InstanceBuffer, MAX_INSTANCE_BUFFER>									INSTANCE_BUFFER_LIST;
-			typedef std::array<std::shared_ptr<VulkanPipeline>, DEFERRED_STAGE::STAGE_MAX>			PIPELINE_LIST;
-			typedef std::array<FBO*, DEFERRED_STAGE::STAGE_MAX>										FBO_LIST;
+	private:
 
-			std::uint32_t																			m_InstIndex{0};
-			std::uint32_t																			m_UpdateIndex{0};
-			std::uint32_t																			m_PointLightIndex {0};
+		//Lighting pass data
+		std::uint32_t									m_LightSrcInstance = 0;
 
-			INSTANCE_BUFFER_LIST																	m_InstanceBuffers;
-			PIPELINE_LIST																			m_DeferredPipelines;
-			FBO_LIST																				m_FrameBuffers;
+		LightingPushConstant							m_LightingPushConstant;
+		LightBuffers									m_LightUBOs;
 
-			std::vector<MeshInstanceTrack>															m_MeshInstTrackContainer;
-			std::map<std::string, InstanceData>														m_MeshInstances;
+		std::array<LightSourceProperties, 1000>			m_LightSourceBuffers;
+		SceneCamera										m_SceneCamera;
+		SceneUniform									m_SceneUBO;
+		Batch3D											m_Batch3D;
+		Instance3D										m_Instance3D;
+		PIPELINE_LIST									m_DeferredPipelines;
+		std::unique_ptr<VulkanPipeline>					m_LightSource;
+		std::array<FBO*, RENDER_TOTAL>					m_FrameBuffers;
+
+
 
 
 	};

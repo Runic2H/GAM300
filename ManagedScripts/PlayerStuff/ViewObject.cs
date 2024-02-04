@@ -7,17 +7,11 @@ public class View_Object : Script
     GameObject ObjectViewer;
     GameObject ObjectViewerCam;
     GameObject ObjectViewerModel;
-    GameObject MainCam;
-
+    
+    //public static string ModelName;
     public static string ObjectName;
     public static bool OnEnter;
     public static bool isExamining;
-
-    //public GameDataManager myGameDataManager;
-    //public Text added;
-
-    TransformComponent target;                     //transform
-
     
     float root_y;
     float rotateValue;
@@ -29,13 +23,17 @@ public class View_Object : Script
 
     public override void Start()
     {
+        // MAKE SURE OBJECT THAT IS ATTACHED IS ACTIVE WHEN STARTING GAME
         Console.WriteLine("Init ObjectViewer\n");
         ObjectViewer        = GameObjectScriptFind("ObjectViewer");
         ObjectViewerCam     = GameObjectScriptFind("ObjectViewerCam");
-        ObjectViewerModel   = GameObjectScriptFind("ObjectViewerModel"); // or should I use ObjectName instead?
-        MainCam             = GameObjectScriptFind("playerCameraObject");
+        ObjectViewerModel   = GameObjectScriptFind("ObjectViewerModel");
+
         ObjectViewer.SetActive(false);
         gameObject.SetActive(false);
+
+        //playercam = MainCam.GetComponent<CameraComponent>();
+        ObjectViewerCam.GetComponent<CameraComponent>().SetFieldOfView(60f);
 
         OnEnter = false;
         isExamining = false;
@@ -44,13 +42,14 @@ public class View_Object : Script
     }
     public override void Update()
     {
-        //var mainCamID = mainCam.GetEntityID();
-        //var examineCamID = examineCam.GetEntityID();
-        //var examineUIID = examineUI.GetEntityID();
         if (OnEnter)
         {
-            // Change Rendering Cam to ObjectViewerCam here
-            // Hide and lock cursor??
+            Console.WriteLine("On Enter");
+            GameObjectScriptFind("InventoryObject").SetActive(false);
+            InventoryScript.InventoryIsOpen = false;
+
+            //ObjectViewerModel.GetComponent<GraphicComponent>().SetModelName(ObjectName); // Not working..
+
             isExamining = true;
             isZoomed = false;
             OnEnter = false;
@@ -58,76 +57,71 @@ public class View_Object : Script
         
         if(isExamining)
         {
+            Console.WriteLine("Examining");
             CheckMouseInput();
             CheckKeyboardInput();
             UpdateCamera();
         }
     }
 
-    public void CheckKeyboardInput() // Need to test
+    public void CheckKeyboardInput() // Keyboard Controls
+
     {
-        // Keyboard Controls
+        //Console.WriteLine("Check Keyboard Input ViewObject");
         if (Input.GetKey(Keycode.A))
         {
-            rotateValue += 1;
+            Console.WriteLine("A pressed");
 
-            if (target.gameObject.GetComponent<NameTagComponent>().GetTag() == "Painting")
-            {
-                //eulerAngles
-                target.SetRotation(new Vector3(0, rotateValue, 0));
-            }
-            else
-            {
-                target.SetRotation(new Vector3(90, 180, rotateValue));
-            }
+            rotateValue += 0.01f;
+            ObjectViewerModel.transform.SetRotation(new Vector3(0, rotateValue, 0));
         }
         else if (Input.GetKey(Keycode.D))
         {
-            rotateValue -= 1;
+            Console.WriteLine("D pressed");
 
-            if (target.gameObject.GetComponent<NameTagComponent>().GetTag() == "Painting")
-            {
-                target.SetRotation(new Vector3(0, rotateValue, 0));
-            }
-            else
-            {
-                target.SetRotation(new Vector3(90, 180, rotateValue));
-            }
+            rotateValue -= 0.01f;
+            ObjectViewerModel.transform.SetRotation(new Vector3(0, rotateValue, 0));
         }
 
         if (Input.GetKey(Keycode.S))
         {
-            if (target.GetPosition().Y > 0.4)
+            Console.WriteLine("S pressed");
+
+            if (ObjectViewerModel.transform.GetPosition().Y > -1.0f)
             {
                 root_y -= 0.01f;
-                target.SetPositionY(root_y);
+                ObjectViewerModel.transform.SetPositionY(root_y);
             }
         }
         else if (Input.GetKey(Keycode.W))
         {
-            if (target.GetPosition().Y < 3.7)
+            Console.WriteLine("W pressed");
+
+            if (ObjectViewerModel.transform.GetPosition().Y < 1.0f)
             {
                 root_y += 0.01f;
-                target.SetPositionY(root_y);
+                ObjectViewerModel.transform.SetPositionY(root_y);
             }
         }
     }
 
-    public void CheckMouseInput()
+    public void CheckMouseInput()  // Mouse Controls
     {
-        // Mouse Controls
+        //Console.WriteLine("Check Mouse Input ViewObject");
         if (Input.GetMouseButtonDown(Keycode.M1)) //left click to zoom
         {
+            Console.WriteLine("Left click pressed");
+
             isZoomed = !isZoomed;
         }
         if (Input.GetMouseButtonDown(Keycode.M2)) //right click to exit
         {
+            Console.WriteLine("Right click pressed");
+
             isExamining = false;
             isZoomed = false;
-            ObjectViewer.SetActive(false);
 
-            // Switch Rendering Cam to MainCam here
-
+            InventoryScript.InventoryIsOpen = true;
             GameObjectScriptFind("InventoryObject").SetActive(true);
             gameObject.SetActive(false);
         }
@@ -135,15 +129,17 @@ public class View_Object : Script
 
     public void UpdateCamera()
     {
+        Console.WriteLine("UpdateCam");
+
         if (isZoomed)
         {
             CameraComponent cam = ObjectViewerCam.GetComponent<CameraComponent>();
-            cam.SetFieldOfView(Mathf.Lerp(cam.GetFieldOfView(), 30, 30 * Time.deltaTime));
+            ObjectViewerCam.GetComponent<CameraComponent>().SetFieldOfView(Mathf.Lerp(cam.GetFieldOfView(), 30, 30 * Time.deltaTime));
         }
         else
         {
             CameraComponent cam = ObjectViewerCam.GetComponent<CameraComponent>();
-            cam.SetFieldOfView(Mathf.Lerp(cam.GetFieldOfView(), 60, 5f * Time.deltaTime));
+            ObjectViewerCam.GetComponent<CameraComponent>().SetFieldOfView(Mathf.Lerp(cam.GetFieldOfView(), 60, 5f * Time.deltaTime));
         }
     }
 }

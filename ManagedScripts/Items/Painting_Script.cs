@@ -26,8 +26,8 @@ public class Painting_Script : Script
         //voClip[0].setFilePath("pc_stealpainting1");
         //voClip[1].setFilePath("pc_shinelightafterreceipt"); //This one should be items VO
         //_color.a = 1;
-        timer = 1.0f;
-        Console.WriteLine("Painting script");
+        //timer = 1.0f;
+        //Console.WriteLine("Painting script");
     }
 
     public override void Start()
@@ -52,6 +52,6 @@ public class Painting_Script : Script
         Vector3 playerPos = playerObject.transform.GetPosition();
         float distance = Vector3.Distance(itemPos, playerPos);
         Console.WriteLine(distance);
-        return distance < 5.0;
+        return distance < 100.0;
     }
 }

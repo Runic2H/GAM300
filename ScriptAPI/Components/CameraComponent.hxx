@@ -41,6 +41,8 @@ namespace ScriptAPI
 		virtual void SetEnabled(bool enabled);
 		virtual bool GetEnabled();
 
+		//void SetGameCamera(CameraComponent camera);
+
 		TransformComponent transform;
 		GameObject^ gameObject;
 

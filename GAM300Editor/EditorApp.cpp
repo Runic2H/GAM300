@@ -37,6 +37,7 @@
 #include "Input/InputSystem.h"
 #include "Rendering/GridRenderer.h"
 #include "Tools/Pathfinder.h"
+#include "MessagingSystem/MessageSystem.h"
 
 bool isPlaying = false;
 bool gamePaused = false;
@@ -120,26 +121,23 @@ namespace TDS
 
             // Input System Stuff
             case WM_INPUT: {
+               
                 RAWINPUT rawInput;
                 UINT size = sizeof(RAWINPUT);
 
                 GetRawInputData((HRAWINPUT)lParam, RID_INPUT, &rawInput, &size, sizeof(RAWINPUTHEADER));
 
                 if (rawInput.header.dwType == RIM_TYPEMOUSE) {
+
                     // Process mouse input
                     TDS::InputSystem::GetInstance()->setRawMouseInput(rawInput.data.mouse.lLastX, rawInput.data.mouse.lLastY);
-                }
 
-                if (TDS::InputSystem::GetInstance()->getMouseLock())
-                {
-                    HWND activeWindow = GetForegroundWindow();
-                    if (activeWindow != nullptr) {
-                        RECT windowRect;
-                        if (GetWindowRect(activeWindow, &windowRect)) {
-                            TDS::InputSystem::GetInstance()->setWindowCenter((windowRect.left + windowRect.right) / 2, (windowRect.top + windowRect.bottom) / 2);
-                        }
-                    }
-                    TDS::InputSystem::GetInstance()->lockMouseCenter(hWnd);
+                    // Accumulate the X-axis mouse movement
+                    InputSystem::GetInstance()->accumulatedMouseX += rawInput.data.mouse.lLastX;
+
+                    // Accumulate the Y-axis mouse movement
+                    InputSystem::GetInstance()->accumulatedMouseY += rawInput.data.mouse.lLastY;
+
                 }
 
             }break;
@@ -152,6 +150,18 @@ namespace TDS
                 GetCursorPos(&p);
                 ScreenToClient(GetActiveWindow(), &p);
                 InputSystem::GetInstance()->setLocalMousePos(p.x, p.y);
+                if (TDS::InputSystem::GetInstance()->getMouseLock())
+                {
+                    HWND activeWindow = GetForegroundWindow();
+                    if (activeWindow != nullptr) {
+                        RECT windowRect;
+                        if (GetWindowRect(activeWindow, &windowRect)) {
+                            TDS::InputSystem::GetInstance()->setWindowCenter((windowRect.left + windowRect.right) / 2, (windowRect.top + windowRect.bottom) / 2);
+                        }
+                    }
+                    TDS::InputSystem::GetInstance()->lockMouseCenter(hWnd);
+                }
+
             }break;
         }
     }
@@ -168,16 +178,9 @@ namespace TDS
         ShaderReflector::GetInstance()->Init(SHADER_DIRECTORY, REFLECTED_BIN);
         GraphicsManager::getInstance().Init(&m_window);
         AssetManager::GetInstance()->PreloadAssets();
-        skyboxrender.Init();
-
-        //register the grid
-        for (size_t i = 0; i < pathfinder.GetGrid().size(); ++i)
-        {
-            for (size_t j = 0; j < pathfinder.GetGrid()[i].size(); ++j)
-            {
-                // do some RegisterEntity using pathfinder.GetGrid()[i][j].get();
-            }
-        }
+        //skyboxrender.Init();
+        GraphicsManager::getInstance().GetDebugRenderer().Init();
+        GraphicsManager::getInstance().InitSkyBox();
 
         // Raw Input for Mouse Movement
         RAWINPUTDEVICE rid;
@@ -188,6 +191,15 @@ namespace TDS
 
         if (RegisterRawInputDevices(&rid, 1, sizeof(RAWINPUTDEVICE)) == FALSE) {
             std::cout << "Mouse Failed to Register" << std::endl;
+        }
+
+        //register the grid
+        for (size_t i = 0; i < pathfinder.GetGrid().size(); ++i)
+        {
+            for (size_t j = 0; j < pathfinder.GetGrid()[i].size(); ++j)
+            {
+                // do some RegisterEntity using pathfinder.GetGrid()[i][j].get();
+            }
         }
     }
 
@@ -235,7 +247,7 @@ namespace TDS
                 "ScriptAPI.EngineInterface",
                 "ToggleScriptViaName"
             );
-
+        GraphicsManager::getInstance().m_EditorRender = &imguiHelper::Draw;
         initImgui();
         float lightx = 0.f;
 
@@ -272,20 +284,17 @@ namespace TDS
             Vec3 m_windowdimension{ static_cast<float>(m_window.getWidth()), static_cast<float>(m_window.getHeight()), 1.f };
             if (GraphicsManager::getInstance().getFrameBuffer().getDimensions() != m_windowdimension && m_windowdimension.x > 0 && m_windowdimension.y > 0)
             {
-                GraphicsManager::getInstance().getFrameBuffer().resize(m_windowdimension, GraphicsManager::getInstance().getRenderPass().getRenderPass());
+                BROADCAST_MESSAGE("Resize Event", m_window.getWidth(), m_window.getHeight());
+                /*GraphicsManager::getInstance().getFrameBuffer().resize(m_windowdimension, GraphicsManager::getInstance().getRenderPass().getRenderPass());*/
                 std::shared_ptr<EditorScene> pScene = static_pointer_cast<EditorScene>(LevelEditorManager::GetInstance()->panels[SCENE]);
                 pScene->Resize();
 
                 std::shared_ptr<GamePlayScene> pGamePlatScene = static_pointer_cast<GamePlayScene>(LevelEditorManager::GetInstance()->panels[GAMEPLAYSCENE]);
                 pGamePlatScene->Resize();
-            }
-            GraphicsManager::getInstance().StartFrame();
-            VkCommandBuffer commandBuffer = GraphicsManager::getInstance().getCommandBuffer();
-            std::uint32_t frame = GraphicsManager::getInstance().GetSwapchainRenderer().getFrameIndex();
 
-            GraphicsManager::getInstance().getRenderPass().beginRenderPass(commandBuffer, &GraphicsManager::getInstance().getFrameBuffer());
-            if (GraphicsManager::getInstance().IsViewingFrom2D() == false)
-                skyboxrender.RenderSkyBox(commandBuffer, frame);
+
+            }
+
 
             //render grid
             //gridrender.Render(commandBuffer, frame);
@@ -328,21 +337,32 @@ namespace TDS
                 }
             }
             ecs.runSystems(2, DeltaTime); // Event handler
-            ecs.runSystems(3, DeltaTime); // Graphics
-         
-            imguiHelper::Update();
+            if (GraphicsManager::getInstance().IsRenderOn())
+            {
+                GraphicsManager::getInstance().StartFrame();
 
-            // event handling systems 
-            GraphicsManager::getInstance().getRenderPass().endRenderPass(commandBuffer);
 
-            //GraphicsManager::getInstance().getObjectPicker().Update(commandBuffer, frame, Vec2( Input::getMousePosition().x, Input::getMousePosition().y ));
-            GraphicsManager::getInstance().getObjectPicker().Update(commandBuffer, frame, InputSystem::GetInstance()->getLocalMousePos());
-            GraphicsManager::getInstance().GetSwapchainRenderer().BeginSwapChainRenderPass(commandBuffer);
+                ecs.runSystems(3, DeltaTime);
 
-            imguiHelper::Draw(commandBuffer);
+                imguiHelper::Update();
 
-            GraphicsManager::getInstance().GetSwapchainRenderer().EndSwapChainRenderPass(commandBuffer);
-            GraphicsManager::getInstance().EndFrame();
+                // event handling systems 
+                //GraphicsManager::getInstance().getRenderPass().endRenderPass(commandBuffer);
+
+
+
+                //VkCommandBuffer commandBuffer = GraphicsManager::getInstance().getCommandBuffer();
+                //std::uint32_t frame = GraphicsManager::getInstance().GetSwapchainRenderer().getFrameIndex();
+     /*           GraphicsManager::getInstance().getObjectPicker().Update(commandBuffer, frame, Vec2( Input::getMousePosition().x, Input::getMousePosition().y ));*/
+               /* GraphicsManager::getInstance().GetSwapchainRenderer().BeginSwapChainRenderPass(commandBuffer);*/
+
+          /*      imguiHelper::Draw(commandBuffer);*/
+
+                GraphicsManager::getInstance().DrawFrame();
+
+                /*GraphicsManager::getInstance().GetSwapchainRenderer().EndSwapChainRenderPass(commandBuffer);*/
+                GraphicsManager::getInstance().EndFrame();
+            }
             // Reloading
             if (GetKeyState(VK_F5) & 0x8000)
             {
@@ -355,6 +375,8 @@ namespace TDS
 
             Input::scrollStop();
             TDS::InputSystem::GetInstance()->setRawMouseInput(0, 0);
+            InputSystem::GetInstance()->accumulatedMouseX = 0;
+            InputSystem::GetInstance()->accumulatedMouseY = 0;
         }
         stopScriptEngine();
       
@@ -369,8 +391,7 @@ namespace TDS
         }
         imguiHelper::Exit();
         ecs.destroy();
-        
-        skyboxrender.ShutDown();
+       
         GraphicsManager::getInstance().ShutDown();
         DDSConverter::Destroy();
         //shutdown grid

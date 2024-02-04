@@ -8,7 +8,7 @@ namespace ScriptAPI {
 	public:
 		float getColourAlpha();
 		void SetColourAlpha(float value);
-
+		void SetModelName(System::String^);
 		virtual TDS::EntityID GetEntityID();
 		virtual void SetEntityID(TDS::EntityID);
 
@@ -23,7 +23,6 @@ namespace ScriptAPI {
 
 	private:
 		TDS::EntityID entityID;
-		
 		property Vector4 Color {
 			Vector4 get();
 			void set(Vector4 value);

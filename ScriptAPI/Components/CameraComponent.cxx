@@ -192,6 +192,7 @@ namespace ScriptAPI
 	void CameraComponent::SetFieldOfView(float value)
 	{
 		FieldOfView = value;
+		TDS::GetCameraComponent(entityID)->setFOV(value);
 	}
 
 	// MOUSESENSITIVITY ======================================================================
@@ -310,4 +311,15 @@ namespace ScriptAPI
 	{
 		return TDS::getComponentIsEnable("Camera Component", GetEntityID());
 	}
+
+	/*void CameraComponent::SetGameCamera(CameraComponent camera)
+	{
+		TDS::GetCameraComponent(entityID)->setYaw(camera.GetYaw());
+		TDS::GetCameraComponent(entityID)->setPitch(camera.GetPitch());
+		TDS::GetCameraComponent(entityID)->setPosition(TDS::Vec3(camera.transform.GetPosition().X,
+			camera.transform.GetPosition().Y, camera.transform.GetPosition().Z));
+		TDS::GetCameraComponent(entityID)->setSpeed(camera.GetSpeed());
+		TDS::GetCameraComponent(entityID)->setFOV(camera.GetFieldOfView());
+		TDS::GetCameraComponent(entityID)->setMouseSensitivity(camera.GetMouseSensitivity());
+	}*/
 }

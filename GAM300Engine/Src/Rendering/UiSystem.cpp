@@ -1,7 +1,6 @@
 #include "Rendering/UiSystem.h"
 #include "components/components.h"
 #include "Rendering/Renderer2D.h"
-#include "Rendering/FontSystem.h"
 #include "Rendering/FontRenderer.h"
 #include "Rendering/GraphicsManager.h"
 #include "vulkanTools/Renderer.h"
@@ -19,14 +18,16 @@ namespace TDS
 	}
 	void UiSystem::Update(const float dt, const std::vector<EntityID>& entities, Transform* transform, UISprite* _Sprite)
 	{
-		
+
 		if (_Sprite == nullptr)
 			return;
 
+		auto& mgr = GraphicsManager::getInstance();
+
 		auto frame = GraphicsManager::getInstance().GetSwapchainRenderer().getFrameIndex();
 		auto cmdBuffer = GraphicsManager::getInstance().getCommandBuffer();
-		FontBatch& Fontbatch = FontRenderer::GetInstance()->GetBatchList();
-		SpriteBatch& Spritebatch = Renderer2D::GetInstance()->GetBatchList();
+		FontBatch& Fontbatch = mgr.GetFontRenderer()->GetBatchList();
+		SpriteBatch& Spritebatch = mgr.GetRenderer2D()->GetBatchList();
 		for (size_t i = 0; i < entities.size(); ++i)
 		{
 			//UpdatePropertiesFromParent(entities[i]);
@@ -61,7 +62,7 @@ namespace TDS
 
 		}
 		//TDS_INFO(Input::getLocalMousePos());
-		Spritebatch.PrepareBatch();
+	/*	Spritebatch.PrepareBatch();
 		Fontbatch.PrepareBatch();
 
 		Renderer2D::GetInstance()->Update(cmdBuffer, frame);
@@ -71,7 +72,7 @@ namespace TDS
 		FontRenderer::GetInstance()->Draw(cmdBuffer, frame);
 
 		Spritebatch.Clear();
-		Fontbatch.Clear();
+		Fontbatch.Clear();*/
 
 
 		/*if (_Sprite->m_IsFont)
@@ -139,7 +140,7 @@ namespace TDS
 		if (sprite == nullptr) return;
 
 		UpdateDescendantsActiveness(current, sprite->m_EnableSprite);
-		
+
 	}
 
 	bool UiSystem::IsDirectChildOfMainParent(EntityID entity)
@@ -160,7 +161,7 @@ namespace TDS
 	void UiSystem::UpdateDescendantsActiveness(EntityID parent, bool isActive)
 	{
 		auto parentTag = ecs.getComponent<NameTag>(parent);
-		
+
 
 		if (parentTag == nullptr)
 			return;
@@ -178,7 +179,7 @@ namespace TDS
 
 			if (childTag != nullptr)
 			{
-				
+
 				UpdateDescendantsActiveness(child, isActive);
 			}
 		}

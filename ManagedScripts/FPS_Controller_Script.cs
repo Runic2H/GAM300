@@ -1,5 +1,6 @@
 ﻿using ScriptAPI;
 using System;
+using System.ComponentModel;
 
 public class FPS_Controller_Script : Script
 {
@@ -16,7 +17,7 @@ public class FPS_Controller_Script : Script
     public float fov = 60f;
     public bool invertCamera = false;
     public bool cameraCanMove = true;
-    public float mouseSensitivity = 2f;
+    public float mouseSensitivity = 2.0f;
     public float maxLookAngle = 50f;
 
     // Crosshair
@@ -54,7 +55,7 @@ public class FPS_Controller_Script : Script
     #region Sprint
     public bool enableSprint = true;
     public bool unlimitedSprint = false;
-    public uint sprintKey = Keycode.SHIFT;
+    public uint sprintKey = Keycode.LSHIFT;
     public float sprintSpeed = 3f;
     public float currentSprintSpeed;
     public float sprintDuration = 5f;
@@ -188,78 +189,6 @@ public class FPS_Controller_Script : Script
     {
         cameraCanMove = !InventoryScript.InventoryIsOpen;
         playerCanMove = !InventoryScript.InventoryIsOpen;
-
-        #region Camera
-        if (cameraCanMove)
-        {
-            if (Input.GetAxisX() != 0 || Input.GetAxisY() != 0)
-            {
-                yaw = transform.GetRotation().Y + Input.GetAxisX() * mouseSensitivity;
-
-                if (!invertCamera)
-                {
-                    pitch -= mouseSensitivity * Input.GetAxisY();
-                }
-                else
-                {
-                    // Inverted Y
-                    pitch += mouseSensitivity * Input.GetAxisY();
-                }
-
-                // Clamp pitch between lookAngle
-                pitch = Mathf.Clamp(pitch, -maxLookAngle, maxLookAngle);
-
-                transform.SetRotationY(yaw);
-                playerCamera.transform.SetRotationX(pitch);
-                playerCamera.transform.SetRotationY(transform.GetRotation().Y);
-            }
-        }
-
-
-        #region Camera Zoom
-        if (enableZoom)
-        {
-            // Changes isZoomed when key is pressed
-            // Behavior for toogle zoom
-            if (Input.GetKeyDown(zoomKey) && !holdToZoom && !isSprinting)
-            {
-                if (!isZoomed)
-                {
-                    isZoomed = true;
-                }
-                else
-                {
-                    isZoomed = false;
-                }
-            }
-
-            // Changes isZoomed when key is pressed
-            // Behavior for hold to zoom
-            if (holdToZoom && !isSprinting)
-            {
-                if (Input.GetKeyDown(zoomKey))
-                {
-                    isZoomed = true;
-                }
-                else if (Input.GetKeyUp(zoomKey))
-                {
-                    isZoomed = false;
-                }
-            }
-
-            // Lerps camera.fieldOfView to allow for a smooth transistion
-            if (isZoomed)
-            {
-                playerCamera.SetFieldOfView(Mathf.Lerp(playerCamera.GetFieldOfView(), zoomFOV, zoomStepTime * Time.deltaTime));
-            }
-            else if (!isZoomed && !isSprinting)
-            {
-                playerCamera.SetFieldOfView(Mathf.Lerp(playerCamera.GetFieldOfView(), fov, zoomStepTime * Time.deltaTime));
-            }
-        }
-
-        #endregion
-        #endregion
 
         #region Sprint
 
@@ -417,7 +346,7 @@ public class FPS_Controller_Script : Script
                     }
                 }
                 // this is the command to move the object, modify the variable if needed for too slow/fast
-                gameObject.GetComponent<RigidBodyComponent>().SetLinearVelocity(velocityChange * 100);
+                gameObject.GetComponent<RigidBodyComponent>().SetLinearVelocity(velocityChange * 50);
             }
             // All movement calculations while walking
             else
@@ -439,7 +368,7 @@ public class FPS_Controller_Script : Script
                 velocityChange.Y = 0;
 
                 // this is the command to move the object, modify the variable if needed for too slow/fast
-                gameObject.GetComponent<RigidBodyComponent>().SetLinearVelocity(velocityChange * 100);
+                gameObject.GetComponent<RigidBodyComponent>().SetLinearVelocity(velocityChange * 50);
 
             }
 
@@ -489,6 +418,81 @@ public class FPS_Controller_Script : Script
 
 
         //}
+        #endregion
+    }
+
+    public override void LateUpdate()
+    {
+        #region Camera
+        if (cameraCanMove)
+        {
+            if (Input.GetAxisX() != 0 || Input.GetAxisY() != 0)
+            {
+                Console.WriteLine(Input.GetRawAxisX() + "," + Input.GetAxisX());
+                yaw = transform.GetRotation().Y + Input.GetAxisX() * Input.GetSensitivity() * mouseSensitivity;
+                if (!invertCamera)
+                {
+                    pitch -= Input.GetAxisY() * Input.GetSensitivity() * mouseSensitivity;
+                }
+                else
+                {
+                    // Inverted Y
+                    pitch += Input.GetAxisY() * Input.GetSensitivity() * mouseSensitivity;
+                }
+
+                // Clamp pitch between lookAngle
+                pitch = Mathf.Clamp(pitch, -maxLookAngle, maxLookAngle);
+
+                transform.SetRotation(Vector3.Up() * yaw);
+                playerCamera.transform.SetRotationX(pitch);
+                playerCamera.transform.SetRotationY(transform.GetRotation().Y);
+            }
+        }
+
+
+        #region Camera Zoom
+        if (enableZoom)
+        {
+            // Changes isZoomed when key is pressed
+            // Behavior for toogle zoom
+            if (Input.GetKeyDown(zoomKey) && !holdToZoom && !isSprinting)
+            {
+                if (!isZoomed)
+                {
+                    isZoomed = true;
+                }
+                else
+                {
+                    isZoomed = false;
+                }
+            }
+
+            // Changes isZoomed when key is pressed
+            // Behavior for hold to zoom
+            if (holdToZoom && !isSprinting)
+            {
+                if (Input.GetKeyDown(zoomKey))
+                {
+                    isZoomed = true;
+                }
+                else if (Input.GetKeyUp(zoomKey))
+                {
+                    isZoomed = false;
+                }
+            }
+
+            // Lerps camera.fieldOfView to allow for a smooth transistion
+            if (isZoomed)
+            {
+                playerCamera.SetFieldOfView(Mathf.Lerp(playerCamera.GetFieldOfView(), zoomFOV, zoomStepTime * Time.deltaTime));
+            }
+            else if (!isZoomed && !isSprinting)
+            {
+                playerCamera.SetFieldOfView(Mathf.Lerp(playerCamera.GetFieldOfView(), fov, zoomStepTime * Time.deltaTime));
+            }
+        }
+
+        #endregion
         #endregion
     }
 

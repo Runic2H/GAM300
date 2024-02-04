@@ -26,7 +26,7 @@
 // Physics includes
 #include "Physics/JPHLayers.h"
 #include "Physics/ContactListenerImpl.h"
-
+#include "Physics/CollisionCollectorImpl.h"
 #include "JoltPhysics/Utils/JoltConversionUtils.h"
 
  // Jolt includes
@@ -41,6 +41,10 @@
 #include <Jolt/Physics/Collision/Shape/CapsuleShape.h>
 #include <Jolt/Physics/Body/BodyCreationSettings.h>
 #include <Jolt/Physics/Body/BodyActivationListener.h>
+#include <Jolt/Physics/Collision/RayCast.h>
+#include <Jolt/Physics/Collision/CastResult.h>
+#include <Jolt/Physics/Collision/BroadPhase/BroadPhase.h>
+
 
 JPH_SUPPRESS_WARNINGS
 
@@ -75,7 +79,8 @@ namespace TDS
 
 		static void JPH_SystemUpdate(Transform* _transform, RigidBody* _rigidbody);
 		static void JPH_CreateBodyID(const EntityID& entities, Transform* _transform, RigidBody* _rigidbody);
-
+		static void JPH_PreRaycast(const EntityID& entities, Transform* _transform, RigidBody* _rigidbody);
+		static void JPH_PostRaycast(const EntityID& entities, Transform* _transform, RigidBody* _rigidbody);
 	private:
 		// TDS Physics System
 		static const double fixedDt;
@@ -92,6 +97,7 @@ namespace TDS
 		static std::unique_ptr<JPH::TempAllocatorImpl>		m_pTempAllocator;
 		static std::unique_ptr<JPH::JobSystemThreadPool>	m_pJobSystem;
 		static MyContactListener*							contact_listener;
+		static std::unique_ptr<JPH::AllHitCollisionCollector<RayCastBodyCollector>> collector;
 
 
 	};

@@ -112,11 +112,16 @@
     <ClCompile Include="Src\GraphicsResource\Revamped\MeshController.cpp" />
     <ClCompile Include="Src\Rendering\Revamped\DeferredController.cpp" />
     <ClCompile Include="Src\Rendering\Revamped\MaterialPipeline.cpp" />
-    <ClCompile Include="Src\Rendering\Revamped\FrameBufferObjects\FBO.cpp" />
-    <ClCompile Include="Src\Rendering\Revamped\FrameBufferObjects\GBuffer.cpp" />
-    <ClCompile Include="Src\Rendering\Revamped\FrameBufferObjects\OmniShadowPass.cpp" />
-    <ClCompile Include="Src\Rendering\Revamped\FrameBufferObjects\ShadowMapPass.cpp" />
     <ClCompile Include="Src\Input\InputSystem.cpp" />
+    <ClCompile Include="Src\MessagingSystem\MessageSystem.cpp" />
+    <ClCompile Include="Src\Rendering\Revamped\LightingBuffer.cpp" />
+    <ClCompile Include="Src\Rendering\Revamped\FrameBuffers\CompositionPass.cpp" />
+    <ClCompile Include="Src\Rendering\Revamped\FrameBuffers\DebugView.cpp" />
+    <ClCompile Include="Src\Rendering\Revamped\FrameBuffers\FrameBufferObject.cpp" />
+    <ClCompile Include="Src\Rendering\Revamped\FrameBuffers\G_Buffer.cpp" />
+    <ClCompile Include="Src\components\PointLightComponent.cpp" />
+    <ClCompile Include="Src\components\DirLightComponent.cpp" />
+    <ClCompile Include="Src\components\SpotLightComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Shared_Libs\MathCommon.h" />
@@ -268,14 +273,18 @@
     <ClInclude Include="Include\GraphicsResource\Revamped\ModelPack.h" />
     <ClInclude Include="Include\Rendering\Revamped\DeferredController.h" />
     <ClInclude Include="Include\Rendering\Revamped\MaterialPipeline.h" />
-    <ClInclude Include="Include\Rendering\Revamped\FrameBufferObjects\FBO.h" />
-    <ClInclude Include="Include\Rendering\Revamped\FrameBufferObjects\FBOInternal.h" />
-    <ClInclude Include="Include\Rendering\Revamped\FrameBufferObjects\GBuffer.h" />
-    <ClInclude Include="Include\Rendering\Revamped\FrameBufferObjects\OmniShadowPass.h" />
-    <ClInclude Include="Include\Rendering\Revamped\FrameBufferObjects\ShadowMapPass.h" />
-    <ClInclude Include="Include\Rendering\Revamped\FrameBufferObjects\LightingPass.h" />
     <ClInclude Include="Include\AssetManagement\Revamped\MeshFactory.h" />
     <ClInclude Include="Include\Input\InputSystem.h" />
+    <ClInclude Include="Include\MessagingSystem\MessageSystem.h" />
+    <ClInclude Include="Include\Rendering\Revamped\FrameBuffers\CompositionPass.h" />
+    <ClInclude Include="Include\Rendering\Revamped\FrameBuffers\FrameBufferObject.h" />
+    <ClInclude Include="Include\Rendering\Revamped\FrameBuffers\DebugView.h" />
+    <ClInclude Include="Include\Rendering\Revamped\FrameBuffers\G_Buffer.h" />
+    <ClInclude Include="Include\Rendering\Revamped\FrameBuffers\LightingBuffer.h" />
+    <ClInclude Include="Include\components\PointLightComponent.h" />
+    <ClInclude Include="Include\components\DirLightComponent.h" />
+    <ClInclude Include="Include\components\CompReflectionMacro.h" />
+    <ClInclude Include="Include\components\SpotLightComponent.h" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Include\Logger\Logger.h" />

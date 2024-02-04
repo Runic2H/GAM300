@@ -5,9 +5,10 @@
 namespace TDS
 {
 
-	enum class MATERIAL_PIPELINE
+	enum class MATERIAL_TYPE
 	{
-		PBR_RENDERER = 0
+		PHONG_BLING = 0,
+		PBR_RENDERER
 	};
 
 	class VulkanPipeline;
@@ -27,38 +28,5 @@ namespace TDS
 		MaterialMapList						m_MaterialList;
 	};
 
-
-
-
-	class PBRMaterial : public MaterialBase
-	{
-	private:
-		struct PBRinfo
-		{
-			Vec4			m_Albedo;
-
-			float			m_Metalness = 0.2f;
-			float			m_Roughness = 1.f;
-			float			m_Emissive = 1.f;
-			int				m_UseMaterialTexture;
-
-			std::uint32_t	m_AlbedoTexID;
-			std::uint32_t	m_MetallicTexID;
-			std::uint32_t	m_RoughnessTexID;
-			std::uint32_t	m_AOTexID;
-
-			Vec4			m_NormalMetallicID; // x = normal, y = metallic
-
-		};
-
-	public:
-		PBRMaterial();
-		virtual ~PBRMaterial();
-		virtual void						BuildMaterialPipeline();
-
-
-
-
-	};
 
 }

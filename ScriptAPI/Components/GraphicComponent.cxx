@@ -27,6 +27,12 @@ namespace ScriptAPI {
 		Color = Vector4(r, g, b, value);
 	}
 
+	void GraphicComponent::SetModelName(System::String^ name)
+	{
+		
+		TDS::GetGraphicsComponent(entityID)->SetModelName(toStdString(name));
+	}
+
 	TDS::EntityID GraphicComponent::GetEntityID() 
 	{
 		return entityID;

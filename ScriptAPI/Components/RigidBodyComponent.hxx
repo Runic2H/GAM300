@@ -50,6 +50,9 @@ namespace ScriptAPI
 		void SetGravityFactor(float inGravityFactor);
 		float GetGravityFactor();
 
+		// Raycasting (Scripting)
+		bool IsRayHit();
+
 		virtual TDS::EntityID GetEntityID();
 		virtual void SetEntityID(TDS::EntityID ID);
 

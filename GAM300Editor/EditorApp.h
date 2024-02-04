@@ -76,7 +76,7 @@ namespace TDS
 			Mat4 proj;
 		};
 		
-		SkyBoxRenderer skyboxrender{};
+		//SkyBoxRenderer skyboxrender{};
 		//commented out as grid cannot render:
 		//GridRenderer gridrender{};
 		//GridManagerBase gridmanager{};

@@ -4,7 +4,7 @@
 #include "MathCommon.h"
 namespace TDS
 {
-	
+
 
 #define ADD_MATERIAL_TYPE(x, y) MATERIAL_##x = y,
 
@@ -37,13 +37,13 @@ namespace TDS
 	typedef enum : std::uint16_t
 	{
 		DEFINE_MATERIAL_TYPE_LIST
-	} 
-	MATERIAL_TYPE;
+	}
+	MATERIAL_PROPERTIES;
 
 
-	#undef ADD_MATERIAL_TYPE
+#undef ADD_MATERIAL_TYPE
 
-	#define ADD_MATERIAL_TYPE(x, y)\
+#define ADD_MATERIAL_TYPE(x, y)\
 		materialMapList[y] = #x;
 
 	struct MaterialMapList
@@ -58,7 +58,7 @@ namespace TDS
 				return materialMapList;
 		}
 	};
-	
+
 
 	struct MaterialInfo
 	{

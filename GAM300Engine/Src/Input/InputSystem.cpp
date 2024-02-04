@@ -5,6 +5,7 @@ namespace TDS
 {
 	// Unique pointer to instance of Scene
 	std::unique_ptr<InputSystem> InputSystem::m_instance;
+	Vec2 InputSystem::m_uiMousePos;
 
 	InputSystem::InputSystem()
 	{
@@ -207,7 +208,8 @@ namespace TDS
 		//	return 1;
 		//}
 		//return 0;
-		return Mathf::Clamp(m_rawMouseInput.x, -1, 1);
+		//return Mathf::Clamp(m_rawMouseInput.x, -1, 1);
+		return accumulatedMouseX;
 	}
 
 	int InputSystem::getAxisY()
@@ -221,7 +223,8 @@ namespace TDS
 		//	return 1;
 		//}
 		//return 0;
-		return Mathf::Clamp(m_rawMouseInput.y, -1, 1);
+		//return Mathf::Clamp(m_rawMouseInput.y, -1, 1);
+		return accumulatedMouseY;
 	}
 
 	int InputSystem::getHorizontalAxis()
@@ -305,5 +308,20 @@ namespace TDS
 	short& InputSystem::getWheelDelta()
 	{
 		return wheelDelta;
+	}
+
+	void InputSystem::setUIMousePos(Vec2 mousePos)
+	{
+		m_uiMousePos = mousePos;
+	}
+
+	float InputSystem::getUIMousePosX()
+	{
+		return m_uiMousePos.x;
+	}
+
+	float InputSystem::getUIMousePosY()
+	{
+		return m_uiMousePos.y;
 	}
 }

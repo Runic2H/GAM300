@@ -1,12 +1,12 @@
 #include "Rendering/ObjectPicking.h"
 #include "Rendering/GraphicsManager.h"
 #include "vulkanTools/Renderer.h"
-#include "Input/Input.h"
-
+#include "Rendering/Revamped/DeferredController.h"
+#include "Rendering/Revamped/FrameBuffers/G_Buffer.h"
 namespace TDS
 {
-	
-	ObjectPick::ObjectPick(std::shared_ptr<VulkanInstance> inst,Vec3 resolution)
+
+	ObjectPick::ObjectPick(std::shared_ptr<VulkanInstance> inst, Vec3 resolution)
 	{
 		CreatePickObj(inst, resolution);
 
@@ -26,7 +26,7 @@ namespace TDS
 
 
 		m_PickBuffer = std::make_shared<VMABuffer>();
-		m_PickBuffer->CreateBuffer(sizeof(PickStruct), VK_BUFFER_USAGE_STORAGE_BUFFER_BIT, VMA_MEMORY_USAGE_GPU_TO_CPU,&pickStr);
+		m_PickBuffer->CreateBuffer(sizeof(PickStruct), VK_BUFFER_USAGE_STORAGE_BUFFER_BIT, VMA_MEMORY_USAGE_GPU_TO_CPU, &pickStr);
 
 		m_PickPipeline->Create(ObjectPickEntry);
 
@@ -47,8 +47,10 @@ namespace TDS
 	void ObjectPick::Update(VkCommandBuffer commandBuffer, uint32_t frameIndex, Vec2 mousePosition)
 	{
 
+		auto GBuffer = GraphicsManager::getInstance().GetDeferredController()->GetFrameBuffer(RENDER_PASS::RENDER_G_BUFFER);
+		auto pickTarget = GBuffer->GetTargets().at(1);
 		Synchronization m_ReadSync2{ SYNCTYPE::GRAPHIC2COMPUTE,VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT };
-		m_ReadSync2.addImageBarrier(SYNCATTACHMENT::COLOR, GraphicsManager::getInstance().getPickImage().getImage(), GraphicsManager::getInstance().getPickImage().getImageSubResourceRange(),
+		m_ReadSync2.addImageBarrier(SYNCATTACHMENT::COLOR, pickTarget->getImage(), pickTarget->getImageSubResourceRange(),
 			VK_IMAGE_LAYOUT_GENERAL, VK_IMAGE_LAYOUT_GENERAL, VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT, VK_ACCESS_SHADER_READ_BIT | VK_ACCESS_SHADER_WRITE_BIT);
 		m_ReadSync2.syncBarrier(commandBuffer);
 		float mX = GraphicsManager::getInstance().getViewportScreen().x;
@@ -59,10 +61,6 @@ namespace TDS
 		float xClipped = (mousePosition.x - mX) / (mWidth);
 		float yClipped = ((mousePosition.y - mY) - (GraphicsManager::getInstance().getOffset() - mHeight)) / (mHeight);
 
-		//accessing objectpick coordinates for pathfinding test in GhostPathfinding.cs
-		//Input::final_x_pos = xClipped;
-		//Input::final_y_pos = yClipped;
-		 
 		IDReadCompute idreadPush{};
 		idreadPush.mouseRelativeCoord = { xClipped, yClipped };
 		//std::cout << idreadPush.mouseRelativeCoord.y << std::endl;
@@ -71,10 +69,10 @@ namespace TDS
 		pickubo.Projection = Mat4::Perspective(GraphicsManager::getInstance().GetCamera().m_Fov * Mathf::Deg2Rad,
 			GraphicsManager::getInstance().GetSwapchainRenderer().getAspectRatio(), 0.1f, 10.f);
 		pickubo.Projection.m[1][1] *= -1;
-		
 
-		VkDescriptorImageInfo pickAttachment = GraphicsManager::getInstance().getPickImage().getImageInfoDescriptor();
-		
+
+		VkDescriptorImageInfo pickAttachment = pickTarget->getImageInfoDescriptor();
+
 		m_PickPipeline->SetCommandBuffer(commandBuffer);
 		m_PickPipeline->BindComputePipeline();
 		m_PickPipeline->SubmitPushConstant(&idreadPush, sizeof(IDReadCompute), SHADER_FLAG::COMPUTE_SHADER);
@@ -82,15 +80,15 @@ namespace TDS
 		m_PickPipeline->UpdateUBO(&pickStr, sizeof(PickStruct), 9, frameIndex, 0, true);
 
 		m_PickPipeline->UpdateDescriptor(pickAttachment, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 3);
-		
-		m_PickPipeline->UpdateUBO(&pickubo, sizeof(PickUBO),5, frameIndex);
-		
+
+		m_PickPipeline->UpdateUBO(&pickubo, sizeof(PickUBO), 5, frameIndex);
+
 		m_PickPipeline->DispatchCompute(1, 1, 1);
 	}
 	void ObjectPick::resize(Vec3 newSize)
 	{
 		m_PickFrameBuffer->resize(newSize, m_PickRenderPass->getRenderPass());
-	
+
 	}
 	void ObjectPick::beginRenderPass(VkCommandBuffer commandbuffer)
 	{
@@ -100,7 +98,7 @@ namespace TDS
 	{
 		m_PickRenderPass->endRenderPass(commandbuffer);
 	}
-	void ObjectPick::CreatePickObj(std::shared_ptr<VulkanInstance> inst,Vec3 resolution)
+	void ObjectPick::CreatePickObj(std::shared_ptr<VulkanInstance> inst, Vec3 resolution)
 	{
 		m_PickRenderTarget = new RenderTarget(inst,
 			{
@@ -117,7 +115,7 @@ namespace TDS
 
 		std::vector<AttachmentInfo> attachmentInfos{};
 
-		attachmentInfos.push_back({m_PickRenderTarget, VK_ATTACHMENT_LOAD_OP_CLEAR, VK_ATTACHMENT_STORE_OP_STORE });
+		attachmentInfos.push_back({ m_PickRenderTarget, VK_ATTACHMENT_LOAD_OP_CLEAR, VK_ATTACHMENT_STORE_OP_STORE });
 
 		m_PickRenderPass = new RenderPass(inst->getVkLogicalDevice(), attachmentInfos);
 		m_PickFrameBuffer = new FrameBuffer(inst->getVkLogicalDevice(), m_PickRenderPass->getRenderPass(), { m_PickRenderTarget/*, m_PickDepthAttachment*/ });

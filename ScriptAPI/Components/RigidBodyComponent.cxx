@@ -343,6 +343,18 @@ namespace ScriptAPI
 		gameObject = EngineInterface::GetGameObject(ID);
 	}
 
+	bool RigidBodyComponent::IsRayHit()
+	{
+		// May wanna change to a function
+		if (!TDS::GetRigidBody(entityID))
+		{
+			// throw error instead (not sure how)
+			return false;
+		}
+
+		return TDS::GetRigidBody(entityID)->getIsRayHit();
+	}
+
 	TDS::EntityID RigidBodyComponent::GetEntityID()
 	{
 		return entityID;

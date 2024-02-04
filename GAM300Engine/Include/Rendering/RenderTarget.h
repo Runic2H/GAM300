@@ -14,20 +14,20 @@ namespace TDS {
 
 	struct RenderTargetCI
 	{
-		VkFormat			  _format				{};
-		VkImageAspectFlagBits _imageAspect			{};
-		VkImageViewType		  _viewType				{};
-		Vec3				  _dim					{};
-		VkImageUsageFlags	  _imageUsage			{};
-		VkImageLayout		  _imagelayout			{};
-		RenderTargetType      _renderTargetType		{};
-		bool				  _linearFiltering		{ true };
-		VkSampleCountFlagBits _sampleCount			{ VK_SAMPLE_COUNT_1_BIT };
-		bool				  _enablePCFSampler		{ false };									//Percentage Closer Filtering for shadow mapping
-		uint32_t			  _layerCount			{ 1 };
-		uint32_t			  _mipLevels			{ 1 };
-		bool				  _overrideDirectLayer	{ false };									//for lowest layering override
-		VkImage				  _inheritVkImage		{ VK_NULL_HANDLE };
+		VkFormat			  _format{};
+		VkImageAspectFlagBits _imageAspect{};
+		VkImageViewType		  _viewType{};
+		Vec3				  _dim{};
+		VkImageUsageFlags	  _imageUsage{};
+		VkImageLayout		  _imagelayout{};
+		RenderTargetType      _renderTargetType{};
+		bool				  _linearFiltering{ true };
+		VkSampleCountFlagBits _sampleCount{ VK_SAMPLE_COUNT_1_BIT };
+		bool				  _enablePCFSampler{ false };									//Percentage Closer Filtering for shadow mapping
+		uint32_t			  _layerCount{ 1 };
+		uint32_t			  _mipLevels{ 1 };
+		bool				  _overrideDirectLayer{ false };									//for lowest layering override
+		VkImage				  _inheritVkImage{ VK_NULL_HANDLE };
 	};
 
 
@@ -71,12 +71,12 @@ namespace TDS {
 
 		Vec3 getDimensions() { return m_Dimensions; }
 		size_t getResourceSize() { return m_MemSize; }
-		
+
 		RenderTargetType getAttachmentType() { return m_AttachmentDescription._renderTargetType; }
 		const RenderTargetCI& getAttachmentDescription() { return m_AttachmentDescription; }
 
 		void resize(Vec3 newDim);
-		
+
 		VkDescriptorSet m_DescSet{};
 	private:
 
@@ -90,7 +90,7 @@ namespace TDS {
 		VkImageView				m_ImageView{};
 		VkImageView				m_ImageViewSB{};				//SB == stencil buffer, !sha bi
 		size_t					m_MemSize{ 0 };
-		
+
 		std::vector<std::vector<VkImageView>> m_RenderImageViews{};
 		std::vector<std::vector<VkImageSubresourceRange>> m_RenderSubRR{}; //subresource ranges
 

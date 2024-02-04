@@ -40,9 +40,9 @@ namespace TDS
 		return m_FontFactory;
 	}
 
-	 AssetFactory<MeshController>& AssetManager::GetMeshFactory()
+	AssetFactory<MeshController>& AssetManager::GetMeshFactory()
 	{
-		 return m_MeshFactory;
+		return m_MeshFactory;
 	}
 
 	std::shared_ptr<AssetManager> AssetManager::GetInstance()
