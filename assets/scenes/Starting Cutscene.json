@@ -1,14 +1,14 @@
 {
     "Archetype Sizes": {
-        "11000000000010": {
+        "110000000000100": {
             "0": 272,
-            "1": 400,
+            "1": 672,
             "12": 720
         }
     },
     "Entity Data": {
         "1": {
-            "ArchetypeID": "11000000000010",
+            "ArchetypeID": "110000000000100",
             "Enabled": true,
             "Name Tag": {
                 "Name": "Images",
@@ -30,6 +30,36 @@
                     "z": 1.0
                 },
                 "Rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "FakePosition": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "FakeRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "FakeScale": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                },
+                "OldPosition": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "OldScale": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "OldRotation": {
                     "x": 0.0,
                     "y": 0.0,
                     "z": 0.0
@@ -71,7 +101,7 @@
             }
         },
         "2": {
-            "ArchetypeID": "11000000000010",
+            "ArchetypeID": "110000000000100",
             "Enabled": true,
             "Name Tag": {
                 "Name": "Narration",
@@ -95,6 +125,36 @@
                 "Rotation": {
                     "x": 0.0,
                     "y": -0.0,
+                    "z": 0.0
+                },
+                "FakePosition": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "FakeRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "FakeScale": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                },
+                "OldPosition": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "OldScale": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "OldRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
                     "z": 0.0
                 }
             },
@@ -137,45 +197,15 @@
     "Scripts": {
         "1": {
             "StartingCutscene": {
-                "Textures": {
-                    "System.String[]": 0
-                },
-                "counter": {
-                    "Int": 0
-                },
                 "gameObject": {
-                    "GameObject": 1
-                },
-                "is_Enabled": {
-                    "Bool": true
-                },
-                "is_Awake": {
-                    "Bool": false
-                },
-                "is_Start": {
-                    "Bool": true
+                    "ScriptAPI.GameObject": 1
                 }
             }
         },
         "2": {
             "CutsceneSubtitle": {
-                "Audiofiles": {
-                    "System.String[]": 0
-                },
-                "Subtitles": {
-                    "System.String[]": 0
-                },
                 "gameObject": {
-                    "GameObject": 2
-                },
-                "is_Enabled": {
-                    "Bool": true
-                },
-                "is_Awake": {
-                    "Bool": false
-                },
-                "is_Start": {
-                    "Bool": true
+                    "ScriptAPI.GameObject": 2
                 }
             }
         }
