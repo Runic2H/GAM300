@@ -7,7 +7,7 @@
         }
     },
     "Entity Data": {
-        "3": {
+        "1": {
             "ArchetypeID": "1100000000001000",
             "Enabled": true,
             "Name Tag": {
@@ -122,15 +122,15 @@
         }
     },
     "Scripts": {
-        "3": {
-            "BeforeGameCredits": {
+        "1": {
+            "AfterGameCredits": {
                 "gameObject": {
-                    "ScriptAPI.GameObject": 3
+                    "ScriptAPI.GameObject": 1
                 }
             }
         }
     },
     "Active Archetype": {
-        "3": "110000000000100"
+        "1": "110000000000100"
     }
 }
