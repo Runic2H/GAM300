@@ -165,7 +165,7 @@ public class Door_Script : Script
     // Update is called once per frame
     override public void Update()
     {
-        if (collided)
+       //if (collided)
         {
             if (Input.GetKeyDown(Keycode.E))
             {
