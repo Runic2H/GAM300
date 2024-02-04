@@ -1,23 +1,23 @@
 {
     "Archetype Sizes": {
-        "110000000000000": {
+        "1100000000000000": {
             "0": 136,
-            "1": 336
+            "1": 384
         },
-        "110000000000100": {
+        "1100000000001000": {
             "0": 272,
-            "1": 672,
+            "1": 768,
             "12": 720
         },
-        "110000100000000": {
+        "1100001000000000": {
             "0": 272,
-            "1": 672,
-            "6": 704
+            "1": 768,
+            "6": 720
         }
     },
     "Entity Data": {
         "1": {
-            "ArchetypeID": "110000000000100",
+            "ArchetypeID": "1100000000001000",
             "Enabled": true,
             "Name Tag": {
                 "Name": "OuterLock",
@@ -72,6 +72,26 @@
                     "x": 0.0,
                     "y": 0.0,
                     "z": 0.0
+                },
+                "OldFakePosition": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "OldFakeScale": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "OldFakeRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "ParentPosition": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
                 }
             },
             "UI Sprite": {
@@ -110,7 +130,7 @@
             }
         },
         "2": {
-            "ArchetypeID": "110000000000100",
+            "ArchetypeID": "1100000000001000",
             "Enabled": true,
             "Name Tag": {
                 "Name": "InnerLock",
@@ -165,6 +185,26 @@
                     "x": 0.0,
                     "y": 0.0,
                     "z": 0.0
+                },
+                "OldFakePosition": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "OldFakeScale": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "OldFakeRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "ParentPosition": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
                 }
             },
             "UI Sprite": {
@@ -203,7 +243,7 @@
             }
         },
         "3": {
-            "ArchetypeID": "110000100000000",
+            "ArchetypeID": "1100001000000000",
             "Enabled": true,
             "Name Tag": {
                 "Name": "LockPick",
@@ -258,12 +298,32 @@
                     "x": 0.0,
                     "y": 0.0,
                     "z": 0.0
+                },
+                "OldFakePosition": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "OldFakeScale": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "OldFakeRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "ParentPosition": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
                 }
             },
             "Graphics Component": {
                 "PointLight": false,
                 "TextureName": "",
-                "Mesh Renderer": true,
+                "Show Mesh": true,
                 "Debug": false,
                 "ModelName": "LockPickingPin_Bin.bin",
                 "MeshName": "Plane",
@@ -274,11 +334,12 @@
                     "z": 1.0,
                     "w": 1.0
                 },
-                "Used In 2D": true
+                "Used In 2D": true,
+                "Model UID": 0
             }
         },
         "4": {
-            "ArchetypeID": "110000100000000",
+            "ArchetypeID": "1100001000000000",
             "Enabled": true,
             "Name Tag": {
                 "Name": "New Entity",
@@ -333,12 +394,32 @@
                     "x": 0.0,
                     "y": 0.0,
                     "z": 0.0
+                },
+                "OldFakePosition": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "OldFakeScale": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "OldFakeRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "ParentPosition": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
                 }
             },
             "Graphics Component": {
                 "PointLight": true,
                 "TextureName": "",
-                "Mesh Renderer": true,
+                "Show Mesh": true,
                 "Debug": false,
                 "ModelName": "",
                 "MeshName": "",
@@ -349,11 +430,12 @@
                     "z": 1.0,
                     "w": 1.0
                 },
-                "Used In 2D": false
+                "Used In 2D": false,
+                "Model UID": 0
             }
         },
         "5": {
-            "ArchetypeID": "110000000000000",
+            "ArchetypeID": "1100000000000000",
             "Enabled": true,
             "Name Tag": {
                 "Name": "Lock Camera",
@@ -407,6 +489,26 @@
                     "z": 0.0
                 },
                 "OldRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "OldFakePosition": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "OldFakeScale": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "OldFakeRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "ParentPosition": {
                     "x": 0.0,
                     "y": 0.0,
                     "z": 0.0

@@ -504,7 +504,7 @@ namespace TDS
         load_all_audio_files();
     }
 
-    void proxy_audio_system::audio_system_update(const float dt, const std::vector<EntityID>& entities, SoundInfo* soundInfo)
+    void proxy_audio_system::audio_system_update(const float dt, const std::vector<EntityID>& entities, Transform* transfromComponent)
     {
         aud_instance->update();
     }
