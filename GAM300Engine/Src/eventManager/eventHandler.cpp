@@ -35,6 +35,8 @@ namespace TDS
 
 		childTransform->SetParentPosition(parentTransform->GetPosition());
 
+		childTransform->SetParentPosition(parentTransform->GetPosition());
+
 		Vec3 newPosition = childTransform->GetPosition();
 		Vec3 newScale = childTransform->GetScale();
 		Vec3 newRotation = childTransform->GetRotation();
