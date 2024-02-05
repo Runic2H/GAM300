@@ -39,7 +39,7 @@ public class PlayButton : Script
     public override void Update()
     {
         bgm.play(bgmName);
-        if (Input.GetMouseButtonDown(Keycode.M1))
+        if (Input.GetMouseButtonDown(Keycode.M1) && withinButton(gameObject))
         {
             //GraphicsManagerWrapper.ToggleViewFrom2D(false);
             bgm.stop(bgmName);

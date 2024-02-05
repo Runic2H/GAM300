@@ -35,11 +35,6 @@
             "1": 384,
             "6": 360,
             "16": 80
-        },
-        "110000000000100000": {
-            "0": 272,
-            "1": 768,
-            "12": 720
         }
     },
     "Entity Data": {
@@ -129,8 +124,8 @@
                 "TextureName": "",
                 "Show Mesh": true,
                 "Debug": false,
-                "ModelName": "sphere_Bin.bin",
-                "MeshName": "Sphere",
+                "ModelName": "",
+                "MeshName": "",
                 "MeshNodeName": "",
                 "Color": {
                     "x": 1.0,
@@ -4938,9 +4933,9 @@
                     "w": 0.0
                 },
                 "direction": {
-                    "x": -0.006981349550187588,
-                    "y": 0.0017453327309340239,
-                    "z": -0.9999741315841675,
+                    "x": -0.357958048582077,
+                    "y": 0.10626406222581863,
+                    "z": -0.9276712536811829,
                     "w": 0.0
                 },
                 "color": {
@@ -6504,102 +6499,6 @@
                 "Model UID": 0
             }
         },
-        "429": {
-            "ArchetypeID": "110000100000000000",
-            "Enabled": true,
-            "Name Tag": {
-                "Name": "OutsideToilet_02",
-                "Tag": "",
-                "IsActive": true,
-                "HierarchyParent": 428,
-                "HierarchyIndex": 2,
-                "HierarchyChildren": []
-            },
-            "Transform": {
-                "Position": {
-                    "x": 2001.864990234375,
-                    "y": 140.79037475585938,
-                    "z": -911.370361328125
-                },
-                "Scale": {
-                    "x": 2.1999995708465576,
-                    "y": 1.8299999237060547,
-                    "z": 2.1999995708465576
-                },
-                "Rotation": {
-                    "x": 0.0,
-                    "y": 1.5707958936691284,
-                    "z": 0.0
-                },
-                "FakePosition": {
-                    "x": 1.43896484375,
-                    "y": 13.754356384277344,
-                    "z": -25.5299072265625
-                },
-                "FakeRotation": {
-                    "x": 0.0,
-                    "y": -3.5762786865234375e-7,
-                    "z": 0.0
-                },
-                "FakeScale": {
-                    "x": 0.9999995231628418,
-                    "y": 0.9999998807907104,
-                    "z": 0.9999995231628418
-                },
-                "OldPosition": {
-                    "x": 2003.0091552734375,
-                    "y": 143.42312622070313,
-                    "z": -911.75
-                },
-                "OldScale": {
-                    "x": 0.0,
-                    "y": 1.5707958936691284,
-                    "z": 0.0
-                },
-                "OldRotation": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                },
-                "OldFakePosition": {
-                    "x": 2.5831298828125,
-                    "y": 16.387107849121094,
-                    "z": -25.9095458984375
-                },
-                "OldFakeScale": {
-                    "x": 0.9999995231628418,
-                    "y": 0.9999998807907104,
-                    "z": 0.9999995231628418
-                },
-                "OldFakeRotation": {
-                    "x": 0.0,
-                    "y": -3.5762786865234375e-7,
-                    "z": 0.0
-                },
-                "ParentPosition": {
-                    "x": 1.439000129699707,
-                    "y": 21.037960052490234,
-                    "z": -25.52997589111328
-                }
-            },
-            "Graphics Component": {
-                "PointLight": false,
-                "TextureName": "",
-                "Show Mesh": true,
-                "Debug": false,
-                "ModelName": "Adjusted_Bin.bin1",
-                "MeshName": "OutsideToilet_02",
-                "MeshNodeName": "OutsideToilet_02",
-                "Color": {
-                    "x": 1.0,
-                    "y": 1.0,
-                    "z": 1.0,
-                    "w": 1.0
-                },
-                "Used In 2D": false,
-                "Model UID": 0
-            }
-        },
         "732": {
             "ArchetypeID": "110000100000000000",
             "Enabled": true,
@@ -6686,6 +6585,102 @@
                 "ModelName": "P_Hollow_Half_Bin.bin",
                 "MeshName": "Frame",
                 "MeshNodeName": "Frame",
+                "Color": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0,
+                    "w": 1.0
+                },
+                "Used In 2D": false,
+                "Model UID": 0
+            }
+        },
+        "429": {
+            "ArchetypeID": "110000100000000000",
+            "Enabled": true,
+            "Name Tag": {
+                "Name": "OutsideToilet_02",
+                "Tag": "",
+                "IsActive": true,
+                "HierarchyParent": 428,
+                "HierarchyIndex": 2,
+                "HierarchyChildren": []
+            },
+            "Transform": {
+                "Position": {
+                    "x": 2001.864990234375,
+                    "y": 140.79037475585938,
+                    "z": -911.370361328125
+                },
+                "Scale": {
+                    "x": 2.1999995708465576,
+                    "y": 1.8299999237060547,
+                    "z": 2.1999995708465576
+                },
+                "Rotation": {
+                    "x": 0.0,
+                    "y": 1.5707958936691284,
+                    "z": 0.0
+                },
+                "FakePosition": {
+                    "x": 1.43896484375,
+                    "y": 13.754356384277344,
+                    "z": -25.5299072265625
+                },
+                "FakeRotation": {
+                    "x": 0.0,
+                    "y": -3.5762786865234375e-7,
+                    "z": 0.0
+                },
+                "FakeScale": {
+                    "x": 0.9999995231628418,
+                    "y": 0.9999998807907104,
+                    "z": 0.9999995231628418
+                },
+                "OldPosition": {
+                    "x": 2003.0091552734375,
+                    "y": 143.42312622070313,
+                    "z": -911.75
+                },
+                "OldScale": {
+                    "x": 0.0,
+                    "y": 1.5707958936691284,
+                    "z": 0.0
+                },
+                "OldRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "OldFakePosition": {
+                    "x": 2.5831298828125,
+                    "y": 16.387107849121094,
+                    "z": -25.9095458984375
+                },
+                "OldFakeScale": {
+                    "x": 0.9999995231628418,
+                    "y": 0.9999998807907104,
+                    "z": 0.9999995231628418
+                },
+                "OldFakeRotation": {
+                    "x": 0.0,
+                    "y": -3.5762786865234375e-7,
+                    "z": 0.0
+                },
+                "ParentPosition": {
+                    "x": 1.439000129699707,
+                    "y": 21.037960052490234,
+                    "z": -25.52997589111328
+                }
+            },
+            "Graphics Component": {
+                "PointLight": false,
+                "TextureName": "",
+                "Show Mesh": true,
+                "Debug": false,
+                "ModelName": "Adjusted_Bin.bin1",
+                "MeshName": "OutsideToilet_02",
+                "MeshNodeName": "OutsideToilet_02",
                 "Color": {
                     "x": 1.0,
                     "y": 1.0,
@@ -83182,232 +83177,6 @@
                     "w": 0.0
                 }
             }
-        },
-        "906": {
-            "ArchetypeID": "110000000000100000",
-            "Enabled": true,
-            "Name Tag": {
-                "Name": "New Entity",
-                "Tag": "",
-                "IsActive": true,
-                "HierarchyParent": 0,
-                "HierarchyIndex": 43,
-                "HierarchyChildren": []
-            },
-            "Transform": {
-                "Position": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                },
-                "Scale": {
-                    "x": 1.0,
-                    "y": 1.0,
-                    "z": 1.0
-                },
-                "Rotation": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                },
-                "FakePosition": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                },
-                "FakeRotation": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                },
-                "FakeScale": {
-                    "x": 1.0,
-                    "y": 1.0,
-                    "z": 1.0
-                },
-                "OldPosition": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                },
-                "OldScale": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                },
-                "OldRotation": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                },
-                "OldFakePosition": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                },
-                "OldFakeScale": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                },
-                "OldFakeRotation": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                },
-                "ParentPosition": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                }
-            },
-            "UI Sprite": {
-                "Texture": "OuterLock.dds",
-                "EnableSprite": true,
-                "LayerID": 0,
-                "is Font": false,
-                "message": "",
-                "Font Texture": "",
-                "ForeGroundColour": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0,
-                    "w": 0.0
-                },
-                "Sprite Color": {
-                    "x": 0.10000000149011612,
-                    "y": 0.10000000149011612,
-                    "z": 0.10000000149011612,
-                    "w": 1.0
-                },
-                "BackGroundColour": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0,
-                    "w": 1.0
-                },
-                "BoundingBoxMin": {
-                    "x": -0.5,
-                    "y": -0.5
-                },
-                "BoundingBoxMax": {
-                    "x": 0.5,
-                    "y": 0.5
-                }
-            }
-        },
-        "909": {
-            "ArchetypeID": "110000000000100000",
-            "Enabled": true,
-            "Name Tag": {
-                "Name": "New Entity",
-                "Tag": "",
-                "IsActive": true,
-                "HierarchyParent": 0,
-                "HierarchyIndex": 44,
-                "HierarchyChildren": []
-            },
-            "Transform": {
-                "Position": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                },
-                "Scale": {
-                    "x": 1.0,
-                    "y": 1.0,
-                    "z": 1.0
-                },
-                "Rotation": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                },
-                "FakePosition": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                },
-                "FakeRotation": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                },
-                "FakeScale": {
-                    "x": 1.0,
-                    "y": 1.0,
-                    "z": 1.0
-                },
-                "OldPosition": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                },
-                "OldScale": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                },
-                "OldRotation": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                },
-                "OldFakePosition": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                },
-                "OldFakeScale": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                },
-                "OldFakeRotation": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                },
-                "ParentPosition": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                }
-            },
-            "UI Sprite": {
-                "Texture": "InnerLock.dds",
-                "EnableSprite": true,
-                "LayerID": 0,
-                "is Font": false,
-                "message": "",
-                "Font Texture": "",
-                "ForeGroundColour": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0,
-                    "w": 0.0
-                },
-                "Sprite Color": {
-                    "x": 0.10000000149011612,
-                    "y": 0.10000000149011612,
-                    "z": 0.10000000149011612,
-                    "w": 1.0
-                },
-                "BackGroundColour": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0,
-                    "w": 1.0
-                },
-                "BoundingBoxMin": {
-                    "x": -0.5,
-                    "y": -0.5
-                },
-                "BoundingBoxMax": {
-                    "x": 0.5,
-                    "y": 0.5
-                }
-            }
         }
     },
     "Scripts": {
@@ -83622,8 +83391,8 @@
         "37": {},
         "852": {},
         "38": {},
-        "429": {},
         "732": {},
+        "429": {},
         "39": {},
         "439": {},
         "40": {},
@@ -84410,9 +84179,7 @@
         "899": {},
         "901": {},
         "902": {},
-        "905": {},
-        "906": {},
-        "909": {}
+        "905": {}
     },
     "Active Archetype": {
         "1": "11000011100000",
@@ -84478,8 +84245,8 @@
         "37": "110000100000000",
         "852": "110000100000000",
         "38": "110000100000000",
-        "429": "110000100000000",
         "732": "110000100000000",
+        "429": "110000100000000",
         "39": "110000100000000",
         "439": "110000100000000",
         "40": "110000100000000",
@@ -85266,8 +85033,6 @@
         "899": "110000100000000",
         "901": "110000100000000",
         "902": "110000100000000",
-        "905": "110000100000000100",
-        "906": "110000000000100000",
-        "909": "110000000000100000"
+        "905": "110000100000000100"
     }
 }
