@@ -188,7 +188,7 @@ namespace TDS
 
 			entry.m_NumDescriptorSets = 1;
 			entry.m_ShaderInputs.m_Shaders.insert(std::make_pair(SHADER_FLAG::VERTEX, "../assets/shaders/DeferredVert.spv"));
-			entry.m_ShaderInputs.m_Shaders.insert(std::make_pair(SHADER_FLAG::FRAGMENT, "../assets/shaders/FXAAComposition.spv"));
+			entry.m_ShaderInputs.m_Shaders.insert(std::make_pair(SHADER_FLAG::FRAGMENT, "../assets/shaders/Composition.spv"));
 			entry.m_PipelineConfig.m_DstClrBlend = VK_BLEND_FACTOR_ZERO;
 			entry.m_PipelineConfig.m_SrcClrBlend = VK_BLEND_FACTOR_ZERO;
 			entry.m_PipelineConfig.m_SrcAlphaBlend = VK_BLEND_FACTOR_ZERO;
