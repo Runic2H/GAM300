@@ -11,7 +11,9 @@ namespace ScriptAPI
 	void SceneLoader::LoadMainGame()
 	{
 		EngineInterface::Reload();
-		TDS::SceneManager::GetInstance()->loadScene("Development Game (2) - Copy");
+		TDS::SceneManager::GetInstance()->loadScene("GameScene");
+		TDS::SceneManager::GetInstance()->awake();
+		TDS::SceneManager::GetInstance()->start();
 	}
 
 	void SceneLoader::LoadStartingCutscene() 

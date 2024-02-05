@@ -2,12 +2,14 @@
 #include <pch.h>
 #include "Geometry/AABB.h"
 #include "dotnet/ImportExport.h"
+#include "ModelPack.h"
 namespace TDS
 {
 	class VMABuffer;
 
 	struct MeshBuffer
 	{
+		std::uint32_t m_VertexOffset, m_VertexCount, m_IndexOffset, m_IndexCount;
 		std::shared_ptr<VMABuffer>							m_VertexBuffer = nullptr;
 		std::shared_ptr<VMABuffer>							m_IndexBuffer = nullptr;
 	};
@@ -18,6 +20,7 @@ namespace TDS
 	{
 		bool												m_FirstRender;
 		std::string											m_MeshName;
+		AABB												m_MeshBoundingBox;
 	};
 
 	struct SceneNode
@@ -27,36 +30,65 @@ namespace TDS
 		Vec3												m_SceneTranslation;
 		Vec3												m_SceneRotation;
 		Vec3												m_SceneScale;
+		AABB												m_NodeBoundingBox;
 	};
 
 
 	class MeshController
 	{
 	private:
-		Modelpack*											m_RefToModelPack = nullptr;
+		AABB												m_SceneBoundingBox;
+		std::uint32_t										m_MeshOffset = 0;
+		MeshBuffer											m_MeshBuffer;
+		std::uint32_t										m_MeshCnt = 0;
 		std::map<std::string, SceneNode>					m_RootNodes;
-		std::vector<MeshBuffer>								m_MeshData;
-		std::unordered_map<std::string, std::uint32_t>		m_MeshIndexMap;
+		std::unordered_map<std::string, std::uint32_t>		m_MeshIDMap;
 
 	public:
+		std::set<std::uint32_t>								m_EntityList;
+		Modelpack* m_ModelPack = nullptr;
 
+	public:
+		bool												m_Instancing = false;
 		bool												m_Loaded = false;
 
 		MeshController() = default;
 		~MeshController() = default;
 
-		DLL_API bool			LoadMeshData(Modelpack& model);
+		DLL_API bool							LoadMeshData();
 
-		DLL_API void			Destroy();
+		DLL_API bool							LoadBatchData();
 
-		DLL_API void			BuildMeshTree();
+		DLL_API void							Destroy();
 
-		DLL_API void			SetModelPack(Modelpack* modelpack);
+		DLL_API void							BuildMeshTree();
 
-		DLL_API Modelpack*		GetModelPack();
+		DLL_API void							BuildSceneAABB();
 
-		DLL_API MeshBuffer*		GetMeshData(std::string_view meshName);
+		DLL_API Modelpack* GetModelPack();
 
+		DLL_API std::int32_t					GetMeshID(std::string_view meshName);
+
+		DLL_API MeshBuffer* GetMeshBuffer();
+
+		inline std::uint32_t					GetMeshOffset() const
+		{
+			return m_MeshOffset;
+		}
+
+		inline std::uint32_t					GetMeshCnt() const
+		{
+			return m_MeshCnt;
+		}
+
+		inline void								SetMeshOffset(std::uint32_t offset)
+		{
+			m_MeshOffset = offset;
+		}
+		inline AABB&							GetSceneBoundingBox()
+		{
+			return m_SceneBoundingBox;
+		}
 		DLL_API std::map<std::string, SceneNode>& GetRoots();
 
 

@@ -66,6 +66,9 @@ namespace TDS
 		ecs.registerComponent<UISprite>("UI Sprite");
 		ecs.registerComponent<SoundInfo>("Audio");
 		ecs.registerComponent<Particle_Component>("Particles");
+		ecs.registerComponent<DirectionalLightComponent>("DirectionalLight");
+		ecs.registerComponent<SpotLightComponent>("SpotLight");
+		ecs.registerComponent<PointLightComponent>("PointLight");
 
 		startScene = "";
 		//startScene = "MainMenu";

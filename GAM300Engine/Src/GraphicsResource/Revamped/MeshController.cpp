@@ -1,149 +1,244 @@
-#include "pch.h"
+#include <pch.h>
 #include "GraphicsResource/Revamped/MeshController.h"
 #include "GraphicsResource/Revamped/ModelPack.h"
 #include "vulkanTools/VMATypes/VMABuffer.h"
 #include "Rendering/GraphicsManager.h"
 namespace TDS
 {
-#define _TEMP
-    bool MeshController::LoadMeshData(Modelpack& model)
+
+    bool MeshController::LoadMeshData()
     {
-
-        m_RefToModelPack = &model;
-
-#ifdef _TEMP
         std::map<std::string, int> duplicates;
-#endif
 
-        for (size_t i = 0; i < model.m_ModelHandle.m_Mesh.size(); ++i)
+
+        for (size_t i = 0; i < m_ModelPack->m_ModelHandle.m_Mesh.size(); ++i)
         {
-            auto& Mesh = model.m_ModelHandle.m_Mesh[i];
-            auto& SubMesh = model.m_ModelHandle.m_SubMesh[i];
+            auto& Mesh = m_ModelPack->m_ModelHandle.m_Mesh[i];
+            auto& SubMesh = m_ModelPack->m_ModelHandle.m_SubMesh[i];
 
             size_t start = SubMesh.m_iVertices;
             size_t end = start + SubMesh.m_nVertices;
 
             std::vector<TDSModel::Vertex> vertexData;
-            vertexData.insert(vertexData.end(), model.m_ModelHandle.m_ModelVertex.begin() + start, model.m_ModelHandle.m_ModelVertex.begin() + end);
+            vertexData.insert(vertexData.end(), m_ModelPack->m_ModelHandle.m_ModelVertex.begin() + start, m_ModelPack->m_ModelHandle.m_ModelVertex.begin() + end);
+
+
+            Vec3 minBoundingBox(FLT_MAX, FLT_MAX, FLT_MAX);
+            Vec3 maxBoundingBox(-FLT_MAX, -FLT_MAX, -FLT_MAX);
+            for (auto& vertex : vertexData)
+            {
+                minBoundingBox.x = Mathf::Min(minBoundingBox.x, vertex.m_Position.x);
+                minBoundingBox.y = Mathf::Min(minBoundingBox.y, vertex.m_Position.y);
+                minBoundingBox.z = Mathf::Min(minBoundingBox.z, vertex.m_Position.z);
+
+                maxBoundingBox.x = Mathf::Max(maxBoundingBox.x, vertex.m_Position.x);
+                maxBoundingBox.y = Mathf::Max(maxBoundingBox.y, vertex.m_Position.y);
+                maxBoundingBox.z = Mathf::Max(maxBoundingBox.z, vertex.m_Position.z);
+            }
+            m_SceneBoundingBox.SetMinMax(minBoundingBox, maxBoundingBox);
+
 
             size_t indexStart = SubMesh.m_iIndices;
             size_t indexEnd = indexStart + (SubMesh.m_nFaces * 3);
             std::vector<std::uint32_t> indexData;
 
             indexData.insert(indexData.end(),
-                model.m_ModelHandle.m_Indices.begin() + indexStart,
-                model.m_ModelHandle.m_Indices.begin() + indexEnd);
+                m_ModelPack->m_ModelHandle.m_Indices.begin() + indexStart,
+                m_ModelPack->m_ModelHandle.m_Indices.begin() + indexEnd);
 
 
-            auto itr = m_MeshIndexMap.find(Mesh.m_Name);
+            auto itr = m_MeshIDMap.find(Mesh.m_Name);
 
-#ifndef _TEMP
-            if (itr == m_MeshIndexMap.end())
-            {
-
-                m_MeshIndexMap[Mesh.m_Name] = m_MeshData.size();
-
-                auto& MeshData = m_MeshData.emplace_back();
-
-                MeshData.m_VertexBuffer = std::make_shared<VMABuffer>();
-                MeshData.m_VertexBuffer->MappedStaging(vertexData.size() * sizeof(TDSModel::Vertex), VkBufferUsageFlagBits::VK_BUFFER_USAGE_VERTEX_BUFFER_BIT, GraphicsManager::getInstance().getVkInstance(), vertexData.data());
-                MeshData.m_VertexBuffer->SetDataCnt(vertexData.size());
-
-                MeshData.m_IndexBuffer = std::make_shared<VMABuffer>();
-                MeshData.m_IndexBuffer->MappedStaging(indexData.size() * sizeof(std::uint32_t), VkBufferUsageFlagBits::VK_BUFFER_USAGE_INDEX_BUFFER_BIT, GraphicsManager::getInstance().getVkInstance(), indexData.data());
-                MeshData.m_IndexBuffer->SetDataCnt(indexData.size());
-            }
-#endif // !_TEMP
-            
-            //If have duplicates
-            if (itr != m_MeshIndexMap.end())
+            if (itr != m_MeshIDMap.end())
             {
                 Mesh.m_Name += "__";
                 Mesh.m_Name += std::to_string(++duplicates[itr->first]);
 
             }
 
-            m_MeshIndexMap[Mesh.m_Name] = m_MeshData.size();
+            m_MeshIDMap[Mesh.m_Name] = m_MeshIDMap.size();
 
-            auto& MeshData = m_MeshData.emplace_back();
 
-            MeshData.m_VertexBuffer = std::make_shared<VMABuffer>();
-            MeshData.m_VertexBuffer->MappedStaging(vertexData.size() * sizeof(TDSModel::Vertex), VkBufferUsageFlagBits::VK_BUFFER_USAGE_VERTEX_BUFFER_BIT, GraphicsManager::getInstance().getVkInstance(), vertexData.data());
-            MeshData.m_VertexBuffer->SetDataCnt(vertexData.size());
+            m_MeshBuffer.m_VertexBuffer = std::make_shared<VMABuffer>();
+            m_MeshBuffer.m_VertexBuffer->MappedStaging(vertexData.size() * sizeof(TDSModel::Vertex), VkBufferUsageFlagBits::VK_BUFFER_USAGE_VERTEX_BUFFER_BIT, GraphicsManager::getInstance().getVkInstance(), vertexData.data());
+            m_MeshBuffer.m_VertexBuffer->SetDataCnt(vertexData.size());
 
-            MeshData.m_IndexBuffer = std::make_shared<VMABuffer>();
-            MeshData.m_IndexBuffer->MappedStaging(indexData.size() * sizeof(std::uint32_t), VkBufferUsageFlagBits::VK_BUFFER_USAGE_INDEX_BUFFER_BIT, GraphicsManager::getInstance().getVkInstance(), indexData.data());
-            MeshData.m_IndexBuffer->SetDataCnt(indexData.size());
-            
-            
-           
+            m_MeshBuffer.m_IndexBuffer = std::make_shared<VMABuffer>();
+            m_MeshBuffer.m_IndexBuffer->MappedStaging(indexData.size() * sizeof(std::uint32_t), VkBufferUsageFlagBits::VK_BUFFER_USAGE_INDEX_BUFFER_BIT, GraphicsManager::getInstance().getVkInstance(), indexData.data());
+            m_MeshBuffer.m_IndexBuffer->SetDataCnt(indexData.size());
+
+
+
         }
+
+        m_Instancing = true;
         m_Loaded = true;
         return m_Loaded;
     }
+    bool MeshController::LoadBatchData()
+    {
+
+        std::vector<TDSModel::Vertex> batchedVertexData;
+        std::vector<std::uint32_t> batchedIndexData;
+
+        size_t currentVertexOffset = 0;
+        std::map<std::string, int> duplicates;
+
+        m_MeshCnt = std::uint32_t(m_ModelPack->m_ModelHandle.m_Mesh.size());
+        for (size_t i = 0; i < m_MeshCnt; ++i)
+        {
+            auto& Mesh = m_ModelPack->m_ModelHandle.m_Mesh[i];
+            auto& SubMesh = m_ModelPack->m_ModelHandle.m_SubMesh[i];
+
+
+            std::uint32_t meshID = m_MeshOffset + i;
+
+            auto itr = m_MeshIDMap.find(Mesh.m_Name);
+
+
+            if (itr != m_MeshIDMap.end())
+            {
+                Mesh.m_Name += "__" + std::to_string(++duplicates[itr->first]);
+            }
+
+            m_MeshIDMap[Mesh.m_Name] = meshID;
+
+
+            m_RootNodes[Mesh.m_NodeName].m_SceneTranslation = SubMesh.m_ScenePos;
+            m_RootNodes[Mesh.m_NodeName].m_SceneRotation = SubMesh.m_SceneRotate;
+            m_RootNodes[Mesh.m_NodeName].m_SceneScale = SubMesh.m_SceneScale;
+
+            m_RootNodes[Mesh.m_NodeName].m_MeshList[Mesh.m_Name] = (MeshNode(true, Mesh.m_Name));
+
+            
+
+            Vec3 minBoundingBox(FLT_MAX, FLT_MAX, FLT_MAX);
+            Vec3 maxBoundingBox(-FLT_MAX, -FLT_MAX, -FLT_MAX);
+
+            for (size_t j = SubMesh.m_iVertices; j < SubMesh.m_iVertices + SubMesh.m_nVertices; ++j)
+            {
+                auto& vertex = m_ModelPack->m_ModelHandle.m_ModelVertex[j];
+
+                vertex.m_MeshID.x = float(meshID);
+
+                batchedVertexData.push_back(vertex);
+
+                minBoundingBox.x = Mathf::Min(minBoundingBox.x, vertex.m_Position.x);
+                minBoundingBox.y = Mathf::Min(minBoundingBox.y, vertex.m_Position.y);
+                minBoundingBox.z = Mathf::Min(minBoundingBox.z, vertex.m_Position.z);
+
+                maxBoundingBox.x = Mathf::Max(maxBoundingBox.x, vertex.m_Position.x);
+                maxBoundingBox.y = Mathf::Max(maxBoundingBox.y, vertex.m_Position.y);
+                maxBoundingBox.z = Mathf::Max(maxBoundingBox.z, vertex.m_Position.z);
+            }
+
+            m_RootNodes[Mesh.m_NodeName].m_MeshList[Mesh.m_Name].m_MeshBoundingBox.SetMinMax(minBoundingBox, maxBoundingBox);
+
+
+            for (size_t j = SubMesh.m_iIndices; j < SubMesh.m_iIndices + SubMesh.m_nIndices; ++j)
+            {
+                batchedIndexData.push_back(m_ModelPack->m_ModelHandle.m_Indices[j] + currentVertexOffset);
+            }
+
+
+            currentVertexOffset += SubMesh.m_nVertices;
+        }
+
+        m_MeshBuffer.m_VertexBuffer = std::make_shared<VMABuffer>();
+        m_MeshBuffer.m_VertexBuffer->MappedStaging(batchedVertexData.size() * sizeof(TDSModel::Vertex), VkBufferUsageFlagBits::VK_BUFFER_USAGE_VERTEX_BUFFER_BIT, GraphicsManager::getInstance().getVkInstance(), batchedVertexData.data());
+        m_MeshBuffer.m_VertexBuffer->SetDataCnt(batchedVertexData.size());
+
+        m_MeshBuffer.m_IndexBuffer = std::make_shared<VMABuffer>();
+        m_MeshBuffer.m_IndexBuffer->MappedStaging(batchedIndexData.size() * sizeof(std::uint32_t), VkBufferUsageFlagBits::VK_BUFFER_USAGE_INDEX_BUFFER_BIT, GraphicsManager::getInstance().getVkInstance(), batchedIndexData.data());
+        m_MeshBuffer.m_IndexBuffer->SetDataCnt(batchedIndexData.size());
+
+
+        m_Loaded = true;
+        return m_Loaded;
+    }
+
     void MeshController::Destroy()
     {
         vkQueueWaitIdle(GraphicsManager::getInstance().getVkInstance().getGraphicsQueue());
 
-        for (auto& modeldata : m_MeshData)
+        if (m_MeshBuffer.m_VertexBuffer && m_MeshBuffer.m_IndexBuffer)
         {
-            if (modeldata.m_VertexBuffer && modeldata.m_IndexBuffer)
-            {
-                modeldata.m_VertexBuffer->DestroyBuffer();
-                modeldata.m_IndexBuffer->DestroyBuffer();
-                modeldata.m_VertexBuffer = nullptr;
-                modeldata.m_IndexBuffer = nullptr;
-            }
-
+            m_MeshBuffer.m_VertexBuffer->DestroyBuffer();
+            m_MeshBuffer.m_IndexBuffer->DestroyBuffer();
         }
-        m_RefToModelPack = nullptr;
+        m_MeshBuffer.m_VertexBuffer = nullptr;
+        m_MeshBuffer.m_IndexBuffer = nullptr;
+
+        if (m_ModelPack)
+        {
+            delete m_ModelPack;
+            m_ModelPack = nullptr;
+        }
         m_RootNodes.clear();
-        m_MeshData.clear();
-        m_MeshIndexMap.clear();
+        m_MeshIDMap.clear();
+        //m_MeshIndexMap.clear();
         m_Loaded = false;
-       
+
     }
     void MeshController::BuildMeshTree()
     {
-        auto& modelRef = m_RefToModelPack->m_ModelHandle;
-
-        if (modelRef.m_Mesh.size() == 1 && modelRef.m_SubMesh.size() == 1)
-        {
-            TDS_INFO("This model {} is a single mesh! I wont build a mesh tree for this", m_RefToModelPack->m_ModelName.c_str());
-            return;
-        }
-
         std::uint32_t i = 0;
-        for (auto mesh : modelRef.m_Mesh)
-        {
-            auto& submesh = modelRef.m_SubMesh[i++];
 
-            m_RootNodes[mesh.m_NodeName].m_MeshList[mesh.m_Name] = (MeshNode(true, mesh.m_Name));
+        for (auto mesh : m_ModelPack->m_ModelHandle.m_Mesh)
+        {
+            auto& submesh = m_ModelPack->m_ModelHandle.m_SubMesh[i++];
+
+            m_RootNodes[mesh.m_NodeName].m_MeshList[mesh.m_Name].m_FirstRender = true;
+            m_RootNodes[mesh.m_NodeName].m_MeshList[mesh.m_Name].m_MeshName = mesh.m_Name;
             m_RootNodes[mesh.m_NodeName].m_SceneTranslation = submesh.m_ScenePos;
             m_RootNodes[mesh.m_NodeName].m_SceneRotation = submesh.m_SceneRotate;
             m_RootNodes[mesh.m_NodeName].m_SceneScale = submesh.m_SceneScale;
+
+            m_RootNodes[mesh.m_NodeName].m_NodeBoundingBox.extend(m_RootNodes[mesh.m_NodeName].m_MeshList[mesh.m_Name].m_MeshBoundingBox);
+        
+       
         }
+
+        
+        BuildSceneAABB();
     }
 
-    void MeshController::SetModelPack(Modelpack* modelpack)
-    {
-        m_RefToModelPack = modelpack;
-    }
 
     Modelpack* MeshController::GetModelPack()
     {
-        return m_RefToModelPack;
+        return m_ModelPack;
     }
 
-    MeshBuffer* MeshController::GetMeshData(std::string_view meshName)
+
+
+    std::int32_t MeshController::GetMeshID(std::string_view meshName)
     {
-        auto IndexItr = m_MeshIndexMap.find(meshName.data());
+        auto meshID = m_MeshIDMap.find(meshName.data());
 
-        if (IndexItr == m_MeshIndexMap.end()) return nullptr;
-       
-           
+        if (meshID != m_MeshIDMap.end())
+        {
+            return meshID->second;
+        }
+        return -1;
+    }
 
-        return &m_MeshData[IndexItr->second];
+    void MeshController::BuildSceneAABB()
+    {
+
+        for (auto& [rootName, sceneNode] : m_RootNodes)
+        {
+            for (auto& [meshName, mesh] : sceneNode.m_MeshList)
+            {
+                sceneNode.m_NodeBoundingBox.extend(mesh.m_MeshBoundingBox);
+            }
+            m_SceneBoundingBox.extend(sceneNode.m_NodeBoundingBox);
+        }
+    }
+
+
+    MeshBuffer* MeshController::GetMeshBuffer()
+    {
+        return &m_MeshBuffer;
     }
 
     std::map<std::string, SceneNode>& MeshController::GetRoots()

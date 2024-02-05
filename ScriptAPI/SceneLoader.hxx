@@ -12,7 +12,7 @@ namespace ScriptAPI
 		static void LoadMainGame();
 
 		static void LoadStartingCutscene();
-		
+
 		static System::String^ dataPath;
 	};
 }

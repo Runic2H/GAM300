@@ -30,7 +30,7 @@ namespace TDS {
 		****************************************************************************/
 		VkResult					map(VkDeviceSize size = VK_WHOLE_SIZE, VkDeviceSize offset = 0);
 		/*!*************************************************************************
-		This function unmaps memory from buffer 
+		This function unmaps memory from buffer
 		****************************************************************************/
 		void						unmap();
 
@@ -48,7 +48,7 @@ namespace TDS {
 
 		//getters
 		VkBuffer				getBuffer()			const { return m_Buffer; }
-		void*					getMappedmemory()	const { return m_memory; }
+		void* getMappedmemory()	const { return m_memory; }
 		uint32_t				getInstanceCount()	const { return m_InstanceCount; }
 		VkDeviceSize			getInstanceSize()	const { return m_InstanceSize; }
 		VkDeviceSize			getAlignmentSize()	const { return m_AlignmentSize; }

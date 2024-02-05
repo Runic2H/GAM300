@@ -10,6 +10,7 @@
 #include "Physics/CollisionSystem.h"
 #include "AssetManagement/AssetManager.h"
 #include "Physics/PhysicsSystem.h"
+#include "Rendering/GraphicsManager.h"
 namespace TDS
 {
 	// Static variables
@@ -19,13 +20,14 @@ namespace TDS
 	std::vector<unsigned int>		CollisionSystem::sphereIndices;
 	std::vector<float>				CollisionSystem::capsuleVertices;
 	std::vector<unsigned int>		CollisionSystem::capsuleIndices;
+	bool							CollisionSystem::m_RenderDebugDrawing;
 
 	void CollisionSystem::CollisionSystemInit()
 	{
-		ClearAll();
-		GenerateCube();
-		GenerateSphere();
-		GenerateCapsule();
+		//ClearAll();
+		//GenerateCube();
+		//GenerateSphere();
+		//GenerateCapsule();
 	}
 
 	void CollisionSystem::CollisionSystemUpdate(const float dt, const std::vector<EntityID>& entities, Transform* _transform, GraphicsComponent* _graphics)
@@ -48,6 +50,40 @@ namespace TDS
 				}
 				else
 				{
+					MeshController* meshController = AssetManager::GetInstance()->GetMeshFactory().GetMeshController(_graphics[i].GetModelName(), _graphics[i].m_MeshControllerRef);
+					if (meshController == nullptr) continue;
+
+					auto& rootNodes = meshController->GetRoots();
+
+					auto nodeItr = rootNodes.find(_graphics[i].m_MeshNodeName);
+					if (nodeItr != rootNodes.end())
+					{
+						auto MeshItr = nodeItr->second.m_MeshList.find(_graphics[i].m_MeshName);
+						if (MeshItr != nodeItr->second.m_MeshList.end())
+						{
+							Vec3 vRadius = (MeshItr->second.m_MeshBoundingBox.getMax() - MeshItr->second.m_MeshBoundingBox.getMin()) * 0.5f; // size of the box collider 
+							Vec3 vCenter = (MeshItr->second.m_MeshBoundingBox.getMax() + MeshItr->second.m_MeshBoundingBox.getMin()) * 0.5f; // center of the box collider
+							float vRadiusMax = Mathf::Max(vRadius.x, Mathf::Max(vRadius.y, vRadius.z));
+							Vec4 worldCenter = _transform[i].GetTransformMatrix() * Vec4(vCenter, 1.f);
+							vSphere->SetColliderCenter(Vec3(worldCenter.x, worldCenter.y, worldCenter.z));
+							vSphere->SetColliderRadius(vRadiusMax);
+						}
+					}
+					else
+					{
+						if (_graphics[i].m_MeshNodeName == meshController->m_ModelPack->m_ModelName)
+						{
+							Vec3 vRadius = (meshController->GetSceneBoundingBox().getMax() - meshController->GetSceneBoundingBox().getMin()) * 0.5f; // size of the box collider 
+							Vec3 vCenter = (meshController->GetSceneBoundingBox().getMax() + meshController->GetSceneBoundingBox().getMin()) * 0.5f; // center of the box collider
+							float vRadiusMax = Mathf::Max(vRadius.x, Mathf::Max(vRadius.y, vRadius.z));
+							Vec4 worldCenter = _transform[i].GetTransformMatrix() * Vec4(vCenter, 1.f);
+							vSphere->SetColliderCenter(Vec3(worldCenter.x, worldCenter.y, worldCenter.z));
+							vSphere->SetColliderRadius(vRadiusMax); 
+						}
+
+					}
+
+		
 					//TDS::AssetModel *tmp_assetModel = AssetManager::GetInstance()->GetModelFactory().GetModel(_graphics[i].GetModelName(), _graphics[i].GetAsset());
 					//std::string key = _graphics[i].GetMeshName();
 					//auto it = tmp_assetModel->m_Meshes.find(key);
@@ -76,7 +112,7 @@ namespace TDS
 					//	vSphere->SetColliderRadius(vRadiusMax);
 					//}
 				}
-				
+
 
 			}
 
@@ -90,6 +126,71 @@ namespace TDS
 				}
 				else
 				{
+
+
+					if (!vBox->GetModelInit())
+					{
+						MeshController* meshController = AssetManager::GetInstance()->GetMeshFactory().GetMeshController(_graphics[i].GetModelName(), _graphics[i].m_MeshControllerRef);
+
+						if (meshController == nullptr) continue;
+
+						auto& rootNodes = meshController->GetRoots();
+
+						auto nodeItr = rootNodes.find(_graphics[i].m_MeshNodeName);
+						if (nodeItr != rootNodes.end())
+						{
+							auto MeshItr = nodeItr->second.m_MeshList.find(_graphics[i].m_MeshName);
+							if (MeshItr != nodeItr->second.m_MeshList.end())
+							{
+								Vec3 vSize = (MeshItr->second.m_MeshBoundingBox.getMax() - MeshItr->second.m_MeshBoundingBox.getMin()) * 0.5f; // size of the box collider 
+								Vec3 vCenter = (MeshItr->second.m_MeshBoundingBox.getMax() + MeshItr->second.m_MeshBoundingBox.getMin()) * 0.5f; // center of the box collider
+								Vec4 worldCenter = _transform[i].GetTransformMatrix() * Vec4(vCenter, 1.f);
+
+								vBox->SetColliderSize(vSize);
+								vBox->SetColliderCenter(Vec3(worldCenter.x, worldCenter.y, worldCenter.z));
+								vBox->SetModelSize(vSize); // scale
+								vBox->SetModelRotation(_transform[i].GetRotation()); // rotate
+								vBox->SetModelCenter(vCenter); // translate
+
+							}
+						}
+						else
+						{
+							if (_graphics[i].m_MeshNodeName == meshController->m_ModelPack->m_ModelName)
+							{
+								Vec3 vSize = (meshController->GetSceneBoundingBox().getMax() - meshController->GetSceneBoundingBox().getMin()) * 0.5f; // size of the box collider 
+								Vec3 vCenter = (meshController->GetSceneBoundingBox().getMax() + meshController->GetSceneBoundingBox().getMin()) * 0.5f; // center of the box collider
+								Vec4 worldCenter = _transform[i].GetTransformMatrix() * Vec4(vCenter, 1.f);
+
+								vBox->SetColliderSize(vSize);
+								vBox->SetColliderCenter(Vec3(worldCenter.x, worldCenter.y, worldCenter.z));
+								vBox->SetModelSize(vSize); // scale
+								vBox->SetModelRotation(_transform[i].GetRotation()); // rotate
+								vBox->SetModelCenter(vCenter); // translate
+							}
+							
+						}
+						
+						vBox->SetModelInit(true);
+
+						
+					}
+					// scaling the box collider & other offset values
+					//else
+					{
+						if (_transform[i].GetScale() + 1.f != vBox->GetColliderScale() || vBox->GetOffsetScale() != Vec3(0.f))
+						{
+							Vec3 vScale = _transform[i].GetScale() + vBox->GetOffsetScale();
+							Vec3 vSize = vBox->GetModelSize();
+							vSize.x *= vScale.x;
+							vSize.y *= vScale.y;
+							vSize.z *= vScale.z;
+							vBox->SetColliderSize(vSize);
+							vBox->SetColliderScale(vScale);
+						}
+					}
+
+
 					//if (!vBox->GetModelInit())
 					//{
 					//	TDS::AssetModel* tmp_assetModel = AssetManager::GetInstance()->GetModelFactory().GetModel(_graphics[i].GetModelName(), _graphics[i].GetAsset());
@@ -141,9 +242,9 @@ namespace TDS
 					//}
 				}
 				//vBox->SetColliderCenter(_transform[i].GetPosition() + vBox->GetOffsetCenter());
-				
+
 				_transform[i].SetOffSetPos(vBox->GetOffsetCenter());
-				Vec3 vScale = _transform[i].GetScale() - vBox->GetColliderScale() ;
+				Vec3 vScale = _transform[i].GetScale() - vBox->GetColliderScale();
 				_transform[i].SetOffSetScale(vBox->GetOffsetScale());
 			}
 
@@ -157,6 +258,13 @@ namespace TDS
 				_transform[i].SetOffSetScale(vScale);
 			}
 		}
+	}
+	void CollisionSystem::PreInit()
+	{
+		ClearAll();
+		GenerateCube();
+		GenerateSphere();
+		GenerateCapsule();
 	}
 	/*
 	* Functions that helps to generate shapes vertices and index
@@ -181,30 +289,24 @@ namespace TDS
 		cubeIndices =
 		{
 			// Front face
-			0, 1, 2,
-			2, 3, 0,
-
-			// Top face
-			3, 2, 6,
-			6, 7, 3,
+			0, 1, // Bottom edge
+			1, 2, // Right edge
+			2, 3, // Top edge
+			3, 0, // Left edge
 
 			// Back face
-			7, 6, 5,
-			5, 4, 7,
+			4, 5, // Bottom edge
+			5, 6, // Right edge
+			6, 7, // Top edge
+			7, 4, // Left edge
 
-			// Bottom face
-			4, 5, 1,
-			1, 0, 4,
-
-			// Left face
-			4, 0, 3,
-			3, 7, 4,
-
-			// Right face
-			1, 5, 6,
-			6, 2, 1
-
+			// Connecting edges
+			0, 4, // Front-bottom to Back-bottom
+			1, 5, // Front-right to Back-right
+			2, 6, // Front-top to Back-top
+			3, 7  // Front-left to Back-left
 		};
+
 	}
 
 	void CollisionSystem::GenerateSphere()
@@ -406,7 +508,7 @@ namespace TDS
 		{
 			for (int x = 0; x < points; ++x)
 			{
-				Vec3 tmp = Vec3(pX[x] * pR[y], pY[y], pZ[x] * pR[y] ) * radius;
+				Vec3 tmp = Vec3(pX[x] * pR[y], pY[y], pZ[x] * pR[y]) * radius;
 				tmp.y = yOff + tmp.y;
 				AddVertex(capsuleVertices, tmp.x, tmp.y, tmp.z);
 			}
@@ -429,14 +531,14 @@ namespace TDS
 		{
 			for (int x = 0; x < segments; ++x)
 			{
-				int i0,i1, i2, i3, i4, i5;
-				i0 = (y + 0)* (segments + 1) + x + 0;
-				i1 = (y + 1)* (segments + 1) + x + 0;
-				i2 = (y + 1)* (segments + 1) + x + 1;
+				int i0, i1, i2, i3, i4, i5;
+				i0 = (y + 0) * (segments + 1) + x + 0;
+				i1 = (y + 1) * (segments + 1) + x + 0;
+				i2 = (y + 1) * (segments + 1) + x + 1;
 
-				i3 = (y + 0)* (segments + 1) + x + 1;
-				i4 = (y + 0)* (segments + 1) + x + 0;
-				i5 = (y + 1)* (segments + 1) + x + 1;
+				i3 = (y + 0) * (segments + 1) + x + 1;
+				i4 = (y + 0) * (segments + 1) + x + 0;
+				i5 = (y + 1) * (segments + 1) + x + 1;
 
 				AddIndex(capsuleIndices, i0, i1, i2);
 				AddIndex(capsuleIndices, i3, i4, i5);

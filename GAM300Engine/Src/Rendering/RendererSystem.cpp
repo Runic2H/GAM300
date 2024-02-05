@@ -7,7 +7,11 @@
 #include "vulkanTools/vulkanSwapChain.h"
 #include "vulkanTools/VulkanTexture.h"
 #include "vulkanTools/Renderer.h"
+#include "Physics/CollisionSystem.h"
 #include "Rendering/Revamped/DeferredController.h"
+#include "components/PointLightComponent.h"
+#include "components/DirLightComponent.h"
+#include "components/SpotLightComponent.h"
 namespace TDS
 {
 #define _OLD
@@ -33,10 +37,11 @@ namespace TDS
 	void RendererSystem::OnUpdate(const float dt, const std::vector<EntityID>& entities, Transform* _TransformComponent, GraphicsComponent* _Graphics)
 	{
 		//Update point lights
-		GraphicsManager::getInstance().m_PointLightRenderer->newupdate(ubo, entities, _TransformComponent, _Graphics);
+		//GraphicsManager::getInstance().m_PointLightRenderer->newupdate(ubo, entities, _TransformComponent, _Graphics);
+
 
 #ifdef _OLD
-		onRenderTempFixed(dt, entities, _TransformComponent, _Graphics);
+		OnRenderDeferred(dt, entities, _TransformComponent, _Graphics);
 #else
 		OnRenderDeferred(dt, entities, _TransformComponent, _Graphics);
 #endif
@@ -44,68 +49,91 @@ namespace TDS
 
 	void RendererSystem::OnRenderDeferred(const float dt, const std::vector<EntityID>& entities, Transform* _TransComponent, GraphicsComponent* _Graphics)
 	{
-		auto deferredController = GraphicsManager::getInstance().GetDeferredController();
+		std::uint32_t frame = GraphicsManager::getInstance().GetSwapchainRenderer().getFrameIndex();
+		VkCommandBuffer commandBuffer = GraphicsManager::getInstance().getCommandBuffer();
 
-		deferredController->m_InstIndex = 0;
-		deferredController->m_PointLightIndex = 0;
-		deferredController->m_UpdateIndex = 0;
+		ubo.m_View = GraphicsManager::getInstance().GetCamera().GetViewMatrix();
 
+		ubo.m_Projection = Mat4::Perspective(GraphicsManager::getInstance().GetCamera().m_Fov * Mathf::Deg2Rad,
+			GraphicsManager::getInstance().GetSwapchainRenderer().getAspectRatio(), 0.1f, 1000000.f);
+		ubo.m_Projection.m[1][1] *= -1;
+
+		auto& graphmgr = GraphicsManager::getInstance();
+
+		//graphmgr.m_PointLightRenderer->newupdate(ubo, entities, _TransComponent, _Graphics);
+
+		auto deferredController = graphmgr.GetDeferredController();
+		auto& debugRenderer = graphmgr.GetDebugRenderer();
+		deferredController->ClearBatchSubmission();
+		deferredController->globalUBO = ubo;
+		deferredController->GetSceneUniform().m_View = GraphicsManager::getInstance().GetCamera().GetViewMatrix();
+		deferredController->GetSceneUniform().m_Proj = Mat4::Perspective(GraphicsManager::getInstance().GetCamera().m_Fov * Mathf::Deg2Rad,
+			GraphicsManager::getInstance().GetSwapchainRenderer().getAspectRatio(), 0.1f, 1000000.f);
+
+		deferredController->GetSceneUniform().m_Proj.m[1][1] *= -1;
 		for (size_t i = 0; i < entities.size(); ++i)
 		{
-			if (!_Graphics[i].IsPointLight())
+
+			if (Vec3 Scale = _TransComponent[i].GetScale(); Scale.x < FLT_MIN || Scale.y < FLT_MIN || Scale.z < FLT_MIN)
 			{
 
-				auto& GraphicsComp = _Graphics[i];
-				if (!ecs.getEntityIsEnabled(entities[i]) || !ecs.getComponentIsEnabled<GraphicsComponent>(entities[i]))
-				{
-					continue;
-				}
-				if (GraphicsManager::getInstance().IsViewingFrom2D())
-				{
-					if (GraphicsComp.m_UsedIn2D == false)
-						continue;
-				}
-
-				UpdateGraphicsData(&GraphicsComp);
-
-				DeferredController::InstanceData& meshInstance = deferredController->m_MeshInstances[GraphicsComp.m_MeshName];
-
-				UpdateData* updateData = nullptr;
-				std::uint32_t UpdateSize = std::uint32_t(meshInstance.m_Updates.size());
-				{
-
-					updateData = (meshInstance.m_Index == UpdateSize) ?
-						&meshInstance.m_Updates.emplace_back() : &meshInstance.m_Updates[meshInstance.m_Index];
-
-					updateData->m_pTransform = &_TransComponent[i];
-
-					updateData->m_EntityID = entities[i];
-				}
-				{
-					std::string texName = _Graphics[i].m_TextureName;
-
-					int textureID = AssetManager::GetInstance()->GetTextureFactory().GetTextureIndex(_Graphics[i].m_TextureName, _Graphics[i].m_TextureReference);
-
-					updateData->m_TextureID = textureID == -1 ? 499 : textureID;
-
-					++meshInstance.m_Index;
-				}
 			}
 			else
 			{
-				std::uint32_t frame = GraphicsManager::getInstance().GetSwapchainRenderer().getFrameIndex();
-				GraphicsManager::getInstance().m_PointLightRenderer->GetPipeline().BindDescriptor(frame, 1);
-				GraphicsManager::getInstance().m_PointLightRenderer->GetPipeline().UpdateUBO(&ubo, sizeof(GlobalUBO), 1, frame);
-				GraphicsManager::getInstance().m_PointLightRenderer->render(&_Graphics[i], &_TransComponent[i]);
+				_TransComponent[i].GenerateTransform();
+
+
+				if (_TransComponent[i].isDirty())
+				{
+					_TransComponent[i].GenerateFakeTransform();
+				}
+
 			}
+
+
+			if (_Graphics[i].ShowMesh() == false)
+				continue;
+			if (!ecs.getEntityIsEnabled(entities[i]) || !ecs.getComponentIsEnabled<GraphicsComponent>(entities[i]))
+			{
+				continue;
+			}
+
+			if (graphmgr.IsViewingFrom2D())
+			{
+				if (_Graphics[i].m_UsedIn2D == false)
+					continue;
+			}
+
+			SpotLightComponent* spotlight = ecs.getComponent<SpotLightComponent>(entities[i]);
+			DirectionalLightComponent* dirLight = ecs.getComponent<DirectionalLightComponent>(entities[i]);
+			PointLightComponent* pointLight = ecs.getComponent<PointLightComponent>(entities[i]);
+
+			//An entity CANNOT BE BOTH A LIGHT AND A OBJECT
+			if (spotlight || dirLight || pointLight)
+			{
+				if (spotlight)
+					deferredController->SubmitSpotLight(entities[i], spotlight, &_TransComponent[i]);
+
+
+				if (dirLight)
+					deferredController->SubmitDirectionalLight(entities[i], dirLight, &_TransComponent[i]);
+
+
+				if (pointLight)
+					deferredController->SubmitPointLight(entities[i], pointLight, &_TransComponent[i]);
+
+
+			}
+			else
+			{
+				deferredController->SubmitMesh(entities[i], &_Graphics[i], &_TransComponent[i]);
+				if (CollisionSystem::m_RenderDebugDrawing)
+					debugRenderer.GetDebugInstance().SubmitToDebugGroup(&_TransComponent[i], entities[i]);
+			}
+
+
+
 		}
-
-		deferredController->UpdateInstanceData();
-
-
-
-
-
 
 	}
 
@@ -267,10 +295,6 @@ namespace TDS
 	{
 		std::uint32_t frame = GraphicsManager::getInstance().GetSwapchainRenderer().getFrameIndex();
 		VkCommandBuffer commandBuffer = GraphicsManager::getInstance().getCommandBuffer();
-		Renderer3D::getTempPipeline()->SetCommandBuffer(commandBuffer);
-		GraphicsManager::getInstance().m_PointLightRenderer->GetPipeline().SetCommandBuffer(commandBuffer);
-		GraphicsManager::getInstance().m_DebugRenderer->GetPipeline().SetCommandBuffer(commandBuffer);
-
 		GraphicsManager::getInstance().m_PointLightRenderer->newupdate(ubo, entities, _TransformComponent, _Graphics);
 
 		for (size_t i = 0; i < entities.size(); ++i)
@@ -290,76 +314,75 @@ namespace TDS
 			pushData.Id = entities[i];
 
 
-			if (_Graphics[i].IsPointLight())
+
+			std::string texName = _Graphics[i].m_TextureName;
+			int textureID = AssetManager::GetInstance()->GetTextureFactory().GetTextureIndex(_Graphics[i].m_TextureName, _Graphics[i].m_TextureReference);
+
+			if (textureID == -1)
 			{
-				GraphicsManager::getInstance().m_PointLightRenderer->GetPipeline().BindDescriptor(frame, 1);
-				GraphicsManager::getInstance().m_PointLightRenderer->GetPipeline().UpdateUBO(&ubo, sizeof(GlobalUBO), 1, frame);
-				GraphicsManager::getInstance().m_PointLightRenderer->render(&_Graphics[i], &_TransformComponent[i]);
+				pushData.textureIndex = 499;
 			}
 			else
 			{
-				std::string texName = _Graphics[i].m_TextureName;
-				int textureID = AssetManager::GetInstance()->GetTextureFactory().GetTextureIndex(_Graphics[i].m_TextureName, _Graphics[i].m_TextureReference);
+				pushData.textureIndex = textureID;
+			}
 
-				if (textureID == -1)
-				{
-					pushData.textureIndex = 499;
-				}
-				else
-				{
-					pushData.textureIndex = textureID;
-				}
+			Renderer3D::getTempPipeline()->SetCommandBuffer(commandBuffer);
+			GraphicsManager::getInstance().m_PointLightRenderer->GetPipeline().SetCommandBuffer(commandBuffer);
+			GraphicsManager::getInstance().m_DebugRenderer->GetPipeline().SetCommandBuffer(commandBuffer);
 
-				if (Renderer3D::getTempPipeline()->GetCreateEntry().m_EnableDoubleBuffering)
+			if (Renderer3D::getTempPipeline()->GetCreateEntry().m_EnableDoubleBuffering)
+			{
+				MeshController* pModelController = _Graphics[i].m_MeshControllerRef.m_ResourcePtr;
+				if (_Graphics[i].m_ModelName != _Graphics[i].m_MeshControllerRef.m_AssetName)
 				{
-					MeshController* pModelController = _Graphics[i].m_MeshControllerRef.m_ResourcePtr;
-					if (_Graphics[i].m_ModelName != _Graphics[i].m_MeshControllerRef.m_AssetName)
+					MeshController* temp = AssetManager::GetInstance()->GetMeshFactory().GetMeshController(_Graphics[i].m_ModelName, _Graphics[i].m_MeshControllerRef);
+					if (temp == nullptr)
 					{
-						MeshController* temp = AssetManager::GetInstance()->GetMeshFactory().GetMeshController(_Graphics[i].m_ModelName, _Graphics[i].m_MeshControllerRef);
-						if (temp == nullptr)
-						{
-							temp = _Graphics[i].m_MeshControllerRef.m_ResourcePtr;
-							//TDS_WARN("No such model called {}", _Graphics[i].m_AssetReference.m_AssetName);
-						}
-						else
-						{
-							_Graphics[i].m_MeshControllerRef.m_AssetName = _Graphics[i].m_ModelName;
-							_Graphics[i].m_MeshControllerRef.m_ResourcePtr = temp;
-							pModelController = temp;
-						}
+						temp = _Graphics[i].m_MeshControllerRef.m_ResourcePtr;
+						//TDS_WARN("No such model called {}", _Graphics[i].m_AssetReference.m_AssetName);
+					}
+					else
+					{
+						_Graphics[i].m_MeshControllerRef.m_AssetName = _Graphics[i].m_ModelName;
+						_Graphics[i].m_MeshControllerRef.m_ResourcePtr = temp;
 						pModelController = temp;
 					}
+					pModelController = temp;
+				}
+
+
+
+
+				Mat4 temp{};
+
+				if (Vec3 Scale = _TransformComponent[i].GetScale(); Scale.x < 0.0001f || Scale.y < 0.0001f || Scale.z < 0.0001f)
+				{
+
+				}
+				else {
+					_TransformComponent[i].GenerateTransform();
+					_TransformComponent[i].GenerateChildFakeTransform();
+
+					if (_TransformComponent[i].GetPosition() == _TransformComponent[i].GetFakePosition() &&
+						_TransformComponent[i].GetScale() == _TransformComponent[i].GetFakeScale()
+						&& _TransformComponent[i].GetFakeRotation() == _TransformComponent[i].GetFakeRotation())
+					{
+						temp = _TransformComponent[i].GetTransformMatrix();
+					}
+					else
+					{
+
+						temp = _TransformComponent[i].GetFakeTransform();
+					}
+				}
+
+
+				if (_Graphics[i].IsPointLight() == false)
+				{//if not point light render using model
 
 					if (pModelController == nullptr)
 						continue;
-
-
-
-					Mat4 temp{};
-
-					if (Vec3 Scale = _TransformComponent[i].GetScale(); Scale.x < FLT_MIN || Scale.y < FLT_MIN || Scale.z < FLT_MIN)
-					{
-
-					}
-					else {
-						_TransformComponent[i].GenerateTransform();
-						_TransformComponent[i].GenerateFakeTransform();
-
-						if (_TransformComponent[i].GetPosition() == _TransformComponent[i].GetFakePosition() &&
-							_TransformComponent[i].GetScale() == _TransformComponent[i].GetFakeScale()
-							&& _TransformComponent[i].GetFakeRotation() == _TransformComponent[i].GetFakeRotation())
-						{
-							temp = _TransformComponent[i].GetTransformMatrix();
-						}
-						else
-						{
-
-							temp = _TransformComponent[i].GetFakeTransform();
-						}
-					}
-
-
-
 					auto& sceneNodeContainer = pModelController->GetRoots();
 					auto& rootNode = sceneNodeContainer[_Graphics[i].m_MeshNodeName];
 					auto& MeshList = sceneNodeContainer[_Graphics[i].m_MeshNodeName].m_MeshList;
@@ -384,7 +407,7 @@ namespace TDS
 					if (_Graphics[i].m_MeshControllerRef.m_ResourcePtr != nullptr)
 					{
 
-						MeshBuffer* meshBuffer = pModelController->GetMeshData(_Graphics[i].m_MeshName);
+						MeshBuffer* meshBuffer = pModelController->GetMeshBuffer();
 
 						if (meshBuffer == nullptr) continue;
 
@@ -412,35 +435,20 @@ namespace TDS
 
 						}
 					}
-
+				}
+				else
+				{
+					GraphicsManager::getInstance().m_PointLightRenderer->GetPipeline().BindDescriptor(frame, 1);
+					GraphicsManager::getInstance().m_PointLightRenderer->GetPipeline().UpdateUBO(&ubo, sizeof(GlobalUBO), 1, frame);
+					GraphicsManager::getInstance().m_PointLightRenderer->render(&_Graphics[i], &_TransformComponent[i]);
 
 				}
+
 			}
 		}
 	}
 
-	void RendererSystem::UpdateGraphicsData(GraphicsComponent* _Graphics)
-	{
-		if (_Graphics->m_ModelName != _Graphics->m_AssetReference.m_AssetName)
-		{
-			//AssetModel* pModel = AssetManager::GetInstance()->GetModelFactory().GetModel(_Graphics[i].m_ModelName, _Graphics[i].m_AssetReference);
 
-
-			MeshController* pMeshController = AssetManager::GetInstance()->GetMeshFactory().GetMeshController(_Graphics->m_ModelName, _Graphics->m_MeshControllerRef);
-
-			if (pMeshController == nullptr)
-			{
-				//TDS_WARN("No such model called {}", _Graphics[i].m_AssetReference.m_AssetName);
-			}
-			else
-			{
-				_Graphics->m_MeshControllerRef.m_AssetName = _Graphics->m_ModelName;
-				_Graphics->m_MeshControllerRef.m_ResourcePtr = pMeshController;
-
-			}
-
-		}
-	}
 
 
 
