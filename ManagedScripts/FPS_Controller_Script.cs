@@ -154,6 +154,7 @@ public class FPS_Controller_Script : Script
         if (lockCursor)
         {
             Input.Lock(lockCursor);
+            Input.HideMouse(lockCursor);
         }
         #endregion
 
@@ -346,7 +347,7 @@ public class FPS_Controller_Script : Script
                     }
                 }
                 // this is the command to move the object, modify the variable if needed for too slow/fast
-                gameObject.GetComponent<RigidBodyComponent>().SetLinearVelocity(velocityChange * 50);
+                gameObject.GetComponent<RigidBodyComponent>().SetLinearVelocity(velocityChange * 70);
             }
             // All movement calculations while walking
             else
@@ -428,7 +429,6 @@ public class FPS_Controller_Script : Script
         {
             if (Input.GetAxisX() != 0 || Input.GetAxisY() != 0)
             {
-                Console.WriteLine(Input.GetRawAxisX() + "," + Input.GetAxisX());
                 yaw = transform.GetRotation().Y + Input.GetAxisX() * Input.GetSensitivity() * mouseSensitivity;
                 if (!invertCamera)
                 {

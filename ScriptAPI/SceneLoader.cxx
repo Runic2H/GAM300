@@ -7,6 +7,9 @@ namespace ScriptAPI
 	{
 		EngineInterface::Reload();
 		TDS::SceneManager::GetInstance()->loadScene("Main Menu");
+		TDS::SceneManager::GetInstance()->awake();
+		TDS::SceneManager::GetInstance()->start();
+
 	}
 	void SceneLoader::LoadMainGame()
 	{
@@ -20,6 +23,9 @@ namespace ScriptAPI
 	{
 		EngineInterface::Reload();
 		TDS::SceneManager::GetInstance()->loadScene("Starting Cutscene");
+
+		TDS::SceneManager::GetInstance()->awake();
+		TDS::SceneManager::GetInstance()->start();
 	}
 
 }
