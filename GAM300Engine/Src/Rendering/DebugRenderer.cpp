@@ -194,7 +194,7 @@ namespace TDS
 				&debugInstance.m_DebugInstanceInfo.emplace_back() : &debugInstance.m_DebugInstanceInfo[debugInstance.m_Index];
 
 			updateInfo->m_Colour = Vec4(0.f, 1.f, 0.f, 1.f);
-			updateInfo->m_Transform = transform;
+			updateInfo->m_Transform = Mat4::Translate(Box->GetColliderCenter()) * Mat4::Rotate(transform->GetRotation()) * Mat4::Scale(Box->GetColliderSize());
 
 			++debugInstance.m_Index;
 		}
@@ -207,7 +207,7 @@ namespace TDS
 				&debugInstance.m_DebugInstanceInfo.emplace_back() : &debugInstance.m_DebugInstanceInfo[debugInstance.m_Index];
 
 			updateInfo->m_Colour = Vec4(0.f, 1.f, 0.f, 1.f);
-			updateInfo->m_Transform = transform;
+			updateInfo->m_Transform = transform->GetTransformMatrix();
 
 			++debugInstance.m_Index;
 
@@ -221,7 +221,7 @@ namespace TDS
 				&debugInstance.m_DebugInstanceInfo.emplace_back() : &debugInstance.m_DebugInstanceInfo[debugInstance.m_Index];
 
 			updateInfo->m_Colour = Vec4(0.f, 1.f, 0.f, 1.f);
-			updateInfo->m_Transform = transform;
+			updateInfo->m_Transform = transform->GetTransformMatrix();
 
 			++debugInstance.m_Index;
 		}
@@ -247,7 +247,7 @@ namespace TDS
 
 				{
 
-					instaneBuffer.m_WorldTransform = meshUpdateData.m_Transform->GetTransformMatrix();
+					instaneBuffer.m_WorldTransform = meshUpdateData.m_Transform;
 					instaneBuffer.m_Colour = meshUpdateData.m_Colour;
 				}
 

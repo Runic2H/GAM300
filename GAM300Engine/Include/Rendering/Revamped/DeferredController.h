@@ -10,7 +10,8 @@ namespace TDS
 		//STAGE_SHADOW,
 		//STAGE_DEPTH_SHADOW,
 		//STAGE_SHADOW_OMNI,
-
+		STAGE_3D_COMPOSITION_INSTANCE,
+		STAGE_3D_COMPOSITION_BATCH,
 		STAGE_COMPOSITION,
 		STAGE_MAX
 
@@ -59,12 +60,14 @@ namespace TDS
 		int						m_TextureID = -1;
 		bool					m_IsAnimated = false;
 		bool					m_ShowMesh = false;
+		bool					m_RenderIn2D = false;
 	};
 
 	struct UpdateData
 	{
 		std::vector<MeshUpdate>		m_MeshUpdates;
 		MeshBuffer* m_MeshBuffer = nullptr;
+		bool		m_UsedIn2D = false;
 	};
 
 
@@ -136,7 +139,7 @@ namespace TDS
 
 	struct alignas(16) LightingPushConstant
 	{
-		Vec4 ambientlightcolor = { 1.f, 1.f, 1.f, 0.02f };
+		Vec4 ambientlightcolor = { 1.f, 1.f, 1.f, 0.01f };
 		int activepointlights;
 		int activeDirLights;
 		int activeSpotLights;
@@ -224,6 +227,10 @@ namespace TDS
 		void											SubmitPointLight(std::uint32_t entityID, PointLightComponent* graphComp, Transform* transformComp);
 		void											SubmitDirectionalLight(std::uint32_t entityID, DirectionalLightComponent* graphComp, Transform* transformComp);
 		void											SubmitSpotLight(std::uint32_t entityID, SpotLightComponent* graphComp, Transform* transformComp);
+		void											SubmitMeshForUI(std::uint32_t entityID, int TextureID, GraphicsComponent* graphComp, Transform* transformComp);
+
+		void											RenderUISceneMeshBatch(VkCommandBuffer commandBuffer, std::uint32_t frameIndex);
+		void											RenderUISceneMeshInstance(VkCommandBuffer commandBuffer, std::uint32_t frameIndex);
 
 		void											ClearBatchSubmission();
 		void											SubmitMesh(std::uint32_t entityID, GraphicsComponent* graphComp, Transform* transformComp);
@@ -252,8 +259,13 @@ namespace TDS
 		std::array<LightSourceProperties, 1000>			m_LightSourceBuffers;
 		SceneCamera										m_SceneCamera;
 		SceneUniform									m_SceneUBO;
-		Batch3D											m_Batch3D;
-		Instance3D										m_Instance3D;
+
+		Batch3D											m_GBufferBatch3D;
+		Batch3D											m_Composition3DBatch;
+
+		Instance3D										m_GBufferInstance;
+		Instance3D										m_Composition3DInstance;
+
 		PIPELINE_LIST									m_DeferredPipelines;
 		std::unique_ptr<VulkanPipeline>					m_LightSource;
 		std::array<FBO*, RENDER_TOTAL>					m_FrameBuffers;

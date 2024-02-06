@@ -21,8 +21,8 @@ public class Flashlight_Script : Script
 
     public override void Update()
     {
-        lightSourceObj = GameObjectScriptFind("Pointlight");
-        lightIntensity = lightSourceObj.GetComponent<GraphicComponent>().getColourAlpha();
+        //lightSourceObj = GameObjectScriptFind("Pointlight");
+        //lightIntensity = lightSourceObj.GetComponent<GraphicComponent>().getColourAlpha();
 
         //For Inspector Display Can Be Removed When Building
         //lightIntensity = lightSource.intensity;
@@ -40,7 +40,7 @@ public class Flashlight_Script : Script
             }
             else
             {
-                lightSourceObj.GetComponent<GraphicComponent>().SetColourAlpha(0.6f);
+                lightSourceObj.GetComponent<GraphicComponent>().SetColourAlpha(1.0f);
             }
             //Input.KeyRelease(Keycode.F);
         }

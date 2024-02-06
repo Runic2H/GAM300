@@ -82,6 +82,16 @@ namespace TDS
             m_window.setWidth(LOWORD(lParam));
             m_window.setHeight(HIWORD(lParam));
             m_window.WindowIsResizing(true);
+            m_window.WindowIsResizing(true);
+            if (wParam == SIZE_MINIMIZED)
+            {
+                BROADCAST_MESSAGE("Stop Rendering");
+            }
+            else
+            {
+                BROADCAST_MESSAGE("Continue Rendering");
+
+            }
             break;
         case WM_XBUTTONUP:
         {
@@ -321,7 +331,7 @@ namespace TDS
                 if (!gamePaused)
                 {
                     executeFixedUpdate();
-                    ecs.runSystems(1, DeltaTime); // Other systems
+                    ecs.runSystems(1, DeltaTime);
                     executeUpdate();
                     executeLateUpdate();
                 }
@@ -334,8 +344,11 @@ namespace TDS
                 {
                     PhysicsSystem::SetIsPlaying(false);
                     CameraSystem::SetIsPlaying(false);
+                    InputSystem::GetInstance()->setMouseLock(false);
+                    InputSystem::GetInstance()->setCursorVisible(true);
                 }
             }
+
             ecs.runSystems(2, DeltaTime); // Event handler
             if (GraphicsManager::getInstance().IsRenderOn())
             {

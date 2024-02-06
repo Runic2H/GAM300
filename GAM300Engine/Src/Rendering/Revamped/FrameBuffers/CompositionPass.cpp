@@ -70,7 +70,7 @@ namespace TDS
 		);
 
 
-		RenderTargetCI depthInfo = RenderTargetCI(depthFormat,
+		RenderTargetCI depthInfo = RenderTargetCI(VK_FORMAT_D32_SFLOAT,
 			VK_IMAGE_ASPECT_DEPTH_BIT,
 			VK_IMAGE_VIEW_TYPE_2D,
 			Vec3(m_FrameBufferDimension.x, m_FrameBufferDimension.y, 1.f),

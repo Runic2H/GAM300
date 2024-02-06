@@ -26,7 +26,7 @@ namespace TDS
 
 	struct DebugInstanceInfo
 	{
-		Transform* m_Transform;
+		Mat4			m_Transform;
 		Vec4			m_Colour;
 	};
 

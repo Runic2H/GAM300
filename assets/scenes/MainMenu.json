@@ -1,15 +1,15 @@
 {
     "Archetype Sizes": {
-        "110000100000100": {
+        "110000100000100000": {
             "0": 816,
-            "1": 2016,
-            "6": 2112,
+            "1": 2304,
+            "6": 2160,
             "12": 2160
         }
     },
     "Entity Data": {
         "1": {
-            "ArchetypeID": "110000100000100",
+            "ArchetypeID": "110000100000100000",
             "Enabled": true,
             "Name Tag": {
                 "Name": "BackGround",
@@ -64,12 +64,32 @@
                     "x": 0.0,
                     "y": 0.0,
                     "z": 0.0
+                },
+                "OldFakePosition": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "OldFakeScale": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "OldFakeRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "ParentPosition": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
                 }
             },
             "Graphics Component": {
                 "PointLight": false,
                 "TextureName": "",
-                "Mesh Renderer": true,
+                "Show Mesh": true,
                 "Debug": false,
                 "ModelName": "",
                 "MeshName": "",
@@ -80,7 +100,8 @@
                     "z": 0.0,
                     "w": 0.003921568859368563
                 },
-                "Used In 2D": false
+                "Used In 2D": false,
+                "Model UID": 0
             },
             "UI Sprite": {
                 "Texture": "newmainmenu_bg.dds",
@@ -118,7 +139,7 @@
             }
         },
         "2": {
-            "ArchetypeID": "110000100000100",
+            "ArchetypeID": "110000100000100000",
             "Enabled": true,
             "Name Tag": {
                 "Name": "PlayButton",
@@ -173,12 +194,32 @@
                     "x": 0.0,
                     "y": 0.0,
                     "z": 0.0
+                },
+                "OldFakePosition": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "OldFakeScale": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "OldFakeRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "ParentPosition": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
                 }
             },
             "Graphics Component": {
                 "PointLight": false,
                 "TextureName": "",
-                "Mesh Renderer": true,
+                "Show Mesh": true,
                 "Debug": false,
                 "ModelName": "",
                 "MeshName": "",
@@ -189,7 +230,8 @@
                     "z": 1.0,
                     "w": 1.0
                 },
-                "Used In 2D": false
+                "Used In 2D": false,
+                "Model UID": 0
             },
             "UI Sprite": {
                 "Texture": "Play_Button.dds",
@@ -227,7 +269,7 @@
             }
         },
         "3": {
-            "ArchetypeID": "110000100000100",
+            "ArchetypeID": "110000100000100000",
             "Enabled": true,
             "Name Tag": {
                 "Name": "SettingsButton",
@@ -282,12 +324,32 @@
                     "x": 0.0,
                     "y": 0.0,
                     "z": 0.0
+                },
+                "OldFakePosition": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "OldFakeScale": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "OldFakeRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "ParentPosition": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
                 }
             },
             "Graphics Component": {
                 "PointLight": false,
                 "TextureName": "",
-                "Mesh Renderer": true,
+                "Show Mesh": true,
                 "Debug": false,
                 "ModelName": "",
                 "MeshName": "",
@@ -298,7 +360,8 @@
                     "z": 1.0,
                     "w": 1.0
                 },
-                "Used In 2D": false
+                "Used In 2D": false,
+                "Model UID": 0
             },
             "UI Sprite": {
                 "Texture": "Settings_Button.dds",
@@ -336,7 +399,7 @@
             }
         },
         "4": {
-            "ArchetypeID": "110000100000100",
+            "ArchetypeID": "110000100000100000",
             "Enabled": true,
             "Name Tag": {
                 "Name": "QuitButton",
@@ -391,12 +454,32 @@
                     "x": 0.0,
                     "y": 0.0,
                     "z": 0.0
+                },
+                "OldFakePosition": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "OldFakeScale": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "OldFakeRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "ParentPosition": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
                 }
             },
             "Graphics Component": {
                 "PointLight": false,
                 "TextureName": "",
-                "Mesh Renderer": true,
+                "Show Mesh": true,
                 "Debug": false,
                 "ModelName": "",
                 "MeshName": "",
@@ -407,7 +490,8 @@
                     "z": 0.0,
                     "w": 0.0
                 },
-                "Used In 2D": false
+                "Used In 2D": false,
+                "Model UID": 0
             },
             "UI Sprite": {
                 "Texture": "Quit_Button.dds",
@@ -445,7 +529,7 @@
             }
         },
         "5": {
-            "ArchetypeID": "110000100000100",
+            "ArchetypeID": "110000100000100000",
             "Enabled": true,
             "Name Tag": {
                 "Name": "TeamLogo",
@@ -500,12 +584,32 @@
                     "x": 0.0,
                     "y": 0.0,
                     "z": 0.0
+                },
+                "OldFakePosition": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "OldFakeScale": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "OldFakeRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "ParentPosition": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
                 }
             },
             "Graphics Component": {
                 "PointLight": false,
                 "TextureName": "",
-                "Mesh Renderer": true,
+                "Show Mesh": true,
                 "Debug": false,
                 "ModelName": "",
                 "MeshName": "",
@@ -516,7 +620,8 @@
                     "z": 1.0,
                     "w": 1.0
                 },
-                "Used In 2D": false
+                "Used In 2D": false,
+                "Model UID": 0
             },
             "UI Sprite": {
                 "Texture": "team_logo_3.dds",
@@ -554,7 +659,7 @@
             }
         },
         "6": {
-            "ArchetypeID": "110000100000100",
+            "ArchetypeID": "110000100000100000",
             "Enabled": true,
             "Name Tag": {
                 "Name": "Title",
@@ -609,12 +714,32 @@
                     "x": 0.0,
                     "y": 0.0,
                     "z": 0.0
+                },
+                "OldFakePosition": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "OldFakeScale": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "OldFakeRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "ParentPosition": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
                 }
             },
             "Graphics Component": {
                 "PointLight": false,
                 "TextureName": "",
-                "Mesh Renderer": true,
+                "Show Mesh": true,
                 "Debug": false,
                 "ModelName": "",
                 "MeshName": "",
@@ -625,7 +750,8 @@
                     "z": 0.0,
                     "w": 0.0
                 },
-                "Used In 2D": false
+                "Used In 2D": false,
+                "Model UID": 0
             },
             "UI Sprite": {
                 "Texture": "game_title_3.dds",

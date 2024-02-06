@@ -1,5 +1,4 @@
 #include "eventManager/eventHandler.h"
-
 namespace TDS
 {
 	EventManager eventManager;
@@ -17,13 +16,13 @@ namespace TDS
 			NameTag* nameTagComponent = ecs.getComponent<NameTag>(event->id);
 			Transform* parentComp = ecs.getComponent<Transform>(event->id);
 			std::shared_ptr<ChildTransformationEvent> currentEvent = static_pointer_cast<ChildTransformationEvent>(event);
-
+			
 
 			for (auto childID : nameTagComponent->GetHierarchyChildren())
 			{
 				changeChildTransformation(childID, event->id, currentEvent->positionChange, currentEvent->scaleChange, currentEvent->rotationChange);
 			}
-
+			
 
 		}
 		eventManager.clearQueue(EventTypes::CHILD_TRANSFORMATION);
@@ -32,10 +31,11 @@ namespace TDS
 	{
 		Transform* childTransform = GetTransform(childEntity);
 		Transform* parentTransform = GetTransform(parent);
+		childTransform->SetParentPosition(parentTransform->GetPosition());
 
 		childTransform->SetParentPosition(parentTransform->GetPosition());
 
-		;		Vec3 newPosition = childTransform->GetPosition();
+		Vec3 newPosition = childTransform->GetPosition();
 		Vec3 newScale = childTransform->GetScale();
 		Vec3 newRotation = childTransform->GetRotation();
 
@@ -49,6 +49,13 @@ namespace TDS
 
 		childTransform->GenerateTransform();
 		childTransform->GenerateFakeTransform();
+
+		GraphicsComponent* parentGra = GetGraphicsComponent(parent);
+		GraphicsComponent* childGra = GetGraphicsComponent(childEntity);
+
+		//childGra->m_ModelName = parentGra->m_ModelName;
+
+
 
 
 		NameTag* childNameTag = GetNameTag(childEntity);
@@ -89,7 +96,7 @@ namespace TDS
 	}
 	void EventHandler::postChildTransformationEvent(EntityID entityID, Vec3 oldPosition, Vec3 oldScale, Vec3 oldRotation)
 	{
-		Transform* transformComponent = ecs.getComponent<Transform>(entityID);
+		Transform* transformComponent =  ecs.getComponent<Transform>(entityID);
 
 		ChildTransformationEvent newEvent;
 		newEvent.id = entityID;

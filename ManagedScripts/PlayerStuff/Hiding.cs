@@ -32,9 +32,7 @@ public class Hiding : Script
 
     public override void Update()
     {
-        player = GameObjectScriptFind("Player");
         nonHidingPos = new Vector3(2257,250,-111);
-        closet = GameObjectScriptFind("Body2");
         _flashlight = player.GetComponent<Flashlight_Script>();
         hidingPos = closet.transform.GetPosition();
         _RotationAngle = 180;

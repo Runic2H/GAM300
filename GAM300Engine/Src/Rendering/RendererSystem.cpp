@@ -91,7 +91,7 @@ namespace TDS
 			}
 
 
-			if (_Graphics->ShowMesh() == false)
+			if (_Graphics[i].ShowMesh() == false)
 				continue;
 			if (!ecs.getEntityIsEnabled(entities[i]) || !ecs.getComponentIsEnabled<GraphicsComponent>(entities[i]))
 			{

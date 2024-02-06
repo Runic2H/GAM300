@@ -45,7 +45,10 @@ namespace TDS
 
 			CurrController.m_ModelPack = new Modelpack();
 
-
+			if (fileName == "bedside_lamp_Bin.bin")
+			{
+				std::cout << std::endl;
+			}
 
 			CurrController.m_ModelPack->LoadModelPack(path);
 
@@ -92,6 +95,9 @@ namespace TDS
 			if (CurrController.m_ModelPack->m_ModelHandle.m_SubMesh.size() == 1)
 			{
 				CurrController.LoadMeshData();
+
+				
+
 			}
 			else
 			{
@@ -116,7 +122,6 @@ namespace TDS
 			std::filesystem::path FilePath(path);
 			std::string fileName = FilePath.filename().string();
 			std::string outName = fileName;
-
 		
 
 			auto itr = m_ModelIndices.find(fileName);
@@ -140,6 +145,8 @@ namespace TDS
 					if (CurrController.m_ModelPack->m_ModelHandle.m_SubMesh.size() == 1)
 					{
 						CurrController.LoadMeshData();
+
+						CurrController.BuildMeshTree();
 					}
 					else
 					{
@@ -256,6 +263,8 @@ namespace TDS
 					LoadNewModelWithNewName(Path, modelName);
 					model.m_AssetName = modelName;
 					model.m_ResourcePtr = &m_MeshControllers[m_CurrentIndex];
+
+					return model.m_ResourcePtr;
 				}
 
 

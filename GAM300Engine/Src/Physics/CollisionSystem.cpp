@@ -69,9 +69,21 @@ namespace TDS
 							vSphere->SetColliderRadius(vRadiusMax);
 						}
 					}
+					else
+					{
+						if (_graphics[i].m_MeshNodeName == meshController->m_ModelPack->m_ModelName)
+						{
+							Vec3 vRadius = (meshController->GetSceneBoundingBox().getMax() - meshController->GetSceneBoundingBox().getMin()) * 0.5f; // size of the box collider 
+							Vec3 vCenter = (meshController->GetSceneBoundingBox().getMax() + meshController->GetSceneBoundingBox().getMin()) * 0.5f; // center of the box collider
+							float vRadiusMax = Mathf::Max(vRadius.x, Mathf::Max(vRadius.y, vRadius.z));
+							Vec4 worldCenter = _transform[i].GetTransformMatrix() * Vec4(vCenter, 1.f);
+							vSphere->SetColliderCenter(Vec3(worldCenter.x, worldCenter.y, worldCenter.z));
+							vSphere->SetColliderRadius(vRadiusMax); 
+						}
 
+					}
 
-
+		
 					//TDS::AssetModel *tmp_assetModel = AssetManager::GetInstance()->GetModelFactory().GetModel(_graphics[i].GetModelName(), _graphics[i].GetAsset());
 					//std::string key = _graphics[i].GetMeshName();
 					//auto it = tmp_assetModel->m_Meshes.find(key);
@@ -142,7 +154,26 @@ namespace TDS
 
 							}
 						}
+						else
+						{
+							if (_graphics[i].m_MeshNodeName == meshController->m_ModelPack->m_ModelName)
+							{
+								Vec3 vSize = (meshController->GetSceneBoundingBox().getMax() - meshController->GetSceneBoundingBox().getMin()) * 0.5f; // size of the box collider 
+								Vec3 vCenter = (meshController->GetSceneBoundingBox().getMax() + meshController->GetSceneBoundingBox().getMin()) * 0.5f; // center of the box collider
+								Vec4 worldCenter = _transform[i].GetTransformMatrix() * Vec4(vCenter, 1.f);
+
+								vBox->SetColliderSize(vSize);
+								vBox->SetColliderCenter(Vec3(worldCenter.x, worldCenter.y, worldCenter.z));
+								vBox->SetModelSize(vSize); // scale
+								vBox->SetModelRotation(_transform[i].GetRotation()); // rotate
+								vBox->SetModelCenter(vCenter); // translate
+							}
+							
+						}
+						
 						vBox->SetModelInit(true);
+
+						
 					}
 					// scaling the box collider & other offset values
 					//else

@@ -95,8 +95,8 @@ namespace TDS
 			NameTag* mainRoot = reinterpret_cast<NameTag*>(getComponentByName("Name Tag", rootEntity));
 			mainRoot->SetName(ModelAssetName.data());
 			GraphicsComponent* graphComponent = reinterpret_cast<GraphicsComponent*>(getComponentByName("Graphics Component", rootEntity));
-			//graphComponent->m_MeshName = ModelAssetName;
-			//graphComponent->m_MeshNodeName = ModelAssetName;
+			graphComponent->m_MeshName = ModelAssetName;
+			graphComponent->m_MeshNodeName = ModelAssetName;
 
 
 			for (auto& rootNodes : meshcontroller->GetRoots())

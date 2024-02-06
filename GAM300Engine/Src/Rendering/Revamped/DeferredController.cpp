@@ -17,6 +17,7 @@
 #include "Rendering/Renderer2D.h"
 #include "Rendering/FontRenderer.h"
 #include "Physics/CollisionSystem.h"
+#include "components/tag.h"
 #include "Rendering/Skybox.h"
 namespace TDS
 {
@@ -94,7 +95,7 @@ namespace TDS
 			entry.m_ShaderInputs.m_InputVertex.push_back(VertexBufferInfo(false, layout, sizeof(TDSModel::Vertex)));
 
 			BufferInfo Buffer{};
-			Buffer.m_Data = m_Batch3D.m_BatchBuffers.data();
+			Buffer.m_Data = m_GBufferBatch3D.m_BatchBuffers.data();
 			Buffer.m_Size = MAX_POSSIBLE_BATCH * sizeof(BatchData);
 			Buffer.m_Static = false;
 			entry.m_ShaderInputs.m_InputBuffers[15] = Buffer;
@@ -118,7 +119,7 @@ namespace TDS
 			entry2.m_ShaderInputs.m_InputVertex.push_back(VertexBufferInfo(false, layout, sizeof(TDSModel::Vertex)));
 			entry2.m_FBTarget = m_FrameBuffers[RENDER_PASS::RENDER_G_BUFFER];
 			BufferInfo Buffer2{};
-			Buffer2.m_Data = m_Instance3D.m_InstanceBuffers.data();
+			Buffer2.m_Data = m_GBufferInstance.m_InstanceBuffers.data();
 			Buffer2.m_Size = MAX_POSSIBLE_BATCH * sizeof(BatchData);
 			Buffer2.m_Static = false;
 			entry2.m_ShaderInputs.m_InputBuffers[15] = Buffer2;
@@ -199,26 +200,96 @@ namespace TDS
 			m_DeferredPipelines[DEFERRED_STAGE::STAGE_COMPOSITION]->Create(entry);
 		}
 
+		//For clean 3D objects in UI pass with no lighting applied
+		{
+			PipelineCreateEntry entry{};
+			entry.m_NumDescriptorSets = 1;
+
+			entry.m_ShaderInputs.m_Shaders.insert(std::make_pair(SHADER_FLAG::VERTEX, "../assets/shaders/BatchShaderVert.spv"));
+			entry.m_ShaderInputs.m_Shaders.insert(std::make_pair(SHADER_FLAG::FRAGMENT, "../assets/shaders/Composition3D.spv"));
+			entry.m_PipelineConfig.m_DstClrBlend = VK_BLEND_FACTOR_ZERO;
+			entry.m_PipelineConfig.m_SrcClrBlend = VK_BLEND_FACTOR_ZERO;
+			entry.m_PipelineConfig.m_EnableDepthTest = true;
+			entry.m_PipelineConfig.m_EnableDepthWrite = true;
+			entry.m_PipelineConfig.m_SrcAlphaBlend = VK_BLEND_FACTOR_ZERO;
+			entry.m_PipelineConfig.m_DstAlphaBlend = VK_BLEND_FACTOR_ZERO;
+			entry.m_PipelineConfig.m_CullMode = VkCullModeFlagBits::VK_CULL_MODE_NONE;
+			entry.m_FBTarget = m_FrameBuffers[RENDER_PASS::RENDER_COMPOSITION];
+
+			VertexLayout layout =
+				VertexLayout(
+					{
+					  VertexBufferElement(VAR_TYPE::VEC3, "vPosition"),
+					  VertexBufferElement(VAR_TYPE::VEC3, "vBiTangent"),
+					  VertexBufferElement(VAR_TYPE::VEC3, "vTangent"),
+					  VertexBufferElement(VAR_TYPE::VEC3, "vNormals"),
+					  VertexBufferElement(VAR_TYPE::VEC2, "vUV"),
+					  VertexBufferElement(VAR_TYPE::VEC4, "vColor"),
+					  VertexBufferElement(VAR_TYPE::VEC4, "BoneIDs"),
+					  VertexBufferElement(VAR_TYPE::VEC4, "Weights"),
+					  VertexBufferElement(VAR_TYPE::VEC2, "MeshID"),
+					});
+
+			entry.m_ShaderInputs.m_InputVertex.push_back(VertexBufferInfo(false, layout, sizeof(TDSModel::Vertex)));
+
+			BufferInfo Buffer{};
+			Buffer.m_Data = m_Composition3DBatch.m_BatchBuffers.data();
+			Buffer.m_Size = MAX_POSSIBLE_BATCH * sizeof(BatchData);
+			Buffer.m_Static = false;
+			entry.m_ShaderInputs.m_InputBuffers[15] = Buffer;
+
+			m_DeferredPipelines[DEFERRED_STAGE::STAGE_3D_COMPOSITION_BATCH] = std::make_shared<VulkanPipeline>();
+			m_DeferredPipelines[DEFERRED_STAGE::STAGE_3D_COMPOSITION_BATCH]->Create(entry);
+
+			PipelineCreateEntry entry2{};
+
+
+			entry2.m_NumDescriptorSets = 1;
+			entry2.m_ShaderInputs.m_Shaders.insert(std::make_pair(SHADER_FLAG::VERTEX, "../assets/shaders/InstanceShaderVert.spv"));
+			entry2.m_ShaderInputs.m_Shaders.insert(std::make_pair(SHADER_FLAG::FRAGMENT, "../assets/shaders/Composition3D.spv"));
+			entry2.m_PipelineConfig.m_DstClrBlend = VK_BLEND_FACTOR_ZERO;
+			entry2.m_PipelineConfig.m_SrcClrBlend = VK_BLEND_FACTOR_ZERO;
+			entry2.m_PipelineConfig.m_SrcAlphaBlend = VK_BLEND_FACTOR_ZERO;
+			entry2.m_PipelineConfig.m_DstAlphaBlend = VK_BLEND_FACTOR_ZERO;
+			entry2.m_PipelineConfig.m_CullMode = VkCullModeFlagBits::VK_CULL_MODE_NONE;
+			entry2.m_PipelineConfig.m_EnableDepthTest = true;
+			entry2.m_PipelineConfig.m_EnableDepthWrite = true;
+			entry2.m_ShaderInputs.m_InputVertex.push_back(VertexBufferInfo(false, layout, sizeof(TDSModel::Vertex)));
+			entry2.m_FBTarget = m_FrameBuffers[RENDER_PASS::RENDER_COMPOSITION];
+			BufferInfo Buffer2{};
+			Buffer2.m_Data = m_Composition3DInstance.m_InstanceBuffers.data();
+			Buffer2.m_Size = MAX_POSSIBLE_BATCH * sizeof(BatchData);
+			Buffer2.m_Static = false;
+			entry2.m_ShaderInputs.m_InputBuffers[15] = Buffer2;
+
+
+			m_DeferredPipelines[DEFERRED_STAGE::STAGE_3D_COMPOSITION_INSTANCE] = std::make_shared<VulkanPipeline>();
+			m_DeferredPipelines[DEFERRED_STAGE::STAGE_3D_COMPOSITION_INSTANCE]->Create(entry2);
+
+
+		}
+
+
 		UpdateDeferredTextures();
 	}
 	void DeferredController::G_BufferPassBatch(VkCommandBuffer commandBuffer, std::uint32_t frameIndex)
 	{
 		auto GBufferPipeline = m_DeferredPipelines[DEFERRED_STAGE::STAGE_G_BUFFER_BATCH];
 		GBufferPipeline->SetCommandBuffer(commandBuffer);
-		for (auto& meshItr : m_Batch3D.m_BatchUpdateInfo)
+		for (auto& meshItr : m_GBufferBatch3D.m_BatchUpdateInfo)
 		{
 			for (auto& updates : meshItr.second.m_MeshUpdates)
 			{
-				m_Batch3D.m_BatchBuffers[updates.m_MeshID].m_EntityID = updates.m_EntityID;
-				m_Batch3D.m_BatchBuffers[updates.m_MeshID].m_IsRender = updates.m_ShowMesh;
-				m_Batch3D.m_BatchBuffers[updates.m_MeshID].m_modelMatrix = updates.m_pTransform->GetFakeTransform();
-				m_Batch3D.m_BatchBuffers[updates.m_MeshID].m_TextureID = updates.m_TextureID;
+				m_GBufferBatch3D.m_BatchBuffers[updates.m_MeshID].m_EntityID = updates.m_EntityID;
+				m_GBufferBatch3D.m_BatchBuffers[updates.m_MeshID].m_IsRender = updates.m_ShowMesh;
+				m_GBufferBatch3D.m_BatchBuffers[updates.m_MeshID].m_modelMatrix = updates.m_pTransform->GetFakeTransform();
+				m_GBufferBatch3D.m_BatchBuffers[updates.m_MeshID].m_TextureID = updates.m_TextureID;
 			}
 			meshItr.second.m_MeshUpdates.clear();
 		}
 
 		GBufferPipeline->UpdateUBO(&m_SceneUBO, sizeof(SceneUniform), 5, frameIndex);
-		GBufferPipeline->UpdateUBO(m_Batch3D.m_BatchBuffers.data(), sizeof(BatchData) * m_Batch3D.m_BatchBuffers.size(), 15, frameIndex);
+		GBufferPipeline->UpdateUBO(m_GBufferBatch3D.m_BatchBuffers.data(), sizeof(BatchData) * m_GBufferBatch3D.m_BatchBuffers.size(), 15, frameIndex);
 
 		if (AssetManager::GetInstance()->GetTextureFactory().m_UpdateArrayBatch)
 		{
@@ -226,7 +297,7 @@ namespace TDS
 			AssetManager::GetInstance()->GetTextureFactory().m_UpdateArrayBatch = false;
 		}
 
-		for (auto& [meshName, meshUpdate] : m_Batch3D.m_BatchUpdateInfo)
+		for (auto& [meshName, meshUpdate] : m_GBufferBatch3D.m_BatchUpdateInfo)
 		{
 			GBufferPipeline->BindPipeline();
 			GBufferPipeline->BindVertexBuffer(*meshUpdate.m_MeshBuffer->m_VertexBuffer);
@@ -236,16 +307,16 @@ namespace TDS
 
 			GBufferPipeline->DrawIndexed(*meshUpdate.m_MeshBuffer->m_VertexBuffer, *meshUpdate.m_MeshBuffer->m_IndexBuffer, frameIndex);
 		}
-		m_Batch3D.m_BatchUpdateInfo.clear();
+		m_GBufferBatch3D.m_BatchUpdateInfo.clear();
 
 	}
 	void DeferredController::G_BufferInstanced(VkCommandBuffer commandBuffer, std::uint32_t frameIndex)
 	{
 		auto GBufferPipeline = m_DeferredPipelines[DEFERRED_STAGE::STAGE_G_BUFFER_INSTANCE];
 		int startingOffset = 0;
-		for (auto& itr : m_Instance3D.m_instanceRenderManager.m_InstanceUpdateInfo)
+		for (auto& itr : m_GBufferInstance.m_instanceRenderManager.m_InstanceUpdateInfo)
 		{
-			auto& instanceReq = m_Instance3D.m_InstanceRequests[m_Instance3D.m_GroupIdx];
+			auto& instanceReq = m_GBufferInstance.m_InstanceRequests[m_GBufferInstance.m_GroupIdx];
 			instanceReq.m_MeshBuffer = itr.first;
 
 			for (std::uint32_t i = 0; i < itr.second.m_Index; ++i)
@@ -253,30 +324,30 @@ namespace TDS
 				auto& meshUpdateData = itr.second.m_Updates[i];
 
 				auto& InstanceInfo = instanceReq.m_RenderInstanceInfo;
-				auto& instaneBuffer = m_Instance3D.m_InstanceBuffers[m_Instance3D.m_TotalInstances];
+				auto& instaneBuffer = m_GBufferInstance.m_InstanceBuffers[m_GBufferInstance.m_TotalInstances];
 
 				InstanceInfo.m_InstanceOffset = startingOffset;
 				InstanceInfo.m_Instances = itr.second.m_Index;
 
 				{
-					instaneBuffer.m_MaterialID = m_Instance3D.m_TotalInstances;
+					instaneBuffer.m_MaterialID = m_GBufferInstance.m_TotalInstances;
 					instaneBuffer.m_IsRender = meshUpdateData.m_ShowMesh;
 					instaneBuffer.m_TextureID = meshUpdateData.m_TextureID;
 					instaneBuffer.m_EntityID = meshUpdateData.m_EntityID;
 					instaneBuffer.m_modelMatrix = meshUpdateData.m_pTransform->GetTransformMatrix();
 				}
 
-				++m_Instance3D.m_TotalInstances;
+				++m_GBufferInstance.m_TotalInstances;
 
 			}
-			startingOffset = m_Instance3D.m_TotalInstances;
+			startingOffset = m_GBufferInstance.m_TotalInstances;
 			itr.second.m_Index = 0;
-			++m_Instance3D.m_GroupIdx;
+			++m_GBufferInstance.m_GroupIdx;
 		}
 
 
 		GBufferPipeline->UpdateUBO(&m_SceneUBO, sizeof(SceneUniform), 5, frameIndex);
-		GBufferPipeline->UpdateUBO(m_Instance3D.m_InstanceBuffers.data(), sizeof(BatchData) * m_Instance3D.m_TotalInstances, 15, frameIndex);
+		GBufferPipeline->UpdateUBO(m_GBufferInstance.m_InstanceBuffers.data(), sizeof(BatchData) * m_GBufferInstance.m_TotalInstances, 15, frameIndex);
 
 		if (AssetManager::GetInstance()->GetTextureFactory().m_UpdateArrayInstance)
 		{
@@ -285,9 +356,9 @@ namespace TDS
 		}
 
 		GBufferPipeline->SetCommandBuffer(commandBuffer);
-		for (std::uint32_t i = 0; i < m_Instance3D.m_GroupIdx; ++i)
+		for (std::uint32_t i = 0; i < m_GBufferInstance.m_GroupIdx; ++i)
 		{
-			auto& instanceReq = m_Instance3D.m_InstanceRequests[i];
+			auto& instanceReq = m_GBufferInstance.m_InstanceRequests[i];
 
 			GBufferPipeline->BindPipeline();
 			GBufferPipeline->BindVertexBuffer(*instanceReq.m_MeshBuffer->m_VertexBuffer);
@@ -301,14 +372,14 @@ namespace TDS
 			instanceReq.m_RenderInstanceInfo.m_Instances = 0;
 		}
 
-		m_Instance3D.m_TotalInstances = 0;
-		m_Instance3D.m_GroupIdx = 0;
+		m_GBufferInstance.m_TotalInstances = 0;
+		m_GBufferInstance.m_GroupIdx = 0;
 
 	}
 	void DeferredController::ClearBatchSubmission()
 	{
-		m_Instance3D.m_GroupIdx = 0;
-		m_Instance3D.m_TotalInstances = 0;
+		m_GBufferInstance.m_GroupIdx = 0;
+		m_GBufferInstance.m_TotalInstances = 0;
 
 	}
 	void DeferredController::SubmitMesh(std::uint32_t entityID, GraphicsComponent* graphComp, Transform* transformComp)
@@ -335,7 +406,7 @@ namespace TDS
 
 		if (graphComp->m_ModelName != graphComp->m_MeshControllerRef.m_AssetName)
 		{
-			AssetManager::GetInstance()->GetMeshFactory().UnloadReference(graphComp->m_MeshControllerRef);
+
 			std::string newMeshName = "";
 			MeshController* temp = AssetManager::GetInstance()->GetMeshFactory().GetMeshController(graphComp->m_ModelName, graphComp->m_MeshControllerRef);
 			if (temp == nullptr)
@@ -353,9 +424,6 @@ namespace TDS
 		}
 
 
-
-
-
 		//Check if this graphics component is even referencing a model
 		if (pModelController == nullptr) return;
 
@@ -365,16 +433,22 @@ namespace TDS
 		if (textureID == -1)
 			textureID = 499;
 
-
-		if (pModelController->m_Instancing == false)
+		if (graphComp->m_UsedIn2D == false)
 		{
-			SubmitBatch(entityID, textureID, transformComp, graphComp);
+
+			if (pModelController->m_Instancing == false)
+			{
+				SubmitBatch(entityID, textureID, transformComp, graphComp);
+			}
+			else
+			{
+				SubmitInstance(entityID, textureID, transformComp, graphComp);
+			}
 		}
 		else
 		{
-			SubmitInstance(entityID, textureID, transformComp, graphComp);
+			SubmitMeshForUI(entityID, textureID, graphComp, transformComp);
 		}
-
 
 	}
 	void DeferredController::SubmitBatch(std::uint32_t entityID, int TextureID, Transform* transformComp, GraphicsComponent* graphComp)
@@ -392,8 +466,8 @@ namespace TDS
 		if (meshID == -1) return;
 
 
-		m_Batch3D.m_BatchUpdateInfo[graphComp->m_ModelName].m_MeshBuffer = pMeshController->GetMeshBuffer();
-		auto& batchUpdate = m_Batch3D.m_BatchUpdateInfo[graphComp->m_ModelName].m_MeshUpdates.emplace_back();
+		m_GBufferBatch3D.m_BatchUpdateInfo[graphComp->m_ModelName].m_MeshBuffer = pMeshController->GetMeshBuffer();
+		auto& batchUpdate = m_GBufferBatch3D.m_BatchUpdateInfo[graphComp->m_ModelName].m_MeshUpdates.emplace_back();
 
 		batchUpdate.m_EntityID = entityID;
 		batchUpdate.m_pTransform = transformComp;
@@ -401,9 +475,167 @@ namespace TDS
 		batchUpdate.m_IsAnimated = false;
 		batchUpdate.m_MeshID = meshID;
 		batchUpdate.m_ShowMesh = graphComp->ShowMesh();
+		batchUpdate.m_RenderIn2D = graphComp->m_UsedIn2D;
 	}
 
+	void DeferredController::SubmitMeshForUI(std::uint32_t entityID, int TextureID, GraphicsComponent* graphComp, Transform* transformComp)
+	{
+		auto pMeshController = graphComp->m_MeshControllerRef;
 
+		if (pMeshController.m_ResourcePtr->m_Instancing == false)
+		{
+			MeshController* pMeshController = graphComp->m_MeshControllerRef.m_ResourcePtr;
+			MeshBuffer* meshBuffer = pMeshController->GetMeshBuffer();
+
+			if (meshBuffer == nullptr) return;
+
+			int meshID = pMeshController->GetMeshID(graphComp->m_MeshName);
+
+			if (meshID == -1) return;
+
+
+			m_Composition3DBatch.m_BatchUpdateInfo[graphComp->m_ModelName].m_MeshBuffer = pMeshController->GetMeshBuffer();
+			auto& batchUpdate = m_GBufferBatch3D.m_BatchUpdateInfo[graphComp->m_ModelName].m_MeshUpdates.emplace_back();
+
+			batchUpdate.m_EntityID = entityID;
+			batchUpdate.m_pTransform = transformComp;
+			batchUpdate.m_TextureID = TextureID;
+			batchUpdate.m_IsAnimated = false;
+			batchUpdate.m_MeshID = meshID;
+			batchUpdate.m_ShowMesh = graphComp->ShowMesh();
+			batchUpdate.m_RenderIn2D = graphComp->m_UsedIn2D;
+		}
+		else
+		{
+			MeshController* pMeshController = graphComp->m_MeshControllerRef.m_ResourcePtr;
+			MeshBuffer* meshBuffer = pMeshController->GetMeshBuffer();
+
+			if (m_Composition3DInstance.m_GroupIdx >= MAX_INSTANCE_BUFFER)
+			{
+				TDS_ERROR("We have reached the maximum amount of instances!");
+				return;
+			}
+
+			auto& instanceUpdatePack = m_Composition3DInstance.m_instanceRenderManager.m_InstanceUpdateInfo[meshBuffer];
+
+
+			MeshUpdate* updateData = (instanceUpdatePack.m_Index == instanceUpdatePack.m_Updates.size()) ?
+				&instanceUpdatePack.m_Updates.emplace_back() : &instanceUpdatePack.m_Updates[instanceUpdatePack.m_Index];
+
+
+			updateData->m_pTransform = transformComp;
+			updateData->m_IsAnimated = false;
+			updateData->m_TextureID = TextureID;
+			updateData->m_EntityID = entityID;
+			updateData->m_MeshID = 0;
+			updateData->m_ShowMesh = graphComp->ShowMesh();
+			updateData->m_RenderIn2D = graphComp->m_UsedIn2D;
+			++instanceUpdatePack.m_Index;
+		}
+	}
+
+	void DeferredController::RenderUISceneMeshBatch(VkCommandBuffer commandBuffer, std::uint32_t frameIndex)
+	{
+		auto GBufferPipeline = m_DeferredPipelines[DEFERRED_STAGE::STAGE_3D_COMPOSITION_BATCH];
+		GBufferPipeline->SetCommandBuffer(commandBuffer);
+		for (auto& meshItr : m_Composition3DBatch.m_BatchUpdateInfo)
+		{
+			for (auto& updates : meshItr.second.m_MeshUpdates)
+			{
+				m_Composition3DBatch.m_BatchBuffers[updates.m_MeshID].m_EntityID = updates.m_EntityID;
+				m_Composition3DBatch.m_BatchBuffers[updates.m_MeshID].m_IsRender = updates.m_ShowMesh;
+				m_Composition3DBatch.m_BatchBuffers[updates.m_MeshID].m_modelMatrix = updates.m_pTransform->GetFakeTransform();
+				m_Composition3DBatch.m_BatchBuffers[updates.m_MeshID].m_TextureID = updates.m_TextureID;
+			}
+			meshItr.second.m_MeshUpdates.clear();
+		}
+
+		GBufferPipeline->UpdateUBO(&m_SceneUBO, sizeof(SceneUniform), 5, frameIndex);
+		GBufferPipeline->UpdateUBO(m_Composition3DBatch.m_BatchBuffers.data(), sizeof(BatchData) * m_Composition3DBatch.m_BatchBuffers.size(), 15, frameIndex);
+
+		if (AssetManager::GetInstance()->GetTextureFactory().m_UpdateArrayBatch)
+		{
+			GBufferPipeline->UpdateTextureArray(4, VkDescriptorType::VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, AssetManager::GetInstance()->GetTextureFactory().GetTextureArray());
+			AssetManager::GetInstance()->GetTextureFactory().m_UpdateArrayBatch = false;
+		}
+
+		for (auto& [meshName, meshUpdate] : m_Composition3DBatch.m_BatchUpdateInfo)
+		{
+			GBufferPipeline->BindPipeline();
+			GBufferPipeline->BindVertexBuffer(*meshUpdate.m_MeshBuffer->m_VertexBuffer);
+			GBufferPipeline->BindIndexBuffer(*meshUpdate.m_MeshBuffer->m_IndexBuffer);
+			GBufferPipeline->BindDescriptor(frameIndex, 1);
+			GBufferPipeline->BindArrayDescriptorSet(0, 1, 1);
+
+			GBufferPipeline->DrawIndexed(*meshUpdate.m_MeshBuffer->m_VertexBuffer, *meshUpdate.m_MeshBuffer->m_IndexBuffer, frameIndex);
+		}
+		m_Composition3DBatch.m_BatchUpdateInfo.clear();
+	}
+	void DeferredController::RenderUISceneMeshInstance(VkCommandBuffer commandBuffer, std::uint32_t frameIndex)
+	{
+		auto GBufferPipeline = m_DeferredPipelines[DEFERRED_STAGE::STAGE_3D_COMPOSITION_INSTANCE];
+		int startingOffset = 0;
+		for (auto& itr : m_Composition3DInstance.m_instanceRenderManager.m_InstanceUpdateInfo)
+		{
+			auto& instanceReq = m_Composition3DInstance.m_InstanceRequests[m_Composition3DInstance.m_GroupIdx];
+			instanceReq.m_MeshBuffer = itr.first;
+
+			for (std::uint32_t i = 0; i < itr.second.m_Index; ++i)
+			{
+				auto& meshUpdateData = itr.second.m_Updates[i];
+
+				auto& InstanceInfo = instanceReq.m_RenderInstanceInfo;
+				auto& instaneBuffer = m_Composition3DInstance.m_InstanceBuffers[m_Composition3DInstance.m_TotalInstances];
+
+				InstanceInfo.m_InstanceOffset = startingOffset;
+				InstanceInfo.m_Instances = itr.second.m_Index;
+
+				{
+					instaneBuffer.m_MaterialID = m_Composition3DInstance.m_TotalInstances;
+					instaneBuffer.m_IsRender = meshUpdateData.m_ShowMesh;
+					instaneBuffer.m_TextureID = meshUpdateData.m_TextureID;
+					instaneBuffer.m_EntityID = meshUpdateData.m_EntityID;
+					instaneBuffer.m_modelMatrix = meshUpdateData.m_pTransform->GetTransformMatrix();
+				}
+
+				++m_Composition3DInstance.m_TotalInstances;
+
+			}
+			startingOffset = m_Composition3DInstance.m_TotalInstances;
+			itr.second.m_Index = 0;
+			++m_Composition3DInstance.m_GroupIdx;
+		}
+
+
+		GBufferPipeline->UpdateUBO(&m_SceneUBO, sizeof(SceneUniform), 5, frameIndex);
+		GBufferPipeline->UpdateUBO(m_Composition3DInstance.m_InstanceBuffers.data(), sizeof(BatchData) * m_Composition3DInstance.m_TotalInstances, 15, frameIndex);
+
+		if (AssetManager::GetInstance()->GetTextureFactory().m_UpdateArrayInstance)
+		{
+			GBufferPipeline->UpdateTextureArray(4, VkDescriptorType::VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, AssetManager::GetInstance()->GetTextureFactory().GetTextureArray());
+			AssetManager::GetInstance()->GetTextureFactory().m_UpdateArrayInstance = false;
+		}
+
+		GBufferPipeline->SetCommandBuffer(commandBuffer);
+		for (std::uint32_t i = 0; i < m_Composition3DInstance.m_GroupIdx; ++i)
+		{
+			auto& instanceReq = m_Composition3DInstance.m_InstanceRequests[i];
+
+			GBufferPipeline->BindPipeline();
+			GBufferPipeline->BindVertexBuffer(*instanceReq.m_MeshBuffer->m_VertexBuffer);
+			GBufferPipeline->BindIndexBuffer(*instanceReq.m_MeshBuffer->m_IndexBuffer);
+			GBufferPipeline->BindDescriptor(frameIndex, 1);
+			GBufferPipeline->BindArrayDescriptorSet(0, 1, 1);
+			GBufferPipeline->SubmitPushConstant(&instanceReq.m_RenderInstanceInfo.m_InstanceOffset, sizeof(std::uint32_t), SHADER_FLAG::VERTEX);
+			GBufferPipeline->DrawInstancedIndexed(*instanceReq.m_MeshBuffer->m_VertexBuffer, *instanceReq.m_MeshBuffer->m_IndexBuffer, instanceReq.m_RenderInstanceInfo.m_Instances, frameIndex);
+
+			instanceReq.m_RenderInstanceInfo.m_InstanceOffset = 0;
+			instanceReq.m_RenderInstanceInfo.m_Instances = 0;
+		}
+
+		m_Composition3DInstance.m_TotalInstances = 0;
+		m_Composition3DInstance.m_GroupIdx = 0;
+	}
 	void DeferredController::G_BufferPass(VkCommandBuffer commandBuffer, std::uint32_t frameIndex)
 	{
 
@@ -437,13 +669,13 @@ namespace TDS
 		MeshController* pMeshController = graphComp->m_MeshControllerRef.m_ResourcePtr;
 		MeshBuffer* meshBuffer = pMeshController->GetMeshBuffer();
 
-		if (m_Instance3D.m_GroupIdx >= MAX_INSTANCE_BUFFER)
+		if (m_GBufferInstance.m_GroupIdx >= MAX_INSTANCE_BUFFER)
 		{
 			TDS_ERROR("We have reached the maximum amount of instances!");
 			return;
 		}
 
-		auto& instanceUpdatePack = m_Instance3D.m_instanceRenderManager.m_InstanceUpdateInfo[meshBuffer];
+		auto& instanceUpdatePack = m_GBufferInstance.m_instanceRenderManager.m_InstanceUpdateInfo[meshBuffer];
 
 
 		MeshUpdate* updateData = (instanceUpdatePack.m_Index == instanceUpdatePack.m_Updates.size()) ?
@@ -456,6 +688,7 @@ namespace TDS
 		updateData->m_EntityID = entityID;
 		updateData->m_MeshID = 0;
 		updateData->m_ShowMesh = graphComp->ShowMesh();
+		updateData->m_RenderIn2D = graphComp->m_UsedIn2D;
 		++instanceUpdatePack.m_Index;
 
 	}
@@ -574,6 +807,7 @@ namespace TDS
 		}
 
 	}
+	
 	void DeferredController::CombinationPass(VkCommandBuffer commandBuffer, std::uint32_t frameIndex)
 	{
 		auto fbo = m_FrameBuffers[RENDER_PASS::RENDER_COMPOSITION];
@@ -593,13 +827,21 @@ namespace TDS
 		m_SceneUBO.m_Proj.m[1][1] *= -1;
 		fbo->BeginRenderPass(commandBuffer);
 		{
-
-			pipeline->BindPipeline();
-			pipeline->BindDescriptor(frameIndex, 1);
-			pipeline->Draw(6, frameIndex);
-
+			if (GraphicsManager::getInstance().IsViewingFrom2D() == false)
+			{
+				pipeline->BindPipeline();
+				pipeline->BindDescriptor(frameIndex, 1);
+				pipeline->Draw(6, frameIndex);
+			}
+			else
+			{
+				RenderUISceneMeshBatch(commandBuffer, frameIndex);
+				RenderUISceneMeshInstance(commandBuffer, frameIndex);
+			}
 			renderer2D->Draw(commandBuffer, frameIndex);
 			fontrenderer->Draw(commandBuffer, frameIndex);
+
+
 		}
 		fbo->EndRenderPass(commandBuffer);
 		renderer2D->GetBatchList().Clear();
@@ -671,6 +913,10 @@ namespace TDS
 
 		//spotLightComp->m_Position = GraphicsManager::getInstance().GetCamera().getPosition();
 		//spotLightComp->m_direction = forwardDirection;
+		
+
+		
+
 
 
 		auto& LightSrcBuffer = m_LightSourceBuffers[m_LightSrcInstance];
@@ -689,6 +935,15 @@ namespace TDS
 		auto& spotLightBuffer = m_LightUBOs.m_SpotLights[m_LightingPushConstant.activeSpotLights];
 		//spotLightBuffer.direction = spotLightComp->m_direction;
 		//spotLightBuffer.Position = spotLightComp->m_Position;
+		NameTag* nameTag = ecs.getComponent<NameTag>(entityID);
+		if (nameTag->GetName() == "FlashLight")
+		{
+			spotLightComp->m_direction = GraphicsManager::getInstance().GetCamera().getForwardVector();
+			spotLightComp->m_direction.Normalize();
+
+		}
+
+
 		spotLightBuffer.direction = spotLightComp->m_direction;
 		spotLightBuffer.Position = LightSrcBuffer.Position;
 
@@ -706,10 +961,8 @@ namespace TDS
 
 		RenderTarget*& commonDepth = m_FrameBuffers[RENDER_G_BUFFER]->GetDepthTarget();
 		m_FrameBuffers[RENDER_LIGTHING] = new LightingBuffer(Vec2(float(width), float(height)));
-		m_FrameBuffers[RENDER_LIGTHING]->SetDepthTarget(commonDepth);
 		m_FrameBuffers[RENDER_LIGTHING]->Create();
 		m_FrameBuffers[RENDER_COMPOSITION] = new CompositionPass(Vec2(float(width), float(height)));
-		m_FrameBuffers[RENDER_LIGTHING]->SetDepthTarget(commonDepth);
 		m_FrameBuffers[RENDER_COMPOSITION]->Create();
 	}
 	void DeferredController::Resize(std::uint32_t width, std::uint32_t height)

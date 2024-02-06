@@ -40,8 +40,6 @@ layout (location = 3) out vec4 outNormals;
 
 void main() 
 {
-    if (abs(clipspacepos.x)>1.0||abs(clipspacepos.y)>1.0 || abs(clipspacepos.z)>1.0) discard;
-
     if (isRenderable == 0) discard;
 
     int textureID = int(texID);

@@ -11,7 +11,7 @@
 #include "sceneManager/sceneManager.h" //for scenemanager instance
 #include "imguiHelper/ImguiSceneBrowser.h" //for "savefile() save as" function
 #include "imguiHelper/ImguiGamePlayScene.h" //for "savefile() save as" function
-
+#include "Physics/CollisionSystem.h"
 
 namespace TDS
 {
@@ -188,6 +188,17 @@ namespace TDS
 			//console->AddLog("Save Scene Button Pressed");
 			view2Dtoggle = !view2Dtoggle;
 			GraphicsManager::getInstance().ToggleViewFrom2D(view2Dtoggle);
+		}
+		ImGui::PopStyleColor();
+		ImGui::PopStyleColor();
+
+		ImGui::PushStyleColor(ImGuiCol_Button, { 0.1f,0.1f,0.1f,1 });
+		ImGui::PushStyleColor(ImGuiCol_ButtonHovered, { 1,0.1f,0,1 });
+		if (ImGui::Button("Toggle Debug Drawings", { 120, 19 }))
+		{
+			static bool debugDrawing = false;
+			debugDrawing = !debugDrawing;
+			CollisionSystem::m_RenderDebugDrawing = debugDrawing;
 		}
 		ImGui::PopStyleColor();
 		ImGui::PopStyleColor();

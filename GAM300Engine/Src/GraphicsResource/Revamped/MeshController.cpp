@@ -110,6 +110,7 @@ namespace TDS
 
             m_RootNodes[Mesh.m_NodeName].m_MeshList[Mesh.m_Name] = (MeshNode(true, Mesh.m_Name));
 
+            
 
             Vec3 minBoundingBox(FLT_MAX, FLT_MAX, FLT_MAX);
             Vec3 maxBoundingBox(-FLT_MAX, -FLT_MAX, -FLT_MAX);
@@ -143,12 +144,10 @@ namespace TDS
             currentVertexOffset += SubMesh.m_nVertices;
         }
 
-        // Create and populate vertex buffer
         m_MeshBuffer.m_VertexBuffer = std::make_shared<VMABuffer>();
         m_MeshBuffer.m_VertexBuffer->MappedStaging(batchedVertexData.size() * sizeof(TDSModel::Vertex), VkBufferUsageFlagBits::VK_BUFFER_USAGE_VERTEX_BUFFER_BIT, GraphicsManager::getInstance().getVkInstance(), batchedVertexData.data());
         m_MeshBuffer.m_VertexBuffer->SetDataCnt(batchedVertexData.size());
 
-        // Create and populate index buffer
         m_MeshBuffer.m_IndexBuffer = std::make_shared<VMABuffer>();
         m_MeshBuffer.m_IndexBuffer->MappedStaging(batchedIndexData.size() * sizeof(std::uint32_t), VkBufferUsageFlagBits::VK_BUFFER_USAGE_INDEX_BUFFER_BIT, GraphicsManager::getInstance().getVkInstance(), batchedIndexData.data());
         m_MeshBuffer.m_IndexBuffer->SetDataCnt(batchedIndexData.size());
@@ -183,21 +182,25 @@ namespace TDS
     }
     void MeshController::BuildMeshTree()
     {
-        if (m_ModelPack->m_ModelHandle.m_Mesh.size() == 1 && m_ModelPack->m_ModelHandle.m_SubMesh.size() == 1)
-        {
-            return;
-        }
         std::uint32_t i = 0;
+
         for (auto mesh : m_ModelPack->m_ModelHandle.m_Mesh)
         {
             auto& submesh = m_ModelPack->m_ModelHandle.m_SubMesh[i++];
 
-            m_RootNodes[mesh.m_NodeName].m_MeshList[mesh.m_Name] = (MeshNode(true, mesh.m_Name));
+            m_RootNodes[mesh.m_NodeName].m_MeshList[mesh.m_Name].m_FirstRender = true;
+            m_RootNodes[mesh.m_NodeName].m_MeshList[mesh.m_Name].m_MeshName = mesh.m_Name;
             m_RootNodes[mesh.m_NodeName].m_SceneTranslation = submesh.m_ScenePos;
             m_RootNodes[mesh.m_NodeName].m_SceneRotation = submesh.m_SceneRotate;
             m_RootNodes[mesh.m_NodeName].m_SceneScale = submesh.m_SceneScale;
+
+            m_RootNodes[mesh.m_NodeName].m_NodeBoundingBox.extend(m_RootNodes[mesh.m_NodeName].m_MeshList[mesh.m_Name].m_MeshBoundingBox);
+        
+       
         }
 
+        
+        BuildSceneAABB();
     }
 
 

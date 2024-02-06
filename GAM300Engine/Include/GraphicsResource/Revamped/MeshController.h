@@ -85,7 +85,10 @@ namespace TDS
 		{
 			m_MeshOffset = offset;
 		}
-
+		inline AABB&							GetSceneBoundingBox()
+		{
+			return m_SceneBoundingBox;
+		}
 		DLL_API std::map<std::string, SceneNode>& GetRoots();
 
 

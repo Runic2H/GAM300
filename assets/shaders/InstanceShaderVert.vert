@@ -28,7 +28,7 @@ struct InstanceData
 {
     uint matID;
     uint textureID;
-    uint isAnimated;
+    uint isRenderable;
     uint entityID;
     mat4 modelMatrix;
 };
@@ -77,6 +77,7 @@ layout(location = 4) out flat uint id;
 layout(location = 5) out vec4 clipspacepos;
 layout(location = 6) out flat uint texID;
 layout(location = 7) out float linearDepth;
+layout(location = 8) out uint isRenderable;
 
 void main() 
 {
@@ -85,15 +86,11 @@ void main()
     InstanceData instance = instances[gl_InstanceIndex + offset + uint(meshID.x)];
     uint materialID = instance.matID;
     uint textureID = instance.textureID;
-    uint animatedMesh = instance.isAnimated;
     mat4 modelMatrix = instance.modelMatrix;
 
     mat4 skinMat = mat4(1.0);
 
-    if (animatedMesh != 0)
-    {
-        //Empty now, but xing xiang, put ur animation here and update the skinMat
-    }
+
 
     mat4 accumulated = modelMatrix * skinMat;
     
@@ -117,4 +114,6 @@ void main()
     fragColor = vColor;
    
     linearDepth = -(Scene3D.view * position_in_world).z;
+
+    isRenderable = instance.isRenderable;
 }
