@@ -8,6 +8,7 @@
 namespace TDS
 {
 	std::unordered_map<int, bool> UiSystem::m_Layers;
+	Vec2 UiSystem::m_ndcMousePos;
 	void UiSystem::Init()
 	{
 		GraphicsManager::getInstance().ToggleRenderAllLayer(true);
@@ -59,8 +60,9 @@ namespace TDS
 					UpdateAABB(&_Sprite[i], &transform[i]);
 				}
 			}
-
+			setNDCMousePos();
 		}
+
 		//TDS_INFO(Input::getLocalMousePos());
 	/*	Spritebatch.PrepareBatch();
 		Fontbatch.PrepareBatch();
@@ -183,6 +185,40 @@ namespace TDS
 				UpdateDescendantsActiveness(child, isActive);
 			}
 		}
+	}
+
+	void UiSystem::setNDCMousePos()
+	{
+		Vec2 mousePos = InputSystem::GetInstance()->getLocalMousePos();
+		Vec4 viewport = GraphicsManager::getInstance().getViewportScreen();
+
+		// Dimensions of the game scene
+		int gameDimensionX = viewport.z; // Width
+		int gameDimensionY = viewport.w; // Height
+
+		// Offset from the top-left corner to the center
+		Vec2 gameOffset = Vec2(viewport.x + gameDimensionX / 2.0f, viewport.y + gameDimensionY / 2.0f);
+
+		// Mouse position relative to the center
+		int mousePosX = mousePos.x - gameOffset.x;
+		int mousePosY = mousePos.y - gameOffset.y;
+
+		// Convert to NDC
+		float ndcX = mousePosX / (float)gameDimensionX * 2.0f;
+		float ndcY = -mousePosY / (float)gameDimensionY * 2.0f;
+
+		if (viewport.x == 0 || viewport.y == 0)
+		{
+			// hopefully this will never happen but if it does, we need to factor in fullscreen in viewport
+			TDS_ASSERT(true, "EXE does not have viewport, need modify here")
+		}
+		m_ndcMousePos.x = ndcX;
+		m_ndcMousePos.y = ndcY;
+	}
+
+	Vec2 UiSystem::getNDCMousePos()
+	{
+		return Vec2(m_ndcMousePos.x, m_ndcMousePos.y);
 	}
 
 }

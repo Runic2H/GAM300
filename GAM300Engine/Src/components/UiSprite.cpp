@@ -1,5 +1,6 @@
 #include "components/UiSprite.h"
 #include "Input/InputSystem.h"
+#include "Rendering/UiSystem.h"
 namespace TDS
 {
 
@@ -82,8 +83,7 @@ namespace TDS
 
 	bool UISprite::IsMouseCollided()
 	{
-		Vec2 mousePos = InputSystem::GetInstance()->getLocalMousePos();
-
+		Vec2 mousePos = UiSystem::getNDCMousePos();
 		if (mousePos.x >= m_BoundingBoxMin.x && mousePos.x <= m_BoundingBoxMax.x &&
 			mousePos.y >= m_BoundingBoxMin.y && mousePos.y <= m_BoundingBoxMax.y)
 			return true; 

@@ -23,7 +23,11 @@ namespace TDS
 		static bool IsDirectChildOfMainParent(EntityID entity);
 		static void UpdateDescendantsActiveness(EntityID parent, bool isActive);
 
+		static void setNDCMousePos();
+		static Vec2 getNDCMousePos();
+
 		static std::unordered_map<int, bool> m_Layers;
+		static Vec2 m_ndcMousePos;
 	};
 
 }
