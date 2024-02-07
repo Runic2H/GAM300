@@ -69,10 +69,9 @@ namespace TDS
 			}
 			CurrController.BuildMeshTree();
 
-			m_ModelIndices[fileName] = m_CurrentIndex;
+			m_ModelIndices[fileName] = m_CurrentIndex++;
 
 			CurrController.m_ModelPack->m_ModelName = fileName;
-			m_CurrentIndex++;
 		}
 
 		void LoadNewModelWithNewName(std::string_view path, std::string_view newName)
@@ -114,7 +113,6 @@ namespace TDS
 			m_ModelIndices[newName.data()] = m_CurrentIndex;
 
 			CurrController.m_ModelPack->m_ModelName = newName.data();
-			m_CurrentIndex++;
 		}
 
 		std::string LoadModel(std::string_view path)
@@ -168,6 +166,7 @@ namespace TDS
 					UniqueUID uid;
 					outName += std::to_string(uid.GetID());
 					LoadNewModelWithNewName(path, outName);
+					m_CurrentIndex++;
 					fileName = outName;
 				}
 				else
@@ -263,7 +262,7 @@ namespace TDS
 					LoadNewModelWithNewName(Path, modelName);
 					model.m_AssetName = modelName;
 					model.m_ResourcePtr = &m_MeshControllers[m_CurrentIndex];
-
+					m_CurrentIndex++;
 					return model.m_ResourcePtr;
 				}
 

@@ -39,7 +39,7 @@ namespace TDS
 			{
 				continue;
 			}
-			if (PhysicsSystem::GetIsPlaying()) continue;
+			/*if (PhysicsSystem::GetIsPlaying()) continue;*/
 			if (GetSphereCollider(entities[i]))
 			{
 				SphereCollider* vSphere = GetSphereCollider(entities[i]);
@@ -50,8 +50,11 @@ namespace TDS
 				}
 				else
 				{
-					MeshController* meshController = AssetManager::GetInstance()->GetMeshFactory().GetMeshController(_graphics[i].GetModelName(), _graphics[i].m_MeshControllerRef);
+
+					auto meshController = _graphics[i].m_MeshControllerRef.m_ResourcePtr;
+
 					if (meshController == nullptr) continue;
+
 
 					auto& rootNodes = meshController->GetRoots();
 
@@ -128,11 +131,15 @@ namespace TDS
 				{
 
 
-					if (!vBox->GetModelInit())
-					{
-						MeshController* meshController = AssetManager::GetInstance()->GetMeshFactory().GetMeshController(_graphics[i].GetModelName(), _graphics[i].m_MeshControllerRef);
+					/*if (!vBox->GetModelInit())
+					{*/
+						/*MeshController* meshController = AssetManager::GetInstance()->GetMeshFactory().GetMeshController(_graphics[i].GetModelName(), _graphics[i].m_MeshControllerRef);*/
+
+						auto meshController = _graphics[i].m_MeshControllerRef.m_ResourcePtr;
 
 						if (meshController == nullptr) continue;
+
+						 
 
 						auto& rootNodes = meshController->GetRoots();
 
@@ -174,7 +181,7 @@ namespace TDS
 						vBox->SetModelInit(true);
 
 						
-					}
+					/*}*/
 					// scaling the box collider & other offset values
 					//else
 					{
