@@ -6,13 +6,17 @@ namespace TDS
 	/*!*************************************************************************
  * Raw input mesh that is received
  ***************************************************************************/
+
+
 	struct InputMesh
 	{
 		std::string m_MeshName;
 		std::string m_Name;
 		std::vector<RawVertex> m_RawVertices;
+		std::vector<lod>	   m_GeneratedLODS; //Not in used until M3
 		std::vector<std::uint32_t> m_InputIndices;
 		std::int32_t m_iMaterialInstance;
+		aiMatrix4x4 m_CurrTransform;
 	};
 	/*!*************************************************************************
 	 * Optimized mesh given to the renderer
@@ -22,7 +26,7 @@ namespace TDS
 		std::string m_MeshName;
 		std::string m_Name;
 		std::vector<Vec3> m_Pos;
-		std::vector< GeomCompiled::ExtraVertices> m_ExtraVertices;
+		std::vector<GeomCompiled::ExtraVertices> m_ExtraVertices;
 		std::vector<std::uint32_t> m_Indices;
 		std::int32_t m_iMaterialInstance;
 	};
@@ -34,8 +38,10 @@ namespace TDS
 		std::shared_ptr<GeomCompiled> output;
 		const aiScene* m_Scene;
 		std::vector<INPUT_NODES> m_MeshNodes;
+		std::vector<const aiNode*> m_Test;
 		std::vector<InputMesh> m_InputMeshes;
-		Descriptor m_CurrDesc;
+		GeomDescriptor m_CurrDesc;
+
 	public:
 		/*!*************************************************************************
 		 * Contructor & Destructor for GeomCompiler
@@ -47,9 +53,10 @@ namespace TDS
 		 * Main function that load the mesh and start compiling
 		 ***************************************************************************/
 		void Init(std::string_view descSettings);
+		void InitDesc(GeomDescriptor desc);
 		bool LoadDescriptor();
 		void LoadAndCompile();
-		void LoadModel(std::string_view path);
+		std::string LoadModel();
 		/*!*************************************************************************
 		 * Helper functions
 		 ***************************************************************************/
@@ -58,6 +65,7 @@ namespace TDS
 		void CreateFinalGeom(const std::vector<OptimizedMesh>& Nodes);
 		void CreateOptimizeForm(std::vector<InputMesh>& InputNodes, std::vector<OptimizedMesh>& outPut);
 		void Optimize(std::vector<InputMesh>& InputNodes);
+		void GenerateLOD(std::vector<InputMesh>& InputNodes);
 		void ClearAllData();
 
 		/*!*************************************************************************
@@ -66,9 +74,10 @@ namespace TDS
 		 ***************************************************************************/
 		void ProcessNode(aiNode* Node);
 		void ProcessMesh(const aiMesh& AssimpMesh, const aiMatrix4x4& Transform, InputMesh& MeshPart, int iTexCordinates, int iColors);
-		void Apply(const aiNode& Node, std::vector<InputMesh>& Nodes);
+		void Apply(const aiNode& Node, std::vector<InputMesh>& Nodes, const aiMatrix4x4& ParentTransform);
 		void ConvertToGeom();
-		void OutputGeom(std::string_view outPath);
+
+		std::string OutputGeom(std::string_view outPath);
 
 		inline static std::shared_ptr<GeomCompiler> GetInstance()
 		{
@@ -77,9 +86,13 @@ namespace TDS
 			return m_Instance;
 		}
 
-		inline Descriptor& GetDescriptor()
+		inline GeomDescriptor& GetDescriptor()
 		{
 			return m_CurrDesc;
 		}
+
+	public:
+		std::string OutPath = "../assets/models/";
+		std::map<std::string, aiMatrix4x4> m_CurrTransforms;
 	};
 }

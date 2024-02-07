@@ -39,12 +39,37 @@ namespace TDS
 		****************************************************************************/
 		void ImguiComponentDisplay(std::string componentName, IComponent* componentBase);
 
-		/*!*************************************************************************
-		This function is the helper function for Properties panel
-		****************************************************************************/
-		void ImguiComponentPropertyDisplay(rttr::property& propertyName, rttr::instance& componentInstance);
+		std::vector<TDS::ScriptValues>(*getScriptVariables)(EntityID entityID, std::string scriptName);
+
+		enum class AddComponentStage
+		{
+			CATEGORIES = 0,
+			AUDIO = 1,
+			//CINEMACHINE = 2,
+			//EFFECTS = 3,
+			//EVENT = 4,
+			//LAYOUT = 5,
+			//MESH = 6,
+			MISCELLANEOUS = 7,
+			NAVIGATION = 8,
+			//PHYSICS2D = 9,
+			PHYSICS = 10,
+			//PLAYABLES = 11,
+			RENDERING = 12,
+			SCRIPTS = 13,
+			//TILEMAP = 14,
+			UI = 15,
+			//VIDEO = 16,
+			NEWSCRIPT = 17
+		};
+
+		float addComponentWidth;
+		float addComponentHeight;
+
+		AddComponentStage currentAddComponentStage;
 
 	private:
+		ImVec2 popupPosition;
 	};
 }
 

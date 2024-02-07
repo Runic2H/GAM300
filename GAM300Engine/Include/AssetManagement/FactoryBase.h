@@ -1,7 +1,9 @@
 #pragma once
-#include "ResourceManagement/ResourceManager.h"
+#include "Logger/Logger.h"
+#include "ResourceManagement/ResourceRef.h"
 #include "GraphicsResource/AssetModel.h"
 #include "GraphicsResource/TextureInfo.h"
+#include "Identifier/UniqueID.h"
 namespace TDS
 {
 	template <typename T>
@@ -15,8 +17,12 @@ namespace TDS
 		{
 			static_assert(wrong_asset_type<T>, "AssetFactory is not available for this type");
 		}
-		void Preload(ResourceManager& resourceMgr);
-		static void Load(std::string_view path, SingleTypeReference<T>& model, ResourceManager& resourceMgr);
+		//void Preload(ResourceAllocator& resourceMgr);
+		//static void Load(std::string_view path, TypeReference<T>& model, ResourceAllocator& resourceMgr);
+		void Preload();
+
+		void Load(std::string_view path, TypeReference<T>& model);
+
 
 	};
 

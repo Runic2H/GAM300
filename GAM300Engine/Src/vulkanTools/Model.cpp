@@ -109,13 +109,13 @@ namespace TDS {
 	//load model from the serialized data created from geom compiler
 	void Model::Builder::LoadModel(const std::string& filepath)
 	{
-		GeomCompiled output;
+		Geom output;
 		DeserializeGeom(output, filepath);
 		LoadGeomData(output);
 	}
 
 	//get data from geom
-	void  Model::Builder::LoadGeomData(GeomCompiled& geom)
+	void  Model::Builder::LoadGeomData(Geom& geom)
 	{
 		iColor color{};
 		Vertices.resize(geom.m_Pos.size());
@@ -143,7 +143,7 @@ namespace TDS {
 	}
 
 	//deserialize the geom data
-	void Model::DeserializeGeom(GeomCompiled& geomOut, std::string_view PathData)
+	void Model::DeserializeGeom(Geom& geomOut, std::string_view PathData)
 	{
 		std::ifstream inFile(PathData.data(), std::ios::binary);
 		if (!inFile)
@@ -153,40 +153,40 @@ namespace TDS {
 		}
 
 		auto deserializeVec3 = [](std::ifstream& in, Vec3& vec)
-			{
-				in.read(reinterpret_cast<char*>(&vec.x), sizeof(vec.x));
-				in.read(reinterpret_cast<char*>(&vec.y), sizeof(vec.y));
-				in.read(reinterpret_cast<char*>(&vec.z), sizeof(vec.z));
-			};
+		{
+			in.read(reinterpret_cast<char*>(&vec.x), sizeof(vec.x));
+			in.read(reinterpret_cast<char*>(&vec.y), sizeof(vec.y));
+			in.read(reinterpret_cast<char*>(&vec.z), sizeof(vec.z));
+		};
 
 		auto deserializeVec2 = [](std::ifstream& in, Vec2& vec)
-			{
-				in.read(reinterpret_cast<char*>(&vec.x), sizeof(vec.x));
-				in.read(reinterpret_cast<char*>(&vec.y), sizeof(vec.y));
-			};
+		{
+			in.read(reinterpret_cast<char*>(&vec.x), sizeof(vec.x));
+			in.read(reinterpret_cast<char*>(&vec.y), sizeof(vec.y));
+		};
 
-		auto deserializeMesh = [](std::ifstream& in, GeomCompiled::Mesh& mesh)
-			{
-				in.read(reinterpret_cast<char*>(&mesh.m_Name), sizeof(mesh.m_Name));
-			};
+		auto deserializeMesh = [](std::ifstream& in, Geom::Mesh& mesh)
+		{
+			in.read(reinterpret_cast<char*>(&mesh.m_Name), sizeof(mesh.m_Name));
+		};
 
-		auto deserializeSubMesh = [](std::ifstream& in, GeomCompiled::SubMesh& subMesh)
-			{
-				in.read(reinterpret_cast<char*>(&subMesh.m_nFaces), sizeof(subMesh.m_nFaces));
-				in.read(reinterpret_cast<char*>(&subMesh.m_iIndices), sizeof(subMesh.m_iIndices));
-				in.read(reinterpret_cast<char*>(&subMesh.m_iVertices), sizeof(subMesh.m_iVertices));
-				in.read(reinterpret_cast<char*>(&subMesh.m_nVertices), sizeof(subMesh.m_nVertices));
-				in.read(reinterpret_cast<char*>(&subMesh.m_iMaterial), sizeof(subMesh.m_iMaterial));
-			};
+		auto deserializeSubMesh = [](std::ifstream& in, Geom::SubMesh& subMesh)
+		{
+			in.read(reinterpret_cast<char*>(&subMesh.m_nFaces), sizeof(subMesh.m_nFaces));
+			in.read(reinterpret_cast<char*>(&subMesh.m_iIndices), sizeof(subMesh.m_iIndices));
+			in.read(reinterpret_cast<char*>(&subMesh.m_iVertices), sizeof(subMesh.m_iVertices));
+			in.read(reinterpret_cast<char*>(&subMesh.m_nVertices), sizeof(subMesh.m_nVertices));
+			in.read(reinterpret_cast<char*>(&subMesh.m_iMaterial), sizeof(subMesh.m_iMaterial));
+		};
 
-		auto deserializeExtraVertices = [&](std::ifstream& in, GeomCompiled::ExtraVertices& extraVertices)
-			{
-				deserializeVec2(in, extraVertices.m_UV);
-				deserializeVec3(in, extraVertices.m_Normal);
-				deserializeVec3(in, extraVertices.m_Tanget);
-				deserializeVec3(in, extraVertices.m_Bitangent);
-				in.read(reinterpret_cast<char*>(&extraVertices.m_Colour), sizeof(extraVertices.m_Colour));
-			};
+		auto deserializeExtraVertices = [&](std::ifstream& in, Geom::ExtraVertices& extraVertices)
+		{
+			deserializeVec2(in, extraVertices.m_UV);
+			deserializeVec3(in, extraVertices.m_Normal);
+			deserializeVec3(in, extraVertices.m_Tanget);
+			deserializeVec3(in, extraVertices.m_Bitangent);
+			in.read(reinterpret_cast<char*>(&extraVertices.m_Colour), sizeof(extraVertices.m_Colour));
+		};
 
 		uint32_t meshSize;
 		inFile.read(reinterpret_cast<char*>(&meshSize), sizeof(meshSize));

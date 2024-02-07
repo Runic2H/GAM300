@@ -2,6 +2,7 @@
 #include "Shader/ShaderData.h"
 #include "Logger/Logger.h"
 #include <vulkan/vulkan.h>
+#include "MacroHelper.h"
 namespace TDS
 {
 #define VK_ASSERT(result, msg)\

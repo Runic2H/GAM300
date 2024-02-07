@@ -9,16 +9,15 @@
  *******************************************************************************/
 #pragma once
 #include "IncludeFromEngine.hxx"
-#include "Components/BoxColliderComponent.hxx"
-#include "Components/CapsuleColliderComponent.hxx"
-#include "Components/NameTagComponent.hxx"
-#include "Components/SphereColliderComponent.hxx"
-#include "Components/TransformComponent.hxx"
+#include "GameObject.hxx"
+#include "Input.hxx"
+#include "Time.hxx"
+#include "HelperFunctions.hxx"
 #include <iostream>
 #include <chrono>
 #include <thread>
 #include <pplawait.h>
-
+#include <algorithm>
 using namespace System;
 using namespace System::Collections::Generic;
 using namespace System::Threading;
@@ -26,8 +25,7 @@ using namespace System::Threading::Tasks;
 using namespace System::Reflection;
 using namespace concurrency;
 
-[AttributeUsage(AttributeTargets::Field)]
-public ref class SerializeFieldAttribute : public Attribute { };
+#include "CustomAttributeHeaders.hxx"
 
 namespace ScriptAPI
 {
@@ -37,28 +35,33 @@ namespace ScriptAPI
         void virtual Awake() {};
         void virtual OnEnable() {};
         void virtual Start() {};
+        void virtual FixedUpdate() {};
         void virtual Update() {};
         void virtual LateUpdate() {};
         void virtual OnDisable() {};
         void virtual OnDestroy() {};
+
+        void virtual OnTriggerEnter(ColliderComponent^ collider) {};
+        void virtual OnTriggerStay(ColliderComponent^ collider) {};
+        void virtual OnTriggerExit(ColliderComponent^ collider) {};
+
+        void SetEnabled(bool enabled) { is_Enabled = enabled; };
+        bool GetEnabled() { return is_Enabled; };
+
         void ToggleScript();
 
         generic <typename TResult>
         IAsyncEnumerable<TResult>^ Coroutine(Func<IAsyncEnumerable<TResult>^>^ func, int duration);
         
-        //TDS::EntityID findGameObject(System::String^ gameObjectName);
+        GameObject^ GameObjectScriptFind(System::String^ name);
 
-        BoxColliderComponent GetBoxColliderComponent();
-        CapsuleColliderComponent GetCapsuleColliderComponent();
-        NameTagComponent GetNameTagComponent();
-        SphereColliderComponent GetSphereColliderComponent();
-        TransformComponent GetTransformComponent();
+        [HideInInspector]
+        GameObject^ gameObject;
 
-        int GetEntityID();
-        Script^ GameObjectScriptFind(System::String^ name, System::String^ script);
+        TransformComponent transform;
 
     internal:
-        void SetEntityID(TDS::EntityID ID);
+        void SetFlags();
         bool isScriptEnabled();
 
         void setAwakeFlag();
@@ -67,18 +70,18 @@ namespace ScriptAPI
         void setStartFlag();
         bool getStartFlag();
 
-    private:
-        //entityID and is_Enabled set at SetEntityID
-        TDS::EntityID entityID;
-        bool is_Enabled;
-        bool is_Awake;
-        bool is_Start;
+    public:
+        [HideInInspector]
+        bool is_Enabled = true;
+        [HideInInspector]
+        bool is_Awake = false;
+        [HideInInspector]
+        bool is_Start = false;
     };
 
     public ref class ScriptSystem
     {
     public:
-
         generic <typename TResult>
         static IAsyncEnumerable<TResult>^ UnityCoroutine(Func<IAsyncEnumerable<TResult>^>^ func, int duration)
         {
@@ -89,7 +92,7 @@ namespace ScriptAPI
             {
                 Thread::Sleep(1);
             }
-
+            
             return func();
         }
 
@@ -113,11 +116,6 @@ namespace ScriptAPI
             /*return Task::FromResult(result);*/
             return func();
         }
-
-        //static TDS::EntityID findGameObject(System::String^ entityName)
-        //{
-        //    return EngineInterface::GetGameObjectList()[entityName];
-        //}
 
     };
 }

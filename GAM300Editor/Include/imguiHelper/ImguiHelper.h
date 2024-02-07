@@ -15,6 +15,7 @@
 #include "components/components.h"
 
 extern bool isPlaying;
+extern bool gamePaused;
 
 namespace TDS 
 {
@@ -27,15 +28,18 @@ namespace TDS
 		//BEHAVIORTREE,
 		ASSETBROWSER,
 		SCENEBROWSER,
+		SCRIPTBROWSER,
 		CONSOLE,
 		TOOLBAR,
 		PROFILER,
 		BEHAVIOURTREEEDITOR,
 		//ANIMATIONBROWSER,
 		// TILEMAP,
+		GAMEPLAYSCENE,
 		SCENE,
-		AUDIOLER
+		AUDIOLER,
 		// ANIMATION
+		COMPILER_DESCRIPTOR
 	};
 
 	class LevelEditorPanel
@@ -49,7 +53,8 @@ namespace TDS
 		ImGuiWindowFlags flags{};
 		ImVec2 windowPadding;
 
-		bool rightClick{};
+		bool rightClick{ false };
+		bool makeFocus{ false };
 	private:
 	};
 

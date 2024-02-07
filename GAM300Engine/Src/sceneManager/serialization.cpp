@@ -20,6 +20,7 @@ namespace TDS
 	****************************************************************************/
 	bool Serializer::DeserializeFromFile(const std::string& filePath)
 	{
+		std::cout << std::filesystem::current_path().string() << std::endl;
 		std::ifstream ifs(filePath, std::ios::in);
 		std::stringstream buffer;
 		buffer << ifs.rdbuf();

@@ -62,7 +62,7 @@ namespace TDS
         m[0][3] = 0.0f;        m[1][3] = 0.0f;        m[2][3] = 0.0f;        m[3][3] = 1.0f;
     }
 
-    Mat4::~Mat4() {}
+    //Mat4::~Mat4() {}
 
     Mat4 Mat4::identity()
     {
@@ -134,7 +134,7 @@ namespace TDS
         float m02 = m[0][2]; float m12 = m[1][2]; float m22 = m[2][2]; float m32 = m[3][2];
         float m03 = m[0][3]; float m13 = m[1][3]; float m23 = m[2][3]; float m33 = m[3][3];
         float det = determinant();
-        if (det == 0.0f) throw std::invalid_argument("Matrix is not invertible.");
+        if (det< FLT_EPSILON) throw std::invalid_argument("Matrix is not invertible.");
         float invDet = 1.0f / det;
         return Mat4((m12 * m23 * m31 - m13 * m22 * m31 + m13 * m21 * m32 - m11 * m23 * m32 - m12 * m21 * m33 + m11 * m22 * m33) * invDet,
                     (m03 * m22 * m31 - m02 * m23 * m31 - m03 * m21 * m32 + m01 * m23 * m32 + m02 * m21 * m33 - m01 * m22 * m33) * invDet,
@@ -260,6 +260,41 @@ namespace TDS
         return ss.str();
     }
 
+    Vec3 Mat4::GetRotation() const 
+    {
+        Vec3 scale = GetScale();
+
+        // Create a 3x3 matrix without scale
+        Mat3 rotationMatrix = Mat3(
+            m[0][0] / scale.x, m[0][1] / scale.y, m[0][2] / scale.z,
+            m[1][0] / scale.x, m[1][1] / scale.y, m[1][2] / scale.z,
+            m[2][0] / scale.x, m[2][1] / scale.y, m[2][2] / scale.z
+        );
+
+        // Assuming Euler angles in Y-X-Z order
+        Vec3 euler;
+        euler.y = asin(-std::clamp(rotationMatrix.m[2][0], -1.0f, 1.0f));
+        if (abs(rotationMatrix.m[2][0]) < 0.999999) {
+            euler.x = atan2(rotationMatrix.m[2][1], rotationMatrix.m[2][2]);
+            euler.z = atan2(rotationMatrix.m[1][0], rotationMatrix.m[0][0]);
+        }
+        else {
+            euler.x = atan2(-rotationMatrix.m[0][1], rotationMatrix.m[1][1]);
+            euler.z = 0;
+        }
+
+        return euler;
+    }
+
+    Vec3 Mat4::GetScale() const {
+        Vec3 scales;
+        scales.x = Vec3(m[0][0], m[1][0], m[2][0]).magnitude();
+        scales.y = Vec3(m[0][1], m[1][1], m[2][1]).magnitude();
+        scales.z = Vec3(m[0][2], m[1][2], m[2][2]).magnitude();
+        return scales;
+    }
+
+
     Mat4 Mat4::Frustum(float left, float right, float bottom, float top, float zNear, float zFar)
     {
         Mat4 result{};
@@ -302,7 +337,7 @@ namespace TDS
 
     Mat4 Mat4::Ortho(float left, float right, float bottom, float top, float zNear, float zFar)
     {
-        Mat4 result(1.f);
+        Mat4 result = Mat4::identity();
         result.m[0][0] = 2.0f / (right - left);
         result.m[1][1] = 2.0f / (top - bottom);
         result.m[2][2] = -2.0f / (zFar - zNear);
@@ -339,6 +374,18 @@ namespace TDS
         Vec4 v3(0.f, 0.f, 1.f, 0.f);
         Vec4 v4(vec.x, vec.y, vec.z, 1.f);
         return Mat4(v1, v2, v3, v4);
+    }
+    Mat4 Mat4::Rotate(const Vec3& eulerAngles)
+    {
+        float xRad = Mathf::Deg2Rad * eulerAngles.x;
+        float yRad = Mathf::Deg2Rad * eulerAngles.y;
+        float zRad = Mathf::Deg2Rad * eulerAngles.z;
+
+        Mat4 rotX = Mat4::Rotate(Vec3(1.0f, 0.0f, 0.0f), xRad);
+        Mat4 rotY = Mat4::Rotate(Vec3(0.0f, 1.0f, 0.0f), yRad);
+        Mat4 rotZ = Mat4::Rotate(Vec3(0.0f, 0.0f, 1.0f), zRad);
+
+        return rotZ * rotY * rotX;
     }
     Mat4 Mat4::Rotate(const Vec3& axis, float angleDegrees)
     {
@@ -696,6 +743,17 @@ namespace TDS
         );
     }
 
+    Vec4 operator*(Mat4 const& mat, Vec4 const& vec)
+    {
+        float vec0, vec1, vec2, vec3;
+        vec0 = mat.m[0][0] * vec.x + mat.m[1][0] * vec.y + mat.m[2][0] * vec.z + mat.m[3][0] * vec.w;
+        vec1 = mat.m[0][1] * vec.x + mat.m[1][1] * vec.y + mat.m[2][1] * vec.z + mat.m[3][1] * vec.w;
+        vec2 = mat.m[0][2] * vec.x + mat.m[1][2] * vec.y + mat.m[2][2] * vec.z + mat.m[3][2] * vec.w;
+        vec3 = mat.m[0][3] * vec.x + mat.m[1][3] * vec.y + mat.m[2][3] * vec.z + mat.m[3][3] * vec.w;
+
+        return Vec4(vec0, vec1, vec2, vec3);
+    }
+
     Mat4 operator/(Mat4 const& var, float const& value)
     {
         return Mat4(
@@ -751,6 +809,11 @@ namespace TDS
             << "| " << std::setw(maxLen) << var.m[0][2] << " " << std::setw(maxLen) << var.m[1][2] << " " << std::setw(maxLen) << var.m[2][2] << " " << std::setw(maxLen) << var.m[3][2] << " |" << std::endl
             << "| " << std::setw(maxLen) << var.m[0][3] << " " << std::setw(maxLen) << var.m[1][3] << " " << std::setw(maxLen) << var.m[2][3] << " " << std::setw(maxLen) << var.m[3][3] << " |";
         return os;
+    }
+
+    Vec4 mat4Vec4(Mat4& mat, Vec4& vec)
+    {
+        return mat * vec;
     }
 
 }  // namespace WD

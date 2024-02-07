@@ -20,6 +20,7 @@ namespace TDS
 	class SphereCollider : public IComponent
 	{
 	public:
+
 		/*!*************************************************************************
 		Initializes the Collider component when created
 		****************************************************************************/
@@ -36,15 +37,18 @@ namespace TDS
 		/*!*************************************************************************
 		Getter and setter functions for the variables in the Collider component class
 		****************************************************************************/
-		DLL_API bool GetIsTrigger() { return mIsTrigger; }
+		DLL_API bool& GetIsTrigger() { return mIsTrigger; }
 		DLL_API void SetIsTrigger(bool isTrigger) { mIsTrigger = isTrigger; }
 
-		DLL_API Vec3 GetCenter() { return mCenter; }
-		DLL_API void SetCenter(Vec3 center) { mCenter = center; }
-		DLL_API void SetCenter(float x, float y, float z) { mCenter = Vec3(x, y, z); }
+		DLL_API Vec3& GetColliderCenter() { return mColliderCenter; }
+		DLL_API void SetColliderCenter(Vec3 center) { mColliderCenter = center; }
+		DLL_API void SetColliderCenter(float x, float y, float z) { mColliderCenter = Vec3(x, y, z); }
 
-		DLL_API float GetRadius() { return mRadius; }
-		DLL_API void SetRadius(float radius) { mRadius = radius; }
+		DLL_API float& GetColliderRadius() { return mColliderRadius; }
+		DLL_API void SetColliderRadius(float radius) { mColliderRadius = radius; }
+
+		DLL_API float& GetRadiusFactor() { return mRadiusFactor; }
+		DLL_API void SetRadiusFactor(float radiusFactor) { mRadiusFactor = radiusFactor; }
 
 		RTTR_ENABLE(IComponent);
 		RTTR_REGISTRATION_FRIEND
@@ -52,8 +56,10 @@ namespace TDS
 	private:
 		bool mIsTrigger;
 		//Material mMaterial;
-		Vec3 mCenter;
-		float mRadius;
+		Vec3 mColliderCenter;
+		float mRadiusFactor;
+		float mColliderRadius;
+
 	};
 
 	DLL_API SphereCollider* GetSphereCollider(EntityID entityID);

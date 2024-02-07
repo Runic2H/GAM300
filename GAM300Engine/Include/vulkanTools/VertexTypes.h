@@ -43,9 +43,4 @@ namespace TDS
 		Vec2			m_UV;
 	};
 
-	struct FontVertex
-	{
-		Vec3			m_Pos;
-		Vec2			m_UV;
-	};
 }

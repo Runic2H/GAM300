@@ -19,23 +19,23 @@ public:
     Vec4(const Vec2& v, float newZ, float newW); // Constructor with Vec2 and two values
     Vec4(const Vec3& v, float newW); // Constructor with Vec4 and one value
     Vec4(const float* newX, const float* newY, const float* newZ, const float* newW); // Constructor with four pointers
-    ~Vec4();
+    //~Vec4();
 
     // Static Properties
-    static Vec4 one();
-    static Vec4 zero();
-    static Vec4 positiveInfinity();
-    static Vec4 negativeInfinity();
+    DLL_API static Vec4 one();
+    DLL_API static Vec4 zero();
+    DLL_API static Vec4 positiveInfinity();
+    DLL_API static Vec4 negativeInfinity();
 
     // Properties
-    float magnitude();
+    DLL_API float magnitude();
     Vec4 normalize();
-    float sqrMagnitude();
+    DLL_API float sqrMagnitude();
 
     // Public Methods
-    bool Equals(const Vec4& v);
-    void Normalize();
-    void Set(float newX, float newY, float newZ, float newW);
+    DLL_API bool Equals(const Vec4& v);
+    inline DLL_API void Normalize();
+    DLL_API void Set(float newX, float newY, float newZ, float newW);
     std::string ToString();
 
     // Static Methods
@@ -123,6 +123,8 @@ bool operator==(const Vec4& v1, const Vec4& v2);
 bool operator!=(const Vec4& v1, const Vec4& v2);
 
 std::ostream& operator<<(std::ostream& os, const Vec4& v);
+
+DLL_API Vec4 floatsToVec4(float x, float y, float z, float w);
 
 } 
 

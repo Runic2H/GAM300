@@ -15,7 +15,7 @@ namespace TDS
 		Serialize(OutFolder);
 
 		CleanUp();
-		
+
 	}
 	void ShaderReflector::StartReflectingAll(std::string_view Path)
 	{
@@ -178,52 +178,47 @@ namespace TDS
 			return;
 		}
 
-		// Writing ShaderMetaData
 		auto& metadata = m_Output;
 		std::size_t dataSize = metadata.m_ShaderDatas.size();
 		file.write(reinterpret_cast<const char*>(&dataSize), sizeof(dataSize));
+
+		auto writeString = [&file](const std::string& str) {
+			std::size_t length = str.size();
+			file.write(reinterpret_cast<const char*>(&length), sizeof(length));
+			file.write(str.data(), length);
+		};
+
+		auto writeSamplerBufferMap = [&file, &writeString](const std::map<std::string, SamplerBuffer>& map)
+		{
+			std::size_t mapSize = map.size();
+			file.write(reinterpret_cast<const char*>(&mapSize), sizeof(mapSize));
+
+			for (const auto& [key, value] : map)
+			{
+				writeString(key);
+				file.write(reinterpret_cast<const char*>(&value.m_Location), sizeof(std::uint32_t));
+				file.write(reinterpret_cast<const char*>(&value.m_BindingPoint), sizeof(std::uint32_t));
+				file.write(reinterpret_cast<const char*>(&value.m_Dimension), sizeof(std::uint32_t));
+				file.write(reinterpret_cast<const char*>(&value.m_ArraySize), sizeof(std::uint32_t));
+				writeString(value.m_Name);
+				file.write(reinterpret_cast<const char*>(&value.m_BufferType), sizeof(BUFFER_TYPE));
+			}
+		};
 
 		for (const auto& pair : metadata.m_ShaderDatas)
 		{
 			const auto& key = pair.first;
 			const auto& value = pair.second;
 
-			// Writing ShaderData
 			auto stageType = static_cast<int32_t>(value.m_StageType);
 			file.write(reinterpret_cast<const char*>(&stageType), sizeof(stageType));
-
-			// Writing strings
-			auto writeString = [&file](const std::string& str) {
-				std::size_t length = str.size();
-				file.write(reinterpret_cast<const char*>(&length), sizeof(length));
-				file.write(str.data(), length);
-			};
-
 			writeString(key);
 			writeString(value.m_ShaderName);
-
-			// Writing ReflectionData
 			const auto& reflectedData = value.m_ReflectedData;
-
-			// Writing PushConstantReflect
 			file.write(reinterpret_cast<const char*>(&reflectedData.m_PushConstant), sizeof(PushContantReflect));
-
-			// Writing SamplerBuffers
-			auto writeSamplerBufferMap = [&file, &writeString](const std::map<std::string, SamplerBuffer>& map) {
-				std::size_t mapSize = map.size();
-				file.write(reinterpret_cast<const char*>(&mapSize), sizeof(mapSize));
-
-				for (const auto& [key, value] : map)
-				{
-					writeString(key);
-					file.write(reinterpret_cast<const char*>(&value), sizeof(SamplerBuffer));
-				}
-			};
-
 			writeSamplerBufferMap(reflectedData.m_ImageSamplers);
 			writeSamplerBufferMap(reflectedData.m_StorageImages);
 
-			// Writing Uniforms
 			std::size_t uniformSize = reflectedData.m_UniformBuffers.size();
 			file.write(reinterpret_cast<const char*>(&uniformSize), sizeof(uniformSize));
 
@@ -235,7 +230,6 @@ namespace TDS
 				writeString(uniform.m_InstanceName);
 				file.write(reinterpret_cast<const char*>(&uniform.m_Size), sizeof(size_t));
 
-				// Writing BufferVariable
 				std::size_t bufferVariableSize = uniform.m_UniformsBuffer.size();
 				file.write(reinterpret_cast<const char*>(&bufferVariableSize), sizeof(bufferVariableSize));
 
@@ -248,9 +242,9 @@ namespace TDS
 				}
 			}
 		}
-
 		file.close();
 	}
+
 
 
 

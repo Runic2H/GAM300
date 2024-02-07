@@ -2,6 +2,17 @@
 #include "MathCommon.h"
 namespace TDS
 {
+
+
+
+
+
+
+
+
+
+
+    //OLD
     struct iColor {
         union {
             Vec4       m_RGBA;

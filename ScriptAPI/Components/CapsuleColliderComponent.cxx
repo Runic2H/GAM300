@@ -1,4 +1,5 @@
 #include "CapsuleColliderComponent.hxx"
+#include "../EngineInterface.hxx"
 
 namespace ScriptAPI
 {
@@ -48,7 +49,7 @@ namespace ScriptAPI
 			return Vector3(0.f, 0.f, 0.f);
 		}
 
-		return Vector3(TDS::GetCapsuleCollider(entityID)->GetCenter().x, TDS::GetCapsuleCollider(entityID)->GetCenter().y, TDS::GetCapsuleCollider(entityID)->GetCenter().z);
+		return Vector3(TDS::GetCapsuleCollider(entityID)->GetCenter());
 
 		//return TDS::GetTransform(entityID)->GetPosition();
 	}
@@ -201,6 +202,29 @@ namespace ScriptAPI
 	}
 
 	// CONSTRUCTOR ===========================================================================
-	CapsuleColliderComponent::CapsuleColliderComponent(TDS::EntityID ID) : entityID(ID)
-	{ }
+	CapsuleColliderComponent::CapsuleColliderComponent(TDS::EntityID ID) : entityID(ID), transform(TransformComponent(ID))
+	{
+		gameObject = EngineInterface::GetGameObject(ID);
+	}
+	
+	void CapsuleColliderComponent::SetEntityID(TDS::EntityID ID)
+	{
+		entityID = ID;
+		transform = TransformComponent(ID);
+		gameObject = EngineInterface::GetGameObject(ID);
+	}
+
+	TDS::EntityID CapsuleColliderComponent::GetEntityID()
+	{
+		return entityID;
+	}
+
+	void CapsuleColliderComponent::SetEnabled(bool enabled)
+	{
+		TDS::setComponentIsEnable("Capsule Collider", GetEntityID(), enabled);
+	}
+	bool CapsuleColliderComponent::GetEnabled()
+	{
+		return TDS::getComponentIsEnable("Capsule Collider", GetEntityID());
+	}
 }

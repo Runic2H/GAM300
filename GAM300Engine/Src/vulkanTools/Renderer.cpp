@@ -12,7 +12,8 @@
 #include <vulkanTools/Renderer.h>
 #include "Rendering/GraphicsManager.h"
 #include "vulkanTools/CommandManager.h"
-#include "vulkanTools/FrameBuffer.h"
+#include "Rendering/GraphicsManager.h"
+#include "MessagingSystem/MessageSystem.h"
 namespace TDS {
 
 	//Renderer class constructor
@@ -20,6 +21,8 @@ namespace TDS {
 	{
 		recreateSwapChain();
 		createCommandBuffers();
+		RegisterEvent();
+
 	}
 
 	//Renderer class destructor
@@ -34,14 +37,26 @@ namespace TDS {
 		m_SwapChain->ShutDown();
 	}
 
+	void Renderer::RegisterEvent()
+	{
+		REGISTER_MESSAGE("Resize Swapchain", this, &Renderer::recreateSwapChain);
+	}
+
 	//recreates the data from using the previous swapchain
 	void Renderer::recreateSwapChain() {
 		vkDeviceWaitIdle(m_Instance.getVkLogicalDevice());
 
 		VkExtent2D swapchainextent;
-		swapchainextent.width = m_Window.getWidth();
-		swapchainextent.height = m_Window.getHeight();
-
+		if (m_Window.getHeight() == 0 || m_Window.getWidth() == 0)
+		{
+			swapchainextent.width = m_SwapChain->getSwapChainExtent().width;
+			swapchainextent.height = m_SwapChain->getSwapChainExtent().height;
+		}
+		else
+		{
+			swapchainextent.width = m_Window.getWidth();
+			swapchainextent.height = m_Window.getHeight();
+		}
 		if (m_SwapChain == nullptr)
 			m_SwapChain = std::make_unique<VulkanSwapChain>(m_Instance, swapchainextent);
 		else {
@@ -52,6 +67,7 @@ namespace TDS {
 			if (!oldswapchain->compareSwapFormat(*m_SwapChain.get()))
 				throw std::runtime_error("Swap Chain image/depth format has changed");
 			cmdMgr.ResetPool(POOLTYPE::GRAPHICS);
+			oldswapchain->ShutDown();
 		}
 	}
 
@@ -134,11 +150,12 @@ namespace TDS {
 		renderpassinfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
 		renderpassinfo.renderPass = m_SwapChain->getRenderPass();
 		renderpassinfo.framebuffer = m_SwapChain->getFrameBuffer(m_currentImageIndex);
+
 		renderpassinfo.renderArea.offset = { 0,0 };
 		renderpassinfo.renderArea.extent = m_SwapChain->getSwapChainExtent();
 
 		std::array<VkClearValue, 2> clearValues{};
-		clearValues[0].color = { 1.f,0.01f,0.01f,1.f };
+		clearValues[0].color = { 0.01f,0.01f,0.01f,1.f };
 		clearValues[1].depthStencil = { 1.f,0 };
 		renderpassinfo.clearValueCount = static_cast<uint32_t>(clearValues.size());
 		renderpassinfo.pClearValues = clearValues.data();

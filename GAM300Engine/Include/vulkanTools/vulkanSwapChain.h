@@ -46,6 +46,8 @@ namespace TDS
 		//getters
 		VkFramebuffer				getFrameBuffer(int Index) { return m_vSwapChainFramebuffers[Index]; }
 		VkRenderPass				getRenderPass() { return m_RenderPass; }
+		VkFence						GetImageFlightFence(int index) { return m_vImagesinFlight[index]; }
+		VkFence						GetInFlightFences(int index) { return m_vInFlightFences[index]; }
 		VkImageView					getImageView(int Index) { return m_vSwapChainImageViews[Index]; }
 		size_t						getImageCount() { return m_vSwapChainImages.size(); }
 		VkFormat					getSwapChainImageFormat() { return m_SwapChainImageFormat; }

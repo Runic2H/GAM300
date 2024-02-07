@@ -17,6 +17,23 @@
 namespace TDS
 {
 	class Material;
+
+	struct DLL_API MeshData
+	{
+		VMABuffer* m_VertexBuffer = nullptr;
+		VMABuffer* m_IndexBuffer = nullptr;
+		std::vector<VertexData> m_VertexData;
+		std::vector<std::uint32_t> m_IndexData;
+
+		void CreateBuffers();
+		bool BufferIsNull();
+		void Destroy();
+
+		void CreateBoundingShapes();
+
+		AABB BoundingBox;
+		Sphere m_BoundingSphere;
+	};
 	class AssetModel
 	{
 	public:
@@ -28,18 +45,27 @@ namespace TDS
 		/*!*************************************************************************
 		 * Load the geometry data from GeomCompiled
 		 ***************************************************************************/
-		DLL_API void LoadGeomData(GeomCompiled& geom);
+		void DLL_API LoadGeomData(Geom& geom);
+		void DLL_API Load(Geom& geom);
+		void DLL_API CreateBuffers();
+
+		void DLL_API DestroyBuffers();
 		/*!*************************************************************************
 		 * Helper Functions
 		 ***************************************************************************/
 		DLL_API std::vector<VertexData>& GetVertexData();
 		DLL_API std::vector<std::uint32_t>& GetIndexData();
+		DLL_API VMABuffer* GetIndexBuffer();
+		DLL_API VMABuffer* GetVertexBuffer();
+		DLL_API bool BufferIsNull();
+		DLL_API void Destroy();
+		DLL_API void CreateBoundingShapes();
 	private:
-		std::vector<VertexData> m_VertexData;
-		std::vector<std::uint32_t> m_IndexData;
-		std::shared_ptr<VMABuffer> m_VertexBuffer{nullptr};
-		std::shared_ptr<VMABuffer> m_IndexBuffer{nullptr};
 		AABB BoundingBox;
+		Sphere m_BoundingSphere;
+	public:
+		MeshData* m_CurrMeshData = nullptr;
+		std::unordered_map<std::string, MeshData> m_Meshes;
 
 	};
 

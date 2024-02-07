@@ -20,6 +20,7 @@ namespace TDS
 
 		void  MappedStaging(size_t size, VkBufferUsageFlags usage, VulkanInstance& instance, void* data);
 		void  MapData(const void* data, size_t size, std::uint32_t offset = 0);
+		void  ReadData(void* data, size_t size, std::uint32_t offset = 0);
 		void  DestroyBuffer();
 
 		size_t GetBufferSize() const;

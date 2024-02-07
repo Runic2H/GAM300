@@ -26,6 +26,7 @@
     <RootNamespace>ScriptAPI</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
     <TargetFramework>net6.0</TargetFramework>
+    <WindowsTargetPlatformMinVersion>7.0</WindowsTargetPlatformMinVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -51,7 +52,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
-    <UseDebugLibraries>true</UseDebugLibraries>
+    <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <CLRSupport>NetCore</CLRSupport>
     <CharacterSet>Unicode</CharacterSet>
@@ -77,17 +78,17 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LibraryPath>$(OutDir);$(LibraryPath)</LibraryPath>
     <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
-    <OutDir>$(SolutionDir).bin\$(Configuration)-$(Platform)\</OutDir>
+    <OutDir>$(SolutionDir)\$(Configuration)-$(Platform)</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
     <LibraryPath>$(OutDir);$(LibraryPath)</LibraryPath>
-    <OutDir>$(SolutionDir).bin\$(Configuration)-$(Platform)\</OutDir>
+    <OutDir>$(SolutionDir)\$(Configuration)-$(Platform)</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)Dependencies;$(SolutionDir)Shared_Libs;$(SolutionDir)GAM300Engine\Include\Geometry;$(SolutionDir)Dependencies\assimp\include;$(SolutionDir)GAM300Engine\Include;$(SolutionDir)GAM300Editor\Include;$(SolutionDir)Dependencies\spdlog\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <ConformanceMode>true</ConformanceMode>
@@ -95,7 +96,7 @@
     </ClCompile>
     <Link>
       <AdditionalDependencies>GAM300Engine.lib;$(SolutionDir)Libs/rttr_core_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir).bin\$(Configuration)-$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)\$(Configuration)-$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -123,36 +124,84 @@
       <AdditionalIncludeDirectories>$(SolutionDir)Dependencies;$(SolutionDir)Shared_Libs;$(SolutionDir)GAM300Engine\Include\Geometry;$(SolutionDir)Dependencies\assimp\include;$(SolutionDir)GAM300Engine\Include;$(SolutionDir)GAM300Editor\Include;$(SolutionDir)Dependencies\spdlog\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalOptions>/Zc:twoPhase- %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>GAM300Engine.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>;$(SolutionDir)..\GAM300Engine\x64\Debug</AdditionalLibraryDirectories>
+      <AdditionalDependencies>GAM300Engine.lib;$(SolutionDir)Libs/rttr_core.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)\$(Configuration)-$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Audio.hxx" />
+    <ClInclude Include="Components\AudioComponent.hxx" />
     <ClInclude Include="Components\BoxColliderComponent.hxx" />
+    <ClInclude Include="Components\CameraComponent.hxx" />
     <ClInclude Include="Components\CapsuleColliderComponent.hxx" />
+    <ClInclude Include="Components\ColliderComponent.hxx" />
+    <ClInclude Include="Components\ComponentBase.hxx" />
+    <ClInclude Include="Components\GraphicComponent.hxx" />
     <ClInclude Include="Components\NameTagComponent.hxx" />
+    <ClInclude Include="Components\RigidBodyComponent.hxx" />
     <ClInclude Include="Components\SphereColliderComponent.hxx" />
     <ClInclude Include="Components\TransformComponent.hxx" />
+    <ClInclude Include="Components\UISpriteComponent.hxx" />
+    <ClInclude Include="Components\ViewObject.hxx" />
+    <ClInclude Include="Cursor.hxx" />
+    <ClInclude Include="CustomAttributeHeaders.hxx" />
     <ClInclude Include="Debug.hxx" />
     <ClInclude Include="EngineInterface.hxx" />
+    <ClInclude Include="GameObject.hxx" />
+    <ClInclude Include="GraphicsMgrWrapper.hxx" />
     <ClInclude Include="HelperFunctions.hxx" />
     <ClInclude Include="IncludeFromEngine.hxx" />
+    <ClInclude Include="Input.hxx" />
+    <ClInclude Include="JsonUtility.hxx" />
+    <ClInclude Include="Mathf.hxx" />
+    <ClInclude Include="Quaternion.hxx" />
+    <ClInclude Include="Random.hxx" />
+    <ClInclude Include="Screen.hxx" />
+    <ClInclude Include="SceneLoader.hxx" />
     <ClInclude Include="Script.hxx" />
+    <ClInclude Include="Serialization.hxx" />
     <ClInclude Include="TypeConversion.hxx" />
+    <ClInclude Include="UIPopUp.hxx" />
+    <ClInclude Include="Vector2.hxx" />
     <ClInclude Include="Vector3.hxx" />
+    <ClInclude Include="Vector4.hxx" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Audio.cxx" />
+    <ClCompile Include="Components\AudioComponent.cxx" />
     <ClCompile Include="Components\BoxColliderComponent.cxx" />
+    <ClCompile Include="Components\CameraComponent.cxx" />
     <ClCompile Include="Components\CapsuleColliderComponent.cxx" />
+    <ClCompile Include="Components\ColliderComponent.cxx" />
+    <ClCompile Include="Components\GraphicComponent.cxx" />
     <ClCompile Include="Components\NameTagComponent.cxx" />
+    <ClCompile Include="Components\RigidBodyComponent.cxx" />
     <ClCompile Include="Components\SphereColliderComponent.cxx" />
     <ClCompile Include="Components\TransformComponent.cxx" />
+    <ClCompile Include="Components\UISpriteComponent.cxx" />
+    <ClCompile Include="Components\ViewObject.cxx" />
+    <ClCompile Include="Cursor.cxx" />
     <ClCompile Include="EngineInterface.cxx" />
+    <ClCompile Include="GameObject.cxx" />
+    <ClCompile Include="GraphicsMgrWrapper.cxx" />
+    <ClCompile Include="Input.cxx" />
+    <ClCompile Include="JsonUtility.cxx" />
+    <ClCompile Include="Mathf.cxx" />
+    <ClCompile Include="Quaternion.cxx" />
+    <ClCompile Include="Random.cxx" />
+    <ClCompile Include="Screen.cxx" />
+    <ClCompile Include="SceneLoader.cxx" />
     <ClCompile Include="Script.cxx" />
+    <ClCompile Include="Serialization.cxx" />
+    <ClCompile Include="Time.hxx" />
     <ClCompile Include="TypeConversion.cxx" />
+    <ClCompile Include="UIPopUp.cxx" />
+    <ClCompile Include="Vector2.cxx" />
     <ClCompile Include="Vector3.cxx" />
+    <ClCompile Include="Vector4.cxx" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,0 +1,674 @@
+{
+    "Archetype Sizes": {
+        "110000000000000": {
+            "0": 272,
+            "1": 672
+        },
+        "110000111000000": {
+            "0": 272,
+            "1": 672,
+            "6": 704,
+            "7": 192,
+            "8": 64
+        },
+        "110000000000100": {
+            "0": 272,
+            "1": 672,
+            "12": 720
+        },
+        "110100110000000": {
+            "0": 136,
+            "1": 336,
+            "3": 128,
+            "6": 352,
+            "7": 96
+        }
+    },
+    "Entity Data": {
+        "1": {
+            "ArchetypeID": "110000111000000",
+            "Enabled": true,
+            "Name Tag": {
+                "Name": "New Entity",
+                "Tag": "",
+                "IsActive": true,
+                "HierarchyParent": 0,
+                "HierarchyIndex": 0,
+                "HierarchyChildren": []
+            },
+            "Transform": {
+                "Position": {
+                    "x": 15.710552215576172,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "Scale": {
+                    "x": 19.198165893554688,
+                    "y": 19.198165893554688,
+                    "z": 19.198165893554688
+                },
+                "Rotation": {
+                    "x": 0.0,
+                    "y": -0.0,
+                    "z": 0.0
+                },
+                "FakePosition": {
+                    "x": 15.710552215576172,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "FakeRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "FakeScale": {
+                    "x": 19.198165893554688,
+                    "y": 19.198165893554688,
+                    "z": 19.198165893554688
+                },
+                "OldPosition": {
+                    "x": 15.710552215576172,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "OldScale": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "OldRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                }
+            },
+            "Graphics Component": {
+                "PointLight": false,
+                "TextureName": "",
+                "Mesh Renderer": true,
+                "Debug": false,
+                "ModelName": "sphere_Bin.bin",
+                "MeshName": "Sphere",
+                "MeshNodeName": "sphere_Bin.bin",
+                "Color": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0,
+                    "w": 1.0
+                },
+                "Used In 2D": false
+            },
+            "Rigid Body": {
+                "Mass": 1.0,
+                "Linear Velocity": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "Angular Velocity": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "Friction": 0.20000000298023224,
+                "Restitution": 0.0,
+                "GravityFactor": 1.0,
+                "LinearDamping": 0.05000000074505806,
+                "AngularDamping": 0.05000000074505806,
+                "MotionType": "STATIC",
+                "UseGravity": false,
+                "sensorActivate": false,
+                "IsRayCast": false,
+                "RayOrigin": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "RayDirection": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "RayScale": 1.0
+            },
+            "Sphere Collider": {
+                "IsTrigger": false,
+                "Collider Center": {
+                    "x": 15.710552215576172,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "Collider Radius": 19.198165893554688,
+                "Radius Factor": 1.0
+            }
+        },
+        "3": {
+            "ArchetypeID": "110000111000000",
+            "Enabled": true,
+            "Name Tag": {
+                "Name": "New Entity",
+                "Tag": "",
+                "IsActive": true,
+                "HierarchyParent": 0,
+                "HierarchyIndex": 2,
+                "HierarchyChildren": []
+            },
+            "Transform": {
+                "Position": {
+                    "x": 83.69815826416016,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "Scale": {
+                    "x": 39.677268981933594,
+                    "y": 39.677268981933594,
+                    "z": 39.677268981933594
+                },
+                "Rotation": {
+                    "x": 0.0,
+                    "y": -0.0,
+                    "z": 0.0
+                },
+                "FakePosition": {
+                    "x": 83.69815826416016,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "FakeRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "FakeScale": {
+                    "x": 39.677268981933594,
+                    "y": 39.677268981933594,
+                    "z": 39.677268981933594
+                },
+                "OldPosition": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "OldScale": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "OldRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                }
+            },
+            "Graphics Component": {
+                "PointLight": false,
+                "TextureName": "",
+                "Mesh Renderer": true,
+                "Debug": false,
+                "ModelName": "sphere_Bin.bin",
+                "MeshName": "Sphere",
+                "MeshNodeName": "sphere_Bin.bin",
+                "Color": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0,
+                    "w": 1.0
+                },
+                "Used In 2D": false
+            },
+            "Rigid Body": {
+                "Mass": 1.0,
+                "Linear Velocity": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "Angular Velocity": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "Friction": 0.20000000298023224,
+                "Restitution": 0.0,
+                "GravityFactor": 1.0,
+                "LinearDamping": 0.05000000074505806,
+                "AngularDamping": 0.05000000074505806,
+                "MotionType": "STATIC",
+                "UseGravity": false,
+                "sensorActivate": false,
+                "IsRayCast": false,
+                "RayOrigin": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "RayDirection": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "RayScale": 1.0
+            },
+            "Sphere Collider": {
+                "IsTrigger": false,
+                "Collider Center": {
+                    "x": 83.69815826416016,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "Collider Radius": 39.677268981933594,
+                "Radius Factor": 1.0
+            }
+        },
+        "4": {
+            "ArchetypeID": "110000000000100",
+            "Enabled": true,
+            "Name Tag": {
+                "Name": "E",
+                "Tag": "",
+                "IsActive": true,
+                "HierarchyParent": 6,
+                "HierarchyIndex": 0,
+                "HierarchyChildren": []
+            },
+            "Transform": {
+                "Position": {
+                    "x": -0.1342657208442688,
+                    "y": -0.7711442708969116,
+                    "z": 0.0
+                },
+                "Scale": {
+                    "x": 0.15109217166900635,
+                    "y": 0.24528545141220093,
+                    "z": 1.0302000045776367
+                },
+                "Rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "FakePosition": {
+                    "x": -0.1342657208442688,
+                    "y": -0.7711442708969116,
+                    "z": 0.0
+                },
+                "FakeRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "FakeScale": {
+                    "x": 0.15109217166900635,
+                    "y": 0.24528545141220093,
+                    "z": 1.0302000045776367
+                },
+                "OldPosition": {
+                    "x": -0.1342657208442688,
+                    "y": -0.7711442708969116,
+                    "z": 0.0
+                },
+                "OldScale": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "OldRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                }
+            },
+            "UI Sprite": {
+                "Texture": "QTE E Key.dds",
+                "EnableSprite": true,
+                "LayerID": 0,
+                "is Font": false,
+                "message": "",
+                "Font Texture": "",
+                "ForeGroundColour": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 0.0
+                },
+                "Sprite Color": {
+                    "x": 0.10000000149011612,
+                    "y": 0.10000000149011612,
+                    "z": 0.10000000149011612,
+                    "w": 1.0
+                },
+                "BackGroundColour": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "BoundingBoxMin": {
+                    "x": -0.20981180667877197,
+                    "y": -0.8937870264053345
+                },
+                "BoundingBoxMax": {
+                    "x": -0.058719635009765625,
+                    "y": -0.6485015153884888
+                }
+            }
+        },
+        "5": {
+            "ArchetypeID": "110000000000100",
+            "Enabled": true,
+            "Name Tag": {
+                "Name": "New Entity",
+                "Tag": "",
+                "IsActive": true,
+                "HierarchyParent": 6,
+                "HierarchyIndex": 1,
+                "HierarchyChildren": []
+            },
+            "Transform": {
+                "Position": {
+                    "x": -0.025174856185913086,
+                    "y": -0.8407961130142212,
+                    "z": 0.0
+                },
+                "Scale": {
+                    "x": 0.08755476027727127,
+                    "y": 0.16209328174591064,
+                    "z": 0.3444479703903198
+                },
+                "Rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "FakePosition": {
+                    "x": -0.025174856185913086,
+                    "y": -0.8407961130142212,
+                    "z": 0.0
+                },
+                "FakeRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "FakeScale": {
+                    "x": 0.08755476027727127,
+                    "y": 0.16209328174591064,
+                    "z": 0.3444479703903198
+                },
+                "OldPosition": {
+                    "x": -0.025174856185913086,
+                    "y": -0.8407961130142212,
+                    "z": 0.0
+                },
+                "OldScale": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "OldRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                }
+            },
+            "UI Sprite": {
+                "Texture": "",
+                "EnableSprite": true,
+                "LayerID": 0,
+                "is Font": true,
+                "message": "Press E to REEE",
+                "Font Texture": "07558_CenturyGothic.dds",
+                "ForeGroundColour": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 0.0
+                },
+                "Sprite Color": {
+                    "x": 0.10000000149011612,
+                    "y": 0.10000000149011612,
+                    "z": 0.10000000149011612,
+                    "w": 1.0
+                },
+                "BackGroundColour": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "BoundingBoxMin": {
+                    "x": -0.5,
+                    "y": -0.5
+                },
+                "BoundingBoxMax": {
+                    "x": 0.5,
+                    "y": 0.5
+                }
+            }
+        },
+        "6": {
+            "ArchetypeID": "110000000000000",
+            "Enabled": true,
+            "Name Tag": {
+                "Name": "popup",
+                "Tag": "",
+                "IsActive": true,
+                "HierarchyParent": 0,
+                "HierarchyIndex": 3,
+                "HierarchyChildren": [
+                    4,
+                    5
+                ]
+            },
+            "Transform": {
+                "Position": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "Scale": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                },
+                "Rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "FakePosition": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "FakeRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "FakeScale": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                },
+                "OldPosition": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "OldScale": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "OldRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                }
+            }
+        },
+        "7": {
+            "ArchetypeID": "110100110000000",
+            "Enabled": true,
+            "Name Tag": {
+                "Name": "New Entity",
+                "Tag": "",
+                "IsActive": true,
+                "HierarchyParent": 0,
+                "HierarchyIndex": 3,
+                "HierarchyChildren": []
+            },
+            "Transform": {
+                "Position": {
+                    "x": -127.4024429321289,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "Scale": {
+                    "x": 10.598400115966797,
+                    "y": 10.598400115966797,
+                    "z": 10.598400115966797
+                },
+                "Rotation": {
+                    "x": 0.0,
+                    "y": -0.0,
+                    "z": 0.0
+                },
+                "FakePosition": {
+                    "x": -127.4024429321289,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "FakeRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "FakeScale": {
+                    "x": 10.598400115966797,
+                    "y": 10.598400115966797,
+                    "z": 10.598400115966797
+                },
+                "OldPosition": {
+                    "x": -127.4024429321289,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "OldScale": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "OldRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                }
+            },
+            "Box Collider": {
+                "IsTrigger": false,
+                "Collider Center": {
+                    "x": -127.4024429321289,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "Collider Size": {
+                    "x": 10.598400115966797,
+                    "y": 10.598400115966797,
+                    "z": 10.598400115966797
+                },
+                "Collider Scale": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                },
+                "Offset Scale": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "Offset Center": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                }
+            },
+            "Graphics Component": {
+                "PointLight": false,
+                "TextureName": "",
+                "Mesh Renderer": true,
+                "Debug": false,
+                "ModelName": "cube_Bin.bin",
+                "MeshName": "Cube",
+                "MeshNodeName": "cube_Bin.bin",
+                "Color": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0,
+                    "w": 1.0
+                },
+                "Used In 2D": false
+            },
+            "Rigid Body": {
+                "Mass": 1.0,
+                "Linear Velocity": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "Angular Velocity": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "Friction": 0.20000000298023224,
+                "Restitution": 0.0,
+                "GravityFactor": 1.0,
+                "LinearDamping": 0.05000000074505806,
+                "AngularDamping": 0.05000000074505806,
+                "MotionType": "DYNAMIC",
+                "UseGravity": false,
+                "sensorActivate": false,
+                "IsRayCast": true,
+                "RayOrigin": {
+                    "x": 50.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "RayDirection": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "RayScale": 1.0
+            }
+        }
+    },
+    "Scripts": {
+        "1": {
+            "QTE": {
+                "interaction": {
+                    "ScriptAPI.GameObject": 6
+                },
+                "gameObject": {
+                    "ScriptAPI.GameObject": 1
+                }
+            }
+        },
+        "3": {},
+        "4": {},
+        "5": {},
+        "6": {},
+        "7": {}
+    },
+    "Active Archetype": {
+        "1": "110000111000000",
+        "3": "110000111000000",
+        "4": "110000000000100",
+        "5": "110000000000100",
+        "6": "110000000000000",
+        "7": "110100110000000"
+    }
+}

@@ -50,6 +50,7 @@ namespace TDS
     }
 
     void Vec3::Set(float newX, float newY, float newZ) { x = newX; y = newY; z = newZ; }
+
     std::string Vec3::ToString()
     {
         std::ostringstream oss;
@@ -453,6 +454,12 @@ namespace TDS
     bool operator!=(const Vec3& v1, const Vec3& v2) 
     {
         return v1.x != v2.x || v1.y != v2.y || v1.z != v2.z;
+    }
+
+
+    Vec3 floatsToVec3(float x, float y, float z)
+    {
+        return Vec3(x, y, z);
     }
 
 }  // namespace WD

@@ -13,39 +13,44 @@
 #define TDS_POINT_LIGHT_SYSTEM
 
 #include "vulkanTools/vulkanInstance.h"
-#include "vulkanTools/Pipeline.h"
 #include "FrameInfo.h"
 #include "TDSMath.h"
+#include "components/GraphicsComponent.h"
+#include "components/transform.h"
 #include "dotnet/ImportExport.h"
+#include "vulkanTools/VulkanPipeline.h"
 
 
 #include <memory>
 
 namespace TDS {
+	class VulkanPipeline;
 	class PointLightSystem {
 	public:
 		//Constructor and destructor
-		DLL_API PointLightSystem(VulkanInstance& Instance, VkRenderPass renderpass, VkDescriptorSetLayout globalSetLayout);
+		DLL_API PointLightSystem(VulkanInstance& Instance);
 		DLL_API ~PointLightSystem();
 
 		//no copy constructor
 		DLL_API PointLightSystem(const PointLightSystem&) = delete;
 		DLL_API PointLightSystem& operator=(const PointLightSystem&) = delete;
-		
+
 		//update system with the position of the active point lights 
-		DLL_API void update(FrameInfo& frameInfo, GlobalUBO& UBO);
+		DLL_API void update(GlobalUBO& UBO, GraphicsComponent* Gp, Transform* Trans);
+		DLL_API void newupdate(GlobalUBO& UBO, const std::vector<EntityID>& Entities, Transform* xform, GraphicsComponent* Gp);
 		//render the active point lights
-		DLL_API void render(FrameInfo& frameInfo);
+		DLL_API void render(GraphicsComponent* Gp, Transform* Trans);
+
+		DLL_API VulkanPipeline& GetPipeline();
 	private:
-		//create pipeline layout for pointlights
-		void createPipelineLayout(VkDescriptorSetLayout globalsetlayout);
-		//create a graphic pipeline for point lights
-		void createPipeline(VkRenderPass renderpass);
 
-		VulkanInstance&					m_Instance;
+		VulkanInstance& m_Instance;
 
-		std::unique_ptr<Pipeline>		m_Pipeline;
-		VkPipelineLayout				m_pipelineLayout;
+		std::unique_ptr<VulkanPipeline>			m_Pipeline;
+		//std::unique_ptr<Pipeline>				m_Pipeline;
+		//VkPipelineLayout						m_pipelineLayout;
+		int										m_pointlightcount;
+		std::array<bool, Max_Lights>			m_vPointLightBoolMap{ false };
 	};
 
 

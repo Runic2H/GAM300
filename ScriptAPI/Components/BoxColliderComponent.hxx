@@ -1,15 +1,14 @@
 #pragma once
 
-#include "../IncludeFromEngine.hxx"
-#include "../Vector3.hxx"
+#include "ColliderComponent.hxx"
 
 namespace ScriptAPI
 {
-	public value class BoxColliderComponent
+	public ref class BoxColliderComponent : ColliderComponent
 	{
 	public:
-		bool GetIsTrigger();
-		void SetIsTrigger(bool value);
+		virtual bool GetIsTrigger() override;
+		virtual void SetIsTrigger(bool value) override;
 
 		Vector3 GetCenter();
 		void SetCenter(Vector3 value);
@@ -22,6 +21,15 @@ namespace ScriptAPI
 		void SetSizeX(float valueX);
 		void SetSizeY(float valueY);
 		void SetSizeZ(float valueZ);
+
+		virtual TDS::EntityID GetEntityID() override;
+		virtual void SetEntityID(TDS::EntityID ID) override;
+
+		virtual void SetEnabled(bool enabled) override;
+		virtual bool GetEnabled() override;
+
+		TransformComponent transform;
+		GameObject^ gameObject;
 
 	internal:
 		BoxColliderComponent(TDS::EntityID ID);

@@ -8,18 +8,22 @@ namespace TDS
 	class Transform;
 	class Model;
 	class GraphicsComponent;
+	class SpotLightComponent;
+	class PointLightComponent;
+	class DirectionalLightComponent;
 
-	class DLL_API RendererSystem
+	class RendererSystem
 	{
 	public:
-		static void OnInit();
-		static void OnUpdate(const float dt, const std::vector<EntityID>& entities, Transform* _Component, GraphicsComponent* _Graphics);
-		static void OnRender(const float dt, const std::vector<EntityID>& entities, GraphicsComponent* _Graphics);
-		static void SubmitPointLights();
-		static void SubmitModels(const std::vector<EntityID>& entities, Transform* _transform, GraphicsComponent* _Graphics);
-		static void SubmitTextures();
-		inline static AssetManager* assetManager = nullptr;
-		static float lightPosX;
+		static void		OnInit();
+		static void		OnUpdate(const float dt, const std::vector<EntityID>& entities, Transform* _Component, GraphicsComponent* _Graphics);
+		static void		OnRenderDeferred(const float dt, const std::vector<EntityID>& entities, Transform* _Component, GraphicsComponent* _Graphics);
+		static void		OnRender(const float dt, const std::vector<EntityID>& entities, Transform* _Component, GraphicsComponent* _Graphics);
+		static void		onRenderTempFixed(const float dt, const std::vector<EntityID>& entities, Transform* _Component, GraphicsComponent* _Graphics);
+
+
+
+		DLL_API static float lightPosX;
 
 	};
 }

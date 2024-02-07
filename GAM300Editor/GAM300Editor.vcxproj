@@ -49,21 +49,33 @@
     <ClInclude Include="Include\imguiHelper\ImguiAssetBrowser.h" />
     <ClInclude Include="Include\imguiHelper\ImguiAudio.h" />
     <ClInclude Include="Include\imguiHelper\ImguiBehaviourTree.h" />
+    <ClInclude Include="Include\imguiHelper\ImguiCompilerDescriptor.h" />
     <ClInclude Include="Include\imguiHelper\ImguiConsole.h" />
     <ClInclude Include="Include\imguiHelper\ImguiFunctionHelper.h" />
+    <ClInclude Include="Include\imguiHelper\ImguiGamePlayScene.h" />
     <ClInclude Include="Include\imguiHelper\ImguiHelper.h" />
     <ClInclude Include="Include\imguiHelper\ImguiHierarchy.h" />
     <ClInclude Include="Include\imguiHelper\ImguiProfiler.h" />
     <ClInclude Include="Include\imguiHelper\ImguiProperties.h" />
     <ClInclude Include="Include\imguiHelper\ImguiScene.h" />
     <ClInclude Include="Include\imguiHelper\ImguiSceneBrowser.h" />
+    <ClInclude Include="Include\imguiHelper\ImguiScriptBrowser.h" />
     <ClInclude Include="Include\imguiHelper\ImguiToolbar.h" />
     <ClInclude Include="Include\imguiHelper\ImGuiViewport.h" />
+    <ClInclude Include="Include\Tools\CompilerFormats.h" />
+    <ClInclude Include="Include\Tools\CompilerRevamped\MeshLoader.h" />
     <ClInclude Include="Include\Tools\CompilerSettings.h" />
+    <ClInclude Include="Include\Tools\DDSConverter.h" />
+    <ClInclude Include="Include\Tools\EditorHistory.h" />
+    <ClInclude Include="Include\Tools\FileExtensions.h" />
+    <ClInclude Include="Include\Tools\FontLoader.h" />
     <ClInclude Include="Include\Tools\GeomCompiler.h" />
     <ClInclude Include="Include\Tools\GeomStructures.h" />
+    <ClInclude Include="Include\Tools\Pathfinder.h" />
     <ClInclude Include="Include\Tools\ShaderReflector.h" />
-    <ClInclude Include="Include\Tools\TextureCompiler.h" />
+    <ClInclude Include="Include\Tools\TextureCompressor.h" />
+    <ClInclude Include="Include\Tools\Tile.h" />
+    <ClInclude Include="Include\Tools\TileEntity.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Dependencies\imgui\imgui.cpp" />
@@ -88,18 +100,29 @@
     <ClCompile Include="Src\imguiHelper\ImguiAssetBrowser.cpp" />
     <ClCompile Include="Src\imguiHelper\ImguiAudio.cpp" />
     <ClCompile Include="Src\imguiHelper\ImguiBehaviourTree.cpp" />
+    <ClCompile Include="Src\imguiHelper\ImguiCompilerDescriptor.cpp" />
     <ClCompile Include="Src\imguiHelper\ImguiConsole.cpp" />
+    <ClCompile Include="Src\imguiHelper\ImguiGamePlayScene.cpp" />
     <ClCompile Include="Src\imguiHelper\ImguiHelper.cpp" />
     <ClCompile Include="Src\imguiHelper\ImguiHierarchy.cpp" />
     <ClCompile Include="Src\imguiHelper\ImguiProfiler.cpp" />
     <ClCompile Include="Src\imguiHelper\ImguiProperties.cpp" />
     <ClCompile Include="Src\imguiHelper\ImguiScene.cpp" />
     <ClCompile Include="Src\imguiHelper\ImguiSceneBrowser.cpp" />
+    <ClCompile Include="Src\imguiHelper\ImguiScriptBrowser.cpp" />
     <ClCompile Include="Src\imguiHelper\ImguiToolBar.cpp" />
+    <ClCompile Include="Src\Tools\CompilerRevamped\MeshLoader.cpp" />
     <ClCompile Include="Src\Tools\CompilerSettings.cpp" />
+    <ClCompile Include="Src\Tools\DDSConverter.cpp" />
+    <ClCompile Include="Src\Tools\EditorHistory.cpp" />
+    <ClCompile Include="Src\Tools\FileExtensions.cpp" />
     <ClCompile Include="Src\Tools\GeomCompiler.cpp" />
+    <ClCompile Include="Src\Tools\Pathfinder.cpp" />
     <ClCompile Include="Src\Tools\ShaderReflector.cpp" />
-    <ClCompile Include="Src\Tools\TextureCompiler.cpp" />
+    <ClCompile Include="Src\Tools\FontLoader.cpp" />
+    <ClCompile Include="Src\Tools\TextureCompressor.cpp" />
+    <ClCompile Include="Src\Tools\Tile.cpp" />
+    <ClCompile Include="Src\Tools\TileEntity.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="GAM300Engine.dll" />
@@ -165,11 +188,11 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>$(SolutionDir).bin\$(Configuration)-$(Platform)\</OutDir>
+    <OutDir>$(SolutionDir)\$(Configuration)-$(Platform)</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>$(SolutionDir).bin\$(Configuration)-$(Platform)\</OutDir>
+    <OutDir>$(SolutionDir)\$(Configuration)-$(Platform)</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -203,9 +226,9 @@
     <ClCompile>
       <WarningLevel>Level4</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NO_LEGACY_BEHAVIOR;BUILD_MTd;MSDFGEN_PUBLIC=__declspec(dllimport);MSDF_ATLAS_PUBLIC=__declspec(dllimport);_DEBUG;_CONSOLE;_SILENCE_ALL_MS_EXT_DEPRECATION_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\;$(SolutionDir)GAM300Engine\Include;$(SolutionDir)GAM300Editor\Include;$(SolutionDir)Dependencies\spdlog\include;$(SolutionDir)Shared_Libs;$(SolutionDir)Dependencies\dds;$(SolutionDir)ToolsDependencies;$(SolutionDir)ToolsDependencies\DirectXTex-main\DirectXTex;$(SolutionDir)ToolsDependencies\DirectXTex-main;$(SolutionDir)ToolsDependencies\DirectXTex-main\DDSTextureLoader;$(SolutionDir)ToolsDependencies\spirv_cross;$(SolutionDir)ToolsDependencies\spirv-headers;$(SolutionDir)ToolsDependencies\spirv-tools;$(SolutionDir)ToolsDependencies\meshoptimizer-master;$(SolutionDir)ToolsDependencies\assimp\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\;$(SolutionDir)GAM300Engine\Include;$(SolutionDir)GAM300Editor\Include;$(SolutionDir)Dependencies\spdlog\include;$(SolutionDir)Shared_Libs;$(SolutionDir)Dependencies\dds;$(SolutionDir)ToolsDependencies;$(SolutionDir)ToolsDependencies\DirectXTex-main\DirectXTex;$(SolutionDir)ToolsDependencies\DirectXTex-main;$(SolutionDir)ToolsDependencies\DirectXTex-main\DDSTextureLoader;$(SolutionDir)ToolsDependencies\spirv_cross;$(SolutionDir)ToolsDependencies\spirv-headers;$(SolutionDir)ToolsDependencies\spirv-tools;$(SolutionDir)ToolsDependencies\meshoptimizer-master;$(SolutionDir)ToolsDependencies\assimp\include;$(SolutionDir)ToolsDependencies\Compressonator\cmp_compressonatorlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>
@@ -216,7 +239,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir).bin\Debug-x64;$(SolutionDir)Libs;$(SolutionDir)ToolsLibs;$(SolutionDir)ToolsLibs\DebugLibs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)\$(Configuration)-$(Platform);$(SolutionDir)Libs;$(SolutionDir)ToolsLibs;$(SolutionDir)ToolsLibs\DebugLibs;$(SolutionDir)Libs\Jolt\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>GAM300Engine.lib;vulkan-1.lib;meshoptimizer_d.lib;assimp-vc143-mtd.lib;SPIRVd.lib;shadercd.lib;glslangd.lib;glslang-default-resource-limitsd.lib;OGLCompilerd.lib;OSDependentd.lib;spirv-cross-cored.lib;spirv-cross-glsld.lib;SPIRV-Toolsd.lib;SPVRemapperd.lib;MachineIndependentd.lib;GenericCodeGend.lib;DirectXTexd.lib;rttr_core_d.lib;Jolt.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
@@ -230,9 +253,9 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;_SILENCE_ALL_MS_EXT_DEPRECATION_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)GAM300Engine\Include;$(SolutionDir)GAM300Editor\Include;$(SolutionDir)Dependencies\spdlog\include;$(SolutionDir)Dependencies;$(SolutionDir)Shared_Libs;$(SolutionDir)Dependencies\dds;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\;$(SolutionDir)GAM300Engine\Include;$(SolutionDir)GAM300Editor\Include;$(SolutionDir)Dependencies\spdlog\include;$(SolutionDir)Shared_Libs;$(SolutionDir)Dependencies\dds;$(SolutionDir)ToolsDependencies;$(SolutionDir)ToolsDependencies\DirectXTex-main\DirectXTex;$(SolutionDir)ToolsDependencies\DirectXTex-main;$(SolutionDir)ToolsDependencies\DirectXTex-main\DDSTextureLoader;$(SolutionDir)ToolsDependencies\spirv_cross;$(SolutionDir)ToolsDependencies\spirv-headers;$(SolutionDir)ToolsDependencies\spirv-tools;$(SolutionDir)ToolsDependencies\meshoptimizer-master;$(SolutionDir)ToolsDependencies\assimp\include;$(SolutionDir)ToolsDependencies\Compressonator\cmp_compressonatorlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>
@@ -245,8 +268,8 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir).bin\Debug-x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>GAM300Engine.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)\$(Configuration)-$(Platform);$(SolutionDir)Libs\Jolt\Release;$(SolutionDir)Libs;$(SolutionDir)ToolsLibs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>GAM300Engine.lib;assimp-vc143-mt.lib;DirectXTex.lib;GenericCodeGen.lib;glslang.lib;glslang-default-resource-limits.lib;ispc_texcomp.lib;MachineIndependent.lib;meshoptimizer.lib;OGLCompiler.lib;OSDependent.lib;shaderc.lib;SPIRV.lib;spirv-cross-core.lib;spirv-cross-glsl.lib;SPIRV-Tools.lib;SPIRV-Tools-opt.lib;SPVRemapper.lib;vulkan-1.lib;Jolt.lib;rttr_core.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>

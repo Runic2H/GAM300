@@ -10,12 +10,13 @@ namespace TDS
 	public:
 		EditorScene();
 
-		void init() {}
+		void init();
 		void update();
+		void Resize();
 
+		bool isFocus {true};
 	private:
-		
-		int m_gizmoType = 14463;
+		int m_gizmoType = 7;
 		bool m_gizmoActive = false;
 	};
 }

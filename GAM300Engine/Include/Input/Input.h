@@ -146,8 +146,8 @@ namespace TDS
 		/*!*************************************************************************
 		Returns true if key is being pressed.
 		****************************************************************************/
-		static bool isKeyPressed(uint32_t keycode); 
-		
+		static bool isKeyPressed(uint32_t keycode);
+
 		/*!*************************************************************************
 		Returns true if key is released.
 		****************************************************************************/
@@ -156,18 +156,23 @@ namespace TDS
 		/*!*************************************************************************
 		Returns true if key key has just been pressed.
 		****************************************************************************/
-		static bool wasKeyHit(uint32_t keycode); 
+		static bool wasKeyHit(uint32_t keycode);
+
+		/*!*************************************************************************
+		Manaually Reset KeyPress
+		****************************************************************************/
+		static void KeyRelease(uint32_t keycode);
 
 		/*!*************************************************************************
 		Returns true if mouse wheel is being scrolled up.
 		****************************************************************************/
 		static bool isMouseScrollUp();
-		
+
 		/*!*************************************************************************
 		Returns true if mouse wheel is being scrolled down.
 		****************************************************************************/
 		static bool isMouseScrollDown();
-		
+
 		/*!*************************************************************************
 		Returns mouse position
 		****************************************************************************/
@@ -177,16 +182,18 @@ namespace TDS
 		Returns true if mouse button is being pressed.
 		****************************************************************************/
 		static bool isMouseButtonPressed(unsigned int buttonCode);
-		
+
 		/*!*************************************************************************
 		Returns true if mouse button is being released.
 		****************************************************************************/
 		static bool isMouseButtonReleased(unsigned int buttonCode);
 
+		static void releaseTheMouse(unsigned int buttonCode);
+
 		/*!*************************************************************************
 		Returns true if button has just been pressed.
 		****************************************************************************/
-		static bool wasMouseButtonHit(unsigned int buttonCode); 
+		static bool wasMouseButtonHit(unsigned int buttonCode);
 
 		/*!*************************************************************************
 		Processes mouse scroll bools through GET_WHEEL_DELTA_WPARAM
@@ -197,7 +204,7 @@ namespace TDS
 		Stops scroll wheel from continuously outputing scroll up or down data.
 		****************************************************************************/
 		static void scrollStop();
-		
+
 		/*!*************************************************************************
 		Maps the keycodes to the macros defined by offseting them from the win32 API
 		keycode numbers.
@@ -214,9 +221,45 @@ namespace TDS
 		to track global position of the mouse.
 		****************************************************************************/
 		static void updateMousePosition(LPARAM lParam);
+
+		/*!*************************************************************************
+		Releases the key after it is pressed.
+		****************************************************************************/
+		static void releaseTheKey(uint32_t key);
+
+		/*!*************************************************************************
+		Set the center position for the mouse.
+		****************************************************************************/
+		static void setCenteredMouse(float x, float y);
+
+		static void setExitCursor(bool input);
+		static bool getExitCursor();
+
+		static void setLocalMousePos(Vec2 mousePos);
+		static Vec2 getLocalMousePos();
+
+		static float getLocalMousePosX();
+		static float getLocalMousePosY();
+
+		static void setUIMousePos(Vec2 mousePos);
+		static float getUIMousePosX();
+		static float getUIMousePosY();
+
+		static void centerandhidemouse(HWND hwnd);
+		//static inline float final_x_pos;
+		//static inline float final_y_pos;
+		//static float GetObjectPickPosX();
+		//static float GetObjectPickPosY();
+
+		static inline float mX;
+		static inline float mY;
+		static inline float mWidth;
+		static inline float mHeight;
+
 	private:
-
-
+		static bool exit_cursor;
+		static Vec2 local_MousePos;
+		static Vec2 ui_MousePos;
 
 	}; //end of Input class
 

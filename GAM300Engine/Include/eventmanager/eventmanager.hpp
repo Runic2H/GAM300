@@ -58,20 +58,20 @@ namespace TDS
 		char systemID = static_cast<char>(currentSystem);
 
 		// Checking if entity exist inside queue
-		bool check = false;
-		for (int j = 0; j < masterQueue[systemID].size(); ++j)
-		{
-			if (masterQueue[systemID][j]->id == newEvent->id)
-			{
-				masterQueue[systemID][j] = newEvent;
-				check = true;
-				break;
-			}
-		}
-		if (!check)
-		{
-			masterQueue[systemID].emplace_back(newEvent);
-		}
+		//bool check = false;
+		//for (int j = 0; j < masterQueue[systemID].size(); ++j)
+		//{
+		//	if (masterQueue[systemID][j]->id == newEvent->id)
+		//	{
+		//		masterQueue[systemID][j] = newEvent;
+		//		check = true;
+		//		break;
+		//	}
+		//}
+		//if (!check)
+		//{
+			masterQueue[systemID].emplace_back(newEvent); // for now, allow multiple 
+		//}
 
 		post(event, systemInput...);
 	}
@@ -177,6 +177,16 @@ namespace TDS
 	{
 		char system = static_cast<char>(systemID);
 		masterQueue[system];
+	}
+
+	/*!*************************************************************************
+	This function clears a queue
+	****************************************************************************/
+	template<typename U>
+	inline void EventManager::clearQueue(U systemID)
+	{
+		char system = static_cast<char>(systemID);
+		masterQueue[system].clear();
 	}
 
 	/*!*************************************************************************

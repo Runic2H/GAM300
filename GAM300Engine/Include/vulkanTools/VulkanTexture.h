@@ -36,6 +36,9 @@ namespace TDS
 
 		static std::shared_ptr<VulkanTexture>	CreateDefaultCubeTexture(bool useAnistrophy = false);
 
+		static std::shared_ptr<VulkanTexture>	CreateShadowCubeMapTexture(std::uint32_t width, std::uint32_t Height, VkFormat format, bool useAnistrophy = false);
+
+
 		void DLL_API						CreateCubeMapTexture(TextureInfo& textureAssetData, TextureData& textureData);
 
 
@@ -55,7 +58,12 @@ namespace TDS
 		static void						setTextureLayout(VkCommandBuffer& cmdBuffer,
 			ImageMemoryLayoutInput layoutParam);
 
+		static void						setImageLayout(VkCommandBuffer& commandBuffer, VkImage image, VkImageLayout oldLayout, VkImageLayout newLayout,
+			VkImageSubresourceRange subresourceRange, VkPipelineStageFlags srcStageMask = VK_PIPELINE_STAGE_ALL_COMMANDS_BIT,
+			VkPipelineStageFlags dstStageMask = VK_PIPELINE_STAGE_ALL_COMMANDS_BIT);
 
+		static void						setImageLayout(VkCommandBuffer& cmdbuffer, VkImage image, VkImageAspectFlags aspectMask, VkImageLayout oldImageLayout, VkImageLayout newImageLayout,
+			VkPipelineStageFlags srcStageMask = VK_PIPELINE_STAGE_ALL_COMMANDS_BIT, VkPipelineStageFlags dstStageMask = VK_PIPELINE_STAGE_ALL_COMMANDS_BIT);
 		void DLL_API						Destroy();
 
 
@@ -64,16 +72,18 @@ namespace TDS
 		DLL_API VkWriteDescriptorSet& getWriteSet();
 		DLL_API VkDescriptorImageInfo& getInfo();
 		DLL_API VkImage& GetImage();
-		VkDescriptorSet					m_DescSet = nullptr; // For now, only for imgui
+		DLL_API std::vector<VkImageView>& GetImageViews();
+
 	private:
 		VkImage							m_ImageHdl = nullptr;
 		VkImageView						m_BaseImageView = nullptr;
+		std::vector<VkImageView>		m_ImageViews = {};
 		VmaAllocation					m_Allocation = nullptr;
 		VkSampler						m_Sampler = nullptr;
 		VkImageLayout					m_ImageLayout;
 		VkDescriptorImageInfo			m_DescriptorImageInfo;
 		VkWriteDescriptorSet			m_WriteSet = { VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET };
-		
+		bool							m_SetForDestruction;
 
 
 	};
@@ -84,11 +94,11 @@ namespace TDS
 		DefaultTextures();
 		~DefaultTextures();
 
-		void DLL_API							Init();
-		static							std::shared_ptr<VulkanTexture> GetDefaultTexture();
-		static							std::shared_ptr<VulkanTexture> GetDefaultCubeTexture();
-		static							std::shared_ptr<VulkanTexture> GetDefaultStorage();
-		void DLL_API							DestroyDefaultTextures();
+		void DLL_API						Init();
+		static								std::shared_ptr<VulkanTexture> GetDefaultTexture();
+		static								std::shared_ptr<VulkanTexture> GetDefaultCubeTexture();
+		static								std::shared_ptr<VulkanTexture> GetDefaultStorage();
+		void DLL_API						DestroyDefaultTextures();
 		static DefaultTextures& GetInstance();
 	;		private:
 		inline static					std::shared_ptr<DefaultTextures> m_Instance = nullptr;

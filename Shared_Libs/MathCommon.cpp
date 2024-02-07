@@ -10,16 +10,25 @@ namespace TDS
         else
             return value;
     }
-
-    float Mathf::Clamp(int value, int min, int max)
+    float Mathf::ClampScriptAPI(float value, float min, float max)
     {
         if (value < min)
-            return static_cast<float>(min);
+            return min;
         else if (value > max)
-            return static_cast<float>(max);
+            return max;
         else
-            return static_cast<float>(value);
+            return value;
     }
+
+    //float Mathf::Clamp(int value, int min, int max)
+    //{
+    //    if (value < min)
+    //        return static_cast<float>(min);
+    //    else if (value > max)
+    //        return static_cast<float>(max);
+    //    else
+    //        return static_cast<float>(value);
+    //}
 
     float Mathf::Clamp01(float value)
     {

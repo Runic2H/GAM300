@@ -1,0 +1,81 @@
+
+MSDF Atlas Generator by Viktor Chlumsky v1.3.0 (with MSDFgen v1.10.0 & Skia)
+----------------------------------------------------------------------------
+
+INPUT SPECIFICATION
+  -font <filename.ttf/otf>
+      Specifies the input TrueType / OpenType font file. A font specification is required.
+  -varfont <filename.ttf/otf?var0=value0&var1=value1>
+      Specifies an input variable font file and configures its variables.
+  -charset <filename>
+      Specifies the input character set. Refer to the documentation for format of charset specification. Defaults to ASCII.
+  -glyphset <filename>
+      Specifies the set of input glyphs as glyph indices within the font file.
+  -fontscale <scale>
+      Specifies the scale to be applied to the glyph geometry of the font.
+  -fontname <name>
+      Specifies a name for the font that will be propagated into the output files as metadata.
+  -and
+      Separates multiple inputs to be combined into a single atlas.
+
+ATLAS CONFIGURATION
+  -type <hardmask / softmask / sdf / psdf / msdf / mtsdf>
+      Selects the type of atlas to be generated.
+  -format <png / bmp / tiff / text / textfloat / bin / binfloat / binfloatbe>
+      Selects the format for the atlas image output. Some image formats may be incompatible with embedded output formats.
+  -dimensions <width> <height>
+      Sets the atlas to have fixed dimensions (width x height).
+  -pots / -potr / -square / -square2 / -square4
+      Picks the minimum atlas dimensions that fit all glyphs and satisfy the selected constraint:
+      power of two square / ... rectangle / any square / square with side divisible by 2 / ... 4
+  -yorigin <bottom / top>
+      Determines whether the Y-axis is oriented upwards (bottom origin, default) or downwards (top origin).
+
+OUTPUT SPECIFICATION - one or more can be specified
+  -imageout <filename.*>
+      Saves the atlas as an image file with the specified format. Layout data must be stored separately.
+  -json <filename.json>
+      Writes the atlas's layout data, as well as other metrics into a structured JSON file.
+  -csv <filename.csv>
+      Writes the layout data of the glyphs into a simple CSV file.
+  -arfont <filename.arfont>
+      Stores the atlas and its layout data as an Artery Font file. Supported formats: png, bin, binfloat.
+  -shadronpreview <filename.shadron> <sample text>
+      Generates a Shadron script that uses the generated atlas to draw a sample text as a preview.
+
+GLYPH CONFIGURATION
+  -size <EM size>
+      Specifies the size of the glyphs in the atlas bitmap in pixels per EM.
+  -minsize <EM size>
+      Specifies the minimum size. The largest possible size that fits the same atlas dimensions will be used.
+  -emrange <EM range>
+      Specifies the SDF distance range in EM's.
+  -pxrange <pixel range>
+      Specifies the SDF distance range in output pixels. The default value is 2.
+  -nokerning
+      Disables inclusion of kerning pair table in output files.
+
+DISTANCE FIELD GENERATOR SETTINGS
+  -angle <angle>
+      Specifies the minimum angle between adjacent edges to be considered a corner. Append D for degrees. (msdf / mtsdf only)
+  -coloringstrategy <simple / inktrap / distance>
+      Selects the strategy of the edge coloring heuristic.
+  -errorcorrection <mode>
+      Changes the MSDF/MTSDF error correction mode. Use -errorcorrection help for a list of valid modes.
+  -errordeviationratio <ratio>
+      Sets the minimum ratio between the actual and maximum expected distance delta to be considered an error.
+  -errorimproveratio <ratio>
+      Sets the minimum ratio between the pre-correction distance error and the post-correction distance error.
+  -miterlimit <value>
+      Sets the miter limit that limits the extension of each glyph's bounding box due to very sharp corners. (psdf / msdf / mtsdf only)
+  -overlap
+      Switches to distance field generator with support for overlapping contours.
+  -nopreprocess
+      Disables path preprocessing which resolves self-intersections and overlapping contours.
+  -scanline
+      Performs an additional scanline pass to fix the signs of the distances.
+  -seed <N>
+      Sets the initial seed for the edge coloring heuristic.
+  -threads <N>
+      Sets the number of threads for the parallel computation. (0 = auto)
+

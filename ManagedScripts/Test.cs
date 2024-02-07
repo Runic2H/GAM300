@@ -1,6 +1,5 @@
 ﻿using ScriptAPI;
 using System;
-using System.Threading.Tasks;
 
 public class Testing : Script
 {
@@ -11,29 +10,34 @@ public class Testing : Script
 public class Test : Script
 {
     [SerializeField]
-    public Script script;
+    public GameObject gameObjectTest;
 
     [SerializeField]
-    public Testing test;
+    public Testing scriptTest;
+    
+    [SerializeField]
+    public String stringTest;
 
     [SerializeField]
-    private bool hmm = false;
+    public bool boolTest = false;
 
     [SerializeField]
-    private double testt;
+    private double doubleTest;
 
     [SerializeField]
-    private int testtt;
+    private int intTest;
 
     [SerializeField]
-    private float testttt;
-
-    [SerializeField]
-    private char testtttt;
+    private float floatTest;
 
     public override void Awake() 
     {
-        script = GameObjectScriptFind("entity1", "test");
+        //GameObjectScriptFind("entity3");
+        //Console.WriteLine(otherEntity);
+        //otherEntity.GetComponent<TransformComponent>().SetPositionX(20);
+        //Console.WriteLine(script.gameObject);
+        //gameObject.GetTransformComponent();
+        floatTest = 3.0f;
     }
 
     public override void OnEnable() 
@@ -49,9 +53,30 @@ public class Test : Script
 
     public override void Update()
     {
+        Vector3 pos = gameObject.GetComponent<TransformComponent>().GetPosition();
         //Console.WriteLine("Aye Lmao");
-        TransformComponent tf = GetTransformComponent();
-        tf.SetPositionX(3.0f);
+        if (Input.GetKeyDown(Keycode.W))
+        {
+            pos.Y += floatTest;
+            gameObject.GetComponent<TransformComponent>().SetPositionY(pos.Y);
+        }
+        if (Input.GetKeyDown(Keycode.S))
+        {
+            pos.Y -= floatTest;
+            gameObject.GetComponent<TransformComponent>().SetPositionY(pos.Y);
+        }
+        if (Input.GetKeyDown(Keycode.A))
+        {
+            pos.X -= floatTest;
+            gameObject.GetComponent<TransformComponent>().SetPositionX(pos.X);
+        }
+        if (Input.GetKeyDown(Keycode.D))
+        {
+            pos.X += floatTest;
+            gameObject.GetComponent<TransformComponent>().SetPositionX(pos.X);
+        }
+        //TransformComponent tf = gameObject.GetTransformComponent();
+        //tf.SetPositionX(3.0f);
     }
 
     public override void LateUpdate() { }

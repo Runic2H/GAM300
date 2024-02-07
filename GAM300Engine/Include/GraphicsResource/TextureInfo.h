@@ -18,13 +18,13 @@ namespace TDS
 	 * Loading of texture using TinyDDS
 	 ***************************************************************************/
 
-	enum class CUBEFACE 
+	enum class CUBEFACE
 	{
-		LEFT, 
+		LEFT,
 		RIGHT,
 		UP,
 		DOWN,
-		FRONT, 
+		FRONT,
 		BACK
 	};
 	struct TextureData
@@ -37,7 +37,7 @@ namespace TDS
 
 	struct TextureInfo
 	{
-		VkSamplerAddressMode			m_SampleAddressMode = VkSamplerAddressMode::VK_SAMPLER_ADDRESS_MODE_REPEAT;
+		VkSamplerAddressMode			m_SampleAddressMode = VkSamplerAddressMode::VK_SAMPLER_ADDRESS_MODE_MIRRORED_REPEAT;
 		VkBorderColor					m_BorderClr = VkBorderColor::VK_BORDER_COLOR_INT_OPAQUE_WHITE;
 		VkFilter						m_ImageFilter = VkFilter::VK_FILTER_LINEAR;
 		std::uint32_t					mipCount = 1;
@@ -50,7 +50,7 @@ namespace TDS
 		bool							m_IsCubeMap = false;
 		bool							m_UsingMipMaps = false;
 		bool							m_StorageImage = false;
-		bool							m_FlipTextureY = true;
+		bool							m_FlipTextureY = false;
 		bool							m_UseAnistrophy = true;
 	};
 
@@ -65,8 +65,9 @@ namespace TDS
 		size_t DLL_API					GetBlockByteSize();
 		size_t DLL_API					GetByteSize();
 		void DLL_API					LoadCubeMapTexture();
-		std::shared_ptr<VulkanTexture>	m_VulkanTexture;
-	
+		void DLL_API					Destroy();
+		VulkanTexture*					m_VulkanTexture = nullptr;
+
 		TextureData						m_Data;
 		TextureInfo						m_TextureInfo;
 	};

@@ -41,6 +41,7 @@ namespace TDS
 		m_BufferSize = size;
 		if (data)
 			MapData(data, m_BufferSize);
+	
 	}
 	VMABuffer VMABuffer::CreateStagingBuffer(size_t size, VulkanInstance& instance, void* data)
 	{
@@ -54,6 +55,7 @@ namespace TDS
 	{
 		VMABuffer Staging = CreateStagingBuffer(size, instance, data);
 
+		usage |= VkBufferUsageFlagBits::VK_BUFFER_USAGE_TRANSFER_DST_BIT;
 		CreateBuffer(size, usage, VMA_MEMORY_USAGE_GPU_ONLY);
 		CommandManager& cmdMgr = GraphicsManager::getInstance().getCommandManager();
 		CommandBufferInfo cmdBufferInfo = {};
@@ -79,6 +81,19 @@ namespace TDS
 			UnMap();
 		}
 	}
+
+	void VMABuffer::ReadData(void* data, size_t size, std::uint32_t offset)
+	{
+		m_MappedMemory = Map();
+		if (m_MappedMemory)
+		{
+			m_MappedMemory = reinterpret_cast<std::int8_t*>(m_MappedMemory) + offset;
+			std::memcpy(data, m_MappedMemory, size);
+			UnMap();
+		}
+	}
+
+
 	void VMABuffer::DestroyBuffer()
 	{
 		/*

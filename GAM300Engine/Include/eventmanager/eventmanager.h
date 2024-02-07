@@ -19,16 +19,11 @@
 
 namespace TDS
 {
-	// Enumeration for Systems
-	enum Systems
+	// Enumeration for Event types
+	enum class EventTypes
 	{
-		AI = 0,
-		COLLISION,
-		PATHFINDING,
-		PHYSICS,
-		GRAPHICS,
-		SOUND,
-		ANIMATION
+		CHILD_TRANSFORMATION  // For changing child transformation based on parent
+		//CHILD_ENABLE		  // For changing child enable / disable based on parent
 	};
 
 	// Base Event class
@@ -36,6 +31,14 @@ namespace TDS
 	{
 	public:
 		EntityID id;
+	};
+
+	class ChildTransformationEvent : public Event
+	{
+	public:
+		Vec3 positionChange;
+		Vec3 scaleChange;
+		Vec3 rotationChange;
 	};
 
 	// Event Manager Class
@@ -116,6 +119,12 @@ namespace TDS
 		****************************************************************************/
 		template <typename U>
 		void addQueue(U systemID);
+
+		/*!*************************************************************************
+		This function clears a queue
+		****************************************************************************/
+		template<typename U>
+		inline void clearQueue(U systemID);
 
 		/*!*************************************************************************
 		This function clears all queues

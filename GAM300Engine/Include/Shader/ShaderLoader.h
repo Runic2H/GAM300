@@ -12,7 +12,7 @@ namespace TDS
 	public:
 		DLL_API void							DeserializeShaderReflection(const std::string_view path);
 		DLL_API static void						LoadShader(std::vector<std::uint32_t>& SPIRV, const std::string_view path);
-		inline ShaderMetaData&					getReflectedLookUp()
+		inline ShaderMetaData& getReflectedLookUp()
 		{
 			return m_reflected;
 		}

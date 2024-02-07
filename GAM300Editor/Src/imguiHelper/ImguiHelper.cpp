@@ -4,6 +4,7 @@
 #include "imguiHelper/ImguiHierarchy.h"
 #include "imguiHelper/ImguiProperties.h"
 #include "imguiHelper/ImguiAssetBrowser.h"
+#include "imguiHelper/ImguiScriptBrowser.h"
 #include "imguiHelper/ImguiAudio.h"
 #include "imguiHelper/ImguiBehaviourTree.h"
 
@@ -12,6 +13,8 @@
 #include "imguiHelper/ImguiProfiler.h"
 #include "ImguiHelper/ImguiFunctionHelper.h"
 #include "imguiHelper/ImguiScene.h"
+#include "imguiHelper/ImguiGamePlayScene.h"
+#include "imguiHelper/ImguiCompilerDescriptor.h"
 
 namespace TDS
 {
@@ -27,13 +30,16 @@ namespace TDS
 			m_instance->panels[PanelTypes::HIERARCHY] = std::make_shared<Hierarchy>();
 			m_instance->panels[PanelTypes::PROPERTIES] = std::make_shared<Properties>();
 			m_instance->panels[PanelTypes::ASSETBROWSER] = std::make_shared<AssetBrowser>();
-			//m_instance->panels[PanelTypes::AUDIOLER] = std::make_shared<AudioImgui>();
+			m_instance->panels[PanelTypes::AUDIOLER] = std::make_shared<AudioImgui>();
 			m_instance->panels[PanelTypes::SCENEBROWSER] = std::make_shared<SceneBrowser>();
+			m_instance->panels[PanelTypes::SCRIPTBROWSER] = std::make_shared<ScriptBrowser>();
 			m_instance->panels[PanelTypes::CONSOLE] = std::make_shared<EditorConsole>();
 			m_instance->panels[PanelTypes::TOOLBAR] = std::make_shared<Toolbar>();
 			m_instance->panels[PanelTypes::PROFILER] = std::make_shared<Profiler>();
 			m_instance->panels[PanelTypes::BEHAVIOURTREEEDITOR] = std::make_shared<BehaviourTreePanel>();
 			m_instance->panels[PanelTypes::SCENE] = std::make_shared<EditorScene>();
+			m_instance->panels[PanelTypes::GAMEPLAYSCENE] = std::make_shared<GamePlayScene>();
+			m_instance->panels[PanelTypes::COMPILER_DESCRIPTOR] = std::make_shared<CompilerDescriptors>();
 		}
 		return m_instance;
 	}
@@ -152,6 +158,15 @@ namespace TDS
 		ImGui_ImplVulkan_CreateFontsTexture(SingleUseCommandBuffer);
 	}
 
+	
+#define IM_MAX(A, B)            (((A) >= (B)) ? (A) : (B))
+	static void AspectRatio(ImGuiSizeCallbackData* data) 
+	{ 
+		float aspect_ratio = *(float*)data->UserData; 
+		data->DesiredSize.x = IM_MAX(data->CurrentSize.x, data->CurrentSize.y); 
+		data->DesiredSize.y = (float)(int)(data->DesiredSize.x / aspect_ratio); 
+	}
+
 	void imguiHelper::Update()
 	{
 		ImGui_ImplVulkan_NewFrame();
@@ -185,8 +200,24 @@ namespace TDS
 		// Panels
 		for (auto currentPanel : LevelEditorManager::GetInstance()->panels)
 		{
+			if (currentPanel.second->makeFocus)
+			{
+				ImGui::SetNextWindowFocus();
+				currentPanel.second->makeFocus = false;
+			}
 			//ImGui::GetStyle().WindowPadding = currentPanel.second->windowPadding;
+			if (currentPanel.first == PanelTypes::SCENE)
+			{
+				ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{ 0.f,0.f });
+				float aspect_ratio = 16.0f / 9.0f;
 
+				//ImGui::SetNextWindowSizeConstraints(ImVec2(1280, 720), ImVec2(1920, 1080), AspectRatio, (void*)&aspect_ratio);   // Aspect ratio
+
+				//ImGui::SetNextWindowSizeConstraints();
+				//float frame_height = ImGui::GetFrameHeight();
+				//ImVec2 extra_size_needed = ImVec2(0.0f, frame_height);
+				//extra_size_needed = extra_size_needed + ImVec2(ImGui::GetStyle().WindowBorderSize * 2, ImGui::GetStyle().WindowBorderSize * 2);
+			}
 			if (ImGui::Begin(currentPanel.second->panelTitle.c_str(), (bool*)0, currentPanel.second->flags))
 			{
 				if (ImGui::IsWindowHovered() && ImGui::IsMouseClicked(ImGuiMouseButton_Right))
@@ -197,10 +228,16 @@ namespace TDS
 				{
 					currentPanel.second->rightClick = false;
 				}
-
+			
 				currentPanel.second->update();
 			}
 			ImGui::End();
+			if (currentPanel.first == PanelTypes::SCENE)
+			{
+				ImGui::PopStyleVar();
+				
+			}
+
 		}
 	}
 
@@ -223,5 +260,6 @@ namespace TDS
 		ImGui_ImplVulkan_Shutdown();
 		ImGui_ImplWin32_Shutdown();
 		ImGui::DestroyContext();
+		AssetBrowser::destroyIcons(); //temp to prevent mem leak
 	}
 }

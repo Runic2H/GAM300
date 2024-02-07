@@ -9,7 +9,7 @@
  *******************************************************************************/
 #define TINYDDSLOADER_IMPLEMENTATION
 #include "GraphicsResource/TextureInfo.h"
-
+#include "vulkanTools/VulkanTexture.h"
 #include <iostream>
 
 
@@ -17,26 +17,44 @@ namespace TDS
 {
 	bool TextureData::LoadTexture(std::string_view path)
 	{
-		tinyddsloader::Result result = m_TextureLoaded.Load(path.data());
 
+		tinyddsloader::Result result = m_TextureLoaded.Load(path.data());
 		return (result == tinyddsloader::Result::Success);
 
 	}
 
 	void Texture::LoadTexture(std::string_view path)
 	{
+		if (m_VulkanTexture != nullptr)
+		{
+			Destroy();
+			delete m_VulkanTexture;
+			m_VulkanTexture = nullptr;
+
+		}
 		if (!m_Data.LoadTexture(path))
 		{
-			std::cout << "Failed to load texture" << std::endl;
 			return;
 		}
 		m_TextureInfo.m_Format = ConvertToVulkanFormat(m_Data.m_TextureLoaded.GetFormat());
 		m_TextureInfo.m_ImageSize = ComputeImageSize();
 		m_TextureInfo.m_ExtentDimen = { m_Data.m_TextureLoaded.GetWidth(), m_Data.m_TextureLoaded.GetHeight() };
-		m_TextureInfo.mipCount = m_Data.m_TextureLoaded.GetDepth();
-		m_TextureInfo.m_FlipTextureY = m_Data.m_TextureLoaded.Flip();
+		m_TextureInfo.mipCount = m_Data.m_TextureLoaded.GetMipCount();
 		m_TextureInfo.m_Data = m_Data.m_TextureLoaded.GetImageData()->m_mem;
 		m_TextureInfo.m_IsCubeMap = m_Data.m_TextureLoaded.IsCubemap();
+
+		m_VulkanTexture = new VulkanTexture();
+		if (m_TextureInfo.m_IsCubeMap)
+		{
+			uint32_t size = m_Data.m_TextureLoaded.GetSize();
+			m_TextureInfo.m_ImageSize = m_Data.m_TextureLoaded.GetSize();
+			m_VulkanTexture->CreateCubeMapTexture(m_TextureInfo, m_Data);
+		}
+		else
+		{
+			m_TextureInfo.m_FlipTextureY = m_Data.m_TextureLoaded.Flip();
+			m_VulkanTexture->CreateTexture(m_TextureInfo);
+		}
 
 	}
 	bool DLL_API Texture::IsTextureCompressed()
@@ -303,18 +321,28 @@ namespace TDS
 		if (!m_Data.m_TextureLoaded.IsCubemap())
 			return;
 
-		
 
-		for (uint32_t i = 0; i < 6; i++) 
+
+		for (uint32_t i = 0; i < 6; i++)
 		{
 			const tinyddsloader::DDSFile::ImageData* faceData = m_Data.m_TextureLoaded.GetImageData(0, i);
 
 			if (faceData != nullptr)
 				m_Data.m_CubeMapTexture[static_cast<CUBEFACE>(i)] = faceData;
-		
+
 		}
 
 
+	}
+
+	void DLL_API Texture::Destroy()
+	{
+		if (m_VulkanTexture != nullptr)
+		{
+			m_VulkanTexture->Destroy();
+			delete m_VulkanTexture;
+			m_VulkanTexture = nullptr;
+		}
 	}
 
 }

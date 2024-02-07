@@ -5,10 +5,10 @@
 #include "Rendering/RenderTarget.h"
 #include "dotnet/ImportExport.h"
 namespace TDS {
-	
+
 	struct AttachmentClearColor
 	{
-		VkClearColorValue color{ {0.2f,0.2f,0.2f,1.f} };
+		VkClearColorValue color{ {0.0f,0.0f,0.0f,1.f} };
 		VkClearDepthStencilValue depth{ 1.f, 0 };
 	};
 	struct AttachmentInfo
@@ -20,6 +20,8 @@ namespace TDS {
 		VkAttachmentStoreOp stencilStoreOP;
 		AttachmentClearColor clear = AttachmentClearColor{};
 	};
+
+
 	class RenderPass
 	{
 	public:
@@ -36,7 +38,9 @@ namespace TDS {
 
 		DLL_API void setViewportSize(uint32_t w, uint32_t h) { m_Width = w; m_Height = h; }
 
-		DLL_API VkRenderPass getRenderPass()const { return m_RenderPass; }
+		DLL_API VkRenderPass& getRenderPass() { return m_RenderPass; }
+
+		DLL_API std::vector<VkClearValue>& getClearValues() { return m_clearValues; }
 	private:
 		VkRenderPass m_RenderPass{};
 		uint32_t m_Width{};

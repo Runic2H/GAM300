@@ -3,6 +3,7 @@
 #include "dotnet/ImportExport.h"
 namespace TDS
 {
+
 	class Model;
 	class RendererDataManager;
 	class VulkanPipeline;
@@ -12,16 +13,13 @@ namespace TDS
 	private:
 		inline static std::shared_ptr<Renderer3D> m_Instance = nullptr;
 		std::shared_ptr<VulkanPipeline> m_DefaultPipeline = nullptr;
-		std::shared_ptr<VulkanPipeline> m_viewportPipeline = nullptr;
-		//std::shared_ptr<FrameBuffer>	m_FrameBuffer = nullptr;
+		std::shared_ptr<VulkanPipeline> m_TempPipeline = nullptr;
 
 	public:
 		static std::shared_ptr<Renderer3D> getInstance();
 		static void Init();
-		static void Update(RendererDataManager& renderData);
-		static void UpdateUniform(RendererDataManager& renderData);
-		static void DrawFrame(RendererDataManager& renderData);
 		static std::shared_ptr<VulkanPipeline>& getPipeline();
+		static std::shared_ptr<VulkanPipeline>& getTempPipeline();
 		void ShutDown();
 
 

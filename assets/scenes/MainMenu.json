@@ -1,159 +1,820 @@
 {
     "Archetype Sizes": {
-        "110000100000": {
-            "0": 1248,
-            "1": 1344,
-            "6": 3072
+        "110000100000100000": {
+            "0": 816,
+            "1": 2304,
+            "6": 2160,
+            "12": 2160
         }
     },
     "Entity Data": {
         "1": {
-            "ArchetypeID": "110000100000",
+            "ArchetypeID": "110000100000100000",
+            "Enabled": true,
             "Name Tag": {
-                "Name": "New Entity",
+                "Name": "BackGround",
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 0,
-                "HierarchyIndex": 0
+                "HierarchyIndex": 0,
+                "HierarchyChildren": []
             },
             "Transform": {
                 "Position": {
-                    "x": 3.0,
-                    "y": 0.0,
+                    "x": 0.0,
+                    "y": -0.3449831008911133,
                     "z": 0.0
                 },
                 "Scale": {
+                    "x": 2.106642961502075,
+                    "y": 2.106642961502075,
+                    "z": 2.106642961502075
+                },
+                "Rotation": {
+                    "x": 0.0,
+                    "y": -0.0,
+                    "z": 0.0
+                },
+                "FakePosition": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "FakeRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "FakeScale": {
                     "x": 1.0,
                     "y": 1.0,
                     "z": 1.0
                 },
-                "Rotation": {
+                "OldPosition": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "OldScale": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "OldRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "OldFakePosition": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "OldFakeScale": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "OldFakeRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "ParentPosition": {
                     "x": 0.0,
                     "y": 0.0,
                     "z": 0.0
                 }
             },
-            "Graphics Component": {}
-        },
-        "2": {
-            "ArchetypeID": "110000100000",
-            "Name Tag": {
-                "Name": "New Entity",
-                "Tag": "",
-                "IsActive": true,
-                "HierarchyParent": 0,
-                "HierarchyIndex": 1
-            },
-            "Transform": {
-                "Position": {
+            "Graphics Component": {
+                "PointLight": false,
+                "TextureName": "",
+                "Show Mesh": true,
+                "Debug": false,
+                "ModelName": "",
+                "MeshName": "",
+                "MeshNodeName": "",
+                "Color": {
                     "x": 0.0,
                     "y": 0.0,
-                    "z": 0.0
+                    "z": 0.0,
+                    "w": 0.003921568859368563
                 },
-                "Scale": {
-                    "x": 1.0,
-                    "y": 1.0,
-                    "z": 1.0
-                },
-                "Rotation": {
+                "Used In 2D": false,
+                "Model UID": 0
+            },
+            "UI Sprite": {
+                "Texture": "newmainmenu_bg.dds",
+                "EnableSprite": true,
+                "LayerID": 0,
+                "is Font": false,
+                "message": "",
+                "Font Texture": "",
+                "ForeGroundColour": {
                     "x": 0.0,
                     "y": 0.0,
-                    "z": 0.0
-                }
-            },
-            "Graphics Component": {}
-        },
-        "3": {
-            "ArchetypeID": "110000100000",
-            "Name Tag": {
-                "Name": "New Entity",
-                "Tag": "",
-                "IsActive": true,
-                "HierarchyParent": 0,
-                "HierarchyIndex": 2
-            },
-            "Transform": {
-                "Position": {
+                    "z": 0.0,
+                    "w": 0.0
+                },
+                "Sprite Color": {
+                    "x": 0.027777791023254395,
+                    "y": 0.008487659506499767,
+                    "z": 0.008487659506499767,
+                    "w": 0.49803921580314636
+                },
+                "BackGroundColour": {
                     "x": 0.0,
                     "y": 0.0,
-                    "z": 0.0
+                    "z": 0.0,
+                    "w": 1.0
                 },
-                "Scale": {
-                    "x": 1.0,
-                    "y": 1.0,
-                    "z": 1.0
+                "BoundingBoxMin": {
+                    "x": -1.0533214807510376,
+                    "y": -1.3983045816421509
                 },
-                "Rotation": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                }
-            },
-            "Graphics Component": {}
-        },
-        "4": {
-            "ArchetypeID": "110000100000",
-            "Name Tag": {
-                "Name": "New Entity",
-                "Tag": "",
-                "IsActive": true,
-                "HierarchyParent": 0,
-                "HierarchyIndex": 3
-            },
-            "Transform": {
-                "Position": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                },
-                "Scale": {
-                    "x": 1.0,
-                    "y": 1.0,
-                    "z": 1.0
-                },
-                "Rotation": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                }
-            },
-            "Graphics Component": {}
-        }
-    },
-    "Scripts": {
-        "1": {
-            "Test": {
-                "script": {
-                    "ScriptName": ""
-                },
-                "test": {
-                    "ScriptName": ""
-                },
-                "hmm": {
-                    "Bool": true
-                },
-                "testt": {
-                    "Double": 9.0
-                },
-                "testtt": {
-                    "Int": 8
-                },
-                "testttt": {
-                    "Float": 0.0
-                },
-                "testtttt": {
-                    "ScriptName": "\u0000"
+                "BoundingBoxMax": {
+                    "x": 1.0533214807510376,
+                    "y": 0.7083383798599243
                 }
             }
         },
         "2": {
-            "Testing": {
-                "hihi": {
-                    "Bool": true
+            "ArchetypeID": "110000100000100000",
+            "Enabled": true,
+            "Name Tag": {
+                "Name": "PlayButton",
+                "Tag": "",
+                "IsActive": true,
+                "HierarchyParent": 0,
+                "HierarchyIndex": 1,
+                "HierarchyChildren": []
+            },
+            "Transform": {
+                "Position": {
+                    "x": 0.0,
+                    "y": -0.7599999904632568,
+                    "z": 0.0
+                },
+                "Scale": {
+                    "x": 0.26973000168800354,
+                    "y": 0.26973000168800354,
+                    "z": 0.26973000168800354
+                },
+                "Rotation": {
+                    "x": 0.0,
+                    "y": -0.0,
+                    "z": 0.0
+                },
+                "FakePosition": {
+                    "x": -0.68666672706604,
+                    "y": -0.8850325345993042,
+                    "z": 0.0
+                },
+                "FakeRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "FakeScale": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                },
+                "OldPosition": {
+                    "x": -0.0018612146377563477,
+                    "y": -0.7384709119796753,
+                    "z": 0.0
+                },
+                "OldScale": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "OldRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "OldFakePosition": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "OldFakeScale": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "OldFakeRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "ParentPosition": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                }
+            },
+            "Graphics Component": {
+                "PointLight": false,
+                "TextureName": "",
+                "Show Mesh": true,
+                "Debug": false,
+                "ModelName": "",
+                "MeshName": "",
+                "MeshNodeName": "",
+                "Color": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0,
+                    "w": 1.0
+                },
+                "Used In 2D": false,
+                "Model UID": 0
+            },
+            "UI Sprite": {
+                "Texture": "Play_Button.dds",
+                "EnableSprite": true,
+                "LayerID": 0,
+                "is Font": false,
+                "message": "",
+                "Font Texture": "",
+                "ForeGroundColour": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 0.0
+                },
+                "Sprite Color": {
+                    "x": 0.10196078568696976,
+                    "y": 0.10196078568696976,
+                    "z": 0.10196078568696976,
+                    "w": 1.0
+                },
+                "BackGroundColour": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "BoundingBoxMin": {
+                    "x": -0.13486500084400177,
+                    "y": -0.8948649764060974
+                },
+                "BoundingBoxMax": {
+                    "x": 0.13486500084400177,
+                    "y": -0.6251350045204163
+                }
+            }
+        },
+        "3": {
+            "ArchetypeID": "110000100000100000",
+            "Enabled": true,
+            "Name Tag": {
+                "Name": "SettingsButton",
+                "Tag": "",
+                "IsActive": true,
+                "HierarchyParent": 0,
+                "HierarchyIndex": 2,
+                "HierarchyChildren": []
+            },
+            "Transform": {
+                "Position": {
+                    "x": -0.6000000238418579,
+                    "y": -0.7599999904632568,
+                    "z": 0.0
+                },
+                "Scale": {
+                    "x": 0.2687999904155731,
+                    "y": 0.2687999904155731,
+                    "z": 0.2687999904155731
+                },
+                "Rotation": {
+                    "x": 0.0,
+                    "y": -0.0,
+                    "z": 0.0
+                },
+                "FakePosition": {
+                    "x": -1.3222219944000244,
+                    "y": -0.5336225032806396,
+                    "z": 0.0
+                },
+                "FakeRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "FakeScale": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                },
+                "OldPosition": {
+                    "x": -0.638577401638031,
+                    "y": -0.7320442199707031,
+                    "z": 0.0
+                },
+                "OldScale": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "OldRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "OldFakePosition": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "OldFakeScale": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "OldFakeRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "ParentPosition": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                }
+            },
+            "Graphics Component": {
+                "PointLight": false,
+                "TextureName": "",
+                "Show Mesh": true,
+                "Debug": false,
+                "ModelName": "",
+                "MeshName": "",
+                "MeshNodeName": "",
+                "Color": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0,
+                    "w": 1.0
+                },
+                "Used In 2D": false,
+                "Model UID": 0
+            },
+            "UI Sprite": {
+                "Texture": "Settings_Button.dds",
+                "EnableSprite": true,
+                "LayerID": 0,
+                "is Font": false,
+                "message": "",
+                "Font Texture": "",
+                "ForeGroundColour": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 0.0
+                },
+                "Sprite Color": {
+                    "x": 0.10196078568696976,
+                    "y": 0.10196078568696976,
+                    "z": 0.10196078568696976,
+                    "w": 1.0
+                },
+                "BackGroundColour": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "BoundingBoxMin": {
+                    "x": -0.7344000339508057,
+                    "y": -0.8944000005722046
+                },
+                "BoundingBoxMax": {
+                    "x": -0.46560001373291016,
+                    "y": -0.6255999803543091
+                }
+            }
+        },
+        "4": {
+            "ArchetypeID": "110000100000100000",
+            "Enabled": true,
+            "Name Tag": {
+                "Name": "QuitButton",
+                "Tag": "",
+                "IsActive": true,
+                "HierarchyParent": 0,
+                "HierarchyIndex": 3,
+                "HierarchyChildren": []
+            },
+            "Transform": {
+                "Position": {
+                    "x": 0.6000000238418579,
+                    "y": -0.7599999904632568,
+                    "z": 0.0
+                },
+                "Scale": {
+                    "x": 0.2687999904155731,
+                    "y": 0.2687999904155731,
+                    "z": 0.2687999904155731
+                },
+                "Rotation": {
+                    "x": 0.0,
+                    "y": -0.0,
+                    "z": 0.0
+                },
+                "FakePosition": {
+                    "x": -0.15555548667907715,
+                    "y": -0.18221259117126465,
+                    "z": 0.0
+                },
+                "FakeRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "FakeScale": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                },
+                "OldPosition": {
+                    "x": 0.528089165687561,
+                    "y": -0.7143433094024658,
+                    "z": 0.0
+                },
+                "OldScale": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "OldRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "OldFakePosition": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "OldFakeScale": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "OldFakeRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "ParentPosition": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                }
+            },
+            "Graphics Component": {
+                "PointLight": false,
+                "TextureName": "",
+                "Show Mesh": true,
+                "Debug": false,
+                "ModelName": "",
+                "MeshName": "",
+                "MeshNodeName": "",
+                "Color": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 0.0
+                },
+                "Used In 2D": false,
+                "Model UID": 0
+            },
+            "UI Sprite": {
+                "Texture": "Quit_Button.dds",
+                "EnableSprite": true,
+                "LayerID": 0,
+                "is Font": false,
+                "message": "",
+                "Font Texture": "",
+                "ForeGroundColour": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 0.0
+                },
+                "Sprite Color": {
+                    "x": 0.10196078568696976,
+                    "y": 0.10196078568696976,
+                    "z": 0.10196078568696976,
+                    "w": 1.0
+                },
+                "BackGroundColour": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "BoundingBoxMin": {
+                    "x": 0.46560001373291016,
+                    "y": -0.8944000005722046
+                },
+                "BoundingBoxMax": {
+                    "x": 0.7344000339508057,
+                    "y": -0.6255999803543091
+                }
+            }
+        },
+        "5": {
+            "ArchetypeID": "110000100000100000",
+            "Enabled": true,
+            "Name Tag": {
+                "Name": "TeamLogo",
+                "Tag": "",
+                "IsActive": true,
+                "HierarchyParent": 0,
+                "HierarchyIndex": 4,
+                "HierarchyChildren": []
+            },
+            "Transform": {
+                "Position": {
+                    "x": 0.8564006090164185,
+                    "y": 0.4870251417160034,
+                    "z": 0.0
+                },
+                "Scale": {
+                    "x": 0.20000000298023224,
+                    "y": 0.3771899938583374,
+                    "z": 0.3771899938583374
+                },
+                "Rotation": {
+                    "x": 0.0,
+                    "y": -0.0,
+                    "z": 0.0
+                },
+                "FakePosition": {
+                    "x": 1.7799999713897705,
+                    "y": 1.3145335912704468,
+                    "z": 0.0
+                },
+                "FakeRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "FakeScale": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                },
+                "OldPosition": {
+                    "x": 0.8564006090164185,
+                    "y": 0.4870251417160034,
+                    "z": 0.0
+                },
+                "OldScale": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "OldRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "OldFakePosition": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "OldFakeScale": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "OldFakeRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "ParentPosition": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                }
+            },
+            "Graphics Component": {
+                "PointLight": false,
+                "TextureName": "",
+                "Show Mesh": true,
+                "Debug": false,
+                "ModelName": "",
+                "MeshName": "",
+                "MeshNodeName": "",
+                "Color": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0,
+                    "w": 1.0
+                },
+                "Used In 2D": false,
+                "Model UID": 0
+            },
+            "UI Sprite": {
+                "Texture": "team_logo_3.dds",
+                "EnableSprite": true,
+                "LayerID": 1,
+                "is Font": false,
+                "message": "",
+                "Font Texture": "",
+                "ForeGroundColour": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 0.0
+                },
+                "Sprite Color": {
+                    "x": 0.10196078568696976,
+                    "y": 0.10196078568696976,
+                    "z": 0.10196078568696976,
+                    "w": 1.0
+                },
+                "BackGroundColour": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "BoundingBoxMin": {
+                    "x": 0.7564005851745605,
+                    "y": 0.2984301447868347
+                },
+                "BoundingBoxMax": {
+                    "x": 0.9564006328582764,
+                    "y": 0.6756201386451721
+                }
+            }
+        },
+        "6": {
+            "ArchetypeID": "110000100000100000",
+            "Enabled": true,
+            "Name Tag": {
+                "Name": "Title",
+                "Tag": "",
+                "IsActive": true,
+                "HierarchyParent": 0,
+                "HierarchyIndex": 5,
+                "HierarchyChildren": []
+            },
+            "Transform": {
+                "Position": {
+                    "x": 0.595596969127655,
+                    "y": -0.15365350246429443,
+                    "z": 0.0
+                },
+                "Scale": {
+                    "x": 0.800000011920929,
+                    "y": 0.30000001192092896,
+                    "z": 0.800000011920929
+                },
+                "Rotation": {
+                    "x": 0.0,
+                    "y": -0.0,
+                    "z": 0.0
+                },
+                "FakePosition": {
+                    "x": 0.5933332443237305,
+                    "y": -0.9631237983703613,
+                    "z": 0.0
+                },
+                "FakeRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "FakeScale": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                },
+                "OldPosition": {
+                    "x": 0.595596969127655,
+                    "y": -0.15365350246429443,
+                    "z": 0.0
+                },
+                "OldScale": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "OldRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "OldFakePosition": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "OldFakeScale": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "OldFakeRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "ParentPosition": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                }
+            },
+            "Graphics Component": {
+                "PointLight": false,
+                "TextureName": "",
+                "Show Mesh": true,
+                "Debug": false,
+                "ModelName": "",
+                "MeshName": "",
+                "MeshNodeName": "",
+                "Color": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 0.0
+                },
+                "Used In 2D": false,
+                "Model UID": 0
+            },
+            "UI Sprite": {
+                "Texture": "game_title_3.dds",
+                "EnableSprite": true,
+                "LayerID": 1,
+                "is Font": false,
+                "message": "",
+                "Font Texture": "",
+                "ForeGroundColour": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 0.0
+                },
+                "Sprite Color": {
+                    "x": 0.10196078568696976,
+                    "y": 0.10196078568696976,
+                    "z": 0.10196078568696976,
+                    "w": 1.0
+                },
+                "BackGroundColour": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "BoundingBoxMin": {
+                    "x": 0.19559696316719055,
+                    "y": -0.3036535084247589
+                },
+                "BoundingBoxMax": {
+                    "x": 0.9955970048904419,
+                    "y": -0.003653496503829956
+                }
+            }
+        }
+    },
+    "Scripts": {
+        "1": {},
+        "2": {
+            "PlayButton": {
+                "bgm": {
+                    "ScriptAPI.AudioComponent": 2
+                },
+                "bgmName": {
+                    "System.String": "skyclad_sound_ambience_dark_loop_dynamic_tones_howling_moaning_mournful_eerie_105"
+                },
+                "gameObject": {
+                    "ScriptAPI.GameObject": 2
                 }
             }
         },
         "3": {},
-        "4": {}
+        "4": {},
+        "5": {},
+        "6": {}
+    },
+    "Active Archetype": {
+        "1": "1100001000001",
+        "2": "1100001000001",
+        "3": "1100001000001",
+        "4": "1100001000001",
+        "5": "1100001000001",
+        "6": "1100001000001"
     }
 }

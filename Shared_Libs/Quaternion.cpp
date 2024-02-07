@@ -34,15 +34,19 @@ namespace TDS
     }
 	Quat::Quat(Vec3 const& euler)
 	{
-        Vec3 c = Vec3(Mathf::Cos(euler.x * 0.5f), Mathf::Cos(euler.y * 0.5f), Mathf::Cos(euler.z * 0.5f));
-        Vec3 s = Vec3(Mathf::Sin(euler.x * 0.5f), Mathf::Sin(euler.y * 0.5f), Mathf::Sin(euler.z * 0.5f));
+		float radianX = euler.x;
+		float radianY = euler.y;
+		float radianZ = euler.z;
 
-        w = c.x * c.y * c.z + s.x * s.y * s.z;
-        x = s.x * c.y * c.z - c.x * s.y * s.z;
-        y = c.x * s.y * c.z + s.x * c.y * s.z;
-        z = c.x * c.y * s.z - s.x * s.y * c.z;
+		Vec3 c = Vec3(Mathf::Cos(radianX * 0.5f), Mathf::Cos(radianY * 0.5f), Mathf::Cos(radianZ * 0.5f));
+		Vec3 s = Vec3(Mathf::Sin(radianX * 0.5f), Mathf::Sin(radianY * 0.5f), Mathf::Sin(radianZ * 0.5f));
+
+		w = c.x * c.y * c.z + s.x * s.y * s.z;
+		x = s.x * c.y * c.z - c.x * s.y * s.z;
+		y = c.x * s.y * c.z + s.x * c.y * s.z;
+		z = c.x * c.y * s.z - s.x * s.y * c.z;
 	}
-	Quat::~Quat() {}
+	//Quat::~Quat() {}
 	float Quat::angle(Quat const& q)
 	{
         if (Mathf::Abs(q.w) > Mathf::Cos(0.5f))
@@ -55,15 +59,15 @@ namespace TDS
         return Mathf::Acos(q.w) * 2.0f;
     
 	}
-	Quat Quat::angleAxis(float const& angle, float const& newX, float const& newY, float const& newZ)
+	Quat Quat::angleAxis(float const& angle/*degree*/, float const& newX, float const& newY, float const& newZ)
 	{
-		float const a = angle;
+		float const a = angle * Mathf::Deg2Rad;
         float const s = Mathf::Sin(a * 0.5f);
         return Quat( newX * s, newY * s, newZ * s, Mathf::Cos(a * 0.5f));
 	}
-	Quat Quat::angleAxis(float const& angle, Vec3 const& axis)
+	Quat Quat::angleAxis(float const& angle/*degree*/, Vec3 const& axis)
 	{
-		float const a = angle;
+		float const a = angle * Mathf::Deg2Rad;
         float const s = Mathf::Sin(a * 0.5f);
         return Quat(axis.x * s, axis.y * s, axis.z * s, Mathf::Cos(a * 0.5f));
 	}
@@ -103,6 +107,23 @@ namespace TDS
 	{
 		return Vec3(pitch(q), yaw(q), roll(q));
 	}
+
+	Quat Quat::euler(Vec3 const& v)
+	{
+		float radianX = v.x * Mathf::Deg2Rad;
+		float radianY = v.y * Mathf::Deg2Rad;
+		float radianZ = v.z * Mathf::Deg2Rad;
+
+		Vec3 c = Vec3(Mathf::Cos(radianX * 0.5f), Mathf::Cos(radianY * 0.5f), Mathf::Cos(radianZ * 0.5f));
+		Vec3 s = Vec3(Mathf::Sin(radianX * 0.5f), Mathf::Sin(radianY * 0.5f), Mathf::Sin(radianZ * 0.5f));
+
+		float w = c.x * c.y * c.z + s.x * s.y * s.z;
+		float x = s.x * c.y * c.z - c.x * s.y * s.z;
+		float y = c.x * s.y * c.z + s.x * c.y * s.z;
+		float z = c.x * c.y * s.z - s.x * s.y * c.z;
+		return Quat(x, y, z, w);
+	}
+
 	Quat Quat::exp(Quat const& q)
 	{
         Vec3 u = Vec3(q.x, q.y, q.z);
@@ -481,5 +502,10 @@ namespace TDS
 	bool operator!=(Quat const& q1, Quat const& q2)
 	{
 		return q1.w != q2.w || q1.x != q2.x || q1.y != q2.y || q1.z != q2.z;
+	}
+
+	Quat floatsToQuat(float x, float y, float z, float w)
+	{
+		return Quat(x, y, z, w);
 	}
 } // namespace WD

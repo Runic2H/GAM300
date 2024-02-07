@@ -20,6 +20,10 @@
 
 namespace TDS
 {
+	struct lod
+	{
+		std::vector<std::uint32_t> m_Indices;
+	};
 	/*!*************************************************************************
 	 * RawVertex struct that create a vertex
 	 ***************************************************************************/
@@ -34,6 +38,7 @@ namespace TDS
 		iColor m_Bitangent;
 		iColor m_Normal;
 		iColor m_Color;
+
 	};
 
 	/*!*************************************************************************

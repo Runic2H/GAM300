@@ -3,8 +3,9 @@
 
 #include <Jolt/Physics/Collision/ObjectLayer.h>
 #include <Jolt/Physics/Collision/BroadPhase/BroadPhaseLayer.h>
-#include <Jolt/Physics/Collision/ContactListener.h>
 #include <Jolt/Physics/Body/BodyActivationListener.h>
+#include <Jolt/Physics/Body/Body.h>
+
 namespace TDS
 {
 	// All Jolt symbols are in the JPH namespace
@@ -13,9 +14,10 @@ namespace TDS
 
 	namespace Layers
 	{
-		static constexpr ObjectLayer NON_MOVING = 0;
-		static constexpr ObjectLayer MOVING = 1;
-		static constexpr ObjectLayer NUM_LAYERS = 2;
+		static constexpr ObjectLayer NON_MOVING = 0;	// Non moving can only collide with moving objects
+		static constexpr ObjectLayer MOVING = 1;		// Moving can collide with everything
+		static constexpr ObjectLayer SENSOR = 2;		// Sensor can only collide with moving objects
+		static constexpr ObjectLayer NUM_LAYERS = 3;
 	};
 
 	/// Class that determines if two object layers can collide
@@ -29,7 +31,9 @@ namespace TDS
 			case Layers::NON_MOVING:
 				return inObject2 == Layers::MOVING; // Non moving only collides with moving
 			case Layers::MOVING:
-				return true; // Moving collides with everything
+				return inObject2 == Layers::NON_MOVING || inObject2 == Layers::MOVING || inObject2 == Layers::SENSOR; // Moving collides with everything
+			case Layers::SENSOR:
+				return inObject2 == Layers::MOVING; // Sensor only collides with moving
 			default:
 				JPH_ASSERT(false);
 				return false;
@@ -46,7 +50,8 @@ namespace TDS
 	{
 		static constexpr BroadPhaseLayer NON_MOVING(0);
 		static constexpr BroadPhaseLayer MOVING(1);
-		static constexpr uint NUM_LAYERS(2);
+		static constexpr BroadPhaseLayer SENSOR(2);
+		static constexpr uint NUM_LAYERS(3);
 	};
 
 	// BroadPhaseLayerInterface implementation
@@ -59,6 +64,7 @@ namespace TDS
 			// Create a mapping table from object to broad phase layer
 			mObjectToBroadPhase[Layers::NON_MOVING] = BroadPhaseLayers::NON_MOVING;
 			mObjectToBroadPhase[Layers::MOVING] = BroadPhaseLayers::MOVING;
+			mObjectToBroadPhase[Layers::SENSOR] = BroadPhaseLayers::SENSOR;
 		}
 
 		virtual uint					GetNumBroadPhaseLayers() const override
@@ -79,6 +85,7 @@ namespace TDS
 			{
 			case (BroadPhaseLayer::Type)BroadPhaseLayers::NON_MOVING:	return "NON_MOVING";
 			case (BroadPhaseLayer::Type)BroadPhaseLayers::MOVING:		return "MOVING";
+			case (BroadPhaseLayer::Type)BroadPhaseLayers::SENSOR:		return "SENSOR";
 			default:													JPH_ASSERT(false); return "INVALID";
 			}
 		}
@@ -99,7 +106,9 @@ namespace TDS
 			case Layers::NON_MOVING:
 				return inLayer2 == BroadPhaseLayers::MOVING;
 			case Layers::MOVING:
-				return true;
+				return inLayer2 == BroadPhaseLayers::NON_MOVING || inLayer2 == BroadPhaseLayers::MOVING || inLayer2 == BroadPhaseLayers::SENSOR;
+			case Layers::SENSOR:
+				return inLayer2 == BroadPhaseLayers::MOVING;
 			default:
 				JPH_ASSERT(false);
 				return false;
@@ -107,47 +116,29 @@ namespace TDS
 		}
 	};
 
-	// An example contact listener
-	class MyContactListener : public ContactListener
+	class JoltLayers
 	{
 	public:
-		// See: ContactListener
-		virtual ValidateResult	OnContactValidate(const Body& inBody1, const Body& inBody2, RVec3Arg inBaseOffset, const CollideShapeResult& inCollisionResult) override
+		static ObjectLayer GetObjectLayer(int layers, bool sensor)
 		{
-			std::cout << "Contact validate callback" << std::endl;
+			if (sensor)
+			{
+				return Layers::SENSOR;
+			}
+			else
+			{
+				switch (layers)
+				{
+				case 0: // Static
+					return Layers::NON_MOVING;
+				case 1: // Dynamic
+					return Layers::MOVING;
+				default:
+					JPH_ASSERT(false);
+					return Layers::NON_MOVING;
+				}
+			}
 
-			// Allows you to ignore a contact before it is created (using layers to not make objects collide is cheaper!)
-			return ValidateResult::AcceptAllContactsForThisBodyPair;
-		}
-
-		virtual void			OnContactAdded(const Body& inBody1, const Body& inBody2, const ContactManifold& inManifold, ContactSettings& ioSettings) override
-		{
-			std::cout << "A contact was added" << std::endl;
-		}
-
-		virtual void			OnContactPersisted(const Body& inBody1, const Body& inBody2, const ContactManifold& inManifold, ContactSettings& ioSettings) override
-		{
-			std::cout << "A contact was persisted" << std::endl;
-		}
-
-		virtual void			OnContactRemoved(const SubShapeIDPair& inSubShapePair) override
-		{
-			std::cout << "A contact was removed" << std::endl;
-		}
-	};
-
-	// An example activation listener
-	class MyBodyActivationListener : public BodyActivationListener
-	{
-	public:
-		virtual void		OnBodyActivated(const BodyID& inBodyID, uint64 inBodyUserData) override
-		{
-			std::cout << "A body got activated" << std::endl;
-		}
-
-		virtual void		OnBodyDeactivated(const BodyID& inBodyID, uint64 inBodyUserData) override
-		{
-			std::cout << "A body went to sleep" << std::endl;
 		}
 	};
 }

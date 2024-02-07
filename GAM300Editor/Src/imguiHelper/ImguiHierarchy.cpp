@@ -32,50 +32,60 @@ namespace TDS
 
 	void Hierarchy::init()
 	{
-		hierarchyMap.clear();
+		hierarchyList.clear();
 		auto allEntities = ecs.getEntities();
 
 		for (EntityID& entity : allEntities)
 		{
-			EntityID parentEntity = ecs.getComponent<NameTag>(entity)->GetHierarchyParent();
-			int hierarchyIndex = ecs.getComponent<NameTag>(entity)->GetHierarchyIndex();
+			NameTag* nameTagComponent = ecs.getComponent<NameTag>(entity);
 
-			hierarchyMap[entity].parent = parentEntity; 
-			hierarchyMap[entity].indexInParent = hierarchyIndex;
-
-			bool inserted = false;
-			for (int i = 0; i < hierarchyMap[parentEntity].children.size(); ++i)
+			if (nameTagComponent->GetHierarchyParent() == 0) // no parent
 			{
-				NameTag* childEntity = ecs.getComponent<NameTag>(hierarchyMap[parentEntity].children[i]);
-
-				if (childEntity->GetHierarchyIndex() > hierarchyIndex) // Found the slot to insert current entity
+				bool inserted = false;
+				for (int i = 0; i < hierarchyList.size(); ++i)
 				{
-					hierarchyMap[parentEntity].children.emplace(hierarchyMap[parentEntity].children.begin() + i, entity);
-					inserted = true;
+					NameTag* entityInList = ecs.getComponent<NameTag>(hierarchyList[i]);
 
-					break;
+					if (entityInList->GetHierarchyIndex() > nameTagComponent->GetHierarchyIndex()) // Found the slot to insert current entity
+					{
+						hierarchyList.emplace(hierarchyList.begin() + i, entity);
+						inserted = true;
+
+						break;
+					}
+				}
+				if (!inserted)
+				{
+					hierarchyList.emplace_back(entity);
 				}
 			}
-			if (!inserted)
-			{
-				hierarchyMap[parentEntity].children.emplace_back(entity);
-			}
 		}
-	}
 
-	void Hierarchy::changeIndexInEntity()
-	{
-		for (EntityID entity : ecs.getEntities())
-		{
-			ecs.getComponent<NameTag>(entity)->SetHierarchyIndex(hierarchyMap[entity].indexInParent);
-			ecs.getComponent<NameTag>(entity)->SetHierarchyParent(hierarchyMap[entity].parent);
-		}
+		filter.Clear();
 	}
 
 	void Hierarchy::reorderingHierarchy(EntityID payloadEntity, EntityID acceptEntity, bool acceptEntityTreeNode)
 	{
-		auto& currEntityIDHierarchyInfo = hierarchyMap[acceptEntity];
-		auto& payloadEntityIDHierarchyInfo = hierarchyMap[payloadEntity];
+		NameTag* payloadNameTagComponent = ecs.getComponent<NameTag>(payloadEntity);
+		EntityID payloadParent = payloadNameTagComponent->GetHierarchyParent();
+		EntityID payloadIndexInParent = payloadNameTagComponent->GetHierarchyIndex();
+		std::vector<EntityID> payloadChildren = payloadNameTagComponent->GetHierarchyChildren();
+
+		NameTag* acceptNameTagComponent;
+		EntityID acceptParent = 0;
+		EntityID acceptIndexInParent = 0;
+		std::vector<EntityID> acceptChildren;
+
+		if (acceptEntity != 0)
+		{
+			acceptNameTagComponent = ecs.getComponent<NameTag>(acceptEntity);
+			acceptParent = acceptNameTagComponent->GetHierarchyParent();
+			acceptIndexInParent = acceptNameTagComponent->GetHierarchyIndex(); 
+			acceptChildren = acceptNameTagComponent->GetHierarchyChildren();
+		}
+
+		//auto& currEntityIDHierarchyInfo = hierarchyMap[acceptEntity];
+		//auto& payloadEntityIDHierarchyInfo = hierarchyMap[payloadEntity];
 
 		if (searchForChild(payloadEntity, acceptEntity)) // Making sure parent / grandparent cannot be moved to the child
 		{
@@ -83,105 +93,254 @@ namespace TDS
 		}
 
 		if (acceptEntity != payloadEntity &&
-			!(currEntityIDHierarchyInfo.parent == payloadEntityIDHierarchyInfo.parent
-				&& (currEntityIDHierarchyInfo.indexInParent + 1) == payloadEntityIDHierarchyInfo.indexInParent) || acceptEntityTreeNode)
+			!(acceptParent == payloadParent
+				&& (acceptIndexInParent + 1) == payloadIndexInParent) || acceptEntityTreeNode)
 		{
-			if (payloadEntity == currEntityIDHierarchyInfo.parent &&
-				payloadEntityIDHierarchyInfo.children.size() - 1 == currEntityIDHierarchyInfo.indexInParent) // check if the payload is the last child of the parent
+			if (payloadEntity == acceptParent &&
+				payloadChildren.size() - 1 == acceptIndexInParent) // check if the payload is the last child of the parent
 			{
 				return;
 			}
 
-			hierarchyMap[payloadEntityIDHierarchyInfo.parent].children.erase(
-				hierarchyMap[payloadEntityIDHierarchyInfo.parent].children.begin() + payloadEntityIDHierarchyInfo.indexInParent);
+			int payloadSiblingsSize = 0;
 
-			if (acceptEntityTreeNode) // true means currEntity is a parent and the tree node is open, make it the first child
+			if (payloadParent == 0)
 			{
-				hierarchyMap[payloadEntity].parent = acceptEntity;
-				hierarchyMap[acceptEntity].children.emplace(hierarchyMap[acceptEntity].children.begin(), payloadEntity);
+				hierarchyList.erase(hierarchyList.begin() + payloadIndexInParent);
+				payloadSiblingsSize = hierarchyList.size();
+			}
+			else
+			{
+				auto& payloadSiblings = ecs.getComponent<NameTag>(payloadParent)->GetHierarchyChildren();
+				payloadSiblings.erase(payloadSiblings.begin() + payloadIndexInParent);
+				payloadSiblingsSize = payloadSiblings.size();
+			}
 
-				for (int index = 0; index < hierarchyMap[acceptEntity].children.size(); ++index)
+			if (acceptEntityTreeNode && acceptEntity != 0) // true means currEntity is a parent and the tree node is open, make it the first child
+			{
+				ecs.getComponent<NameTag>(payloadEntity)->SetHierarchyParent(acceptEntity);
+				acceptChildren.emplace(acceptChildren.begin(), payloadEntity);
+
+				for (int index = 0; index < acceptChildren.size(); ++index)
 				{
-					hierarchyMap[hierarchyMap[acceptEntity].children[index]].indexInParent = index;
+					ecs.getComponent<NameTag>(acceptChildren[index])->SetHierarchyIndex(index);
 				}
 			}
 			// Just shifting around without changing parent
-			else if (payloadEntityIDHierarchyInfo.parent == currEntityIDHierarchyInfo.parent)
+			else if (payloadParent == acceptParent)
 			{
-				if (payloadEntityIDHierarchyInfo.indexInParent < currEntityIDHierarchyInfo.indexInParent)
+				if (payloadIndexInParent < acceptIndexInParent || (payloadParent == 0 && acceptIndexInParent == 0))
 				{
-					hierarchyMap[currEntityIDHierarchyInfo.parent].children.emplace(
-						hierarchyMap[currEntityIDHierarchyInfo.parent].children.begin() + currEntityIDHierarchyInfo.indexInParent,
-						payloadEntity);
+					if (payloadParent == 0)
+					{
+						hierarchyList.emplace(hierarchyList.begin() + acceptIndexInParent, payloadEntity);
+					}
+					else
+					{
+						auto& payloadSiblings = ecs.getComponent<NameTag>(payloadParent)->GetHierarchyChildren();
+						payloadSiblings.emplace(payloadSiblings.begin() + acceptIndexInParent, payloadEntity);
+					}
 				}
-				else if (currEntityIDHierarchyInfo.indexInParent + 1 == hierarchyMap[currEntityIDHierarchyInfo.parent].children.size())
+				else if (acceptIndexInParent + 1 == payloadSiblingsSize)
 				{
-					hierarchyMap[currEntityIDHierarchyInfo.parent].children.emplace_back(payloadEntity);
+					if (payloadParent == 0)
+					{
+						hierarchyList.emplace_back(payloadEntity);
+					}
+					else
+					{
+						auto& payloadSiblings = ecs.getComponent<NameTag>(payloadParent)->GetHierarchyChildren();
+						payloadSiblings.emplace_back(payloadEntity);
+					}
 				}
 				else
 				{
-					hierarchyMap[currEntityIDHierarchyInfo.parent].children.emplace(
-						hierarchyMap[currEntityIDHierarchyInfo.parent].children.begin() + currEntityIDHierarchyInfo.indexInParent + 1,
-						payloadEntity);
+					if (payloadParent == 0)
+					{
+						hierarchyList.emplace(hierarchyList.begin() + acceptIndexInParent + 1, payloadEntity);
+					}
+					else
+					{
+						auto& payloadSiblings = ecs.getComponent<NameTag>(payloadParent)->GetHierarchyChildren();
+						payloadSiblings.emplace(payloadSiblings.begin() + acceptIndexInParent + 1, payloadEntity);
+					}
 				}
 			}
 			else // Different parent
 			{
-				for (int index = 0; index < hierarchyMap[payloadEntityIDHierarchyInfo.parent].children.size(); ++index)
+				if (payloadParent == 0)
 				{
-					hierarchyMap[hierarchyMap[payloadEntityIDHierarchyInfo.parent].children[index]].indexInParent = index;
+					for (int index = 0; index < hierarchyList.size(); ++index)
+					{
+						ecs.getComponent<NameTag>(hierarchyList[index])->SetHierarchyIndex(index);
+					}
+				}
+				else
+				{
+					auto& payloadSiblings = ecs.getComponent<NameTag>(payloadParent)->GetHierarchyChildren();
+					for (int index = 0; index < payloadSiblings.size(); ++index)
+					{
+						ecs.getComponent<NameTag>(payloadSiblings[index])->SetHierarchyIndex(index);
+					}
 				}
 
-				payloadEntityIDHierarchyInfo.parent = currEntityIDHierarchyInfo.parent;
-				hierarchyMap[currEntityIDHierarchyInfo.parent].children.emplace(hierarchyMap[currEntityIDHierarchyInfo.parent].children.begin() + hierarchyMap[acceptEntity].indexInParent + 1, payloadEntity);
+				payloadNameTagComponent->SetHierarchyIndex(acceptParent);
+				ecs.getComponent<NameTag>(payloadEntity)->SetHierarchyParent(acceptParent);
+
+				if (acceptParent == 0)
+				{
+					hierarchyList.emplace(hierarchyList.begin() + acceptIndexInParent + 1, payloadEntity);
+				}
+				else
+				{
+					auto& acceptSiblings = ecs.getComponent<NameTag>(acceptParent)->GetHierarchyChildren();
+					acceptSiblings.emplace(acceptSiblings.begin() + acceptIndexInParent + 1, payloadEntity);
+				}
 			}
 
-			for (int index = 0; index < hierarchyMap[currEntityIDHierarchyInfo.parent].children.size(); ++index)
+			if (acceptParent == 0)
 			{
-				hierarchyMap[hierarchyMap[currEntityIDHierarchyInfo.parent].children[index]].indexInParent = index;
+				for (int index = 0; index < hierarchyList.size(); ++index)
+				{
+					ecs.getComponent<NameTag>(hierarchyList[index])->SetHierarchyIndex(index);
+				}
+			}
+			else
+			{
+				auto& acceptSiblings = ecs.getComponent<NameTag>(acceptParent)->GetHierarchyChildren();
+
+				for (int index = 0; index < acceptSiblings.size(); ++index)
+				{
+					ecs.getComponent<NameTag>(acceptSiblings[index])->SetHierarchyIndex(index);
+				}
 			}
 		}
 	}
 
+	void Hierarchy::removeEntity(EntityID entityID)
+	{
+		for (EntityID childID : ecs.getComponent<NameTag>(entityID)->GetHierarchyChildren())
+		{
+			removeEntity(childID);
+		}
+
+		EntityID parent = ecs.getComponent<NameTag>(entityID)->GetHierarchyParent();
+
+		if (parent == 0)
+		{
+			hierarchyList.erase(std::find(hierarchyList.begin(), hierarchyList.end(), entityID));
+		}
+		else
+		{
+			auto& siblings = ecs.getComponent<NameTag>(parent)->GetHierarchyChildren();
+			siblings.erase(std::find(siblings.begin(), siblings.end(), entityID));
+		}
+
+		// Removing all instance of the removed entity
+		auto allEntities = ecs.getEntities();
+		static auto& sceneManagerInstance = SceneManager::GetInstance();
+
+		for (auto scriptName : sceneManagerInstance->getAllScripts())
+		{
+			// For each entity
+			for (auto currentEntity : allEntities)
+			{
+				if (!sceneManagerInstance->hasScript(currentEntity, scriptName))
+				{
+					continue;
+				}
+
+				std::vector<ScriptValues> allValues = sceneManagerInstance->getScriptVariables(currentEntity, scriptName);
+
+				for (ScriptValues scriptValue : allValues)
+				{
+					if (scriptValue.referenceEntityID == entityID) // there is a entity reference 
+					{
+						if (scriptValue.type == "ScriptAPI.GameObject")
+						{
+							scriptValue.referenceEntityID = 0;
+							sceneManagerInstance->setScriptValue(selectedEntity, scriptName, scriptValue);
+							//sceneManagerInstance->setGameObject(currentEntity, scriptName, scriptValue.name, 0);
+						}
+						else
+						{
+							scriptValue.referenceEntityID = 0;
+							sceneManagerInstance->setScriptValue(selectedEntity, scriptName, scriptValue);
+							//sceneManagerInstance->setScriptReference(currentEntity, scriptName, scriptValue.name, 0, scriptValue.type);
+						}
+					}
+				}
+			}
+		}
+
+		ecs.removeEntity(entityID);
+		selectedEntity = 0;
+	}
+
 	void Hierarchy::makingChildHierarchy(EntityID payloadEntity, EntityID acceptEntity)
 	{
-		auto& currEntityIDHierarchyInfo = hierarchyMap[acceptEntity];
-		auto& payloadEntityIDHierarchyInfo = hierarchyMap[payloadEntity];
+		NameTag* payloadNameTagComponent = ecs.getComponent<NameTag>(payloadEntity);
+		NameTag* acceptNameTagComponent = ecs.getComponent<NameTag>(acceptEntity);
 
-		if (currEntityIDHierarchyInfo.parent != payloadEntity)
+		EntityID payloadParent = payloadNameTagComponent->GetHierarchyParent();
+		EntityID acceptParent = acceptNameTagComponent->GetHierarchyParent();
+
+		EntityID payloadIndexInParent = payloadNameTagComponent->GetHierarchyIndex();
+		EntityID acceptIndexInParent = acceptNameTagComponent->GetHierarchyIndex();
+
+		auto& payloadChildren = payloadNameTagComponent->GetHierarchyChildren();
+		auto& acceptChildren = acceptNameTagComponent->GetHierarchyChildren();
+
+		//auto& currEntityIDHierarchyInfo = hierarchyMap[acceptEntity];
+		//auto& payloadEntityIDHierarchyInfo = hierarchyMap[payloadEntity];
+
+		if (acceptParent != payloadEntity)
 		{
 			if (searchForChild(payloadEntity, acceptEntity)) // Making sure parent / grandparent cannot be moved to the child
 			{
 				return;
 			}
 
-			hierarchyMap[payloadEntityIDHierarchyInfo.parent].children.erase(
-				hierarchyMap[payloadEntityIDHierarchyInfo.parent].children.begin() + payloadEntityIDHierarchyInfo.indexInParent);
-
-			for (int index = 0; index < hierarchyMap[payloadEntityIDHierarchyInfo.parent].children.size(); ++index)
+			if (payloadParent == 0)
 			{
-				hierarchyMap[hierarchyMap[payloadEntityIDHierarchyInfo.parent].children[index]].indexInParent = index;
+				hierarchyList.erase(hierarchyList.begin() + payloadIndexInParent);
+
+				for (int index = 0; index < hierarchyList.size(); ++index)
+				{
+					ecs.getComponent<NameTag>(hierarchyList[index])->SetHierarchyIndex(index);
+				}
+			}
+			else
+			{
+				auto& payloadSiblings = ecs.getComponent<NameTag>(payloadParent)->GetHierarchyChildren();
+				payloadSiblings.erase(payloadSiblings.begin() + payloadIndexInParent);
+
+				for (int index = 0; index < payloadSiblings.size(); ++index)
+				{
+					ecs.getComponent<NameTag>(payloadSiblings[index])->SetHierarchyIndex(index);
+				}
 			}
 
-			payloadEntityIDHierarchyInfo.parent = acceptEntity;
-			currEntityIDHierarchyInfo.children.emplace_back(payloadEntity);
+			payloadNameTagComponent->SetHierarchyParent(acceptEntity);
+			acceptChildren.emplace_back(payloadEntity);
 
-			for (int index = 0; index < hierarchyMap[acceptEntity].children.size(); ++index)
+			for (int index = 0; index < acceptChildren.size(); ++index)
 			{
-				hierarchyMap[hierarchyMap[acceptEntity].children[index]].indexInParent = index;
+				ecs.getComponent<NameTag>(acceptChildren[index])->SetHierarchyIndex(index);
 			}
 		}
 	}
 
 	bool Hierarchy::searchForChild(EntityID parentEntity, EntityID entityToFind)
 	{
-		for (auto childEntity : hierarchyMap[parentEntity].children)
+		//for (auto childEntity : hierarchyMap[parentEntity].children)
+		for (auto childEntity : ecs.getComponent<NameTag>(parentEntity)->GetHierarchyChildren())
 		{
 			if (childEntity == entityToFind)
 			{
 				return true;
 			}
-			if (hierarchyMap[childEntity].children.size())
+			if (ecs.getComponent<NameTag>(childEntity)->GetHierarchyChildren().size())
 			{
 				return searchForChild(childEntity, entityToFind);
 			}
@@ -192,25 +351,25 @@ namespace TDS
 	void Hierarchy::drawHierarchy(EntityID entityID)
 	{
 		ImGuiTreeNodeFlags nodeFlags =
-			ImGuiTreeNodeFlags_DefaultOpen |
+			//ImGuiTreeNodeFlags_DefaultOpen |
 			ImGuiTreeNodeFlags_FramePadding |
 			ImGuiTreeNodeFlags_SpanFullWidth | 
 			ImGuiTreeNodeFlags_OpenOnArrow;
 
 		ImGui::PushID(entityID);
-		bool selected = false;
+		bool opened = false;
 
 		// Get Name Tag component
 		NameTag* nameTagComponent = ecs.getComponent<NameTag>(entityID);
 
 		// Checking if entity has children
-		if (!hierarchyMap[entityID].children.size()) // No children
+		if (!ecs.getComponent<NameTag>(entityID)->GetHierarchyChildren().size()) // No children
 		{
 			ImGui::Indent();
 
 			// Entity will be a selectable as there are no children
 			bool currentItemHovered = false;
-			selected = ImGui::Selectable(nameTagComponent->GetName().c_str(), selectedEntity == entityID, ImGuiSelectableFlags_SpanAllColumns);
+			opened = ImGui::Selectable(nameTagComponent->GetName().c_str(), selectedEntity == entityID, ImGuiSelectableFlags_SpanAllColumns);
 
 			if (ImGui::IsItemHovered())
 			{
@@ -222,6 +381,7 @@ namespace TDS
 				ImGui::SetDragDropPayload("draggedEntity", &entityID, sizeof(int));
 				ImGui::EndDragDropSource();
 			}
+
 			if (ImGui::BeginDragDropTarget())
 			{
 				if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("draggedEntity"))
@@ -233,7 +393,8 @@ namespace TDS
 				}
 				ImGui::EndDragDropTarget();
 			}
-			if (selected)
+
+			if (opened)
 			{
 				selectedEntity = entityID;
 			}
@@ -242,14 +403,21 @@ namespace TDS
 			{
 				selectedEntity = entityID;
 				popupOpened = true;
+				if (ImGui::Selectable("Reset Parent"))
+				{
+					reorderingHierarchy(entityID, hierarchyList[hierarchyList.size() - 1]);
+					ImGui::EndPopup();
+					ImGui::Unindent();
+					ImGui::PopID();
+					return;
+				}
 				if (ImGui::Selectable("Remove Entity"))
 				{
-					ecs.removeEntity(selectedEntity);
-					hierarchyMap[hierarchyMap[selectedEntity].parent].children.erase(
-						std::find(hierarchyMap[hierarchyMap[selectedEntity].parent].children.begin(), 
-								  hierarchyMap[hierarchyMap[selectedEntity].parent].children.end(), selectedEntity));
-					hierarchyMap.erase(selectedEntity);
-					selectedEntity = 0;
+					removeEntity(selectedEntity);
+					ImGui::EndPopup();
+					ImGui::Unindent();
+					ImGui::PopID();
+					return;
 				}
 
 				ImGui::EndPopup();
@@ -282,7 +450,7 @@ namespace TDS
 		}
 
 		bool currentItemHovered = false;
-		selected = ImGui::TreeNodeEx(nameTagComponent->GetName().c_str(), nodeFlags);
+		opened = ImGui::TreeNodeEx(nameTagComponent->GetName().c_str(), nodeFlags);
 
 		if (ImGui::IsItemHovered())
 		{
@@ -294,6 +462,31 @@ namespace TDS
 			ImGui::SetDragDropPayload("draggedEntity", &entityID, sizeof(int));
 			ImGui::EndDragDropSource();
 		}
+
+		static int tempEntity = 0;
+		static float timer = 0.0f;
+		if (ImGui::IsMouseClicked(ImGuiMouseButton_Left) && currentItemHovered)
+		{
+			tempEntity = entityID;
+			timer = 0.5f;
+		}
+
+		if (tempEntity == entityID)
+		{
+			if (timer > 0)
+			{
+				if (!ImGui::IsMouseDown(ImGuiMouseButton_Left))
+				{
+					selectedEntity = tempEntity;
+				}
+				timer -= GetDeltaTime();
+			}
+			else 
+			{
+				tempEntity = 0;
+			}
+		}
+
 		if (ImGui::BeginDragDropTarget())
 		{
 			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("draggedEntity"))
@@ -305,20 +498,32 @@ namespace TDS
 			}
 			ImGui::EndDragDropTarget();
 		}
-		if (ImGui::IsMouseClicked(ImGuiMouseButton_Left) && currentItemHovered)
-		{
-			selectedEntity = entityID;
-		}
 
 		if (ImGui::BeginPopupContextItem())
 		{
 			selectedEntity = entityID;
 			popupOpened = true;
+			if (ImGui::Selectable("Reset Parent"))
+			{
+				reorderingHierarchy(entityID, hierarchyList[hierarchyList.size() - 1]);
+				ImGui::EndPopup();
+				ImGui::PopID();
+				if (opened)
+				{
+					ImGui::TreePop();
+				}
+				return;
+			}
 			if (ImGui::Selectable("Remove Entity"))
 			{
-				ecs.removeEntity(selectedEntity);
-				hierarchyMap.erase(selectedEntity);
-				selectedEntity = 0;
+				removeEntity(selectedEntity);
+				ImGui::EndPopup();
+				ImGui::PopID();
+				if (opened)
+				{
+					ImGui::TreePop();
+				}
+				return;
 			}
 
 			ImGui::EndPopup();
@@ -334,19 +539,21 @@ namespace TDS
 				EntityID payloadEntityID = *(static_cast<EntityID*>(payload->Data));
 
 				// Reordering
-				reorderingHierarchy(payloadEntityID, entityID, selected);
+				reorderingHierarchy(payloadEntityID, entityID, opened);
 			}
 			ImGui::EndDragDropTarget();
 		}
 
-		if (selected)
+		if (opened)
 		{
-			std::uint32_t originalSize = hierarchyMap[entityID].children.size();
-			for (auto childEntity : hierarchyMap[entityID].children)
+			auto& children = ecs.getComponent<NameTag>(entityID)->GetHierarchyChildren();
+			
+			std::uint32_t originalSize = children.size();
+			for (auto childEntity : children)
 			{
 				drawHierarchy(childEntity);
 
-				if (originalSize != hierarchyMap[entityID].children.size())
+				if (originalSize != children.size())
 				{
 					ImGui::TreePop();
 
@@ -362,6 +569,12 @@ namespace TDS
 	****************************************************************************/
 	void Hierarchy::update()
 	{
+		if (currentFilename != SceneManager::GetInstance()->getCurrentScene()) 
+		{
+			selectedEntity = 0;
+			init();
+			currentFilename = SceneManager::GetInstance()->getCurrentScene();
+		}
 		if (ImGui::BeginMenuBar())
 		{
 			// Add entity (make it a menu item if there are prefabs)
@@ -375,9 +588,14 @@ namespace TDS
 					newEntity.add<Transform>();
 					selectedEntity = newEntityID;
 
-					hierarchyMap[newEntityID].parent = 0;
-					hierarchyMap[newEntityID].indexInParent = hierarchyMap[0].children.size();
-					hierarchyMap[0].children.emplace_back(newEntityID);
+					auto nameTagComponent = GetNameTag(newEntityID);
+					nameTagComponent->SetHierarchyParent(0);
+					nameTagComponent->SetHierarchyIndex(hierarchyList.size());
+
+					auto transformComponent = GetTransform(newEntityID);
+					transformComponent->SetScale(Vec3(1.f, 1.f, 1.f));
+
+					hierarchyList.emplace_back(newEntityID);
 
 					TDS_INFO("New Entity Created");
 				}
@@ -388,11 +606,16 @@ namespace TDS
 					EntityID newEntityID = newEntity.getID();
 					newEntity.add<NameTag>();
 					newEntity.add<Transform>();
+					newEntity.add<UISprite>();
 					selectedEntity = newEntityID;
 
-					hierarchyMap[newEntityID].parent = 0;
-					hierarchyMap[newEntityID].indexInParent = hierarchyMap[0].children.size();
-					hierarchyMap[0].children.emplace_back(newEntityID);
+					auto nameTagComponent = ecs.getComponent<NameTag>(newEntityID);
+					nameTagComponent->SetHierarchyParent(0);
+					nameTagComponent->SetHierarchyIndex(hierarchyList.size());
+					hierarchyList.emplace_back(newEntityID);
+
+					auto transformComponent = GetTransform(newEntityID);
+					transformComponent->SetScale(Vec3(1.f, 1.f, 1.f));
 
 					TDS_INFO("New Entity Created");
 				}
@@ -400,6 +623,8 @@ namespace TDS
 			}
 			ImGui::EndMenuBar();
 		}
+
+		static auto& sceneManagerInstance = SceneManager::GetInstance();
 
 		ImGuiTreeNodeFlags nodeFlags =
 			ImGuiTreeNodeFlags_DefaultOpen |
@@ -410,33 +635,104 @@ namespace TDS
 		anyItemHovered = false;
 		popupOpened = false;
 
-		if (ImGui::TreeNodeEx(SceneManager::GetInstance()->getCurrentScene().c_str(), nodeFlags))
+		filter.Draw("##filter");
+		ImGui::SameLine();
+		if (ImGui::Button("Clear", ImVec2(-FLT_MIN, 0)))
 		{
-			ImGui::Separator();
-			if (ImGui::BeginDragDropTarget())
+			filter.Clear();
+		}
+		if (filter.InputBuf[0] == 0)
+		{
+			if (ImGui::TreeNodeEx(sceneManagerInstance->getCurrentScene().c_str(), nodeFlags))
 			{
-				if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("draggedEntity"))
+				ImGui::Separator();
+				if (ImGui::BeginDragDropTarget())
 				{
-					EntityID payloadEntityID = *(static_cast<EntityID*>(payload->Data));
+					if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("draggedEntity"))
+					{
+						EntityID payloadEntityID = *(static_cast<EntityID*>(payload->Data));
 
-					// Reordering
-					reorderingHierarchy(payloadEntityID, 0, true);
+						// Reordering
+						reorderingHierarchy(payloadEntityID, 0, true);
+					}
+					ImGui::EndDragDropTarget();
 				}
-				ImGui::EndDragDropTarget();
-			}
 
-			std::uint32_t originalSize = hierarchyMap[0].children.size();
-			for (auto childEntity : hierarchyMap[0].children)
+				std::uint32_t originalSize = hierarchyList.size();
+				for (auto childEntity : hierarchyList)
+				{
+					drawHierarchy(childEntity);
+
+					//if (originalSize != hierarchyList.size())
+					//{
+					//	ImGui::TreePop();
+					//	return;
+					//}
+				}
+				ImGui::TreePop();
+			}
+		}
+		else
+		{
+			for (EntityID entityID : ecs.getEntities())
 			{
-				drawHierarchy(childEntity);
-
-				if (originalSize != hierarchyMap[0].children.size())
+				NameTag* nameTagComponent = ecs.getComponent<NameTag>(entityID);
+				if (filter.PassFilter(nameTagComponent->GetName().c_str()))
 				{
-					ImGui::TreePop();
-					return;
+					ImGui::PushID(entityID);
+					bool selected = false;
+
+					ImGui::Indent();
+
+					// Entity will be a selectable as there are no children
+					bool currentItemHovered = false;
+					selected = ImGui::Selectable(nameTagComponent->GetName().c_str(), selectedEntity == entityID, ImGuiSelectableFlags_SpanAllColumns);
+
+					if (ImGui::BeginDragDropSource())
+					{
+						ImGui::SetDragDropPayload("draggedEntity", &entityID, sizeof(int));
+						ImGui::EndDragDropSource();
+					}
+
+					if (ImGui::IsItemHovered())
+					{
+						anyItemHovered = true;
+						currentItemHovered = true;
+					}
+					if (selected)
+					{
+						selectedEntity = entityID;
+					}
+
+					if (ImGui::BeginPopupContextItem())
+					{
+						selectedEntity = entityID;
+						popupOpened = true;
+						if (ImGui::Selectable("Reset Parent"))
+						{
+							reorderingHierarchy(entityID, hierarchyList[hierarchyList.size() - 1]);
+							ImGui::EndPopup();
+							ImGui::Unindent();
+							ImGui::PopID();
+							return;
+						}
+						if (ImGui::Selectable("Remove Entity"))
+						{
+							removeEntity(selectedEntity);
+							ImGui::EndPopup();
+							ImGui::Unindent();
+							ImGui::PopID();
+							return;
+						}
+
+						ImGui::EndPopup();
+					}
+
+					ImGui::Unindent();
+
+					ImGui::PopID();
 				}
 			}
-			ImGui::TreePop();
 		}
 
 		if (ImGui::IsWindowHovered() && !popupOpened && !anyItemHovered && ImGui::IsMouseClicked(ImGuiMouseButton_Left))

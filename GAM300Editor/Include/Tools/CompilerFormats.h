@@ -1,0 +1,34 @@
+#pragma once
+namespace TDS
+{
+#define ENUM_STRING(x) #x
+
+#define TEX_FORMAT_TYPES \
+	ENUM_STRING(BC1),\
+	ENUM_STRING(BC3),\
+	ENUM_STRING(BC4),\
+	ENUM_STRING(BC4_Signed),\
+	ENUM_STRING(BC5_Signed),\
+	ENUM_STRING(BC5),\
+	ENUM_STRING(BC6_Signed),\
+	ENUM_STRING(BC6),\
+	ENUM_STRING(BC7),\
+	ENUM_STRING(RGBA),\
+	ENUM_STRING(BGRA),\
+	ENUM_STRING(RGBA_8888S),\
+	ENUM_STRING(RGBA_8888),\
+	ENUM_STRING(RGBA_16)
+
+#define CPU_COMPUTE_TYPES\
+	ENUM_STRING(Vulkan),\
+	ENUM_STRING(OpenCL),\
+	ENUM_STRING(CPU),\
+	ENUM_STRING(SPMD),\
+	ENUM_STRING(DirectX)
+
+
+	static const char* strTexFormats[] = { TEX_FORMAT_TYPES };
+	static const char* CpuComputeFormats[] = { CPU_COMPUTE_TYPES };
+
+
+}

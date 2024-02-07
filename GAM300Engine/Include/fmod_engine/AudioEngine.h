@@ -9,7 +9,8 @@
 ****************************************************************************
 ***/
 
-#pragma once
+#ifndef AUDIOENGINE_H_
+#define AUDIOENGINE_H_
 
 #include <fmod/fmod_studio.hpp>
 #include <fmod/fmod.hpp>
@@ -18,8 +19,11 @@
 #include <vector>
 #include <list>
 #include <map>
-#include "SoundInfo.h"
+#include <filesystem>
+#include "components/SoundInfo.h"
 #include "dotnet/ImportExport.h"
+
+#include "ecs/ecs.h"
 
 namespace TDS
 {
@@ -41,10 +45,21 @@ namespace TDS
         {
         public:
             /**
-             * Default AudioEngine constructor.
-             * AudioEngine::init() must be called before using the Audio Engine
+             * Remove AudioEngine copy constructor.
+             * It is the ensure singleton
              */
-            DLL_API  AudioEngine();
+            DLL_API  AudioEngine(const AudioEngine& rhs) = delete;
+
+            /**
+            * Destructor for Audio Engine
+            */
+            DLL_API  ~AudioEngine();
+
+            /**
+             * Remove AudioEngine operator= copy constructor.
+             * It is the ensure singleton
+             */
+            DLL_API  void operator=(const AudioEngine& rhs) = delete;
 
             /**
              * Initializes Audio Engine Studio and Core systems to default values.
@@ -55,6 +70,16 @@ namespace TDS
              * Method that is called to deactivate the audio engine after use.
              */
             DLL_API  void deactivate();
+
+            /**
+             * Returns a pointer to an instance of AudioEngine.
+             */
+            DLL_API  static AudioEngine* get_audioengine_instance();
+
+            /**
+            * Creates a unique ptr for anyone who wants to use audio engine
+            */
+            //DLL_API  std::unique_ptr<AudioEngine> get_audioengine_unique(std::unique_ptr<AudioEngine> ptr);
 
             /**
             * Method which should be called every frame of the game loop
@@ -79,6 +104,14 @@ namespace TDS
             DLL_API  int playSound(SoundInfo& soundInfo);
 
             /**
+            * Pause a sound file using FMOD's low level audio system.
+            *
+            * @param filename - relative path to file from project directory. (Can be .OGG, .WAV, .MP3,
+            *                 or any other FMOD-supported audio format)
+            */
+            DLL_API void pauseSound(SoundInfo& soundInfo);
+
+            /**
              * Stops a looping sound if it's currently playing.
              */
             DLL_API  void stopSound(SoundInfo& soundInfo);
@@ -100,10 +133,14 @@ namespace TDS
             DLL_API  void update3DSoundPosition(SoundInfo soundInfo);
 
             /**
-             * Checks if a looping sound is playing.
+             * Checks if a sound is playing.
              */
             DLL_API  bool soundIsPlaying(SoundInfo soundInfo);
 
+            /**
+             * Checks if a sound has finished playing.
+             */
+            DLL_API  void soundFinished(SoundInfo& soudnInfo);
 
             /**
              * Sets the position of the listener in the 3D scene.
@@ -163,6 +200,16 @@ namespace TDS
             DLL_API  bool eventIsPlaying(const char* eventName, int instance = 0);
 
             /**
+            * Mute a sound
+            */
+            DLL_API void mute(SoundInfo& soundInfo);
+
+            /**
+            * Unmute a sound
+            */
+            DLL_API void unmute(SoundInfo& soundInfo);
+
+            /**
              * Mutes all sounds for the audio engine
              */
             DLL_API  void muteAllSounds();
@@ -201,6 +248,15 @@ namespace TDS
             DLL_API  static const int AUDIO_SAMPLE_RATE = 44100;
 
         private:
+            /**
+             * Default AudioEngine constructor.
+             * AudioEngine::init() must be called before using the Audio Engine
+             */
+            DLL_API  AudioEngine();
+
+            //Instance of AudioEngine
+            static AudioEngine* audioE_instance;
+
             /**
              * Checks if a sound file is in the soundCache
              */
@@ -275,6 +331,13 @@ namespace TDS
             std::map<unsigned int, FMOD::Channel*> loopsPlaying{};
 
             /*
+             * Map which stores the current playback channels of any playing sound
+             * Key is the SoundInfo's uniqueKey field.
+             * Value is the FMOD::Channel* the FMOD::Sound* is playing back on.
+             */
+            std::map<unsigned int, FMOD::Channel*> normalPlaying{};
+
+            /*
              * Map which stores the soundbanks loaded with loadFMODStudioBank()
              */
             std::map<std::string, FMOD::Studio::Bank*> soundBanks{};
@@ -288,6 +351,48 @@ namespace TDS
              * Map which stores event instances created during loadFMODStudioEvent()
              */
             std::map<std::string, FMOD::Studio::EventInstance*> eventInstances{};
-        };
-    }
-}
+        }; //end of AudioEngine
+    } //end of AudioWerks
+
+    class DLL_API proxy_audio_system
+    {
+    public:
+        static void audio_system_init();
+        static void audio_system_update(const float dt, const std::vector<EntityID>& entities, SoundInfo* soundInfo);
+
+        //static void audio_event_play(SoundInfo& soundInfo);
+        static void audio_event_init(SoundInfo* container);
+        static void audio_event_update();
+
+        static void load_all_audio_files();
+        static std::vector<std::filesystem::path> go_deeper(std::filesystem::path f_path);
+
+        static void ScriptPlay(std::string pathing);
+        static void ScriptPause(std::string pathing);
+        static void ScriptStop(std::string pathing);
+
+        static SoundInfo* find_sound_info(std::string str);
+        static void Add_to_Queue(std::string str = "");
+        static void Remove_from_Queue(std::string str);
+        static void Play_queue();
+        static void Clear_queue();
+
+        static bool checkifdone(std::string str);
+
+    private:
+        static AudioWerks::AudioEngine* aud_instance;
+
+        static int totalNumClips;
+
+        static std::map<std::string, SoundInfo> music;
+        static std::map<std::string, SoundInfo> SFX;
+        static std::map<std::string, SoundInfo> background;
+        static std::map<std::string, SoundInfo> VO;
+        static std::map<std::string, std::pair<bool, SoundInfo*>> Queue;
+
+        static std::map<std::string, SoundInfo*> all_sounds;
+        //static std::map<unsigned int, std::map<Vec3*, SOUND_STATE*>> sound_events;
+    }; //end of proxy_audio_system
+} //end of TDS
+
+#endif

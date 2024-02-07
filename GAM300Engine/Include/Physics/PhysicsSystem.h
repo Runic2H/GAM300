@@ -10,24 +10,41 @@
 
 #ifndef PHYSICSSYSTEM_H
 #define PHYSICSSYSTEM_H
-
+// Engine includes
 #include "ecs/ecs.h"
-#include "components/rigidBody.h"
-#include "components/transform.h"
 #include "dotnet/ImportExport.h"
 #include "Timestep/Timestep.h"
 #include "Logger/Logger.h"
-
+#include "eventmanager/eventHandler.h"
+// Component includes
+#include "components/rigidBody.h"
+#include "components/boxCollider.h"
+#include "components/sphereCollider.h"
+#include "components/capsuleCollider.h"
+#include "components/transform.h"
+#include "components/GraphicsComponent.h"
+// Physics includes
 #include "Physics/JPHLayers.h"
-#include "JoltPhysics/System/JoltCore.h"
+#include "Physics/ContactListenerImpl.h"
+#include "Physics/CollisionCollectorImpl.h"
+#include "JoltPhysics/Utils/JoltConversionUtils.h"
 
  // Jolt includes
+#include <Jolt/RegisterTypes.h>
+#include <Jolt/Core/Factory.h>
+#include <Jolt/Core/TempAllocator.h>
 #include <Jolt/Core/JobSystemThreadPool.h>
 #include <Jolt/Physics/PhysicsSettings.h>
 #include <Jolt/Physics/PhysicsSystem.h>
 #include <Jolt/Physics/Collision/Shape/BoxShape.h>
 #include <Jolt/Physics/Collision/Shape/SphereShape.h>
+#include <Jolt/Physics/Collision/Shape/CapsuleShape.h>
 #include <Jolt/Physics/Body/BodyCreationSettings.h>
+#include <Jolt/Physics/Body/BodyActivationListener.h>
+#include <Jolt/Physics/Collision/RayCast.h>
+#include <Jolt/Physics/Collision/CastResult.h>
+#include <Jolt/Physics/Collision/BroadPhase/BroadPhase.h>
+
 
 JPH_SUPPRESS_WARNINGS
 
@@ -44,46 +61,45 @@ namespace TDS
 		 * Physics System Init and Update (Will be used by the ECS)
 		 ***************************************************************************/
 		static void PhysicsSystemInit();
-		static void PhysicsSystemUpdate(const float dt, const std::vector<EntityID>& entities, Transform* _transform, RigidBody* _rigidbody);
+		static void PhysicsSystemUpdate(const float dt, const std::vector<EntityID>& entities, Transform* _transform, RigidBody* _rigibody);
+		
+		// potentially need move somewhere
+		static void SetIsPlaying(bool input) { m_oneTimeInit = input; }
+		static bool GetIsPlaying() { return m_oneTimeInit; }
+		static std::unique_ptr<JPH::PhysicsSystem>			m_pSystem; // unsafe to be public but for now it is
 
-		JPH::PhysicsSystem* GetPhysicsSystem() { return m_pSystem.get(); }
+		static void JPH_SystemShutdown();
+		static std::optional<EntityID> findEntityByID(uint32_t key);
+
+		static void (*OnTriggerEnter)(EntityID trigger, EntityID collider);
+		static void (*OnTriggerStay)(EntityID trigger, EntityID collider);
+		static void (*OnTriggerExit)(EntityID trigger, EntityID collider);
+
 	private:
-		/*!*************************************************************************
-		 * Calculate the total force acting on the object.
-		 ***************************************************************************/
-		static Vec3 CalculateTotalForce(RigidBody& _collider);
-		/*!*************************************************************************
-		 * With the total force, calculate the new position with Newton's law
-		 ***************************************************************************/
-		static void NewtonianPhysics(Transform& _transform, RigidBody& _rigidbody);
-		/*!*************************************************************************
-		 * Set the object direction based on the force
-		 ***************************************************************************/
-		static void SettingObjectDirection(Vec3& totalForce, RigidBody& _rigidbody);
 
-		void JoltPhysicsSystemInit();
-		void JoltPhysicsSystemUpdate();
-		void JoltPhysicsSystemShutdown();
-
+		static void JPH_SystemUpdate(Transform* _transform, RigidBody* _rigidbody);
+		static void JPH_CreateBodyID(const EntityID& entities, Transform* _transform, RigidBody* _rigidbody);
+		static void JPH_PreRaycast(const EntityID& entities, Transform* _transform, RigidBody* _rigidbody);
+		static void JPH_PostRaycast(const EntityID& entities, Transform* _transform, RigidBody* _rigidbody);
 	private:
 		// TDS Physics System
 		static const double fixedDt;
 		static double accumulatedTime;
+		inline static bool m_oneTimeInit					= false;
+
 	
+		// Container that holds all the bodyID
+		static std::vector<JoltBodyID>					    m_pBodyIDVector;
+		static std::unordered_map<uint32_t, EntityID>		m_pBodyIDMap;
+
 	private:
 		// Jolt Physics Global Settings
-		JPH::BodyID sphere_id;
-		std::unique_ptr<JPH::PhysicsSystem>			m_pSystem;
-		std::unique_ptr<JPH::TempAllocatorImpl>		m_pTempAllocator;
-		//std::unique_ptr<JPH::JobSystemThreadPool>	m_pJobSystem;
+		static std::unique_ptr<JPH::TempAllocatorImpl>		m_pTempAllocator;
+		static std::unique_ptr<JPH::JobSystemThreadPool>	m_pJobSystem;
+		static MyContactListener*							contact_listener;
+		static std::unique_ptr<JPH::AllHitCollisionCollector<RayCastBodyCollector>> collector;
 
-		BPLayerInterfaceImpl						broad_phase_layer_interface;
-		ObjectVsBroadPhaseLayerFilterImpl			object_vs_broadphase_layer_filter;
-		ObjectLayerPairFilterImpl					object_vs_object_layer_filter;
 
-		PhysicsSettings								m_physicsSettings;
-
-		unsigned int								m_stepNumber = 0;
 	};
 
 }

@@ -1,0 +1,470 @@
+{
+    "Archetype Sizes": {
+        "110000000000000": {
+            "0": 136,
+            "1": 336
+        },
+        "110000000000100": {
+            "0": 272,
+            "1": 672,
+            "12": 720
+        },
+        "110000100000000": {
+            "0": 272,
+            "1": 672,
+            "6": 704
+        }
+    },
+    "Entity Data": {
+        "1": {
+            "ArchetypeID": "110000000000100",
+            "Enabled": true,
+            "Name Tag": {
+                "Name": "OuterLock",
+                "Tag": "",
+                "IsActive": true,
+                "HierarchyParent": 0,
+                "HierarchyIndex": 0,
+                "HierarchyChildren": []
+            },
+            "Transform": {
+                "Position": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": -20.0
+                },
+                "Scale": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                },
+                "Rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "FakePosition": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "FakeRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "FakeScale": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                },
+                "OldPosition": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "OldScale": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "OldRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                }
+            },
+            "UI Sprite": {
+                "Texture": "OuterLock.dds",
+                "EnableSprite": true,
+                "LayerID": 0,
+                "is Font": false,
+                "message": "",
+                "Font Texture": "",
+                "ForeGroundColour": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 0.0
+                },
+                "Sprite Color": {
+                    "x": 0.10196078568696976,
+                    "y": 0.10196078568696976,
+                    "z": 0.10196078568696976,
+                    "w": 1.0
+                },
+                "BackGroundColour": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "BoundingBoxMin": {
+                    "x": -0.5,
+                    "y": -0.5
+                },
+                "BoundingBoxMax": {
+                    "x": 0.5,
+                    "y": 0.5
+                }
+            }
+        },
+        "2": {
+            "ArchetypeID": "110000000000100",
+            "Enabled": true,
+            "Name Tag": {
+                "Name": "InnerLock",
+                "Tag": "",
+                "IsActive": true,
+                "HierarchyParent": 0,
+                "HierarchyIndex": 1,
+                "HierarchyChildren": []
+            },
+            "Transform": {
+                "Position": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": -20.0
+                },
+                "Scale": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                },
+                "Rotation": {
+                    "x": 0.0,
+                    "y": -0.0,
+                    "z": 2.3540984273040522e-7
+                },
+                "FakePosition": {
+                    "x": 0.025039076805114746,
+                    "y": 0.30769240856170654,
+                    "z": 38.0
+                },
+                "FakeRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "FakeScale": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                },
+                "OldPosition": {
+                    "x": 0.009389638900756836,
+                    "y": 0.0,
+                    "z": -20.0
+                },
+                "OldScale": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "OldRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                }
+            },
+            "UI Sprite": {
+                "Texture": "InnerLock.dds",
+                "EnableSprite": true,
+                "LayerID": 0,
+                "is Font": false,
+                "message": "",
+                "Font Texture": "",
+                "ForeGroundColour": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 0.0
+                },
+                "Sprite Color": {
+                    "x": 0.10196078568696976,
+                    "y": 0.10196078568696976,
+                    "z": 0.10196078568696976,
+                    "w": 1.0
+                },
+                "BackGroundColour": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 1.0
+                },
+                "BoundingBoxMin": {
+                    "x": -0.5,
+                    "y": -0.5
+                },
+                "BoundingBoxMax": {
+                    "x": 0.5,
+                    "y": 0.5
+                }
+            }
+        },
+        "3": {
+            "ArchetypeID": "110000100000000",
+            "Enabled": true,
+            "Name Tag": {
+                "Name": "LockPick",
+                "Tag": "",
+                "IsActive": true,
+                "HierarchyParent": 5,
+                "HierarchyIndex": 0,
+                "HierarchyChildren": []
+            },
+            "Transform": {
+                "Position": {
+                    "x": 0.0,
+                    "y": 730.0,
+                    "z": -4000.0
+                },
+                "Scale": {
+                    "x": 0.2000001072883606,
+                    "y": 0.9999927282333374,
+                    "z": 2.999976396560669
+                },
+                "Rotation": {
+                    "x": 1.6420283317565918,
+                    "y": 0.05603351816534996,
+                    "z": -0.0026324756909161806
+                },
+                "FakePosition": {
+                    "x": 0.0,
+                    "y": 727.0,
+                    "z": -3985.0
+                },
+                "FakeRotation": {
+                    "x": 1.6420283317565918,
+                    "y": 0.056035954505205154,
+                    "z": -0.0026324756909161806
+                },
+                "FakeScale": {
+                    "x": 0.7277479767799377,
+                    "y": 1.8328924179077148,
+                    "z": 0.4506645202636719
+                },
+                "OldPosition": {
+                    "x": 0.0,
+                    "y": 730.0,
+                    "z": -4000.0
+                },
+                "OldScale": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "OldRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                }
+            },
+            "Graphics Component": {
+                "PointLight": false,
+                "TextureName": "",
+                "Mesh Renderer": true,
+                "Debug": false,
+                "ModelName": "LockPickingPin_Bin.bin",
+                "MeshName": "Plane",
+                "MeshNodeName": "LockPickingPin_Bin.bin",
+                "Color": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0,
+                    "w": 1.0
+                },
+                "Used In 2D": true
+            }
+        },
+        "4": {
+            "ArchetypeID": "110000100000000",
+            "Enabled": true,
+            "Name Tag": {
+                "Name": "New Entity",
+                "Tag": "",
+                "IsActive": true,
+                "HierarchyParent": 0,
+                "HierarchyIndex": 2,
+                "HierarchyChildren": []
+            },
+            "Transform": {
+                "Position": {
+                    "x": 0.0,
+                    "y": 10.0,
+                    "z": -15.0
+                },
+                "Scale": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                },
+                "Rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "FakePosition": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "FakeRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "FakeScale": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                },
+                "OldPosition": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "OldScale": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "OldRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                }
+            },
+            "Graphics Component": {
+                "PointLight": true,
+                "TextureName": "",
+                "Mesh Renderer": true,
+                "Debug": false,
+                "ModelName": "",
+                "MeshName": "",
+                "MeshNodeName": "",
+                "Color": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0,
+                    "w": 1.0
+                },
+                "Used In 2D": false
+            }
+        },
+        "5": {
+            "ArchetypeID": "110000000000000",
+            "Enabled": true,
+            "Name Tag": {
+                "Name": "Lock Camera",
+                "Tag": "",
+                "IsActive": true,
+                "HierarchyParent": 0,
+                "HierarchyIndex": 3,
+                "HierarchyChildren": [
+                    3
+                ]
+            },
+            "Transform": {
+                "Position": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "Scale": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                },
+                "Rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "FakePosition": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "FakeRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "FakeScale": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                },
+                "OldPosition": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "OldScale": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "OldRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                }
+            }
+        }
+    },
+    "Scripts": {
+        "1": {},
+        "2": {},
+        "3": {
+            "LockPick1": {
+                "_TutorialCompleted": {
+                    "System.Boolean": "True"
+                },
+                "cam": {
+                    "ScriptAPI.CameraComponent": 0
+                },
+                "playerCam": {
+                    "ScriptAPI.CameraComponent": 0
+                },
+                "innerLock": {
+                    "ScriptAPI.TransformComponent": 2
+                },
+                "pickPosition": {
+                    "ScriptAPI.TransformComponent": 0
+                },
+                "maxAngle": {
+                    "System.Single": "90"
+                },
+                "lockSpeed": {
+                    "System.Single": "10"
+                },
+                "unlocked": {
+                    "System.Boolean": "False"
+                },
+                "lockRange": {
+                    "System.Single": "10"
+                },
+                "numOfTries": {
+                    "System.Int32": "0"
+                },
+                "played": {
+                    "System.Boolean": "False"
+                },
+                "gameObject": {
+                    "ScriptAPI.GameObject": 3
+                }
+            }
+        },
+        "4": {},
+        "5": {}
+    },
+    "Active Archetype": {
+        "1": "1100000000001",
+        "2": "1100000000001",
+        "3": "1100001000000",
+        "4": "1100001000000",
+        "5": "11000000000000"
+    }
+}

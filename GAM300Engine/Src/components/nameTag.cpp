@@ -19,7 +19,8 @@ RTTR_REGISTRATION
 		.property("Tag", &NameTag::GetTag, &NameTag::SetTag)
 		.property("IsActive", &NameTag::GetIsActive, &NameTag::SetIsActive)
 		.property("HierarchyParent", &NameTag::GetHierarchyParent, &NameTag::SetHierarchyParent)
-		.property("HierarchyIndex", &NameTag::GetHierarchyIndex, &NameTag::SetHierarchyIndex);
+		.property("HierarchyIndex", &NameTag::GetHierarchyIndex, &NameTag::SetHierarchyIndex)
+		.property("HierarchyChildren", &NameTag::mHierarchyChildren);
 }
 
 namespace TDS
@@ -31,18 +32,20 @@ namespace TDS
 						 mTag				(""),
 						 mIsActive			(true),
 						 mHierarchyParent	(0),
-						 mHierarchyIndex	(0)
+						 mHierarchyIndex	(0),
+						 mHierarchyChildren	({})
 	{ }
 
 	/*!*************************************************************************
 	Initializes the NameTag component when created, given another NameTag
 	component to move (for ECS)
 	****************************************************************************/
-	NameTag::NameTag(NameTag&& toMove) noexcept : mName				(toMove.mName),
-												  mTag				(toMove.mTag),
-												  mIsActive			(toMove.mIsActive),
-												  mHierarchyParent	(toMove.mHierarchyParent),
-												  mHierarchyIndex	(toMove.mHierarchyIndex)
+	NameTag::NameTag(NameTag&& toMove) noexcept : mName					(toMove.mName),
+												  mTag					(toMove.mTag),
+												  mIsActive				(toMove.mIsActive),
+												  mHierarchyParent		(toMove.mHierarchyParent),
+												  mHierarchyIndex		(toMove.mHierarchyIndex),
+												  mHierarchyChildren	(toMove.mHierarchyChildren)
 	{ }
 
 	NameTag* GetNameTag(EntityID entityID)

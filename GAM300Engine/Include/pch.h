@@ -25,6 +25,8 @@
 #include <random>
 #include <thread>
 #include <cstdarg>
+#include <type_traits>
+
 
 #include <Jolt/Jolt.h>
 #include "TDSMath.h"

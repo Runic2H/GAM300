@@ -7,12 +7,15 @@
 \par Section: a
 \par assignment: M1
 \date 01-10-2023
-\brief  This file implements the input handling system for the TDS engine. 
+\brief  This file implements the input handling system for the TDS engine.
 		Input mapping is implemented via win32 API.
 ****************************************************************************
 ***/
 
 #include "Input/Input.h"
+#include "Windows.h"
+//#include "Rendering/ObjectPicking.h"
+//#include "Rendering/GraphicsManager.h"
 namespace TDS
 {
 	Input::keyboardInputMap Input::keyboard;
@@ -20,6 +23,9 @@ namespace TDS
 	Input::KeyStatus		Input::keystatus;
 	uint32_t				Input::keyCode;
 	short					Input::wheelDelta;
+	Vec2					Input::local_MousePos;
+	bool					Input::exit_cursor;
+	Vec2					Input::ui_MousePos;
 
 	Input::keyState Input::GetKeyState(uint32_t keycode)
 	{
@@ -223,6 +229,15 @@ namespace TDS
 	{
 		return !mouse.buttons[buttonCode].isDown;
 	}
+	void Input::releaseTheMouse(unsigned int buttonCode)
+	{
+		mouse.buttons[buttonCode].isDown = false;
+	}
+
+	void Input::KeyRelease(uint32_t keycode)
+	{
+		TDS::Input::releaseTheKey(keycode);
+	}
 
 	bool Input::wasMouseButtonHit(unsigned int buttonCode)
 	{
@@ -276,6 +291,85 @@ namespace TDS
 		mouse.buttons[TDS_MOUSE_SCROLL].isScrollUp = false;
 	}
 
+	void Input::releaseTheKey(uint32_t key)
+	{
+		keyboard.keys[key].isDown = false;
+	}
 
+	void Input::setCenteredMouse(float x, float y)
+	{
+		local_MousePos = Vec2(x, y);
+	}
+
+	void Input::setExitCursor(bool input)
+	{
+		exit_cursor = input;
+	}
+
+	bool Input::getExitCursor()
+	{
+		return exit_cursor;
+	}
+
+	void Input::setLocalMousePos(Vec2 mousePos)
+	{
+		local_MousePos = mousePos;
+	}
+
+	Vec2 Input::getLocalMousePos()
+	{
+		return Vec2(local_MousePos.x, local_MousePos.y);
+	}
+
+	float Input::getLocalMousePosX()
+	{
+		return local_MousePos.x;
+	}
+
+	float Input::getLocalMousePosY()
+	{
+		return local_MousePos.y;
+	}
+
+	void Input::setUIMousePos(Vec2 mousePos)
+	{
+		ui_MousePos = mousePos;
+	}
+
+	float Input::getUIMousePosX()
+	{
+		return ui_MousePos.x;
+	}
+
+	float Input::getUIMousePosY()
+	{
+		return ui_MousePos.y;
+	}
+
+	void Input::centerandhidemouse(HWND hwnd) {
+		//POINT center;
+		//LPRECT windowsrect{};
+		//GetWindowRect(hwnd,windowsrect);
+		//center.x = windowsrect->right - windowsrect->left;
+		//center.y = windowsrect->top - windowsrect->bottom;
+		//ScreenToClient(hwnd, &center);
+		//SetCursorPos(center.x, center.y);
+		//ShowCursor(FALSE);
+	}
+	
+	// float Input::GetObjectPickPosX()
+	// {
+	// 	mX = GraphicsManager::getInstance().getViewportScreen().x;
+	// 	mWidth = GraphicsManager::getInstance().getViewportScreen().z;
+
+	// 	return (Input::final_x_pos * mWidth) + mX /*ObjectPick::final_x_pos*/;
+	// }
+
+	// float Input::GetObjectPickPosY()
+	// {
+	// 	mY = GraphicsManager::getInstance().getViewportScreen().y;
+	// 	mHeight = GraphicsManager::getInstance().getViewportScreen().w;
+	// 	return ((Input::final_y_pos - mY) - (GraphicsManager::getInstance().getOffset() - mHeight)) / (mHeight)/*ObjectPick::final_y_pos*/;
+	// }
 
 } //end of namespace
