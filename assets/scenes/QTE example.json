@@ -1,269 +1,44 @@
 {
     "Archetype Sizes": {
-        "110000000000000": {
-            "0": 272,
-            "1": 672
+        "110000000000000000": {
+            "0": 136,
+            "1": 384
         },
-        "110000111000000": {
+        "110000000000100000": {
             "0": 272,
-            "1": 672,
-            "6": 704,
+            "1": 768,
+            "12": 720
+        },
+        "110100110000000000": {
+            "0": 136,
+            "1": 384,
+            "3": 128,
+            "6": 360,
+            "7": 96
+        },
+        "110000100000000000": {
+            "0": 544,
+            "1": 1536,
+            "6": 1440
+        },
+        "110000111000000000": {
+            "0": 272,
+            "1": 768,
+            "6": 720,
             "7": 192,
             "8": 64
         },
-        "110000000000100": {
-            "0": 272,
-            "1": 672,
-            "12": 720
-        },
-        "110100110000000": {
+        "110010100000000000": {
             "0": 136,
-            "1": 336,
-            "3": 128,
-            "6": 352,
-            "7": 96
+            "1": 384,
+            "4": 64,
+            "6": 360
         }
     },
     "Entity Data": {
-        "1": {
-            "ArchetypeID": "110000111000000",
-            "Enabled": true,
-            "Name Tag": {
-                "Name": "New Entity",
-                "Tag": "",
-                "IsActive": true,
-                "HierarchyParent": 0,
-                "HierarchyIndex": 0,
-                "HierarchyChildren": []
-            },
-            "Transform": {
-                "Position": {
-                    "x": 15.710552215576172,
-                    "y": 0.0,
-                    "z": 0.0
-                },
-                "Scale": {
-                    "x": 19.198165893554688,
-                    "y": 19.198165893554688,
-                    "z": 19.198165893554688
-                },
-                "Rotation": {
-                    "x": 0.0,
-                    "y": -0.0,
-                    "z": 0.0
-                },
-                "FakePosition": {
-                    "x": 15.710552215576172,
-                    "y": 0.0,
-                    "z": 0.0
-                },
-                "FakeRotation": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                },
-                "FakeScale": {
-                    "x": 19.198165893554688,
-                    "y": 19.198165893554688,
-                    "z": 19.198165893554688
-                },
-                "OldPosition": {
-                    "x": 15.710552215576172,
-                    "y": 0.0,
-                    "z": 0.0
-                },
-                "OldScale": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                },
-                "OldRotation": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                }
-            },
-            "Graphics Component": {
-                "PointLight": false,
-                "TextureName": "",
-                "Mesh Renderer": true,
-                "Debug": false,
-                "ModelName": "sphere_Bin.bin",
-                "MeshName": "Sphere",
-                "MeshNodeName": "sphere_Bin.bin",
-                "Color": {
-                    "x": 1.0,
-                    "y": 1.0,
-                    "z": 1.0,
-                    "w": 1.0
-                },
-                "Used In 2D": false
-            },
-            "Rigid Body": {
-                "Mass": 1.0,
-                "Linear Velocity": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                },
-                "Angular Velocity": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                },
-                "Friction": 0.20000000298023224,
-                "Restitution": 0.0,
-                "GravityFactor": 1.0,
-                "LinearDamping": 0.05000000074505806,
-                "AngularDamping": 0.05000000074505806,
-                "MotionType": "STATIC",
-                "UseGravity": false,
-                "sensorActivate": false,
-                "IsRayCast": false,
-                "RayOrigin": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                },
-                "RayDirection": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                },
-                "RayScale": 1.0
-            },
-            "Sphere Collider": {
-                "IsTrigger": false,
-                "Collider Center": {
-                    "x": 15.710552215576172,
-                    "y": 0.0,
-                    "z": 0.0
-                },
-                "Collider Radius": 19.198165893554688,
-                "Radius Factor": 1.0
-            }
-        },
-        "3": {
-            "ArchetypeID": "110000111000000",
-            "Enabled": true,
-            "Name Tag": {
-                "Name": "New Entity",
-                "Tag": "",
-                "IsActive": true,
-                "HierarchyParent": 0,
-                "HierarchyIndex": 2,
-                "HierarchyChildren": []
-            },
-            "Transform": {
-                "Position": {
-                    "x": 83.69815826416016,
-                    "y": 0.0,
-                    "z": 0.0
-                },
-                "Scale": {
-                    "x": 39.677268981933594,
-                    "y": 39.677268981933594,
-                    "z": 39.677268981933594
-                },
-                "Rotation": {
-                    "x": 0.0,
-                    "y": -0.0,
-                    "z": 0.0
-                },
-                "FakePosition": {
-                    "x": 83.69815826416016,
-                    "y": 0.0,
-                    "z": 0.0
-                },
-                "FakeRotation": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                },
-                "FakeScale": {
-                    "x": 39.677268981933594,
-                    "y": 39.677268981933594,
-                    "z": 39.677268981933594
-                },
-                "OldPosition": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                },
-                "OldScale": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                },
-                "OldRotation": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                }
-            },
-            "Graphics Component": {
-                "PointLight": false,
-                "TextureName": "",
-                "Mesh Renderer": true,
-                "Debug": false,
-                "ModelName": "sphere_Bin.bin",
-                "MeshName": "Sphere",
-                "MeshNodeName": "sphere_Bin.bin",
-                "Color": {
-                    "x": 1.0,
-                    "y": 1.0,
-                    "z": 1.0,
-                    "w": 1.0
-                },
-                "Used In 2D": false
-            },
-            "Rigid Body": {
-                "Mass": 1.0,
-                "Linear Velocity": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                },
-                "Angular Velocity": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                },
-                "Friction": 0.20000000298023224,
-                "Restitution": 0.0,
-                "GravityFactor": 1.0,
-                "LinearDamping": 0.05000000074505806,
-                "AngularDamping": 0.05000000074505806,
-                "MotionType": "STATIC",
-                "UseGravity": false,
-                "sensorActivate": false,
-                "IsRayCast": false,
-                "RayOrigin": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                },
-                "RayDirection": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                },
-                "RayScale": 1.0
-            },
-            "Sphere Collider": {
-                "IsTrigger": false,
-                "Collider Center": {
-                    "x": 83.69815826416016,
-                    "y": 0.0,
-                    "z": 0.0
-                },
-                "Collider Radius": 39.677268981933594,
-                "Radius Factor": 1.0
-            }
-        },
         "4": {
-            "ArchetypeID": "110000000000100",
-            "Enabled": true,
+            "ArchetypeID": "110000000000100000",
+            "Enabled": false,
             "Name Tag": {
                 "Name": "E",
                 "Tag": "",
@@ -317,6 +92,26 @@
                     "x": 0.0,
                     "y": 0.0,
                     "z": 0.0
+                },
+                "OldFakePosition": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "OldFakeScale": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "OldFakeRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "ParentPosition": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
                 }
             },
             "UI Sprite": {
@@ -355,8 +150,8 @@
             }
         },
         "5": {
-            "ArchetypeID": "110000000000100",
-            "Enabled": true,
+            "ArchetypeID": "110000000000100000",
+            "Enabled": false,
             "Name Tag": {
                 "Name": "New Entity",
                 "Tag": "",
@@ -410,6 +205,26 @@
                     "x": 0.0,
                     "y": 0.0,
                     "z": 0.0
+                },
+                "OldFakePosition": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "OldFakeScale": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "OldFakeRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "ParentPosition": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
                 }
             },
             "UI Sprite": {
@@ -448,14 +263,14 @@
             }
         },
         "6": {
-            "ArchetypeID": "110000000000000",
-            "Enabled": true,
+            "ArchetypeID": "110000000000000000",
+            "Enabled": false,
             "Name Tag": {
                 "Name": "popup",
                 "Tag": "",
                 "IsActive": true,
                 "HierarchyParent": 0,
-                "HierarchyIndex": 3,
+                "HierarchyIndex": 0,
                 "HierarchyChildren": [
                     4,
                     5
@@ -506,30 +321,53 @@
                     "x": 0.0,
                     "y": 0.0,
                     "z": 0.0
-                }
-            }
-        },
-        "7": {
-            "ArchetypeID": "110100110000000",
-            "Enabled": true,
-            "Name Tag": {
-                "Name": "New Entity",
-                "Tag": "",
-                "IsActive": true,
-                "HierarchyParent": 0,
-                "HierarchyIndex": 3,
-                "HierarchyChildren": []
-            },
-            "Transform": {
-                "Position": {
-                    "x": -127.4024429321289,
+                },
+                "OldFakePosition": {
+                    "x": 0.0,
                     "y": 0.0,
                     "z": 0.0
                 },
+                "OldFakeScale": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "OldFakeRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "ParentPosition": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                }
+            }
+        },
+        "14": {
+            "ArchetypeID": "110100110000000000",
+            "Enabled": true,
+            "Name Tag": {
+                "Name": "Bookshelf_Bin.bin",
+                "Tag": "",
+                "IsActive": true,
+                "HierarchyParent": 0,
+                "HierarchyIndex": 1,
+                "HierarchyChildren": [
+                    15,
+                    17
+                ]
+            },
+            "Transform": {
+                "Position": {
+                    "x": 30.593589782714844,
+                    "y": -118.47505187988281,
+                    "z": 0.0
+                },
                 "Scale": {
-                    "x": 10.598400115966797,
-                    "y": 10.598400115966797,
-                    "z": 10.598400115966797
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
                 },
                 "Rotation": {
                     "x": 0.0,
@@ -537,8 +375,8 @@
                     "z": 0.0
                 },
                 "FakePosition": {
-                    "x": -127.4024429321289,
-                    "y": 0.0,
+                    "x": 30.593589782714844,
+                    "y": -118.47505187988281,
                     "z": 0.0
                 },
                 "FakeRotation": {
@@ -547,13 +385,13 @@
                     "z": 0.0
                 },
                 "FakeScale": {
-                    "x": 10.598400115966797,
-                    "y": 10.598400115966797,
-                    "z": 10.598400115966797
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
                 },
                 "OldPosition": {
-                    "x": -127.4024429321289,
-                    "y": 0.0,
+                    "x": 30.593589782714844,
+                    "y": -118.47505187988281,
                     "z": 0.0
                 },
                 "OldScale": {
@@ -562,6 +400,26 @@
                     "z": 0.0
                 },
                 "OldRotation": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                },
+                "OldFakePosition": {
+                    "x": 30.593589782714844,
+                    "y": -118.47505187988281,
+                    "z": 0.0
+                },
+                "OldFakeScale": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                },
+                "OldFakeRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "ParentPosition": {
                     "x": 0.0,
                     "y": 0.0,
                     "z": 0.0
@@ -570,14 +428,14 @@
             "Box Collider": {
                 "IsTrigger": false,
                 "Collider Center": {
-                    "x": -127.4024429321289,
-                    "y": 0.0,
+                    "x": 30.593589782714844,
+                    "y": 12.947128295898438,
                     "z": 0.0
                 },
                 "Collider Size": {
-                    "x": 10.598400115966797,
-                    "y": 10.598400115966797,
-                    "z": 10.598400115966797
+                    "x": 88.0,
+                    "y": 131.0,
+                    "z": 38.5
                 },
                 "Collider Scale": {
                     "x": 1.0,
@@ -598,18 +456,539 @@
             "Graphics Component": {
                 "PointLight": false,
                 "TextureName": "",
-                "Mesh Renderer": true,
+                "Show Mesh": true,
                 "Debug": false,
-                "ModelName": "cube_Bin.bin",
-                "MeshName": "Cube",
-                "MeshNodeName": "cube_Bin.bin",
+                "ModelName": "Bookshelf_Bin.bin",
+                "MeshName": "Bookshelf_Bin.bin",
+                "MeshNodeName": "Bookshelf_Bin.bin",
                 "Color": {
                     "x": 1.0,
                     "y": 1.0,
                     "z": 1.0,
                     "w": 1.0
                 },
-                "Used In 2D": false
+                "Used In 2D": false,
+                "Model UID": 0
+            },
+            "Rigid Body": {
+                "Mass": 1.0,
+                "Linear Velocity": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "Angular Velocity": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "Friction": 0.20000000298023224,
+                "Restitution": 0.0,
+                "GravityFactor": 1.0,
+                "LinearDamping": 0.05000000074505806,
+                "AngularDamping": 0.05000000074505806,
+                "MotionType": "STATIC",
+                "UseGravity": false,
+                "sensorActivate": false,
+                "IsRayCast": false,
+                "IsRayHit": false,
+                "RayOrigin": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "RayDirection": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "RayScale": 1.0
+            }
+        },
+        "15": {
+            "ArchetypeID": "110000100000000000",
+            "Enabled": true,
+            "Name Tag": {
+                "Name": "Book_Generator____NitroMan",
+                "Tag": "",
+                "IsActive": true,
+                "HierarchyParent": 14,
+                "HierarchyIndex": 3,
+                "HierarchyChildren": [
+                    16
+                ]
+            },
+            "Transform": {
+                "Position": {
+                    "x": 30.64059066772461,
+                    "y": -50.56422424316406,
+                    "z": -2.0087218284606934
+                },
+                "Scale": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                },
+                "Rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "FakePosition": {
+                    "x": 30.593589782714844,
+                    "y": -118.47505187988281,
+                    "z": 0.0
+                },
+                "FakeRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "FakeScale": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                },
+                "OldPosition": {
+                    "x": 30.64059066772461,
+                    "y": -51.073822021484375,
+                    "z": -2.0087218284606934
+                },
+                "OldScale": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "OldRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "OldFakePosition": {
+                    "x": 30.593589782714844,
+                    "y": -118.98464965820313,
+                    "z": 0.0
+                },
+                "OldFakeScale": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                },
+                "OldFakeRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "ParentPosition": {
+                    "x": 30.593589782714844,
+                    "y": -118.47505187988281,
+                    "z": 0.0
+                }
+            },
+            "Graphics Component": {
+                "PointLight": false,
+                "TextureName": "",
+                "Show Mesh": true,
+                "Debug": false,
+                "ModelName": "Bookshelf_Bin.bin",
+                "MeshName": "",
+                "MeshNodeName": "Book_Generator____NitroMan",
+                "Color": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0,
+                    "w": 1.0
+                },
+                "Used In 2D": false,
+                "Model UID": 0
+            }
+        },
+        "16": {
+            "ArchetypeID": "110000100000000000",
+            "Enabled": true,
+            "Name Tag": {
+                "Name": "Book_Generator____NitroMan",
+                "Tag": "",
+                "IsActive": true,
+                "HierarchyParent": 15,
+                "HierarchyIndex": 3,
+                "HierarchyChildren": []
+            },
+            "Transform": {
+                "Position": {
+                    "x": 30.64059066772461,
+                    "y": -49.08247375488281,
+                    "z": -2.0087218284606934
+                },
+                "Scale": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                },
+                "Rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "FakePosition": {
+                    "x": 30.593589782714844,
+                    "y": -116.99330139160156,
+                    "z": 0.0
+                },
+                "FakeRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "FakeScale": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                },
+                "OldPosition": {
+                    "x": 30.64059066772461,
+                    "y": -49.08247375488281,
+                    "z": -2.0087218284606934
+                },
+                "OldScale": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "OldRotation": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                },
+                "OldFakePosition": {
+                    "x": 30.593589782714844,
+                    "y": -116.99330139160156,
+                    "z": 0.0
+                },
+                "OldFakeScale": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                },
+                "OldFakeRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "ParentPosition": {
+                    "x": 30.593589782714844,
+                    "y": -118.47505187988281,
+                    "z": 0.0
+                }
+            },
+            "Graphics Component": {
+                "PointLight": false,
+                "TextureName": "",
+                "Show Mesh": true,
+                "Debug": false,
+                "ModelName": "Bookshelf_Bin.bin",
+                "MeshName": "Book_Generator____NitroMan",
+                "MeshNodeName": "Book_Generator____NitroMan",
+                "Color": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0,
+                    "w": 1.0
+                },
+                "Used In 2D": false,
+                "Model UID": 0
+            }
+        },
+        "17": {
+            "ArchetypeID": "110000100000000000",
+            "Enabled": true,
+            "Name Tag": {
+                "Name": "Shelf",
+                "Tag": "",
+                "IsActive": true,
+                "HierarchyParent": 14,
+                "HierarchyIndex": 3,
+                "HierarchyChildren": [
+                    18
+                ]
+            },
+            "Transform": {
+                "Position": {
+                    "x": 30.593589782714844,
+                    "y": 12.947128295898438,
+                    "z": 0.0
+                },
+                "Scale": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                },
+                "Rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "FakePosition": {
+                    "x": 30.593589782714844,
+                    "y": -118.47505187988281,
+                    "z": 0.0
+                },
+                "FakeRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "FakeScale": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                },
+                "OldPosition": {
+                    "x": 30.593589782714844,
+                    "y": 12.437530517578125,
+                    "z": 0.0
+                },
+                "OldScale": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "OldRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "OldFakePosition": {
+                    "x": 30.593589782714844,
+                    "y": -118.98464965820313,
+                    "z": 0.0
+                },
+                "OldFakeScale": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                },
+                "OldFakeRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "ParentPosition": {
+                    "x": 30.593589782714844,
+                    "y": -118.47505187988281,
+                    "z": 0.0
+                }
+            },
+            "Graphics Component": {
+                "PointLight": false,
+                "TextureName": "",
+                "Show Mesh": true,
+                "Debug": false,
+                "ModelName": "Bookshelf_Bin.bin",
+                "MeshName": "",
+                "MeshNodeName": "Shelf",
+                "Color": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0,
+                    "w": 1.0
+                },
+                "Used In 2D": false,
+                "Model UID": 0
+            }
+        },
+        "18": {
+            "ArchetypeID": "110000100000000000",
+            "Enabled": true,
+            "Name Tag": {
+                "Name": "Shelf",
+                "Tag": "",
+                "IsActive": true,
+                "HierarchyParent": 17,
+                "HierarchyIndex": 3,
+                "HierarchyChildren": []
+            },
+            "Transform": {
+                "Position": {
+                    "x": 30.593589782714844,
+                    "y": 12.947128295898438,
+                    "z": 0.0
+                },
+                "Scale": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                },
+                "Rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "FakePosition": {
+                    "x": 30.593589782714844,
+                    "y": -118.47505187988281,
+                    "z": 0.0
+                },
+                "FakeRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "FakeScale": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                },
+                "OldPosition": {
+                    "x": 30.593589782714844,
+                    "y": 12.947128295898438,
+                    "z": 0.0
+                },
+                "OldScale": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "OldRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "OldFakePosition": {
+                    "x": 30.593589782714844,
+                    "y": -118.47505187988281,
+                    "z": 0.0
+                },
+                "OldFakeScale": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                },
+                "OldFakeRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "ParentPosition": {
+                    "x": 30.593589782714844,
+                    "y": -118.47505187988281,
+                    "z": 0.0
+                }
+            },
+            "Graphics Component": {
+                "PointLight": false,
+                "TextureName": "",
+                "Show Mesh": true,
+                "Debug": false,
+                "ModelName": "Bookshelf_Bin.bin",
+                "MeshName": "Shelf",
+                "MeshNodeName": "Shelf",
+                "Color": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0,
+                    "w": 1.0
+                },
+                "Used In 2D": false,
+                "Model UID": 0
+            }
+        },
+        "20": {
+            "ArchetypeID": "110000111000000000",
+            "Enabled": true,
+            "Name Tag": {
+                "Name": "player",
+                "Tag": "",
+                "IsActive": true,
+                "HierarchyParent": 0,
+                "HierarchyIndex": 2,
+                "HierarchyChildren": [
+                    21
+                ]
+            },
+            "Transform": {
+                "Position": {
+                    "x": -221.90084838867188,
+                    "y": 0.022640228271484375,
+                    "z": 0.0
+                },
+                "Scale": {
+                    "x": 20.800060272216797,
+                    "y": 20.800060272216797,
+                    "z": 20.800060272216797
+                },
+                "Rotation": {
+                    "x": 0.0,
+                    "y": -0.0,
+                    "z": 0.0
+                },
+                "FakePosition": {
+                    "x": -221.90084838867188,
+                    "y": 0.022640228271484375,
+                    "z": 0.0
+                },
+                "FakeRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "FakeScale": {
+                    "x": 20.800060272216797,
+                    "y": 20.800060272216797,
+                    "z": 20.800060272216797
+                },
+                "OldPosition": {
+                    "x": -221.90084838867188,
+                    "y": 0.022640228271484375,
+                    "z": 0.0
+                },
+                "OldScale": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "OldRotation": {
+                    "x": 20.800060272216797,
+                    "y": 20.800060272216797,
+                    "z": 20.800060272216797
+                },
+                "OldFakePosition": {
+                    "x": -221.90084838867188,
+                    "y": 0.022640228271484375,
+                    "z": 0.0
+                },
+                "OldFakeScale": {
+                    "x": 20.800060272216797,
+                    "y": 20.800060272216797,
+                    "z": 20.800060272216797
+                },
+                "OldFakeRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "ParentPosition": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                }
+            },
+            "Graphics Component": {
+                "PointLight": false,
+                "TextureName": "",
+                "Show Mesh": false,
+                "Debug": false,
+                "ModelName": "sphere_Bin.bin",
+                "MeshName": "Sphere",
+                "MeshNodeName": "sphere_Bin.bin",
+                "Color": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0,
+                    "w": 1.0
+                },
+                "Used In 2D": false,
+                "Model UID": 0
             },
             "Rigid Body": {
                 "Mass": 1.0,
@@ -632,43 +1011,318 @@
                 "UseGravity": false,
                 "sensorActivate": false,
                 "IsRayCast": true,
+                "IsRayHit": false,
                 "RayOrigin": {
                     "x": 50.0,
                     "y": 0.0,
                     "z": 0.0
                 },
                 "RayDirection": {
+                    "x": 1.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "RayScale": 2.0
+            },
+            "Sphere Collider": {
+                "IsTrigger": false,
+                "Collider Center": {
+                    "x": -221.90084838867188,
+                    "y": 0.022640228271484375,
+                    "z": 0.0
+                },
+                "Collider Radius": 20.800060272216797,
+                "Radius Factor": 1.0
+            }
+        },
+        "21": {
+            "ArchetypeID": "110010100000000000",
+            "Enabled": true,
+            "Name Tag": {
+                "Name": "playerCameraObject",
+                "Tag": "",
+                "IsActive": true,
+                "HierarchyParent": 20,
+                "HierarchyIndex": 0,
+                "HierarchyChildren": []
+            },
+            "Transform": {
+                "Position": {
+                    "x": -221.90084838867188,
+                    "y": 0.022640228271484375,
+                    "z": 0.0
+                },
+                "Scale": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                },
+                "Rotation": {
                     "x": 0.0,
                     "y": 0.0,
                     "z": 0.0
                 },
-                "RayScale": 1.0
+                "FakePosition": {
+                    "x": -221.90084838867188,
+                    "y": 0.022640228271484375,
+                    "z": 0.0
+                },
+                "FakeRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "FakeScale": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                },
+                "OldPosition": {
+                    "x": -221.90084838867188,
+                    "y": -1.1951637268066406,
+                    "z": 0.0
+                },
+                "OldScale": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "OldRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "OldFakePosition": {
+                    "x": -221.90084838867188,
+                    "y": -1.1951637268066406,
+                    "z": 0.0
+                },
+                "OldFakeScale": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                },
+                "OldFakeRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "ParentPosition": {
+                    "x": -221.90084838867188,
+                    "y": 0.022640228271484375,
+                    "z": 0.0
+                }
+            },
+            "Camera Component": {
+                "Yaw": -90.0,
+                "Pitch": 0.0,
+                "Position": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "Speed": 1.0,
+                "FOV": 45.0,
+                "MouseSensitivity": 0.10000000149011612
+            },
+            "Graphics Component": {
+                "PointLight": false,
+                "TextureName": "",
+                "Show Mesh": true,
+                "Debug": false,
+                "ModelName": "",
+                "MeshName": "",
+                "MeshNodeName": "",
+                "Color": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0,
+                    "w": 1.0
+                },
+                "Used In 2D": false,
+                "Model UID": 0
             }
         }
     },
     "Scripts": {
-        "1": {
+        "4": {},
+        "5": {},
+        "6": {},
+        "14": {
             "QTE": {
                 "interaction": {
                     "ScriptAPI.GameObject": 6
                 },
                 "gameObject": {
-                    "ScriptAPI.GameObject": 1
+                    "ScriptAPI.GameObject": 14
                 }
             }
         },
-        "3": {},
-        "4": {},
-        "5": {},
-        "6": {},
-        "7": {}
+        "15": {},
+        "16": {},
+        "17": {},
+        "18": {},
+        "20": {
+            "FPS_Controller_Script": {
+                "rb": {
+                    "ScriptAPI.RigidBodyComponent": 0
+                },
+                "startingVO": {
+                    "ScriptAPI.AudioComponent": 0
+                },
+                "playerCamera": {
+                    "ScriptAPI.CameraComponent": 21
+                },
+                "fov": {
+                    "System.Single": "60"
+                },
+                "invertCamera": {
+                    "System.Boolean": "False"
+                },
+                "cameraCanMove": {
+                    "System.Boolean": "True"
+                },
+                "mouseSensitivity": {
+                    "System.Single": "2"
+                },
+                "maxLookAngle": {
+                    "System.Single": "50"
+                },
+                "lockCursor": {
+                    "System.Boolean": "True"
+                },
+                "crosshair": {
+                    "System.Boolean": "True"
+                },
+                "enableZoom": {
+                    "System.Boolean": "True"
+                },
+                "holdToZoom": {
+                    "System.Boolean": "False"
+                },
+                "zoomKey": {
+                    "System.UInt32": "2"
+                },
+                "zoomFOV": {
+                    "System.Single": "30"
+                },
+                "zoomStepTime": {
+                    "System.Single": "5"
+                },
+                "playerCanMove": {
+                    "System.Boolean": "True"
+                },
+                "walkSpeed": {
+                    "System.Single": "2"
+                },
+                "maxVelocityChange": {
+                    "System.Single": "10"
+                },
+                "isWalking": {
+                    "System.Boolean": "False"
+                },
+                "enableSprint": {
+                    "System.Boolean": "True"
+                },
+                "unlimitedSprint": {
+                    "System.Boolean": "False"
+                },
+                "sprintKey": {
+                    "System.UInt32": "160"
+                },
+                "sprintSpeed": {
+                    "System.Single": "3"
+                },
+                "currentSprintSpeed": {
+                    "System.Single": "0"
+                },
+                "sprintDuration": {
+                    "System.Single": "5"
+                },
+                "sprintCooldown": {
+                    "System.Single": "0.5"
+                },
+                "sprintFOV": {
+                    "System.Single": "80"
+                },
+                "sprintFOVStepTime": {
+                    "System.Single": "10"
+                },
+                "useSprintBar": {
+                    "System.Boolean": "True"
+                },
+                "hideBarWhenFull": {
+                    "System.Boolean": "True"
+                },
+                "sprintBarWidthPercent": {
+                    "System.Single": "0.3"
+                },
+                "sprintBarHeightPercent": {
+                    "System.Single": "0.015"
+                },
+                "isSprinting": {
+                    "System.Boolean": "False"
+                },
+                "enableJump": {
+                    "System.Boolean": "True"
+                },
+                "jumpKey": {
+                    "System.UInt32": "32"
+                },
+                "jumpPower": {
+                    "System.Single": "5"
+                },
+                "enableCrouch": {
+                    "System.Boolean": "True"
+                },
+                "holdToCrouch": {
+                    "System.Boolean": "True"
+                },
+                "crouchKey": {
+                    "System.UInt32": "65"
+                },
+                "crouchHeight": {
+                    "System.Single": "0.75"
+                },
+                "speedReduction": {
+                    "System.Single": "0.5"
+                },
+                "playerHealth": {
+                    "System.Int32": "100"
+                },
+                "enableHeadBob": {
+                    "System.Boolean": "True"
+                },
+                "joint": {
+                    "ScriptAPI.TransformComponent": 0
+                },
+                "bobSpeed": {
+                    "System.Single": "10"
+                },
+                "bobAmount": {
+                    "ScriptAPI.Vector3": {
+                        "X": 0.15000000596046448,
+                        "Y": 0.05000000074505806,
+                        "Z": 0.0
+                    }
+                },
+                "gameObject": {
+                    "ScriptAPI.GameObject": 20
+                }
+            }
+        },
+        "21": {}
     },
     "Active Archetype": {
-        "1": "110000111000000",
-        "3": "110000111000000",
         "4": "110000000000100",
         "5": "110000000000100",
         "6": "110000000000000",
-        "7": "110100110000000"
+        "14": "110100110000000000",
+        "15": "110000100000000000",
+        "16": "110000100000000000",
+        "17": "110000100000000000",
+        "18": "110000100000000000",
+        "20": "110000111000000000",
+        "21": "110010100000000000"
     }
 }

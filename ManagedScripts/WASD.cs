@@ -25,6 +25,23 @@ public class WASD : Script
         {
             gameObject.GetComponent<RigidBodyComponent>().SetLinearVelocity(new Vector3(-1000, 0, 0));
         }
+        else if (Input.GetKeyDown(Keycode.A))
+        {
+            gameObject.GetComponent<RigidBodyComponent>().SetLinearVelocity(new Vector3(0, -1000, 0));
+        }
+        else if (Input.GetKeyDown(Keycode.D))
+        {
+            gameObject.GetComponent<RigidBodyComponent>().SetLinearVelocity(new Vector3(0, 1000, 0));
+        }
+        else if (Input.GetKeyDown(Keycode.Q))
+        {
+            gameObject.GetComponent<RigidBodyComponent>().SetLinearVelocity(new Vector3(0, 0, -1000));
+        }
+        else if (Input.GetKeyDown(Keycode.E))
+        {
+            gameObject.GetComponent<RigidBodyComponent>().SetLinearVelocity(new Vector3(0, 0, 1000));
+        }
+
         else
         {
             gameObject.GetComponent<RigidBodyComponent>().SetLinearVelocity(new Vector3(0, 0, 0));
