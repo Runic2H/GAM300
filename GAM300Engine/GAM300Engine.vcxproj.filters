@@ -285,6 +285,7 @@
     <ClInclude Include="Include\components\DirLightComponent.h" />
     <ClInclude Include="Include\components\CompReflectionMacro.h" />
     <ClInclude Include="Include\components\SpotLightComponent.h" />
+    <ClInclude Include="Include\Physics\CollisionCollectorImpl.h" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Include\Logger\Logger.h" />

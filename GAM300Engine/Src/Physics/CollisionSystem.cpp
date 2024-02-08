@@ -39,7 +39,7 @@ namespace TDS
 			{
 				continue;
 			}
-			if (PhysicsSystem::GetIsPlaying()) continue;
+			/*if (PhysicsSystem::GetIsPlaying()) continue;*/
 			if (GetSphereCollider(entities[i]))
 			{
 				SphereCollider* vSphere = GetSphereCollider(entities[i]);
@@ -50,8 +50,11 @@ namespace TDS
 				}
 				else
 				{
-					MeshController* meshController = AssetManager::GetInstance()->GetMeshFactory().GetMeshController(_graphics[i].GetModelName(), _graphics[i].m_MeshControllerRef);
+
+					auto meshController = _graphics[i].m_MeshControllerRef.m_ResourcePtr;
+
 					if (meshController == nullptr) continue;
+
 
 					auto& rootNodes = meshController->GetRoots();
 
@@ -61,8 +64,8 @@ namespace TDS
 						auto MeshItr = nodeItr->second.m_MeshList.find(_graphics[i].m_MeshName);
 						if (MeshItr != nodeItr->second.m_MeshList.end())
 						{
-							Vec3 vRadius = (MeshItr->second.m_MeshBoundingBox.getMax() - MeshItr->second.m_MeshBoundingBox.getMin()) * 0.5f; // size of the box collider 
-							Vec3 vCenter = (MeshItr->second.m_MeshBoundingBox.getMax() + MeshItr->second.m_MeshBoundingBox.getMin()) * 0.5f; // center of the box collider
+							Vec3 vRadius = MeshItr->second.m_MeshBoundingBox.getSize() * 0.5f; // size of the box collider 
+							Vec3 vCenter = MeshItr->second.m_MeshBoundingBox.getCenter(); // center of the box collider
 							float vRadiusMax = Mathf::Max(vRadius.x, Mathf::Max(vRadius.y, vRadius.z));
 							Vec4 worldCenter = _transform[i].GetTransformMatrix() * Vec4(vCenter, 1.f);
 							vSphere->SetColliderCenter(Vec3(worldCenter.x, worldCenter.y, worldCenter.z));
@@ -73,8 +76,8 @@ namespace TDS
 					{
 						if (_graphics[i].m_MeshNodeName == meshController->m_ModelPack->m_ModelName)
 						{
-							Vec3 vRadius = (meshController->GetSceneBoundingBox().getMax() - meshController->GetSceneBoundingBox().getMin()) * 0.5f; // size of the box collider 
-							Vec3 vCenter = (meshController->GetSceneBoundingBox().getMax() + meshController->GetSceneBoundingBox().getMin()) * 0.5f; // center of the box collider
+							Vec3 vRadius = (meshController->GetSceneBoundingBox().getSize()) * 0.5f; // size of the box collider 
+							Vec3 vCenter = (meshController->GetSceneBoundingBox().getCenter()); // center of the box collider
 							float vRadiusMax = Mathf::Max(vRadius.x, Mathf::Max(vRadius.y, vRadius.z));
 							Vec4 worldCenter = _transform[i].GetTransformMatrix() * Vec4(vCenter, 1.f);
 							vSphere->SetColliderCenter(Vec3(worldCenter.x, worldCenter.y, worldCenter.z));
@@ -128,11 +131,15 @@ namespace TDS
 				{
 
 
-					if (!vBox->GetModelInit())
+					//if (!vBox->GetModelInit())
 					{
-						MeshController* meshController = AssetManager::GetInstance()->GetMeshFactory().GetMeshController(_graphics[i].GetModelName(), _graphics[i].m_MeshControllerRef);
+						/*MeshController* meshController = AssetManager::GetInstance()->GetMeshFactory().GetMeshController(_graphics[i].GetModelName(), _graphics[i].m_MeshControllerRef);*/
+
+						auto meshController = _graphics[i].m_MeshControllerRef.m_ResourcePtr;
 
 						if (meshController == nullptr) continue;
+
+						 
 
 						auto& rootNodes = meshController->GetRoots();
 
@@ -142,8 +149,8 @@ namespace TDS
 							auto MeshItr = nodeItr->second.m_MeshList.find(_graphics[i].m_MeshName);
 							if (MeshItr != nodeItr->second.m_MeshList.end())
 							{
-								Vec3 vSize = (MeshItr->second.m_MeshBoundingBox.getMax() - MeshItr->second.m_MeshBoundingBox.getMin()) * 0.5f; // size of the box collider 
-								Vec3 vCenter = (MeshItr->second.m_MeshBoundingBox.getMax() + MeshItr->second.m_MeshBoundingBox.getMin()) * 0.5f; // center of the box collider
+								Vec3 vSize = MeshItr->second.m_MeshBoundingBox.getSize() * 0.5f; // size of the box collider 
+								Vec3 vCenter = MeshItr->second.m_MeshBoundingBox.getCenter(); // center of the box collider
 								Vec4 worldCenter = _transform[i].GetTransformMatrix() * Vec4(vCenter, 1.f);
 
 								vBox->SetColliderSize(vSize);
@@ -158,8 +165,8 @@ namespace TDS
 						{
 							if (_graphics[i].m_MeshNodeName == meshController->m_ModelPack->m_ModelName)
 							{
-								Vec3 vSize = (meshController->GetSceneBoundingBox().getMax() - meshController->GetSceneBoundingBox().getMin()) * 0.5f; // size of the box collider 
-								Vec3 vCenter = (meshController->GetSceneBoundingBox().getMax() + meshController->GetSceneBoundingBox().getMin()) * 0.5f; // center of the box collider
+								Vec3 vSize = meshController->GetSceneBoundingBox().getSize() * 0.5f; // size of the box collider
+								Vec3 vCenter = meshController->GetSceneBoundingBox().getCenter(); // center of the box collider
 								Vec4 worldCenter = _transform[i].GetTransformMatrix() * Vec4(vCenter, 1.f);
 
 								vBox->SetColliderSize(vSize);
