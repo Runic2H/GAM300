@@ -79,8 +79,7 @@ namespace TDS
 
 		static void JPH_SystemUpdate(Transform* _transform, RigidBody* _rigidbody);
 		static void JPH_CreateBodyID(const EntityID& entities, Transform* _transform, RigidBody* _rigidbody);
-		static void JPH_PreRaycast(const EntityID& entities, Transform* _transform, RigidBody* _rigidbody);
-		static void JPH_PostRaycast(const EntityID& entities, Transform* _transform, RigidBody* _rigidbody);
+		static void JPH_Raycast(const EntityID& entities, Transform* _transform, RigidBody* _rigidbody);
 	private:
 		// TDS Physics System
 		static const double fixedDt;
