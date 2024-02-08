@@ -118,10 +118,10 @@ namespace ScriptAPI
 		static uint32_t Z = 0x5A;
 
 		// Arrows
-		static uint32_t LEFT = 0x25;
 		static uint32_t UP = 0x26;
-		static uint32_t RIGHT = 0x27;
 		static uint32_t DOWN = 0x28;
+		static uint32_t LEFT = 0x25;
+		static uint32_t RIGHT = 0x27;
 
 		// Numbers
 		static uint32_t NUM0 = 0x30;
@@ -136,22 +136,15 @@ namespace ScriptAPI
 		static uint32_t NUM9 = 0x39;
 
 		// Special characters
-		static uint32_t SEMICOLON = 0xBA; // ;
-		static uint32_t PLUS = 0xBB;     // +
-		static uint32_t COMMA = 0xBC;    // ,
 		static uint32_t MINUS = 0xBD;    // -
-		static uint32_t PERIOD = 0xBE;   // .
-		static uint32_t SLASH = 0xBF;    // /
-
+		static uint32_t PLUS = 0xBB;     // +
 		static uint32_t SHIFT = 0x10;
-		static uint32_t CTRL = 0x11;
-		static uint32_t ALT = 0x12;
-
 		static uint32_t LSHIFT = 0xA0;   // Left SHIFT
 		static uint32_t RSHIFT = 0xA1;   // Right SHIFT
+		static uint32_t CTRL = 0x11;
 		static uint32_t LCTRL = 0xA2;   // Left CTRL
 		static uint32_t RCTRL = 0xA3;   // Right CTRL
-
+		static uint32_t ALT = 0x12;
 		static uint32_t SPACE = 0x20;
 		static uint32_t ESC = 0x1B;
 		static uint32_t CAPS = 0x14;
@@ -159,6 +152,10 @@ namespace ScriptAPI
 		static uint32_t ENTER = 0x0D;
 		static uint32_t BACKSPACE = 0x08;
 		static uint32_t TILDE = 0xC0;    // `
+		static uint32_t COMMA = 0xBC;    // ,
+		static uint32_t PERIOD = 0xBE;   // .
+		static uint32_t SLASH = 0xBF;    // /
+		static uint32_t SEMICOLON = 0xBA; // ;
 
 		// Function keys (F1-F12)
 		static uint32_t F1 = 0x70;

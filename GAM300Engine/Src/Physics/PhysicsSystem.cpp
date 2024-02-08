@@ -8,7 +8,6 @@
  * \brief         Implementation of the physics system.
  *******************************************************************************/
 #include "Physics/PhysicsSystem.h"
-#include "Rendering/GraphicsManager.h"
 
 namespace TDS
 {
@@ -146,7 +145,10 @@ namespace TDS
 				using namespace JoltToTDS;
 				EActivation mode = EActivation::Activate;
 				//pBodies->SetPosition(ToBodyID(_rigidbody[i]), ToVec3(_transform[i].GetPosition()), mode); // only uncomment for debugging in editor
-
+				if (_rigidbody[i].getIsRayCast()) 
+				{
+					JPH_PreRaycast(entities[i], &_transform[i], &_rigidbody[i]);
+				}
 			}
 			
 			m_pSystem->Update(TimeStep::GetFixedDeltaTime(), 1, m_pTempAllocator.get(), m_pJobSystem.get());
@@ -159,7 +161,7 @@ namespace TDS
 				}
 				if (_rigidbody[j].getIsRayCast())
 				{
-					JPH_Raycast(entities[j], &_transform[j], &_rigidbody[j]);
+					JPH_PostRaycast(entities[j], &_transform[j], &_rigidbody[j]);
 				}
 				/*if (GetBoxCollider(entities[j]))
 				{
@@ -320,20 +322,20 @@ namespace TDS
 		
 	}
 
-
-	void PhysicsSystem::JPH_Raycast(const EntityID& entities, Transform* _transform, RigidBody* _rigidbody)
+	void PhysicsSystem::JPH_PreRaycast(const EntityID& entities, Transform* _transform, RigidBody* _rigidbody)
 	{
-		float offsetDistance = _transform->GetScale().x + 20.0f;
-		JPH::Vec3 vRayOrigin = JoltToTDS::ToVec3(_transform->GetPosition() + GraphicsManager::getInstance().GetCamera().getForwardVector() * offsetDistance);
-		JPH::Vec3 vRayDirection = JoltToTDS::ToVec3(GraphicsManager::getInstance().GetCamera().getForwardVector());
-
+		JPH::Vec3 vRayOrigin = JoltToTDS::ToVec3(_rigidbody->getRayOrigin() + _transform->GetPosition());
+		JPH::Vec3 vRayDirection = JoltToTDS::ToVec3(_rigidbody->getRayDirection());
 		float vRayScale = _rigidbody->getRayScale();
-		JPH::RayCast ray{ vRayOrigin, vRayDirection };
+		JPH::RayCast ray { vRayOrigin, vRayScale * vRayDirection};
 		collector->Reset();
 		m_pSystem->GetBroadPhaseQuery().CastRay(ray, *collector);
 
-		const JPH::BroadPhaseQuery* broadphase = &m_pSystem->GetBroadPhaseQuery();
+	}
 
+	void PhysicsSystem::JPH_PostRaycast(const EntityID& entities, Transform* _transform, RigidBody* _rigidbody)
+	{
+		const JPH::BroadPhaseQuery* broadphase = &m_pSystem->GetBroadPhaseQuery();
 		if (collector->HadHit())
 		{
 			JPH::BroadPhaseCastResult* result = collector->mHits.data();
