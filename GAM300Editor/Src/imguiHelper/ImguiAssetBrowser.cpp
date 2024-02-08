@@ -193,8 +193,8 @@ namespace TDS
 						{
 							childTransformComp->SetRealPosition(rootNodes.second.m_SceneTranslation);
 
-							transformComp->SetRealScale(rootNodes.second.m_SceneScale);
-							transformComp->SetRealRotate(rootNodes.second.m_SceneRotation);
+							//transformComp->SetRealScale(rootNodes.second.m_SceneScale);
+							//transformComp->SetRealRotate(rootNodes.second.m_SceneRotation);
 						}
 						/*		childTransformComp->SetRealScale(rootNodes.second.m_SceneScale);
 								childTransformComp->SetRealRotate(rootNodes.second.m_SceneRotation);*/
