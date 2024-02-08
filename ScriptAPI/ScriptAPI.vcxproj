@@ -141,8 +141,10 @@
     <ClInclude Include="Components\ComponentBase.hxx" />
     <ClInclude Include="Components\GraphicComponent.hxx" />
     <ClInclude Include="Components\NameTagComponent.hxx" />
+    <ClInclude Include="Components\PointlightComponent.hxx" />
     <ClInclude Include="Components\RigidBodyComponent.hxx" />
     <ClInclude Include="Components\SphereColliderComponent.hxx" />
+    <ClInclude Include="Components\SpotlightComponent.hxx" />
     <ClInclude Include="Components\TransformComponent.hxx" />
     <ClInclude Include="Components\UISpriteComponent.hxx" />
     <ClInclude Include="Components\ViewObject.hxx" />
@@ -178,8 +180,10 @@
     <ClCompile Include="Components\ColliderComponent.cxx" />
     <ClCompile Include="Components\GraphicComponent.cxx" />
     <ClCompile Include="Components\NameTagComponent.cxx" />
+    <ClCompile Include="Components\PointlightComponent.cxx" />
     <ClCompile Include="Components\RigidBodyComponent.cxx" />
     <ClCompile Include="Components\SphereColliderComponent.cxx" />
+    <ClCompile Include="Components\SpotlightComponent.cxx" />
     <ClCompile Include="Components\TransformComponent.cxx" />
     <ClCompile Include="Components\UISpriteComponent.cxx" />
     <ClCompile Include="Components\ViewObject.cxx" />
