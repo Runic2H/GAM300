@@ -123,6 +123,12 @@
     <ClInclude Include="Components\ViewObject.hxx">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Components\PointlightComponent.hxx">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Components\SpotlightComponent.hxx">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EngineInterface.cxx">
@@ -219,6 +225,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Components\ViewObject.cxx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Components\SpotlightComponent.cxx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Components\PointlightComponent.cxx">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
