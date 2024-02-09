@@ -59,13 +59,14 @@ namespace TDS
 			}
 			else
 			{
-				m_TotalBatchMeshes += CurrController.m_ModelPack->m_TotalMeshCnt;
-
+			
 				std::uint32_t currOffset = m_TotalBatchMeshes;
 
 				CurrController.SetMeshOffset(currOffset);
 
 				CurrController.LoadBatchData();
+
+				m_TotalBatchMeshes += CurrController.m_ModelPack->m_TotalMeshCnt;
 			}
 			CurrController.BuildMeshTree();
 
@@ -100,13 +101,14 @@ namespace TDS
 			}
 			else
 			{
-				m_TotalBatchMeshes += CurrController.m_ModelPack->m_TotalMeshCnt;
-
+			
 				std::uint32_t currOffset = m_TotalBatchMeshes;
 
 				CurrController.SetMeshOffset(currOffset);
 
 				CurrController.LoadBatchData();
+
+				m_TotalBatchMeshes += CurrController.m_ModelPack->m_TotalMeshCnt;
 			}
 			CurrController.BuildMeshTree();
 
@@ -148,15 +150,18 @@ namespace TDS
 					}
 					else
 					{
-
-						m_TotalBatchMeshes += CurrController.m_ModelPack->m_TotalMeshCnt;
-
 						std::uint32_t currOffset = m_TotalBatchMeshes;
+
 						CurrController.SetMeshOffset(currOffset);
 
 						CurrController.LoadBatchData();
 
 						CurrController.BuildMeshTree();
+
+						m_TotalBatchMeshes += CurrController.m_ModelPack->m_TotalMeshCnt;
+
+						
+
 					}
 					CurrController.m_ModelPack->m_ModelName = fileName;
 				}
