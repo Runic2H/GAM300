@@ -351,6 +351,7 @@ namespace TDS
 	void MeshLoader::ProcessScene(std::vector<RawMeshData>& assimpData, const aiNode& Node, const aiScene& Scene, aiMatrix4x4& ParentTransform, std::string_view parentNode, Request& request)
 	{
 		aiMatrix4x4 AccumulatedTransform = ParentTransform * Node.mTransformation;
+		aiMatrix4x4 transformWithoutTrans;
 		size_t iNode = assimpData.size();
 
 		assimpData.resize(iNode + Scene.mNumMeshes);
@@ -415,13 +416,13 @@ namespace TDS
 			aiVector3D pos;
 			AccumulatedTransform.DecomposeNoScaling(currRotation, pos);
 
-			aiMatrix4x4 translateMat = GetTranslationMatrix(Node.mTransformation);
-			aiMatrix4x4 rotationMat = GetRotationMatrix(Node.mTransformation);
-			aiMatrix4x4 scaleMat = GetScaleMatrix(Node.mTransformation);
+			aiMatrix4x4 translateMat = GetTranslationMatrix(AccumulatedTransform);
+			aiMatrix4x4 rotationMat = GetRotationMatrix(AccumulatedTransform);
+			aiMatrix4x4 scaleMat = GetScaleMatrix(AccumulatedTransform);
 
 			aiMatrix4x4 identity;
 
-			aiMatrix4x4 transformWithoutTrans = identity * rotationMat * scaleMat;
+			transformWithoutTrans = identity * rotationMat * scaleMat;
 
 			aiVector3D translate{};
 
@@ -497,7 +498,7 @@ namespace TDS
 				else
 				{
 					const auto N = currRotation.Rotate(mesh.mNormals[i]);
-					/*				const auto N = mesh.mNormals[i];*/
+		/*			const auto N = mesh.mNormals[i];*/
 					vert.m_Normal = { N.x, N.y, N.z };
 					vert.m_Tangent = { 1.f, 0.f, 0.f };
 					vert.m_Bitangent = { 1.f, 0.f, 0.f };

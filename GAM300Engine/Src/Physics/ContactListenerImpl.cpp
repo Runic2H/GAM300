@@ -159,14 +159,14 @@ namespace TDS
 		///Trace("Contact removed %u (%08x) and %u (%08x)", inSubShapePair.GetBody1ID().GetIndex(), inSubShapePair.GetSubShapeID1().GetValue(), inSubShapePair.GetBody2ID().GetIndex(), inSubShapePair.GetSubShapeID2().GetValue());
 		auto sensorID1 = PhysicsSystem::findEntityByID(inSubShapePair.GetBody1ID().GetIndex());
 		auto sensorID2 = PhysicsSystem::findEntityByID(inSubShapePair.GetBody2ID().GetIndex());
-		if (sensorID1.has_value())
+		if (sensorID1.has_value() && GetRigidBody(sensorID1.value())->getSensorActivate())
 		{
 			//std::cout << "1sensorID1: " << sensorID1.value() << std::endl;
 			//std::cout << "1sensorID2: " << sensorID2.value() << std::endl;
 			GetRigidBody(sensorID1.value())->setSensorActivate(false);
 			GetRigidBody(sensorID2.value())->setSensorActivate(false);
 		}
-		else if (sensorID2.has_value())
+		else if (sensorID2.has_value() && GetRigidBody(sensorID2.value())->getSensorActivate())
 		{
 			//std::cout << "2sensorID1: " << sensorID1.value() << std::endl;
 			//std::cout << "2sensorID2: " << sensorID2.value() << std::endl;

@@ -210,6 +210,7 @@ xcopy /y /d "$(SolutionDir)Libs\rttr_core.dll" "$(OutDir)"</Command>
     <ClInclude Include="Include\MacroHelper.h" />
     <ClInclude Include="Include\Input\InputSystem.h" />
     <ClInclude Include="Include\MessagingSystem\MessageSystem.h" />
+    <ClInclude Include="Include\Physics\CollisionCollectorImpl.h" />
     <ClInclude Include="Include\Physics\ContactListenerImpl.h" />
     <ClCompile Include="Src\components\DirLightComponent.cpp" />
     <ClCompile Include="Src\components\PointLightComponent.cpp" />
