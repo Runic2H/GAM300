@@ -32,7 +32,7 @@ public class PopupUI : Script
             Input.Lock(false);
             Input.HideMouse(false);
         }
-        else
+        else if(!InventoryScript.InventoryIsOpen && !isDisplayed)
         {
             //Console.WriteLine("game unpaused");
             GraphicsManagerWrapper.ToggleViewFrom2D(false);

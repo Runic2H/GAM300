@@ -4,12 +4,12 @@ using System;
 public class Painting_Script : Script
 {
     private GameObject playerObject;
+    //RigidBodyComponent rigidBodyComponent; //for raycast?
 
     [SerializeField]
     public string Painting_Name;
     public string Painting_Texture;
     public bool opened;
-    private bool collided;
 
     //public Animator _PaintingAnimator;
     //public Flashlight_Script _FlashlightScript;
@@ -33,15 +33,17 @@ public class Painting_Script : Script
     public override void Start()
     {
         playerObject = GameObjectScriptFind("Player");
+        //rigidBodyComponent = gameObject.GetComponent<RigidBodyComponent>();
     }
 
     // Update is called once per frame
     override public void Update()
     {
-        if (Input.GetKeyDown(Keycode.E) && isWithinRange()) // Maybe add 1 more condition to check if its within player's view
+        if (Input.GetKeyDown(Keycode.E) && isWithinRange()/* && rigidBodyComponent.IsRayHit()*/)
         {
             Console.WriteLine("Picked up painting");
             InventoryScript.addPaintingIntoInventory(Painting_Name, Painting_Texture);
+            gameObject.GetComponent<GraphicComponent>().SetView2D(true);
             gameObject.SetActive(false);
         }
     }

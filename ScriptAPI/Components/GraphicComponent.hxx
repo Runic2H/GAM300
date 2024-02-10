@@ -8,12 +8,14 @@ namespace ScriptAPI {
 	public:
 		float getColourAlpha();
 		void SetColourAlpha(float value);
-		void SetModelName(System::String^);
 		virtual TDS::EntityID GetEntityID();
 		virtual void SetEntityID(TDS::EntityID);
 
 		virtual void SetEnabled(bool enabled);
 		virtual bool GetEnabled();
+
+		void SetModelName(System::String^);
+		void SetView2D(bool status);
 
 		TransformComponent transform;
 		GameObject^ gameObject;

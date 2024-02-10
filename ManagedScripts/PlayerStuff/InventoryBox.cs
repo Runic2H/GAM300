@@ -59,24 +59,8 @@ public class InventoryBox : Script
     }
 
     public bool Clicked()
-    {
-        if(Input.GetKeyDown(Keycode.M1))
-        {
-            Vector3 ObjectPos = gameObject.transform.GetPosition();
-            Vector3 ObjectScale = gameObject.transform.GetScale();
-            float mouseX = Input.GetUIMousePosX();
-            float mouseY = Input.GetUIMousePosY();
-            float minX = ObjectPos.X - ObjectScale.X * 0.5f;
-            float maxX = ObjectPos.X + ObjectScale.X * 0.5f;
-            float minY = ObjectPos.Y - ObjectScale.Y * 0.5f;
-            float maxY = ObjectPos.Y + ObjectScale.Y * 0.5f;
-
-            //Console.WriteLine("MouseX: " + mouseX + " MinX: " + minX + " MaxX: " + maxX);
-            //Console.WriteLine("MouseY: " + mouseY + " MinY: " + minY + " MaxY: " + maxY);
-            if (mouseX >= minX && mouseX <= maxX && mouseY >= minY && mouseY <= maxY)
-                return true;
-        }
-        return false;
+    {       
+        return Input.GetKeyDown(Keycode.M1) && gameObject.GetComponent<UISpriteComponent>().IsMouseCollided();
     }
 
     public void ViewObject()
