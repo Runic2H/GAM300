@@ -194,6 +194,9 @@ xcopy /y /d "$(SolutionDir)Libs\rttr_core.dll" "$(OutDir)"</Command>
     <ClCompile Include="..\Shared_Libs\Vector3.cpp" />
     <ClCompile Include="..\Shared_Libs\Vector4.cpp" />
     <ClCompile Include="Include\ecs\ecs.cpp" />
+    <ClInclude Include="Include\AI\Pathfinder.h" />
+    <ClInclude Include="Include\AI\Tile.h" />
+    <ClInclude Include="Include\AI\TileEntity.h" />
     <ClInclude Include="Include\components\CompReflectionMacro.h" />
     <ClInclude Include="Include\components\DirLightComponent.h" />
     <ClInclude Include="Include\components\ParticleComponent.h" />
@@ -212,6 +215,9 @@ xcopy /y /d "$(SolutionDir)Libs\rttr_core.dll" "$(OutDir)"</Command>
     <ClInclude Include="Include\MessagingSystem\MessageSystem.h" />
     <ClInclude Include="Include\Physics\CollisionCollectorImpl.h" />
     <ClInclude Include="Include\Physics\ContactListenerImpl.h" />
+    <ClCompile Include="Src\AI\Pathfinder.cpp" />
+    <ClCompile Include="Src\AI\Tile.cpp" />
+    <ClCompile Include="Src\AI\TileEntity.cpp" />
     <ClCompile Include="Src\components\DirLightComponent.cpp" />
     <ClCompile Include="Src\components\PointLightComponent.cpp" />
     <ClCompile Include="Src\components\SpotLightComponent.cpp" />

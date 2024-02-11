@@ -36,7 +36,6 @@
 #include "Rendering/ObjectPicking.h"
 #include "Input/InputSystem.h"
 #include "Rendering/GridRenderer.h"
-#include "Tools/Pathfinder.h"
 #include "MessagingSystem/MessageSystem.h"
 
 bool isPlaying = false;
@@ -46,7 +45,6 @@ bool startPlaying = false;
 namespace TDS
 {
     bool SceneManager::isPlaying;
-    Pathfinder pathfinder{};
 
     Application::Application(HINSTANCE hinstance, int& nCmdShow, const wchar_t* classname, WNDPROC wndproc)
         :m_window(hinstance, nCmdShow, classname)
@@ -203,14 +201,6 @@ namespace TDS
             std::cout << "Mouse Failed to Register" << std::endl;
         }
 
-        //register the grid
-        for (size_t i = 0; i < pathfinder.GetGrid().size(); ++i)
-        {
-            for (size_t j = 0; j < pathfinder.GetGrid()[i].size(); ++j)
-            {
-                // do some RegisterEntity using pathfinder.GetGrid()[i][j].get();
-            }
-        }
     }
 
     void Application::Update()
@@ -306,11 +296,6 @@ namespace TDS
             }
 
 
-            //render grid
-            //gridrender.Render(commandBuffer, frame);
-            //gridrender.SetColour(0, 0, Color(1.0f, 0.0f, 0.0f, 1.0f));
-            pathfinder.DisplayPathAnimated(DeltaTime); //display path
-           
             if (isPlaying)
             {
                 if (Input::isKeyPressed(VK_ESCAPE))

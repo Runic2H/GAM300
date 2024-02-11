@@ -3,8 +3,8 @@
 @brief		Tile Entity definitions
 */
 
-#include "Tools/TileEntity.h"
-#include "../Include/vulkanTools/VulkanPipeline.h"
+#include "AI/TileEntity.h"
+#include "vulkanTools/VulkanPipeline.h"
 #include <vulkan/vulkan.h>
 	//typedef struct VkCommandBuffer_T* VkCommandBuffer;
 

@@ -13,12 +13,12 @@ class Vec2
     public:            
         // Constructors and destructors
         Vec2();
-        Vec2(const Vec2& v); // Copy constructor
+        //Vec2(const Vec2& v); // Copy constructor
         Vec2(float value); // Constructor with one value
         Vec2(float data[]); // Constructor with array of values
         Vec2(float newX, float newY); // Constructor with two values
         Vec2(const float* newX, const float* newY); // Constructor with two pointers
-        ~Vec2();
+        //~Vec2();
 
         // Static Properties
         static Vec2 down();
@@ -59,7 +59,7 @@ class Vec2
         // Returns a vector that is made from the smallest components of two vectors.
         static Vec2 Min(const Vec2 lhs, const Vec2 rhs);
         // Moves a point current in a straight line towards a target point.
-        static Vec2 MoveTowards(const Vec2 current, const Vec2 target, float maxDistanceDelta);
+        DLL_API static Vec2 MoveTowards(const Vec2 current, const Vec2 target, float maxDistanceDelta);
         static Vec2 Perpendicular(const Vec2 inDirection);
         static Vec2 Project(Vec2 vector, Vec2 onNormal);
         static Vec2 Reflect(Vec2 inDirection, Vec2 inNormal);
@@ -114,6 +114,7 @@ bool operator==(const Vec2& v1, const Vec2& v2);
 bool operator!=(const Vec2& v1, const Vec2& v2);
 std::ostream& operator<<(std::ostream& os, const Vec2& v);
 
+DLL_API Vec2 floatsToVec2(float x, float y);
 
 }
 #endif // VECTOR2_H

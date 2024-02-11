@@ -1,10 +1,5 @@
 {
     "Archetype Sizes": {
-        "110000100000000000": {
-            "0": 115328,
-            "1": 325632,
-            "6": 305280
-        },
         "110010100000000000": {
             "0": 136,
             "1": 384,
@@ -17,6 +12,11 @@
             "6": 360,
             "7": 96,
             "8": 32
+        },
+        "110000100000000000": {
+            "0": 115192,
+            "1": 325248,
+            "6": 304920
         }
     },
     "Entity Data": {
@@ -401,7 +401,6 @@
                     48,
                     50,
                     52,
-                    54,
                     56,
                     58,
                     60,
@@ -8854,200 +8853,6 @@
                 "Model UID": 0
             }
         },
-        "54": {
-            "ArchetypeID": "110000100000000000",
-            "Enabled": true,
-            "Name Tag": {
-                "Name": "Ceiling",
-                "Tag": "",
-                "IsActive": true,
-                "HierarchyParent": 3,
-                "HierarchyIndex": 2,
-                "HierarchyChildren": [
-                    55
-                ]
-            },
-            "Transform": {
-                "Position": {
-                    "x": -399.7014465332031,
-                    "y": 317.48797607421875,
-                    "z": -152.41961669921875
-                },
-                "Scale": {
-                    "x": 1.0,
-                    "y": 1.0,
-                    "z": 1.0
-                },
-                "Rotation": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                },
-                "FakePosition": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                },
-                "FakeRotation": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                },
-                "FakeScale": {
-                    "x": 1.0,
-                    "y": 1.0,
-                    "z": 1.0
-                },
-                "OldPosition": {
-                    "x": -399.7014465332031,
-                    "y": 317.48797607421875,
-                    "z": -152.41961669921875
-                },
-                "OldScale": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                },
-                "OldRotation": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                },
-                "OldFakePosition": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                },
-                "OldFakeScale": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                },
-                "OldFakeRotation": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                },
-                "ParentPosition": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                }
-            },
-            "Graphics Component": {
-                "PointLight": false,
-                "TextureName": "",
-                "Show Mesh": true,
-                "Debug": false,
-                "ModelName": "Adjusted_Bin.bin",
-                "MeshName": "Ceiling",
-                "MeshNodeName": "Ceiling",
-                "Color": {
-                    "x": 1.0,
-                    "y": 1.0,
-                    "z": 1.0,
-                    "w": 1.0
-                },
-                "Used In 2D": false,
-                "Model UID": 0
-            }
-        },
-        "55": {
-            "ArchetypeID": "110000100000000000",
-            "Enabled": true,
-            "Name Tag": {
-                "Name": "Ceiling",
-                "Tag": "",
-                "IsActive": true,
-                "HierarchyParent": 54,
-                "HierarchyIndex": 2,
-                "HierarchyChildren": []
-            },
-            "Transform": {
-                "Position": {
-                    "x": -399.7014465332031,
-                    "y": 317.48797607421875,
-                    "z": -147.26927185058594
-                },
-                "Scale": {
-                    "x": 1.0,
-                    "y": 1.0,
-                    "z": 1.0
-                },
-                "Rotation": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                },
-                "FakePosition": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 5.1503448486328125
-                },
-                "FakeRotation": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                },
-                "FakeScale": {
-                    "x": 1.0,
-                    "y": 1.0,
-                    "z": 1.0
-                },
-                "OldPosition": {
-                    "x": -399.7014465332031,
-                    "y": 317.48797607421875,
-                    "z": -147.26927185058594
-                },
-                "OldScale": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                },
-                "OldRotation": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                },
-                "OldFakePosition": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                },
-                "OldFakeScale": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                },
-                "OldFakeRotation": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                },
-                "ParentPosition": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                }
-            },
-            "Graphics Component": {
-                "PointLight": false,
-                "TextureName": "",
-                "Show Mesh": true,
-                "Debug": false,
-                "ModelName": "Adjusted_Bin.bin",
-                "MeshName": "Ceiling",
-                "MeshNodeName": "Ceiling",
-                "Color": {
-                    "x": 1.0,
-                    "y": 1.0,
-                    "z": 1.0,
-                    "w": 1.0
-                },
-                "Used In 2D": false,
-                "Model UID": 0
-            }
-        },
         "391": {
             "ArchetypeID": "110000100000000000",
             "Enabled": true,
@@ -9835,8 +9640,8 @@
             },
             "Transform": {
                 "Position": {
-                    "x": -2587.21533203125,
-                    "y": 127.03601837158203,
+                    "x": -2586.992431640625,
+                    "y": 127.02760314941406,
                     "z": -73.08123779296875
                 },
                 "Scale": {
@@ -9845,13 +9650,13 @@
                     "z": 7.941999912261963
                 },
                 "Rotation": {
-                    "x": -0.0,
+                    "x": 0.0,
                     "y": 1.570796251296997,
                     "z": 0.0
                 },
                 "FakePosition": {
-                    "x": 0.0,
-                    "y": 0.0,
+                    "x": 0.222900390625,
+                    "y": -0.00841522216796875,
                     "z": 0.0
                 },
                 "FakeRotation": {
@@ -9865,9 +9670,9 @@
                     "z": 1.0
                 },
                 "OldPosition": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
+                    "x": -2586.99267578125,
+                    "y": 127.02761840820313,
+                    "z": -73.08123779296875
                 },
                 "OldScale": {
                     "x": 0.0,
@@ -11426,14 +11231,14 @@
                     "z": 0.0
                 },
                 "OldFakePosition": {
-                    "x": 0.0,
+                    "x": 6.05712890625,
                     "y": 0.0,
-                    "z": 0.0
+                    "z": 0.00006103515625
                 },
                 "OldFakeScale": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
                 },
                 "OldFakeRotation": {
                     "x": 0.0,
@@ -16798,9 +16603,9 @@
             },
             "Transform": {
                 "Position": {
-                    "x": -3388.64892578125,
-                    "y": 127.03601837158203,
-                    "z": -56.24371337890625
+                    "x": -3388.453125,
+                    "y": 127.0287094116211,
+                    "z": -56.24369430541992
                 },
                 "Scale": {
                     "x": 2.200000047683716,
@@ -16808,14 +16613,14 @@
                     "z": 7.941999912261963
                 },
                 "Rotation": {
-                    "x": -0.0,
+                    "x": 0.0,
                     "y": 1.570796251296997,
                     "z": 0.0
                 },
                 "FakePosition": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
+                    "x": 0.19580078125,
+                    "y": -0.0073089599609375,
+                    "z": 0.000019073486328125
                 },
                 "FakeRotation": {
                     "x": 0.0,
@@ -16828,9 +16633,9 @@
                     "z": 1.0
                 },
                 "OldPosition": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
+                    "x": -3388.45361328125,
+                    "y": 127.02872467041016,
+                    "z": -56.24369430541992
                 },
                 "OldScale": {
                     "x": 0.0,
@@ -17668,8 +17473,8 @@
             },
             "Transform": {
                 "Position": {
-                    "x": -1558.840576171875,
-                    "y": 127.03601837158203,
+                    "x": -1558.7608642578125,
+                    "y": 127.02718353271484,
                     "z": -134.78631591796875
                 },
                 "Scale": {
@@ -17683,8 +17488,8 @@
                     "z": 0.0
                 },
                 "FakePosition": {
-                    "x": 0.0,
-                    "y": 0.0,
+                    "x": 0.0797119140625,
+                    "y": -0.0088348388671875,
                     "z": 0.0
                 },
                 "FakeRotation": {
@@ -17698,9 +17503,9 @@
                     "z": 1.0
                 },
                 "OldPosition": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
+                    "x": -1558.760986328125,
+                    "y": 127.0271987915039,
+                    "z": -134.78631591796875
                 },
                 "OldScale": {
                     "x": 0.0,
@@ -40459,7 +40264,7 @@
                 "Scale": {
                     "x": 1.0,
                     "y": 1.0000001192092896,
-                    "z": 1.0
+                    "z": 0.9140688180923462
                 },
                 "Rotation": {
                     "x": 0.0,
@@ -40479,7 +40284,7 @@
                 "FakeScale": {
                     "x": 1.0,
                     "y": 1.0,
-                    "z": 1.0
+                    "z": 0.9140688180923462
                 },
                 "OldPosition": {
                     "x": -399.7015380859375,
@@ -40744,9 +40549,9 @@
             },
             "Transform": {
                 "Position": {
-                    "x": 567.7063598632813,
-                    "y": 140.7744140625,
-                    "z": -1366.432861328125
+                    "x": 567.706298828125,
+                    "y": 140.77438354492188,
+                    "z": -1366.4327392578125
                 },
                 "Scale": {
                     "x": 1.100000023841858,
@@ -40755,13 +40560,13 @@
                 },
                 "Rotation": {
                     "x": 0.0,
-                    "y": -0.0,
+                    "y": 0.0,
                     "z": 0.0
                 },
                 "FakePosition": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
+                    "x": -0.00006103515625,
+                    "y": -0.000030517578125,
+                    "z": 0.0001220703125
                 },
                 "FakeRotation": {
                     "x": 0.0,
@@ -40774,9 +40579,9 @@
                     "z": 1.0
                 },
                 "OldPosition": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
+                    "x": 567.706298828125,
+                    "y": 140.77438354492188,
+                    "z": -1366.4327392578125
                 },
                 "OldScale": {
                     "x": 0.0,
@@ -40789,14 +40594,14 @@
                     "z": 0.0
                 },
                 "OldFakePosition": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
+                    "x": -0.00006103515625,
+                    "y": -0.000030517578125,
+                    "z": 0.0001220703125
                 },
                 "OldFakeScale": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
                 },
                 "OldFakeRotation": {
                     "x": 0.0,
@@ -44985,7 +44790,7 @@
                 "Position": {
                     "x": -1353.52783203125,
                     "y": 127.03601837158203,
-                    "z": -852.917236328125
+                    "z": -852.9221801757813
                 },
                 "Scale": {
                     "x": 2.200000047683716,
@@ -45000,7 +44805,7 @@
                 "FakePosition": {
                     "x": 0.000244140625,
                     "y": 0.0,
-                    "z": -0.1026611328125
+                    "z": -0.10760498046875
                 },
                 "FakeRotation": {
                     "x": 0.0,
@@ -45015,7 +44820,7 @@
                 "OldPosition": {
                     "x": -1353.52783203125,
                     "y": 127.03601837158203,
-                    "z": -852.9171752929688
+                    "z": -852.922119140625
                 },
                 "OldScale": {
                     "x": 0.0,
@@ -46524,8 +46329,8 @@
             },
             "Transform": {
                 "Position": {
-                    "x": -3388.63134765625,
-                    "y": 127.03549194335938,
+                    "x": -3388.613037109375,
+                    "y": 127.03471374511719,
                     "z": -56.24369430541992
                 },
                 "Scale": {
@@ -46539,8 +46344,8 @@
                     "z": 0.0
                 },
                 "FakePosition": {
-                    "x": 0.017578125,
-                    "y": -0.00052642822265625,
+                    "x": 0.035888671875,
+                    "y": -0.00130462646484375,
                     "z": 0.000003814697265625
                 },
                 "FakeRotation": {
@@ -46554,8 +46359,8 @@
                     "z": 1.0
                 },
                 "OldPosition": {
-                    "x": -3388.631591796875,
-                    "y": 127.03550720214844,
+                    "x": -3388.613525390625,
+                    "y": 127.03472900390625,
                     "z": -56.24369430541992
                 },
                 "OldScale": {
@@ -48697,9 +48502,9 @@
                     "z": 0.0
                 },
                 "OldFakeScale": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
                 },
                 "OldFakeRotation": {
                     "x": 0.0,
@@ -49038,7 +48843,7 @@
             "Transform": {
                 "Position": {
                     "x": 80.09912109375,
-                    "y": 126.22212982177734,
+                    "y": 126.00750732421875,
                     "z": -122.67947387695313
                 },
                 "Scale": {
@@ -49053,7 +48858,7 @@
                 },
                 "FakePosition": {
                     "x": 0.0,
-                    "y": -0.8138885498046875,
+                    "y": -1.0285110473632813,
                     "z": 0.577880859375
                 },
                 "FakeRotation": {
@@ -49068,13 +48873,13 @@
                 },
                 "OldPosition": {
                     "x": 80.09912109375,
-                    "y": 126.2221450805664,
+                    "y": 126.00752258300781,
                     "z": -122.67947387695313
                 },
                 "OldScale": {
                     "x": 0.0,
                     "y": 0.0,
-                    "z": -3.1415908336639404
+                    "z": 0.0
                 },
                 "OldRotation": {
                     "x": 0.0,
@@ -49094,7 +48899,7 @@
                 "OldFakeRotation": {
                     "x": 0.0,
                     "y": 0.0,
-                    "z": 0.0000016689300537109375
+                    "z": 0.0
                 },
                 "ParentPosition": {
                     "x": 0.0,
@@ -82668,9 +82473,9 @@
                     "z": 0.14999999105930328
                 },
                 "OldPosition": {
-                    "x": 1481.350830078125,
-                    "y": 599.6390991210938,
-                    "z": -338.0920715332031
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
                 },
                 "OldScale": {
                     "x": 0.0,
@@ -82764,9 +82569,9 @@
                     "z": 0.14999999105930328
                 },
                 "OldPosition": {
-                    "x": 1481.350830078125,
-                    "y": 599.6390991210938,
-                    "z": -338.0920715332031
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
                 },
                 "OldScale": {
                     "x": 0.0,
@@ -82903,6 +82708,102 @@
                 "ModelName": "",
                 "MeshName": "",
                 "MeshNodeName": "",
+                "Color": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0,
+                    "w": 1.0
+                },
+                "Used In 2D": false,
+                "Model UID": 0
+            }
+        },
+        "905": {
+            "ArchetypeID": "110000100000000000",
+            "Enabled": true,
+            "Name Tag": {
+                "Name": "coordinateCheck",
+                "Tag": "",
+                "IsActive": true,
+                "HierarchyParent": 0,
+                "HierarchyIndex": 41,
+                "HierarchyChildren": []
+            },
+            "Transform": {
+                "Position": {
+                    "x": 624.2389526367188,
+                    "y": 7.450580596923828e-9,
+                    "z": -420.1128234863281
+                },
+                "Scale": {
+                    "x": 70.0,
+                    "y": 100.57921600341797,
+                    "z": 70.0
+                },
+                "Rotation": {
+                    "x": 0.0,
+                    "y": -0.0,
+                    "z": 0.0
+                },
+                "FakePosition": {
+                    "x": 624.2389526367188,
+                    "y": 7.450580596923828e-9,
+                    "z": -420.1128234863281
+                },
+                "FakeRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "FakeScale": {
+                    "x": 74.40794372558594,
+                    "y": 100.57921600341797,
+                    "z": 75.4860610961914
+                },
+                "OldPosition": {
+                    "x": 624.2396240234375,
+                    "y": 7.450580596923828e-9,
+                    "z": -420.1128234863281
+                },
+                "OldScale": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "OldRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "OldFakePosition": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "OldFakeScale": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "OldFakeRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "ParentPosition": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                }
+            },
+            "Graphics Component": {
+                "PointLight": false,
+                "TextureName": "",
+                "Show Mesh": true,
+                "Debug": false,
+                "ModelName": "cube_Bin.bin",
+                "MeshName": "Cube",
+                "MeshNodeName": "cube_Bin.bin",
                 "Color": {
                     "x": 1.0,
                     "y": 1.0,
@@ -83177,8 +83078,6 @@
         "52": {},
         "53": {},
         "445": {},
-        "54": {},
-        "55": {},
         "391": {},
         "56": {},
         "57": {},
@@ -83973,7 +83872,154 @@
         "899": {},
         "901": {},
         "902": {},
-        "903": {}
+        "903": {},
+        "905": {
+            "Pathfinding": {
+                "stepTimer": {
+                    "System.Single": "1"
+                },
+                "currentStepTimer": {
+                    "System.Single": "1"
+                },
+                "gameObject": {
+                    "ScriptAPI.GameObject": 905
+                }
+            },
+            "WaypointSetup": {
+                "MainEntrance_Room": {
+                    "System.Int32": "0"
+                },
+                "Toilet_Room": {
+                    "System.Int32": "0"
+                },
+                "SH_Room": {
+                    "System.Int32": "0"
+                },
+                "Bed_Room": {
+                    "System.Int32": "0"
+                },
+                "Living_Room": {
+                    "System.Int32": "0"
+                },
+                "RightWing_Room": {
+                    "System.Int32": "0"
+                },
+                "Dining_Room": {
+                    "System.Int32": "0"
+                },
+                "Kitchen_Room": {
+                    "System.Int32": "0"
+                },
+                "Gallery_Room": {
+                    "System.Int32": "0"
+                },
+                "Study_Room": {
+                    "System.Int32": "0"
+                },
+                "LeftWing_Room": {
+                    "System.Int32": "0"
+                },
+                "GalleryFirst_Waypoint": {
+                    "System.Int32": "0"
+                },
+                "GallerySecond_Waypoint": {
+                    "System.Int32": "0"
+                },
+                "GalleryStudy_DoorWaypoint": {
+                    "System.Int32": "0"
+                },
+                "Study_Waypoint": {
+                    "System.Int32": "0"
+                },
+                "StudyLeftWing_DoorWaypoint": {
+                    "System.Int32": "0"
+                },
+                "LeftWing_Waypoint": {
+                    "System.Int32": "0"
+                },
+                "GalleryLeftWing_DoorWaypoint": {
+                    "System.Int32": "0"
+                },
+                "LeftWingMainEntrance_DoorWaypoint": {
+                    "System.Int32": "0"
+                },
+                "DiningMainEntrance_DoorWaypoint": {
+                    "System.Int32": "0"
+                },
+                "RightWingMainEntrance_DoorWaypoint": {
+                    "System.Int32": "0"
+                },
+                "MainEntrance_Waypoint": {
+                    "System.Int32": "0"
+                },
+                "RightWingFirst_Waypoint": {
+                    "System.Int32": "0"
+                },
+                "RightWingSecond_Waypoint": {
+                    "System.Int32": "0"
+                },
+                "RightWingThird_Waypoint": {
+                    "System.Int32": "0"
+                },
+                "RightWingLiving_DoorWaypoint": {
+                    "System.Int32": "0"
+                },
+                "RightWingBed_DoorWaypoint": {
+                    "System.Int32": "0"
+                },
+                "BedFirst_Waypoint": {
+                    "System.Int32": "0"
+                },
+                "BedSecond_Waypoint": {
+                    "System.Int32": "0"
+                },
+                "BedSH_DoorWaypoint": {
+                    "System.Int32": "0"
+                },
+                "SHFirst_Waypoint": {
+                    "System.Int32": "0"
+                },
+                "SHSecond_Waypoint": {
+                    "System.Int32": "0"
+                },
+                "SHLiving_DoorWaypoint": {
+                    "System.Int32": "0"
+                },
+                "SHToilet_DoorWaypoint": {
+                    "System.Int32": "0"
+                },
+                "Toilet_Waypoint": {
+                    "System.Int32": "0"
+                },
+                "Living_Waypoint": {
+                    "System.Int32": "0"
+                },
+                "LivingDining_DoorWaypoint": {
+                    "System.Int32": "0"
+                },
+                "Dining_Waypoint": {
+                    "System.Int32": "0"
+                },
+                "DiningKitchen_DoorWaypoint": {
+                    "System.Int32": "0"
+                },
+                "Kitchen_Waypoint": {
+                    "System.Int32": "0"
+                },
+                "RightWingStairs_DoorWaypoint": {
+                    "System.Int32": "0"
+                },
+                "playerMoved": {
+                    "System.Boolean": "False"
+                },
+                "timer": {
+                    "System.Single": "0"
+                },
+                "gameObject": {
+                    "ScriptAPI.GameObject": 905
+                }
+            }
+        }
     },
     "Active Archetype": {
         "1": "11000011100000",
@@ -84064,8 +84110,6 @@
         "52": "110000100000000",
         "53": "110000100000000",
         "445": "110000100000000",
-        "54": "110000100000000",
-        "55": "110000000000000",
         "391": "110000100000000",
         "56": "110000100000000",
         "57": "110000100000000",
@@ -84825,6 +84869,7 @@
         "899": "110000100000000",
         "901": "110000100000000",
         "902": "110000100000000",
-        "903": "110000100000000"
+        "903": "110000100000000",
+        "905": "110000100000000"
     }
 }
