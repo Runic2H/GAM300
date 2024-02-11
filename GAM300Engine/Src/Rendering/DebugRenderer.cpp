@@ -194,7 +194,7 @@ namespace TDS
 				&debugInstance.m_DebugInstanceInfo.emplace_back() : &debugInstance.m_DebugInstanceInfo[debugInstance.m_Index];
 
 			updateInfo->m_Colour = Vec4(0.f, 1.f, 0.f, 1.f);
-			updateInfo->m_Transform = Mat4::Translate(Box->GetColliderCenter()) * Mat4::Rotate(transform->GetRotation()) * Mat4::Scale(Box->GetColliderSize());
+			updateInfo->m_Transform = Mat4::Translate(Box->GetColliderCenter()) * Mat4::Rotate(transform->GetRotation()) * Mat4::Scale(Box->GetColliderSize()*2.f);
 
 			++debugInstance.m_Index;
 		}

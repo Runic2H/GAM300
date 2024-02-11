@@ -45,21 +45,16 @@ namespace TDS
 
 			CurrController.m_ModelPack = new Modelpack();
 
-			if (fileName == "bedside_lamp_Bin.bin")
-			{
-				std::cout << std::endl;
-			}
-
 			CurrController.m_ModelPack->LoadModelPack(path);
 
-
+			CurrController.m_ModelPack->m_ModelName = fileName;
 			if (CurrController.m_ModelPack->m_ModelHandle.m_SubMesh.size() == 1)
 			{
 				CurrController.LoadMeshData();
 			}
 			else
 			{
-			
+
 				std::uint32_t currOffset = m_TotalBatchMeshes;
 
 				CurrController.SetMeshOffset(currOffset);
@@ -88,20 +83,19 @@ namespace TDS
 			CurrController.m_ModelPack = new Modelpack();
 
 
-
 			CurrController.m_ModelPack->LoadModelPack(path);
 
-
+			CurrController.m_ModelPack->m_ModelName = newName;
 			if (CurrController.m_ModelPack->m_ModelHandle.m_SubMesh.size() == 1)
 			{
 				CurrController.LoadMeshData();
 
-				
+
 
 			}
 			else
 			{
-			
+
 				std::uint32_t currOffset = m_TotalBatchMeshes;
 
 				CurrController.SetMeshOffset(currOffset);
@@ -122,7 +116,7 @@ namespace TDS
 			std::filesystem::path FilePath(path);
 			std::string fileName = FilePath.filename().string();
 			std::string outName = fileName;
-		
+
 
 			auto itr = m_ModelIndices.find(fileName);
 			if (itr != m_ModelIndices.end())
@@ -140,7 +134,7 @@ namespace TDS
 					CurrController.m_ModelPack = new Modelpack();
 					CurrController.m_ModelPack->LoadModelPack(path);
 
-
+					CurrController.m_ModelPack->m_ModelName = outName;
 
 					if (CurrController.m_ModelPack->m_ModelHandle.m_SubMesh.size() == 1)
 					{
@@ -160,7 +154,7 @@ namespace TDS
 
 						m_TotalBatchMeshes += CurrController.m_ModelPack->m_TotalMeshCnt;
 
-						
+
 
 					}
 					CurrController.m_ModelPack->m_ModelName = fileName;
@@ -250,10 +244,10 @@ namespace TDS
 			else
 			{
 				auto GetBaseName = [](std::string_view baseName)
-				{
-					auto it = std::find_if(baseName.begin(), baseName.end(), [](unsigned char c) { return std::isdigit(c); });
-					return std::string(baseName.begin(), it);
-				};
+					{
+						auto it = std::find_if(baseName.begin(), baseName.end(), [](unsigned char c) { return std::isdigit(c); });
+						return std::string(baseName.begin(), it);
+					};
 
 				std::string BaseName = GetBaseName(modelName);
 

@@ -149,12 +149,13 @@ namespace TDS
 							auto MeshItr = nodeItr->second.m_MeshList.find(_graphics[i].m_MeshName);
 							if (MeshItr != nodeItr->second.m_MeshList.end())
 							{
-								Vec3 vSize = MeshItr->second.m_MeshBoundingBox.getSize() * 0.5f; // size of the box collider 
+								Vec3 vSize = MeshItr->second.m_MeshBoundingBox.getSize() * 0.5f;
 								Vec3 vCenter = MeshItr->second.m_MeshBoundingBox.getCenter(); // center of the box collider
 								Vec4 worldCenter = _transform[i].GetTransformMatrix() * Vec4(vCenter, 1.f);
 
 								vBox->SetColliderSize(vSize);
 								vBox->SetColliderCenter(Vec3(worldCenter.x, worldCenter.y, worldCenter.z));
+								//vBox->SetColliderScale(_transform[i].GetTransformMatrix().GetScale());
 								vBox->SetModelSize(vSize); // scale
 								vBox->SetModelRotation(_transform[i].GetRotation()); // rotate
 								vBox->SetModelCenter(vCenter); // translate
@@ -258,11 +259,21 @@ namespace TDS
 			else if (GetCapsuleCollider(entities[i]))
 			{
 				CapsuleCollider* vCapsule = GetCapsuleCollider(entities[i]);
-				_transform[i].SetOffSetPos(vCapsule->GetCenter());
-				float vRadius = vCapsule->GetRadius() * 2.f;
-				float vHeight = vCapsule->GetHeight() / 2.f;
-				Vec3 vScale = Vec3(vRadius, vHeight, vRadius) - Vec3(1.f);
-				_transform[i].SetOffSetScale(vScale);
+				if (_graphics[i].GetModelName() == "capsule_Bin.bin")
+				{
+					vCapsule->SetCenter(_transform[i].GetPosition());
+					vCapsule->SetRadius(_transform[i].GetScale().x);
+					vCapsule->SetHeight(_transform[i].GetScale().y * 2.f);
+				}
+				else
+				{
+					TDS_ASSERT(true, "Capsule collider is only use for player or possible ghost")
+				}
+				//_transform[i].SetOffSetPos(vCapsule->GetCenter());
+				//float vRadius = vCapsule->GetRadius() * 2.f;
+				//float vHeight = vCapsule->GetHeight() / 2.f;
+				//Vec3 vScale = Vec3(vRadius, vHeight, vRadius) - Vec3(1.f);
+				//_transform[i].SetOffSetScale(vScale);
 			}
 		}
 	}

@@ -6,7 +6,7 @@ public class OnTriggerTest : Script
     public override void OnTriggerEnter(ColliderComponent collider)
     {
         Console.WriteLine("WOOHOOO");
-        Console.WriteLine(collider.gameObject.GetComponent<NameTagComponent>().GetName());
+        //Console.WriteLine(collider.gameObject.GetComponent<NameTagComponent>().GetName());
     }
     public override void OnTriggerStay(ColliderComponent collider)
     {
