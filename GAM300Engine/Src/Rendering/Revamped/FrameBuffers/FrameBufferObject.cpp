@@ -23,6 +23,7 @@ namespace TDS
 		for (size_t i = 0; i < m_ClearAttachments.size(); ++i)
 		{
 			std::uint32_t index = m_ClearAttachments[i].colorAttachment;
+			m_ClearAttachments[i].clearValue = { 0.f, 0.f, 0.f, 1.f };
 			clearVal[index] = m_ClearAttachments[i].clearValue;
 		}
 		m_VKRenderPass->beginRenderPass(commandBuffer, m_FrameBufferHdl);
