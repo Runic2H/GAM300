@@ -293,7 +293,6 @@ namespace TDS
                 if (Input::isKeyPressed(VK_ESCAPE))
                 {
                     gamePaused = !gamePaused;
-                    std::cout << "editor system paused = " << gamePaused << std::endl;
                 }
 
                 if (startPlaying)
@@ -341,14 +340,14 @@ namespace TDS
                 GraphicsManager::getInstance().EndFrame();
             }
             // Reloading
-            if (GetKeyState(VK_F5) & 0x8000)
-            {
-                isPlaying = false;
-                compileScriptAssembly();
-                SceneManager::GetInstance()->saveCurrentScene();
-                reloadScripts();
-                SceneManager::GetInstance()->loadScene(SceneManager::GetInstance()->getCurrentScene());
-            }
+            //if (GetKeyState(VK_F5) & 0x8000)
+            //{
+            //    isPlaying = false;
+            //    compileScriptAssembly();
+            //    SceneManager::GetInstance()->saveCurrentScene();
+            //    reloadScripts();
+            //    SceneManager::GetInstance()->loadScene(SceneManager::GetInstance()->getCurrentScene());
+            //}
 
             Input::scrollStop();
             TDS::InputSystem::GetInstance()->setRawMouseInput(0, 0);
