@@ -21,13 +21,12 @@ public class QTE : Script
         {
             interaction.SetActive(false);
         }
-        
     }
     public override void LateUpdate()
     {
         if (gameObject.GetComponent<RigidBodyComponent>().IsRayHit())
         {
-            Console.WriteLine(gameObject.GetComponent<NameTagComponent>().GetName());
+            //Console.WriteLine(gameObject.GetComponent<NameTagComponent>().GetName());
             interaction.SetActive(true);
         }
     }

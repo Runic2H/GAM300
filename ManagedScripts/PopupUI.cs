@@ -7,6 +7,8 @@ public class PopupUI : Script
     public static bool isDisplayed = false;
     UISpriteComponent popUpScreen;
 
+    public GameObject player;
+
     public override void Awake()
     {
     }
@@ -28,8 +30,10 @@ public class PopupUI : Script
             //Console.WriteLine("game paused");
             popUpScreen.SetEnabled(true);
             Input.Lock(false);
-            Input.HideMouse(false); 
-            
+            Input.HideMouse(false);
+            /*player.GetComponent<FPS_Controller_Script>().playerCanMove = !isDisplayed;
+            player.GetComponent<FPS_Controller_Script>().cameraCanMove = !isDisplayed;*/
+
         }
 
         else if(!InventoryScript.InventoryIsOpen && !isDisplayed)

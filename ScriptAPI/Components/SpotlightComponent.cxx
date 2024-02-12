@@ -15,7 +15,7 @@ namespace ScriptAPI
 		if (!TDS::GetSpotLightComponent(entityID))
 		{
 			// throw error instead (not sure how)
-			return Vector4();;
+			return Vector4();
 		}
 		float x, y, z, w;
 		TDS::GetSpotLightComponent(entityID)->GetDirection(x, y, z, w);
@@ -47,7 +47,7 @@ namespace ScriptAPI
 		float x, y, z, w;
 		TDS::GetSpotLightComponent(entityID)->GetColor(x, y, z, w);
 
-		return Vector4(x, y, w, z);
+		return Vector4(x, y, z, w);
 	}
 
 	void SpotlightComponent::SetColor(Vector4 value)
@@ -71,7 +71,7 @@ namespace ScriptAPI
 		float x, y, z, w;
 		TDS::GetSpotLightComponent(entityID)->GetAttenuation(x, y, z, w);
 
-		return Vector4(x, y, w, z);
+		return Vector4(x, y, z, w);
 	}
 
 	void SpotlightComponent::SetAttenuation(Vector4 value)

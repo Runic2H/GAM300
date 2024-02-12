@@ -14,15 +14,17 @@ public class Hiding : Script
     public GameObject? _InteractUI;
     public CheckGameState myGameState;
     public GameObject closet;
+    public Quaternion rotGoal;
     /*[Header("AudioStuff")]
     public AudioSource playerVOSource;
     public AudioClip voClip;
     public Text subtitles;*/
 
-    bool playedAudio;
+    private float timer = 1.0f;
 
+    public float turnSpeed = 0.01f;
 
-    public override void Awake()
+public override void Awake()
     {
     }
 
@@ -41,17 +43,22 @@ public class Hiding : Script
             if (Input.GetKeyDown(Keycode.E) && hiding == false)
             {
                 Console.WriteLine("Here");
-                //_InteractUI.SetActive(_InteractUI.GetEntityID(), false);
                 hiding = true;
-                //interactable = false;
+                interactable = false;
                 nonHidingPos = player.transform.GetPosition();
-                player.transform.SetPosition(hidingPos);
+                player.transform.SetPosition(closet.transform.GetPosition());
+
                 Vector3 vec3 = new Vector3(0, _RotationAngle, 0);
                 player.transform.SetRotation(vec3);
+
                 player.GetComponent<FPS_Controller_Script>().playerCanMove = false;
                 player.GetComponent<FPS_Controller_Script>().enableHeadBob = false;
                 _flashlight.activateLight = false;
                 _flashlight.is_Enabled = false;
+                if (_flashlight.flashAudio.finished(_flashlight.flashAudiostr))
+                {
+                    _flashlight.flashAudio.play(_flashlight.flashAudiostr);
+                }
 
 
                 /*if (gameObject.GetComponent<NameTagComponent>().GetName() == "Bedroom_Body" && myGameState._CurrentState == GameState.Gameplay)
@@ -74,13 +81,13 @@ public class Hiding : Script
                 //Input.KeyRelease(Keycode.E);
             }
         }
-        else if (hiding && gameObject.GetComponent<RigidBodyComponent>().IsRayHit())
+        else if (hiding)
         {
             if (Input.GetKeyDown(Keycode.E))
             {
                 Console.WriteLine("There");
                 hiding = false;
-                //interactable = false;
+                interactable = true;
                 player.transform.SetPosition(nonHidingPos);
                 player.GetComponent<FPS_Controller_Script>().playerCanMove = true;
                 player.GetComponent<FPS_Controller_Script>().enableHeadBob = true;

@@ -323,15 +323,16 @@ namespace TDS
             }
             else
             {
+                InputSystem::GetInstance()->setMouseLock(false);
+                InputSystem::GetInstance()->setCursorVisible(true);
                 startPlaying = true;
                 SceneManager::GetInstance()->isPlaying = false;
                 if (PhysicsSystem::GetIsPlaying() || CameraSystem::GetIsPlaying()) // consider moving it to another seperate system (EditorApp?)
                 {
                     PhysicsSystem::SetIsPlaying(false);
                     CameraSystem::SetIsPlaying(false);
+                    
                 }
-                InputSystem::GetInstance()->setMouseLock(false);
-                InputSystem::GetInstance()->setCursorVisible(true);
             }
 
             ecs.runSystems(2, DeltaTime); // Event handler
@@ -371,7 +372,7 @@ namespace TDS
                 SceneManager::GetInstance()->loadScene(SceneManager::GetInstance()->getCurrentScene());
             }
 
-            Input::scrollStop();
+            //Input::scrollStop();
             TDS::InputSystem::GetInstance()->setRawMouseInput(0, 0);
             InputSystem::GetInstance()->accumulatedMouseX = 0;
             InputSystem::GetInstance()->accumulatedMouseY = 0;
