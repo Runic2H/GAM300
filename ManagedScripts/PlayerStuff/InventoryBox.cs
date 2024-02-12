@@ -31,7 +31,7 @@ public class InventoryBox : Script
             }
             else
             {
-                ViewObject();
+                //ViewObject();
             }
         }
     }

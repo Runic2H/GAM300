@@ -52,7 +52,7 @@ public class InventoryScript : Script
             Input.Lock(false);
             Input.HideMouse(false);
         }
-        else if (InventoryIsOpen) // Inventory opened
+        if (InventoryIsOpen) // Inventory opened
         {
             Input.Lock(false);
             Input.HideMouse(false);
@@ -73,8 +73,8 @@ public class InventoryScript : Script
         if (InventoryIsOpen)
         {
             Console.WriteLine("asdasd");    
-            gameObject.GetComponent<FPS_Controller_Script>().playerCanMove = !InventoryIsOpen;
-            gameObject.GetComponent<FPS_Controller_Script>().cameraCanMove = !InventoryIsOpen;
+            gameObject.GetComponent<FPS_Controller_Script>().playerCanMove = !(InventoryIsOpen || PopupUI.isDisplayed);
+            gameObject.GetComponent<FPS_Controller_Script>().cameraCanMove = !(InventoryIsOpen || PopupUI.isDisplayed);
             //Console.WriteLine("asdasd222");
 
         }
@@ -82,7 +82,7 @@ public class InventoryScript : Script
 
     public void checkMouseInput()
     {
-        Console.WriteLine("Checking Mouse Input\n");
+        //Console.WriteLine("Checking Mouse Input\n");
         if (Input.GetMouseButtonDown(Keycode.M1))
         {
             Console.WriteLine("Mouse clicked Inventory");
