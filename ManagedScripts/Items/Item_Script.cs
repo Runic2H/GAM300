@@ -4,6 +4,7 @@ using System;
 public class Item_Script : Script
 {
     private GameObject playerObject;
+    //RigidBodyComponent rigidBodyComponent; //for raycast?
 
     [SerializeField]
     public string Item_Name;
@@ -17,11 +18,12 @@ public class Item_Script : Script
     public override void Start()
     {
         playerObject = GameObjectScriptFind("Player");
+        //rigidBodyComponent = gameObject.GetComponent<RigidBodyComponent>();
     }
 
     public override void Update()
     {
-        if (Input.GetKeyDown(Keycode.E) && isWithinRange()) // Maybe add 1 more condition to check if its within player's view
+        if (Input.GetKeyDown(Keycode.E) && isWithinRange()/* && rigidBodyComponent.IsRayHit()*/) // Maybe add 1 more condition to check if its within player's view
         {
             Console.WriteLine("Picked up item");
             InventoryScript.addItemIntoInventory(Item_Name, Item_Texture);
@@ -35,6 +37,6 @@ public class Item_Script : Script
         Vector3 playerPos = playerObject.transform.GetPosition();
         float distance = Vector3.Distance(itemPos, playerPos);
         Console.WriteLine(distance);
-        return distance < 5.0;
+        return distance < 100.0;
     }
 }

@@ -10,7 +10,6 @@ namespace TDS
     {
         std::map<std::string, int> duplicates;
 
-
         for (size_t i = 0; i < m_ModelPack->m_ModelHandle.m_Mesh.size(); ++i)
         {
             auto& Mesh = m_ModelPack->m_ModelHandle.m_Mesh[i];
@@ -27,13 +26,14 @@ namespace TDS
             Vec3 maxBoundingBox(-FLT_MAX, -FLT_MAX, -FLT_MAX);
             for (auto& vertex : vertexData)
             {
-                minBoundingBox.x = Mathf::Min(minBoundingBox.x, vertex.m_Position.x);
-                minBoundingBox.y = Mathf::Min(minBoundingBox.y, vertex.m_Position.y);
-                minBoundingBox.z = Mathf::Min(minBoundingBox.z, vertex.m_Position.z);
+                auto Vert = vertex.m_Position;
+                minBoundingBox.x = Mathf::Min(minBoundingBox.x, Vert.x);
+                minBoundingBox.y = Mathf::Min(minBoundingBox.y, Vert.y);
+                minBoundingBox.z = Mathf::Min(minBoundingBox.z, Vert.z);
 
-                maxBoundingBox.x = Mathf::Max(maxBoundingBox.x, vertex.m_Position.x);
-                maxBoundingBox.y = Mathf::Max(maxBoundingBox.y, vertex.m_Position.y);
-                maxBoundingBox.z = Mathf::Max(maxBoundingBox.z, vertex.m_Position.z);
+                maxBoundingBox.x = Mathf::Max(maxBoundingBox.x, Vert.x);
+                maxBoundingBox.y = Mathf::Max(maxBoundingBox.y, Vert.y);
+                maxBoundingBox.z = Mathf::Max(maxBoundingBox.z, Vert.z);
             }
             m_SceneBoundingBox.SetMinMax(minBoundingBox, maxBoundingBox);
 
@@ -110,7 +110,7 @@ namespace TDS
 
             m_RootNodes[Mesh.m_NodeName].m_MeshList[Mesh.m_Name] = (MeshNode(true, Mesh.m_Name));
 
-            
+
 
             Vec3 minBoundingBox(FLT_MAX, FLT_MAX, FLT_MAX);
             Vec3 maxBoundingBox(-FLT_MAX, -FLT_MAX, -FLT_MAX);
@@ -118,18 +118,24 @@ namespace TDS
             for (size_t j = SubMesh.m_iVertices; j < SubMesh.m_iVertices + SubMesh.m_nVertices; ++j)
             {
                 auto& vertex = m_ModelPack->m_ModelHandle.m_ModelVertex[j];
+                auto Vert = vertex.m_Position;
 
+                //if (m_ModelPack->m_ModelName == "Adjusted_Bin.bin")
+                //{
+                //    Mat4 sceneTransform = Mat4::Translate(SubMesh.m_ScenePos) * Mat4::Rotate(SubMesh.m_SceneRotate) * Mat4::Scale(SubMesh.m_SceneScale);
+                //    Vert = sceneTransform * Vert;
+                //}
                 vertex.m_MeshID.x = float(meshID);
 
                 batchedVertexData.push_back(vertex);
 
-                minBoundingBox.x = Mathf::Min(minBoundingBox.x, vertex.m_Position.x);
-                minBoundingBox.y = Mathf::Min(minBoundingBox.y, vertex.m_Position.y);
-                minBoundingBox.z = Mathf::Min(minBoundingBox.z, vertex.m_Position.z);
+                minBoundingBox.x = Mathf::Min(minBoundingBox.x, Vert.x);
+                minBoundingBox.y = Mathf::Min(minBoundingBox.y, Vert.y);
+                minBoundingBox.z = Mathf::Min(minBoundingBox.z, Vert.z);
 
-                maxBoundingBox.x = Mathf::Max(maxBoundingBox.x, vertex.m_Position.x);
-                maxBoundingBox.y = Mathf::Max(maxBoundingBox.y, vertex.m_Position.y);
-                maxBoundingBox.z = Mathf::Max(maxBoundingBox.z, vertex.m_Position.z);
+                maxBoundingBox.x = Mathf::Max(maxBoundingBox.x, Vert.x);
+                maxBoundingBox.y = Mathf::Max(maxBoundingBox.y, Vert.y);
+                maxBoundingBox.z = Mathf::Max(maxBoundingBox.z, Vert.z);
             }
 
             m_RootNodes[Mesh.m_NodeName].m_MeshList[Mesh.m_Name].m_MeshBoundingBox.SetMinMax(minBoundingBox, maxBoundingBox);
@@ -195,11 +201,11 @@ namespace TDS
             m_RootNodes[mesh.m_NodeName].m_SceneScale = submesh.m_SceneScale;
 
             m_RootNodes[mesh.m_NodeName].m_NodeBoundingBox.extend(m_RootNodes[mesh.m_NodeName].m_MeshList[mesh.m_Name].m_MeshBoundingBox);
-        
-       
+
+
         }
 
-        
+
         BuildSceneAABB();
     }
 

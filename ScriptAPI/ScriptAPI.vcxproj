@@ -139,6 +139,7 @@
     <ClInclude Include="Components\CapsuleColliderComponent.hxx" />
     <ClInclude Include="Components\ColliderComponent.hxx" />
     <ClInclude Include="Components\ComponentBase.hxx" />
+    <ClInclude Include="Components\DirectionalLightComponent.hxx" />
     <ClInclude Include="Components\GraphicComponent.hxx" />
     <ClInclude Include="Components\NameTagComponent.hxx" />
     <ClInclude Include="Components\PointlightComponent.hxx" />
@@ -159,6 +160,7 @@
     <ClInclude Include="Input.hxx" />
     <ClInclude Include="JsonUtility.hxx" />
     <ClInclude Include="Mathf.hxx" />
+    <ClInclude Include="Pathfinder.hxx" />
     <ClInclude Include="Quaternion.hxx" />
     <ClInclude Include="Random.hxx" />
     <ClInclude Include="Screen.hxx" />
@@ -178,6 +180,7 @@
     <ClCompile Include="Components\CameraComponent.cxx" />
     <ClCompile Include="Components\CapsuleColliderComponent.cxx" />
     <ClCompile Include="Components\ColliderComponent.cxx" />
+    <ClCompile Include="Components\DirectionalLightComponent.cxx" />
     <ClCompile Include="Components\GraphicComponent.cxx" />
     <ClCompile Include="Components\NameTagComponent.cxx" />
     <ClCompile Include="Components\PointlightComponent.cxx" />
@@ -194,6 +197,7 @@
     <ClCompile Include="Input.cxx" />
     <ClCompile Include="JsonUtility.cxx" />
     <ClCompile Include="Mathf.cxx" />
+    <ClCompile Include="Pathfinder.cxx" />
     <ClCompile Include="Quaternion.cxx" />
     <ClCompile Include="Random.cxx" />
     <ClCompile Include="Screen.cxx" />

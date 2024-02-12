@@ -772,9 +772,9 @@ namespace TDS
 			lightingPipeline->SubmitPushConstant(&m_LightingPushConstant, sizeof(LightingPushConstant), SHADER_FLAG::FRAGMENT);
 			lightingPipeline->Draw(6, frameIndex);
 
-			m_LightSource->BindPipeline();
+			/*m_LightSource->BindPipeline();
 			m_LightSource->BindDescriptor(frameIndex, 1);
-			m_LightSource->Draw(6, frameIndex, m_LightSrcInstance);
+			m_LightSource->Draw(6, frameIndex, m_LightSrcInstance);*/
 
 
 
@@ -948,13 +948,14 @@ namespace TDS
 		auto& spotLightBuffer = m_LightUBOs.m_SpotLights[m_LightingPushConstant.activeSpotLights];
 		//spotLightBuffer.direction = spotLightComp->m_direction;
 		//spotLightBuffer.Position = spotLightComp->m_Position;
-		NameTag* nameTag = ecs.getComponent<NameTag>(entityID);
+
+		/*NameTag* nameTag = ecs.getComponent<NameTag>(entityID);
 		if (nameTag->GetName() == "FlashLight")
 		{
 			spotLightComp->m_direction = GraphicsManager::getInstance().GetCamera().getForwardVector();
 			spotLightComp->m_direction.Normalize();
 
-		}
+		}*/
 
 
 		spotLightBuffer.direction = spotLightComp->m_direction;

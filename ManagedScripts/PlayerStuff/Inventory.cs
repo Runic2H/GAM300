@@ -22,12 +22,14 @@ public class InventoryScript : Script
     public GameObject ItemsTab;
     public GameObject NotesTab;
     public GameObject PaintingsTab;
+    public GameObject player;
 
     public override void Awake()
     {
         
     }
 
+    // MAKE SURE INVENTORYOBJECT IS ACTIVE WHEN STARTING THE GAME SO START() RUNS
     public override void Start()
     {
         Console.WriteLine("Start Invenctory");
@@ -43,14 +45,18 @@ public class InventoryScript : Script
             Console.WriteLine("I pressed");
             toggleInventory();
         }
-        Input.Lock(!InventoryIsOpen);
-        Input.HideMouse(InventoryIsOpen);  // For some reason visibility = hide ?
 
         if (InventoryIsOpen) // Inventory opened
         {
+            Input.Lock(false);
+            Input.HideMouse(false);
             checkMouseInput();
         }
-        
+        else if (!InventoryIsOpen && !PopupUI.isDisplayed)
+        {
+            Input.Lock(true);
+            Input.HideMouse(true);
+        }
     }
 
     public void toggleInventory()
@@ -58,6 +64,11 @@ public class InventoryScript : Script
         Console.WriteLine("Toggle Inventory\n");
         InventoryIsOpen = !InventoryIsOpen;
         InventoryObject.SetActive(InventoryIsOpen);
+        if (InventoryIsOpen)
+        {
+            player.GetComponent<FPS_Controller_Script>().playerCanMove = !InventoryIsOpen;
+            player.GetComponent<FPS_Controller_Script>().cameraCanMove = !InventoryIsOpen;
+        }
     }
 
     public void checkMouseInput()
@@ -115,7 +126,7 @@ public class InventoryScript : Script
 
         notesObjsImg = new List<string>
         {
-            "Inventory Box Img.dds",            "Inventory Box Img.dds",
+            "Notes1.dds",            "Inventory Box Img.dds",
             "Inventory Box Img.dds",            "Inventory Box Img.dds",
             "Inventory Box Img.dds",            "Inventory Box Img.dds",
             "Notes7.dds",            "Notes8.dds",
@@ -125,7 +136,7 @@ public class InventoryScript : Script
 
         noteObjsInInventory = new List<string>
         {
-            "",           "",
+            "Note Test",           "",
             "",           "",
             "",           "",
             "Note7",           "Note8",
@@ -145,7 +156,7 @@ public class InventoryScript : Script
 
         paintingObjsInInventory = new List<string>
         {
-            "Painting_Living_Bin.bin",            "",
+            "Painting Test",            "",
             "",            "",
             "",            "",
             "",            "",
@@ -202,20 +213,6 @@ public class InventoryScript : Script
     
     bool withinButton(GameObject obj)
     {
-        Vector3 ObjectPos = obj.transform.GetPosition();
-        Vector3 ObjectScale = obj.transform.GetScale();
-        float mouseX = Input.GetUIMousePosX();       
-        float mouseY = Input.GetUIMousePosY();       
-        float minX = ObjectPos.X - ObjectScale.X * 0.5f;
-        float maxX = ObjectPos.X + ObjectScale.X * 0.5f;
-        float minY = ObjectPos.Y - ObjectScale.Y * 0.5f;
-        float maxY = ObjectPos.Y + ObjectScale.Y * 0.5f;
-
-        //Console.WriteLine("MouseX: " + mouseX + " MinX: " + minX + " MaxX: " + maxX);
-        //Console.WriteLine("MouseY: " + mouseY + " MinY: " + minY + " MaxY: " + maxY);
-        if (mouseX >= minX && mouseX <= maxX && mouseY >= minY && mouseY <= maxY)
-            return true;
-        else
-            return false;
+        return obj.GetComponent<UISpriteComponent>().IsMouseCollided();
     }
 }

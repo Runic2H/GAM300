@@ -281,7 +281,7 @@ namespace TDS
 		else if (GetCapsuleCollider(_entityID))
 		{
 			CapsuleCollider* vCapsule = GetCapsuleCollider(_entityID);
-			JPH::CapsuleShapeSettings s_capsuleSettings(vCapsule->GetHeight()*2.f, vCapsule->GetRadius()*2.f);
+			JPH::CapsuleShapeSettings s_capsuleSettings(vCapsule->GetHeight(), vCapsule->GetRadius());
 			JPH::ShapeSettings::ShapeResult result = s_capsuleSettings.Create();
 			JPH::ShapeRefC capsuleShape = result.Get();
 			JPH::BodyCreationSettings b_capsuleSetting

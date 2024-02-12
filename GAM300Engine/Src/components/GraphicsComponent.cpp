@@ -12,6 +12,7 @@ RTTR_REGISTRATION
 		.method("IsDebugOn", &GraphicsComponent::IsDebugOn)
 		.method("ToggleDebug", &GraphicsComponent::ToggleDebug)
 		.method("SetModelName", &GraphicsComponent::SetModelName)
+		.method("SetView2D", &GraphicsComponent::SetView2D)
 		.property("Show Mesh", &GraphicsComponent::m_ShowMesh)
 		.property("Debug", &GraphicsComponent::m_Debug)
 		//.method("SetTextureName", &GraphicsComponent::SetTextureName)

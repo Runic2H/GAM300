@@ -91,8 +91,8 @@ namespace TDS
 			}
 
 
-			if (_Graphics[i].ShowMesh() == false)
-				continue;
+			//if (_Graphics[i].ShowMesh() == false)
+			//	continue;
 			if (!ecs.getEntityIsEnabled(entities[i]) || !ecs.getComponentIsEnabled<GraphicsComponent>(entities[i]))
 			{
 				continue;
@@ -383,6 +383,34 @@ namespace TDS
 
 					if (pModelController == nullptr)
 						continue;
+
+
+
+					Mat4 temp{};
+
+					if (Vec3 Scale = _TransformComponent[i].GetScale(); Scale.x < FLT_MIN || Scale.y < FLT_MIN || Scale.z < FLT_MIN)
+					{
+
+					}
+					else {
+						_TransformComponent[i].GenerateTransform();
+						_TransformComponent[i].GenerateFakeTransform();
+
+						if (_TransformComponent[i].GetPosition() == _TransformComponent[i].GetFakePosition() &&
+							_TransformComponent[i].GetScale() == _TransformComponent[i].GetFakeScale()
+							&& _TransformComponent[i].GetFakeRotation() == _TransformComponent[i].GetFakeRotation())
+						{
+							temp = _TransformComponent[i].GetTransformMatrix();
+						}
+						else
+						{
+
+							temp = _TransformComponent[i].GetFakeTransform();
+						}
+					}
+
+
+
 					auto& sceneNodeContainer = pModelController->GetRoots();
 					auto& rootNode = sceneNodeContainer[_Graphics[i].m_MeshNodeName];
 					auto& MeshList = sceneNodeContainer[_Graphics[i].m_MeshNodeName].m_MeshList;

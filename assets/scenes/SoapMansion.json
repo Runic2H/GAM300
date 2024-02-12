@@ -10,6 +10,19 @@
             "1": 384,
             "6": 360,
             "17": 56
+        },
+        "110010011000000000": {
+            "0": 136,
+            "1": 384,
+            "4": 64,
+            "7": 96,
+            "8": 32
+        },
+        "110000100000000010": {
+            "0": 136,
+            "1": 384,
+            "6": 360,
+            "16": 80
         }
     },
     "Entity Data": {
@@ -263,13 +276,13 @@
                     "z": 1.100000023841858
                 },
                 "OldPosition": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
+                    "x": -331.5039978027344,
+                    "y": 62.2430534362793,
+                    "z": -130.44631958007813
                 },
                 "OldScale": {
-                    "x": 0.0,
-                    "y": 0.0,
+                    "x": 1.3256729047839144e-8,
+                    "y": -1.570796251296997,
                     "z": 0.0
                 },
                 "OldRotation": {
@@ -278,18 +291,18 @@
                     "z": 0.0
                 },
                 "OldFakePosition": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
+                    "x": -331.5039978027344,
+                    "y": 62.2430534362793,
+                    "z": -130.44631958007813
                 },
                 "OldFakeScale": {
-                    "x": 1.0,
-                    "y": 1.0,
-                    "z": 1.0
+                    "x": 1.100000023841858,
+                    "y": 1.2200000286102295,
+                    "z": 1.100000023841858
                 },
                 "OldFakeRotation": {
-                    "x": 0.0,
-                    "y": 0.0,
+                    "x": 1.3256729047839144e-8,
+                    "y": -1.570796251296997,
                     "z": 0.0
                 },
                 "ParentPosition": {
@@ -36961,6 +36974,129 @@
                 "Model UID": 0
             }
         },
+        "841": {
+            "ArchetypeID": "110000100000000010",
+            "Enabled": true,
+            "Name Tag": {
+                "Name": "FlashLight",
+                "Tag": "",
+                "IsActive": true,
+                "HierarchyParent": 840,
+                "HierarchyIndex": 0,
+                "HierarchyChildren": []
+            },
+            "Transform": {
+                "Position": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "Scale": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                },
+                "Rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "FakePosition": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "FakeRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "FakeScale": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                },
+                "OldPosition": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "OldScale": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "OldRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "OldFakePosition": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "OldFakeScale": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                },
+                "OldFakeRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "ParentPosition": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                }
+            },
+            "Graphics Component": {
+                "PointLight": false,
+                "TextureName": "",
+                "Show Mesh": true,
+                "Debug": false,
+                "ModelName": "",
+                "MeshName": "",
+                "MeshNodeName": "",
+                "Color": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0,
+                    "w": 1.0
+                },
+                "Used In 2D": false,
+                "Model UID": 0
+            },
+            "SpotLight": {
+                "Position": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 0.0
+                },
+                "direction": {
+                    "x": 0.06201721727848053,
+                    "y": -0.15643437206745148,
+                    "z": -0.9857394099235535,
+                    "w": 0.0
+                },
+                "color": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0,
+                    "w": 1.0
+                },
+                "attenuation": {
+                    "x": 1.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 0.0
+                },
+                "Angle": 0.0
+            }
+        },
         "248": {
             "ArchetypeID": "110000100000000000",
             "Enabled": true,
@@ -43178,8 +43314,8 @@
             "Transform": {
                 "Position": {
                     "x": -270.9345703125,
-                    "y": 66.52149963378906,
-                    "z": -131.14111328125
+                    "y": 66.521484375,
+                    "z": -131.140869140625
                 },
                 "Scale": {
                     "x": 1.100000023841858,
@@ -43193,8 +43329,8 @@
                 },
                 "FakePosition": {
                     "x": -270.9345703125,
-                    "y": 66.52149963378906,
-                    "z": -131.14111328125
+                    "y": 66.521484375,
+                    "z": -131.140869140625
                 },
                 "FakeRotation": {
                     "x": -1.3256729047839144e-8,
@@ -43207,13 +43343,13 @@
                     "z": 1.100000023841858
                 },
                 "OldPosition": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
+                    "x": -270.9345703125,
+                    "y": 66.521484375,
+                    "z": -131.140869140625
                 },
                 "OldScale": {
-                    "x": 0.0,
-                    "y": 0.0,
+                    "x": -1.3256729047839144e-8,
+                    "y": 1.570796251296997,
                     "z": 0.0
                 },
                 "OldRotation": {
@@ -43222,18 +43358,18 @@
                     "z": 0.0
                 },
                 "OldFakePosition": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
+                    "x": -270.9345703125,
+                    "y": 66.521484375,
+                    "z": -131.140869140625
                 },
                 "OldFakeScale": {
-                    "x": 1.0,
-                    "y": 1.0,
-                    "z": 1.0
+                    "x": 1.100000023841858,
+                    "y": 1.2200000286102295,
+                    "z": 1.100000023841858
                 },
                 "OldFakeRotation": {
-                    "x": 0.0,
-                    "y": 0.0,
+                    "x": -1.3256729047839144e-8,
+                    "y": 1.570796251296997,
                     "z": 0.0
                 },
                 "ParentPosition": {
@@ -49844,102 +49980,6 @@
                 "Model UID": 0
             }
         },
-        "613": {
-            "ArchetypeID": "110000100000000000",
-            "Enabled": true,
-            "Name Tag": {
-                "Name": "IN_Study",
-                "Tag": "",
-                "IsActive": true,
-                "HierarchyParent": 612,
-                "HierarchyIndex": 40,
-                "HierarchyChildren": []
-            },
-            "Transform": {
-                "Position": {
-                    "x": -2849.436279296875,
-                    "y": 258.1688232421875,
-                    "z": -72.43855285644531
-                },
-                "Scale": {
-                    "x": 1.0,
-                    "y": 1.0000001192092896,
-                    "z": 1.0
-                },
-                "Rotation": {
-                    "x": -0.0,
-                    "y": 1.570796251296997,
-                    "z": 0.0
-                },
-                "FakePosition": {
-                    "x": -2849.436279296875,
-                    "y": 258.1688232421875,
-                    "z": -72.43855285644531
-                },
-                "FakeRotation": {
-                    "x": 0.0,
-                    "y": 1.570796251296997,
-                    "z": 0.0
-                },
-                "FakeScale": {
-                    "x": 1.0,
-                    "y": 1.0000001192092896,
-                    "z": 1.0
-                },
-                "OldPosition": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                },
-                "OldScale": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                },
-                "OldRotation": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                },
-                "OldFakePosition": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                },
-                "OldFakeScale": {
-                    "x": 1.0,
-                    "y": 1.0,
-                    "z": 1.0
-                },
-                "OldFakeRotation": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                },
-                "ParentPosition": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                }
-            },
-            "Graphics Component": {
-                "PointLight": false,
-                "TextureName": "Wall (1) Door Top.dds",
-                "Show Mesh": true,
-                "Debug": false,
-                "ModelName": "Adjusted_Bin.bin",
-                "MeshName": "IN_Study",
-                "MeshNodeName": "IN_Study",
-                "Color": {
-                    "x": 1.0,
-                    "y": 1.0,
-                    "z": 1.0,
-                    "w": 1.0
-                },
-                "Used In 2D": false,
-                "Model UID": 0
-            }
-        },
         "404": {
             "ArchetypeID": "110000100000000000",
             "Enabled": true,
@@ -50028,6 +50068,102 @@
                 "ModelName": "Adjusted_Bin.bin",
                 "MeshName": "",
                 "MeshNodeName": "Cube_6_2",
+                "Color": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0,
+                    "w": 1.0
+                },
+                "Used In 2D": false,
+                "Model UID": 0
+            }
+        },
+        "613": {
+            "ArchetypeID": "110000100000000000",
+            "Enabled": true,
+            "Name Tag": {
+                "Name": "IN_Study",
+                "Tag": "",
+                "IsActive": true,
+                "HierarchyParent": 612,
+                "HierarchyIndex": 40,
+                "HierarchyChildren": []
+            },
+            "Transform": {
+                "Position": {
+                    "x": -2849.436279296875,
+                    "y": 258.1688232421875,
+                    "z": -72.43855285644531
+                },
+                "Scale": {
+                    "x": 1.0,
+                    "y": 1.0000001192092896,
+                    "z": 1.0
+                },
+                "Rotation": {
+                    "x": -0.0,
+                    "y": 1.570796251296997,
+                    "z": 0.0
+                },
+                "FakePosition": {
+                    "x": -2849.436279296875,
+                    "y": 258.1688232421875,
+                    "z": -72.43855285644531
+                },
+                "FakeRotation": {
+                    "x": 0.0,
+                    "y": 1.570796251296997,
+                    "z": 0.0
+                },
+                "FakeScale": {
+                    "x": 1.0,
+                    "y": 1.0000001192092896,
+                    "z": 1.0
+                },
+                "OldPosition": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "OldScale": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "OldRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "OldFakePosition": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "OldFakeScale": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                },
+                "OldFakeRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "ParentPosition": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                }
+            },
+            "Graphics Component": {
+                "PointLight": false,
+                "TextureName": "Wall (1) Door Top.dds",
+                "Show Mesh": true,
+                "Debug": false,
+                "ModelName": "Adjusted_Bin.bin",
+                "MeshName": "IN_Study",
+                "MeshNodeName": "IN_Study",
                 "Color": {
                     "x": 1.0,
                     "y": 1.0,
@@ -67661,9 +67797,9 @@
             },
             "Transform": {
                 "Position": {
-                    "x": 504.75054931640625,
-                    "y": 127.03599548339844,
-                    "z": -35.98918914794922
+                    "x": 504.7505187988281,
+                    "y": 127.03406524658203,
+                    "z": -35.989192962646484
                 },
                 "Scale": {
                     "x": 2.200000047683716,
@@ -67672,13 +67808,13 @@
                 },
                 "Rotation": {
                     "x": 0.0,
-                    "y": -0.0,
+                    "y": 0.0,
                     "z": 3.141592502593994
                 },
                 "FakePosition": {
-                    "x": 504.75054931640625,
-                    "y": 127.03599548339844,
-                    "z": -35.98918914794922
+                    "x": 504.7505187988281,
+                    "y": 127.03406524658203,
+                    "z": -35.989192962646484
                 },
                 "FakeRotation": {
                     "x": 0.0,
@@ -67691,14 +67827,14 @@
                     "z": 2.200000047683716
                 },
                 "OldPosition": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
+                    "x": 504.7505187988281,
+                    "y": 127.0340805053711,
+                    "z": -35.989192962646484
                 },
                 "OldScale": {
                     "x": 0.0,
                     "y": 0.0,
-                    "z": 0.0
+                    "z": 3.141592502593994
                 },
                 "OldRotation": {
                     "x": 0.0,
@@ -67706,19 +67842,19 @@
                     "z": 0.0
                 },
                 "OldFakePosition": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
+                    "x": 504.7505187988281,
+                    "y": 127.0340805053711,
+                    "z": -35.989192962646484
                 },
                 "OldFakeScale": {
-                    "x": 1.0,
-                    "y": 1.0,
-                    "z": 1.0
+                    "x": 2.200000047683716,
+                    "y": 1.8300000429153442,
+                    "z": 2.200000047683716
                 },
                 "OldFakeRotation": {
                     "x": 0.0,
                     "y": 0.0,
-                    "z": 0.0
+                    "z": 3.141592502593994
                 },
                 "ParentPosition": {
                     "x": 0.0,
@@ -68058,7 +68194,7 @@
                 },
                 "Rotation": {
                     "x": 0.0,
-                    "y": -0.0,
+                    "y": 0.0,
                     "z": 0.0
                 },
                 "FakePosition": {
@@ -68077,9 +68213,9 @@
                     "z": 1.0
                 },
                 "OldPosition": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
+                    "x": -399.70166015625,
+                    "y": -61.711219787597656,
+                    "z": -152.41961669921875
                 },
                 "OldScale": {
                     "x": 0.0,
@@ -68092,13 +68228,13 @@
                     "z": 0.0
                 },
                 "OldFakePosition": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
+                    "x": -399.70166015625,
+                    "y": -61.711219787597656,
+                    "z": -152.41961669921875
                 },
                 "OldFakeScale": {
                     "x": 1.0,
-                    "y": 1.0,
+                    "y": 1.0000001192092896,
                     "z": 1.0
                 },
                 "OldFakeRotation": {
@@ -68337,7 +68473,7 @@
             },
             "Transform": {
                 "Position": {
-                    "x": -621.229248046875,
+                    "x": -621.230224609375,
                     "y": 127.03601837158203,
                     "z": -123.25973510742188
                 },
@@ -68348,11 +68484,11 @@
                 },
                 "Rotation": {
                     "x": 0.0,
-                    "y": -0.0,
+                    "y": 0.0,
                     "z": -3.141592502593994
                 },
                 "FakePosition": {
-                    "x": -621.229248046875,
+                    "x": -621.230224609375,
                     "y": 127.03601837158203,
                     "z": -123.25973510742188
                 },
@@ -68367,14 +68503,14 @@
                     "z": 2.200000047683716
                 },
                 "OldPosition": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
+                    "x": -621.230224609375,
+                    "y": 127.03601837158203,
+                    "z": -123.25973510742188
                 },
                 "OldScale": {
                     "x": 0.0,
                     "y": 0.0,
-                    "z": 0.0
+                    "z": -3.141592502593994
                 },
                 "OldRotation": {
                     "x": 0.0,
@@ -68382,19 +68518,19 @@
                     "z": 0.0
                 },
                 "OldFakePosition": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
+                    "x": -621.230224609375,
+                    "y": 127.03601837158203,
+                    "z": -123.25973510742188
                 },
                 "OldFakeScale": {
-                    "x": 1.0,
-                    "y": 1.0,
-                    "z": 1.0
+                    "x": 2.200000047683716,
+                    "y": 1.8300000429153442,
+                    "z": 2.200000047683716
                 },
                 "OldFakeRotation": {
                     "x": 0.0,
                     "y": 0.0,
-                    "z": 0.0
+                    "z": -3.141592502593994
                 },
                 "ParentPosition": {
                     "x": 0.0,
@@ -68532,8 +68668,8 @@
             "Transform": {
                 "Position": {
                     "x": 80.09912109375,
-                    "y": 127.03601837158203,
-                    "z": -123.25735473632813
+                    "y": 127.03240203857422,
+                    "z": -123.25736999511719
                 },
                 "Scale": {
                     "x": 2.200000047683716,
@@ -68542,13 +68678,13 @@
                 },
                 "Rotation": {
                     "x": 0.0,
-                    "y": -0.0,
+                    "y": 0.0,
                     "z": -3.141592502593994
                 },
                 "FakePosition": {
                     "x": 80.09912109375,
-                    "y": 127.03601837158203,
-                    "z": -123.25735473632813
+                    "y": 127.03240203857422,
+                    "z": -123.25736999511719
                 },
                 "FakeRotation": {
                     "x": 0.0,
@@ -68561,14 +68697,14 @@
                     "z": 2.200000047683716
                 },
                 "OldPosition": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
+                    "x": 80.09912109375,
+                    "y": 127.03241729736328,
+                    "z": -123.25736999511719
                 },
                 "OldScale": {
                     "x": 0.0,
                     "y": 0.0,
-                    "z": 0.0
+                    "z": -3.141592502593994
                 },
                 "OldRotation": {
                     "x": 0.0,
@@ -68576,19 +68712,19 @@
                     "z": 0.0
                 },
                 "OldFakePosition": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
+                    "x": 80.09912109375,
+                    "y": 127.03241729736328,
+                    "z": -123.25736999511719
                 },
                 "OldFakeScale": {
-                    "x": 1.0,
-                    "y": 1.0,
-                    "z": 1.0
+                    "x": 2.200000047683716,
+                    "y": 1.8300000429153442,
+                    "z": 2.200000047683716
                 },
                 "OldFakeRotation": {
                     "x": 0.0,
                     "y": 0.0,
-                    "z": 0.0
+                    "z": -3.141592502593994
                 },
                 "ParentPosition": {
                     "x": 0.0,
@@ -80660,7 +80796,7 @@
                 },
                 "Rotation": {
                     "x": 0.0,
-                    "y": -0.0,
+                    "y": 0.0,
                     "z": 3.141592502593994
                 },
                 "FakePosition": {
@@ -80679,14 +80815,14 @@
                     "z": 2.200000047683716
                 },
                 "OldPosition": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
+                    "x": 287.9036560058594,
+                    "y": 127.03601837158203,
+                    "z": -265.9183044433594
                 },
                 "OldScale": {
                     "x": 0.0,
                     "y": 0.0,
-                    "z": 0.0
+                    "z": 3.141592502593994
                 },
                 "OldRotation": {
                     "x": 0.0,
@@ -80694,19 +80830,19 @@
                     "z": 0.0
                 },
                 "OldFakePosition": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
+                    "x": 287.9036560058594,
+                    "y": 127.03601837158203,
+                    "z": -265.9183044433594
                 },
                 "OldFakeScale": {
-                    "x": 1.0,
-                    "y": 1.0,
-                    "z": 1.0
+                    "x": 2.200000047683716,
+                    "y": 1.8300000429153442,
+                    "z": 2.200000047683716
                 },
                 "OldFakeRotation": {
                     "x": 0.0,
                     "y": 0.0,
-                    "z": 0.0
+                    "z": 3.141592502593994
                 },
                 "ParentPosition": {
                     "x": 0.0,
@@ -81315,6 +81451,142 @@
                 "Used In 2D": false,
                 "Model UID": 0
             }
+        },
+        "840": {
+            "ArchetypeID": "110010011000000000",
+            "Enabled": true,
+            "Name Tag": {
+                "Name": "Player",
+                "Tag": "",
+                "IsActive": true,
+                "HierarchyParent": 0,
+                "HierarchyIndex": 40,
+                "HierarchyChildren": [
+                    841
+                ]
+            },
+            "Transform": {
+                "Position": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "Scale": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                },
+                "Rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "FakePosition": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "FakeRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "FakeScale": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                },
+                "OldPosition": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "OldScale": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "OldRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "OldFakePosition": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "OldFakeScale": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "OldFakeRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "ParentPosition": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                }
+            },
+            "Camera Component": {
+                "Yaw": -90.0,
+                "Pitch": 0.0,
+                "Position": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "Speed": 1.0,
+                "FOV": 45.0,
+                "MouseSensitivity": 0.10000000149011612
+            },
+            "Rigid Body": {
+                "Mass": 1.0,
+                "Linear Velocity": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "Angular Velocity": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "Friction": 0.20000000298023224,
+                "Restitution": 0.0,
+                "GravityFactor": 1.0,
+                "LinearDamping": 0.05000000074505806,
+                "AngularDamping": 0.05000000074505806,
+                "MotionType": "STATIC",
+                "UseGravity": false,
+                "sensorActivate": false,
+                "IsRayCast": false,
+                "RayOrigin": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "RayDirection": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "RayScale": 1.0
+            },
+            "Sphere Collider": {
+                "IsTrigger": false,
+                "Collider Center": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "Collider Radius": 1.0,
+                "Radius Factor": 1.0
+            }
         }
     },
     "Scripts": {
@@ -81698,6 +81970,7 @@
         "246": {},
         "360": {},
         "247": {},
+        "841": {},
         "248": {},
         "370": {},
         "249": {},
@@ -81828,8 +82101,8 @@
         "609": {},
         "400": {},
         "402": {},
-        "613": {},
         "404": {},
+        "613": {},
         "406": {},
         "617": {},
         "408": {},
@@ -82151,7 +82424,188 @@
         "835": {},
         "836": {},
         "838": {},
-        "839": {}
+        "839": {},
+        "840": {
+            "Flashlight_Script": {
+                "lightIntensity": {
+                    "System.Single": "100"
+                },
+                "lightSourceObj": {
+                    "ScriptAPI.GameObject": 841
+                },
+                "player": {
+                    "ScriptAPI.GameObject": 840
+                },
+                "activateLight": {
+                    "System.Boolean": "False"
+                },
+                "flashAudiostr": {
+                    "System.String": "temp_flashlight"
+                },
+                "flashAudio": {
+                    "ScriptAPI.AudioComponent": 0
+                },
+                "followSpeed": {
+                    "System.Single": "20"
+                },
+                "flicker": {
+                    "System.Boolean": "False"
+                },
+                "flickerTimer": {
+                    "System.Single": "0"
+                },
+                "gameObject": {
+                    "ScriptAPI.GameObject": 840
+                }
+            },
+            "FPS_Controller_Script": {
+                "rb": {
+                    "ScriptAPI.RigidBodyComponent": 0
+                },
+                "startingVO": {
+                    "ScriptAPI.AudioComponent": 0
+                },
+                "playerCamera": {
+                    "ScriptAPI.CameraComponent": 0
+                },
+                "fov": {
+                    "System.Single": "60"
+                },
+                "invertCamera": {
+                    "System.Boolean": "False"
+                },
+                "cameraCanMove": {
+                    "System.Boolean": "True"
+                },
+                "mouseSensitivity": {
+                    "System.Single": "2"
+                },
+                "maxLookAngle": {
+                    "System.Single": "50"
+                },
+                "lockCursor": {
+                    "System.Boolean": "True"
+                },
+                "crosshair": {
+                    "System.Boolean": "True"
+                },
+                "enableZoom": {
+                    "System.Boolean": "True"
+                },
+                "holdToZoom": {
+                    "System.Boolean": "False"
+                },
+                "zoomKey": {
+                    "System.UInt32": "2"
+                },
+                "zoomFOV": {
+                    "System.Single": "30"
+                },
+                "zoomStepTime": {
+                    "System.Single": "5"
+                },
+                "playerCanMove": {
+                    "System.Boolean": "True"
+                },
+                "walkSpeed": {
+                    "System.Single": "2"
+                },
+                "maxVelocityChange": {
+                    "System.Single": "10"
+                },
+                "isWalking": {
+                    "System.Boolean": "False"
+                },
+                "enableSprint": {
+                    "System.Boolean": "True"
+                },
+                "unlimitedSprint": {
+                    "System.Boolean": "False"
+                },
+                "sprintKey": {
+                    "System.UInt32": "160"
+                },
+                "sprintSpeed": {
+                    "System.Single": "3"
+                },
+                "currentSprintSpeed": {
+                    "System.Single": "0"
+                },
+                "sprintDuration": {
+                    "System.Single": "5"
+                },
+                "sprintCooldown": {
+                    "System.Single": "0.5"
+                },
+                "sprintFOV": {
+                    "System.Single": "80"
+                },
+                "sprintFOVStepTime": {
+                    "System.Single": "10"
+                },
+                "useSprintBar": {
+                    "System.Boolean": "True"
+                },
+                "hideBarWhenFull": {
+                    "System.Boolean": "True"
+                },
+                "sprintBarWidthPercent": {
+                    "System.Single": "0.3"
+                },
+                "sprintBarHeightPercent": {
+                    "System.Single": "0.015"
+                },
+                "isSprinting": {
+                    "System.Boolean": "False"
+                },
+                "enableJump": {
+                    "System.Boolean": "True"
+                },
+                "jumpKey": {
+                    "System.UInt32": "32"
+                },
+                "jumpPower": {
+                    "System.Single": "5"
+                },
+                "enableCrouch": {
+                    "System.Boolean": "True"
+                },
+                "holdToCrouch": {
+                    "System.Boolean": "True"
+                },
+                "crouchKey": {
+                    "System.UInt32": "65"
+                },
+                "crouchHeight": {
+                    "System.Single": "0.75"
+                },
+                "speedReduction": {
+                    "System.Single": "0.5"
+                },
+                "playerHealth": {
+                    "System.Int32": "100"
+                },
+                "enableHeadBob": {
+                    "System.Boolean": "True"
+                },
+                "joint": {
+                    "ScriptAPI.TransformComponent": 0
+                },
+                "bobSpeed": {
+                    "System.Single": "10"
+                },
+                "bobAmount": {
+                    "ScriptAPI.Vector3": {
+                        "X": 0.15000000596046448,
+                        "Y": 0.05000000074505806,
+                        "Z": 0.0
+                    }
+                },
+                "gameObject": {
+                    "ScriptAPI.GameObject": 840
+                }
+            }
+        }
     },
     "Active Archetype": {
         "65": "110000100000000000",
@@ -82534,6 +82988,7 @@
         "246": "110000100000000000",
         "360": "110000100000000000",
         "247": "110000100000000000",
+        "841": "110000100000000010",
         "248": "110000100000000000",
         "370": "110000100000000000",
         "249": "110000100000000000",
@@ -82664,8 +83119,8 @@
         "609": "110000100000000000",
         "400": "110000100000000000",
         "402": "110000100000000000",
-        "613": "110000100000000000",
         "404": "110000100000000000",
+        "613": "110000100000000000",
         "406": "110000100000000000",
         "617": "110000100000000000",
         "408": "110000100000000000",
@@ -82987,6 +83442,7 @@
         "835": "110000100000000000",
         "836": "110000100000000000",
         "838": "110000100000000000",
-        "839": "110000100000000000"
+        "839": "110000100000000000",
+        "840": "110010011000000000"
     }
 }

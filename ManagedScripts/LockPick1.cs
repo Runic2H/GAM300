@@ -125,7 +125,7 @@ public class LockPick1 : Script
             if (movePick)
             {
                 //Vector3 dir = Input.mousePosition - cam.WorldToScreenPoint(transform.position);
-                Vector3 dir = Input.GetLocalMousePos() - new Vector3(Screen.width / 2, Screen.height / 2, 0); // cam.WorldToScreenPoint(transform.GetPosition());
+                Vector3 dir = Input.GetLocalMousePos() - new Vector3(Screen.width / 2, Screen.height / 2, 0);  //cam.WorldToScreenPoint(transform.GetPosition());
 
                 //eulerAngle = Vector3.Angle(dir, Vector3.Up());
                 eulerAngle = Vector3.Angle(dir, Vector3.Down());

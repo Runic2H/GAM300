@@ -295,6 +295,11 @@ namespace ScriptAPI
 		return TDS::InputSystem::GetInstance()->getMouseLock();
 	}
 
+	bool Input::isMouseVisible()
+	{
+		return TDS::InputSystem::GetInstance()->getCursorVisible();
+	}
+
 	Vector3 Input::GetLocalMousePos()
 	{
 		return Vector3(GetLocalMousePosX(), GetLocalMousePosY(), 0);

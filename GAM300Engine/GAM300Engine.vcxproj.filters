@@ -113,6 +113,9 @@
     <ClCompile Include="Src\Rendering\Revamped\DeferredController.cpp" />
     <ClCompile Include="Src\Rendering\Revamped\MaterialPipeline.cpp" />
     <ClCompile Include="Src\Input\InputSystem.cpp" />
+    <ClCompile Include="Src\AI\Pathfinder.cpp" />
+    <ClCompile Include="Src\AI\Tile.cpp" />
+    <ClCompile Include="Src\AI\TileEntity.cpp" />
     <ClCompile Include="Src\MessagingSystem\MessageSystem.cpp" />
     <ClCompile Include="Src\Rendering\Revamped\LightingBuffer.cpp" />
     <ClCompile Include="Src\Rendering\Revamped\FrameBuffers\CompositionPass.cpp" />
@@ -286,6 +289,9 @@
     <ClInclude Include="Include\components\CompReflectionMacro.h" />
     <ClInclude Include="Include\components\SpotLightComponent.h" />
     <ClInclude Include="Include\Physics\CollisionCollectorImpl.h" />
+    <ClInclude Include="Include\AI\Pathfinder.h" />
+    <ClInclude Include="Include\AI\Tile.h" />
+    <ClInclude Include="Include\AI\TileEntity.h" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Include\Logger\Logger.h" />

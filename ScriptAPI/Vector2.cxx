@@ -7,5 +7,8 @@ namespace ScriptAPI
 		X = valueX;
 		Y = valueY;
 	}
-
+	int Vector2::operator==(Vector2 lhs)
+	{
+		return lhs.X == X && lhs.Y == Y;
+	}
 }

@@ -1,4 +1,6 @@
-#pragma once
+#ifndef TILE
+#define TILE
+
 /*
 @author		Thea Sea
 @email		thea.sea@digipen.edu
@@ -6,7 +8,8 @@
 - handles pathfinding, grid system, tile system and calculation of final cost in A* pathfinding
 */
 #include <vector>
-#include "Tools/TileEntity.h"
+#include "TileEntity.h"
+
 namespace TDS
 {
 	class Tile : public TileEntity
@@ -40,3 +43,5 @@ namespace TDS
 	};
 
 }
+
+#endif

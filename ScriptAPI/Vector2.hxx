@@ -10,5 +10,7 @@ namespace ScriptAPI
 		property float Y;
 
 		Vector2(float valueX, float valueY);
+
+		int operator==(Vector2 lhs);
 	};
 }

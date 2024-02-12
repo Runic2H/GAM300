@@ -24,6 +24,7 @@
 #include "dotnet/ImportExport.h"
 
 #include "ecs/ecs.h"
+#include "components/components.h"
 
 namespace TDS
 {
@@ -358,7 +359,7 @@ namespace TDS
     {
     public:
         static void audio_system_init();
-        static void audio_system_update(const float dt, const std::vector<EntityID>& entities, SoundInfo* soundInfo);
+        static void audio_system_update(const float dt, const std::vector<EntityID>& entities, Transform* soundInfo);
 
         //static void audio_event_play(SoundInfo& soundInfo);
         static void audio_event_init(SoundInfo* container);

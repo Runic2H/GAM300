@@ -74,5 +74,11 @@ namespace ScriptAPI {
 		}
 		TDS::GetGraphicsComponent(entityID)->SetColor(value.X, value.Y, value.Z, value.W);
 	}
+
+	void GraphicComponent::SetView2D(bool status)
+	{
+		
+		TDS::GetGraphicsComponent(entityID)->SetView2D(status);
+	}
 	
 }

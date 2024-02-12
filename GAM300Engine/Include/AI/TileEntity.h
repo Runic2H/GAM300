@@ -1,5 +1,7 @@
-#pragma once
-#include "../Include/components/transform.h"
+#ifndef TILEENTITY
+#define TILEENTITY
+#include "components/transform.h"
+
 namespace TDS
 
 {
@@ -62,3 +64,4 @@ namespace TDS
 
 }
 
+#endif
