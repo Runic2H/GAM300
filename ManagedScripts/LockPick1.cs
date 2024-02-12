@@ -13,8 +13,6 @@ public class LockPick1 : Script
         return degree * (3.1415926535897931f / 180);
     }
 
-    // NEW
-
     //[Header("Tutorial UI Variables")]
     //public Image _TutorialImage;
     //public Sprite[] _TutorialImgSprites;
@@ -34,8 +32,8 @@ public class LockPick1 : Script
     public CameraComponent playerCam;
     public TransformComponent innerLock;
     public TransformComponent pickPosition;
-    public FPS_Controller_Script playerController;
-    //public GameObject lockObject;
+    public GameObject playerController;
+    public GameObject lockGroup;
     public string difficultyLvl;
     public float maxAngle = 90;
     public float lockSpeed = 10;
@@ -45,8 +43,8 @@ public class LockPick1 : Script
     public String[] lockSoundEffects;
     public String[] rattleSoundEffects;
     float delay = 0.4f;
-    //public GameObject _NumOfTries;
-    //public Text _AmtOfTries;
+    public GameObject _NumOfTries;
+    public UISpriteComponent _AmtOfTries;
 
     [Range(1, 25)]
     public float lockRange = 10;
@@ -62,12 +60,16 @@ public class LockPick1 : Script
     private bool displayTutorial;
     [SerializeField] bool played;
 
-    private Vector3 originalPosition;
+    private Vector3 originalPosition = new Vector3(0.0f, 350.0f, 1500.0f);
     private Vector3 originalRotation;
     AudioComponent audio;
     bool failed;
     bool passed;
     float timer;
+    
+    public int doorIndex;
+    public GameObject doorText;
+    public GameObject monster;
 
     // Start is called before the first frame update
     override public void Awake()
@@ -88,44 +90,43 @@ public class LockPick1 : Script
         audio = gameObject.GetComponent<AudioComponent>();
 
         newLock();
-        originalPosition = transform.GetPosition();
-        originalRotation = transform.GetRotation();
     }
 
     // Update is called once per frame
     override public void Update()
     {
         Input.Lock(false);
+        doorText.SetActive(false);
 
-        if (!_TutorialCompleted)
-        {
-            // NOTE: Audio
-            //if (!myVOSource.isPlaying() && !played)
-            //{
-            //    myVOSource.Play();
-            //    mySubtitlesBG.enabled = true;
-            //    mySubtitles.text = "Martin (Internal): Hopefully, I won’t forget how to do this.";
-            //    played = true;
+        //if (!_TutorialCompleted)
+        //{
+        //    // NOTE: Audio
+        //    //if (!myVOSource.isPlaying() && !played)
+        //    //{
+        //    //    myVOSource.Play();
+        //    //    mySubtitlesBG.enabled = true;
+        //    //    mySubtitles.text = "Martin (Internal): Hopefully, I won’t forget how to do this.";
+        //    //    played = true;
 
-            //}
-            //else if (!myVOSource.isPlaying() && played)
-            //{
-            //    mySubtitles.text = "";
-            //    mySubtitlesBG.enabled = false;
-            //    _NumOfTries.SetActive(true);
-            //    movePick = true;
-            //    _TutorialCompleted = true;
-            //}
-        }
-        else
-        {
-            //_NumOfTries.SetActive(true);
+        //    //}
+        //    //else if (!myVOSource.isPlaying() && played)
+        //    //{
+        //    //    mySubtitles.text = "";
+        //    //    mySubtitlesBG.enabled = false;
+        //    //    _NumOfTries.SetActive(true);
+        //    //    movePick = true;
+        //    //    _TutorialCompleted = true;
+        //    //}
+        //}
+        //else
+        //{
+        //_NumOfTries.SetActive(true);
 
-            #region Move Pick
-            if (movePick)
+        #region Move Pick
+        if (movePick)
             {
                 //Vector3 dir = Input.mousePosition - cam.WorldToScreenPoint(transform.position);
-                Vector3 dir = Input.GetLocalMousePos() - new Vector3(Screen.width / 2, Screen.height / 2, 0); // cam.WorldToScreenPoint(transform.GetPosition());
+                Vector3 dir = Input.GetLocalMousePos() - new Vector3(Screen.width / 2, Screen.height / 2, 0);  //cam.WorldToScreenPoint(transform.GetPosition());
 
                 //eulerAngle = Vector3.Angle(dir, Vector3.Up());
                 eulerAngle = Vector3.Angle(dir, Vector3.Down());
@@ -138,21 +139,18 @@ public class LockPick1 : Script
                 //transform.SetRotation(Quaternion.EulerAngle(rotateTo));
 
                 Vector3 originalRotation = transform.GetRotation();
-                transform.SetRotation(new Vector3(originalRotation.X, originalRotation.Y, eulerAngle));
+                transform.SetRotation(new Vector3(originalRotation.X, originalRotation.Y, -eulerAngle));
 
-                Vector2 newPosition = new Vector2(originalPosition.X * Mathf.Cos(eulerAngle) - originalPosition.Y * Mathf.Sin(eulerAngle),
-                                                  originalPosition.X * Mathf.Sin(eulerAngle) + originalPosition.Y * Mathf.Cos(eulerAngle));
+                Vector2 newPosition = new Vector2(originalPosition.X * Mathf.Cos(-eulerAngle) - originalPosition.Y * Mathf.Sin(-eulerAngle),
+                                                  originalPosition.X * Mathf.Sin(-eulerAngle) + originalPosition.Y * Mathf.Cos(-eulerAngle));
                 transform.SetPosition(new Vector3(newPosition.X, newPosition.Y, originalPosition.Z));
             }
 
-            if (Input.GetKeyDown(Keycode.E))
+            if (!failed && Input.GetKeyDown(Keycode.E))
             {
                 originalRotation = transform.GetRotation();
                 movePick = false;
                 keyPressTime = 1;
-                // NOTE: Audio
-                //GetComponent<AudioSource>().clip = lockSoundEffects[0];
-                //GetComponent<AudioSource>().Play();
                 audio.play(lockSoundEffects[0]);
             }
             if (Input.GetKeyUp(Keycode.E))
@@ -175,29 +173,13 @@ public class LockPick1 : Script
             {
                 if (eulerAngleDegree < unlockRange.Y && eulerAngleDegree > unlockRange.X)
                 {
-                    Console.WriteLine("hmm");
+                    audio.stop(lockSoundEffects[0]);
                     movePick = true;
                     keyPressTime = 0;
                     // NOTE: Audio
                     audio.play(lockSoundEffects[1]);
-                    newLock();
                     timer = 1.2f;
-
-                    //GetComponent<AudioSource>().clip = lockSoundEffects[1];
-                    //GetComponent<AudioSource>().Play();
-
-                    //StartCoroutine(StartDelay());
-                    //IEnumerator StartDelay()
-                    //{
-                    //    yield return new WaitForSeconds(1.2f);
-                    //    playerController.SetEnabled(true);
-                    //    playerController.lockCursor = true;
-                    //    playerCam.SetEnabled(true);
-                    //    Door_UI.SetActive(false);
-                    //    unlocked = true;
-                    //    _NumOfTries.SetActive(false);
-                    //    lockObject.SetActive(false);
-                    //}
+                    passed = true;
                 }
                 else
                 {
@@ -247,43 +229,32 @@ public class LockPick1 : Script
                         audio.play(lockSoundEffects[2]);
                         movePick = false;
                         timer = 1.0f;
-
-                        //StartCoroutine(Deactivate());
-
-                        //IEnumerator Deactivate()
-                        //{
-                        //    yield return new WaitForSeconds(1f);
-
-                        //    _NumOfTries.SetActive(false);
-                        //    playerController.SetEnabled(true);
-                        //    playerController.lockCursor = true;
-                        //    playerCam.SetEnabled(true);
-                        //    Door_UI.SetActive(false);
-                        //    lockObject.SetActive(false);
-                        //}
+                        failed = true;
                     }
                 }
             }
             #endregion
 
-            //_AmtOfTries.text = numOfTries.ToString();
+            _AmtOfTries.SetFontMessage("Number of tries left: " + numOfTries.ToString());
 
-            //if (numOfTries <= 1)
-            //{
-            //    _AmtOfTries.color = Color.red;
-            //}
+            if (numOfTries <= 1)
+            {
+                _AmtOfTries.SetFontColour(new Vector4(1.0f, 0.0f, 0.0f, 1.0f)); // red
+            }
 
             if (passed)
             {
                 if (timer <= 0)
                 {
-                    //    playerController.SetEnabled(true);
-                    //    playerController.lockCursor = true;
+                    playerController.SetActive(true);
+                    Input.Lock(true);
                     //    playerCam.SetEnabled(true);
                     //    Door_UI.SetActive(false);
                     unlocked = true;
-                    //    _NumOfTries.SetActive(false);
-                    //    lockObject.SetActive(false);
+                    lockGroup.GetComponent<DoorState>().Doors[doorIndex] = DoorState.State.Unlocked;
+                    lockGroup.SetActive(false);
+                    newLock();
+                    GraphicsManagerWrapper.ToggleViewFrom2D(false);
                 }
                 else
                 {
@@ -295,23 +266,28 @@ public class LockPick1 : Script
             {
                 if (timer <= 0)
                 {
-                    //    _NumOfTries.SetActive(false);
-                    //    playerController.SetEnabled(true);
-                    //    playerController.lockCursor = true;
+                    playerController.SetActive(true);
+                    Input.Lock(true);
                     //    playerCam.SetEnabled(true);
                     //    Door_UI.SetActive(false);
-                    //    lockObject.SetActive(false);
+                    lockGroup.SetActive(false);
+                    newLock();
+                    GraphicsManagerWrapper.ToggleViewFrom2D(false);
+                    monster.GetComponent<GhostMovement>().AlertMonster(doorIndex);
                 }
                 else
                 {
                     timer -= Time.deltaTime;
                 }
             }
-        }
+        //}
     }
 
     public void newLock()
     {
+        originalPosition = new Vector3(0.0f, 350.0f, 1500.0f);
+        originalRotation = transform.GetRotation();
+
         audio.stop(lockSoundEffects[1]);
         audio.stop(lockSoundEffects[2]);
         Input.Lock(false);
@@ -320,13 +296,13 @@ public class LockPick1 : Script
         passed = false;
 
         //Door_UI.SetActive(true);
-        //_AmtOfTries.color = Color.white;
+        _AmtOfTries.SetFontColour(new Vector4(1.0f, 1.0f, 1.0f, 1.0f)); // white
         keyPressTime = 0;
         unlocked = false;
         deduct = true;
         //playerController.SetEnabled(false);
         //playerCam.SetEnabled(false);
-        cam.transform.SetRotation(new Vector3(0, 0, 0));
+        //cam.transform.SetRotation(new Vector3(0, 0, 0));
         unlockAngle = ScriptAPI.Random.Range(-maxAngle + lockRange, maxAngle - lockRange);
         unlockRange = new Vector2(unlockAngle - lockRange, unlockAngle + lockRange);
 

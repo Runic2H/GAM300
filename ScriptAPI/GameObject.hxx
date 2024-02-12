@@ -9,6 +9,9 @@
 #include "Components/UISpriteComponent.hxx"
 #include "Components/AudioComponent.hxx"
 #include "Components/GraphicComponent.hxx"
+#include "Components/PointlightComponent.hxx"
+#include "Components/DirectionalLightComponent.hxx"
+#include "Components/SpotlightComponent.hxx"
 #include "ecs/ecs.h"
 
 namespace ScriptAPI

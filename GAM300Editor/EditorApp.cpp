@@ -329,9 +329,9 @@ namespace TDS
                 {
                     PhysicsSystem::SetIsPlaying(false);
                     CameraSystem::SetIsPlaying(false);
-                    InputSystem::GetInstance()->setMouseLock(false);
-                    InputSystem::GetInstance()->setCursorVisible(true);
                 }
+                InputSystem::GetInstance()->setMouseLock(false);
+                InputSystem::GetInstance()->setCursorVisible(true);
             }
 
             ecs.runSystems(2, DeltaTime); // Event handler

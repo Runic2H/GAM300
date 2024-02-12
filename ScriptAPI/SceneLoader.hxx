@@ -13,6 +13,8 @@ namespace ScriptAPI
 
 		static void LoadStartingCutscene();
 
+		static void LoadEndGameCredits();
+
 		static System::String^ dataPath;
 	};
 }

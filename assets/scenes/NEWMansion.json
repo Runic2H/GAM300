@@ -5631,6 +5631,102 @@
                 "Model UID": 0
             }
         },
+        "411": {
+            "ArchetypeID": "110000100000000000",
+            "Enabled": false,
+            "Name Tag": {
+                "Name": "Beak_3",
+                "Tag": "",
+                "IsActive": true,
+                "HierarchyParent": 381,
+                "HierarchyIndex": 26,
+                "HierarchyChildren": []
+            },
+            "Transform": {
+                "Position": {
+                    "x": 472.573974609375,
+                    "y": 525.6205444335938,
+                    "z": -801.534912109375
+                },
+                "Scale": {
+                    "x": 1.0,
+                    "y": 1.3000000715255737,
+                    "z": 1.0
+                },
+                "Rotation": {
+                    "x": -1.5707963705062866,
+                    "y": -1.087182879447937,
+                    "z": 0.0
+                },
+                "FakePosition": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "FakeRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "FakeScale": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                },
+                "OldPosition": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "OldScale": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "OldRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "OldFakePosition": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "OldFakeScale": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "OldFakeRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "ParentPosition": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                }
+            },
+            "Graphics Component": {
+                "PointLight": false,
+                "TextureName": "",
+                "Show Mesh": true,
+                "Debug": false,
+                "ModelName": "Wall Slaves_Bin.bin",
+                "MeshName": "Beak_3",
+                "MeshNodeName": "",
+                "Color": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0,
+                    "w": 1.0
+                },
+                "Used In 2D": false,
+                "Model UID": 0
+            }
+        },
         "1024": {
             "ArchetypeID": "110000100000000000",
             "Enabled": true,
@@ -5720,102 +5816,6 @@
                 "ModelName": "Mansion Layout_Bin.bin",
                 "MeshName": "",
                 "MeshNodeName": "ninja_star_3",
-                "Color": {
-                    "x": 1.0,
-                    "y": 1.0,
-                    "z": 1.0,
-                    "w": 1.0
-                },
-                "Used In 2D": false,
-                "Model UID": 0
-            }
-        },
-        "411": {
-            "ArchetypeID": "110000100000000000",
-            "Enabled": false,
-            "Name Tag": {
-                "Name": "Beak_3",
-                "Tag": "",
-                "IsActive": true,
-                "HierarchyParent": 381,
-                "HierarchyIndex": 26,
-                "HierarchyChildren": []
-            },
-            "Transform": {
-                "Position": {
-                    "x": 472.573974609375,
-                    "y": 525.6205444335938,
-                    "z": -801.534912109375
-                },
-                "Scale": {
-                    "x": 1.0,
-                    "y": 1.3000000715255737,
-                    "z": 1.0
-                },
-                "Rotation": {
-                    "x": -1.5707963705062866,
-                    "y": -1.087182879447937,
-                    "z": 0.0
-                },
-                "FakePosition": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                },
-                "FakeRotation": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                },
-                "FakeScale": {
-                    "x": 1.0,
-                    "y": 1.0,
-                    "z": 1.0
-                },
-                "OldPosition": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                },
-                "OldScale": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                },
-                "OldRotation": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                },
-                "OldFakePosition": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                },
-                "OldFakeScale": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                },
-                "OldFakeRotation": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                },
-                "ParentPosition": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                }
-            },
-            "Graphics Component": {
-                "PointLight": false,
-                "TextureName": "",
-                "Show Mesh": true,
-                "Debug": false,
-                "ModelName": "Wall Slaves_Bin.bin",
-                "MeshName": "Beak_3",
-                "MeshNodeName": "",
                 "Color": {
                     "x": 1.0,
                     "y": 1.0,
@@ -6018,102 +6018,6 @@
                 "Model UID": 0
             }
         },
-        "1026": {
-            "ArchetypeID": "110000100000000000",
-            "Enabled": true,
-            "Name Tag": {
-                "Name": "ninja_star_3__1",
-                "Tag": "",
-                "IsActive": true,
-                "HierarchyParent": 1024,
-                "HierarchyIndex": 11,
-                "HierarchyChildren": []
-            },
-            "Transform": {
-                "Position": {
-                    "x": 83.12020111083984,
-                    "y": 0.041011273860931396,
-                    "z": -26.88520050048828
-                },
-                "Scale": {
-                    "x": 1.0,
-                    "y": 1.0,
-                    "z": 1.0
-                },
-                "Rotation": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                },
-                "FakePosition": {
-                    "x": 0.0,
-                    "y": 0.041011273860931396,
-                    "z": 0.0
-                },
-                "FakeRotation": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                },
-                "FakeScale": {
-                    "x": 1.0,
-                    "y": 1.0,
-                    "z": 1.0
-                },
-                "OldPosition": {
-                    "x": 83.12020111083984,
-                    "y": 0.04921332001686096,
-                    "z": -26.88520050048828
-                },
-                "OldScale": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                },
-                "OldRotation": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                },
-                "OldFakePosition": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                },
-                "OldFakeScale": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                },
-                "OldFakeRotation": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                },
-                "ParentPosition": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
-                }
-            },
-            "Graphics Component": {
-                "PointLight": false,
-                "TextureName": "",
-                "Show Mesh": true,
-                "Debug": false,
-                "ModelName": "Mansion Layout_Bin.bin",
-                "MeshName": "ninja_star_3__1",
-                "MeshNodeName": "ninja_star_3",
-                "Color": {
-                    "x": 1.0,
-                    "y": 1.0,
-                    "z": 1.0,
-                    "w": 1.0
-                },
-                "Used In 2D": false,
-                "Model UID": 0
-            }
-        },
         "485": {
             "ArchetypeID": "110000000000100000",
             "Enabled": true,
@@ -6225,6 +6129,102 @@
                     "x": -0.41345784068107605,
                     "y": 0.8459999561309814
                 }
+            }
+        },
+        "1026": {
+            "ArchetypeID": "110000100000000000",
+            "Enabled": true,
+            "Name Tag": {
+                "Name": "ninja_star_3__1",
+                "Tag": "",
+                "IsActive": true,
+                "HierarchyParent": 1024,
+                "HierarchyIndex": 11,
+                "HierarchyChildren": []
+            },
+            "Transform": {
+                "Position": {
+                    "x": 83.12020111083984,
+                    "y": 0.041011273860931396,
+                    "z": -26.88520050048828
+                },
+                "Scale": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                },
+                "Rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "FakePosition": {
+                    "x": 0.0,
+                    "y": 0.041011273860931396,
+                    "z": 0.0
+                },
+                "FakeRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "FakeScale": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                },
+                "OldPosition": {
+                    "x": 83.12020111083984,
+                    "y": 0.04921332001686096,
+                    "z": -26.88520050048828
+                },
+                "OldScale": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "OldRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "OldFakePosition": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "OldFakeScale": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "OldFakeRotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "ParentPosition": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                }
+            },
+            "Graphics Component": {
+                "PointLight": false,
+                "TextureName": "",
+                "Show Mesh": true,
+                "Debug": false,
+                "ModelName": "Mansion Layout_Bin.bin",
+                "MeshName": "ninja_star_3__1",
+                "MeshNodeName": "ninja_star_3",
+                "Color": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0,
+                    "w": 1.0
+                },
+                "Used In 2D": false,
+                "Model UID": 0
             }
         },
         "30": {
@@ -107293,12 +107293,12 @@
         "26": {},
         "27": {},
         "28": {},
-        "1024": {},
         "411": {},
+        "1024": {},
         "908": {},
         "29": {},
-        "1026": {},
         "485": {},
+        "1026": {},
         "30": {},
         "31": {},
         "32": {},
@@ -108726,12 +108726,12 @@
         "26": "11000010000000",
         "27": "11010011000000",
         "28": "11000010000000",
-        "1024": "110000100000000",
         "411": "11000010000000",
+        "1024": "110000100000000",
         "908": "110000100000000",
         "29": "11000010000000",
-        "1026": "110000100000000",
         "485": "11000000000010",
+        "1026": "110000100000000",
         "30": "11000010000000",
         "31": "11010011000000",
         "32": "11000010000000",

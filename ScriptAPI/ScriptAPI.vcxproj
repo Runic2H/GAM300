@@ -139,6 +139,7 @@
     <ClInclude Include="Components\CapsuleColliderComponent.hxx" />
     <ClInclude Include="Components\ColliderComponent.hxx" />
     <ClInclude Include="Components\ComponentBase.hxx" />
+    <ClInclude Include="Components\DirectionalLightComponent.hxx" />
     <ClInclude Include="Components\GraphicComponent.hxx" />
     <ClInclude Include="Components\NameTagComponent.hxx" />
     <ClInclude Include="Components\PointlightComponent.hxx" />
@@ -179,6 +180,7 @@
     <ClCompile Include="Components\CameraComponent.cxx" />
     <ClCompile Include="Components\CapsuleColliderComponent.cxx" />
     <ClCompile Include="Components\ColliderComponent.cxx" />
+    <ClCompile Include="Components\DirectionalLightComponent.cxx" />
     <ClCompile Include="Components\GraphicComponent.cxx" />
     <ClCompile Include="Components\NameTagComponent.cxx" />
     <ClCompile Include="Components\PointlightComponent.cxx" />

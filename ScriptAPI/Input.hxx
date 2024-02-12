@@ -265,6 +265,7 @@ namespace ScriptAPI
 		static void Lock(bool value);
 		//Check mouse lock
 		static bool isMouseLocked();
+		static bool isMouseVisible();
 
 		static Vector3 GetLocalMousePos();
 		static float GetLocalMousePosX();

@@ -551,6 +551,8 @@ namespace TDS
 
 		Vec2 toReturn = foundPath[0];
 		foundPath.erase(foundPath.begin());
+
+		std::cout << toReturn.x << "\t" << toReturn.y << std::endl;
 		return toReturn;
 	}
 }

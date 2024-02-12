@@ -81,7 +81,20 @@ namespace ScriptAPI
 		{
 			return safe_cast<T>(GraphicComponent(entityID));
 		}
+		else if (type == DirectionalLightComponent::typeid)
+		{
+			return safe_cast<T>(DirectionalLightComponent(entityID));
+		}
+		else if (type == SpotlightComponent::typeid)
+		{
+			return safe_cast<T>(SpotlightComponent(entityID));
+		}
+		else if (type == PointlightComponent::typeid)
+		{
+			return safe_cast<T>(PointlightComponent(entityID));
+		}
 
+		//Console::WriteLine(entityID.ToString() + "\t" + type->FullName);
 		return safe_cast<T>(EngineInterface::GetScriptReference(entityID, type->FullName));
 	}
 

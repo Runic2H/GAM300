@@ -27,4 +27,12 @@ namespace ScriptAPI
 		TDS::SceneManager::GetInstance()->start();
 	}
 
+	void SceneLoader::LoadEndGameCredits()
+	{
+		EngineInterface::Reload();
+		TDS::SceneManager::GetInstance()->loadScene("AfterGameCredits");
+		TDS::SceneManager::GetInstance()->awake();
+		TDS::SceneManager::GetInstance()->start();
+	}
+
 }

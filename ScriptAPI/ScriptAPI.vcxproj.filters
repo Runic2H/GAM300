@@ -124,6 +124,7 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Pathfinder.hxx">
+    <ClInclude Include="Components\DirectionalLightComponent.hxx">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Components\PointlightComponent.hxx">

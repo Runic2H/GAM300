@@ -9,9 +9,9 @@ public class Hiding : Script
     public Vector3 nonHidingPos;
     public float _RotationAngle;
     public GameObject player;
-    public GhostMovement enemyPathfinding;
+    public GhostMovement? enemyPathfinding;
     public Flashlight_Script _flashlight;
-    public GameObject _InteractUI;
+    public GameObject? _InteractUI;
     public CheckGameState myGameState;
     public GameObject closet;
     /*[Header("AudioStuff")]
@@ -28,22 +28,23 @@ public class Hiding : Script
 
     public override void Start()
     {
+        _flashlight = player.GetComponent<Flashlight_Script>();
+        hidingPos = closet.transform.GetPosition();
+        _RotationAngle = 180;
     }
 
     public override void Update()
     {
-        nonHidingPos = new Vector3(2257,250,-111);
-        _flashlight = player.GetComponent<Flashlight_Script>();
-        hidingPos = closet.transform.GetPosition();
-        _RotationAngle = 180;
-        if (interactable && closet.GetComponent<RigidBodyComponent>().IsSensorActivated())
+        
+        if (interactable && gameObject.GetComponent<RigidBodyComponent>().IsRayHit())
         {
             if (Input.GetKeyDown(Keycode.E) && hiding == false)
             {
                 Console.WriteLine("Here");
                 //_InteractUI.SetActive(_InteractUI.GetEntityID(), false);
                 hiding = true;
-                interactable = false;
+                //interactable = false;
+                nonHidingPos = player.transform.GetPosition();
                 player.transform.SetPosition(hidingPos);
                 Vector3 vec3 = new Vector3(0, _RotationAngle, 0);
                 player.transform.SetRotation(vec3);
@@ -73,13 +74,13 @@ public class Hiding : Script
                 //Input.KeyRelease(Keycode.E);
             }
         }
-        else if (hiding)
+        else if (hiding && gameObject.GetComponent<RigidBodyComponent>().IsRayHit())
         {
             if (Input.GetKeyDown(Keycode.E))
             {
                 Console.WriteLine("There");
                 hiding = false;
-                interactable = false;
+                //interactable = false;
                 player.transform.SetPosition(nonHidingPos);
                 player.GetComponent<FPS_Controller_Script>().playerCanMove = true;
                 player.GetComponent<FPS_Controller_Script>().enableHeadBob = true;
@@ -90,7 +91,7 @@ public class Hiding : Script
         
     }
 
-    private void OnTriggerEnter(GameObject other)
+    /*private void OnTriggerEnter(GameObject other)
     {
         if (other.GetComponent<NameTagComponent>().GetName() == "Enemy" && hiding == true)
         {
@@ -104,5 +105,5 @@ public class Hiding : Script
                 //Play Attack Player Animation
             }
         }
-    }
+    }*/
 }

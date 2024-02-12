@@ -22,6 +22,7 @@ public class InventoryScript : Script
     public GameObject ItemsTab;
     public GameObject NotesTab;
     public GameObject PaintingsTab;
+    public GameObject player;
 
     public override void Awake()
     {
@@ -63,6 +64,11 @@ public class InventoryScript : Script
         Console.WriteLine("Toggle Inventory\n");
         InventoryIsOpen = !InventoryIsOpen;
         InventoryObject.SetActive(InventoryIsOpen);
+        if (InventoryIsOpen)
+        {
+            player.GetComponent<FPS_Controller_Script>().playerCanMove = !InventoryIsOpen;
+            player.GetComponent<FPS_Controller_Script>().cameraCanMove = !InventoryIsOpen;
+        }
     }
 
     public void checkMouseInput()
