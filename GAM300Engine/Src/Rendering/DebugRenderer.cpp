@@ -22,6 +22,13 @@ namespace TDS
 
 	void DebugRenderer::DestroyPipeline()
 	{
+		for (auto& input : m_DebugInstance.m_DebugDrawing)
+		{
+			if (input.m_VertexBuffer)
+				input.m_VertexBuffer->DestroyBuffer();
+			if (input.m_IndexBuffer)
+				input.m_IndexBuffer->DestroyBuffer();
+		}
 		m_Pipeline->ShutDown();
 	}
 

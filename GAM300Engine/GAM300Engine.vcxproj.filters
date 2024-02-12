@@ -269,7 +269,6 @@
     <ClInclude Include="Include\Identifier\TypeInformation.h" />
     <ClInclude Include="Include\Serialization\Serialization.h" />
     <ClInclude Include="Include\GraphicsResource\GeomStruct.h" />
-    <ClInclude Include="Include\Identifier\HashID.h" />
     <ClInclude Include="Include\Identifier\UniqueID.h" />
     <ClInclude Include="Include\Random\RandomGen.h" />
     <ClInclude Include="Include\GraphicsResource\GeomSerializer.h" />
