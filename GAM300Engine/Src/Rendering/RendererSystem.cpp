@@ -83,10 +83,9 @@ namespace TDS
 				_TransComponent[i].GenerateTransform();
 
 
-				if (_TransComponent[i].isDirty())
-				{
-					_TransComponent[i].GenerateFakeTransform();
-				}
+				
+				_TransComponent[i].GenerateFakeTransform();
+				
 
 			}
 

@@ -57,7 +57,7 @@ namespace TDS
 		std::chrono::time_point<std::chrono::high_resolution_clock>Clock{};
 		
 		TDSCamera m_GameCamera{ -90.0f, 0.f, 0.1f, 100.f, {0.0f,0.f, 0.f} };
-		SkyBoxRenderer skyboxrender{};
+		/*SkyBoxRenderer skyboxrender{};*/
 	private:
 
 		/*!*************************************************************************
@@ -100,6 +100,8 @@ namespace TDS
 			}
 			return managedDelegate;
 		}
+
+		void buildManagedScriptCsProj();
 
 	private:
 		/*!*************************************************************************

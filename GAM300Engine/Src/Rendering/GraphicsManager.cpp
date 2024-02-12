@@ -117,12 +117,15 @@ namespace TDS
 
 		;
 		m_DeferredController->Init(window->getWidth(), window->getHeight());
-
+		
 		REGISTER_MESSAGE("Resize Event", this, &GraphicsManager::ResizeEvent);
 		REGISTER_MESSAGE("Stop Rendering", this, &GraphicsManager::StopAllRender);
 		REGISTER_MESSAGE("Continue Rendering", this, &GraphicsManager::StartAllRender);
 
 		CreateFullScreen();
+
+		UpdateFullScreen();
+
 
 		m_Renderer2D->Init();
 		m_FontRenderer->Init();
@@ -331,9 +334,9 @@ namespace TDS
 		int frame = m_SwapchainRenderer->getFrameIndex();
 
 		m_FinalQuad->SetCommandBuffer(currentCommand);
-		GraphicsManager::getInstance().GetSwapchainRenderer().BeginSwapChainRenderPass(currentCommand);
-		GraphicsManager::getInstance().RenderFullScreen();
-		GraphicsManager::getInstance().GetSwapchainRenderer().EndSwapChainRenderPass(currentCommand);
+		//GraphicsManager::getInstance().GetSwapchainRenderer().BeginSwapChainRenderPass(currentCommand);
+		//GraphicsManager::getInstance().RenderFullScreen();
+		//GraphicsManager::getInstance().GetSwapchainRenderer().EndSwapChainRenderPass(currentCommand);
 		m_FinalQuad->BindPipeline();
 		m_FinalQuad->BindVertexBuffer(*m_FinalQuadVertexBuffer);
 		m_FinalQuad->BindIndexBuffer(*m_FinalQuadIndexBuffer);
@@ -404,7 +407,8 @@ namespace TDS
 		m_FinalIamgeInfo.imageView = RenderTarget[0]->getImageView();
 		m_FinalIamgeInfo.sampler = RenderTarget[0]->getSampler();
 
-		m_FinalQuad->UpdateDescriptor(m_FinalIamgeInfo, VkDescriptorType::VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 12);
+		m_FinalQuad->UpdateDescriptor(m_FinalIamgeInfo, VkDescriptorType::VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 12, 0);
+		m_FinalQuad->UpdateDescriptor(m_FinalIamgeInfo, VkDescriptorType::VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 12, 1);
 	}
 	TDSCamera& GraphicsManager::GetCamera()
 	{
