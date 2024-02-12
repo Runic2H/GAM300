@@ -97,7 +97,7 @@ namespace TDS
 		static std::unique_ptr<JPH::JobSystemThreadPool>	m_pJobSystem;
 		static MyContactListener*							contact_listener;
 		static std::unique_ptr<JPH::AllHitCollisionCollector<RayCastBodyCollector>> collector;
-
+		static std::unique_ptr<JPH::BodyManager>            m_pBodyManager;
 
 	};
 

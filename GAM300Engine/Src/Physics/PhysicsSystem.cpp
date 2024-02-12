@@ -20,6 +20,7 @@ namespace TDS
 	std::unique_ptr<JPH::PhysicsSystem>			PhysicsSystem::m_pSystem;
 	std::unique_ptr<JPH::TempAllocatorImpl>		PhysicsSystem::m_pTempAllocator;
 	std::unique_ptr<JPH::JobSystemThreadPool>	PhysicsSystem::m_pJobSystem;
+	std::unique_ptr<JPH::BodyManager>           PhysicsSystem::m_pBodyManager;
 	std::vector<JoltBodyID>					    PhysicsSystem::m_pBodyIDVector;
 	std::unordered_map<uint32_t, EntityID>		PhysicsSystem::m_pBodyIDMap;
 	MyContactListener*							PhysicsSystem::contact_listener;
@@ -146,6 +147,12 @@ namespace TDS
 				using namespace JoltToTDS;
 				EActivation mode = EActivation::Activate;
 				//pBodies->SetPosition(ToBodyID(_rigidbody[i]), ToVec3(_transform[i].GetPosition()), mode); // only uncomment for debugging in editor
+				if (GetBoxCollider(entities[i]) && GetBoxCollider(entities[i])->GetIsTrigger())
+				{
+					BoxCollider* vBox = GetBoxCollider(entities[i]);
+					JPH::Body* pBody = &m_pBodyManager->GetBody(ToBodyID(_rigidbody[i]));
+					pBody->SetIsSensor(true);
+				}
 
 			}
 			
