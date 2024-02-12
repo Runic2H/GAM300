@@ -11,7 +11,7 @@ public class Flashlight_Script : Script
     public string flashAudiostr = "temp_flashlight";
     public AudioComponent flashAudio;
     public float followSpeed;
-    public int batteryLife = 100;
+    public static int batteryLife = 100;
     public float batteryTick = 20.0f;
 
     private float tick = 0.0f;

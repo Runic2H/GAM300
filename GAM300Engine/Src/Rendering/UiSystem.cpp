@@ -210,7 +210,7 @@ namespace TDS
 		if (viewport.x == 0 || viewport.y == 0)
 		{
 			// hopefully this will never happen but if it does, we need to factor in fullscreen in viewport
-			TDS_ASSERT(true, "EXE does not have viewport, need modify here")
+			//TDS_ASSERT(true, "EXE does not have viewport, need modify here")
 		}
 		m_ndcMousePos.x = ndcX;
 		m_ndcMousePos.y = ndcY;
