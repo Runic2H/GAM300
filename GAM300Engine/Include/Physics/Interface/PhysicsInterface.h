@@ -38,7 +38,7 @@ namespace TDS
 	void SetPositionAndRotation(const RigidBody& rb, Vec3& inPosition, Quat& inRotation, bool inActivate);
 	void SetPositionAndRotationWhenChanged(const RigidBody& rb, Vec3& inPosition, Quat& inRotation, bool inActivate);
 	void GetPositionAndRotation(const RigidBody& rb, Vec3& outPosition, Quat& outRotation);
-	void SetPosition(const RigidBody& rb, Vec3& inPosition, bool inActivate);
+	DLL_API void SetPosition(RigidBody& rb, Vec3& inPosition, bool inActivate);
 	Vec3 GetPosition(const RigidBody& rb);
 	Vec3 GetCenterOfMassPosition(const RigidBody& rb);
 	void SetRotation(const RigidBody& rb, Quat& inRotation, bool inActivate);

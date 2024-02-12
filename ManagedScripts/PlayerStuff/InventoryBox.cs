@@ -31,7 +31,7 @@ public class InventoryBox : Script
             }
             else
             {
-                ViewObject();
+                //ViewObject();
             }
         }
     }
@@ -85,6 +85,7 @@ public class InventoryBox : Script
             if(storedObjName == "Battery")
             {
                 // Do battery logic
+                Flashlight_Script.batteryLife = 100;
             }
             if(storedObjName == "???")
             {
