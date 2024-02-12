@@ -148,7 +148,7 @@ namespace TDS
 			| aiProcess_FindInstances
 			| aiProcess_CalcTangentSpace
 			| aiProcess_GenBoundingBoxes
-			| aiProcess_GenSmoothNormals
+			| aiProcess_GenNormals
 			| aiProcess_RemoveRedundantMaterials
 			| aiProcess_FindInvalidData
 			| aiProcess_FlipUVs;
@@ -168,7 +168,7 @@ namespace TDS
 		ImportMeshData(request, *currSceneInfo, assimpData);
 		MergeMesh(request, assimpData);
 		CreateLODs(request, assimpData);
-		OptimizeMesh(assimpData);
+		//OptimizeMesh(assimpData);
 		GeomData data{};
 		CreateFinalGeom(assimpData, data);
 		data.ConvertToTDSModel(request.m_Output);
@@ -242,11 +242,49 @@ namespace TDS
 
 		std::string rootName = assimp.m_Scene->mRootNode->mName.C_Str();
 
-		//ListNodes(assimp.m_Scene->mRootNode);
-		//ListMeshNames(assimp.m_Scene);
-		//ListMeshesInEveryNode(assimp.m_Scene->mRootNode, assimp.m_Scene);
-		//std::cout << totalmesh << std::endl;
-		//std::cout << totalNodesWithMeshes << std::endl;
+		ListNodes(assimp.m_Scene->mRootNode);
+		ListMeshNames(assimp.m_Scene);
+		ListMeshesInEveryNode(assimp.m_Scene->mRootNode, assimp.m_Scene);
+		std::cout << totalmesh << std::endl;
+		std::cout << totalNodesWithMeshes << std::endl;
+
+		if (request.currSetting.m_Centralize)
+		{
+			Vec3 min{}, max{};
+			bool firstVertex = true;
+			for (unsigned int m = 0; m < assimp.m_Scene->mNumMeshes; m++) {
+				aiMesh* mesh = assimp.m_Scene->mMeshes[m];
+				for (unsigned int v = 0; v < mesh->mNumVertices; v++) {
+					aiVector3D vertex = mesh->mVertices[v];
+					if (firstVertex) {
+						min = max = Vec3(vertex.x, vertex.y, vertex.z);
+						firstVertex = false;
+					}
+					else {
+						min.x = std::min(min.x, vertex.x);
+						min.y = std::min(min.y, vertex.y);
+						min.z = std::min(min.z, vertex.z);
+
+						max.x = std::max(max.x, vertex.x);
+						max.y = std::max(max.y, vertex.y);
+						max.z = std::max(max.z, vertex.z);
+					}
+				}
+			}
+
+			Vec3 center = (min + max) * 0.5f;
+
+			for (unsigned int m = 0; m < assimp.m_Scene->mNumMeshes; m++)
+			{
+				aiMesh* mesh = assimp.m_Scene->mMeshes[m];
+				for (unsigned int v = 0; v < mesh->mNumVertices; v++) {
+					mesh->mVertices[v].x -= center.x;
+					mesh->mVertices[v].y -= center.y;
+					mesh->mVertices[v].z -= center.z;
+				}
+			}
+		}
+
 		ProcessScene(assimpData, *assimp.m_Scene->mRootNode, *assimp.m_Scene, assimp.m_AppliedTransformation, rootName, request);
 	}
 

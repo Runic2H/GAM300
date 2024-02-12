@@ -165,7 +165,7 @@ namespace ScriptAPI
     {
         for each (auto i in TDS::ecs.getEntities())
         {
-            if (scripts->ContainsKey(i) && TDS::ecs.getEntityIsEnabled(i))
+            if (scripts->ContainsKey(i))
             {
                 for each (NameScriptPair ^ script in scripts[i])
                 {
@@ -630,6 +630,11 @@ namespace ScriptAPI
     }
     Script^ EngineInterface::GetScriptReference(TDS::EntityID entityId, System::String^ script)
     {
+        //for each (NameScriptPair ^ script in scripts[entityId])
+        //{
+        //    Console::WriteLine(script->Key);
+        //}
+        //Console::WriteLine("Thats all");
         return (entityId > 0 ? scripts[entityId][script] : nullptr);
     }
 

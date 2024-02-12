@@ -148,7 +148,7 @@ namespace TDS
 
 		private:
 			
-		
+			AABB											m_BoundingBoxScene;
 			std::array<AssimpSceneInfo, MAX_MESH_LOADER>	m_AssimpLoaders;
 			std::deque<Request>								m_RequestLoad;
 

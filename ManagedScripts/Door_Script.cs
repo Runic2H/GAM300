@@ -142,63 +142,91 @@ public class Door_Script : Script
     //}
     */
 
-    public GameObject _InteractUI;
+    public GameObject playerGameObject;
+    public CameraComponent playerCamera;
+    //public GameObject _InteractUI;
     //public Animator doorAnimator;
+    public GameObject lockpickGroup;
     public GameObject lockpick;
-    public LockPick1 lockpickScript;
     public float doorState = 0; //0 is closed, 1 is open
     public bool locked = true;
     public bool forcedLocked;
     public bool chainedShut;
-    public AudioClip[] _DoorSounds;
-    public AudioSource _DoorAudioSource;
+    //public AudioClip[] _DoorSounds;
+    //public AudioSource _DoorAudioSource;
     public bool collided;
 
     [Header("VO Variables")]
     //public Text mySubtitles;
-    public string[] myVOTexts;
-    public AudioClip[] forceLocked_VOLines;
-    public AudioSource voSource;
-    int forcelockedAudioCount = -1;
-    bool playForcedLockedAudio;
+    //public String[] myVOTexts;
+    //public AudioClip[] forceLocked_VOLines;
+    //public AudioSource voSource;
+    private int forcelockedAudioCount = -1;
+    private bool playForcedLockedAudio;
+
+    public GameObject doorStates;
+    public int doorIndex;
+    public GameObject doorText;
 
     // Update is called once per frame
     override public void Update()
     {
-        if (collided)
+        if (doorStates.GetComponent<DoorState>().Doors[doorIndex] == DoorState.State.Unlocked)
         {
+            doorText.SetActive(false);
+            //gameObject.SetActive(false);
+            // Door animation here
+        }
+        else if (gameObject.GetComponent<RigidBodyComponent>().IsRayHit())
+        {
+            doorText.SetActive(true);
             if (Input.GetKeyDown(Keycode.E))
             {
-                if (!locked)
-                {
-                    Open_CloseFunction();
-                    _InteractUI.SetActive(true);
-                }
-                else if (chainedShut)
-                {
-
-                }
-                else if (forcedLocked)
-                {
-                    playForcedLockedAudio = true;
-                    forcelockedAudioCount = -1;
-                }
-                else if (!lockpick.ActiveInHierarchy() && !forcedLocked)
-                {
-                    _InteractUI.SetActive(false);
-                    lockpick.SetActive(true);
-                    lockpickScript.newLock();
-                }
-            }
-
-            if (lockpickScript.unlocked)
-            {
-                lockpickScript.unlocked = false;
-                lockpick.SetActive(false);
-                locked = false;
-                _InteractUI.SetActive(true);
+                lockpickGroup.SetActive(true);
+                lockpick.GetComponent<LockPick1>().doorIndex = doorIndex;
+                playerGameObject.SetActive(false);
+                GraphicsManagerWrapper.ToggleViewFrom2D(true);
             }
         }
+        else
+        {
+            doorText.SetActive(false);
+        }
+
+        //if (collided)
+        //{
+        //    if (Input.GetKeyDown(Keycode.E))
+        //    {
+        //        if (!locked)
+        //        {
+        //            Open_CloseFunction();
+        //            _InteractUI.SetActive(true);
+        //        }
+        //        else if (chainedShut)
+        //        {
+
+        //        }
+        //        else if (forcedLocked)
+        //        {
+        //            playForcedLockedAudio = true;
+        //            forcelockedAudioCount = -1;
+        //        }
+        //        else if (!lockpick.ActiveInHierarchy() && !forcedLocked)
+        //        {
+        //            _InteractUI.SetActive(false);
+        //            lockpick.SetActive(true);
+        //            lockpickScript.newLock();
+        //        }
+        //    }
+
+        //    if (lockpickScript.unlocked)
+        //    {
+        //        lockpickScript.unlocked = false;
+        //        lockpick.SetActive(false);
+        //        locked = false;
+        //        _InteractUI.SetActive(true);
+        //    }
+        //}
 
         if (playForcedLockedAudio)
         {

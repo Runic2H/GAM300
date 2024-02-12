@@ -94,6 +94,7 @@ namespace ScriptAPI
 			return safe_cast<T>(PointlightComponent(entityID));
 		}
 
+		//Console::WriteLine(entityID.ToString() + "\t" + type->FullName);
 		return safe_cast<T>(EngineInterface::GetScriptReference(entityID, type->FullName));
 	}
 

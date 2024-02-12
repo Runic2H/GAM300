@@ -123,7 +123,7 @@ public class FPS_Controller_Script : Script
     public override void Awake()
     {
         rb = gameObject.GetComponent<RigidBodyComponent>();
-        playerCamera = GameObjectScriptFind("playerCameraObject").GetComponent<CameraComponent>();
+        //playerCamera = GameObjectScriptFind("playerCameraObject").GetComponent<CameraComponent>();
         startingVO = gameObject.GetComponent<AudioComponent>();
         startingVOstr = "pc_lockpickstart";
         // Set internal variables
@@ -146,6 +146,7 @@ public class FPS_Controller_Script : Script
 
         currentFootStepPlaying = 0;
         audio = gameObject.GetComponent<AudioComponent>();
+        startingVO.stop(startingVOstr);
     }
     public override void Start()
     {

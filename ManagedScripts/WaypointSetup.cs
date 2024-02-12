@@ -94,7 +94,7 @@ public class WaypointSetup : Script
         LeftWing_Waypoint = WaypointPathfinder.AddWaypoint(new Vector2(-1929.0f, 178.0f));
         GalleryLeftWing_DoorWaypoint = WaypointPathfinder.AddWaypoint(new Vector2(-1929.0f, -70.0f));
 
-        LeftWingMainEntrance_DoorWaypoint = WaypointPathfinder.AddWaypoint(new Vector2(-1929.0f, -70.0f));
+        LeftWingMainEntrance_DoorWaypoint = WaypointPathfinder.AddWaypoint(new Vector2(-756.0f, 226.0f));
         DiningMainEntrance_DoorWaypoint = WaypointPathfinder.AddWaypoint(new Vector2(-272.0f, -124.0f));
         RightWingMainEntrance_DoorWaypoint = WaypointPathfinder.AddWaypoint(new Vector2(211.0f, 177.0f));
 
@@ -189,14 +189,11 @@ public class WaypointSetup : Script
         // Adding neighbours
         WaypointPathfinder.AddNeighbour(GalleryFirst_Waypoint, GallerySecond_Waypoint);
         WaypointPathfinder.AddNeighbour(GalleryFirst_Waypoint, GalleryStudy_DoorWaypoint);
-        WaypointPathfinder.AddNeighbour(GalleryFirst_Waypoint, GalleryLeftWing_DoorWaypoint);
 
         WaypointPathfinder.AddNeighbour(GallerySecond_Waypoint, GalleryFirst_Waypoint);
-        WaypointPathfinder.AddNeighbour(GallerySecond_Waypoint, GalleryStudy_DoorWaypoint);
         WaypointPathfinder.AddNeighbour(GallerySecond_Waypoint, GalleryLeftWing_DoorWaypoint);
 
         WaypointPathfinder.AddNeighbour(GalleryStudy_DoorWaypoint, GalleryFirst_Waypoint);
-        WaypointPathfinder.AddNeighbour(GalleryStudy_DoorWaypoint, GallerySecond_Waypoint);
         WaypointPathfinder.AddNeighbour(GalleryStudy_DoorWaypoint, Study_Waypoint);
 
         WaypointPathfinder.AddNeighbour(Study_Waypoint, GalleryStudy_DoorWaypoint);
@@ -209,7 +206,6 @@ public class WaypointSetup : Script
         WaypointPathfinder.AddNeighbour(LeftWing_Waypoint, GalleryLeftWing_DoorWaypoint);
         WaypointPathfinder.AddNeighbour(LeftWing_Waypoint, LeftWingMainEntrance_DoorWaypoint);
 
-        WaypointPathfinder.AddNeighbour(GalleryLeftWing_DoorWaypoint, GalleryFirst_Waypoint);
         WaypointPathfinder.AddNeighbour(GalleryLeftWing_DoorWaypoint, GallerySecond_Waypoint);
         WaypointPathfinder.AddNeighbour(GalleryLeftWing_DoorWaypoint, LeftWing_Waypoint);
 

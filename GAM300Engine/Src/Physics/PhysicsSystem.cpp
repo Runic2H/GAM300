@@ -294,12 +294,11 @@ namespace TDS
 			);
 			b_capsuleSetting.mFriction = _rigidbody->GetFriction();
 			b_capsuleSetting.mRestitution = _rigidbody->GetRestitution();
-			b_capsuleSetting.mGravityFactor = _rigidbody->GetGravityFactor();
+			b_capsuleSetting.mGravityFactor = (_rigidbody->GetUseGravity()) ? _rigidbody->GetGravityFactor() : 0.0f;
 			b_capsuleSetting.mLinearDamping = _rigidbody->GetLinearDamping();
 			b_capsuleSetting.mAngularDamping = _rigidbody->GetAngularDamping();
-			b_capsuleSetting.mLinearVelocity = JoltToTDS::ToVec3(_rigidbody->GetLinearVel());
-			b_capsuleSetting.mAngularVelocity = JoltToTDS::ToVec3(_rigidbody->GetAngularVel());
-			b_capsuleSetting.mIsSensor = vCapsule->GetIsTrigger();
+			b_capsuleSetting.mAllowSleeping = false;
+			//b_capsuleSetting.mIsSensor = b_capsuleSetting->GetIsTrigger();
 			
 			JPH::BodyID capsuleID = m_pSystem->GetBodyInterface().CreateAndAddBody(b_capsuleSetting, JPH::EActivation::Activate);
 			
