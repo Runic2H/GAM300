@@ -22,6 +22,10 @@ public class BeforeGameCredits : Script
         counter += Time.deltaTime;
         
         //Console.WriteLine(counter.ToString());
+        if (counter > 6.5f)
+        {
+            counter = 0;
+        }
 
         if (Input.GetKeyDown(Keycode.SPACE))
         {
