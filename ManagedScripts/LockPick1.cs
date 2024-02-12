@@ -70,6 +70,8 @@ public class LockPick1 : Script
     public int doorIndex;
     public GameObject doorText;
     public GameObject monster;
+    public GameObject doorStates;
+    public GameObject popupUI;
 
     // Start is called before the first frame update
     override public void Awake()
@@ -161,135 +163,145 @@ public class LockPick1 : Script
             }
             #endregion
 
-            #region Check if pick is at correct position
-            float eulerAngleDegree = toDegree(eulerAngle);
-            percentage = Mathf.Round(100 - Mathf.Abs(((eulerAngleDegree - unlockAngle) / 100) * 100));
-            float maxRotation = (percentage / 100) * maxAngle;
-            float lockRotation = maxRotation * keyPressTime;
-            float lockLerp = Mathf.LerpAngle(toDegree(innerLock.GetRotation().Z), lockRotation, Time.deltaTime * lockSpeed);
-            innerLock.SetRotation(new Vector3(0, 0, toRadians(lockLerp)));
+        #region Check if pick is at correct position
+        float eulerAngleDegree = toDegree(eulerAngle);
+        percentage = Mathf.Round(100 - Mathf.Abs(((eulerAngleDegree - unlockAngle) / 100) * 100));
+        float maxRotation = (percentage / 100) * maxAngle;
+        float lockRotation = maxRotation * keyPressTime;
+        float lockLerp = Mathf.LerpAngle(toDegree(innerLock.GetRotation().Z), lockRotation, Time.deltaTime * lockSpeed);
+        innerLock.SetRotation(new Vector3(0, 0, toRadians(lockLerp)));
 
-            if (!movePick && (lockLerp >= maxRotation - 1))
+        if (!movePick && (lockLerp >= maxRotation - 1))
+        {
+            if (eulerAngleDegree < unlockRange.Y && eulerAngleDegree > unlockRange.X)
             {
-                if (eulerAngleDegree < unlockRange.Y && eulerAngleDegree > unlockRange.X)
+                audio.stop(lockSoundEffects[0]);
+                movePick = true;
+                keyPressTime = 0;
+                // NOTE: Audio
+                audio.play(lockSoundEffects[1]);
+                timer = 1.2f;
+                passed = true;
+            }
+            else
+            {
+                //float randomRotation = ScriptAPI.Random.insideUnitCircle.x;
+                float randomRotation = ScriptAPI.Random.Range(-1,1); // NOTE: Not sure if insideUnitCircle keeps changing or is a fixed Vector2 that is reset on Start
+                transform.SetRotationZ(originalRotation.Z + (float)(randomRotation / 180.0 * Math.PI));
+
+                if (Input.GetKeyDown(Keycode.E) || Input.GetKey(Keycode.E))
                 {
-                    audio.stop(lockSoundEffects[0]);
-                    movePick = true;
-                    keyPressTime = 0;
                     // NOTE: Audio
-                    audio.play(lockSoundEffects[1]);
-                    timer = 1.2f;
-                    passed = true;
-                }
-                else
-                {
-                    //float randomRotation = ScriptAPI.Random.insideUnitCircle.x;
-                    float randomRotation = ScriptAPI.Random.Range(-1,1); // NOTE: Not sure if insideUnitCircle keeps changing or is a fixed Vector2 that is reset on Start
-                    transform.SetRotationZ(originalRotation.Z + (float)(randomRotation / 180.0 * Math.PI));
-
-                    if (Input.GetKeyDown(Keycode.E) || Input.GetKey(Keycode.E))
+                    if (audio.finished(lockSoundEffects[0]))
                     {
-                        // NOTE: Audio
-                        if (audio.finished(lockSoundEffects[0]))
+                        audio.stop(lockSoundEffects[0]);
+                        delay -= Time.deltaTime;
+
+                        if (delay <= 0)
                         {
-                            audio.stop(lockSoundEffects[0]);
-                            delay -= Time.deltaTime;
+                            // Not sure if there is a better way to do this
+                            if (audio.finished(rattleSoundEffects[0]))
+                                audio.stop(rattleSoundEffects[0]);
+                            if (audio.finished(rattleSoundEffects[1]))
+                                audio.stop(rattleSoundEffects[1]);
+                            if (audio.finished(rattleSoundEffects[2]))
+                                audio.stop(rattleSoundEffects[2]);
+                            if (audio.finished(rattleSoundEffects[3]))
+                                audio.stop(rattleSoundEffects[3]);
+                            if (audio.finished(rattleSoundEffects[4]))
+                                audio.stop(rattleSoundEffects[4]);
+                            if (audio.finished(rattleSoundEffects[5]))
+                                audio.stop(rattleSoundEffects[5]);
 
-                            if (delay <= 0)
-                            {
-                                // Not sure if there is a better way to do this
-                                if (audio.finished(rattleSoundEffects[0]))
-                                    audio.stop(rattleSoundEffects[0]);
-                                if (audio.finished(rattleSoundEffects[1]))
-                                    audio.stop(rattleSoundEffects[1]);
-                                if (audio.finished(rattleSoundEffects[2]))
-                                    audio.stop(rattleSoundEffects[2]);
-                                if (audio.finished(rattleSoundEffects[3]))
-                                    audio.stop(rattleSoundEffects[3]);
-                                if (audio.finished(rattleSoundEffects[4]))
-                                    audio.stop(rattleSoundEffects[4]);
-                                if (audio.finished(rattleSoundEffects[5]))
-                                    audio.stop(rattleSoundEffects[5]);
-
-                                audio.play(rattleSoundEffects[(int)ScriptAPI.Random.Range(0, 5)]);
-                                delay = 0.4f;
-                            }
+                            audio.play(rattleSoundEffects[(int)ScriptAPI.Random.Range(0, 5)]);
+                            delay = 0.4f;
                         }
                     }
+                }
 
-                    if (deduct == true)
-                    {
-                        numOfTries -= 1;
-                        deduct = false;
-                    }
+                if (deduct == true)
+                {
+                    numOfTries -= 1;
+                    deduct = false;
+                }
 
-                    if (numOfTries <= 0)
-                    {
-                        // NOTE: Audio
-                        audio.play(lockSoundEffects[2]);
-                        movePick = false;
-                        timer = 1.0f;
-                        failed = true;
-                    }
+                if (numOfTries <= 0)
+                {
+                    // NOTE: Audio
+                    audio.play(lockSoundEffects[2]);
+                    movePick = false;
+                    timer = 1.0f;
+                    failed = true;
                 }
             }
-            #endregion
+        }
+        #endregion
 
-            _AmtOfTries.SetFontMessage("Number of tries left: " + numOfTries.ToString());
+        _AmtOfTries.SetFontMessage("Number of tries left: " + numOfTries.ToString());
 
-            if (numOfTries <= 1)
+        if (numOfTries <= 1)
+        {
+            _AmtOfTries.SetFontColour(new Vector4(1.0f, 0.0f, 0.0f, 1.0f)); // red
+        }
+
+        if (passed)
+        {
+            if (timer <= 0)
             {
-                _AmtOfTries.SetFontColour(new Vector4(1.0f, 0.0f, 0.0f, 1.0f)); // red
+                playerController.SetActive(true);
+                Vector3 rotation = playerController.transform.GetRotation();
+                Quaternion quat = new Quaternion(rotation);
+                Vector3 rotationToVector = new Vector3(-Mathf.Sin(toRadians(rotation.Y)), 0.0f, Mathf.Cos(toRadians(rotation.Y))) * 200;
+                Console.WriteLine(rotationToVector.X + "\t" + rotationToVector.Y + "\t" + rotationToVector.Z);
+                playerController.GetComponent<RigidBodyComponent>().SetPositionRotationAndVelocity(playerController.transform.GetPosition() + rotationToVector, new Vector4(quat.X, quat.Y, quat.Z, quat.W), new Vector3(1, 1, 1).Normalize(), new Vector3(1, 1, 1).Normalize());
+                Input.Lock(true);
+                //    playerCam.SetEnabled(true);
+                //    Door_UI.SetActive(false);
+                unlocked = true;
+                doorStates.SetActive(true);
+                doorStates.GetComponent<DoorState>().Doors[doorIndex] = DoorState.State.Unlocked;
+                lockGroup.SetActive(false);
+                newLock();
+                GraphicsManagerWrapper.ToggleViewFrom2D(false);
+                popupUI.GetComponent<PopupUI>().lockpickDisplayed = false;
             }
-
-            if (passed)
+            else
             {
-                if (timer <= 0)
-                {
-                    playerController.SetActive(true);
-                    Input.Lock(true);
-                    //    playerCam.SetEnabled(true);
-                    //    Door_UI.SetActive(false);
-                    unlocked = true;
-                    lockGroup.GetComponent<DoorState>().Doors[doorIndex] = DoorState.State.Unlocked;
-                    lockGroup.SetActive(false);
-                    newLock();
-                    GraphicsManagerWrapper.ToggleViewFrom2D(false);
-                }
-                else
-                {
-                    timer -= Time.deltaTime;
-                }
+                timer -= Time.deltaTime;
             }
+        }
 
-            if (failed)
+        if (failed)
+        {
+            if (timer <= 0)
             {
-                if (timer <= 0)
-                {
-                    playerController.SetActive(true);
-                    Input.Lock(true);
-                    //    playerCam.SetEnabled(true);
-                    //    Door_UI.SetActive(false);
-                    lockGroup.SetActive(false);
-                    newLock();
-                    GraphicsManagerWrapper.ToggleViewFrom2D(false);
-                    monster.GetComponent<GhostMovement>().AlertMonster(doorIndex);
-                }
-                else
-                {
-                    timer -= Time.deltaTime;
-                }
+                playerController.SetActive(true);
+                Input.Lock(true);
+                //    playerCam.SetEnabled(true);
+                //    Door_UI.SetActive(false);
+                lockGroup.SetActive(false);
+                newLock();
+                GraphicsManagerWrapper.ToggleViewFrom2D(false);
+                doorStates.SetActive(true);
+                monster.GetComponent<GhostMovement>().AlertMonster(doorIndex);
+                popupUI.GetComponent<PopupUI>().lockpickDisplayed = false;
             }
+            else
+            {
+                timer -= Time.deltaTime;
+            }
+        }
         //}
     }
 
     public void newLock()
     {
-        originalPosition = new Vector3(0.0f, 350.0f, 1500.0f);
+        originalPosition = new Vector3(0.0f, 600.0f, 2500.0f);
         originalRotation = transform.GetRotation();
 
         audio.stop(lockSoundEffects[1]);
         audio.stop(lockSoundEffects[2]);
+        popupUI.GetComponent<PopupUI>().lockpickDisplayed = true;
         Input.Lock(false);
 
         failed = false;
@@ -306,7 +318,7 @@ public class LockPick1 : Script
         unlockAngle = ScriptAPI.Random.Range(-maxAngle + lockRange, maxAngle - lockRange);
         unlockRange = new Vector2(unlockAngle - lockRange, unlockAngle + lockRange);
 
-        numOfTries = 3;
+        numOfTries = 5;
         if (difficultyLvl == "Easy")
         {
             numOfTries = 10;

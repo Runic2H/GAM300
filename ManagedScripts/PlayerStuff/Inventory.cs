@@ -15,6 +15,7 @@ public class InventoryScript : Script
     public static List<string> paintingsObjsImg;
 
     public static bool InventoryIsOpen;
+    public bool LockpickIsOpen;
 
     //public Dictionary<string, string> ItemTexture;
 
@@ -26,7 +27,7 @@ public class InventoryScript : Script
 
     public override void Awake()
     {
-        
+        LockpickIsOpen = false;
     }
 
     // MAKE SURE INVENTORYOBJECT IS ACTIVE WHEN STARTING THE GAME SO START() RUNS
@@ -46,7 +47,12 @@ public class InventoryScript : Script
             toggleInventory();
         }
 
-        if (InventoryIsOpen) // Inventory opened
+        if (!LockpickIsOpen)
+        {
+            Input.Lock(false);
+            Input.HideMouse(false);
+        }
+        else if (InventoryIsOpen) // Inventory opened
         {
             Input.Lock(false);
             Input.HideMouse(false);

@@ -36,6 +36,8 @@ public class GhostMovement : Script
 
     public GameObject player;
 
+    public float speed;
+
     //public void ReadWaypoint(Waypoint wp)
     //{
 
@@ -80,6 +82,8 @@ public class GhostMovement : Script
         walkingSounds[8] = "temp_step8";
         walkingSounds[9] = "temp_step9";
         walkingSounds[10] = "temp_step10";
+
+        speed = 0.15f;
     }
 
     public override void Update()
@@ -173,7 +177,7 @@ public class GhostMovement : Script
         else if (isChasingPlayer) // done playing sound, chasing player
         {
             ScriptAPI.Vector3 originalPosition = transform.GetPosition();
-            ScriptAPI.Vector2 nextPosition = WaypointPathfinder.NextStep(new ScriptAPI.Vector2(originalPosition.X, originalPosition.Z), 0.25f);
+            ScriptAPI.Vector2 nextPosition = WaypointPathfinder.NextStep(new ScriptAPI.Vector2(originalPosition.X, originalPosition.Z), speed);
             transform.SetPosition(new ScriptAPI.Vector3(nextPosition.X, originalPosition.Y, nextPosition.Y));
             //Console.WriteLine(nextPosition.X + "\t\t" + nextPosition.Y);
         }
@@ -212,6 +216,7 @@ public class GhostMovement : Script
 
     public void AlertMonster(int doorIndex)
     {
+        speed += 0.1f;
         playSoundTimer = 1.0f;
         walkingSoundCounter = 0;
         isPatrol = false;

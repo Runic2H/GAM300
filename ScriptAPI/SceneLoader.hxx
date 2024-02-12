@@ -15,6 +15,7 @@ namespace ScriptAPI
 
 		static void LoadEndGameCredits();
 
+		static void LoadQuitGame();
 		static System::String^ dataPath;
 	};
 }

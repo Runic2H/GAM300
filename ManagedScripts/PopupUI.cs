@@ -5,12 +5,14 @@ public class PopupUI : Script
 {
     [SerializeField]
     public static bool isDisplayed = false;
+    public bool lockpickDisplayed;
     UISpriteComponent popUpScreen;
 
     public GameObject player;
 
     public override void Awake()
     {
+        lockpickDisplayed = false;
     }
 
     public override void Start()
@@ -35,8 +37,7 @@ public class PopupUI : Script
             player.GetComponent<FPS_Controller_Script>().cameraCanMove = !isDisplayed;*/
 
         }
-
-        else if(!InventoryScript.InventoryIsOpen && !isDisplayed)
+        else if(!InventoryScript.InventoryIsOpen && !lockpickDisplayed)
         {
             //Console.WriteLine("game unpaused");
             popUpScreen.SetEnabled(false);

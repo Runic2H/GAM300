@@ -166,31 +166,30 @@ public class Door_Script : Script
 
     public GameObject doorStates;
     public int doorIndex;
-    public GameObject doorText;
+    public GameObject popupUI;
 
     // Update is called once per frame
     override public void Update()
     {
         if (doorStates.GetComponent<DoorState>().Doors[doorIndex] == DoorState.State.Unlocked)
         {
-            doorText.SetActive(false);
             //gameObject.SetActive(false);
             // Door animation here
         }
-        else if (gameObject.GetComponent<RigidBodyComponent>().IsRayHit())
+        else if (!forcedLocked && gameObject.GetComponent<RigidBodyComponent>().IsRayHit())
         {
-            doorText.SetActive(true);
+            doorStates.GetComponent<DoorState>().doorLookedAt = true;
             if (Input.GetKeyDown(Keycode.E))
             {
+                doorStates.SetActive(false);
                 lockpickGroup.SetActive(true);
                 lockpick.GetComponent<LockPick1>().doorIndex = doorIndex;
                 playerGameObject.SetActive(false);
                 GraphicsManagerWrapper.ToggleViewFrom2D(true);
+
+                if (!popupUI.GetComponent<PopupUI>().lockpickDisplayed)
+                    lockpick.GetComponent<LockPick1>().newLock();
             }
-        }
-        else
-        {
-            doorText.SetActive(false);
         }
 
         //if (collided)
@@ -234,21 +233,22 @@ public class Door_Script : Script
         }
     }
 
-    override public void OnTriggerEnter(ColliderComponent other)
-    {
-        if (other.gameObject.GetComponent<NameTagComponent>().GetName() == "Enemy")
-        {
-            Open_CloseFunction();
-        }
-    }
 
-    override public void OnTriggerExit(ColliderComponent other)
-    {
-        if (other.gameObject.GetComponent<NameTagComponent>().GetName() == "Enemy")
-        {
-            Open_CloseFunction();
-        }
-    }
+    //override public void OnTriggerEnter(ColliderComponent other)
+    //{
+    //    if (other.gameObject.GetComponent<NameTagComponent>().GetName() == "Enemy")
+    //    {
+    //        Open_CloseFunction();
+    //    }
+    //}
+
+    //override public void OnTriggerExit(ColliderComponent other)
+    //{
+    //    if (other.gameObject.GetComponent<NameTagComponent>().GetName() == "Enemy")
+    //    {
+    //        Open_CloseFunction();
+    //    }
+    //}
 
     public void Open_CloseFunction()
     {
