@@ -434,7 +434,7 @@ namespace TDS
 			}
 		}
 
-		return rooms.size();
+		return 0;
 	}
 
 	void WaypointPathfinder::FindPath(Vec2 start, Vec2 goal)
@@ -552,7 +552,6 @@ namespace TDS
 		Vec2 toReturn = foundPath[0];
 		foundPath.erase(foundPath.begin());
 
-		std::cout << toReturn.x << "\t" << toReturn.y << std::endl;
 		return toReturn;
 	}
 }

@@ -1,4 +1,14 @@
-﻿using ScriptAPI;
+﻿/*!*************************************************************************
+****
+\file InventoryBox.cs
+\author Celine Leong
+\par DP email: jiayiceline.leong@digipen.edu
+\par Course: csd3450
+\date 15-1-2024
+\brief  Gameplay script for each inventory slot 
+****************************************************************************
+***/
+using ScriptAPI;
 using System;
 using static System.Net.Mime.MediaTypeNames;
 
@@ -8,6 +18,7 @@ public class InventoryBox : Script
     public int BoxNumber;
     public string storedObjName;
     public string storedObjTexture;
+    
 
     //public Sprite emptyBox;
 
@@ -31,7 +42,7 @@ public class InventoryBox : Script
             }
             else
             {
-                ViewObject();
+                //ViewObject();
             }
         }
     }
@@ -85,6 +96,7 @@ public class InventoryBox : Script
             if(storedObjName == "Battery")
             {
                 // Do battery logic
+                Flashlight_Script.batteryLife = 100.0f;
             }
             if(storedObjName == "???")
             {

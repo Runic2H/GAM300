@@ -1,3 +1,13 @@
+/*!*************************************************************************
+****
+\file WASD.cs
+\author Elton Teo
+\par DP email: e.teo@digipen.edu
+\par Course: csd3450
+\date 28-1-2024
+\brief  Script for controlling player and lockpick movement
+****************************************************************************
+***/
 using ScriptAPI;
 using System;
 

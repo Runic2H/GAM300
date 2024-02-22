@@ -1,3 +1,13 @@
+/*!*************************************************************************
+****
+\file UISpriteTest.cs
+\author Go Ruo Yan
+\par DP email: ruoyan.go@digipen.edu
+\par Course: csd3450
+\date 9-12-2023
+\brief  Script testing sprites
+****************************************************************************
+***/
 using ScriptAPI;
 using System;
 

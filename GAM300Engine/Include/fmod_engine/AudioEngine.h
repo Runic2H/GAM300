@@ -88,6 +88,11 @@ namespace TDS
             DLL_API  void update();
 
             /**
+            * Checks if any sound is playing
+            */
+            DLL_API  bool anySoundPlaying();
+
+            /**
              * Loads a sound from disk using provided settings
              * Prepares for later playback with playSound()
              * Only reads the audio file and loads into the audio engine
@@ -105,6 +110,11 @@ namespace TDS
             DLL_API  int playSound(SoundInfo& soundInfo);
 
             /**
+            * Plays all sound in paused state
+            */
+            DLL_API  void playAllPaused();
+
+            /**
             * Pause a sound file using FMOD's low level audio system.
             *
             * @param filename - relative path to file from project directory. (Can be .OGG, .WAV, .MP3,
@@ -113,9 +123,19 @@ namespace TDS
             DLL_API void pauseSound(SoundInfo& soundInfo);
 
             /**
-             * Stops a looping sound if it's currently playing.
+            * Pause all sounds
+            */
+            DLL_API  void pauseAllSound();
+
+            /**
+             * Stops a sound if it's currently playing.
              */
             DLL_API  void stopSound(SoundInfo& soundInfo);
+
+            /**
+            * Stops all sound
+            */
+            DLL_API  void stopAllSound();
 
             /**
              * Method that updates the volume of a soundloop that is playing. This can be used to create audio 'fades'
@@ -131,17 +151,22 @@ namespace TDS
             * The SoundInfo object's position coordinates will be used for the new sound position, so
             * SoundInfo::set3DCoords(x,y,z) should be called before this method to set the new desired location.
             */
-            DLL_API  void update3DSoundPosition(SoundInfo soundInfo);
+            DLL_API  void update3DSoundPosition(SoundInfo& soundInfo);
 
             /**
              * Checks if a sound is playing.
              */
-            DLL_API  bool soundIsPlaying(SoundInfo soundInfo);
+            DLL_API  bool soundIsPlaying(SoundInfo& soundInfo);
+
+            /**
+            * Checks if a sound is paused
+            */
+            DLL_API  bool soundIsPaused(SoundInfo& soundInfo);
 
             /**
              * Checks if a sound has finished playing.
              */
-            DLL_API  void soundFinished(SoundInfo& soudnInfo);
+            DLL_API  bool soundFinished(SoundInfo& soudnInfo);
 
             /**
              * Sets the position of the listener in the 3D scene.
@@ -371,6 +396,10 @@ namespace TDS
         static void ScriptPlay(std::string pathing);
         static void ScriptPause(std::string pathing);
         static void ScriptStop(std::string pathing);
+        static void ScriptPlayAllPaused();
+        static void ScriptPauseAll();
+        static void ScriptStopAll();
+        static bool ScriptAnySoundPlaying();
 
         static SoundInfo* find_sound_info(std::string str);
         static void Add_to_Queue(std::string str = "");
@@ -384,14 +413,11 @@ namespace TDS
         static AudioWerks::AudioEngine* aud_instance;
 
         static int totalNumClips;
+        static bool Q_state;
+        static SoundInfo Q_name;
 
-        static std::map<std::string, SoundInfo> music;
-        static std::map<std::string, SoundInfo> SFX;
-        static std::map<std::string, SoundInfo> background;
-        static std::map<std::string, SoundInfo> VO;
+        static std::map<std::string, SoundInfo> allSounds;
         static std::map<std::string, std::pair<bool, SoundInfo*>> Queue;
-
-        static std::map<std::string, SoundInfo*> all_sounds;
         //static std::map<unsigned int, std::map<Vec3*, SOUND_STATE*>> sound_events;
     }; //end of proxy_audio_system
 } //end of TDS

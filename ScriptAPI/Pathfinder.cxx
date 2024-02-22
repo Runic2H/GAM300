@@ -5,7 +5,6 @@ namespace ScriptAPI
 {
 	void Pathfinder::ReadLayoutFile(System::String^ file)
 	{
-		System::Console::WriteLine(file);
 		TDS::Pathfinder::GetInstance()->ReadLayout(toStdString(file));
 	}
 
@@ -75,5 +74,9 @@ namespace ScriptAPI
 		}
 
 		return toReturn;
+	}
+	bool WaypointPathfinder::SameRoom(Vector2 start, Vector2 goal)
+	{
+		return TDS::WaypointPathfinder::GetInstance()->GetRoomID(TDS::floatsToVec2(start.X, start.Y)) == TDS::WaypointPathfinder::GetInstance()->GetRoomID(TDS::floatsToVec2(goal.X, goal.Y));
 	}
 }

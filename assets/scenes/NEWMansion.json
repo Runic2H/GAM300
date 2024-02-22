@@ -14212,9 +14212,9 @@
                     "z": 0.0
                 },
                 "OldFakeScale": {
-                    "x": 0.0,
-                    "y": 0.0,
-                    "z": 0.0
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
                 },
                 "OldFakeRotation": {
                     "x": 0.0,
@@ -107261,8 +107261,34 @@
                 "opened": {
                     "System.Boolean": "False"
                 },
+                "AudioPlayer": {
+                    "ScriptAPI.AudioComponent": 0
+                },
                 "voClip": {
-                    "ScriptAPI.AudioComponent[]": 0
+                    "System.String": ""
+                },
+                "timer": {
+                    "System.Single": "0"
+                },
+                "gameObject": {
+                    "ScriptAPI.GameObject": 487
+                }
+            },
+            "Painting_Script": {
+                "Painting_Name": {
+                    "System.String": "Painting1"
+                },
+                "Painting_Texture": {
+                    "System.String": "p01.dds"
+                },
+                "opened": {
+                    "System.Boolean": "False"
+                },
+                "AudioPlayer": {
+                    "ScriptAPI.AudioComponent": 0
+                },
+                "voClip": {
+                    "System.String": ""
                 },
                 "timer": {
                     "System.Single": "0"
@@ -107275,6 +107301,20 @@
         "904": {},
         "25": {},
         "481": {
+            "InventoryBox": {
+                "BoxNumber": {
+                    "System.Int32": "9"
+                },
+                "storedObjName": {
+                    "System.String": ""
+                },
+                "storedObjTexture": {
+                    "System.String": "Inventory Box Img.dds"
+                },
+                "gameObject": {
+                    "ScriptAPI.GameObject": 481
+                }
+            },
             "InventoryBox": {
                 "BoxNumber": {
                     "System.Int32": "9"
@@ -107355,6 +107395,17 @@
         "58": {},
         "1046": {
             "PopupUI": {
+                "lockpickDisplayed": {
+                    "System.Boolean": "False"
+                },
+                "gameObject": {
+                    "ScriptAPI.GameObject": 1046
+                }
+            },
+            "PopupUI": {
+                "lockpickDisplayed": {
+                    "System.Boolean": "False"
+                },
                 "gameObject": {
                     "ScriptAPI.GameObject": 1046
                 }
@@ -107397,6 +107448,20 @@
                 "gameObject": {
                     "ScriptAPI.GameObject": 471
                 }
+            },
+            "InventoryBox": {
+                "BoxNumber": {
+                    "System.Int32": "0"
+                },
+                "storedObjName": {
+                    "System.String": "Battery"
+                },
+                "storedObjTexture": {
+                    "System.String": "Invnt Battery Img.dds"
+                },
+                "gameObject": {
+                    "ScriptAPI.GameObject": 471
+                }
             }
         },
         "72": {},
@@ -107412,6 +107477,20 @@
         "78": {},
         "79": {},
         "479": {
+            "InventoryBox": {
+                "BoxNumber": {
+                    "System.Int32": "7"
+                },
+                "storedObjName": {
+                    "System.String": ""
+                },
+                "storedObjTexture": {
+                    "System.String": "Inventory Box Img.dds"
+                },
+                "gameObject": {
+                    "ScriptAPI.GameObject": 479
+                }
+            },
             "InventoryBox": {
                 "BoxNumber": {
                     "System.Int32": "7"
@@ -107445,6 +107524,20 @@
                 "gameObject": {
                     "ScriptAPI.GameObject": 473
                 }
+            },
+            "InventoryBox": {
+                "BoxNumber": {
+                    "System.Int32": "2"
+                },
+                "storedObjName": {
+                    "System.String": "Battery"
+                },
+                "storedObjTexture": {
+                    "System.String": "Invnt Battery Img.dds"
+                },
+                "gameObject": {
+                    "ScriptAPI.GameObject": 473
+                }
             }
         },
         "82": {},
@@ -107455,6 +107548,20 @@
         "964": {},
         "85": {},
         "477": {
+            "InventoryBox": {
+                "BoxNumber": {
+                    "System.Int32": "5"
+                },
+                "storedObjName": {
+                    "System.String": ""
+                },
+                "storedObjTexture": {
+                    "System.String": "Inventory Box Img.dds"
+                },
+                "gameObject": {
+                    "ScriptAPI.GameObject": 477
+                }
+            },
             "InventoryBox": {
                 "BoxNumber": {
                     "System.Int32": "5"
@@ -107492,6 +107599,20 @@
                 "gameObject": {
                     "ScriptAPI.GameObject": 475
                 }
+            },
+            "InventoryBox": {
+                "BoxNumber": {
+                    "System.Int32": "3"
+                },
+                "storedObjName": {
+                    "System.String": ""
+                },
+                "storedObjTexture": {
+                    "System.String": "Inventory Box Img.dds"
+                },
+                "gameObject": {
+                    "ScriptAPI.GameObject": 475
+                }
             }
         },
         "813": {},
@@ -107515,11 +107636,36 @@
                 "gameObject": {
                     "ScriptAPI.GameObject": 489
                 }
+            },
+            "Note_Script": {
+                "Note_Name": {
+                    "System.String": "Note1"
+                },
+                "Note_Texture": {
+                    "System.String": "Notes1.dds"
+                },
+                "gameObject": {
+                    "ScriptAPI.GameObject": 489
+                }
             }
         },
         "98": {},
         "99": {},
         "483": {
+            "InventoryBox": {
+                "BoxNumber": {
+                    "System.Int32": "11"
+                },
+                "storedObjName": {
+                    "System.String": ""
+                },
+                "storedObjTexture": {
+                    "System.String": "Inventory Box Img.dds"
+                },
+                "gameObject": {
+                    "ScriptAPI.GameObject": 483
+                }
+            },
             "InventoryBox": {
                 "BoxNumber": {
                     "System.Int32": "11"
@@ -107558,6 +107704,11 @@
         "114": {},
         "115": {},
         "116": {
+            "OnTriggerTest": {
+                "gameObject": {
+                    "ScriptAPI.GameObject": 116
+                }
+            },
             "OnTriggerTest": {
                 "gameObject": {
                     "ScriptAPI.GameObject": 116
@@ -107834,14 +107985,11 @@
                 "rb": {
                     "ScriptAPI.RigidBodyComponent": 285
                 },
-                "startingVOstr": {
-                    "System.String": "pc_lockpickstart"
-                },
                 "startingVO": {
-                    "ScriptAPI.AudioComponent": 285
+                    "ScriptAPI.AudioComponent": 0
                 },
                 "playerCamera": {
-                    "ScriptAPI.CameraComponent": 286
+                    "ScriptAPI.CameraComponent": 0
                 },
                 "fov": {
                     "System.Single": "60"
@@ -107850,13 +107998,13 @@
                     "System.Boolean": "False"
                 },
                 "cameraCanMove": {
-                    "System.Boolean": "False"
+                    "System.Boolean": "True"
                 },
                 "mouseSensitivity": {
-                    "System.Single": "20"
+                    "System.Single": "2"
                 },
                 "maxLookAngle": {
-                    "System.Single": "250"
+                    "System.Single": "50"
                 },
                 "lockCursor": {
                     "System.Boolean": "True"
@@ -107871,7 +108019,7 @@
                     "System.Boolean": "False"
                 },
                 "zoomKey": {
-                    "System.UInt32": "56"
+                    "System.UInt32": "2"
                 },
                 "zoomFOV": {
                     "System.Single": "30"
@@ -107880,7 +108028,7 @@
                     "System.Single": "5"
                 },
                 "playerCanMove": {
-                    "System.Boolean": "False"
+                    "System.Boolean": "True"
                 },
                 "walkSpeed": {
                     "System.Single": "2"
@@ -107898,19 +108046,19 @@
                     "System.Boolean": "False"
                 },
                 "sprintKey": {
-                    "System.UInt32": "65"
+                    "System.UInt32": "160"
                 },
                 "sprintSpeed": {
                     "System.Single": "3"
                 },
                 "currentSprintSpeed": {
-                    "System.Single": "3"
+                    "System.Single": "0"
                 },
                 "sprintDuration": {
                     "System.Single": "5"
                 },
                 "sprintCooldown": {
-                    "System.Single": "0"
+                    "System.Single": "0.5"
                 },
                 "sprintFOV": {
                     "System.Single": "80"
@@ -107937,7 +108085,7 @@
                     "System.Boolean": "True"
                 },
                 "jumpKey": {
-                    "System.UInt32": "65"
+                    "System.UInt32": "32"
                 },
                 "jumpPower": {
                     "System.Single": "5"
@@ -107949,7 +108097,7 @@
                     "System.Boolean": "True"
                 },
                 "crouchKey": {
-                    "System.UInt32": "65"
+                    "System.UInt32": "17"
                 },
                 "crouchHeight": {
                     "System.Single": "0.75"
@@ -107983,6 +108131,176 @@
             "InventoryScript": {
                 "InventoryObject": {
                     "ScriptAPI.GameObject": 470
+                },
+                "LockpickIsOpen": {
+                    "System.Boolean": "False"
+                },
+                "ItemsTab": {
+                    "ScriptAPI.GameObject": 484
+                },
+                "NotesTab": {
+                    "ScriptAPI.GameObject": 485
+                },
+                "PaintingsTab": {
+                    "ScriptAPI.GameObject": 486
+                },
+                "gameObject": {
+                    "ScriptAPI.GameObject": 285
+                }
+            },
+            "FPS_Controller_Script": {
+                "rb": {
+                    "ScriptAPI.RigidBodyComponent": 285
+                },
+                "startingVO": {
+                    "ScriptAPI.AudioComponent": 0
+                },
+                "playerCamera": {
+                    "ScriptAPI.CameraComponent": 0
+                },
+                "fov": {
+                    "System.Single": "60"
+                },
+                "invertCamera": {
+                    "System.Boolean": "False"
+                },
+                "cameraCanMove": {
+                    "System.Boolean": "True"
+                },
+                "mouseSensitivity": {
+                    "System.Single": "2"
+                },
+                "maxLookAngle": {
+                    "System.Single": "50"
+                },
+                "lockCursor": {
+                    "System.Boolean": "True"
+                },
+                "crosshair": {
+                    "System.Boolean": "True"
+                },
+                "enableZoom": {
+                    "System.Boolean": "True"
+                },
+                "holdToZoom": {
+                    "System.Boolean": "False"
+                },
+                "zoomKey": {
+                    "System.UInt32": "2"
+                },
+                "zoomFOV": {
+                    "System.Single": "30"
+                },
+                "zoomStepTime": {
+                    "System.Single": "5"
+                },
+                "playerCanMove": {
+                    "System.Boolean": "True"
+                },
+                "walkSpeed": {
+                    "System.Single": "2"
+                },
+                "maxVelocityChange": {
+                    "System.Single": "10"
+                },
+                "isWalking": {
+                    "System.Boolean": "False"
+                },
+                "enableSprint": {
+                    "System.Boolean": "True"
+                },
+                "unlimitedSprint": {
+                    "System.Boolean": "False"
+                },
+                "sprintKey": {
+                    "System.UInt32": "160"
+                },
+                "sprintSpeed": {
+                    "System.Single": "3"
+                },
+                "currentSprintSpeed": {
+                    "System.Single": "0"
+                },
+                "sprintDuration": {
+                    "System.Single": "5"
+                },
+                "sprintCooldown": {
+                    "System.Single": "0.5"
+                },
+                "sprintFOV": {
+                    "System.Single": "80"
+                },
+                "sprintFOVStepTime": {
+                    "System.Single": "10"
+                },
+                "useSprintBar": {
+                    "System.Boolean": "True"
+                },
+                "hideBarWhenFull": {
+                    "System.Boolean": "True"
+                },
+                "sprintBarWidthPercent": {
+                    "System.Single": "0.3"
+                },
+                "sprintBarHeightPercent": {
+                    "System.Single": "0.015"
+                },
+                "isSprinting": {
+                    "System.Boolean": "False"
+                },
+                "enableJump": {
+                    "System.Boolean": "True"
+                },
+                "jumpKey": {
+                    "System.UInt32": "32"
+                },
+                "jumpPower": {
+                    "System.Single": "5"
+                },
+                "enableCrouch": {
+                    "System.Boolean": "True"
+                },
+                "holdToCrouch": {
+                    "System.Boolean": "True"
+                },
+                "crouchKey": {
+                    "System.UInt32": "17"
+                },
+                "crouchHeight": {
+                    "System.Single": "0.75"
+                },
+                "speedReduction": {
+                    "System.Single": "0.5"
+                },
+                "playerHealth": {
+                    "System.Int32": "100"
+                },
+                "enableHeadBob": {
+                    "System.Boolean": "True"
+                },
+                "joint": {
+                    "ScriptAPI.TransformComponent": 0
+                },
+                "bobSpeed": {
+                    "System.Single": "10"
+                },
+                "bobAmount": {
+                    "ScriptAPI.Vector3": {
+                        "X": 0.15000000596046448,
+                        "Y": 0.05000000074505806,
+                        "Z": 0.0
+                    }
+                },
+                "gameObject": {
+                    "ScriptAPI.GameObject": 285
+                }
+            },
+            "InventoryScript": {
+                "InventoryObject": {
+                    "ScriptAPI.GameObject": 470
+                },
+                "LockpickIsOpen": {
+                    "System.Boolean": "False"
                 },
                 "ItemsTab": {
                     "ScriptAPI.GameObject": 484
@@ -108160,6 +108478,20 @@
                 "gameObject": {
                     "ScriptAPI.GameObject": 472
                 }
+            },
+            "InventoryBox": {
+                "BoxNumber": {
+                    "System.Int32": "1"
+                },
+                "storedObjName": {
+                    "System.String": ""
+                },
+                "storedObjTexture": {
+                    "System.String": "Inventory Box Img.dds"
+                },
+                "gameObject": {
+                    "ScriptAPI.GameObject": 472
+                }
             }
         },
         "685": {},
@@ -108177,9 +108509,37 @@
                 "gameObject": {
                     "ScriptAPI.GameObject": 476
                 }
+            },
+            "InventoryBox": {
+                "BoxNumber": {
+                    "System.Int32": "4"
+                },
+                "storedObjName": {
+                    "System.String": "Battery"
+                },
+                "storedObjTexture": {
+                    "System.String": "Invnt Battery Img.dds"
+                },
+                "gameObject": {
+                    "ScriptAPI.GameObject": 476
+                }
             }
         },
         "478": {
+            "InventoryBox": {
+                "BoxNumber": {
+                    "System.Int32": "6"
+                },
+                "storedObjName": {
+                    "System.String": "Battery"
+                },
+                "storedObjTexture": {
+                    "System.String": "Invnt Battery Img.dds"
+                },
+                "gameObject": {
+                    "ScriptAPI.GameObject": 478
+                }
+            },
             "InventoryBox": {
                 "BoxNumber": {
                     "System.Int32": "6"
@@ -108210,9 +108570,37 @@
                 "gameObject": {
                     "ScriptAPI.GameObject": 480
                 }
+            },
+            "InventoryBox": {
+                "BoxNumber": {
+                    "System.Int32": "8"
+                },
+                "storedObjName": {
+                    "System.String": "Battery"
+                },
+                "storedObjTexture": {
+                    "System.String": "Invnt Battery Img.dds"
+                },
+                "gameObject": {
+                    "ScriptAPI.GameObject": 480
+                }
             }
         },
         "482": {
+            "InventoryBox": {
+                "BoxNumber": {
+                    "System.Int32": "10"
+                },
+                "storedObjName": {
+                    "System.String": "Battery"
+                },
+                "storedObjTexture": {
+                    "System.String": "Invnt Battery Img.dds"
+                },
+                "gameObject": {
+                    "ScriptAPI.GameObject": 482
+                }
+            },
             "InventoryBox": {
                 "BoxNumber": {
                     "System.Int32": "10"
@@ -108233,6 +108621,17 @@
         "486": {},
         "633": {},
         "488": {
+            "Item_Script": {
+                "Item_Name": {
+                    "System.String": "Item1"
+                },
+                "Item_Texture": {
+                    "System.String": "Invnt Battery Img.dds"
+                },
+                "gameObject": {
+                    "ScriptAPI.GameObject": 488
+                }
+            },
             "Item_Script": {
                 "Item_Name": {
                     "System.String": "Item1"
@@ -108656,17 +109055,38 @@
                 "gameObject": {
                     "ScriptAPI.GameObject": 1042
                 }
+            },
+            "View_Object": {
+                "gameObject": {
+                    "ScriptAPI.GameObject": 1042
+                }
             }
         },
         "1045": {},
         "1048": {
             "PopupUI": {
+                "lockpickDisplayed": {
+                    "System.Boolean": "False"
+                },
+                "gameObject": {
+                    "ScriptAPI.GameObject": 1048
+                }
+            },
+            "PopupUI": {
+                "lockpickDisplayed": {
+                    "System.Boolean": "False"
+                },
                 "gameObject": {
                     "ScriptAPI.GameObject": 1048
                 }
             }
         },
         "1049": {
+            "ReturnToGame": {
+                "gameObject": {
+                    "ScriptAPI.GameObject": 1049
+                }
+            },
             "ReturnToGame": {
                 "gameObject": {
                     "ScriptAPI.GameObject": 1049

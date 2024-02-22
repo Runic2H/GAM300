@@ -1,4 +1,14 @@
-﻿using ScriptAPI;
+﻿/*!*************************************************************************
+****
+\file ViewObject.cs
+\author Celine Leong
+\par DP email: jiayiceline.leong@digipen.edu
+\par Course: csd3450
+\date 15-1-2024
+\brief  Gameplay script inspecting objects
+****************************************************************************
+***/
+using ScriptAPI;
 using System;
 using System.Diagnostics;
 

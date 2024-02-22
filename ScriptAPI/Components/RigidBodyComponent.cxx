@@ -157,6 +157,18 @@ namespace ScriptAPI
 		TDS::SetPositionRotationAndVelocity(*TDS::GetRigidBody(entityID), inPositionVec3, inRotationQuat, inLinearVelocityVec3, inAngularVelocityVec3);
 	}
 
+	void RigidBodyComponent::SetPosition(Vector3 inPosition)
+	{
+		if (!TDS::GetRigidBody(entityID))
+		{
+			// throw error instead (not sure how)
+			return;
+		}
+
+		TDS::Vec3 inPositionVec3 = TDS::floatsToVec3(inPosition.X, inPosition.Y, inPosition.Z);
+		TDS::SetPosition(*TDS::GetRigidBody(entityID), inPositionVec3, true);
+	}
+
 	// FORCES
 	void RigidBodyComponent::AddForce(Vector3 inForce)
 	{

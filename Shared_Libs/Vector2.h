@@ -47,7 +47,7 @@ class Vec2
         // Returns a copy of vector with its magnitude clamped to maxLength.
         static Vec2 ClampMagnitude(Vec2 vector, float maxLength);
         // Returns the distance between a and b.
-        static float Distance(Vec2 a, Vec2 b);
+        DLL_API static float Distance(Vec2 a, Vec2 b);
         // Dot Product of two vectors.
         static float Dot(const Vec2 lhs, const Vec2 rhs);
         // Linearly interpolates between two vectors.

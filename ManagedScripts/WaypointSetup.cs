@@ -1,3 +1,13 @@
+/*!*************************************************************************
+****
+\file WaypointSetup.cs
+\author Go Ruo Yan
+\par DP email: ruoyan.go@digipen.edu
+\par Course: csd3450
+\date 9-2-2024
+\brief  Set up for waypoints for pathfinding
+****************************************************************************
+***/
 using ScriptAPI;
 using System;
 

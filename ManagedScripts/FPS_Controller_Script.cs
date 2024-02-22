@@ -1,14 +1,16 @@
 ﻿using ScriptAPI;
 using System;
 using System.ComponentModel;
+using System.Security.Cryptography;
 
 public class FPS_Controller_Script : Script
 {
     public RigidBodyComponent rb;
-    public string startingVOstr;   //To be changed
     public AudioComponent startingVO;   //To be changed
     public string[] footStepSoundEffects;
+    String[] backgroundMusic;
     private int currentFootStepPlaying;
+    float audioTimer;
     AudioComponent audio;
 
     #region Camera Movement Variables
@@ -100,6 +102,7 @@ public class FPS_Controller_Script : Script
     // Internal Variables
     private bool isCrouched = false;
     private Vector3 originalScale;
+    private float originalHeight;
     #endregion
 
     #region Health
@@ -125,10 +128,10 @@ public class FPS_Controller_Script : Script
         rb = gameObject.GetComponent<RigidBodyComponent>();
         //playerCamera = GameObjectScriptFind("playerCameraObject").GetComponent<CameraComponent>();
         startingVO = gameObject.GetComponent<AudioComponent>();
-        startingVOstr = "pc_lockpickstart";
         // Set internal variables
         playerCamera.SetFieldOfView(fov);
         originalScale = transform.GetScale();
+        originalHeight = transform.GetPosition().Y;
         jointOriginalPos = joint.GetPosition();
 
         if (!unlimitedSprint)
@@ -137,16 +140,20 @@ public class FPS_Controller_Script : Script
             sprintCooldownReset = sprintCooldown;
         }
 
-        footStepSoundEffects = new string[5];
-        footStepSoundEffects[0] = "temp_step1";
-        footStepSoundEffects[1] = "temp_step2";
-        footStepSoundEffects[2] = "temp_step3";
-        footStepSoundEffects[3] = "temp_step4";
-        footStepSoundEffects[4] = "temp_step5";
-
+        footStepSoundEffects = new string[8];
+        footStepSoundEffects[0] = "pc_woodstep1";
+        footStepSoundEffects[1] = "pc_woodstep2";
+        footStepSoundEffects[2] = "pc_woodstep3";
+        footStepSoundEffects[3] = "pc_woodstep4";
+        footStepSoundEffects[4] = "pc_woodstep5";
+        footStepSoundEffects[5] = "pc_woodstep6";
+        footStepSoundEffects[6] = "pc_woodstep7";
+        footStepSoundEffects[7] = "pc_woodstep8";
         currentFootStepPlaying = 0;
-        audio = gameObject.GetComponent<AudioComponent>();
-        startingVO.stop(startingVOstr);
+        audioTimer = 1.0f;
+
+        backgroundMusic = new String[3];
+        backgroundMusic[0] = "ambientdrone1";
     }
     public override void Start()
     {
@@ -192,9 +199,10 @@ public class FPS_Controller_Script : Script
         /*if (!InventoryScript.InventoryIsOpen)
         cameraCanMove = !InventoryScript.InventoryIsOpen;
         playerCanMove = !InventoryScript.InventoryIsOpen;*/
-        playerCanMove = !InventoryScript.InventoryIsOpen;
-        cameraCanMove = !PopupUI.isDisplayed;
-        playerCanMove = !PopupUI.isDisplayed;
+
+        //playerCanMove = !InventoryScript.InventoryIsOpen;
+        //cameraCanMove = !PopupUI.isDisplayed;
+        //playerCanMove = !PopupUI.isDisplayed;
 
         #region Sprint
 
@@ -247,15 +255,15 @@ public class FPS_Controller_Script : Script
 
         #endregion
 
-        /*#region Jump
+        //#region Jump
 
-        // Gets input and calls jump method
-        if (enableJump && Input.GetKeyDown(jumpKey) && isGrounded)
-        {
-            Jump();
-        }
+        //// Gets input and calls jump method
+        //if (enableJump && Input.GetKeyDown(jumpKey) && isGrounded)
+        //{
+        //    Jump();
+        //}
 
-        #endregion
+        //#endregion
 
         #region Crouch
 
@@ -263,22 +271,25 @@ public class FPS_Controller_Script : Script
         {
             if (Input.GetKeyDown(crouchKey) && !holdToCrouch)
             {
-                Crouch();
+                if (isCrouched) StandUp();
+                else Crouch();
+
+
+                isCrouched = !isCrouched;
+                //Console.WriteLine(isCrouched);
             }
 
-            if (Input.GetKeyDown(crouchKey) && holdToCrouch)
-            {
-                isCrouched = false;
-                Crouch();
-            }
-            else if (Input.GetKeyUp(crouchKey) && holdToCrouch)
-            {
-                isCrouched = true;
-                Crouch();
-            }
+            //else if (Input.GetKeyDown(crouchKey) && holdToCrouch)
+            //{
+            //    Crouch();
+            //}
+            //else if (Input.GetKeyUp(crouchKey) && holdToCrouch)
+            //{
+            //    Crouch();
+            //}
         }
 
-        #endregion*/
+        #endregion
 
         //CheckGround();
 
@@ -286,7 +297,6 @@ public class FPS_Controller_Script : Script
         {
             HeadBob();
         }
-        startingVO.play(startingVOstr);
 
     }
     public override void FixedUpdate()
@@ -311,12 +321,10 @@ public class FPS_Controller_Script : Script
             if (Input.GetKey(Keycode.W) || Input.GetKey(Keycode.S) || Input.GetKey(Keycode.A) || Input.GetKey(Keycode.D))
             {
                 isWalking = true;
-                //audio.play(footStepSoundEffects[0]);
             }
             else
             {
                 isWalking = false;
-                //audio.stop(footStepSoundEffects[0]);
             }
 
             // All movement calculations shile sprint is active
@@ -375,8 +383,9 @@ public class FPS_Controller_Script : Script
 
                 // this is the command to move the object, modify the variable if needed for too slow/fast
                 gameObject.GetComponent<RigidBodyComponent>().SetLinearVelocity(velocityChange * 50);
-
             }
+
+            footstepAudio();
 
         }
 
@@ -425,6 +434,12 @@ public class FPS_Controller_Script : Script
 
         //}
         #endregion
+
+        //if (audio.finished(backgroundMusic[0]))
+        //{
+        //    audio.play(backgroundMusic[0]);
+        //    //audio.setVolume(0.5f);
+        //}
     }
 
     public override void LateUpdate()
@@ -539,27 +554,38 @@ public class FPS_Controller_Script : Script
     //#endregion
 
     #region Crouch Method
-    //private void Crouch()
-    //{
-    //    // Stands player up to full height
-    //    // Brings walkSpeed back up to original speed
-    //    if (isCrouched)
-    //    {
-    //        transform.SetScale(new Vector3(originalScale.X, originalScale.Y, originalScale.Z));
-    //        if (speedReduction != 0) walkSpeed /= speedReduction;
+    private void Crouch()
+    {
+        transform.SetScale(new Vector3(originalScale.X, crouchHeight, originalScale.Z));
 
-    //        isCrouched = false;
-    //    }
-    //    // Crouches player down to set height
-    //    // Reduces walkSpeed
-    //    else
-    //    {
-    //        transform.SetScale(new Vector3(originalScale.X, crouchHeight, originalScale.Z));
-    //        if (speedReduction != 0) walkSpeed *= speedReduction;
+        float heightToCrouchTo = originalHeight * crouchHeight;
 
-    //        isCrouched = true;
-    //    }
-    //}
+        //lerping to crouching height
+        //if (transform.GetPosition().Y > heightToCrouchTo)
+        //{
+        //    float heightdecreaseperframe = (originalHeight * (1 - crouchHeight)) * Time.deltaTime;
+        //    transform.SetPositionY(transform.GetPosition().Y - heightdecreaseperframe);
+        //}
+        //transform.SetPositionY(0);
+        Quaternion quat = new Quaternion(transform.GetRotation());
+        gameObject.GetComponent<RigidBodyComponent>().SetPositionRotationAndVelocity(
+            new Vector3(transform.GetPosition().X, 0, transform.GetPosition().Z),
+            new Vector4 (quat.X, quat.Y, quat.Z, quat.W), new Vector3(0, 0, 0), new Vector3(0, 0, 0));
+
+        if (speedReduction != 0) walkSpeed *= speedReduction;
+
+    }
+
+    private void StandUp()
+    {
+        transform.SetScale(new Vector3(originalScale.X, originalScale.Y, originalScale.Z));
+        //transform.SetPositionY(originalHeight);
+        Quaternion quat = new Quaternion(transform.GetRotation());
+        gameObject.GetComponent<RigidBodyComponent>().SetPositionRotationAndVelocity(
+            new Vector3(transform.GetPosition().X, originalHeight, transform.GetPosition().Z),
+            new Vector4(quat.X, quat.Y, quat.Z, quat.W), new Vector3(0, 0, 0), new Vector3(0, 0, 0));
+        if (speedReduction != 0) walkSpeed /= speedReduction;
+    }
     #endregion
 
     #region HeadBob Method
@@ -583,15 +609,48 @@ public class FPS_Controller_Script : Script
                 timer += Time.deltaTime * bobSpeed;
             }
             // Applies HeadBob movement
-            joint.SetPosition(new Vector3(jointOriginalPos.X + Mathf.Sin(timer) * bobAmount.X, jointOriginalPos.Y + Mathf.Sin(timer) * bobAmount.Y, jointOriginalPos.Z + Mathf.Sin(timer) * bobAmount.Z)); 
+            joint.SetPosition(new Vector3(jointOriginalPos.X + Mathf.Sin(timer) * bobAmount.X, jointOriginalPos.Y + Mathf.Sin(timer) * bobAmount.Y, jointOriginalPos.Z + Mathf.Sin(timer) * bobAmount.Z));
         }
         else
         {
             // Resets when play stops moving
             timer = 0;
-            joint.SetPosition(new Vector3(Mathf.Lerp(joint.GetPosition().X, jointOriginalPos.X, Time.deltaTime * bobSpeed), Mathf.Lerp(joint.GetPosition().Y, jointOriginalPos.Y, Time.deltaTime * bobSpeed), Mathf.Lerp(joint.GetPosition().Z, jointOriginalPos.Z, Time.deltaTime * bobSpeed))); 
+            joint.SetPosition(new Vector3(Mathf.Lerp(joint.GetPosition().X, jointOriginalPos.X, Time.deltaTime * bobSpeed), Mathf.Lerp(joint.GetPosition().Y, jointOriginalPos.Y, Time.deltaTime * bobSpeed), Mathf.Lerp(joint.GetPosition().Z, jointOriginalPos.Z, Time.deltaTime * bobSpeed)));
         }
     }
     #endregion
 
+    void footstepAudio()
+    {
+        audio = gameObject.GetComponent<AudioComponent>();
+        
+        if(isWalking)
+        {
+            if (audioTimer < 0.0f)
+            {
+                audio.stop(footStepSoundEffects[currentFootStepPlaying]);
+                
+                if (isSprinting)
+                {
+                    currentFootStepPlaying = RandomNumberGenerator.GetInt32(8);
+                    audio.play(footStepSoundEffects[currentFootStepPlaying]);
+                    audioTimer = 0.5f;
+                }
+                else
+                {
+                    currentFootStepPlaying = RandomNumberGenerator.GetInt32(8);
+                    audio.play(footStepSoundEffects[currentFootStepPlaying]);
+                    audioTimer = 1.0f;
+                }
+            }
+            else
+            {
+                audioTimer -= Time.deltaTime;
+            }
+        }
+        else
+        {
+            audio.stop(footStepSoundEffects[0]);
+        }
+    }
 }

@@ -1,4 +1,14 @@
-﻿using ScriptAPI;
+﻿/*!*************************************************************************
+****
+\file GhostMovement.cs
+\author Thea Sea
+\par DP email: thea.sea@digipen.edu
+\par Course: csd3450
+\date 15-1-2024
+\brief  Script for ghost movement
+****************************************************************************
+***/
+using ScriptAPI;
 using System;
 using System.Collections.Specialized;
 using System.Runtime.CompilerServices;
@@ -35,6 +45,24 @@ public class GhostMovement : Script
     public bool isChasingPlayer = false;
 
     public GameObject player;
+    public GameObject hidingGameObject;
+
+    public float speed;
+    public float soundSpeed;
+
+    public int walkingSoundCounter = -1;
+    public String[] walkingSounds;
+    String[] monsterPatrol;
+    String[] monsterAlert;
+    public String voiceClips;
+    public bool playSound;
+    public float playSoundTimer;
+
+    public bool playerMoved;
+    public bool hideEventDone;
+    public bool hideEvent;
+    public int hideEventStep;
+    public GameObject SHDoor;
 
     //public void ReadWaypoint(Waypoint wp)
     //{
@@ -68,18 +96,47 @@ public class GhostMovement : Script
 
     public override void Awake()
     {
-        walkingSounds = new string[11];
-        walkingSounds[0] = "temp_step1";
-        walkingSounds[1] = "temp_step1";
-        walkingSounds[2] = "temp_step2";
-        walkingSounds[3] = "temp_step3";
-        walkingSounds[4] = "temp_step4";
-        walkingSounds[5] = "temp_step5";
-        walkingSounds[6] = "temp_step6";
-        walkingSounds[7] = "temp_step7";
-        walkingSounds[8] = "temp_step8";
-        walkingSounds[9] = "temp_step9";
-        walkingSounds[10] = "temp_step10";
+        walkingSounds = new string[8];
+        walkingSounds[0] = "mon_woodstep1";
+        walkingSounds[1] = "mon_woodstep2";
+        walkingSounds[2] = "mon_woodstep3";
+        walkingSounds[3] = "mon_woodstep4";
+        walkingSounds[4] = "mon_woodstep5";
+        walkingSounds[5] = "mon_woodstep6";
+        walkingSounds[6] = "mon_woodstep7";
+        walkingSounds[7] = "mon_woodstep8";
+
+        monsterPatrol = new string[8];
+        monsterPatrol[0] = "mon_patrol1";
+        monsterPatrol[1] = "mon_patrol2";
+        monsterPatrol[2] = "mon_patrol3";
+        monsterPatrol[3] = "mon_patrol4";
+        monsterPatrol[4] = "mon_patrol5";
+        monsterPatrol[5] = "mon_patrol6";
+        monsterPatrol[6] = "mon_patrol7";
+        monsterPatrol[7] = "mon_patrol8";
+
+        monsterAlert = new string[7];
+        monsterAlert[0] = "mon_alerted1";
+        monsterAlert[1] = "mon_alerted2";
+        monsterAlert[2] = "mon_alerted3";
+        monsterAlert[3] = "mon_alerted4";
+        monsterAlert[4] = "mon_alerted5";
+        monsterAlert[5] = "mon_alerted6";
+        monsterAlert[6] = "mon_alerted7";
+
+        voiceClips = "pc_monstergoesaway1";
+
+        speed = 1.0f;
+        soundSpeed = 1.0f;
+        hideEventStep = 0;
+
+        playerMoved = false;
+        hideEvent = false;
+        hideEventDone = false;
+
+        transform.SetPositionX(-2840.0f);
+        transform.SetPositionZ(-650.0f);
     }
 
     public override void Update()
@@ -166,23 +223,59 @@ public class GhostMovement : Script
         ////Console.WriteLine($"Going to waypoint at : ({wp1.X}, {wp1.Z})");
 
         // Play monster walking sound
+
         if (playSound)
         {
             playSound = PlayMonsterWalkingSound();
         }
         else if (isChasingPlayer) // done playing sound, chasing player
         {
-            ScriptAPI.Vector3 originalPosition = transform.GetPosition();
-            ScriptAPI.Vector2 nextPosition = WaypointPathfinder.NextStep(new ScriptAPI.Vector2(originalPosition.X, originalPosition.Z), 0.25f);
-            transform.SetPosition(new ScriptAPI.Vector3(nextPosition.X, originalPosition.Y, nextPosition.Y));
-            //Console.WriteLine(nextPosition.X + "\t\t" + nextPosition.Y);
+            ScriptAPI.Vector2 ghostPosition = new ScriptAPI.Vector2(transform.GetPosition().X, transform.GetPosition().Z);
+            ScriptAPI.Vector2 playerPosition = new ScriptAPI.Vector2(player.transform.GetPosition().X, player.transform.GetPosition().Z);
+            if (WaypointPathfinder.SameRoom(ghostPosition, playerPosition)) 
+            {
+                // If touches, loses
+                if (ScriptAPI.Vector2.Distance(ghostPosition, playerPosition) <= 10.0f)
+                {
+                    // Losing screen
+                    SceneLoader.LoadLoseScreen();
+                }
+                else
+                {
+                    // Go straight to player
+                    ScriptAPI.Vector3 originalPosition = transform.GetPosition();
+                    ScriptAPI.Vector2 nextPosition = ScriptAPI.Vector2.MoveTowards(ghostPosition, playerPosition, speed);
+                    transform.SetPosition(new ScriptAPI.Vector3(nextPosition.X, originalPosition.Y, nextPosition.Y));
+                    
+                }
+                playerMoved = true;
+                speed += 0.001f;
+            }
+            else
+            {
+                if (playerMoved)
+                {
+                    WaypointPathfinder.FindPath(ghostPosition, playerPosition);
+                }
+                ScriptAPI.Vector3 originalPosition = transform.GetPosition();
+                ScriptAPI.Vector2 nextPosition = WaypointPathfinder.NextStep(new ScriptAPI.Vector2(originalPosition.X, originalPosition.Z), speed);
+                transform.SetPosition(new ScriptAPI.Vector3(nextPosition.X, originalPosition.Y, nextPosition.Y));
+                playerMoved = false;
+            }
+        } 
+        else if (hideEvent)
+        {
+            BedroomHidingEvent();
         }
     }
 
-    public int walkingSoundCounter = -1;
-    public String[] walkingSounds;
-    public bool playSound;
-    public float playSoundTimer;
+    public void PlayMonsterWalkingSoundInitial()
+    {
+        AudioComponent audio = gameObject.GetComponent<AudioComponent>();
+        walkingSoundCounter = 0;
+        audio.play(walkingSounds[walkingSoundCounter]);
+        playSound = true;
+    }
 
     public bool PlayMonsterWalkingSound()
     {
@@ -195,11 +288,23 @@ public class GhostMovement : Script
                 audio.stop(walkingSounds[walkingSoundCounter]);
                 ++walkingSoundCounter;
 
-                if (walkingSoundCounter == 10)  // finished
+                if (walkingSoundCounter == 7)  // finished
+                {
                     return false;
+                }
 
                 audio.play(walkingSounds[walkingSoundCounter]);
-                playSoundTimer = 1.0f / walkingSoundCounter;
+                playSoundTimer = soundSpeed - walkingSoundCounter * 0.05f;
+
+                //audio.set3DCoords(transform.GetPosition());
+                if(isChasingPlayer)
+                {
+                    audio.play(monsterAlert[RandomNumberGenerator.GetInt32(7)]);
+                }
+                else
+                {
+                    audio.play(monsterPatrol[RandomNumberGenerator.GetInt32(8)]);
+                }
             }
             else
             {
@@ -210,20 +315,71 @@ public class GhostMovement : Script
         return true;
     }
 
-    public void AlertMonster(int doorIndex)
+    public void AlertMonster()
     {
-        playSoundTimer = 1.0f;
-        walkingSoundCounter = 0;
+        soundSpeed -= 0.1f;
+        speed += 0.2f;
+        playSoundTimer = soundSpeed;
         isPatrol = false;
         isChasingPlayer = true;
 
-        transform.SetPositionX(-2840.0f);
-        transform.SetPositionZ(-650.0f);
         // Teleport monster based on door
         WaypointPathfinder.FindPath(new ScriptAPI.Vector2(-2840, -650), new ScriptAPI.Vector2(player.transform.GetPosition().X, player.transform.GetPosition().Z)); // temp position
 
         player.transform.SetPosition(transform.GetPosition());
 
-        playSound = true;
+        PlayMonsterWalkingSoundInitial();
+    }
+
+    public void BedroomHidingEvent()
+    {
+        if (!hidingGameObject.GetComponent<Hiding>().hiding)
+        {
+            isChasingPlayer = true;
+        }
+        else
+        {
+            isChasingPlayer = false;
+        }
+        ScriptAPI.Vector3 originalPosition = transform.GetPosition();
+        ScriptAPI.Vector2 ghostPosition = new ScriptAPI.Vector2(originalPosition.X, originalPosition.Z);
+
+        switch (hideEventStep)
+        {
+            case 0:
+                ScriptAPI.Vector2 firstPosition = new ScriptAPI.Vector2(1790, -323);
+                ScriptAPI.Vector2 firstPositionNext = ScriptAPI.Vector2.MoveTowards(ghostPosition, firstPosition, 5.0f);
+                transform.SetPosition(new ScriptAPI.Vector3(firstPositionNext.X, originalPosition.Y, firstPositionNext.Y));
+
+                if (firstPositionNext.X == firstPosition.X && firstPositionNext.Y == firstPosition.Y)
+                {
+                    ++hideEventStep;
+                }
+
+                break;
+
+            case 1:
+                ScriptAPI.Vector2 secondPosition = new ScriptAPI.Vector2(2167, -100);
+                ScriptAPI.Vector2 secondPositionNext = ScriptAPI.Vector2.MoveTowards(ghostPosition, secondPosition, 5.0f);
+                transform.SetPosition(new ScriptAPI.Vector3(secondPositionNext.X, originalPosition.Y, secondPositionNext.Y));
+
+                if (secondPositionNext.X == secondPosition.X && secondPositionNext.Y == secondPosition.Y)
+                {
+                    ++hideEventStep;
+                }
+
+                break;
+
+            case 2:
+                transform.SetPositionX(-2840.0f);
+                transform.SetPositionZ(-650.0f);
+                hideEventDone = true;
+                hideEvent = false;
+                isChasingPlayer = false;
+                SHDoor.GetComponent<Door_Script>().forcedLocked = false;
+                AudioComponent audio = gameObject.GetComponent<AudioComponent>();
+                audio.play(voiceClips);
+                break;
+        }
     }
 }

@@ -104,7 +104,7 @@ namespace TDS
 		DLL_API void AddWaypointRoomConnection(int waypointID, int roomID);
 		DLL_API void AddNeighbour(int waypointID, int neighbourWaypointID);
 
-		int GetRoomID(Vec2 position);
+		DLL_API int GetRoomID(Vec2 position);
 
 		DLL_API void FindPath(Vec2 start, Vec2 goal);
 		DLL_API Vec2 NextStep();

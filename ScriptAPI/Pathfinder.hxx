@@ -29,6 +29,8 @@ namespace ScriptAPI
 		static void FindPath(Vector2 start, Vector2 goal);
 		static Vector2 NextStep(Vector2 currentPosition, float speed);
 
+		static bool SameRoom(Vector2 start, Vector2 goal);
+
 		static Vector2 nextStep;
 	};
 }

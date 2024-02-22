@@ -34,6 +34,7 @@ namespace ScriptAPI
         static void Play(unsigned long delay);
         static void Pause();
         static void Stop();
+        static void StopAll();
 
         /*float get_volume();
         void set_volume(float vol);*/

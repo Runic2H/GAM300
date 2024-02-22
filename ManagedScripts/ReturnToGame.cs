@@ -1,4 +1,14 @@
-﻿using System;
+﻿/*!*************************************************************************
+****
+\file ReturnToGame.cs
+\author Matthew Cheung
+\par DP email: j.cheung@digipen.edu
+\par Course: csd3450
+\date 20-1-2024
+\brief  Script for pause menu continue game button
+****************************************************************************
+***/
+using System;
 using ScriptAPI;
 
 public class ReturnToGame : Script
@@ -24,9 +34,9 @@ public class ReturnToGame : Script
             buttonSprite.SetEnabled(false);
         }
             
-        if (Input.GetMouseButtonDown(Keycode.M1) && buttonSprite.IsMouseCollided())
+        if (Input.GetMouseButtonDown(Keycode.M1) && buttonSprite.IsMouseCollided() && PopupUI.isDisplayed == true)
         {
-            //Console.WriteLine("Continue Button Pressed");
+            Console.WriteLine("Continue Button Pressed");
             PopupUI.isDisplayed = false;
         }
     }

@@ -11,6 +11,9 @@ namespace ScriptAPI
 
 		Vector2(float valueX, float valueY);
 
+		static float Distance(Vector2 lhs, Vector2 rhs);
+		static Vector2 MoveTowards(Vector2 lhs, Vector2 rhs, float maxDistanceDelta);
+
 		int operator==(Vector2 lhs);
 	};
 }

@@ -66,6 +66,11 @@ namespace ScriptAPI
 		return TDS::proxy_audio_system::checkifdone(toStdString(str_path));
 	}
 
+	bool AudioComponent::anyPlaying()
+	{
+		return TDS::proxy_audio_system::ScriptAnySoundPlaying();
+	}
+
 	Vector3 AudioComponent::get3DCoords()
 	{
 		return pos;
@@ -174,6 +179,11 @@ namespace ScriptAPI
 	void AudioComponent::stop(System::String^ pathing)
 	{
 		TDS::proxy_audio_system::ScriptStop(toStdString(pathing));
+	}
+
+	void AudioComponent::stopAll()
+	{
+		TDS::proxy_audio_system::ScriptStopAll();
 	}
 
 	void AudioComponent::Queue(System::String^ str)

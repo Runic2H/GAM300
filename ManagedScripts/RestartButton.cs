@@ -1,4 +1,14 @@
-﻿using System;
+﻿/*!*************************************************************************
+****
+\file RestartButton.cs
+\author Matthew Cheung
+\par DP email: j.cheung@digipen.edu
+\par Course: csd3450
+\date 20-1-2024
+\brief  Script for pause menu restart game button
+****************************************************************************
+***/
+using System;
 using ScriptAPI;
 
 public class RestartButton : Script
@@ -24,9 +34,11 @@ public class RestartButton : Script
             restartButtonSprite.SetEnabled(false);
         }
 
-        if (Input.GetMouseButtonDown(Keycode.M1) && restartButtonSprite.IsMouseCollided())
+        if (Input.GetMouseButtonDown(Keycode.M1) && restartButtonSprite.IsMouseCollided() && PopupUI.isDisplayed == true)
         {
-            //Console.WriteLine("Restart Button Pressed");
+            Console.WriteLine("Restart Button Pressed");
+            AudioComponent audio = gameObject.GetComponent<AudioComponent>();
+            audio.stopAll();
             PopupUI.isDisplayed = false;
             SceneLoader.LoadMainGame();
         }

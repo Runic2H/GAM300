@@ -1,4 +1,15 @@
-﻿using ScriptAPI;
+﻿/*!*************************************************************************
+****
+\file Inventory.cs
+\author Celine Leong
+\par DP email: jiayiceline.leong@digipen.edu
+\par Course: csd3450
+\date 15-1-2024
+\brief  Gameplay script for inventory logic, when player presses 'I' they 
+        can toggle inventory.
+****************************************************************************
+***/
+using ScriptAPI;
 
 public class InventoryScript : Script
 {
@@ -15,6 +26,7 @@ public class InventoryScript : Script
     public static List<string> paintingsObjsImg;
 
     public static bool InventoryIsOpen;
+    public bool LockpickIsOpen;
 
     //public Dictionary<string, string> ItemTexture;
 
@@ -23,10 +35,11 @@ public class InventoryScript : Script
     public GameObject NotesTab;
     public GameObject PaintingsTab;
     public GameObject player;
+    public GameObject hidingGameObject;
 
     public override void Awake()
     {
-        
+        LockpickIsOpen = false;
     }
 
     // MAKE SURE INVENTORYOBJECT IS ACTIVE WHEN STARTING THE GAME SO START() RUNS
@@ -39,13 +52,20 @@ public class InventoryScript : Script
     public override void Update()
     {
         var entityID = gameObject.GetEntityID();
+        gameObject.GetComponent<FPS_Controller_Script>().playerCanMove = !(PopupUI.isDisplayed || InventoryIsOpen || hidingGameObject.GetComponent<Hiding>().hiding);
+        gameObject.GetComponent<FPS_Controller_Script>().cameraCanMove = !(PopupUI.isDisplayed || InventoryIsOpen);
 
-        if(Input.GetKeyDown(Keycode.I))
+        if (Input.GetKeyDown(Keycode.I))
         {
             Console.WriteLine("I pressed");
             toggleInventory();
         }
 
+        if (!LockpickIsOpen)
+        {
+            Input.Lock(false);
+            Input.HideMouse(false);
+        }
         if (InventoryIsOpen) // Inventory opened
         {
             Input.Lock(false);
@@ -57,6 +77,7 @@ public class InventoryScript : Script
             Input.Lock(true);
             Input.HideMouse(true);
         }
+
     }
 
     public void toggleInventory()
@@ -64,11 +85,6 @@ public class InventoryScript : Script
         Console.WriteLine("Toggle Inventory\n");
         InventoryIsOpen = !InventoryIsOpen;
         InventoryObject.SetActive(InventoryIsOpen);
-        if (InventoryIsOpen)
-        {
-            player.GetComponent<FPS_Controller_Script>().playerCanMove = !InventoryIsOpen;
-            player.GetComponent<FPS_Controller_Script>().cameraCanMove = !InventoryIsOpen;
-        }
     }
 
     public void checkMouseInput()
@@ -106,47 +122,47 @@ public class InventoryScript : Script
 
         itemsObjsImg = new List<string>
         {
-            "Invnt Battery Img.dds",            "Inventory Box Img.dds",
-            "Invnt Battery Img.dds",            "Inventory Box Img.dds",
-            "Invnt Battery Img.dds",            "Inventory Box Img.dds",
-            "Invnt Battery Img.dds",            "Inventory Box Img.dds",
-            "Invnt Battery Img.dds",            "Inventory Box Img.dds",
-            "Invnt Battery Img.dds",            "Inventory Box Img.dds"
+            "Invnt Battery Img.dds",            "Invnt Battery Img.dds",
+            "Invnt Battery Img.dds",            "Invnt Battery Img.dds",
+            "Inventory Box Img.dds",            "Inventory Box Img.dds",
+            "Inventory Box Img.dds",            "Inventory Box Img.dds",
+            "Inventory Box Img.dds",            "Inventory Box Img.dds",
+            "Inventory Box Img.dds",            "Inventory Box Img.dds"
         };
 
         itemObjsInInventory = new List<string>
         {
-            "Battery",            "",
-            "Battery",            "",
-            "Battery",            "",
-            "Battery",            "",
-            "Battery",            "",
-            "Battery",            ""
+            "Battery",            "Battery",
+            "Battery",            "Battery",
+            "",            "",
+            "",            "",
+            "",            "",
+            "",            ""
         };
 
         notesObjsImg = new List<string>
         {
-            "Notes1.dds",            "Inventory Box Img.dds",
             "Inventory Box Img.dds",            "Inventory Box Img.dds",
             "Inventory Box Img.dds",            "Inventory Box Img.dds",
-            "Notes7.dds",            "Notes8.dds",
-            "Notes9.dds",            "Notes10.dds",
-            "Notes11.dds",           "Notes12.dds"
+            "Inventory Box Img.dds",            "Inventory Box Img.dds",
+            "Inventory Box Img.dds",            "Inventory Box Img.dds",
+            "Inventory Box Img.dds",            "Inventory Box Img.dds",
+            "Inventory Box Img.dds",            "Inventory Box Img.dds"
         };
 
         noteObjsInInventory = new List<string>
         {
-            "Note Test",           "",
             "",           "",
             "",           "",
-            "Note7",           "Note8",
-            "Note9",           "Note10",
-            "Note11",           "Note12"
+            "",           "",
+            "",           "",
+            "",           "",
+            "",           ""
         };
 
         paintingsObjsImg = new List<string>
         {
-            "p01.dds",            "Inventory Box Img.dds",
+            "Inventory Box Img.dds",            "Inventory Box Img.dds",
             "Inventory Box Img.dds",            "Inventory Box Img.dds",
             "Inventory Box Img.dds",            "Inventory Box Img.dds",
             "Inventory Box Img.dds",            "Inventory Box Img.dds",
@@ -156,7 +172,7 @@ public class InventoryScript : Script
 
         paintingObjsInInventory = new List<string>
         {
-            "Painting Test",            "",
+            "",            "",
             "",            "",
             "",            "",
             "",            "",

@@ -1,3 +1,13 @@
+/*!*************************************************************************
+****
+\file pathfinding.cs
+\author Matthew Cheung
+\par DP email: j.cheung@digipen.edu
+\par Course: csd3450
+\date 22-11-2023
+\brief  Script for main menu play button
+****************************************************************************
+***/
 using ScriptAPI;
 using System;
 using System.Runtime.InteropServices;

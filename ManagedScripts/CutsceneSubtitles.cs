@@ -1,4 +1,14 @@
-﻿using ScriptAPI;
+﻿/*!*************************************************************************
+****
+\file CutsceneSubtitles.cs
+\author Thea Sea
+\par DP email: thea.sea@digipen.edu
+\par Course: csd3450
+\date 24-11-2023
+\brief  Script for subtitles
+****************************************************************************
+***/
+using ScriptAPI;
 using System;
 
 public class CutsceneSubtitle : Script

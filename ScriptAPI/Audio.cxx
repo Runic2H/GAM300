@@ -50,6 +50,11 @@ namespace ScriptAPI
 		audio_engine->stopSound(temp);
 	}
 
+	void AudioSource::StopAll()
+	{
+		audio_engine->stopAllSound();
+	}
+
 	/*float AudioSource::get_volume()
 	{
 

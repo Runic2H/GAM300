@@ -719,6 +719,9 @@ namespace TDS
 			}
 		}
 
+		if (m_LightSource)
+			m_LightSource->ShutDown();
+
 		for (auto& fb : m_FrameBuffers)
 		{
 			if (fb != nullptr)

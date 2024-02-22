@@ -125,6 +125,7 @@
     <ClCompile Include="Src\components\PointLightComponent.cpp" />
     <ClCompile Include="Src\components\DirLightComponent.cpp" />
     <ClCompile Include="Src\components\SpotLightComponent.cpp" />
+    <ClCompile Include="Include\MacroHelper.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Shared_Libs\MathCommon.h" />
@@ -268,7 +269,6 @@
     <ClInclude Include="Include\Identifier\TypeInformation.h" />
     <ClInclude Include="Include\Serialization\Serialization.h" />
     <ClInclude Include="Include\GraphicsResource\GeomStruct.h" />
-    <ClInclude Include="Include\Identifier\HashID.h" />
     <ClInclude Include="Include\Identifier\UniqueID.h" />
     <ClInclude Include="Include\Random\RandomGen.h" />
     <ClInclude Include="Include\GraphicsResource\GeomSerializer.h" />

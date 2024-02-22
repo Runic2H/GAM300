@@ -1,6 +1,7 @@
 #include "SceneLoader.hxx"
 #include "TypeConversion.hxx"
 #include "EngineInterface.hxx"
+#include "MacroHelper.h"
 namespace ScriptAPI
 {
 	void SceneLoader::LoadMainMenu()
@@ -27,6 +28,14 @@ namespace ScriptAPI
 		TDS::SceneManager::GetInstance()->start();
 	}
 
+	void SceneLoader::LoadLoseScreen()
+	{
+		EngineInterface::Reload();
+		TDS::SceneManager::GetInstance()->loadScene("LoseScene");
+		TDS::SceneManager::GetInstance()->awake();
+		TDS::SceneManager::GetInstance()->start();
+	}
+
 	void SceneLoader::LoadEndGameCredits()
 	{
 		EngineInterface::Reload();
@@ -34,5 +43,12 @@ namespace ScriptAPI
 		TDS::SceneManager::GetInstance()->awake();
 		TDS::SceneManager::GetInstance()->start();
 	}
+
+	void SceneLoader::LoadQuitGame()
+	{
+		TDS::QuitEngine();
+	}
+
+
 
 }

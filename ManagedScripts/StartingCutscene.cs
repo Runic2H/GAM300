@@ -1,4 +1,14 @@
-﻿using ScriptAPI;
+﻿/*!*************************************************************************
+****
+\file StartingCutscene.cs
+\author Thea Sea
+\par DP email: thea.sea@digipen.edu
+\par Course: csd3450
+\date 24-11-2023
+\brief  Script for cutscene at the start of the game
+****************************************************************************
+***/
+using ScriptAPI;
 using System;
 
 public class StartingCutscene : Script
