@@ -318,7 +318,10 @@ namespace TDS
 			GBufferPipeline->BindDescriptor(frameIndex, 1);
 			GBufferPipeline->BindArrayDescriptorSet(0, 1, 1);
 
-			GBufferPipeline->DrawIndexed(*meshUpdate.m_MeshBuffer->m_VertexBuffer, *meshUpdate.m_MeshBuffer->m_IndexBuffer, frameIndex);
+			
+			//GBufferPipeline->DrawIndexed(*meshUpdate.m_MeshBuffer->m_VertexBuffer, *meshUpdate.m_MeshBuffer->m_IndexBuffer, frameIndex);
+			vkCmdDrawIndexedIndirect(commandBuffer, meshUpdate.m_MeshBuffer->m_IndirectBuffer->GetBuffer(), 0, meshUpdate.m_MeshBuffer->m_IndirectBuffer->getDataCount(), sizeof(VkDrawIndexedIndirectCommand));
+
 		}
 		m_GBufferBatch3D.m_BatchUpdateInfo.clear();
 

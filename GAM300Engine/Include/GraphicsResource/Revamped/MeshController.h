@@ -12,6 +12,7 @@ namespace TDS
 		std::uint32_t m_VertexOffset, m_VertexCount, m_IndexOffset, m_IndexCount;
 		std::shared_ptr<VMABuffer>							m_VertexBuffer = nullptr;
 		std::shared_ptr<VMABuffer>							m_IndexBuffer = nullptr;
+		std::shared_ptr<VMABuffer>							m_IndirectBuffer = nullptr;
 	};
 
 	struct Modelpack;
