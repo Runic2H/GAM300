@@ -5,6 +5,7 @@
 #include <Jolt/Jolt.h>
 
 #include <Jolt/Physics/Collision/BroadPhase/BroadPhase.h>
+#include <Jolt/Physics/Collision/CollisionCollectorImpl.h>
 #include <Jolt/Physics/Body/Body.h>
 #include <Jolt/Physics/Body/BodyManager.h>
 #include <Jolt/Physics/Body/BodyInterface.h>
@@ -216,6 +217,13 @@ void BodyInterface::ActivateBodies(const BodyID *inBodyIDs, int inNumber)
 	BodyLockMultiWrite lock(*mBodyLockInterface, inBodyIDs, inNumber);
 
 	mBodyManager->ActivateBodies(inBodyIDs, inNumber);
+}
+
+void BodyInterface::ActivateBodiesInAABox(const AABox &inBox, const BroadPhaseLayerFilter &inBroadPhaseLayerFilter, const ObjectLayerFilter &inObjectLayerFilter)
+{
+	AllHitCollisionCollector<CollideShapeBodyCollector> collector;
+	mBroadPhase->CollideAABox(inBox, collector, inBroadPhaseLayerFilter, inObjectLayerFilter);
+	ActivateBodies(collector.mHits.data(), (int)collector.mHits.size());
 }
 
 void BodyInterface::DeactivateBody(const BodyID &inBodyID)
@@ -923,6 +931,31 @@ float BodyInterface::GetGravityFactor(const BodyID &inBodyID) const
 		return lock.GetBody().GetMotionPropertiesUnchecked()->GetGravityFactor();
 	else
 		return 1.0f;
+}
+
+void BodyInterface::SetUseManifoldReduction(const BodyID &inBodyID, bool inUseReduction)
+{
+	BodyLockWrite lock(*mBodyLockInterface, inBodyID);
+	if (lock.Succeeded())
+	{
+		Body &body = lock.GetBody();
+		if (body.GetUseManifoldReduction() != inUseReduction)
+		{
+			body.SetUseManifoldReduction(inUseReduction);
+
+			// Flag collision cache invalid for this body
+			mBodyManager->InvalidateContactCacheForBody(body);
+		}
+	}
+}
+
+bool BodyInterface::GetUseManifoldReduction(const BodyID &inBodyID) const
+{
+	BodyLockRead lock(*mBodyLockInterface, inBodyID);
+	if (lock.Succeeded())
+		return lock.GetBody().GetUseManifoldReduction();
+	else
+		return true;
 }
 
 TransformedShape BodyInterface::GetTransformedShape(const BodyID &inBodyID) const

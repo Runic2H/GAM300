@@ -190,7 +190,7 @@ uint32 QuadTree::AllocateNode(bool inIsChanged)
 	if (index == Allocator::cInvalidObjectIndex)
 	{
 		Trace("QuadTree: Out of nodes!");
-		JPH_CRASH;
+		std::abort();
 	}
 	return index;
 }
@@ -219,6 +219,17 @@ void QuadTree::DiscardOldTree()
 		// Clear the batch
 		mFreeNodeBatch = Allocator::Batch();
 	}
+}
+
+AABox QuadTree::GetBounds() const
+{
+	uint32 node_idx = GetCurrentRoot().mIndex;
+	JPH_ASSERT(node_idx != cInvalidNodeIndex);
+	const Node &node = mAllocator->Get(node_idx);
+
+	AABox bounds;
+	node.GetNodeBounds(bounds);
+	return bounds;
 }
 
 void QuadTree::UpdatePrepare(const BodyVector &inBodies, TrackingVector &ioTracking, UpdateState &outUpdateState, bool inFullRebuild)
@@ -1319,10 +1330,11 @@ void QuadTree::CastAABox(const AABoxCast &inBox, CastShapeBodyCollector &ioColle
 		JPH_INLINE int				VisitNodes(Vec4Arg inBoundsMinX, Vec4Arg inBoundsMinY, Vec4Arg inBoundsMinZ, Vec4Arg inBoundsMaxX, Vec4Arg inBoundsMaxY, Vec4Arg inBoundsMaxZ, UVec4 &ioChildNodeIDs, int inStackTop)
 		{
 			// Enlarge them by the casted aabox extents
-			AABox4EnlargeWithExtent(mExtent, inBoundsMinX, inBoundsMinY, inBoundsMinZ, inBoundsMaxX, inBoundsMaxY, inBoundsMaxZ);
+			Vec4 bounds_min_x = inBoundsMinX, bounds_min_y = inBoundsMinY, bounds_min_z = inBoundsMinZ, bounds_max_x = inBoundsMaxX, bounds_max_y = inBoundsMaxY, bounds_max_z = inBoundsMaxZ;
+			AABox4EnlargeWithExtent(mExtent, bounds_min_x, bounds_min_y, bounds_min_z, bounds_max_x, bounds_max_y, bounds_max_z);
 
 			// Test 4 children
-			Vec4 fraction = RayAABox4(mOrigin, mInvDirection, inBoundsMinX, inBoundsMinY, inBoundsMinZ, inBoundsMaxX, inBoundsMaxY, inBoundsMaxZ);
+			Vec4 fraction = RayAABox4(mOrigin, mInvDirection, bounds_min_x, bounds_min_y, bounds_min_z, bounds_max_x, bounds_max_y, bounds_max_z);
 
 			// Sort so that highest values are first (we want to first process closer hits and we process stack top to bottom)
 			return SortReverseAndStore(fraction, mCollector.GetPositiveEarlyOutFraction(), ioChildNodeIDs, &mFractionStack[inStackTop]);
@@ -1607,32 +1619,50 @@ void QuadTree::DumpTree(const NodeID &inRoot, const char *inFileNamePrefix) cons
 
 #ifdef JPH_TRACK_BROADPHASE_STATS
 
-void QuadTree::ReportStats(const char *inName, const LayerToStats &inLayer) const
+uint64 QuadTree::GetTicks100Pct(const LayerToStats &inLayer) const
 {
-	uint64 ticks_per_sec = GetProcessorTicksPerSecond();
+	uint64 total_ticks = 0;
+	for (const LayerToStats::value_type &kv : inLayer)
+		total_ticks += kv.second.mTotalTicks;
+	return total_ticks;
+}
 
+void QuadTree::ReportStats(const char *inName, const LayerToStats &inLayer, uint64 inTicks100Pct) const
+{
 	for (const LayerToStats::value_type &kv : inLayer)
 	{
-		double total_time = 1000.0 * double(kv.second.mTotalTicks) / double(ticks_per_sec);
-		double total_time_excl_collector = 1000.0 * double(kv.second.mTotalTicks - kv.second.mCollectorTicks) / double(ticks_per_sec);
+		double total_pct = 100.0 * double(kv.second.mTotalTicks) / double(inTicks100Pct);
+		double total_pct_excl_collector = 100.0 * double(kv.second.mTotalTicks - kv.second.mCollectorTicks) / double(inTicks100Pct);
 		double hits_reported_vs_bodies_visited = kv.second.mBodiesVisited > 0? 100.0 * double(kv.second.mHitsReported) / double(kv.second.mBodiesVisited) : 100.0;
-		double hits_reported_vs_nodes_visited = kv.second.mNodesVisited > 0? double(kv.second.mHitsReported) / double(kv.second.mNodesVisited) : -1.0f;
+		double hits_reported_vs_nodes_visited = kv.second.mNodesVisited > 0? double(kv.second.mHitsReported) / double(kv.second.mNodesVisited) : -1.0;
 
-		stringstream str;
-		str << inName << ", " << kv.first << ", " << mName << ", " << kv.second.mNumQueries << ", " << total_time << ", " << total_time_excl_collector << ", " << kv.second.mNodesVisited << ", " << kv.second.mBodiesVisited << ", " << kv.second.mHitsReported << ", " << hits_reported_vs_bodies_visited << ", " << hits_reported_vs_nodes_visited;
+		std::stringstream str;
+		str << inName << ", " << kv.first << ", " << mName << ", " << kv.second.mNumQueries << ", " << total_pct << ", " << total_pct_excl_collector << ", " << kv.second.mNodesVisited << ", " << kv.second.mBodiesVisited << ", " << kv.second.mHitsReported << ", " << hits_reported_vs_bodies_visited << ", " << hits_reported_vs_nodes_visited;
 		Trace(str.str().c_str());
 	}
 }
 
-void QuadTree::ReportStats() const
+uint64 QuadTree::GetTicks100Pct() const
+{
+	uint64 total_ticks = 0;
+	total_ticks += GetTicks100Pct(mCastRayStats);
+	total_ticks += GetTicks100Pct(mCollideAABoxStats);
+	total_ticks += GetTicks100Pct(mCollideSphereStats);
+	total_ticks += GetTicks100Pct(mCollidePointStats);
+	total_ticks += GetTicks100Pct(mCollideOrientedBoxStats);
+	total_ticks += GetTicks100Pct(mCastAABoxStats);
+	return total_ticks;
+}
+
+void QuadTree::ReportStats(uint64 inTicks100Pct) const
 {
 	unique_lock lock(mStatsMutex);
-	ReportStats("RayCast", mCastRayStats);
-	ReportStats("CollideAABox", mCollideAABoxStats);
-	ReportStats("CollideSphere", mCollideSphereStats);
-	ReportStats("CollidePoint", mCollidePointStats);
-	ReportStats("CollideOrientedBox", mCollideOrientedBoxStats);
-	ReportStats("CastAABox", mCastAABoxStats);
+	ReportStats("RayCast", mCastRayStats, inTicks100Pct);
+	ReportStats("CollideAABox", mCollideAABoxStats, inTicks100Pct);
+	ReportStats("CollideSphere", mCollideSphereStats, inTicks100Pct);
+	ReportStats("CollidePoint", mCollidePointStats, inTicks100Pct);
+	ReportStats("CollideOrientedBox", mCollideOrientedBoxStats, inTicks100Pct);
+	ReportStats("CastAABox", mCastAABoxStats, inTicks100Pct);
 }
 
 #endif // JPH_TRACK_BROADPHASE_STATS
