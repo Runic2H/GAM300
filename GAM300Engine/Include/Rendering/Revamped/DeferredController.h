@@ -197,6 +197,10 @@ namespace TDS
 		Mat4 m_View = Mat4(1.f);
 	};
 
+	struct BoneUniform
+	{
+		Mat4 m_Bones[80];
+	};
 
 
 

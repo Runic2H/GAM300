@@ -24,7 +24,7 @@ float random(vec2 co)
 }
 
 vec2 hammersley2d(uint i, uint N) 
-{l
+{
 	uint bits = (i << 16u) | (i >> 16u);
 	bits = ((bits & 0x55555555u) << 1u) | ((bits & 0xAAAAAAAAu) >> 1u);
 	bits = ((bits & 0x33333333u) << 2u) | ((bits & 0xCCCCCCCCu) >> 2u);

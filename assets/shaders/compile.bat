@@ -2,7 +2,7 @@
 setlocal enabledelayedexpansion
 
 rem Set the path to glslc.exe (adjust as needed)
-set "GLSLC_PATH=C:\VulkanSDK\1.3.261.1\Bin\glslc.exe"
+set "GLSLC_PATH=C:\VulkanSDK\1.1.114.0\Bin\glslc.exe"
 
 rem Compile all .vert and .frag files in the current directory
 for %%f in (*.vert *.frag *.comp) do (

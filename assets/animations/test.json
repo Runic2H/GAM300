@@ -35,9 +35,6 @@
                                 ]
                             ]
                         },
-                        "Child": [],
-                        "ParentNode": -1,
-                        "BoneID": 2,
                         "boneOffset": {
                             "m": [
                                 [
@@ -65,7 +62,10 @@
                                     1.0
                                 ]
                             ]
-                        }
+                        },
+                        "Child": [],
+                        "ParentNode": -1,
+                        "BoneID": 2
                     },
                     "positions": [
                         {

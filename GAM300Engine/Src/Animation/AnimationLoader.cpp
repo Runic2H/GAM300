@@ -38,11 +38,11 @@ namespace TDS
 			RTTR_REGISTER_PROPERTY(AnimScale, Scale);
 
 
-		RTTR_REGISTER_WITH_NAME(AnimNode, "AnimNode")
+		/*RTTR_REGISTER_WITH_NAME(AnimNode, "AnimNode")
 			RTTR_REGISTER_PROPERTY(AnimNode, Transform)
 			RTTR_REGISTER_PROPERTY(AnimNode, Child)
 			RTTR_REGISTER_PROPERTY(AnimNode, ParentNode)
-			RTTR_REGISTER_PROPERTY(AnimNode, BoneID);
+			RTTR_REGISTER_PROPERTY(AnimNode, BoneID);*/
 
 		RTTR_REGISTER_WITH_NAME(AnimNode, "AnimNode")
 			RTTR_REGISTER_PROPERTY(AnimNode, Transform)

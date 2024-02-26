@@ -69,6 +69,12 @@ layout(push_constant) uniform ConstantData
     };
 */
 
+const int MAX_BONES = 80;
+layout(set = 2, binding = 19) uniform boneView
+{
+    mat4 mat[MAX_BONES];
+} bones;
+
 layout(location = 0) out vec4 fragColor;
 layout(location = 1) out vec2 fragTexCoord;
 layout(location = 2) out vec3 fragPosWorld;
@@ -88,8 +94,13 @@ void main()
     uint textureID = instance.textureID;
     mat4 modelMatrix = instance.modelMatrix;
 
-    mat4 skinMat = mat4(1.0);
+    mat4 skinMat = mat4(0.0);
 
+    for(int i = 0; i < 4; i++)
+   {
+        uint j = uint(BoneIDs[i]);
+        skinMat += Weights[i] * bones.mat[j];
+   }
 
 
     mat4 accumulated = modelMatrix * skinMat;
