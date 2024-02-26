@@ -19,6 +19,7 @@ public class CutsceneSubtitle : Script
     [SerializeField]
     public static int counter;
     public static bool next = true;
+    private static bool skip = false;
     public override void Awake()
     {
         BGMfile = new String[1];
@@ -96,10 +97,11 @@ public class CutsceneSubtitle : Script
         if (Input.GetKeyDown(Keycode.SPACE))
         {
             audio.stop(Audiofiles[counter]);
-            audio.stop(BGMfile[0]);
-            GraphicsManagerWrapper.ToggleViewFrom2D(false);
-            SceneLoader.LoadMainGame();
+            skip = true;
+            counter++;
+            //Console.WriteLine("Counter: " + counter);
         }
+
         else
         {
             audio.play(BGMfile[0]);
@@ -109,7 +111,7 @@ public class CutsceneSubtitle : Script
             {
                 audio.stop(BGMfile[0]);
                 GraphicsManagerWrapper.ToggleViewFrom2D(false);
-                SceneLoader.LoadMainGame();
+                SceneLoader.LoadMainGame();              
             }
             else
             {
@@ -122,7 +124,11 @@ public class CutsceneSubtitle : Script
                 else if (audio.finished(Audiofiles[counter]))
                 {
                     next = true;
-                    ++counter;
+                    if(!skip)
+                    {
+                        ++counter;
+                    }
+                    skip = false;   
                 }
             }
         }
