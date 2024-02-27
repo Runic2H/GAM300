@@ -8,6 +8,7 @@
 \brief  Gameplay script for player interaction with paintings
 ****************************************************************************
 ***/
+using Microsoft.VisualBasic;
 using ScriptAPI;
 using System;
 
@@ -55,12 +56,12 @@ public class Painting_Script : Script
     // Update is called once per frame
     override public void Update()
     {
-        if (isWithinRange())
+        if (gameObject.GetComponent<RigidBodyComponent>().IsRayHit())
         {
-            _InteractUI.SetActive(true);
+            Console.WriteLine("Painting");
             AudioPlayer.play(voClip[1]);
 
-            if (Input.GetKeyDown(Keycode.E) /*&& isWithinRange() && rigidBodyComponent.IsRayHit()*/)
+            if (Input.GetKeyDown(Keycode.E))
             {
                 Console.WriteLine("Picked up painting");
                 InventoryScript.addPaintingIntoInventory(Painting_Name, Painting_Texture);
@@ -76,10 +77,18 @@ public class Painting_Script : Script
                 }
             }
         }
-        else
-        {
-            _InteractUI.SetActive(false);
-        }
+    }
+
+    public override void LateUpdate()
+    {
+        //if (gameObject.GetComponent<RigidBodyComponent>().IsRayHit())
+        //{
+        //    _InteractUI.SetActive(true);
+        //}
+        //else
+        //{
+        //    _InteractUI.SetActive(false);
+        //}
     }
 
     public bool isWithinRange()

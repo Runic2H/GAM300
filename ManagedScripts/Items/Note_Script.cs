@@ -43,7 +43,7 @@ public class Note_Script : Script
 
     public override void Update()
     {
-        if (isWithinRange())
+        if (gameObject.GetComponent<RigidBodyComponent>().IsRayHit())
         {
             _InteractUI.SetActive(true);
             if (Input.GetKeyDown(Keycode.E) /*&& isWithinRange() && rigidBodyComponent.IsRayHit()*/) // Maybe add 1 more condition to check if its within player's view
@@ -55,10 +55,19 @@ public class Note_Script : Script
                 clip.play(Note_VO);
             }
         }
-        else
-        {
-            _InteractUI.SetActive(false);
-        }
+        
+    }
+
+    public override void LateUpdate()
+    {
+        //if (gameObject.GetComponent<RigidBodyComponent>().IsRayHit())
+        //{
+        //    _InteractUI.SetActive(true);
+        //}
+        //else
+        //{
+        //    _InteractUI.SetActive(false);
+        //}
     }
 
     public bool isWithinRange()
