@@ -70,7 +70,7 @@ layout(push_constant) uniform ConstantData
 */
 
 const int MAX_BONES = 80;
-layout(set = 2, binding = 19) uniform boneView
+layout(binding = 19) uniform boneView
 {
     mat4 mat[MAX_BONES];
 } bones;

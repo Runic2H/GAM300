@@ -357,6 +357,7 @@ namespace TDS
 
 			if (assimp.m_Scene->HasAnimations())
 			{
+				request.currSetting.m_LoadAnimation = true;
 				for (size_t j{ 0 }; j < assimp.m_Scene->mNumAnimations; j++)
 				{
 					buildAnimation(i, assimp.m_Scene->mAnimations[j]);

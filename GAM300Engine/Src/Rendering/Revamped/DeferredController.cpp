@@ -363,6 +363,9 @@ namespace TDS
 
 
 		GBufferPipeline->UpdateUBO(&m_SceneUBO, sizeof(SceneUniform), 5, frameIndex);
+
+		GBufferPipeline->UpdateUBO(&m_BonesUniform, sizeof(BoneUniform), 19, frameIndex);
+
 		GBufferPipeline->UpdateUBO(m_GBufferInstance.m_InstanceBuffers.data(), sizeof(BatchData) * m_GBufferInstance.m_TotalInstances, 15, frameIndex);
 
 		if (AssetManager::GetInstance()->GetTextureFactory().m_UpdateArrayInstance)

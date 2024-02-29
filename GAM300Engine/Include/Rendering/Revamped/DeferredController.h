@@ -2,6 +2,7 @@
 #include "vulkanTools/FrameInfo.h"
 namespace TDS
 {
+	const uint32_t MAX_BONES = 80;
 	enum DEFERRED_STAGE
 	{
 		STAGE_G_BUFFER_BATCH = 0,
@@ -199,7 +200,7 @@ namespace TDS
 
 	struct BoneUniform
 	{
-		Mat4 m_Bones[80];
+		alignas(16) Mat4 m_Bones[MAX_BONES];
 	};
 
 
@@ -275,7 +276,7 @@ namespace TDS
 		std::array<FBO*, RENDER_TOTAL>					m_FrameBuffers;
 
 
-
+		BoneUniform										m_BonesUniform;
 
 	};
 

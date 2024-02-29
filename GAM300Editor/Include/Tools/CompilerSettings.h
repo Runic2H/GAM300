@@ -49,7 +49,7 @@ namespace TDS
 		bool		m_PretransformedVertices = false;
 		bool		m_MergeMesh = false;
 		bool		m_LoadMesh = true;
-		bool		m_LoadAnimation = true; 
+		bool		m_LoadAnimation = false; 
 		bool		m_LoadMaterials = true;
 		bool		m_Centralize = false;
 		Desc		m_Descriptor;
