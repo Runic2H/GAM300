@@ -118221,6 +118221,9 @@
                 "timer": {
                     "System.Single": "0"
                 },
+                "hidingGameObject": {
+                    "ScriptAPI.GameObject": 98
+                },
                 "gameObject": {
                     "ScriptAPI.GameObject": 896
                 }
