@@ -345,7 +345,7 @@ namespace TDS
 		//JPH::RayCast ray{ vRayOrigin, vRayDirection * 20.0f * vRayScale };
 		//collector->Reset();
 		//m_pSystem->GetBroadPhaseQuery().CastRay(ray, *collector);
-		float offsetDistance = _transform->GetScale().x;
+		float offsetDistance = _transform->GetScale().x * 0.5f;
 		JPH::Vec3 vRayOrigin = JoltToTDS::ToVec3(_transform->GetPosition() + GraphicsManager::getInstance().GetCamera().getForwardVector() * offsetDistance);
 		JPH::Vec3 vRayDirection = JoltToTDS::ToVec3(GraphicsManager::getInstance().GetCamera().getForwardVector());
 		JPH::Vec3 vScaledRayDir = vRayDirection * _rigidbody->getRayScale();
