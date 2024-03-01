@@ -193,7 +193,6 @@ namespace TDS
 							vSize.x *= vScale.x;
 							vSize.y *= vScale.y;
 							vSize.z *= vScale.z;
-							vBox->SetColliderCenter(vBox->GetColliderCenter() + vBox->GetOffsetCenter());
 							vBox->SetColliderSize(vSize);
 							vBox->SetColliderScale(vScale);
 						}
