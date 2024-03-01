@@ -76,23 +76,10 @@ public class InventoryScript : Script
             }
         }
 
-        //if (!LockpickIsOpen)
-        //{
-        //    Input.Lock(false);
-        //    Input.HideMouse(false);
-        //}
-        //if (InventoryIsOpen) // Inventory opened
-        //{
-        //    Input.Lock(false);
-        //    Input.HideMouse(false);
-        //    checkMouseInput();
-        //}
-        //else if (!InventoryIsOpen && !PopupUI.isDisplayed)
-        //{
-        //    Input.Lock(true);
-        //    Input.HideMouse(true);
-        //}
-
+        if (InventoryIsOpen) // Inventory opened
+        {
+            checkMouseInput();
+        }
     }
 
     public void toggleInventory()
