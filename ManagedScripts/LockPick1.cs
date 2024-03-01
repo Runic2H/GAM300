@@ -76,6 +76,7 @@ public class LockPick1 : Script
     private bool movePick;
     private bool deduct;
     private bool displayTutorial;
+    private bool next_VO;
     [SerializeField] bool played;
 
     private Vector3 originalPosition = new Vector3(0.0f, 350.0f, 1500.0f);
@@ -127,7 +128,8 @@ public class LockPick1 : Script
 
         counter = 0;
         audio = gameObject.GetComponent<AudioComponent>();
-        // GameplaySubtitles.counter = 5; //no effect on set gameplay subtitles to be empty 
+        next_VO = true;
+        // GameplaySubtitles.counter = 5; //no effect on set gameplay subtitles to be empty
 
         newLock();
     }
@@ -136,6 +138,7 @@ public class LockPick1 : Script
     {
         //audio.play(startingVOstr);
         movePick = true;
+        next_VO = true;
     }
 
     // Update is called once per frame
@@ -186,8 +189,11 @@ public class LockPick1 : Script
         UISpriteComponent ClosedSub = GameObjectScriptFind("Subtitles").GetComponent<UISpriteComponent>();
         //UISpriteComponent Sprite = gameObject.GetComponent<UISpriteComponent>();
 
-        if (counter < 5)
+        if (counter < 5 && next_VO)
+        {
             audio.play(playerGuideVO[counter]);
+            next_VO = false;
+        }
         if(audio.finished(playerGuideVO[0]))
             counter = 6;
 
@@ -227,6 +233,7 @@ public class LockPick1 : Script
         if (Input.GetKey(Keycode.E))
         {
             counter = 5; //"Move [mouse] to adjust pick";
+            next_VO = true;
 
         }
         if (Input.GetKeyUp(Keycode.E)) //lock not turning
@@ -240,6 +247,7 @@ public class LockPick1 : Script
                 //wait for "Hopefully I won't forget how to 
                 //do this".. to finish playing before showing ui instructions
                 counter = 6; //"Press [E] to turn lock";
+                next_VO = true;
             } 
         }
         #endregion
@@ -285,18 +293,18 @@ public class LockPick1 : Script
                         if (delay <= 0)
                         {
                             // Not sure if there is a better way to do this
-                            //if (audio.finished(rattleSoundEffects[0]))
-                            //    audio.stop(rattleSoundEffects[0]);
-                            //if (audio.finished(rattleSoundEffects[1]))
-                            //    audio.stop(rattleSoundEffects[1]);
-                            //if (audio.finished(rattleSoundEffects[2]))
-                            //    audio.stop(rattleSoundEffects[2]);
-                            //if (audio.finished(rattleSoundEffects[3]))
-                            //    audio.stop(rattleSoundEffects[3]);
-                            //if (audio.finished(rattleSoundEffects[4]))
-                            //    audio.stop(rattleSoundEffects[4]);
-                            //if (audio.finished(rattleSoundEffects[5]))
-                            //    audio.stop(rattleSoundEffects[5]);
+                            if (audio.finished(rattleSoundEffects[0]))
+                                audio.stop(rattleSoundEffects[0]);
+                            if (audio.finished(rattleSoundEffects[1]))
+                                audio.stop(rattleSoundEffects[1]);
+                            if (audio.finished(rattleSoundEffects[2]))
+                                audio.stop(rattleSoundEffects[2]);
+                            if (audio.finished(rattleSoundEffects[3]))
+                                audio.stop(rattleSoundEffects[3]);
+                            if (audio.finished(rattleSoundEffects[4]))
+                                audio.stop(rattleSoundEffects[4]);
+                            if (audio.finished(rattleSoundEffects[5]))
+                                audio.stop(rattleSoundEffects[5]);
 
                             audio.play(rattleSoundEffects[(int)ScriptAPI.Random.Range(0, 5)]);
                             delay = 0.4f;
@@ -355,6 +363,7 @@ public class LockPick1 : Script
                 //ClosedSub.SetFontMessage(Subtitles[1]); no effect
                 counter = 2;
                 audio.play(playerGuideVO[2]);
+                next_VO = true;
                 GameplaySubtitles.counter = 7;
                 // if (audio.finished(playerGuideVO[2]))
                 // {
@@ -398,6 +407,7 @@ public class LockPick1 : Script
                     monster.GetComponent<GhostMovement>().AlertMonster();
                 }
                 counter = 5; //move mouse to adjust pick
+                next_VO = true;
             }
             else
             {

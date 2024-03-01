@@ -787,12 +787,9 @@ namespace TDS
     {
         bool check{ false };
 
-        for (auto& temp : allSounds)
+        if (allSounds.find(str) != allSounds.end())
         {
-            if (strstr(temp.first.c_str(), str.c_str()))
-            {
-                check = aud_instance->soundFinished(temp.second);
-            }
+            check = aud_instance->soundFinished(allSounds[str]);
         }
 
         return check;
