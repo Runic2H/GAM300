@@ -64,11 +64,6 @@ namespace TDS
 		DLL_API bool sceneDeserialize();
 		
 		/*!*************************************************************************
-		This function finds scripts in project
-		****************************************************************************/
-		DLL_API void scriptsDeserialize(std::string filepath = "");
-
-		/*!*************************************************************************
 		This function adds a new scene into the Scene Manager
 		****************************************************************************/
 		DLL_API void newScene(std::string scene);
@@ -144,17 +139,8 @@ namespace TDS
 		bool (*addScript)(EntityID entityID, std::string scriptName);
 		bool (*removeScript)(EntityID entityID, std::string scriptName);
 
-		void (*setBool)(EntityID entityID, std::string script, std::string variableName, bool value);
-		void (*setInt)(EntityID entityID, std::string script, std::string variableName, int value, bool isInt);
-		void (*setDouble)(EntityID entityID, std::string script, std::string variableName, double value);
-		void (*setFloat)(EntityID entityID, std::string script, std::string variableName, float value);
-		void (*setString)(EntityID entityID, std::string script, std::string variableName, std::string value);
-		//void (*setChar)(EntityID entityID, std::string script, std::string variableName, char value);
-		void (*setVector3)(EntityID entityID, std::string script, std::string variableName, Vec3 value);
-		void (*setGameObject)(EntityID entityID, std::string script, std::string variableName, EntityID gameObjectEntityID);
-		void (*setComponent)(EntityID entityID, std::string script, std::string variableName, EntityID gameObjectEntityID);
-		void (*setScriptReference)(EntityID entityID, std::string script, std::string variableName, EntityID gameObjectEntityID, std::string scriptReference);
-
+		void (*setScriptValue)(EntityID entityID, std::string script, ScriptValues variableInfo); // Normally for editor
+		void (*setScriptValues)(EntityID entityID, std::string script, std::vector<ScriptValues>& allVariableInfo); // Normally for deserialization
 
 		bool (*updateName)(EntityID entityID, std::string newName);
 
@@ -163,6 +149,8 @@ namespace TDS
 
 		void(*awake)(void);
 		void(*start)(void);
+
+		static bool isPlaying;
 
 	private:
 		// Unique pointer to SceneManager
@@ -179,7 +167,6 @@ namespace TDS
 		std::string filePath;
 
 		// For scripts
-		std::vector<std::string> allScripts;
 		std::string scriptFilePath;
 	};
 }

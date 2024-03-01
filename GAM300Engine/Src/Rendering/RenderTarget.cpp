@@ -51,7 +51,7 @@ namespace TDS
 			imageViewCI.sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO;
 			imageViewCI.viewType = attachmentCI._viewType;
 			imageViewCI.format = attachmentCI._format;
-			
+
 			m_SubResourceRange.aspectMask = attachmentCI._imageAspect;
 			m_SubResourceRange.baseMipLevel = 0;
 			m_SubResourceRange.levelCount = attachmentCI._mipLevels;
@@ -76,7 +76,7 @@ namespace TDS
 			VK_ASSERT(vkCreateImageView(inst->getVkLogicalDevice(), &imageViewCI, nullptr, &m_ImageView), "Failed to create image view!");
 
 		}
-		else{
+		else {
 
 			m_Image = attachmentCI._inheritVkImage;
 		}
@@ -145,7 +145,7 @@ namespace TDS
 				VK_ASSERT(vkCreateSampler(inst->getVkLogicalDevice(), &samplerInfo, nullptr, &m_Sampler), "Failed to create sampler");
 			}
 		}
-	
+
 		m_Dimensions = { attachmentCI._dim.x, attachmentCI._dim.y,attachmentCI._dim.z };
 
 	}

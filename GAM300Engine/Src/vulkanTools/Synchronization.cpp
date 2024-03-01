@@ -6,33 +6,33 @@ namespace TDS
 	{
 		switch (synctype_)
 		{
-			case(SYNCTYPE::GRAPHIC2COMPUTE):
-				m_DstStageMask = VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT;
-				m_SrcStageMask = graphicStage;
-				break;
+		case(SYNCTYPE::GRAPHIC2COMPUTE):
+			m_DstStageMask = VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT;
+			m_SrcStageMask = graphicStage;
+			break;
 
-			case(SYNCTYPE::COMPUTE2COMPUTE):
-				m_SrcStageMask = m_DstStageMask = VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT;
-				break;
+		case(SYNCTYPE::COMPUTE2COMPUTE):
+			m_SrcStageMask = m_DstStageMask = VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT;
+			break;
 
-			case(SYNCTYPE::COMPUTE2GRAPHIC):
-				m_DstStageMask = graphicStage;
-				m_SrcStageMask = VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT;
-				break;
+		case(SYNCTYPE::COMPUTE2GRAPHIC):
+			m_DstStageMask = graphicStage;
+			m_SrcStageMask = VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT;
+			break;
 
-			case(SYNCTYPE::TRANSFER):
-				m_DstStageMask = VK_PIPELINE_STAGE_TRANSFER_BIT;
-				m_SrcStageMask = VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT;
-				break;
-			case(SYNCTYPE::TRANSFER2):
-				m_DstStageMask = VK_PIPELINE_STAGE_TRANSFER_BIT;
-				m_SrcStageMask = VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT;
-				break;
-			
-			case(SYNCTYPE::REVERT1):
-				m_DstStageMask = VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT;
-				m_SrcStageMask = VK_PIPELINE_STAGE_TRANSFER_BIT;
-				break;
+		case(SYNCTYPE::TRANSFER):
+			m_DstStageMask = VK_PIPELINE_STAGE_TRANSFER_BIT;
+			m_SrcStageMask = VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT;
+			break;
+		case(SYNCTYPE::TRANSFER2):
+			m_DstStageMask = VK_PIPELINE_STAGE_TRANSFER_BIT;
+			m_SrcStageMask = VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT;
+			break;
+
+		case(SYNCTYPE::REVERT1):
+			m_DstStageMask = VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT;
+			m_SrcStageMask = VK_PIPELINE_STAGE_TRANSFER_BIT;
+			break;
 		}
 
 	}
@@ -55,15 +55,15 @@ namespace TDS
 
 		switch (syncAttachment_)
 		{
-			case(SYNCATTACHMENT::COLOR):
-				imageMemorybarrier.srcAccessMask = VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT;
-				break;
+		case(SYNCATTACHMENT::COLOR):
+			imageMemorybarrier.srcAccessMask = VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT;
+			break;
 
-			case(SYNCATTACHMENT::DEPTH):
-				imageMemorybarrier.srcAccessMask = VK_ACCESS_DEPTH_STENCIL_ATTACHMENT_WRITE_BIT;
-				break;
+		case(SYNCATTACHMENT::DEPTH):
+			imageMemorybarrier.srcAccessMask = VK_ACCESS_DEPTH_STENCIL_ATTACHMENT_WRITE_BIT;
+			break;
 		}
-		
+
 
 		m_ImageMemoryBarriers.push_back(imageMemorybarrier);
 

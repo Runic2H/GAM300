@@ -85,37 +85,42 @@ namespace TDS
 
 	bool CameraSystem::movingCameraSystem()
 	{
-		key keys;
-		if (Input::keystatus == Input::KeyStatus::PRESSED || Input::keystatus == Input::KeyStatus::REPEATED)
-		{
-			switch (Input::keyCode)
-			{
-			case TDS_W:
-				return keys.up = true;
-				break;
+		//key keys;
+		//if (Input::keystatus == Input::KeyStatus::PRESSED || Input::keystatus == Input::KeyStatus::REPEATED)
+		//{
+		//	switch (Input::keyCode)
+		//	{
+		//	case TDS_W:
+		//		return keys.up = true;
+		//		break;
 
-			case TDS_A:
-				return keys.left = true;
-				break;
+		//	case TDS_A:
+		//		return keys.left = true;
+		//		break;
 
-			case TDS_S:
-				return keys.down = true;
-				break;
+		//	case TDS_S:
+		//		return keys.down = true;
+		//		break;
 
-			case TDS_D:
-				return keys.right = true;
+		//	case TDS_D:
+		//		return keys.right = true;
 
-			default:
-				return false;
-			}
-		}
-		else
-		{
-			keys.up = false;
-			keys.left = false;
-			keys.down = false;
-			keys.right = false;
-		}
-		return false;
+		//	default:
+		//		return false;
+		//	}
+		//}
+		//else
+		//{
+		//	keys.up = false;
+		//	keys.left = false;
+		//	keys.down = false;
+		//	keys.right = false;
+		//}
+		//return false;
+
+		auto& inputSystem = InputSystem::GetInstance();
+
+		//return inputSystem->isKeyPressed('W') || inputSystem->isKeyPressed('A') || inputSystem->isKeyPressed('S') || inputSystem->isKeyPressed('D') ||
+		return inputSystem->isKeyDown('W') || inputSystem->isKeyDown('A') || inputSystem->isKeyDown('S') || inputSystem->isKeyDown('D');
 	}
 }

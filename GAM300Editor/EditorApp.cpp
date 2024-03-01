@@ -5,6 +5,7 @@
 #include <array>
 #include <sstream>
 #include <imgui/imgui.h>
+#include <Windows.h>
 
 #include "EditorApp.h"
 
@@ -33,23 +34,29 @@
 #include "imguiHelper/ImguiGamePlayScene.h"
 #include "Physics/PhysicsSystem.h"
 #include "Rendering/ObjectPicking.h"
+#include "Input/InputSystem.h"
+#include "Rendering/GridRenderer.h"
+#include "MessagingSystem/MessageSystem.h"
 
 bool isPlaying = false;
+bool gamePaused = false;
 bool startPlaying = false;
 
 namespace TDS
 {
+    bool SceneManager::isPlaying;
+
     Application::Application(HINSTANCE hinstance, int& nCmdShow, const wchar_t* classname, WNDPROC wndproc)
         :m_window(hinstance, nCmdShow, classname)
     {
-        m_window.createWindow(wndproc, 1280,720);
+        m_window.createWindow(wndproc, 1280, 720);
 
         //m_pVKInst = std::make_shared<VulkanInstance>(m_window);
         //m_Renderer = std::make_shared<Renderer>(m_window, *m_pVKInst.get());
         Log::Init();
         TDS_INFO("window width: {}, window height: {}", m_window.getWidth(), m_window.getHeight());
 
-       /* models = Model::createModelFromFile(*m_pVKInst.get(), "Test.bin");*/
+        /* models = Model::createModelFromFile(*m_pVKInst.get(), "Test.bin");*/
     }
     void  Application::handleMessages(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
     {
@@ -57,10 +64,12 @@ namespace TDS
         ImGui_ImplWin32_WndProcHandler(hWnd, uMsg, wParam, lParam); //for imgui implementation
         //can extern  some imgui wndproc handler | tbc
         SetWindowHandle(hWnd);
-        
+
         switch (uMsg)
         {
-
+        case WM_CREATE:
+            TDS::InputSystem::GetInstance()->setWindowCenter(GetSystemMetrics(SM_CXSCREEN) / 2, GetSystemMetrics(SM_CYSCREEN) / 2);
+            break;
         case WM_DESTROY:
             PostQuitMessage(0);
             break;
@@ -71,31 +80,27 @@ namespace TDS
             m_window.setWidth(LOWORD(lParam));
             m_window.setHeight(HIWORD(lParam));
             m_window.WindowIsResizing(true);
+            m_window.WindowIsResizing(true);
+            if (wParam == SIZE_MINIMIZED)
+            {
+                BROADCAST_MESSAGE("Stop Rendering");
+            }
+            else
+            {
+                BROADCAST_MESSAGE("Continue Rendering");
+
+            }
             break;
-        case WM_LBUTTONDOWN:
-        case WM_LBUTTONUP:
-        case WM_RBUTTONDOWN:
-        case WM_RBUTTONUP:
-        case WM_MBUTTONDOWN:
-        case WM_MBUTTONUP:
-        case WM_XBUTTONDOWN:
         case WM_XBUTTONUP:
         {
-            Input::processMouseInput(wParam, lParam);
+            //Input::processMouseInput(wParam, lParam);
         }break;
 
-        case WM_MOUSEMOVE:
+        /*case WM_MOUSEMOVE:
         {
             Input::updateMousePosition(lParam);
-        }break;
+        }break;*/
 
-        case WM_MOUSEWHEEL:
-        {
-            Input::processMouseScroll(wParam);
-        }break;
-
-        case WM_SYSKEYDOWN:
-        case WM_SYSKEYUP:
         case WM_KEYDOWN:
         {
             uint32_t VKcode = static_cast<uint32_t>(wParam);
@@ -121,6 +126,51 @@ namespace TDS
             Input::keystatus = Input::KeyStatus::RELEASED;
             Input::keystatus = Input::KeyStatus::IDLE;
         }break;
+
+        // Input System Stuff
+        case WM_INPUT: {
+
+            RAWINPUT rawInput;
+            UINT size = sizeof(RAWINPUT);
+
+            GetRawInputData((HRAWINPUT)lParam, RID_INPUT, &rawInput, &size, sizeof(RAWINPUTHEADER));
+
+            if (rawInput.header.dwType == RIM_TYPEMOUSE) {
+
+                // Process mouse input
+                TDS::InputSystem::GetInstance()->setRawMouseInput(rawInput.data.mouse.lLastX, rawInput.data.mouse.lLastY);
+
+                // Accumulate the X-axis mouse movement
+                InputSystem::GetInstance()->accumulatedMouseX += rawInput.data.mouse.lLastX;
+
+                // Accumulate the Y-axis mouse movement
+                InputSystem::GetInstance()->accumulatedMouseY += rawInput.data.mouse.lLastY;
+
+            }
+
+        }break;
+        case WM_MOUSEWHEEL: {
+            InputSystem::GetInstance()->processMouseScroll(wParam);
+        }break;
+        case WM_MOUSEMOVE:
+        {
+            POINT p;
+            GetCursorPos(&p);
+            ScreenToClient(GetActiveWindow(), &p);
+            InputSystem::GetInstance()->setLocalMousePos(p.x, p.y);
+            if (TDS::InputSystem::GetInstance()->getMouseLock())
+            {
+                HWND activeWindow = GetForegroundWindow();
+                if (activeWindow != nullptr) {
+                    RECT windowRect;
+                    if (GetWindowRect(activeWindow, &windowRect)) {
+                        TDS::InputSystem::GetInstance()->setWindowCenter((windowRect.left + windowRect.right) / 2, (windowRect.top + windowRect.bottom) / 2);
+                    }
+                }
+                TDS::InputSystem::GetInstance()->lockMouseCenter(hWnd);
+            }
+
+        }break;
         }
     }
     void Application::SetWindowHandle(HWND hWnd)
@@ -136,13 +186,27 @@ namespace TDS
         ShaderReflector::GetInstance()->Init(SHADER_DIRECTORY, REFLECTED_BIN);
         GraphicsManager::getInstance().Init(&m_window);
         AssetManager::GetInstance()->PreloadAssets();
-        skyboxrender.Init();
+        //skyboxrender.Init();
+        GraphicsManager::getInstance().GetDebugRenderer().Init();
+        GraphicsManager::getInstance().InitSkyBox();
+
+        // Raw Input for Mouse Movement
+        RAWINPUTDEVICE rid;
+        rid.usUsagePage = 0x01;  // Mouse
+        rid.usUsage = 0x02;      // Mouse
+        rid.dwFlags = 0;
+        rid.hwndTarget = NULL;
+
+        if (RegisterRawInputDevices(&rid, 1, sizeof(RAWINPUTDEVICE)) == FALSE) {
+            std::cout << "Mouse Failed to Register" << std::endl;
+        }
+
     }
 
     void Application::Update()
     {
         DDSConverter::Init();
-
+        m_window.GetWindowPos();
         auto executeUpdate = GetFunctionPtr<void(*)(void)>
             (
                 "ScriptAPI",
@@ -183,16 +247,18 @@ namespace TDS
                 "ScriptAPI.EngineInterface",
                 "ToggleScriptViaName"
             );
-
+        GraphicsManager::getInstance().m_EditorRender = &imguiHelper::Draw;
         initImgui();
         float lightx = 0.f;
 
         while (m_window.processInputEvent())
         {
+            InputSystem::GetInstance()->update();
+
             TimeStep::CalculateDeltaTime();
             float DeltaTime = TimeStep::GetDeltaTime();
             std::shared_ptr<EditorScene> pScene = static_pointer_cast<EditorScene>(LevelEditorManager::GetInstance()->panels[SCENE]);
-			std::shared_ptr<GamePlayScene> pGamePlayScene = static_pointer_cast<GamePlayScene>(LevelEditorManager::GetInstance()->panels[GAMEPLAYSCENE]);
+            std::shared_ptr<GamePlayScene> pGamePlayScene = static_pointer_cast<GamePlayScene>(LevelEditorManager::GetInstance()->panels[GAMEPLAYSCENE]);
             if (pScene->isFocus)
             {
                 GraphicsManager::getInstance().setCamera(m_camera);
@@ -216,59 +282,87 @@ namespace TDS
             RendererSystem::lightPosX = lightx;
 
             Vec3 m_windowdimension{ static_cast<float>(m_window.getWidth()), static_cast<float>(m_window.getHeight()), 1.f };
-            if (GraphicsManager::getInstance().getFrameBuffer().getDimensions() != m_windowdimension && m_windowdimension.x >0 && m_windowdimension.y > 0)
+            if (GraphicsManager::getInstance().getFrameBuffer().getDimensions() != m_windowdimension && m_windowdimension.x > 0 && m_windowdimension.y > 0)
             {
-                GraphicsManager::getInstance().getFrameBuffer().resize(m_windowdimension, GraphicsManager::getInstance().getRenderPass().getRenderPass());
+                BROADCAST_MESSAGE("Resize Event", m_window.getWidth(), m_window.getHeight());
+                /*GraphicsManager::getInstance().getFrameBuffer().resize(m_windowdimension, GraphicsManager::getInstance().getRenderPass().getRenderPass());*/
                 std::shared_ptr<EditorScene> pScene = static_pointer_cast<EditorScene>(LevelEditorManager::GetInstance()->panels[SCENE]);
                 pScene->Resize();
 
                 std::shared_ptr<GamePlayScene> pGamePlatScene = static_pointer_cast<GamePlayScene>(LevelEditorManager::GetInstance()->panels[GAMEPLAYSCENE]);
                 pGamePlatScene->Resize();
-            }
-            GraphicsManager::getInstance().StartFrame();
-            VkCommandBuffer commandBuffer = GraphicsManager::getInstance().getCommandBuffer();
-            std::uint32_t frame = GraphicsManager::getInstance().GetSwapchainRenderer().getFrameIndex();
 
-            GraphicsManager::getInstance().getRenderPass().beginRenderPass(commandBuffer, &GraphicsManager::getInstance().getFrameBuffer());
-            if (GraphicsManager::getInstance().IsViewingFrom2D() == false)
-                skyboxrender.RenderSkyBox(commandBuffer, frame);
-           
+
+            }
+
+
             if (isPlaying)
             {
+                //if (InputSystem::GetInstance()->isKeyDown(VK_CONTROL) && InputSystem::GetInstance()->isKeyPressed(VK_ESCAPE))
+                //{
+                //    proxy_audio_system::ScriptPlayAllPaused();
+                //    gamePaused = !gamePaused;
+                //    std::cout << "editor system paused = " << gamePaused << std::endl;
+                //}
+
                 if (startPlaying)
                 {
+                    SceneManager::GetInstance()->isPlaying = true;
                     SceneManager::GetInstance()->loadScene(SceneManager::GetInstance()->getCurrentScene());
                     startPlaying = false;
+                    SceneManager::GetInstance()->awake();
+                    SceneManager::GetInstance()->start();
                 }
-                executeFixedUpdate();
-                ecs.runSystems(1, DeltaTime); // Other systems
-                executeUpdate();
-                //executeLateUpdate();
+
+                if (!gamePaused)
+                {
+                    executeFixedUpdate();
+                    ecs.runSystems(1, DeltaTime);
+                    executeUpdate();
+                    executeLateUpdate();
+                }
             }
             else
             {
+                InputSystem::GetInstance()->setMouseLock(false);
+                InputSystem::GetInstance()->setCursorVisible(true);
                 startPlaying = true;
+                SceneManager::GetInstance()->isPlaying = false;
                 if (PhysicsSystem::GetIsPlaying() || CameraSystem::GetIsPlaying()) // consider moving it to another seperate system (EditorApp?)
                 {
                     PhysicsSystem::SetIsPlaying(false);
                     CameraSystem::SetIsPlaying(false);
                 }
+                proxy_audio_system::ScriptPauseAll();
             }
+
             ecs.runSystems(2, DeltaTime); // Event handler
-            ecs.runSystems(3, DeltaTime); // Graphics
-         
-            imguiHelper::Update();
+            if (GraphicsManager::getInstance().IsRenderOn())
+            {
+                GraphicsManager::getInstance().StartFrame();
 
-            // event handling systems 
-            GraphicsManager::getInstance().getRenderPass().endRenderPass(commandBuffer);
 
-           GraphicsManager::getInstance().getObjectPicker().Update(commandBuffer, frame, Vec2( Input::getMousePosition().x, Input::getMousePosition().y ));
-            GraphicsManager::getInstance().GetSwapchainRenderer().BeginSwapChainRenderPass(commandBuffer);
+                ecs.runSystems(3, DeltaTime);
 
-            imguiHelper::Draw(commandBuffer);
+                imguiHelper::Update();
 
-            GraphicsManager::getInstance().GetSwapchainRenderer().EndSwapChainRenderPass(commandBuffer);
-            GraphicsManager::getInstance().EndFrame();
+                // event handling systems 
+                //GraphicsManager::getInstance().getRenderPass().endRenderPass(commandBuffer);
+
+
+
+                //VkCommandBuffer commandBuffer = GraphicsManager::getInstance().getCommandBuffer();
+                //std::uint32_t frame = GraphicsManager::getInstance().GetSwapchainRenderer().getFrameIndex();
+     /*           GraphicsManager::getInstance().getObjectPicker().Update(commandBuffer, frame, Vec2( Input::getMousePosition().x, Input::getMousePosition().y ));*/
+               /* GraphicsManager::getInstance().GetSwapchainRenderer().BeginSwapChainRenderPass(commandBuffer);*/
+
+          /*      imguiHelper::Draw(commandBuffer);*/
+
+                GraphicsManager::getInstance().DrawFrame();
+
+                /*GraphicsManager::getInstance().GetSwapchainRenderer().EndSwapChainRenderPass(commandBuffer);*/
+                GraphicsManager::getInstance().EndFrame();
+            }
             // Reloading
             if (GetKeyState(VK_F5) & 0x8000)
             {
@@ -279,11 +373,13 @@ namespace TDS
                 SceneManager::GetInstance()->loadScene(SceneManager::GetInstance()->getCurrentScene());
             }
 
-            Input::scrollStop();
-            
+            //Input::scrollStop();
+            TDS::InputSystem::GetInstance()->setRawMouseInput(0, 0);
+            InputSystem::GetInstance()->accumulatedMouseX = 0;
+            InputSystem::GetInstance()->accumulatedMouseY = 0;
         }
         stopScriptEngine();
-      
+
 
         AssetManager::GetInstance()->ShutDown();
 
@@ -295,10 +391,13 @@ namespace TDS
         }
         imguiHelper::Exit();
         ecs.destroy();
-        
-        skyboxrender.ShutDown();
+
         GraphicsManager::getInstance().ShutDown();
         DDSConverter::Destroy();
+        //shutdown grid
+        //gridrender.ShutDown();
+
+        PhysicsSystem::JPH_SystemShutdown();
     }
 
     void Application::Run()
@@ -343,14 +442,14 @@ namespace TDS
             (
                 "ScriptAPI",
                 "ScriptAPI.EngineInterface",
-                "GetScriptVariablesEditor"
+                "GetVariablesEditor"
             );
 
         SceneManager::GetInstance()->getScriptVariables = GetFunctionPtr<std::vector<ScriptValues>(*)(EntityID, std::string)>
             (
                 "ScriptAPI",
                 "ScriptAPI.EngineInterface",
-                "GetScriptVariables"
+                "GetVariables"
             );
 
         SceneManager::GetInstance()->hasScript = GetFunctionPtr<bool(*)(EntityID, std::string)>
@@ -381,6 +480,7 @@ namespace TDS
                 "RemoveEntity"
             );
 
+        /*
         SceneManager::GetInstance()->setBool = GetFunctionPtr<void(*)(EntityID, std::string, std::string, bool)>
             (
                 "ScriptAPI",
@@ -450,6 +550,21 @@ namespace TDS
                 "ScriptAPI.EngineInterface",
                 "SetScript"
             );
+        */
+
+        SceneManager::GetInstance()->setScriptValue = GetFunctionPtr<void(*)(EntityID, std::string, ScriptValues)>
+            (
+                "ScriptAPI",
+                "ScriptAPI.EngineInterface",
+                "SetVariable"
+            );
+
+        SceneManager::GetInstance()->setScriptValues = GetFunctionPtr<void(*)(EntityID, std::string, std::vector<ScriptValues>&)>
+            (
+                "ScriptAPI",
+                "ScriptAPI.EngineInterface",
+                "SetVariables"
+            );
 
         SceneManager::GetInstance()->updateName = GetFunctionPtr<bool(*)(EntityID, std::string)>
             (
@@ -477,6 +592,27 @@ namespace TDS
                 "ScriptAPI",
                 "ScriptAPI.EngineInterface",
                 "ExecuteStart"
+            );
+
+        PhysicsSystem::OnTriggerEnter = GetFunctionPtr<void(*)(EntityID, EntityID)>
+            (
+                "ScriptAPI",
+                "ScriptAPI.EngineInterface",
+                "ExecuteOnTriggerEnter"
+            );
+
+        PhysicsSystem::OnTriggerStay = GetFunctionPtr<void(*)(EntityID, EntityID)>
+            (
+                "ScriptAPI",
+                "ScriptAPI.EngineInterface",
+                "ExecuteOnTriggerStay"
+            );
+
+        PhysicsSystem::OnTriggerExit = GetFunctionPtr<void(*)(EntityID, EntityID)>
+            (
+                "ScriptAPI",
+                "ScriptAPI.EngineInterface",
+                "ExecuteOnTriggerExit"
             );
 
 
@@ -613,7 +749,7 @@ namespace TDS
             L"-o \"../scriptDLL/\" -r \"win-x64\"";
 #endif // NDEBUG
 
-            
+
 
         // Define the struct to config the compiler process call
         STARTUPINFOW startInfo;
@@ -672,7 +808,7 @@ namespace TDS
         // Failed build
         else
         {
-             throw std::runtime_error("Failed to build managed scripts!");
+            throw std::runtime_error("Failed to build managed scripts!");
         }
     }
 
@@ -706,12 +842,12 @@ namespace TDS
     <ItemGroup>
     <Reference Include="ScriptAPI"> )";
 #ifdef _DEBUG
-        csprojFile << R"(
+            csprojFile << R"(
         <HintPath>..\Debug-x64\ScriptAPI.dll</HintPath>
         )";
 #endif  //_DEBUG
 #ifdef NDEBUG
-        csprojFile << R"(
+            csprojFile << R"(
         <HintPath>..\Release-x64\ScriptAPI.dll</HintPath>
         )";
 #endif //NDEBUG
@@ -776,6 +912,42 @@ namespace TDS
         return "";
     }
 
+    //void Application::onKeyPressed(int key)
+    //{
+    //    if (key == 'W')
+    //    {
+    //        std::cout << "W is pressed!" << std::endl;
+    //    }
+    //    if (key == 'A')
+    //    {
+    //        std::cout << "A is pressed!" << std::endl;
+    //    }
+    //}
+
+    //void Application::onKeyDown(int key)
+    //{
+    //    if (key == 'W')
+    //    {
+    //        std::cout << "W is down!" << std::endl;
+    //    }
+    //    if (key == 'A')
+    //    {
+    //        std::cout << "A is down!" << std::endl;
+    //    }
+    //}
+
+    //void Application::onKeyUp(int key)
+    //{
+    //    if (key == 'W')
+    //    {
+    //        std::cout << "W is up!" << std::endl;
+    //    }
+    //    if (key == 'A')
+    //    {
+    //        std::cout << "A is up!" << std::endl;
+    //    }
+    //}
+
     bool Application::initImgui()
     {
         VkDescriptorPoolSize pool_sizes[] =
@@ -835,7 +1007,7 @@ namespace TDS
             return false;
         }
 
-       
+
         return true;
 
     }

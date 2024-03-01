@@ -34,7 +34,7 @@ namespace TDS {
 		//no copy constructor
 		DLL_API PointLightSystem(const PointLightSystem&) = delete;
 		DLL_API PointLightSystem& operator=(const PointLightSystem&) = delete;
-		
+
 		//update system with the position of the active point lights 
 		DLL_API void update(GlobalUBO& UBO, GraphicsComponent* Gp, Transform* Trans);
 		DLL_API void newupdate(GlobalUBO& UBO, const std::vector<EntityID>& Entities, Transform* xform, GraphicsComponent* Gp);
@@ -44,7 +44,7 @@ namespace TDS {
 		DLL_API VulkanPipeline& GetPipeline();
 	private:
 
-		VulkanInstance&					m_Instance;
+		VulkanInstance& m_Instance;
 
 		std::unique_ptr<VulkanPipeline>			m_Pipeline;
 		//std::unique_ptr<Pipeline>				m_Pipeline;

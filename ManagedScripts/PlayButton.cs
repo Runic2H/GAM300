@@ -1,11 +1,21 @@
-﻿using ScriptAPI;
+﻿/*!*************************************************************************
+****
+\file playButton.cs
+\author Matthew Cheung
+\par DP email: j.cheung@digipen.edu
+\par Course: csd3450
+\date 22-11-2023
+\brief  Script for main menu play button
+****************************************************************************
+***/
+using ScriptAPI;
 using System;
 
 public class PlayButton : Script
 {
     public AudioComponent bgm;
     public string bgmName;
-
+    private UISpriteComponent sprite;
     bool withinArea(float mouse, float min, float max)
     {
         bool within = false;
@@ -14,36 +24,32 @@ public class PlayButton : Script
         return within;
     }
 
-    bool withinButton(GameObject obj)
-    {
-        Vector3 ObjectPos = obj.GetComponent<TransformComponent>().GetPosition();//objectpos in ndc
-        Vector3 ObjectScale = obj.GetComponent<TransformComponent>().GetScale();//obj scale in ndc
-        float mouseX = Input.GetLocalMousePosX();
-        float mouseY = Input.GetLocalMousePoxY();
-        float minX = ObjectPos.X - ObjectScale.X / 2;
-        float maxX = ObjectPos.X + ObjectScale.X / 2;
-        float maxy = -ObjectPos.Y + ObjectScale.Y / 2;
-        float miny = -ObjectPos.Y - ObjectScale.Y / 2;
-        if (withinArea(mouseX, minX, maxX) && withinArea(mouseY, miny, maxy))
-            return true;
-        else
-            return false;
-    }
     public override void Awake()
     {
         GraphicsManagerWrapper.ToggleViewFrom2D(true);
-        bgmName = "skyclad_sound_ambience_dark_loop_dynamic_tones_howling_moaning_mournful_eerie_105";
+        bgmName = "Horror_Menu_Finale_Finale";
         bgm = gameObject.GetComponent<AudioComponent>();
+        sprite = gameObject.GetComponent<UISpriteComponent>();
     }
 
     public override void Update()
     {
-        bgm.play(bgmName);
-        if (Input.GetMouseButtonDown(Keycode.M1) && withinButton(gameObject))
+        if(bgm.finished(bgmName))
+        {
+            bgm.play(bgmName);
+            Console.WriteLine("Mainmenu Update()");
+        }
+
+        if (Input.GetMouseButtonDown(Keycode.M1) && sprite.IsMouseCollided())
         {
             //GraphicsManagerWrapper.ToggleViewFrom2D(false);
-            bgm.stop(bgmName);
+            bgm.FadeOut(2, bgmName);
             SceneLoader.LoadStartingCutscene();
         }
+    }
+
+    public override void OnDestroy()
+    {
+        bgm.stop(bgmName);
     }
 }

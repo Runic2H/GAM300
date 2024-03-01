@@ -165,6 +165,7 @@ const ConvexShape::Support *CapsuleShape::GetSupportFunction(ESupportMode inMode
 		return new (&inBuffer) CapsuleWithConvex(scaled_half_height_of_cylinder, scaled_radius);
 
 	case ESupportMode::ExcludeConvexRadius:
+	case ESupportMode::Default:
 		return new (&inBuffer) CapsuleNoConvex(scaled_half_height_of_cylinder, scaled_radius);
 	}
 
@@ -219,29 +220,27 @@ MassProperties CapsuleShape::GetMassProperties() const
 
 	// Calculate inertia and mass according to:
 	// https://www.gamedev.net/resources/_/technical/math-and-physics/capsule-inertia-tensor-r3856
-	float radius_sq = mRadius * mRadius;
+	// Note that there is an error in eq 14, H^2/2 should be H^2/4 in Ixx and Izz, eq 12 does contain the correct value
+	float radius_sq = Square(mRadius);
 	float height = 2.0f * mHalfHeightOfCylinder;
 	float cylinder_mass = JPH_PI * height * radius_sq * density;
 	float hemisphere_mass = (2.0f * JPH_PI / 3.0f) * radius_sq * mRadius * density;
 
 	// From cylinder
+	float height_sq = Square(height);
 	float inertia_y = radius_sq * cylinder_mass * 0.5f;
-	float inertia_x = inertia_y * 0.5f + cylinder_mass * height * height / 12.0f;
-	float inertia_z = inertia_x;
+	float inertia_xz = inertia_y * 0.5f + cylinder_mass * height_sq / 12.0f;
 
 	// From hemispheres
-	float temp0 = hemisphere_mass * 2.0f * radius_sq / 5.0f;
-	inertia_y += temp0  *  2.0f;
-	float temp1 = mHalfHeightOfCylinder;
-	float temp2 = temp0 + hemisphere_mass * (temp1 * temp1 + (3.0f / 8.0f) * height * mRadius);
-	inertia_x += temp2 * 2.0f;
-	inertia_z += temp2 * 2.0f;
+	float temp = hemisphere_mass * 4.0f * radius_sq / 5.0f;
+	inertia_y += temp;
+	inertia_xz += temp + hemisphere_mass * (0.5f * height_sq + (3.0f / 4.0f) * height * mRadius);
 
 	// Mass is cylinder + hemispheres
 	p.mMass = cylinder_mass + hemisphere_mass * 2.0f;
 
 	// Set inertia
-	p.mInertia = Mat44::sScale(Vec3(inertia_x, inertia_y, inertia_z));
+	p.mInertia = Mat44::sScale(Vec3(inertia_xz, inertia_y, inertia_xz));
 
 	return p;
 }
@@ -322,7 +321,7 @@ void CapsuleShape::CollidePoint(Vec3Arg inPoint, const SubShapeIDCreator &inSubS
 		ioCollector.AddHit({ TransformedShape::sGetBodyID(ioCollector.GetContext()), inSubShapeIDCreator.GetID() });
 }
 
-void CapsuleShape::CollideSoftBodyVertices(Mat44Arg inCenterOfMassTransform, Vec3Arg inScale, Array<SoftBodyVertex> &ioVertices, [[maybe_unused]] float inDeltaTime, [[maybe_unused]] Vec3Arg inDisplacementDueToGravity, int inCollidingShapeIndex) const
+void CapsuleShape::CollideSoftBodyVertices(Mat44Arg inCenterOfMassTransform, Vec3Arg inScale, SoftBodyVertex *ioVertices, uint inNumVertices, [[maybe_unused]] float inDeltaTime, [[maybe_unused]] Vec3Arg inDisplacementDueToGravity, int inCollidingShapeIndex) const
 {
 	JPH_ASSERT(IsValidScale(inScale));
 
@@ -333,11 +332,11 @@ void CapsuleShape::CollideSoftBodyVertices(Mat44Arg inCenterOfMassTransform, Vec
 	float half_height_of_cylinder = scale * mHalfHeightOfCylinder;
 	float radius = scale * mRadius;
 
-	for (SoftBodyVertex &v : ioVertices)
-		if (v.mInvMass > 0.0f)
+	for (SoftBodyVertex *v = ioVertices, *sbv_end = ioVertices + inNumVertices; v < sbv_end; ++v)
+		if (v->mInvMass > 0.0f)
 		{
 			// Calculate penetration
-			Vec3 local_pos = inverse_transform * v.mPosition;
+			Vec3 local_pos = inverse_transform * v->mPosition;
 			if (abs(local_pos.GetY()) <= half_height_of_cylinder)
 			{
 				// Near cylinder
@@ -345,17 +344,17 @@ void CapsuleShape::CollideSoftBodyVertices(Mat44Arg inCenterOfMassTransform, Vec
 				normal.SetY(0.0f);
 				float normal_length = normal.Length();
 				float penetration = radius - normal_length;
-				if (penetration > v.mLargestPenetration)
+				if (penetration > v->mLargestPenetration)
 				{
-					v.mLargestPenetration = penetration;
+					v->mLargestPenetration = penetration;
 
 					// Calculate contact point and normal
 					normal = normal_length > 0.0f? normal / normal_length : Vec3::sAxisX();
 					Vec3 point = radius * normal;
 
 					// Store collision
-					v.mCollisionPlane = Plane::sFromPointAndNormal(point, normal).GetTransformed(inCenterOfMassTransform);
-					v.mCollidingShapeIndex = inCollidingShapeIndex;
+					v->mCollisionPlane = Plane::sFromPointAndNormal(point, normal).GetTransformed(inCenterOfMassTransform);
+					v->mCollidingShapeIndex = inCollidingShapeIndex;
 				}
 			}
 			else
@@ -365,17 +364,17 @@ void CapsuleShape::CollideSoftBodyVertices(Mat44Arg inCenterOfMassTransform, Vec
 				Vec3 delta = local_pos - center;
 				float distance = delta.Length();
 				float penetration = radius - distance;
-				if (penetration > v.mLargestPenetration)
+				if (penetration > v->mLargestPenetration)
 				{
-					v.mLargestPenetration = penetration;
+					v->mLargestPenetration = penetration;
 
 					// Calculate contact point and normal
 					Vec3 normal = delta / distance;
 					Vec3 point = center + radius * normal;
 
 					// Store collision
-					v.mCollisionPlane = Plane::sFromPointAndNormal(point, normal).GetTransformed(inCenterOfMassTransform);
-					v.mCollidingShapeIndex = inCollidingShapeIndex;
+					v->mCollisionPlane = Plane::sFromPointAndNormal(point, normal).GetTransformed(inCenterOfMassTransform);
+					v->mCollidingShapeIndex = inCollidingShapeIndex;
 				}
 			}
 		}

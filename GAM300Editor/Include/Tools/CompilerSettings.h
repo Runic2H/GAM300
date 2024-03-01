@@ -28,7 +28,7 @@ namespace TDS
 		struct GenerateLOD
 		{
 			bool m_CreateLOD = false;
-			std::uint32_t m_Max_num_lods = 3;
+			std::int32_t m_Max_num_lods = 3;
 			float ReductionFactor = 0.7f;
 		};
 
@@ -39,8 +39,12 @@ namespace TDS
 			bool MergeMesh = false;
 		};
 
-
-		Desc m_Descriptor;
+		bool		m_Compress = true;
+		bool		m_LoadMesh = true;
+		bool		m_LoadAnimation = false; //Sometimes u might want to load mesh only OR animation data only
+		bool		m_LoadMaterials = true;
+		bool		m_Centralize = false;
+		Desc		m_Descriptor;
 		GenerateLOD m_LodOptions;
 		bool Serialize(std::string_view FilePath, bool Read);
 	};

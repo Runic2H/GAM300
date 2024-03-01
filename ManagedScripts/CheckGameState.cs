@@ -1,4 +1,14 @@
-﻿using System;
+﻿/*!*************************************************************************
+****
+\file FPS_Controller_Script.cs
+\author Elton Teo
+\par DP email: e.teo@digipen.edu
+\par Course: csd3450
+\date 10-2-2024
+\brief  Script for controlling movement of player
+****************************************************************************
+***/
+using System;
 using ScriptAPI;
 
 public enum GameState { Intro, LockpickTutorial, Gameplay, Event1, Event2, Event3, Event4 }

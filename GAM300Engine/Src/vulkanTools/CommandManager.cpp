@@ -28,8 +28,8 @@ namespace TDS
 			ResetCommandBuffers(pool, true);
 			DestroyPool(pool);
 		}
-		
-		
+
+
 		m_CommandPools.clear();
 	}
 

@@ -15,10 +15,13 @@ RTTR_REGISTRATION
 {
 	using namespace TDS;
 
-	rttr::registration::class_<BoxCollider>("Box Collider")
-		.property("IsTrigger", &BoxCollider::mIsTrigger)
-		.property("Center", &BoxCollider::mCenter)
-		.property("Size", &BoxCollider::mSize);
+rttr::registration::class_<BoxCollider>("Box Collider")
+	.property("IsTrigger", &BoxCollider::mIsTrigger)
+	.property("Collider Center", &BoxCollider::mColliderCenter)
+	.property("Collider Size", &BoxCollider::mColliderSize)
+	.property("Collider Scale", &BoxCollider::mColliderScale)
+	.property("Offset Scale", &BoxCollider::mOffsetScale)
+	.property("Offset Center", &BoxCollider::mOffsetCenter);
 }
 
 namespace TDS
@@ -27,12 +30,17 @@ namespace TDS
 	Initializes the Collider component when created
 	****************************************************************************/
 	BoxCollider::BoxCollider() : mIsTrigger(false),
-		mCenter(Vec3(0.0f, 0.0f, 0.0f)),
-		mSize(Vec3(1.0f, 1.0f, 1.0f))
+		mColliderCenter(Vec3(0.0f, 0.0f, 0.0f)),
+		mColliderSize(Vec3(1.0f, 1.0f, 1.0f)),
+		mColliderScale(Vec3(1.0f, 1.0f, 1.0f)),
+		mOffsetScale(Vec3(0.0f, 0.0f, 0.0f)),
+		mOffsetCenter(Vec3(0.0f, 0.0f, 0.0f)),
+		modelInit(false),
+		modelScale(Vec3(1.0f, 1.0f, 1.0f)),
+		modelCenter(Vec3(0.0f, 0.0f, 0.0f)),
+		modelSize(Vec3(1.0f, 1.0f, 1.0f)),
+		modelRotation(Vec3(0.0f, 0.0f, 0.0f))
 	{
-		//half extents are all half of size
-		JPH::Vec3 halfextents = JPH::Vec3(mSize.x * 0.5f, mSize.y * 0.5f, mSize.z * 0.5f);
-		//CreateJPHBoxCollider(halfextents, JPH::cDefaultConvexRadius);
 	}
 
 	/*!*************************************************************************
@@ -40,8 +48,16 @@ namespace TDS
 	component to move (for ECS)
 	****************************************************************************/
 	BoxCollider::BoxCollider(BoxCollider&& toMove) noexcept : mIsTrigger(toMove.mIsTrigger),
-		mCenter(toMove.mCenter),
-		mSize(toMove.mSize)
+		mColliderCenter(toMove.mColliderCenter),
+		mColliderSize(toMove.mColliderSize),
+		mColliderScale(toMove.mColliderScale),
+		mOffsetScale(toMove.mOffsetScale),
+		mOffsetCenter(toMove.mOffsetCenter),
+		modelInit(toMove.modelInit),
+		modelScale(toMove.modelScale),
+		modelCenter(toMove.modelCenter),
+		modelSize(toMove.modelSize),
+		modelRotation(toMove.modelRotation)
 	{ }
 
 	BoxCollider* GetBoxCollider(EntityID entityID)

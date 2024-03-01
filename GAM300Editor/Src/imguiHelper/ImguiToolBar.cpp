@@ -11,7 +11,7 @@
 #include "sceneManager/sceneManager.h" //for scenemanager instance
 #include "imguiHelper/ImguiSceneBrowser.h" //for "savefile() save as" function
 #include "imguiHelper/ImguiGamePlayScene.h" //for "savefile() save as" function
-
+#include "Physics/CollisionSystem.h"
 
 namespace TDS
 {
@@ -192,6 +192,17 @@ namespace TDS
 		ImGui::PopStyleColor();
 		ImGui::PopStyleColor();
 
+		ImGui::PushStyleColor(ImGuiCol_Button, { 0.1f,0.1f,0.1f,1 });
+		ImGui::PushStyleColor(ImGuiCol_ButtonHovered, { 1,0.1f,0,1 });
+		if (ImGui::Button("Toggle Debug Drawings", { 120, 19 }))
+		{
+			static bool debugDrawing = false;
+			debugDrawing = !debugDrawing;
+			CollisionSystem::m_RenderDebugDrawing = debugDrawing;
+		}
+		ImGui::PopStyleColor();
+		ImGui::PopStyleColor();
+
 		//ImGui::SameLine();
 		//ImGui::PushStyleColor(ImGuiCol_Button, { 0.1f,0.1f,0.1f,1 });
 		//ImGui::PushStyleColor(ImGuiCol_ButtonHovered, { 1,0.1f,0,1 });
@@ -203,5 +214,22 @@ namespace TDS
 		//}
 		//ImGui::PopStyleColor();
 		//ImGui::PopStyleColor();
+
+		float panelWidth = ImGui::GetContentRegionAvail().x;
+		//for auto resizing of buttons
+		int columnCount = 3;
+		ImGui::Columns(std::max(columnCount, 1), 0, false);
+		
+		ImGui::Checkbox("Show Grid", &grid_visible);
+		ImGui::NextColumn();
+			
+
+#include "GridManager/GridManager.h"
+		ImGui::InputInt("Rows (X)", &GridMap::m_NumRows, 0);
+		ImGui::NextColumn();
+
+		ImGui::InputInt("Cols (Z)", &GridMap::m_NumCols, 0);
+
+		//show the current cursor pos in the GhostPathfinding.cs script
 	}
 }

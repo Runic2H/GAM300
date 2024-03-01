@@ -71,6 +71,10 @@ class Mat4
   void SetRow(int index, Vec4 vec);
   std::string ToString();
 
+  Vec3 GetRotation() const;
+  Vec3 GetScale() const;
+
+
   // Static Methods
   // Create a perspective projection matrix.
   static Mat4 Frustum(float left, float right, float bottom, float top, float zNear, float zFar);
@@ -93,11 +97,15 @@ class Mat4
 
   static Quat toQuat(Mat4 const& m);
 
+
+  static Mat4 Rotate(const Vec3& eulerAngles);
+
   static Mat4 Rotate(const Vec3& axis, float angleDegress);
 
+  static Mat4 GetShaderTransform();
+
+
   static float* Mat4Value_ptr(const Mat4& mat);
-
-
 
 
   // unary arithmetic operators

@@ -1,11 +1,10 @@
 #pragma once
 
-#include "ComponentBase.hxx"
-#include "TransformComponent.hxx"
+#include "ColliderComponent.hxx"
 
 namespace ScriptAPI
 {
-	public value class CapsuleColliderComponent : ComponentBase
+	public ref class CapsuleColliderComponent : ColliderComponent
 	{
 	public:
 		enum class Axis
@@ -15,8 +14,8 @@ namespace ScriptAPI
 			Z
 		};
 
-		bool GetIsTrigger();
-		void SetIsTrigger(bool value);
+		virtual bool GetIsTrigger() override;
+		virtual void SetIsTrigger(bool value) override;
 
 		Vector3 GetCenter();
 		void SetCenter(Vector3 value);
@@ -33,13 +32,17 @@ namespace ScriptAPI
 		Axis GetDirection();
 		void SetDirection(Axis value);
 
-		virtual void SetEntityID(TDS::EntityID ID);
+		virtual TDS::EntityID GetEntityID() override;
+		virtual void SetEntityID(TDS::EntityID ID) override;
+
+		virtual void SetEnabled(bool enabled) override;
+		virtual bool GetEnabled() override;
 
 		TransformComponent transform;
+		GameObject^ gameObject;
 
 	internal:
 		CapsuleColliderComponent(TDS::EntityID ID);
-		TDS::EntityID GetEntityID();
 
 	private:
 		property bool IsTrigger

@@ -25,28 +25,29 @@ public class MilestoneScript : Script
         next = true;
     }
 
-    public override void Update()
+    public override void Start()
     {
         soundEffectstring[0] = "pc_monsterrattledoor";
         soundEffectstring[1] = "Heartbeating_Sound";
-        soundEffectstring[2] = "pc_monstergoesaway1";
-        soundEffectstring[3] = "pc_monstergoesaway2";
         bedroomLights = GameObjectScriptFind("BedroomLight");
         monster = GameObjectScriptFind("Monster");
         bedroomDoor = GameObjectScriptFind("Bedroom Double Door");
         painting = GameObjectScriptFind("Frame");
         closet = GameObjectScriptFind("Body2");
+    }
 
-        if (painting.GetComponent<Painting_Script>().paintingTaken && scriptEventtimer < 12.0f)
+    public override void Update()
+    {
+        if (!painting.ActiveInHierarchy() && scriptEventtimer < 12.0f)
         {
             voClip.play(soundEffectstring[0]);
             bedroomLights.GetComponent<BlinkingLights>().is_Enabled = true;
-            bedroomDoor.SetActive(bedroomDoor.GetEntityID(), true);
+            bedroomDoor.SetActive(true);
             scriptEventtimer += Time.deltaTime;
             if (closet.GetComponent<Hiding>().hiding)
             {
                 voClip.play(soundEffectstring[1]);
-                monster.SetActive(monster.GetEntityID(), true);
+                monster.SetActive(true);
                 timer += Time.deltaTime;
                 Vector3 vec = monster.transform.GetPosition();
                 vec.X += 15.0f * Time.deltaTime;
@@ -60,14 +61,14 @@ public class MilestoneScript : Script
 
                 if (timer > 2.0f)
                 {
-                    monster.SetActive(monster.GetEntityID(), false);
+                    monster.SetActive(false);
                     timer = 0.0f;
                 }
             }
         }
         if (scriptEventtimer > 12.0f)
         {
-            monster.SetActive(monster.GetEntityID(), false);
+            monster.SetActive(false);
             voClip.playQueue();
             if (counter < 4)
             {
@@ -86,13 +87,13 @@ public class MilestoneScript : Script
 
         if (scriptEventtimer > 15.0f)
         {
-            monster.SetActive(monster.GetEntityID(), true);
+            monster.SetActive(true);
             voClip.play(soundEffectstring[1]);
         }
 
         if (scriptEventtimer > 16.0f)
         {
-            monster.SetActive(monster.GetEntityID(), false);
+            monster.SetActive(false);
         }
     }
 }

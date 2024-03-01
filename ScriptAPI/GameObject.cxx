@@ -3,60 +3,20 @@
 
 namespace ScriptAPI
 {
-	BoxColliderComponent GameObject::GetBoxColliderComponent()
+	bool GameObject::ActiveInHierarchy()
 	{
-		return BoxColliderComponent(entityID);
-	}
-	CameraComponent GameObject::GetCameraComponent()
-	{
-		return CameraComponent(entityID);
-	}
-	CapsuleColliderComponent GameObject::GetCapsuleColliderComponent()
-	{
-		return CapsuleColliderComponent(entityID);
-	}
-	NameTagComponent GameObject::GetNameTagComponent()
-	{
-		return NameTagComponent(entityID);
-	}
-	RigidBodyComponent GameObject::GetRigidBodyComponent()
-	{
-		return RigidBodyComponent(entityID);
-	}
-	SphereColliderComponent GameObject::GetSphereColliderComponent()
-	{
-		return SphereColliderComponent(entityID);
+		return TDS::ecs.getEntityIsEnabled(GetEntityID());
 	}
 
-	TransformComponent GameObject::GetTransformComponent()
+	void GameObject::SetActive(bool status)
 	{
-		return TransformComponent(entityID);
-	}
+		if (GetEntityID())
+		{
+			TDS::ecs.setEntityIsEnabled(GetEntityID(), status);
+			return;
+		}
 
-	UISpriteComponent GameObject::GetUISpriteComponent()
-	{
-		return UISpriteComponent(entityID);
-	}
-
-	AudioComponent GameObject::GetAudioComponent()
-	{
-		return AudioComponent(entityID);
-	}
-	
-	GraphicComponent GameObject::GetGraphicComponent()
-	{
-		return GraphicComponent(entityID);
-	}
-
-	bool GameObject::activeInHierarchy(TDS::EntityID entityID)
-	{
-		return TDS::ecs.getEntityIsEnabled(entityID);
-	}
-
-	void GameObject::SetActive(TDS::EntityID entityID, bool status)
-	{
-		TDS::ecs.setEntityIsEnabled(entityID, status);
-		return;
+		Console::WriteLine("Unreferenced Game Object");
 	}
 
 	TDS::EntityID GameObject::GetEntityID()
@@ -71,47 +31,75 @@ namespace ScriptAPI
 
 		if (type == BoxColliderComponent::typeid)
 		{
-			return safe_cast<T>(GetBoxColliderComponent());
+			if (BoxColliderComponent(entityID).gameObject)
+			{
+				BoxColliderComponent^ boxCollider = gcnew BoxColliderComponent(entityID);
+			}
+			return safe_cast<T>(gcnew BoxColliderComponent(entityID));
 		}
 		else if (type == CameraComponent::typeid)
 		{
-			return safe_cast<T>(GetCameraComponent());
+			return safe_cast<T>(CameraComponent(entityID));
 		}
 		else if (type == CapsuleColliderComponent::typeid)
 		{
-			return safe_cast<T>(GetCapsuleColliderComponent());
+			if (CapsuleColliderComponent(entityID).gameObject)
+			{
+				CapsuleColliderComponent^ boxCollider = gcnew CapsuleColliderComponent(entityID);
+			}
+			return safe_cast<T>(gcnew CapsuleColliderComponent(entityID));
 		}
 		else if (type == NameTagComponent::typeid)
 		{
-			return safe_cast<T>(GetNameTagComponent());
+			return safe_cast<T>(NameTagComponent(entityID));
 		}
 		else if (type == RigidBodyComponent::typeid)
 		{
-			return safe_cast<T>(GetRigidBodyComponent());
+			return safe_cast<T>(RigidBodyComponent(entityID));
 		}
 		else if (type == SphereColliderComponent::typeid)
 		{
-			return safe_cast<T>(GetSphereColliderComponent());
+			if (SphereColliderComponent(entityID).gameObject)
+			{
+				SphereColliderComponent^ boxCollider = gcnew SphereColliderComponent(entityID);
+			}
+			return safe_cast<T>(gcnew SphereColliderComponent(entityID));
 		}
 		else if (type == TransformComponent::typeid)
 		{
-			return safe_cast<T>(GetTransformComponent());
+			return safe_cast<T>(TransformComponent(entityID));
 		}
 		else if (type == UISpriteComponent::typeid)
 		{
-			return safe_cast<T>(GetUISpriteComponent());
+			return safe_cast<T>(UISpriteComponent(entityID));
 		}
 		else if (type == AudioComponent::typeid)
 		{
-			return safe_cast<T>(GetAudioComponent());
+			return safe_cast<T>(AudioComponent(entityID));
 		}
 		else if (type == GraphicComponent::typeid)
 		{
-			return safe_cast<T>(GetGraphicComponent());
+			return safe_cast<T>(GraphicComponent(entityID));
 		}
-		Object^ toReturn = EngineInterface::GetScriptByEntityID(entityID, type->FullName);
-		return (T)toReturn;
+		else if (type == DirectionalLightComponent::typeid)
+		{
+			return safe_cast<T>(DirectionalLightComponent(entityID));
+		}
+		else if (type == SpotlightComponent::typeid)
+		{
+			return safe_cast<T>(SpotlightComponent(entityID));
+		}
+		else if (type == PointlightComponent::typeid)
+		{
+			return safe_cast<T>(PointlightComponent(entityID));
+		}
+
+		//Console::WriteLine(entityID.ToString() + "\t" + type->FullName);
+		return safe_cast<T>(EngineInterface::GetScriptReference(entityID, type->FullName));
 	}
+
+	GameObject::GameObject(TDS::EntityID ID) : entityID (ID)
+	{ }
 
 	void GameObject::SetEntityID(TDS::EntityID id)
 	{

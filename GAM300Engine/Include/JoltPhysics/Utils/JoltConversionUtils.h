@@ -68,8 +68,6 @@ namespace TDS::JoltToTDS
 			return JPH::EMotionType::Static;
 		case RigidBody::MotionType::DYNAMIC:
 			return JPH::EMotionType::Dynamic;
-		case RigidBody::MotionType::KINEMATIC:
-			return JPH::EMotionType::Kinematic;
 		default:
 			return JPH::EMotionType::Static;
 		}

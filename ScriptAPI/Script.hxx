@@ -40,6 +40,14 @@ namespace ScriptAPI
         void virtual LateUpdate() {};
         void virtual OnDisable() {};
         void virtual OnDestroy() {};
+
+        void virtual OnTriggerEnter(ColliderComponent^ collider) {};
+        void virtual OnTriggerStay(ColliderComponent^ collider) {};
+        void virtual OnTriggerExit(ColliderComponent^ collider) {};
+
+        void SetEnabled(bool enabled) { is_Enabled = enabled; };
+        bool GetEnabled() { return is_Enabled; };
+
         void ToggleScript();
 
         generic <typename TResult>
@@ -64,11 +72,11 @@ namespace ScriptAPI
 
     public:
         [HideInInspector]
-        bool is_Enabled;
+        bool is_Enabled = true;
         [HideInInspector]
-        bool is_Awake;
+        bool is_Awake = false;
         [HideInInspector]
-        bool is_Start;
+        bool is_Start = false;
     };
 
     public ref class ScriptSystem

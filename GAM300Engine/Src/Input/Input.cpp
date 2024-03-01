@@ -13,6 +13,9 @@
 ***/
 
 #include "Input/Input.h"
+#include "Windows.h"
+//#include "Rendering/ObjectPicking.h"
+//#include "Rendering/GraphicsManager.h"
 namespace TDS
 {
 	Input::keyboardInputMap Input::keyboard;
@@ -22,6 +25,7 @@ namespace TDS
 	short					Input::wheelDelta;
 	Vec2					Input::local_MousePos;
 	bool					Input::exit_cursor;
+	Vec2					Input::ui_MousePos;
 
 	Input::keyState Input::GetKeyState(uint32_t keycode)
 	{
@@ -326,5 +330,46 @@ namespace TDS
 	{
 		return local_MousePos.y;
 	}
+
+	void Input::setUIMousePos(Vec2 mousePos)
+	{
+		ui_MousePos = mousePos;
+	}
+
+	float Input::getUIMousePosX()
+	{
+		return ui_MousePos.x;
+	}
+
+	float Input::getUIMousePosY()
+	{
+		return ui_MousePos.y;
+	}
+
+	void Input::centerandhidemouse(HWND hwnd) {
+		//POINT center;
+		//LPRECT windowsrect{};
+		//GetWindowRect(hwnd,windowsrect);
+		//center.x = windowsrect->right - windowsrect->left;
+		//center.y = windowsrect->top - windowsrect->bottom;
+		//ScreenToClient(hwnd, &center);
+		//SetCursorPos(center.x, center.y);
+		//ShowCursor(FALSE);
+	}
+	
+	// float Input::GetObjectPickPosX()
+	// {
+	// 	mX = GraphicsManager::getInstance().getViewportScreen().x;
+	// 	mWidth = GraphicsManager::getInstance().getViewportScreen().z;
+
+	// 	return (Input::final_x_pos * mWidth) + mX /*ObjectPick::final_x_pos*/;
+	// }
+
+	// float Input::GetObjectPickPosY()
+	// {
+	// 	mY = GraphicsManager::getInstance().getViewportScreen().y;
+	// 	mHeight = GraphicsManager::getInstance().getViewportScreen().w;
+	// 	return ((Input::final_y_pos - mY) - (GraphicsManager::getInstance().getOffset() - mHeight)) / (mHeight)/*ObjectPick::final_y_pos*/;
+	// }
 
 } //end of namespace

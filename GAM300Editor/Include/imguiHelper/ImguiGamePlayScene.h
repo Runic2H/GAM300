@@ -15,6 +15,7 @@ namespace TDS
 		void Resize();
 
 		bool isFocus{ false };
+		bool isControlling{ false };
 	private:
 		VkDescriptorSet m_GamePlayDesc{};
 

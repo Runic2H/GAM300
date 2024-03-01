@@ -50,6 +50,11 @@ namespace ScriptAPI
 		audio_engine->stopSound(temp);
 	}
 
+	void AudioSource::StopAll()
+	{
+		audio_engine->stopAllSound();
+	}
+
 	/*float AudioSource::get_volume()
 	{
 
@@ -62,18 +67,7 @@ namespace ScriptAPI
 
 	void AudioSource::Loop(bool set)
 	{
-		if (set)
-		{
-			msclr::interop::marshal_context context;
-			std::string str = context.marshal_as<std::string>(clip->clips[clip->sub]);
-
-			TDS::SoundInfo temp(str);
-
-			if (!temp.isPlaying() && temp.isLoaded())
-			{
-				audio_engine->playSound(temp);
-			}
-		}
+		
 	}
 
 	bool AudioSource::enabled()
@@ -96,27 +90,17 @@ namespace ScriptAPI
 
 	}*/
 
-	bool AudioSource::isPlaying()
+	//template<typename T>
+	//T& AudioSource::operator=(float val)
+	//{
+	//	value = val;
+	//}
+
+	void AudioClip::add_clips(System::String^ filePath)
 	{
-		msclr::interop::marshal_context context;
-		std::string str = context.marshal_as<std::string>(clip->clips[clip->sub]);
-
-		TDS::SoundInfo temp(str);
-
-		return temp.isPlaying();
-	}
-
-	template<typename T>
-	T& AudioSource::operator=(float val)
-	{
-		value = val;
-	}
-
-	void AudioClip::add_clips(std::filesystem::path file)
-	{
-		System::String^ temp = gcnew System::String(file.string().c_str());
+		//System::String^ temp = gcnew System::String(file.string().c_str());
 		
-		clips.Add(temp);
+		clips.Add(filePath);
 		++sub;
 	}
 }

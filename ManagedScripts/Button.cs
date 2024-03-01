@@ -1,4 +1,14 @@
-﻿using ScriptAPI;
+﻿/*!*************************************************************************
+****
+\file Button.cs
+\author Matthew Cheung
+\par DP email: j.cheung@digipen.edu
+\par Course: csd3450
+\date 12-12-2023
+\brief  Script for button logic
+****************************************************************************
+***/
+using ScriptAPI;
 using System;
 
 //MouseCollision _MouseCollision;

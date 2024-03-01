@@ -20,19 +20,6 @@ namespace TDS
 	class SphereCollider : public IComponent
 	{
 	public:
-		enum class Direction
-		{
-			X_AXIS,
-			Y_AXIS,
-			Z_AXIS
-		};
-		enum class AImode
-		{
-			NONE = 0,
-			MONSTER,
-			PLAYER,
-			INTERACTABLE
-		};
 
 		/*!*************************************************************************
 		Initializes the Collider component when created
@@ -53,33 +40,26 @@ namespace TDS
 		DLL_API bool& GetIsTrigger() { return mIsTrigger; }
 		DLL_API void SetIsTrigger(bool isTrigger) { mIsTrigger = isTrigger; }
 
-		DLL_API bool& GetIsInteract() { return mIsInteract; }
-		DLL_API void SetIsInteract(bool input) { mIsInteract = input; }
+		DLL_API Vec3& GetColliderCenter() { return mColliderCenter; }
+		DLL_API void SetColliderCenter(Vec3 center) { mColliderCenter = center; }
+		DLL_API void SetColliderCenter(float x, float y, float z) { mColliderCenter = Vec3(x, y, z); }
 
-		DLL_API Vec3& GetCenter() { return mCenter; }
-		DLL_API void SetCenter(Vec3 center) { mCenter = center; }
-		DLL_API void SetCenter(float x, float y, float z) { mCenter = Vec3(x, y, z); }
+		DLL_API float& GetColliderRadius() { return mColliderRadius; }
+		DLL_API void SetColliderRadius(float radius) { mColliderRadius = radius; }
 
-		DLL_API float& GetRadius() { return mRadius; }
-		DLL_API void SetRadius(float radius) { mRadius = radius; }
-
-		DLL_API void SetAImode(AImode mode) { AI = mode; }
-		DLL_API AImode& getAImode() { return AI; }
-
-		DLL_API void setColliderName(std::string name) { mColliderName = name; }
-		DLL_API std::string& getColliderName() { return mColliderName; }
+		DLL_API float& GetRadiusFactor() { return mRadiusFactor; }
+		DLL_API void SetRadiusFactor(float radiusFactor) { mRadiusFactor = radiusFactor; }
 
 		RTTR_ENABLE(IComponent);
 		RTTR_REGISTRATION_FRIEND
 
 	private:
 		bool mIsTrigger;
-		bool mIsInteract;
 		//Material mMaterial;
-		Vec3 mCenter;
-		float mRadius;
-		AImode AI;
-		std::string mColliderName;
+		Vec3 mColliderCenter;
+		float mRadiusFactor;
+		float mColliderRadius;
+
 	};
 
 	DLL_API SphereCollider* GetSphereCollider(EntityID entityID);

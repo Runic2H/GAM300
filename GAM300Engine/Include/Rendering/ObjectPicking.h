@@ -28,7 +28,7 @@ namespace TDS {
 			Vec2 mouseRelativeCoord;
 		};
 	public:
-		ObjectPick(std::shared_ptr<VulkanInstance> inst,Vec3 resolution);
+		ObjectPick(std::shared_ptr<VulkanInstance> inst, Vec3 resolution);
 		~ObjectPick();
 		void Shutdown();
 		void Update(VkCommandBuffer commandBuffer, uint32_t frameIndex, Vec2 mousePosition);
@@ -58,7 +58,7 @@ namespace TDS {
 
 	private:
 
-		void CreatePickObj(std::shared_ptr<VulkanInstance> inst,Vec3 resolution);
+		void CreatePickObj(std::shared_ptr<VulkanInstance> inst, Vec3 resolution);
 
 
 		std::shared_ptr<VulkanPipeline> m_PickPipeline = nullptr;
@@ -68,7 +68,7 @@ namespace TDS {
 		RenderTarget* m_PickDepthAttachment{};
 		FrameBuffer* m_PickFrameBuffer{};
 		//Synchronization m_ReadSync{ SYNCTYPE::TRANSFER2, VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT };
-		
+
 		//Synchronization m_DepthSync{ SYNCTYPE::GRAPHIC2COMPUTE,VK_PIPELINE_STAGE_EARLY_FRAGMENT_TESTS_BIT | VK_PIPELINE_STAGE_LATE_FRAGMENT_TESTS_BIT };
 
 	};

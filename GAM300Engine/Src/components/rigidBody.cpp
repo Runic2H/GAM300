@@ -26,14 +26,15 @@ RTTR_REGISTRATION
 		.property("MotionType", &RigidBody::mMotionType)
 		.property("UseGravity", &RigidBody::mUseGravity)
 		.property("sensorActivate", &RigidBody::sensorActivated)
-		.property("AABBmin", &RigidBody::AABBmin)
-		.property("AABBmax", &RigidBody::AABBmax);
+		.property("IsRayCast", &RigidBody::mIsRayCast)
+		.property("RayOrigin", &RigidBody::mRayOrigin)
+		.property("RayDirection", &RigidBody::mRayDirection)
+		.property("RayScale", &RigidBody::mRayScale);
 
 	rttr::registration::enumeration<RigidBody::MotionType>("MotionType")
 		(
 			rttr::value("STATIC", RigidBody::MotionType::STATIC),
-			rttr::value("DYNAMIC", RigidBody::MotionType::DYNAMIC),
-			rttr::value("KINEMATIC", RigidBody::MotionType::KINEMATIC)
+			rttr::value("DYNAMIC", RigidBody::MotionType::DYNAMIC)
 		);
 }
 
@@ -52,10 +53,13 @@ namespace TDS
 							 mAngularDamping(0.05f),
 							 mBodyID(JoltBodyID()),
 							 mMotionType(MotionType::STATIC),
-							 mUseGravity(true),
+							 mUseGravity(false),
 							 sensorActivated(false),
-							 AABBmin(0.f,0.f,0.f),
-							 AABBmax(0.f,0.f,0.f)
+							 mIsRayCast(false),
+							 mRayOrigin(Vec3(0.0f, 0.0f, 0.0f)),
+							 mRayDirection(Vec3(0.0f, 0.0f, 0.0f)),
+							 mRayScale(1.f),
+							 mIsRayHit(false)
 	{ }
 
 
@@ -75,8 +79,11 @@ namespace TDS
 														mMotionType(toMove.mMotionType),
 														mUseGravity(toMove.mUseGravity),
 														sensorActivated(toMove.sensorActivated),
-														AABBmin(toMove.AABBmin),
-														AABBmax(toMove.AABBmax)
+														mIsRayCast(toMove.mIsRayCast),
+														mRayOrigin(toMove.mRayOrigin),
+														mRayDirection(toMove.mRayDirection),
+														mRayScale(toMove.mRayScale),
+														mIsRayHit(toMove.mIsRayHit)
 
 	{ }
 

@@ -57,14 +57,14 @@ namespace TDS {
 		for (uint32_t i{ 0 }; i < attachments.size(); i++)
 		{
 			VkAttachmentReference attachmentRef{};
-			switch (attachments[i].framebufferAttachment->getAttachmentType()){
+			switch (attachments[i].framebufferAttachment->getAttachmentType()) {
 			case(RenderTargetType::COLOR):
 				attachmentRef = { i, VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL };
 				colorAttachment.push_back(attachmentRef); break;
 			case(RenderTargetType::DEPTH):
 			case(RenderTargetType::DEPTHSTENCIL):
-					attachmentRef = { i, VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL };
-					depthStencilAttachments.push_back(attachmentRef); break;
+				attachmentRef = { i, VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL };
+				depthStencilAttachments.push_back(attachmentRef); break;
 			case(RenderTargetType::RESOLVE):
 				attachmentRef = { i, attachments[i].framebufferAttachment->getImageLayout() };
 				resolveAttachments.push_back(attachmentRef); break;
@@ -162,7 +162,7 @@ namespace TDS {
 	void RenderPass::beginRenderPass(VkCommandBuffer commandBuffer, FrameBuffer* framebuffer, uint32_t viewports)
 	{
 		assert(viewports > 0 && "You must have at least 1 viewport");
-		
+
 		VkRenderPassBeginInfo renderPassBeginInfo{};
 		renderPassBeginInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
 		renderPassBeginInfo.renderPass = m_RenderPass;

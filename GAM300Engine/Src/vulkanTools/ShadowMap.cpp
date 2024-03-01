@@ -203,7 +203,7 @@ namespace TDS {
 		viewport.x = 0;
 		viewport.y = 0;
 		vkCmdSetViewport(m_CmdBuffer, 0, 1, &viewport);
-		
+
 		VkRect2D scissor;
 		scissor.extent.width = SHADOW_MAP_WIDTH;
 		scissor.extent.height = SHADOW_MAP_HEIGHT;

@@ -184,20 +184,20 @@ void IslandBuilder::ValidateIslands(uint32 inNumActiveBodies) const
 		// If the bodies in this link ended up in different groups we have a problem
 		if (mBodyLinks[mLinkValidation[i].mFirst].mIslandIndex != mBodyLinks[mLinkValidation[i].mSecond].mIslandIndex)
 		{
-			Trace("Fail: %d, %d", mLinkValidation[i].mFirst, mLinkValidation[i].mSecond);
-			Trace("Num Active: %d", inNumActiveBodies);
+			Trace("Fail: %u, %u", mLinkValidation[i].mFirst, mLinkValidation[i].mSecond);
+			Trace("Num Active: %u", inNumActiveBodies);
 
 			for (uint32 j = 0; j < mNumLinkValidation; ++j)
-				Trace("builder.Link(%d, %d);", mLinkValidation[j].mFirst, mLinkValidation[j].mSecond);
+				Trace("builder.Link(%u, %u);", mLinkValidation[j].mFirst, mLinkValidation[j].mSecond);
 
 			IslandBuilder tmp;
 			tmp.Init(inNumActiveBodies);
 			for (uint32 j = 0; j < mNumLinkValidation; ++j)
 			{
-				Trace("Link %d -> %d", mLinkValidation[j].mFirst, mLinkValidation[j].mSecond);
+				Trace("Link %u -> %u", mLinkValidation[j].mFirst, mLinkValidation[j].mSecond);
 				tmp.LinkBodies(mLinkValidation[j].mFirst, mLinkValidation[j].mSecond);
 				for (uint32 t = 0; t < inNumActiveBodies; ++t)
-					Trace("%d -> %d", t, (uint32)tmp.mBodyLinks[t].mLinkedTo);
+					Trace("%u -> %u", t, (uint32)tmp.mBodyLinks[t].mLinkedTo);
 			}
 
 			JPH_ASSERT(false, "IslandBuilder validation failed");
@@ -382,6 +382,8 @@ void IslandBuilder::Finalize(const BodyID *inActiveBodies, uint32 inNumActiveBod
 	BuildConstraintIslands(mConstraintLinks, mNumConstraints, mConstraintIslands, mConstraintIslandEnds, inTempAllocator);
 	BuildConstraintIslands(mContactLinks, mNumContacts, mContactIslands, mContactIslandEnds, inTempAllocator);
 	SortIslands(inTempAllocator);
+
+	mNumPositionSteps = (uint8 *)inTempAllocator->Allocate(mNumIslands * sizeof(uint8));
 }
 
 void IslandBuilder::GetBodiesInIsland(uint32 inIslandIndex, BodyID *&outBodiesBegin, BodyID *&outBodiesEnd) const
@@ -431,6 +433,8 @@ bool IslandBuilder::GetContactsInIsland(uint32 inIslandIndex, uint32 *&outContac
 void IslandBuilder::ResetIslands(TempAllocator *inTempAllocator)
 {
 	JPH_PROFILE_FUNCTION();
+
+	inTempAllocator->Free(mNumPositionSteps, mNumIslands * sizeof(uint8));
 
 	if (mIslandsSorted != nullptr)
 	{

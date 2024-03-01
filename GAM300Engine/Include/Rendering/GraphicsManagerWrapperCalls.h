@@ -16,5 +16,8 @@ namespace TDS
 		static unsigned int		GetPickedObject();
 
 		static void				SetClearColor(float x, float y, float z, float w);
+		
+		static int				GetWinPosX();
+		static int				GetWinPosY();
 	};
 }

@@ -112,15 +112,33 @@ namespace TDS
 		}
 		return true;
 	}
-	DLL_API bool WindowsWin::GetWindowPos(int& xPos, int& yPos) const
+	DLL_API bool WindowsWin::GetWindowPos()
 	{
 		RECT windowRect;
 		if (GetWindowRect(m_handleWindows, &windowRect)) {
-			xPos = windowRect.left;
-			yPos = windowRect.top;
+			WindowPosX = windowRect.left;
+			WindowPosY = windowRect.top;
 			return true;
 		}
 
 		return false;
+	}
+	void WindowsWin::ToggleFullScreen()
+	{
+		m_isFullScreen = !m_isFullScreen;
+
+		if (m_isFullScreen) {
+			// Switch to full screen
+			SetWindowLongPtr(m_handleWindows, GWL_STYLE, WS_POPUP | WS_VISIBLE);
+			SetWindowLongPtr(m_handleWindows, GWL_EXSTYLE, 0);
+			ShowWindow(m_handleWindows, SW_MAXIMIZE);
+
+		}
+		else {
+			// Switch to regular size
+			SetWindowLongPtr(m_handleWindows, GWL_STYLE, WS_OVERLAPPEDWINDOW);
+			SetWindowLongPtr(m_handleWindows, GWL_EXSTYLE, WS_EX_OVERLAPPEDWINDOW);
+			ShowWindow(m_handleWindows, SW_RESTORE);
+		}
 	}
 }//namespace TDS

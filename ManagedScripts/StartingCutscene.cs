@@ -1,4 +1,14 @@
-﻿using ScriptAPI;
+﻿/*!*************************************************************************
+****
+\file StartingCutscene.cs
+\author Thea Sea
+\par DP email: thea.sea@digipen.edu
+\par Course: csd3450
+\date 24-11-2023
+\brief  Script for cutscene at the start of the game
+****************************************************************************
+***/
+using ScriptAPI;
 using System;
 
 public class StartingCutscene : Script
@@ -9,7 +19,7 @@ public class StartingCutscene : Script
     {
         GraphicsManagerWrapper.ToggleViewFrom2D(true);
         Textures = new string[9];
-        Textures[0] = "Draft Journal Image.dds";
+        Textures[0] = "Scene00.dds";
         Textures[1] = "Scene01.dds";
         Textures[2] = "scene02.dds";
         Textures[3] = "scene03.dds";
@@ -24,6 +34,7 @@ public class StartingCutscene : Script
 
     public override void Update()
     {
+        
         counter = CutsceneSubtitle.counter;
 
         UISpriteComponent Sprite = gameObject.GetComponent<UISpriteComponent>();

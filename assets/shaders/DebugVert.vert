@@ -1,28 +1,39 @@
 #version 450
 layout(location = 0) in vec3 vPosition;
-layout(location = 1) in vec3 vColor;
+
 layout(location = 0) out vec3 fragColor;
 
-struct PointLight{
-    vec4 Position;
-    vec4 Color;
-    vec4 pad[2];
+
+
+
+struct DebugInstance
+ {
+	mat4 TransformMatrix;
+	vec4 DebugColor;
 };
-//for the scene
-layout(set = 0, binding = 0) uniform GlobalUBO{
-    mat4 proj;
-    mat4 view;
-    //mat4 InvView;
-    vec4 ambientlightcolor;
-    PointLight pointlights[10];
-    int activelights;
-    vec4 pad[15];    
-}PL;
-layout(push_constant) uniform Push{
-    mat4 TransformMatrix;
-    vec4 DebugColor;
+
+layout (binding = 5) uniform FontUBO 
+{
+    mat4 Proj;
+    mat4 View;
+}ubo;
+
+
+layout(std140, binding = 15) readonly buffer ShaderDataBuffer
+{
+    DebugInstance Instances[];
+};
+
+layout (push_constant) uniform Push
+{
+    uint offset;
 }push;
-void main(){
-    gl_Position = PL.proj * PL.view * push.TransformMatrix * vec4(vPosition,1.0);
-    fragColor = push.DebugColor.xyz;
+
+
+void main()
+{
+    const DebugInstance instanceCurr = Instances[push.offset + gl_InstanceIndex];
+    mat4 xform = instanceCurr.TransformMatrix;
+    fragColor = vec3(0.f, 1.f, 0.f);
+    gl_Position = ubo.Proj * ubo.View * xform * vec4(vPosition,1.0);
 }

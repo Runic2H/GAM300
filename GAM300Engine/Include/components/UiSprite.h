@@ -1,6 +1,6 @@
 #pragma once
 #include "ecs/ecs.h"
-#include "ResourceManagement/ResourceManager.h"
+#include "ResourceManagement/ResourceRef.h"
 #include "GraphicsResource/FontInfo.h"
 #include "ResourceManagement/ResourceRef.h"
 namespace TDS
@@ -49,6 +49,8 @@ namespace TDS
 		void	DLL_API					SetFontColourViaFloat(float x, float y, float z, float w);
 		void	DLL_API					SetFontBackgroundColour(Vec4 Color);
 		void	DLL_API					SetFontBackgroundColourViaFloat(float x, float y, float z, float w);
+		void	DLL_API					SetEnableSprite(bool status);
+
 	public:
 		//If is font data
 		inline TypeReference<FontAtlas>& GetFontReference()
