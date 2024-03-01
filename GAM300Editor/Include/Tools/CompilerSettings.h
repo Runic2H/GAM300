@@ -47,6 +47,7 @@ namespace TDS
 
 		bool		m_Compress = true;
 		bool		m_PretransformedVertices = false;
+		bool		m_RemoveChildMeshes = false;
 		bool		m_MergeMesh = false;
 		bool		m_LoadMesh = true;
 		bool		m_LoadAnimation = false; 

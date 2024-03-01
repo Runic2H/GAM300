@@ -443,6 +443,9 @@ namespace TDS
 		//Check if this graphics component is even referencing a model
 		if (pModelController == nullptr) return;
 
+		auto entityToNodeItr = pModelController->m_EntityToNodeName.find(entityID);
+		if (entityToNodeItr == pModelController->m_EntityToNodeName.end())
+			pModelController->m_EntityToNodeName[entityID] = graphComp->m_MeshNodeName;
 
 		int textureID = AssetManager::GetInstance()->GetTextureFactory().GetTextureIndex(graphComp->m_TextureName, graphComp->m_TextureReference);
 

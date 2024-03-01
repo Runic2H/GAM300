@@ -41,11 +41,6 @@ namespace TDS
 	{
 	}
 
-	struct dummy
-	{
-		Vec3 test;
-	};
-
 	void ListNodes(const aiNode* pNode, int level = 0)
 	{
 		if (pNode == nullptr) return;
@@ -160,10 +155,13 @@ namespace TDS
 			| aiProcess_FindInstances
 			| aiProcess_CalcTangentSpace
 			| aiProcess_GenBoundingBoxes
-			| aiProcess_GenNormals
+			| aiProcess_GenSmoothNormals
 			| aiProcess_RemoveRedundantMaterials
 			| aiProcess_FindInvalidData
 			| aiProcess_FlipUVs;
+
+		if (request.currSetting.m_RemoveChildMeshes)
+			flags |= aiProcess_PreTransformVertices;
 
 		currSceneInfo->m_Scene = importer.ReadFile(filePath, flags);
 
@@ -213,7 +211,8 @@ namespace TDS
 		GeomData data{};
 		if (request.currSetting.m_LoadMaterials)
 			LoadMaterials(*currSceneInfo, request, assimpData);
-		
+		if (request.currSetting.m_Compress)
+			OptimizeMesh(assimpData);
 		CreateFinalGeom(assimpData, data, request);
 		data.ConvertToTDSModel(request.m_Output);
 
@@ -583,8 +582,11 @@ namespace TDS
 			for (std::uint32_t i = 0; i < mesh.mNumVertices; ++i)
 			{
 				auto& vert = rawMesh.m_Vertices[i];
-
-				auto L = AccumulatedTransform * mesh.mVertices[i];
+				aiVector3D L;
+				if (request.currSetting.m_PretransformedVertices)
+					L = AccumulatedTransform * mesh.mVertices[i];
+				else
+					L = mesh.mVertices[i];
 
 				vert.m_Position = Vec3(static_cast<float>(L.x), static_cast<float>(L.y), static_cast<float>(L.z));
 
@@ -609,14 +611,21 @@ namespace TDS
 
 				if (mesh.HasTangentsAndBitangents())
 				{
-					const auto T = currRotation.Rotate(mesh.mTangents[i]);
-					const auto B = currRotation.Rotate(mesh.mBitangents[i]);
-					const auto N = currRotation.Rotate(mesh.mNormals[i]);
+					aiVector3D T{}, B{}, N{};
+					if (request.currSetting.m_PretransformedVertices)
+					{
+						T = currRotation.Rotate(mesh.mTangents[i]);
+						B = currRotation.Rotate(mesh.mBitangents[i]);
+						N = currRotation.Rotate(mesh.mNormals[i]);
+					}
+					else
+					{
+						T = mesh.mTangents[i];
+						B = mesh.mBitangents[i];
+						N = mesh.mNormals[i];
+					}
 
-					//const auto T = mesh.mTangents[i];
-					//const auto B = mesh.mBitangents[i];
-					//const auto N = mesh.mNormals[i];
-
+				
 					vert.m_Normal = { N.x, N.y, N.z };
 					vert.m_Tangent = { T.x, T.y, T.z };
 					vert.m_Bitangent = { B.x, B.y, B.z };
@@ -627,8 +636,15 @@ namespace TDS
 				}
 				else
 				{
-					const auto N = currRotation.Rotate(mesh.mNormals[i]);
-		/*			const auto N = mesh.mNormals[i];*/
+					aiVector3D N{};
+
+					if (request.currSetting.m_PretransformedVertices)
+						N = currRotation.Rotate(mesh.mNormals[i]);
+					
+					else
+						N = mesh.mNormals[i];
+					
+
 					vert.m_Normal = { N.x, N.y, N.z };
 					vert.m_Tangent = { 1.f, 0.f, 0.f };
 					vert.m_Bitangent = { 1.f, 0.f, 0.f };

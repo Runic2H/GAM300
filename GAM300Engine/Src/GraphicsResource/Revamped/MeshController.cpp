@@ -259,6 +259,34 @@ namespace TDS
         }
     }
 
+    void MeshController::ResetMeshPosition()
+    {
+        if (m_EntityToNodeName.empty())
+            return;
+
+        for (auto itr : m_EntityToNodeName)
+        {
+            auto findRoot = m_RootNodes.find(itr.second);
+
+            if (findRoot == m_RootNodes.end()) continue;
+
+            Vec3 translate = m_RootNodes[itr.second].m_SceneTranslation;
+            Vec3 scale = m_RootNodes[itr.second].m_SceneScale;
+            Vec3 Rotation = m_RootNodes[itr.second].m_SceneRotation;
+            Transform* trans = ecs.getComponent<Transform>(itr.first);
+            GraphicsComponent* graphComp = ecs.getComponent<GraphicsComponent>(itr.first);
+            trans->SetPosition(m_RootNodes[itr.second].m_SceneTranslation);
+            trans->SetScale(m_RootNodes[itr.second].m_SceneScale);
+            trans->SetRotation(m_RootNodes[itr.second].m_SceneRotation);
+            trans->GenerateTransform();
+
+            graphComp->m_MeshName = m_RootNodes[itr.second].m_MeshList.begin()->first;
+
+
+        }
+        
+    }
+
 
     MeshBuffer* MeshController::GetMeshBuffer()
     {
