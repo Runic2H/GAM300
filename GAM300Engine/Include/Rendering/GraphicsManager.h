@@ -78,7 +78,7 @@ namespace TDS
 		GraphicsManager();
 		~GraphicsManager();
 
-
+		void								SetFadeFactor(float val);
 		void								SetClearColor(Vec4 clearColor);
 		void								ToggleViewFrom2D(bool condition);
 		bool								IsViewingFrom2D();

@@ -302,7 +302,8 @@ namespace TDS
 		}
 
 		GBufferPipeline->UpdateUBO(&m_SceneUBO, sizeof(SceneUniform), 5, frameIndex);
-		GBufferPipeline->UpdateUBO(m_GBufferBatch3D.m_BatchBuffers.data(), sizeof(BatchData) * m_GBufferBatch3D.m_BatchBuffers.size(), 15, frameIndex);
+		std::uint32_t batchCnt = AssetManager::GetInstance()->GetMeshFactory().GetBatchCount();
+		GBufferPipeline->UpdateUBO(m_GBufferBatch3D.m_BatchBuffers.data(), sizeof(BatchData) * batchCnt, 15, frameIndex);
 
 		if (AssetManager::GetInstance()->GetTextureFactory().m_UpdateArrayBatch)
 		{
@@ -590,6 +591,10 @@ namespace TDS
 		}
 		m_Composition3DBatch.m_BatchUpdateInfo.clear();
 	}
+	void DeferredController::SetFadeFactor(float fadeValue)
+	{
+		m_ScreenFadeFactor = fadeValue;
+	}
 	void DeferredController::RenderUISceneMeshInstance(VkCommandBuffer commandBuffer, std::uint32_t frameIndex)
 	{
 		auto GBufferPipeline = m_DeferredPipelines[DEFERRED_STAGE::STAGE_3D_COMPOSITION_INSTANCE];
@@ -852,6 +857,7 @@ namespace TDS
 			if (GraphicsManager::getInstance().IsViewingFrom2D() == false)
 			{
 				pipeline->BindPipeline();
+				pipeline->SubmitPushConstant(&m_ScreenFadeFactor, sizeof(float), SHADER_FLAG::FRAGMENT);
 				pipeline->BindDescriptor(frameIndex, 1);
 				pipeline->Draw(6, frameIndex);
 			}
