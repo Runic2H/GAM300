@@ -15,14 +15,14 @@ namespace ScriptAPI
 		void set3DCoords(Vector3 in_pos);
 
 		bool isLoaded();
-		bool is3D();
-		bool isLoop();
-		bool isMuted();
-		bool isPlaying();
-		bool isPaused();
+		bool isit3D();
+		bool isitLoop();
+		bool isitMuted();
 		//Check if that sound file finished playing
 		bool finished(System::String^ str_path);
 		bool anyPlaying();
+		bool checkPlaying(System::String^ str_path);
+		bool checkPaused(System::String^ str_path);
 
 		Vector3 get3DCoords();
 		snd getState();
@@ -56,6 +56,9 @@ namespace ScriptAPI
 		void stop(System::String^ pathing);
 		void stopAll();
 
+		void FadeOut(unsigned int duration, System::String^ pathing);
+		void FadeIn(unsigned int duration, System::String^ pathing);
+
 		//Add to a queue of sound to be played sequentially
 		void Queue(System::String^ str);
 
@@ -86,17 +89,17 @@ namespace ScriptAPI
 			std::string get();
 			void set(std::string value);
 		}
-		property bool isitLoop
+		property bool isLoop
 		{
 			bool get();
 			void set(bool value);
 		}
-		property bool isit3D
+		property bool is3D
 		{
 			bool get();
 			void set(bool value);
 		}
-		property bool isitMuted
+		property bool isMuted
 		{
 			bool get();
 			void set(bool value);

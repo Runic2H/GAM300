@@ -199,7 +199,10 @@ void HingeConstraint::CalculateMotorConstraintProperties(float inDeltaTime)
 		break;
 
 	case EMotorState::Position:
-		mMotorConstraintPart.CalculateConstraintPropertiesWithSettings(inDeltaTime, *mBody1, *mBody2, mA1, 0.0f, CenterAngleAroundZero(mTheta - mTargetAngle), mMotorSettings.mSpringSettings);
+		if (mMotorSettings.mSpringSettings.HasStiffness())
+			mMotorConstraintPart.CalculateConstraintPropertiesWithSettings(inDeltaTime, *mBody1, *mBody2, mA1, 0.0f, CenterAngleAroundZero(mTheta - mTargetAngle), mMotorSettings.mSpringSettings);
+		else
+			mMotorConstraintPart.Deactivate();
 		break;
 	}
 }
@@ -230,6 +233,13 @@ float HingeConstraint::GetSmallestAngleToLimit() const
 	float dist_to_min = CenterAngleAroundZero(mTheta - mLimitsMin);
 	float dist_to_max = CenterAngleAroundZero(mTheta - mLimitsMax);
 	return abs(dist_to_min) < abs(dist_to_max)? dist_to_min : dist_to_max;
+}
+
+bool HingeConstraint::IsMinLimitClosest() const
+{
+	float dist_to_min = CenterAngleAroundZero(mTheta - mLimitsMin);
+	float dist_to_max = CenterAngleAroundZero(mTheta - mLimitsMax);
+	return abs(dist_to_min) < abs(dist_to_max);
 }
 
 bool HingeConstraint::SolveVelocityConstraint(float inDeltaTime)
@@ -270,7 +280,7 @@ bool HingeConstraint::SolveVelocityConstraint(float inDeltaTime)
 			min_lambda = -FLT_MAX;
 			max_lambda = FLT_MAX;
 		}
-		else if (GetSmallestAngleToLimit() < 0.0f)
+		else if (IsMinLimitClosest())
 		{
 			min_lambda = 0.0f;
 			max_lambda = FLT_MAX;

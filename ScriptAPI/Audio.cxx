@@ -67,18 +67,7 @@ namespace ScriptAPI
 
 	void AudioSource::Loop(bool set)
 	{
-		if (set)
-		{
-			msclr::interop::marshal_context context;
-			std::string str = context.marshal_as<std::string>(clip->clips[clip->sub]);
-
-			TDS::SoundInfo temp(str);
-
-			if (!temp.isPlaying() && temp.isLoaded())
-			{
-				audio_engine->playSound(temp);
-			}
-		}
+		
 	}
 
 	bool AudioSource::enabled()
@@ -100,16 +89,6 @@ namespace ScriptAPI
 	{
 
 	}*/
-
-	bool AudioSource::isPlaying()
-	{
-		msclr::interop::marshal_context context;
-		std::string str = context.marshal_as<std::string>(clip->clips[clip->sub]);
-
-		TDS::SoundInfo temp(str);
-
-		return temp.isPlaying();
-	}
 
 	//template<typename T>
 	//T& AudioSource::operator=(float val)
