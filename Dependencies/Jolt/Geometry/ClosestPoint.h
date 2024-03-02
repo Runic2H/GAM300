@@ -14,7 +14,8 @@ namespace ClosestPoint
 {
 	/// Compute barycentric coordinates of closest point to origin for infinite line defined by (inA, inB)
 	/// Point can then be computed as inA * outU + inB * outV
-	inline void GetBaryCentricCoordinates(Vec3Arg inA, Vec3Arg inB, float &outU, float &outV)
+	/// Returns false if the points inA, inB do not form a line (are at the same point)
+	inline bool GetBaryCentricCoordinates(Vec3Arg inA, Vec3Arg inB, float &outU, float &outV)
 	{
 		Vec3 ab = inB - inA;
 		float denominator = ab.LengthSq();
@@ -33,17 +34,20 @@ namespace ClosestPoint
 				outU = 0.0f;
 				outV = 1.0f;
 			}
+			return false;
 		}
 		else
 		{
 			outV = -inA.Dot(ab) / denominator;
 			outU = 1.0f - outV;
 		}
+		return true;
 	}
 
 	/// Compute barycentric coordinates of closest point to origin for plane defined by (inA, inB, inC)
 	/// Point can then be computed as inA * outU + inB * outV + inC * outW
-	inline void GetBaryCentricCoordinates(Vec3Arg inA, Vec3Arg inB, Vec3Arg inC, float &outU, float &outV, float &outW)
+	/// Returns false if the points inA, inB, inC do not form a plane (are on the same line or at the same point)
+	inline bool GetBaryCentricCoordinates(Vec3Arg inA, Vec3Arg inB, Vec3Arg inC, float &outU, float &outV, float &outW)
 	{
 		// Taken from: Real-Time Collision Detection - Christer Ericson (Section: Barycentric Coordinates)
 		// With p = 0
@@ -77,6 +81,7 @@ namespace ClosestPoint
 					GetBaryCentricCoordinates(inA, inC, outU, outW);
 					outV = 0.0f;
 				}
+				return false;
 			}
 			else
 			{
@@ -106,6 +111,7 @@ namespace ClosestPoint
 					GetBaryCentricCoordinates(inB, inC, outV, outW);
 					outU = 0.0f;
 				}
+				return false;
 			}
 			else
 			{
@@ -116,6 +122,7 @@ namespace ClosestPoint
 				outW = 1.0f - outU - outV;
 			}
 		}
+		return true;
 	}
 
 	/// Get the closest point to the origin of line (inA, inB)
@@ -184,6 +191,7 @@ namespace ClosestPoint
 			float best_dist_sq = inC.LengthSq();
 
 			// If the closest point must include C then A or B cannot be closest
+			// Note that we test vertices first because we want to prefer a closest vertex over a closest edge (this results in an outSet with fewer bits set)
 			if constexpr (!MustIncludeC)
 			{
 				// Try vertex A
@@ -203,21 +211,6 @@ namespace ClosestPoint
 					closest_point = inB;
 					best_dist_sq = b_len_sq;
 				}
-
-				// Edge AB
-				float ab_len_sq = ab.LengthSq();
-				if (ab_len_sq > Square(FLT_EPSILON))
-				{
-					float v = Clamp(-a.Dot(ab) / ab_len_sq, 0.0f, 1.0f);
-					Vec3 q = a + v * ab;
-					float dist_sq = q.LengthSq();
-					if (dist_sq < best_dist_sq)
-					{
-						closest_set = swap_ac.GetX()? 0b0110 : 0b0011;
-						closest_point = q;
-						best_dist_sq = dist_sq;
-					}
-				}
 			}
 
 			// Edge AC
@@ -236,7 +229,7 @@ namespace ClosestPoint
 			}
 
 			// Edge BC
-			Vec3 bc = c - inB;
+			Vec3 bc = inC - inB;
 			float bc_len_sq = bc.LengthSq();
 			if (bc_len_sq > Square(FLT_EPSILON))
 			{
@@ -245,9 +238,29 @@ namespace ClosestPoint
 				float dist_sq = q.LengthSq();
 				if (dist_sq < best_dist_sq)
 				{
-					closest_set = swap_ac.GetX()? 0b0011 : 0b0110;
+					closest_set = 0b0110;
 					closest_point = q;
 					best_dist_sq = dist_sq;
+				}
+			}
+
+			// If the closest point must include C then AB cannot be closest
+			if constexpr (!MustIncludeC)
+			{
+				// Edge AB
+				ab = inB - inA;
+				float ab_len_sq = ab.LengthSq();
+				if (ab_len_sq > Square(FLT_EPSILON))
+				{
+					float v = Clamp(-inA.Dot(ab) / ab_len_sq, 0.0f, 1.0f);
+					Vec3 q = inA + v * ab;
+					float dist_sq = q.LengthSq();
+					if (dist_sq < best_dist_sq)
+					{
+						closest_set = 0b0011;
+						closest_point = q;
+						best_dist_sq = dist_sq;
+					}
 				}
 			}
 

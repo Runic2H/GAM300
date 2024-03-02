@@ -26,6 +26,8 @@ class SubShapeID;
 class Shape;
 class TwoBodyConstraintSettings;
 class TwoBodyConstraint;
+class BroadPhaseLayerFilter;
+class AABox;
 
 /// Class that provides operations on bodies using a body ID. Note that if you need to do multiple operations on a single body, it is more efficient to lock the body once and combine the operations.
 /// All quantities are in world space unless otherwise specified.
@@ -107,7 +109,7 @@ public:
 	/// @return Created body ID or an invalid ID when out of bodies
 	BodyID						CreateAndAddSoftBody(const SoftBodyCreationSettings &inSettings, EActivation inActivationMode);
 
-	/// Broadphase add state handle, used to keep track of a batch while ading to the broadphase.
+	/// Broadphase add state handle, used to keep track of a batch while adding to the broadphase.
 	using AddState = void *;
 
 	///@name Batch adding interface, see Broadphase for further documentation.
@@ -123,6 +125,7 @@ public:
 	///@{
 	void						ActivateBody(const BodyID &inBodyID);
 	void						ActivateBodies(const BodyID *inBodyIDs, int inNumber);
+	void						ActivateBodiesInAABox(const AABox &inBox, const BroadPhaseLayerFilter &inBroadPhaseLayerFilter, const ObjectLayerFilter &inObjectLayerFilter);
 	void						DeactivateBody(const BodyID &inBodyID);
 	void						DeactivateBodies(const BodyID *inBodyIDs, int inNumber);
 	bool						IsActive(const BodyID &inBodyID) const;
@@ -245,6 +248,12 @@ public:
 	///@{
 	void						SetGravityFactor(const BodyID &inBodyID, float inGravityFactor);
 	float						GetGravityFactor(const BodyID &inBodyID) const;
+	///@}
+
+	///@name Manifold reduction
+	///@{
+	void						SetUseManifoldReduction(const BodyID &inBodyID, bool inUseReduction);
+	bool						GetUseManifoldReduction(const BodyID &inBodyID) const;
 	///@}
 
 	/// Get transform and shape for this body, used to perform collision detection

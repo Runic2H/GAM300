@@ -13,6 +13,8 @@ using ScriptAPI;
 
 public class InventoryScript : Script
 {
+    public GameBlackboard? gameBlackboard;
+
     public GameObject InventoryObject;
     public View_Object _ViewObjectScript;
 
@@ -52,32 +54,32 @@ public class InventoryScript : Script
     public override void Update()
     {
         var entityID = gameObject.GetEntityID();
-        gameObject.GetComponent<FPS_Controller_Script>().playerCanMove = !(PopupUI.isDisplayed || InventoryIsOpen || hidingGameObject.GetComponent<Hiding>().hiding);
-        gameObject.GetComponent<FPS_Controller_Script>().cameraCanMove = !(PopupUI.isDisplayed || InventoryIsOpen);
+        //gameObject.GetComponent<FPS_Controller_Script>().playerCanMove = !(PopupUI.isDisplayed || InventoryIsOpen || hidingGameObject.GetComponent<Hiding>().hiding);
+        //gameObject.GetComponent<FPS_Controller_Script>().cameraCanMove = !(PopupUI.isDisplayed || InventoryIsOpen);
 
-        if (Input.GetKeyDown(Keycode.I))
+        if (Input.GetKeyDown(Keycode.I) && gameBlackboard.gameState != GameBlackboard.GameState.Lockpicking)
         {
             Console.WriteLine("I pressed");
             toggleInventory();
+
+            if (gameBlackboard.gameState == GameBlackboard.GameState.InGame)
+            {
+                gameObject.GetComponent<FPS_Controller_Script>().playerCanMove = false;
+                gameObject.GetComponent<FPS_Controller_Script>().cameraCanMove = false;
+                gameBlackboard.gameState = GameBlackboard.GameState.Inventory;
+            }
+            else
+            {
+                gameObject.GetComponent<FPS_Controller_Script>().playerCanMove = true;
+                gameObject.GetComponent<FPS_Controller_Script>().cameraCanMove = true;
+                gameBlackboard.gameState = GameBlackboard.GameState.InGame;
+            }
         }
 
-        if (!LockpickIsOpen)
-        {
-            Input.Lock(false);
-            Input.HideMouse(false);
-        }
         if (InventoryIsOpen) // Inventory opened
         {
-            Input.Lock(false);
-            Input.HideMouse(false);
             checkMouseInput();
         }
-        else if (!InventoryIsOpen && !PopupUI.isDisplayed)
-        {
-            Input.Lock(true);
-            Input.HideMouse(true);
-        }
-
     }
 
     public void toggleInventory()
