@@ -142,6 +142,7 @@ namespace ScriptAPI
 				variable->SetValue(object, value);
 			else if (fieldType == "Vector3")
 				variable->SetValue(object, Vector3(variableInfo.vectorValueX, variableInfo.vectorValueY, variableInfo.vectorValueZ));
+
 			else // Not old code, assumuing that it is a script
 				variable->SetValue(object, EngineInterface::GetScriptReference(variableInfo.referenceEntityID, fieldType));
 

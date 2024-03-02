@@ -14,7 +14,6 @@ using System.Threading.Tasks.Dataflow;
 
 public class Note_Script : Script
 {
-    private GameObject playerObject;
     //RigidBodyComponent rigidBodyComponent; //for raycast?
     AudioComponent clip;
     AudioSource player;
@@ -35,7 +34,6 @@ public class Note_Script : Script
 
     public override void Start()
     {
-        playerObject = GameObjectScriptFind("player");
         //rigidBodyComponent = gameObject.GetComponent<RigidBodyComponent>();
         clip = gameObject.GetComponent<AudioComponent>();
         player = gameObject.GetComponent<AudioSource>();
@@ -43,30 +41,30 @@ public class Note_Script : Script
 
     public override void Update()
     {
-        if (isWithinRange())
+        if (gameObject.GetComponent<RigidBodyComponent>().IsRayHit())
         {
-            _InteractUI.SetActive(true);
-            if (Input.GetKeyDown(Keycode.E) /*&& isWithinRange() && rigidBodyComponent.IsRayHit()*/) // Maybe add 1 more condition to check if its within player's view
+            Console.WriteLine("Note");
+            if (Input.GetKeyDown(Keycode.E))
             {
-                //Console.WriteLine("Picked up note");
+                Console.WriteLine("Picked up note");
                 InventoryScript.addNoteIntoInventory(Note_Name, Note_Texture);
                 gameObject.GetComponent<GraphicComponent>().SetView2D(true);
                 gameObject.SetActive(false);
                 clip.play(Note_VO);
             }
         }
+        
+    }
+
+    public override void LateUpdate()
+    {
+        if (gameObject.GetComponent<RigidBodyComponent>().IsRayHit())
+        {
+            _InteractUI.SetActive(true);
+        }
         else
         {
             _InteractUI.SetActive(false);
         }
-    }
-
-    public bool isWithinRange()
-    {
-        Vector3 itemPos = gameObject.transform.GetPosition();
-        Vector3 playerPos = playerObject.transform.GetPosition();
-        float distance = Vector3.Distance(itemPos, playerPos);
-        //Console.WriteLine(distance);
-        return distance < 100.0;
     }
 }

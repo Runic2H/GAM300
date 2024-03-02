@@ -8,14 +8,13 @@
 \brief  Gameplay script for player interaction with paintings
 ****************************************************************************
 ***/
+using Microsoft.VisualBasic;
 using ScriptAPI;
 using System;
 
 public class Painting_Script : Script
 {
-    private GameObject playerObject;
     //RigidBodyComponent rigidBodyComponent; //for raycast?
-
     [SerializeField]
     public string Painting_Name;
     public string Painting_Texture;
@@ -48,19 +47,18 @@ public class Painting_Script : Script
 
     public override void Start()
     {
-        playerObject = GameObjectScriptFind("player");
         //rigidBodyComponent = gameObject.GetComponent<RigidBodyComponent>();
     }
 
     // Update is called once per frame
     override public void Update()
     {
-        if (isWithinRange())
+        if (gameObject.GetComponent<RigidBodyComponent>().IsRayHit())
         {
-            _InteractUI.SetActive(true);
+            Console.WriteLine("Painting");
             AudioPlayer.play(voClip[1]);
 
-            if (Input.GetKeyDown(Keycode.E) /*&& isWithinRange() && rigidBodyComponent.IsRayHit()*/)
+            if (Input.GetKeyDown(Keycode.E))
             {
                 Console.WriteLine("Picked up painting");
                 InventoryScript.addPaintingIntoInventory(Painting_Name, Painting_Texture);
@@ -76,18 +74,17 @@ public class Painting_Script : Script
                 }
             }
         }
+    }
+
+    public override void LateUpdate()
+    {
+        if (gameObject.GetComponent<RigidBodyComponent>().IsRayHit())
+        {
+            _InteractUI.SetActive(true);
+        }
         else
         {
             _InteractUI.SetActive(false);
         }
-    }
-
-    public bool isWithinRange()
-    {
-        Vector3 itemPos = gameObject.transform.GetPosition();
-        Vector3 playerPos = playerObject.transform.GetPosition();
-        float distance = Vector3.Distance(itemPos, playerPos);
-        //Console.WriteLine(distance);
-        return distance < 100.0;
     }
 }

@@ -262,7 +262,10 @@ public class GhostMovement : Script
                 transform.SetPosition(new ScriptAPI.Vector3(nextPosition.X, originalPosition.Y, nextPosition.Y));
                 playerMoved = false;
             }
-        } 
+            AudioComponent audio = gameObject.GetComponent<AudioComponent>();
+            //audio.set3DCoords(transform.GetPosition());
+            audio.play(monsterAlert[RandomNumberGenerator.GetInt32(7)]);
+        }
         else if (hideEvent)
         {
             BedroomHidingEvent();
@@ -297,11 +300,7 @@ public class GhostMovement : Script
                 playSoundTimer = soundSpeed - walkingSoundCounter * 0.05f;
 
                 //audio.set3DCoords(transform.GetPosition());
-                if(isChasingPlayer)
-                {
-                    audio.play(monsterAlert[RandomNumberGenerator.GetInt32(7)]);
-                }
-                else
+                if (!hideEvent)
                 {
                     audio.play(monsterPatrol[RandomNumberGenerator.GetInt32(8)]);
                 }

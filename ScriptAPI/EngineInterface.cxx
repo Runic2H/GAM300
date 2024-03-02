@@ -494,6 +494,11 @@ namespace ScriptAPI
                 continue;
             }
 
+            if (field->GetCustomAttributes(DontSerializeFieldAttribute::typeid, true)->Length > 0)
+            {
+                continue;
+            }
+
             if (field->GetCustomAttributes(SerializeFieldAttribute::typeid, true)->Length > 0 || field->IsPublic) // Either SerializedField or public variables
             {
                 newScriptValue = Serialization::GetValue(obj, field);

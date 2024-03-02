@@ -101,6 +101,11 @@ namespace TDS
             DLL_API  void loadSound(SoundInfo& soundInfo);
 
             /**
+             * Unloads a sound from container
+             */
+            DLL_API  void unloadSound(std::string pating);
+
+            /**
             * Plays a sound file using FMOD's low level audio system. If the sound file has not been
             * previously loaded using loadSoundFile(), a console message is displayed
             *
@@ -138,6 +143,16 @@ namespace TDS
             DLL_API  void stopAllSound();
 
             /**
+            * Fades out sound to a stop
+            */
+            DLL_API  void FadeOutSound(unsigned int duration, SoundInfo& soundInfo);
+
+            /**
+            * Fade in sound
+            */
+            DLL_API  void FadeInSound(unsigned int duration, SoundInfo& soundInfo);
+
+            /**
              * Method that updates the volume of a soundloop that is playing. This can be used to create audio 'fades'
              * where the volume ramps up or down to the provided new volume
              * @param fadeSampleLength the length in samples of the intended volume sample. If less than 64 samples, the default
@@ -156,12 +171,12 @@ namespace TDS
             /**
              * Checks if a sound is playing.
              */
-            DLL_API  bool soundIsPlaying(SoundInfo& soundInfo);
+            DLL_API  bool checkPlaying(SoundInfo& soundInfo);
 
             /**
             * Checks if a sound is paused
             */
-            DLL_API  bool soundIsPaused(SoundInfo& soundInfo);
+            DLL_API  bool checkPaused(SoundInfo& soundInfo);
 
             /**
              * Checks if a sound has finished playing.
@@ -268,7 +283,12 @@ namespace TDS
             /**
              * Get container of event instances that's loaded
              */
-            DLL_API   std::map<std::string, FMOD::Studio::EventInstance*> getEventInstanceContainer();
+            DLL_API  std::map<std::string, FMOD::Studio::EventInstance*> getEventInstanceContainer();
+
+            /**
+             * Find the SoundInfo by name
+             */
+            DLL_API  SoundInfo* findSound(std::string name);
 
             // The audio sampling rate of the audio engine
             DLL_API  static const int AUDIO_SAMPLE_RATE = 44100;
@@ -345,23 +365,20 @@ namespace TDS
              * Map which caches FMOD Low-Level sounds
              * Key is the SoundInfo's uniqueKey field.
              * Value is the FMOD::Sound* to be played back.
-             * TODO Refactor to use numeric UID as key
              */
             std::map<unsigned int, FMOD::Sound*> sounds{};
 
             /*
-             * Map which stores the current playback channels of any playing sound loop
-             * Key is the SoundInfo's uniqueKey field.
-             * Value is the FMOD::Channel* the FMOD::Sound* is playing back on.
+             * Map which stores details for SoundInfo that's loaded
              */
-            std::map<unsigned int, FMOD::Channel*> loopsPlaying{};
+            std::map<std::string, SoundInfo*> SoundInfo_Container{};
 
             /*
              * Map which stores the current playback channels of any playing sound
              * Key is the SoundInfo's uniqueKey field.
              * Value is the FMOD::Channel* the FMOD::Sound* is playing back on.
              */
-            std::map<unsigned int, FMOD::Channel*> normalPlaying{};
+            std::map<unsigned int, FMOD::Channel*> channels{};
 
             /*
              * Map which stores the soundbanks loaded with loadFMODStudioBank()
@@ -396,10 +413,19 @@ namespace TDS
         static void ScriptPlay(std::string pathing);
         static void ScriptPause(std::string pathing);
         static void ScriptStop(std::string pathing);
+        static void ScriptLoad(std::string pathing);
+        static void ScriptUnload(std::string pathing);
+        static SoundInfo* ScriptGetSound(std::string pathing);
+        static unsigned int ScriptGetID(std::string pathing);
+
+        static bool CheckPlaying(std::string pathing); //to be changed
+        static bool CheckPause(std::string pathing); //to be changed
         static void ScriptPlayAllPaused();
         static void ScriptPauseAll();
         static void ScriptStopAll();
         static bool ScriptAnySoundPlaying();
+        static void ScriptFadeOut(unsigned int duration, std::string pathing);
+        static void ScriptFadeIn(unsigned int duration, std::string pathing);
 
         static SoundInfo* find_sound_info(std::string str);
         static void Add_to_Queue(std::string str = "");
