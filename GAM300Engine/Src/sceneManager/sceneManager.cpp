@@ -69,6 +69,7 @@ namespace TDS
 		ecs.registerComponent<DirectionalLightComponent>("DirectionalLight");
 		ecs.registerComponent<SpotLightComponent>("SpotLight");
 		ecs.registerComponent<PointLightComponent>("PointLight");
+		ecs.registerComponent<AnimationComponent>("AnimationComponent");
 
 		startScene = "";
 		//startScene = "MainMenu";

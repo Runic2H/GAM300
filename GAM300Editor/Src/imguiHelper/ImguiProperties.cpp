@@ -1116,6 +1116,10 @@ namespace TDS
 					{
 						addComponentByName("PointLight", selectedEntity);
 					}
+					if (!GetAnimationComponent(selectedEntity) && ImGui::Selectable("Animation"))
+					{
+						addComponentByName("AnimationComponent", selectedEntity);
+					}
 					break;
 				case AddComponentStage::SCRIPTS:
 
@@ -1270,7 +1274,7 @@ namespace TDS
 				{
 					GraphicsComponent* g = reinterpret_cast<GraphicsComponent*>(componentBase);
 					std::string finaltexture = g->GetTextureName();
-					std::string finalmodel = g->GetModelName();
+					std::string finalmodel = g->GetModelName(); 
 					if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("CONTENT_BROWSER_ITEM"))
 					{
 						const wchar_t* path = (const wchar_t*)payload->Data;
@@ -1414,6 +1418,30 @@ namespace TDS
 							{
 								TDS_INFO("invalid file type, please drag a .flac/.wav/.mp3 for filePath");
 							}
+						}
+					}
+				}
+				else if (componentName == "AnimationComponent" && ImGui::BeginDragDropTarget())
+				{
+					AnimationComponent* anim = reinterpret_cast<AnimationComponent*>(componentBase);
+					if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("CONTENT_BROWSER_ITEM"))
+					{
+						std::shared_ptr<AssetBrowser> Assetbrowser = static_pointer_cast<AssetBrowser>(LevelEditorManager::GetInstance()->panels[PanelTypes::ASSETBROWSER]);
+						const wchar_t* path = (const wchar_t*)payload->Data;
+						std::wstring ws(path);
+
+						std::string str(ws.begin(), ws.end());
+
+						const std::filesystem::path filesystempath = str;
+						std::string filename = filesystempath.filename().string();
+						if (propertyName.get_name() == "Filename")
+						{
+							if (filesystempath.extension() == ".json")
+							{
+								AnimationData::Serialize(anim->getAnimationData(), filename, true);
+								anim->setAnimationJsonFile(filename);
+							}
+
 						}
 					}
 				}

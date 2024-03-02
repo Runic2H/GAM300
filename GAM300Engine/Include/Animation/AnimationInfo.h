@@ -107,8 +107,8 @@ namespace TDS {
 		std::vector<Mat4>		   m_Bones{};
 		std::vector<Animation>     m_Animations{};
 
-		RTTR_ENABLE()
-		RTTR_REGISTRATION_FRIEND
+		/*RTTR_ENABLE()
+		RTTR_REGISTRATION_FRIEND*/
 	};
 }
 

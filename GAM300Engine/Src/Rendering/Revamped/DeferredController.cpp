@@ -402,7 +402,7 @@ namespace TDS
 		m_GBufferInstance.m_TotalInstances = 0;
 
 	}
-	void DeferredController::SubmitMesh(std::uint32_t entityID, GraphicsComponent* graphComp, Transform* transformComp)
+	void DeferredController::SubmitMesh(std::uint32_t entityID, GraphicsComponent* graphComp, Transform* transformComp, float _dt)
 	{
 		Mat4 temp{};
 
@@ -472,6 +472,23 @@ namespace TDS
 		{
 			SubmitMeshForUI(entityID, textureID, graphComp, transformComp);
 		}
+
+		if (auto ac = ecs.getComponent<AnimationComponent>(entityID); ac != nullptr)
+		{
+			if (!ac->m_AnimationJson.empty())
+			{
+				ModelAnimation m_interpolateModel(ac->getAnimationData().m_Bones, ac->getAnimationData().m_Animations[0]);
+				m_interpolateModel.Update(_dt);
+
+				auto animBones = m_interpolateModel.getCurrentBones();
+
+				for (int i{ 0 }; i < animBones->size() && i < MAX_BONES; i++)
+				{
+					m_BonesUniform.m_Bones[i] = animBones->at(i);
+				}
+			}
+		}
+
 
 	}
 	void DeferredController::SubmitBatch(std::uint32_t entityID, int TextureID, Transform* transformComp, GraphicsComponent* graphComp)

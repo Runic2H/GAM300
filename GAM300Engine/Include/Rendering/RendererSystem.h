@@ -3,6 +3,7 @@
 #include "AssetManagement/AssetManager.h"
 #include "vulkanTools/Descriptor.h"
 #include "vulkanTools/RendererManager.h"
+
 namespace TDS
 {
 	class Transform;
@@ -20,8 +21,6 @@ namespace TDS
 		static void		OnRenderDeferred(const float dt, const std::vector<EntityID>& entities, Transform* _Component, GraphicsComponent* _Graphics);
 		static void		OnRender(const float dt, const std::vector<EntityID>& entities, Transform* _Component, GraphicsComponent* _Graphics);
 		static void		onRenderTempFixed(const float dt, const std::vector<EntityID>& entities, Transform* _Component, GraphicsComponent* _Graphics);
-
-
 
 		DLL_API static float lightPosX;
 

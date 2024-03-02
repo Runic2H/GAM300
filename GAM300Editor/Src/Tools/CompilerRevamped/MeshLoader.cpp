@@ -218,7 +218,7 @@ namespace TDS
 
 		request.m_Output.Serialize(request.m_OutFile);
 
-		if (request.currSetting.m_LoadAnimation)
+		if (request.currSetting.m_LoadAnimation)//serialize
 		{
 			AnimationData::Serialize(request.m_AnimationData, "test.json", false);
 		}
@@ -297,7 +297,7 @@ namespace TDS
 		assimp.m_AppliedTransformation.Translation(translation, assimp.m_AppliedTransformation);
 
 		std::string rootName = assimp.m_Scene->mRootNode->mName.C_Str();
-
+		
 		ListNodes(assimp.m_Scene->mRootNode);
 		ListMeshNames(assimp.m_Scene);
 		ListMeshesInEveryNode(assimp.m_Scene->mRootNode, assimp.m_Scene);
@@ -671,7 +671,7 @@ namespace TDS
 
 				if (rawMesh.m_BoneMap.find(boneName) == rawMesh.m_BoneMap.end())
 				{
-					rawMesh.m_Bones.push_back(aiToMat4(aibone->mOffsetMatrix * AccumulatedTransform));
+					rawMesh.m_Bones.push_back(aiToMat4(aibone->mOffsetMatrix /** AccumulatedTransform*/));
 					boneID = (unsigned int)(rawMesh.m_Bones.size() - 1);
 					rawMesh.m_BoneMap[boneName] = boneID;
 				}
@@ -918,8 +918,8 @@ namespace TDS
 				request.m_AnimationData.m_Animations.push_back(animation);
 			
 			
-			for (auto& boneMap : mesh.m_BoneMap)
-				request.m_AnimationData.m_BoneMap[boneMap.first.data()] = boneMap.second;
+			/*for (auto& boneMap : mesh.m_BoneMap)
+				request.m_AnimationData.m_BoneMap[boneMap.first.data()] = boneMap.second;*/
 			
 
 			for (auto& bone : mesh.m_Bones)
@@ -970,7 +970,7 @@ namespace TDS
 		{
 			auto poskey = &AssimpNode->mPositionKeys[pos];
 			TDS::AnimPos animPos;
-			animPos.m_Pos = Vec3(poskey->mValue.x, poskey->mValue.y, poskey->mValue.z);
+			animPos.m_Pos = Vec3(poskey->mValue.x, poskey->mValue.y, poskey->mValue.z)/*.normalize()*/;
 			animPos.m_time = poskey->mTime;
 			pNode->m_positions.push_back(animPos);
 		}
@@ -991,7 +991,7 @@ namespace TDS
 		{
 			auto scaleKey = &AssimpNode->mScalingKeys[scale];
 			AnimScale scaling;
-			scaling.m_Scale = Vec3(scaleKey->mValue.x, scaleKey->mValue.y, scaleKey->mValue.z);
+			scaling.m_Scale = Vec3(scaleKey->mValue.x, scaleKey->mValue.y, scaleKey->mValue.z)/*.normalize()*/;
 			scaling.m_time = scaleKey->mTime;
 			pNode->m_scalings.push_back(scaling);
 		}

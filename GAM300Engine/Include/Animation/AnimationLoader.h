@@ -14,7 +14,7 @@ namespace TDS
 	{
 		std::vector<Animation>				m_Animations;
 		std::vector<Mat4>					m_Bones;
-		std::map<std::string, unsigned int> m_BoneMap;
+		//std::map<std::string, unsigned int> m_BoneMap;
 
 		DLL_API static void Serialize(AnimationData& anim, std::string_view fileName, bool read);
 		RTTR_ENABLE()

@@ -67,8 +67,8 @@ namespace TDS
 
 		RTTR_REGISTER_WITH_NAME(AnimationData, "AnimationData")
 			RTTR_REGISTER_PROPERTY(AnimationData, Animations)
-			RTTR_REGISTER_PROPERTY(AnimationData, Bones)
-			RTTR_REGISTER_PROPERTY(AnimationData, BoneMap);
+			RTTR_REGISTER_PROPERTY(AnimationData, Bones);
+			//RTTR_REGISTER_PROPERTY(AnimationData, BoneMap);
 
 	}
 		

@@ -133,6 +133,7 @@
     <ClCompile Include="Src\GraphicsResource\MaterialInfo.cpp" />
     <ClCompile Include="Src\Rendering\MaterialFactory\PhongBlinnMaterial.cpp" />
     <ClCompile Include="Src\Rendering\MaterialFactory\PBRMaterial.cpp" />
+    <ClCompile Include="Src\components\animationComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Shared_Libs\MathCommon.h" />
@@ -308,6 +309,7 @@
     <ClInclude Include="Include\Rendering\MaterialFactory\PhongBlinnMaterial.h" />
     <ClInclude Include="Include\Rendering\Revamped\FrameBuffers\IrrandianceFBO.h" />
     <ClInclude Include="Include\Rendering\Revamped\FrameBuffers\PrefilteredFBO.h" />
+    <ClInclude Include="Include\components\animationComponent.h" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Include\Logger\Logger.h" />

@@ -19,7 +19,6 @@ namespace TDS {
 		m_CurrentTime = fmod(m_CurrentTime + (dt * m_Animation.m_ticks), m_Animation.m_duration);
 		processNode(m_Animation.m_nodes[0], Mat4::identity(), true);
 
-
 	}
 
 	void ModelAnimation::processNode(const AnimationNodes& _animNode, Mat4 parentMat, bool animated)
@@ -31,7 +30,7 @@ namespace TDS {
 			if (animated)
 				nodeMatrix = boneTransform(_animNode);
 			
-			m_Bones[_animNode.m_ModelNode.m_BoneID] =
+			m_Bones[_animNode.m_ModelNode.m_BoneID] = 
 				parentMat * nodeMatrix * _animNode.m_ModelNode.m_boneOffset;
 		}
 
