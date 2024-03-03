@@ -205,6 +205,10 @@ namespace TDS
 			_transform->SetPosition(JoltToTDS::ToVec3(pBodies->GetPosition(JPHBodyID)));
 			_rigidbody->SetLinearVel(JoltToTDS::ToVec3(pBodies->GetLinearVelocity(JPHBodyID)));
 		}
+		else if (_rigidbody->getDoor())
+		{
+			_transform->SetPosition(JoltToTDS::ToVec3(pBodies->GetRotation(JPHBodyID).GetEulerAngles()));
+		}
 		if (_rigidbody->getIsRayHit() &&  
 			(collector->mHits.data()->mBodyID.GetIndexAndSequenceNumber() != _rigidbody->GetBodyID().GetIndexAndSequenceNumber() ||
 			collector->HadHit() == false))

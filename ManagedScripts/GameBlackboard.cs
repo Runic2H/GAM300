@@ -22,10 +22,10 @@ public class GameBlackboard : Script
         Paused
     }
 
-    //[DontSerializeField]
+    [DontSerializeField]
     [HideInInspector]
     public GameState gameState;
-    //[DontSerializeField]
+    [DontSerializeField]
     [HideInInspector]
     public GameState previousGameState;
 
