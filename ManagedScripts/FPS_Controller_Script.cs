@@ -628,17 +628,15 @@ public class FPS_Controller_Script : Script
         {
             if (audioTimer < 0.0f)
             {
-                audio.stop(footStepSoundEffects[currentFootStepPlaying]);
-                
                 if (isSprinting)
                 {
-                    currentFootStepPlaying = RandomNumberGenerator.GetInt32(8);
+                    currentFootStepPlaying = (currentFootStepPlaying > 6 ? 0 : currentFootStepPlaying + 1);
                     audio.play(footStepSoundEffects[currentFootStepPlaying]);
                     audioTimer = 0.5f;
                 }
                 else
                 {
-                    currentFootStepPlaying = RandomNumberGenerator.GetInt32(8);
+                    currentFootStepPlaying = (currentFootStepPlaying > 6 ? 0 : currentFootStepPlaying + 1);
                     audio.play(footStepSoundEffects[currentFootStepPlaying]);
                     audioTimer = 1.0f;
                 }
@@ -647,10 +645,6 @@ public class FPS_Controller_Script : Script
             {
                 audioTimer -= Time.deltaTime;
             }
-        }
-        else
-        {
-            audio.stop(footStepSoundEffects[0]);
         }
     }
 }

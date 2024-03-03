@@ -30,3 +30,8 @@ void TDS::GraphicsManagerWrapperCalls::SetClearColor(float x, float y, float z, 
 {
     TDS::GraphicsManager::getInstance().SetClearColor(Vec4(x,y,z,w));
 }
+
+void TDS::GraphicsManagerWrapperCalls::SetFadeFactor(float value)
+{
+    TDS::GraphicsManager::getInstance().SetFadeFactor(value);
+}

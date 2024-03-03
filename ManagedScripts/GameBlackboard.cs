@@ -37,7 +37,7 @@ public class GameBlackboard : Script
         ForcedLock
     }
 
-    [DontSerializeField]    
+    //[DontSerializeField]    
     [HideInInspector]
     public DoorState[] doorStates;
 

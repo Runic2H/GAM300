@@ -15,7 +15,7 @@ namespace ScriptAPI
 	void SceneLoader::LoadMainGame()
 	{
 		EngineInterface::Reload();
-		TDS::SceneManager::GetInstance()->loadScene("M4_MansionSoap");
+		TDS::SceneManager::GetInstance()->loadScene("M5_MansionSoap");
 		TDS::SceneManager::GetInstance()->awake();
 		TDS::SceneManager::GetInstance()->start();
 	}

@@ -34,7 +34,7 @@ public class PlayButton : Script
 
     public override void Update()
     {
-        if(bgm.finished(bgmName))
+        if (bgm.finished(bgmName))
         {
             bgm.play(bgmName);
             Console.WriteLine("Mainmenu Update()");
@@ -43,7 +43,7 @@ public class PlayButton : Script
         if (Input.GetMouseButtonDown(Keycode.M1) && sprite.IsMouseCollided())
         {
             //GraphicsManagerWrapper.ToggleViewFrom2D(false);
-            bgm.stop(bgmName);
+            bgm.FadeOut(2, bgmName);
             SceneLoader.LoadStartingCutscene();
         }
     }

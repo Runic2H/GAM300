@@ -36,29 +36,19 @@ namespace ScriptAPI
 		return (whatState == TDS::SOUND_LOADED);
 	}
 
-	bool AudioComponent::is3D()
+	bool AudioComponent::isit3D()
 	{
-		return isit3D;
+		return is3D;
 	}
 
-	bool AudioComponent::isLoop()
+	bool AudioComponent::isitLoop()
 	{
-		return isitLoop;
+		return isLoop;
 	}
 
-	bool AudioComponent::isMuted()
+	bool AudioComponent::isitMuted()
 	{
-		return isitMuted;
-	}
-
-	bool AudioComponent::isPlaying()
-	{
-		return (whatState == TDS::SOUND_PLAYING);
-	}
-
-	bool AudioComponent::isPaused()
-	{
-		return (whatState == TDS::SOUND_PAUSE);
+		return isMuted;
 	}
 
 	bool AudioComponent::finished(System::String^ str_path)
@@ -69,6 +59,16 @@ namespace ScriptAPI
 	bool AudioComponent::anyPlaying()
 	{
 		return TDS::proxy_audio_system::ScriptAnySoundPlaying();
+	}
+
+	bool AudioComponent::checkPlaying(System::String^ str_path)
+	{
+		return TDS::proxy_audio_system::CheckPlaying(toStdString(str_path));
+	}
+
+	bool AudioComponent::checkPaused(System::String^ str_path)
+	{
+		return TDS::proxy_audio_system::CheckPause(toStdString(str_path));
 	}
 
 	Vector3 AudioComponent::get3DCoords()
@@ -148,17 +148,17 @@ namespace ScriptAPI
 
 	void AudioComponent::setLoop(bool condition)
 	{
-		isitLoop = condition;
+		isLoop = condition;
 	}
 
 	void AudioComponent::set3D(bool condition)
 	{
-		isit3D = condition;
+		is3D = condition;
 	}
 
 	void AudioComponent::setMute(bool condition)
 	{
-		isitMuted = condition;
+		isMuted = condition;
 	}
 
 	void AudioComponent::play(System::String^ pathing)
@@ -184,6 +184,16 @@ namespace ScriptAPI
 	void AudioComponent::stopAll()
 	{
 		TDS::proxy_audio_system::ScriptStopAll();
+	}
+
+	void AudioComponent::FadeOut(unsigned int duration, System::String^ pathing)
+	{
+		TDS::proxy_audio_system::ScriptFadeOut(duration, toStdString(pathing));
+	}
+
+	void AudioComponent::FadeIn(unsigned int duration, System::String^ pathing)
+	{
+		TDS::proxy_audio_system::ScriptFadeIn(duration, toStdString(pathing));
 	}
 
 	void AudioComponent::Queue(System::String^ str)
@@ -214,11 +224,11 @@ namespace ScriptAPI
 	//MS Length
 	unsigned int AudioComponent::MSLength::get()
 	{
-		return TDS::GetSoundInfo(entityID)->getMSLength();
+		return TDS::GetSoundInfo(entityID)->MSLength;
 	}
 	void AudioComponent::MSLength::set(unsigned int value)
 	{
-		TDS::GetSoundInfo(entityID)->setMSLength(value);
+		TDS::GetSoundInfo(entityID)->MSLength = value;
 	}
 
 	//file path
@@ -232,33 +242,33 @@ namespace ScriptAPI
 	}
 
 	//loop
-	bool AudioComponent::isitLoop::get()
+	bool AudioComponent::isLoop::get()
 	{
-		return TDS::GetSoundInfo(entityID)->isLoop();
+		return TDS::GetSoundInfo(entityID)->isLoop;
 	}
-	void AudioComponent::isitLoop::set(bool value)
+	void AudioComponent::isLoop::set(bool value)
 	{
-		TDS::GetSoundInfo(entityID)->setLoop(value);
+		TDS::GetSoundInfo(entityID)->isLoop = value;
 	}
 
 	//3D boolean
-	bool AudioComponent::isit3D::get()
+	bool AudioComponent::is3D::get()
 	{
-		return TDS::GetSoundInfo(entityID)->is3D();
+		return TDS::GetSoundInfo(entityID)->is3D;
 	}
-	void AudioComponent::isit3D::set(bool value)
+	void AudioComponent::is3D::set(bool value)
 	{
-		TDS::GetSoundInfo(entityID)->set3D(value);
+		TDS::GetSoundInfo(entityID)->is3D = value;
 	}
 
 	//muted
-	bool AudioComponent::isitMuted::get()
+	bool AudioComponent::isMuted::get()
 	{
-		return TDS::GetSoundInfo(entityID)->isMuted();
+		return TDS::GetSoundInfo(entityID)->isMuted;
 	}
-	void AudioComponent::isitMuted::set(bool value)
+	void AudioComponent::isMuted::set(bool value)
 	{
-		TDS::GetSoundInfo(entityID)->setMute(value);
+		TDS::GetSoundInfo(entityID)->isMuted = value;
 	}
 
 	//state of sound info
@@ -268,7 +278,7 @@ namespace ScriptAPI
 	}
 	void AudioComponent::whatState::set(snd value)
 	{
-		TDS::GetSoundInfo(entityID)->setState(value);
+		TDS::GetSoundInfo(entityID)->whatState = value;
 	}
 
 	//3D position
@@ -298,6 +308,6 @@ namespace ScriptAPI
 	}
 	void AudioComponent::ReverbAmount::set(float value)
 	{
-		TDS::GetSoundInfo(entityID)->setReverbAmount(value);
+		TDS::GetSoundInfo(entityID)->ReverbAmount = value;
 	}
 }

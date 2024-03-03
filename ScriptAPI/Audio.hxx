@@ -46,8 +46,6 @@ namespace ScriptAPI
         //template<typename T>
         //T& operator=(float val);
 
-        static bool isPlaying();
-
         static AudioClip^ clip; //AudioClips are attached to AudioSource
         static TDS::AudioWerks::AudioEngine* audio_engine;
         static unsigned long wait;
