@@ -21,7 +21,7 @@ public class Rotation : Script
         float yRotation = rotationSpeed * Time.deltaTime;
         Vector3 rot_Vec3 = new Vector3(0, yRotation, 0);
         Quaternion rotation = Quaternion.Euler(rot_Vec3);
-        gameObject.GetComponent<RigidBodyComponent>().SetRotation(rotation);
+        //gameObject.GetComponent<RigidBodyComponent>().SetRotation(rotation);
     }
     public override void LateUpdate()
     {
