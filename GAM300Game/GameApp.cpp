@@ -137,7 +137,7 @@ namespace TDS
             Input::keystatus = Input::KeyStatus::RELEASED;
             Input::keystatus = Input::KeyStatus::IDLE;
         }break;
-        
+
         case WM_INPUT: {
 
             RAWINPUT rawInput;
@@ -160,7 +160,7 @@ namespace TDS
 
         }break;
 
-        
+
         }
     }
     void GamApp::SetWindowHandle(HWND hWnd)
@@ -174,21 +174,21 @@ namespace TDS
 
     void GamApp::Initialize()
     {
-       GraphicsManager::getInstance().Init(&m_window);
-       AssetManager::GetInstance()->PreloadAssets();
-       /*skyboxrender.Init();*/
-       GraphicsManager::getInstance().GetDebugRenderer().Init();
-       GraphicsManager::getInstance().InitSkyBox();
+        GraphicsManager::getInstance().Init(&m_window);
+        AssetManager::GetInstance()->PreloadAssets();
+        /*skyboxrender.Init();*/
+        GraphicsManager::getInstance().GetDebugRenderer().Init();
+        GraphicsManager::getInstance().InitSkyBox();
 
-       RAWINPUTDEVICE rid;
-       rid.usUsagePage = 0x01;  // Mouse
-       rid.usUsage = 0x02;      // Mouse
-       rid.dwFlags = 0;
-       rid.hwndTarget = NULL;
+        RAWINPUTDEVICE rid;
+        rid.usUsagePage = 0x01;  // Mouse
+        rid.usUsage = 0x02;      // Mouse
+        rid.dwFlags = 0;
+        rid.hwndTarget = NULL;
 
-       if (RegisterRawInputDevices(&rid, 1, sizeof(RAWINPUTDEVICE)) == FALSE) {
-           std::cout << "Mouse Failed to Register" << std::endl;
-       }
+        if (RegisterRawInputDevices(&rid, 1, sizeof(RAWINPUTDEVICE)) == FALSE) {
+            std::cout << "Mouse Failed to Register" << std::endl;
+        }
     }
 
     void GamApp::FixedUpdate()
@@ -312,7 +312,7 @@ namespace TDS
             GraphicsManager::getInstance().setCamera(m_GameCamera);
             GraphicsManager::getInstance().GetCamera().setEditorCamera(false);
             GraphicsManager::getInstance().GetCamera().setScrollWheel(false);
-            
+
 
             GraphicsManager::getInstance().GetCamera().UpdateCamera(DeltaTime, isPlaying);
 
@@ -716,7 +716,7 @@ namespace TDS
 
     void GamApp::startScriptEngine()
     {
-         //Get the .NET Runtime's path first
+        //Get the .NET Runtime's path first
         const auto DOT_NET_PATH = getDotNetRuntimePath();
         if (DOT_NET_PATH.empty())
             throw std::runtime_error("Failed to find .NET Runtime.");

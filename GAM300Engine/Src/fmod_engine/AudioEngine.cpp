@@ -109,8 +109,8 @@ namespace TDS
                 soundInfo.MSLength = msLength;
                 soundInfo.whatState = SOUND_LOADED;
             }
-            else
-                std::cout << "Audio Engine: Sound File was already loaded!\n";
+            //else
+                //std::cout << "Audio Engine: Sound File was already loaded!\n";
         }
 
         void AudioEngine::unloadSound(std::string pathing)
@@ -237,7 +237,7 @@ namespace TDS
             }
             else
             {
-                std::cout << "Audio Engine: Can't stop a sound that's not playing!\n";
+                //std::cout << "Audio Engine: Can't stop a sound that's not playing!\n";
                 //std::cout << "No sound is playing" << std::endl;
             }
         }
@@ -315,8 +315,8 @@ namespace TDS
         {
             if (checkPlaying(soundInfo) && soundInfo.is3D)
                 set3dChannelPosition(soundInfo, channels[soundInfo.getUniqueID()]);
-            else
-                std::cout << "Audio Engine: Can't update sound position!\n";
+            //else
+                //std::cout << "Audio Engine: Can't update sound position!\n";
 
         }
 
