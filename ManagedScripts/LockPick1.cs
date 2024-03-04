@@ -277,7 +277,7 @@ public class LockPick1 : Script
                 }
 
                 //play VO
-                if (playOnce)
+                if (playOnce && audio.finished("pc_findtherightspot") && audio.finished(playerGuideVO[0]))
                 {
                     audio.play("pc_turnthelock");
                     
@@ -495,7 +495,7 @@ public class LockPick1 : Script
                         delay = 0.4f;
                     }
                 }
-                if (audio.finished(rattleSoundEffects[6]))
+                if (audio.finished(rattleSoundEffects[6]) && audio.finished(playerGuideVO[0]) && audio.finished("pc_turnthelock")) //prevent multiple VO playing
                 {
                     audio.stop(rattleSoundEffects[0]);
 
@@ -613,10 +613,32 @@ public class LockPick1 : Script
 
                 //no turning back now
                 //ClosedSub.SetFontMessage(Subtitles[1]); no effect
-                counter = 2;
-                audio.play(playerGuideVO[2]);
-                next_VO = true;
-                GameplaySubtitles.counter = 7;
+
+                if (doorIndex == 0)
+                {
+                    counter = 2;
+                    audio.play(playerGuideVO[2]); //aite looks like im in
+                    next_VO = true;
+                    GameplaySubtitles.counter = 7;
+                }
+                if (doorIndex == 1)
+                {
+                    GameplaySubtitles.counter = 21;
+                    audio.play("creak3"); 
+                    audio.play("pc_approachbedroom"); //placeholder
+                }
+
+                if (doorIndex == 3)
+                {
+                    //bathroom is near
+
+                }
+                if (doorIndex == 4) //you are in bathroom
+                {
+                   
+
+                }
+
                 // if (audio.finished(playerGuideVO[2]))
                 // {
                 //     GameplaySubtitles.counter = 5; //no effect
