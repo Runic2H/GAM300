@@ -40,7 +40,7 @@ public class Door_Script : Script
     public GameObject doorStates;
     public GameObject doorText;
     public int doorIndex;
-    public GameObject popupUI;
+    public GameBlackboard blackboard;
 
     float toRadians(float degree)
     {
@@ -50,6 +50,7 @@ public class Door_Script : Script
     public override void Awake()
     {
         doorText = GameObjectScriptFind("DoorText");    // Hate this please change after milestone
+        blackboard = GameObjectScriptFind("GameBlackboard").GetComponent<GameBlackboard>();    // Hate this please change after milestone
     }
 
     // Update is called once per frame
@@ -81,7 +82,7 @@ public class Door_Script : Script
                     playerGameObject.SetActive(false);
                     GraphicsManagerWrapper.ToggleViewFrom2D(true);
 
-                    if (!popupUI.GetComponent<PopupUI>().lockpickDisplayed)
+                    if (blackboard.gameState != GameBlackboard.GameState.Lockpicking)
                         lockpick.GetComponent<LockPick1>().newLock();
                 }
             }
