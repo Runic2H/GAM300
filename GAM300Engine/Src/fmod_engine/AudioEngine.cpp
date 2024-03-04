@@ -43,6 +43,8 @@ namespace TDS
             ERRCHECK(lowLevelSystem->set3DSettings(1.0, DISTANCEFACTOR, 0.5f));
             ERRCHECK(lowLevelSystem->set3DNumListeners(1));
             ERRCHECK(studioSystem->initialize(MAX_AUDIO_CHANNELS, FMOD_STUDIO_INIT_NORMAL, FMOD_INIT_NORMAL, 0));
+            ERRCHECK(lowLevelSystem->createChannelGroup("BGM", &BGM));
+            ERRCHECK(lowLevelSystem->createChannelGroup("SFX", &SFX));
             ERRCHECK(lowLevelSystem->getMasterChannelGroup(&mastergroup));
             initReverb();
 
@@ -144,8 +146,21 @@ namespace TDS
                     {
                         //std::cout << "Playing Sound\n";
                         FMOD::Channel* channel{ nullptr };
+
+                        //Find which group sound belongs to
+                        FMOD::ChannelGroup* sort_channel{ nullptr };
+                        if (soundInfo.getFilePath().find("Sound Effects") != std::string::npos)
+                        {
+                            sort_channel = SFX;
+                        }
+                        else if (soundInfo.getFilePath().find("music") != std::string::npos)
+                        {
+                            sort_channel = BGM;
+                        }
+
                         // start play in 'paused' state
                         ERRCHECK(lowLevelSystem->playSound(sounds[soundInfo.getUniqueID()], 0, true /* start paused */, &channel));
+                        ERRCHECK(channel->setChannelGroup(sort_channel));
 
                         if (soundInfo.is3D)
                             set3dChannelPosition(soundInfo, channel);
@@ -258,6 +273,76 @@ namespace TDS
             }
         }
 
+        void AudioEngine::SetGlobalVolume(float vol)
+        {
+            if (vol > 100)
+            {
+                vol = 100;
+            }
+            else if (vol < 0)
+            {
+                vol = 0;
+            }
+            
+            mastergroup->setPaused(true);
+            mastergroup->setVolume(vol / 100.f);
+            mastergroup->setPaused(false);
+        }
+
+        float AudioEngine::getGlobalVolume()
+        {
+            float vol = 0.f;
+            mastergroup->getVolume(&vol);
+
+            return vol * 100.f;
+        }
+
+        void AudioEngine::SetChannelGroupVolume(char tag, float vol)
+        {
+            if (vol > 100)
+            {
+                vol = 100;
+            }
+            else if (vol < 0)
+            {
+                vol = 0;
+            }
+            
+            switch (tag)
+            {
+                case 'S':
+                {
+                    SFX->setPaused(true);
+                    SFX->setVolume(vol / 100.f);
+                    SFX->setPaused(false);
+                }
+                case 'B':
+                {
+                    BGM->setPaused(true);
+                    BGM->setVolume(vol / 100.f);
+                    BGM->setPaused(false);
+                }
+            }
+        }
+
+        float AudioEngine::getChannelGroupVolume(char tag)
+        {
+            float vol = 0.f;
+
+            switch (tag)
+            {
+                case 'S':
+                {
+                    SFX->getVolume(&vol);
+                }
+                case 'B':
+                {
+                    BGM->getVolume(&vol);
+                }
+            }
+            return vol * 100.f;
+        }
+
         void AudioEngine::FadeOutSound(unsigned int duration, SoundInfo& soundInfo)
         {
             unsigned long long DSPClock{ 0 };
@@ -311,13 +396,16 @@ namespace TDS
         }
 
 
-        void AudioEngine::update3DSoundPosition(SoundInfo& soundInfo)
+        void AudioEngine::update3DSoundPosition(Vec3 pos, SoundInfo& soundInfo)
         {
             if (checkPlaying(soundInfo) && soundInfo.is3D)
+            {
+                soundInfo.position = pos;
+                ERRCHECK(sounds[soundInfo.getUniqueID()]->setMode(FMOD_3D));
                 set3dChannelPosition(soundInfo, channels[soundInfo.getUniqueID()]);
-            //else
-                //std::cout << "Audio Engine: Can't update sound position!\n";
-
+            }
+            else
+                std::cout << "Audio Engine: Can't update sound position!\n";
         }
 
         bool AudioEngine::checkPlaying(SoundInfo& soundInfo)
@@ -735,6 +823,25 @@ namespace TDS
         }
     }
 
+    void proxy_audio_system::ScriptSetPosition(Vec3 pos, std::string pathing)
+    {
+        SoundInfo* temp = find_sound_info(pathing);
+
+        if (temp->is3D != true)
+        {
+            temp->is3D = true;
+        }
+
+        aud_instance->update3DSoundPosition(pos, *temp);
+    }
+
+    void proxy_audio_system::ScriptSetListenerPos(Vec3 pos, Vec3 for_vec, Vec3 up_vec)
+    {
+        aud_instance->set3DListenerPosition(pos.x, pos.y, pos.z,
+            for_vec.x, for_vec.y, for_vec.z,
+            up_vec.x, up_vec.y, up_vec.z);
+    }
+
     SoundInfo* proxy_audio_system::find_sound_info(std::string str)
     {
         for (auto& temp : allSounds)
@@ -781,6 +888,36 @@ namespace TDS
     void proxy_audio_system::Clear_queue()
     {
         Queue.clear();
+    }
+
+    float proxy_audio_system::getMasterVolume()
+    {
+        return aud_instance->getGlobalVolume();
+    }
+
+    float proxy_audio_system::getBGMVolume()
+    {
+        return aud_instance->getChannelGroupVolume('B');
+    }
+
+    float proxy_audio_system::getSFXVolume()
+    {
+        return aud_instance->getChannelGroupVolume('S');
+    }
+
+    void proxy_audio_system::SetMasterVolume(float vol)
+    {
+        aud_instance->SetGlobalVolume(vol);
+    }
+
+    void proxy_audio_system::SetBGMVolume(float vol)
+    {
+        aud_instance->SetChannelGroupVolume('B', vol);
+    }
+
+    void proxy_audio_system::SetSFXVolume(float vol)
+    {
+        aud_instance->SetChannelGroupVolume('S', vol);
     }
 
     bool proxy_audio_system::checkifdone(std::string str)

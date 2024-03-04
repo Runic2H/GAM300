@@ -11,8 +11,9 @@ namespace ScriptAPI
 	public value class AudioComponent : ComponentBase
 	{
 	public:
-		void set3DCoords(float x, float y, float z);
-		void set3DCoords(Vector3 in_pos);
+		void set3DCoords(float x, float y, float z, System::String^ name);
+		void set3DCoords(Vector3 in_pos, System::String^ name);
+		void setPlayerCoords(Vector3 in_pos, Vector3 in_for, Vector3 in_up);
 
 		bool isLoaded();
 		bool isit3D();
@@ -29,7 +30,6 @@ namespace ScriptAPI
 		unsigned int getUniqueID();
 		unsigned int getMSLength();
 		std::string getFilePath();
-		const char* getFilePath_inChar();
 
 		void setFilePath(System::String^ str_path);
 
@@ -38,8 +38,14 @@ namespace ScriptAPI
 		float getZ();
 		float getReverbAmount();
 		float getVolume();
+		float getMasterVol();
+		float getBGMVol();
+		float getSFXVol();
 
 		void setVolume(float vol);
+		void setMasterVol(float vol);
+		void setBGMVol(float vol);
+		void setSFXVol(float vol);
 		void setMSLength(unsigned int len);
 		void setState(snd setting);
 		void setLoop(bool condition);

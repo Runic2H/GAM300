@@ -229,7 +229,6 @@ xcopy /y /d "$(SolutionDir)Libs\rttr_core.dll" "$(OutDir)"</Command>
     <ClCompile Include="Src\GraphicsResource\MaterialInfo.cpp" />
     <ClCompile Include="Src\GraphicsResource\Revamped\MeshController.cpp" />
     <ClCompile Include="Include\Rendering\GraphicsManagerWrapperCalls.cpp" />
-    <ClCompile Include="Src\components\AudioSource.cpp" />
     <ClCompile Include="Src\AI\UIPopupManager.cpp" />
     <ClCompile Include="Src\components\ParticleComponent.cpp" />
     <ClCompile Include="src\components\SoundInfo.cpp" />

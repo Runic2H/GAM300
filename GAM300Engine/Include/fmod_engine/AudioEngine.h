@@ -143,6 +143,35 @@ namespace TDS
             DLL_API  void stopAllSound();
 
             /**
+             * Set global volume
+             * Range 0 - 100
+             */
+            DLL_API  void SetGlobalVolume(float vol);
+
+            /**
+             * Get global volume
+             * Range of 0 - 100
+            */
+            DLL_API  float getGlobalVolume();
+
+            /**
+             * Set channelgroup volume
+             * Range 0 - 100
+             */
+            DLL_API  void SetChannelGroupVolume(char tag, float vol);
+
+            /**
+             * Get channelgroup volume
+             * Range of 0 - 100
+            */
+            DLL_API  float getChannelGroupVolume(char tag);
+
+            /**
+             * Set specific sound volume
+             */
+            DLL_API  void SetSoundVolume(float vol, SoundInfo& soundInfo);
+
+            /**
             * Fades out sound to a stop
             */
             DLL_API  void FadeOutSound(unsigned int duration, SoundInfo& soundInfo);
@@ -166,7 +195,7 @@ namespace TDS
             * The SoundInfo object's position coordinates will be used for the new sound position, so
             * SoundInfo::set3DCoords(x,y,z) should be called before this method to set the new desired location.
             */
-            DLL_API  void update3DSoundPosition(SoundInfo& soundInfo);
+            DLL_API  void update3DSoundPosition(Vec3 pos, SoundInfo& soundInfo);
 
             /**
              * Checks if a sound is playing.
@@ -346,8 +375,14 @@ namespace TDS
             // Listener upwards vector, initialized to default value
             FMOD_VECTOR up = { 0.0f, 1.0f, 0.0f };
 
-            // Main group for low level system which all sounds go though
+            // Main group for low level system which all sounds go through
             FMOD::ChannelGroup* mastergroup = 0;
+
+            // SFX group for low level system which all SFX go through
+            FMOD::ChannelGroup* SFX = 0;
+
+            // BGM group for low level system which all BGM go through
+            FMOD::ChannelGroup* BGM = 0;
 
             // Low-level system reverb TODO add multi-reverb support
             FMOD::Reverb3D* reverb;
@@ -426,12 +461,22 @@ namespace TDS
         static bool ScriptAnySoundPlaying();
         static void ScriptFadeOut(unsigned int duration, std::string pathing);
         static void ScriptFadeIn(unsigned int duration, std::string pathing);
+        static void ScriptSetPosition(Vec3 pos, std::string pathing);
+        static void ScriptSetListenerPos(Vec3 pos, Vec3 for_vec, Vec3 up_vec);
 
         static SoundInfo* find_sound_info(std::string str);
         static void Add_to_Queue(std::string str = "");
         static void Remove_from_Queue(std::string str);
         static void Play_queue();
         static void Clear_queue();
+
+        static float getMasterVolume();
+        static float getBGMVolume();
+        static float getSFXVolume();
+
+        static void SetMasterVolume(float vol);
+        static void SetBGMVolume(float vol);
+        static void SetSFXVolume(float vol);
 
         static bool checkifdone(std::string str);
 

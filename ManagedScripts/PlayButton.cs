@@ -14,6 +14,7 @@ using System;
 public class PlayButton : Script
 {
     public AudioComponent bgm;
+    public AudioSource audioPlayer;
     public string bgmName;
     private UISpriteComponent sprite;
     bool withinArea(float mouse, float min, float max)

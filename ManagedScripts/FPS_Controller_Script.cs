@@ -642,6 +642,9 @@ public class FPS_Controller_Script : Script
                     audio.play(footStepSoundEffects[currentFootStepPlaying]);
                     audioTimer = 1.0f;
                 }
+
+                Vector3 up_vector = Vector3.Cross(playerCamera.getForwardVector(), playerCamera.getRightVector());
+                audio.setPlayerCoords(transform.GetPosition(), playerCamera.getForwardVector(), up_vector);
             }
             else
             {

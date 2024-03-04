@@ -265,8 +265,9 @@ public class GhostMovement : Script
                 playerMoved = false;
             }
             AudioComponent audio = gameObject.GetComponent<AudioComponent>();
-            //audio.set3DCoords(transform.GetPosition());
-            audio.play(monsterAlert[RandomNumberGenerator.GetInt32(7)]);
+            int ran_num = RandomNumberGenerator.GetInt32(7);
+            audio.play(monsterAlert[ran_num]);
+            audio.set3DCoords(transform.GetPosition(), monsterAlert[ran_num]);
         }
         else if (hideEvent)
         {
@@ -292,12 +293,15 @@ public class GhostMovement : Script
         AudioComponent audio = gameObject.GetComponent<AudioComponent>();
         walkingSoundCounter = 0;
         audio.play(walkingSounds[walkingSoundCounter]);
+        ScriptAPI.Vector3 temp = new ScriptAPI.Vector3(1000, 1000, 0);
+        audio.set3DCoords(temp/*transform.GetPosition()*/ ,walkingSounds[walkingSoundCounter]);
         playSound = true;
     }
 
     public bool PlayMonsterWalkingSound()
     {
         AudioComponent audio = gameObject.GetComponent<AudioComponent>();
+        ScriptAPI.Vector3 temp = new ScriptAPI.Vector3(1000, 1000, 0);
 
         if (audio.finished(walkingSounds[walkingSoundCounter]))
         {
@@ -313,12 +317,15 @@ public class GhostMovement : Script
                 }
 
                 audio.play(walkingSounds[walkingSoundCounter]);
+                audio.set3DCoords(temp/*transform.GetPosition()*/, walkingSounds[walkingSoundCounter]);
                 playSoundTimer = soundSpeed - walkingSoundCounter * 0.05f;
 
                 //audio.set3DCoords(transform.GetPosition());
                 if (!hideEvent)
                 {
-                    audio.play(monsterPatrol[RandomNumberGenerator.GetInt32(8)]);
+                    int ra = RandomNumberGenerator.GetInt32(8);
+                    audio.play(monsterPatrol[ra]);
+                    audio.set3DCoords(temp /*transform.GetPosition()*/, monsterPatrol[ra]);
                 }
             }
             else

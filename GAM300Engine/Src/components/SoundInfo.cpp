@@ -94,7 +94,7 @@ namespace TDS
 
     float SoundInfo::getVolume()
     {
-        return volume;
+        return (volume * 100.f);
     }
 
     /**
@@ -102,7 +102,7 @@ namespace TDS
     */
     void SoundInfo::setVolume(float vol)
     {
-        volume = 20.0f * log10f(vol);
+        volume = vol / 100.f;
 
         if (volume > 1.f)
         {

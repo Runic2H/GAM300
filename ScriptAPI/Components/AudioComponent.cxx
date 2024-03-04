@@ -21,14 +21,23 @@ namespace ScriptAPI
 		return entityID;
 	}
 
-	void AudioComponent::set3DCoords(float x, float y, float z)
+	void AudioComponent::set3DCoords(float x, float y, float z, System::String^ name)
 	{
-		pos = Vector3(x, y, z);
+		//pos = Vector3(x, y, z);
+		TDS::proxy_audio_system::ScriptSetPosition(TDS::floatsToVec3(x, y, z), toStdString(name));
 	}
 
-	void AudioComponent::set3DCoords(Vector3 in_pos)
+	void AudioComponent::set3DCoords(Vector3 in_pos, System::String^ name)
 	{
-		pos = in_pos;
+		//pos = in_pos;
+		TDS::proxy_audio_system::ScriptSetPosition(TDS::floatsToVec3(in_pos.X, in_pos.Y, in_pos.Z), toStdString(name));
+	}
+
+	void AudioComponent::setPlayerCoords(Vector3 in_pos, Vector3 in_for, Vector3 in_up)
+	{
+		TDS::proxy_audio_system::ScriptSetListenerPos(TDS::floatsToVec3(in_pos.X, in_pos.Y, in_pos.Z),
+			TDS::floatsToVec3(in_for.X, in_for.Y, in_for.Z),
+			TDS::floatsToVec3(in_up.X, in_up.Y, in_up.Z));
 	}
 
 	bool AudioComponent::isLoaded()
@@ -96,11 +105,6 @@ namespace ScriptAPI
 		return filePath;
 	}
 
-	const char* AudioComponent::getFilePath_inChar()
-	{
-		return filePath.c_str();
-	}
-
 	void AudioComponent::setFilePath(System::String^ str_path)
 	{
 		filePath = toStdString(str_path);
@@ -130,10 +134,40 @@ namespace ScriptAPI
 	{
 		return volume;
 	}
+	
+	float AudioComponent::getMasterVol()
+	{
+		return TDS::proxy_audio_system::getMasterVolume();
+	}
+
+	float AudioComponent::getBGMVol()
+	{
+		return TDS::proxy_audio_system::getBGMVolume();
+	}
+
+	float AudioComponent::getSFXVol()
+	{
+		return TDS::proxy_audio_system::getSFXVolume();
+	}
 
 	void AudioComponent::setVolume(float vol)
 	{
 		volume = vol;
+	}
+
+	void AudioComponent::setMasterVol(float vol)
+	{
+		TDS::proxy_audio_system::SetMasterVolume(vol);
+	}
+
+	void AudioComponent::setBGMVol(float vol)
+	{
+		TDS::proxy_audio_system::SetBGMVolume(vol);
+	}
+
+	void AudioComponent::setSFXVol(float vol)
+	{
+		TDS::proxy_audio_system::SetSFXVolume(vol);
 	}
 
 	void AudioComponent::setMSLength(unsigned int len)
