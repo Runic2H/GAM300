@@ -42,6 +42,10 @@ public class Door_Script : Script
     public int doorIndex;
     public GameBlackboard blackboard;
 
+    private bool fadeOut = false;
+    private bool fadeIn = false;
+    private float originalFadeValue;
+    private float fadeValueIncrement = 0.05f;
     float toRadians(float degree)
     {
         return degree * (3.1415926535897931f / 180);
@@ -51,6 +55,7 @@ public class Door_Script : Script
     {
         doorText = GameObjectScriptFind("DoorText");    // Hate this please change after milestone
         blackboard = GameObjectScriptFind("GameBlackboard").GetComponent<GameBlackboard>();    // Hate this please change after milestone
+        originalFadeValue = GraphicsManagerWrapper.GetFadeFactor();
     }
 
     // Update is called once per frame
@@ -63,13 +68,32 @@ public class Door_Script : Script
             if (doorStates.GetComponent<DoorState>().Doors[doorIndex] == DoorState.State.Unlocked)
             {
                 doorText.GetComponent<UISpriteComponent>().SetFontMessage("Press E to enter");
-                if (Input.GetKeyDown(Keycode.E))
+                //if (Input.GetKeyDown(Keycode.E))
+                //{
+                //    Vector3 rotation = playerGameObject.transform.GetRotation();
+                //    Quaternion quat = new Quaternion(rotation);
+                //    Vector3 rotationToVector = new Vector3(-Mathf.Sin(toRadians(rotation.Y)), 0.0f, Mathf.Cos(toRadians(rotation.Y))) * 200;
+                //    playerGameObject.GetComponent<RigidBodyComponent>().SetPositionRotationAndVelocity(playerGameObject.transform.GetPosition() + rotationToVector, new Vector4(quat.X, quat.Y, quat.Z, quat.W), new Vector3(1, 1, 1).Normalize(), new Vector3(1, 1, 1).Normalize());
+                //}
+                if (Input.GetKeyDown(Keycode.E) || fadeOut == true)
                 {
-                    Vector3 rotation = playerGameObject.transform.GetRotation();
-                    Quaternion quat = new Quaternion(rotation);
-                    Vector3 rotationToVector = new Vector3(-Mathf.Sin(toRadians(rotation.Y)), 0.0f, Mathf.Cos(toRadians(rotation.Y))) * 200;
-                    playerGameObject.GetComponent<RigidBodyComponent>().SetPositionRotationAndVelocity(playerGameObject.transform.GetPosition() + rotationToVector, new Vector4(quat.X, quat.Y, quat.Z, quat.W), new Vector3(1, 1, 1).Normalize(), new Vector3(1, 1, 1).Normalize());
+                    fadeOut = true;
+                    float fadeValue = GraphicsManagerWrapper.GetFadeFactor();
+                    if (fadeOut == true && fadeIn == false)
+                    {
+                        fadeValue -= fadeValueIncrement;
+                        GraphicsManagerWrapper.SetFadeFactor(fadeValue);
+                        if (fadeValue <= 0.0f && fadeIn == false)
+                        {
+                            fadeIn = true;
+                            Vector3 rotation = playerGameObject.transform.GetRotation();
+                            Quaternion quat = new Quaternion(rotation);
+                            Vector3 rotationToVector = new Vector3(-Mathf.Sin(toRadians(rotation.Y)), 0.0f, Mathf.Cos(toRadians(rotation.Y))) * 200;
+                            playerGameObject.GetComponent<RigidBodyComponent>().SetPositionRotationAndVelocity(playerGameObject.transform.GetPosition() + rotationToVector, new Vector4(quat.X, quat.Y, quat.Z, quat.W), new Vector3(1, 1, 1).Normalize(), new Vector3(1, 1, 1).Normalize());
+                        }
+                    }
                 }
+
             }
             else // Locked
             {
@@ -87,7 +111,18 @@ public class Door_Script : Script
                 }
             }
         }
-
+        if (fadeOut == true && fadeIn == true)
+        {
+            float fadeValue = GraphicsManagerWrapper.GetFadeFactor();
+            fadeValue += fadeValueIncrement;
+            GraphicsManagerWrapper.SetFadeFactor(fadeValue);
+            if (fadeValue >= originalFadeValue)
+            {
+                fadeOut = false;
+                fadeIn = false;
+                GraphicsManagerWrapper.SetFadeFactor(originalFadeValue);
+            }
+        }
         //if (collided)
         //{
         //    if (Input.GetKeyDown(Keycode.E))

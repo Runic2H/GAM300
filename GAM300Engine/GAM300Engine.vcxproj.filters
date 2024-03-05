@@ -101,7 +101,6 @@
     <ClCompile Include="src\fmod_engine\AudioEngine.cpp" />
     <ClCompile Include="src\components\SoundInfo.cpp" />
     <ClCompile Include="Src\Rendering\UISpriteWrapper.cpp" />
-    <ClCompile Include="Src\components\AudioSource.cpp" />
     <ClCompile Include="Src\AI\UIPopupManager.cpp" />
     <ClCompile Include="Src\Physics\ContactListenerImpl.cpp" />
     <ClCompile Include="Src\Rendering\ParticleSystem.cpp" />
