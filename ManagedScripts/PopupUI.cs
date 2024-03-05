@@ -35,7 +35,8 @@ public class PopupUI : Script
     public override void Update()
     {
 
-        if (changeDisplayed || ((Input.GetKeyDown(Keycode.ESC) || Input.GetKeyDown(Keycode.P)) && gameBlackboard.previousGameState != GameBlackboard.GameState.Lockpicking))
+        if (changeDisplayed || ((Input.GetKeyDown(Keycode.ESC) || Input.GetKeyDown(Keycode.P)) && 
+            (gameBlackboard.previousGameState == GameBlackboard.GameState.InGame || gameBlackboard.previousGameState == GameBlackboard.GameState.Paused)))
         {
             if (gameBlackboard.gameState == GameBlackboard.GameState.InGame)
             {

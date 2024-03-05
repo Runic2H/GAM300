@@ -68,6 +68,7 @@ public class LockPick1 : Script
     public float lockRange = 10;
 
     [SerializeField] private int numOfTries;
+    public int savedNumOfTries = 0;
     private float percentage;
     private float eulerAngle;
     private float unlockAngle;
@@ -135,6 +136,7 @@ public class LockPick1 : Script
         Subtitles[8] = "Martin (Internal): There, now to turn the lock.";
 
         counter = 0;
+        savedNumOfTries = 0;
         audio = gameObject.GetComponent<AudioComponent>();
         next_VO = true;
         // GameplaySubtitles.counter = 5; //no effect on set gameplay subtitles to be empty
@@ -167,6 +169,8 @@ public class LockPick1 : Script
             lockGroup.SetActive(false);
             GraphicsManagerWrapper.ToggleViewFrom2D(false);
             doorStates.SetActive(true);
+
+            savedNumOfTries = numOfTries;
         }
 
         //if (!_TutorialCompleted)
@@ -631,6 +635,7 @@ public class LockPick1 : Script
                 doorStates.GetComponent<DoorState>().Doors[doorIndex] = DoorState.State.Unlocked;
                 lockGroup.SetActive(false);
                 GraphicsManagerWrapper.ToggleViewFrom2D(false);
+                savedNumOfTries = 0;
 
                 //no turning back now
                 //ClosedSub.SetFontMessage(Subtitles[1]); no effect
@@ -695,6 +700,7 @@ public class LockPick1 : Script
                 lockGroup.SetActive(false);
                 GraphicsManagerWrapper.ToggleViewFrom2D(false);
                 doorStates.SetActive(true);
+                savedNumOfTries = 0;
 
                 if (doorIndex != 0)
                 {
@@ -737,18 +743,25 @@ public class LockPick1 : Script
         unlockAngle = ScriptAPI.Random.Range(-maxAngle + lockRange, maxAngle - lockRange);
         unlockRange = new Vector2(unlockAngle - lockRange, unlockAngle + lockRange);
 
-        numOfTries = 5;
-        if (difficultyLvl == "Easy")
-        {
-            numOfTries = 10;
-        }
-        else if (difficultyLvl == "Normal")
+        if (savedNumOfTries == 0)
         {
             numOfTries = 5;
+            if (difficultyLvl == "Easy")
+            {
+                numOfTries = 10;
+            }
+            else if (difficultyLvl == "Normal")
+            {
+                numOfTries = 5;
+            }
+            else if (difficultyLvl == "Hard")
+            {
+                numOfTries = 3;
+            }
         }
-        else if (difficultyLvl == "Hard")
+        else
         {
-            numOfTries = 3;
+            numOfTries = savedNumOfTries;
         }
 
         if (_TutorialCompleted)

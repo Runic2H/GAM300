@@ -61,7 +61,15 @@ public class InventoryScript : Script
         //gameObject.GetComponent<FPS_Controller_Script>().playerCanMove = !(PopupUI.isDisplayed || InventoryIsOpen || hidingGameObject.GetComponent<Hiding>().hiding);
         //gameObject.GetComponent<FPS_Controller_Script>().cameraCanMove = !(PopupUI.isDisplayed || InventoryIsOpen);
 
-        if (Input.GetKeyDown(Keycode.I) && gameBlackboard.gameState != GameBlackboard.GameState.Lockpicking)
+        if (Input.GetKeyDown(Keycode.ESC) && gameBlackboard?.gameState == GameBlackboard.GameState.Inventory)
+        {
+            toggleInventory();
+            gameObject.GetComponent<FPS_Controller_Script>().playerCanMove = true;
+            gameObject.GetComponent<FPS_Controller_Script>().cameraCanMove = true;
+            gameBlackboard.gameState = GameBlackboard.GameState.InGame;
+        }
+
+        if (Input.GetKeyDown(Keycode.I) && gameBlackboard?.gameState != GameBlackboard.GameState.Lockpicking)
         {
             Console.WriteLine("I pressed");
             toggleInventory();
