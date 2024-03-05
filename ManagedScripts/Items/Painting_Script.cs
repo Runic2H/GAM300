@@ -75,6 +75,9 @@ public class Painting_Script : Script
                 isPaintingCollected = true;
                 InventoryScript.addPaintingIntoInventory(Painting_Name, Painting_Texture);
                 gameObject.GetComponent<GraphicComponent>().SetView2D(true);
+                gameObject.transform.SetPosition(new Vector3(-10000.0f, -10000.0f, -10000.0f));
+                gameObject.transform.SetRotation(new Vector3(-0.0f, -0.0f, -0.0f));
+
                 gameObject.SetActive(false);
                 AudioPlayer.play(voClip[0]);
                 GameplaySubtitles.counter = 13;

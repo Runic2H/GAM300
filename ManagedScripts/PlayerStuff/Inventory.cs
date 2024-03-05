@@ -22,6 +22,7 @@ public class InventoryScript : Script
     public static List<string> itemObjsInInventory;
     public static List<string> paintingObjsInInventory;
     public static string currentTab;
+    public static int currentBox;
 
     public static List<string> notesObjsImg;
     public static List<string> itemsObjsImg;
@@ -36,8 +37,11 @@ public class InventoryScript : Script
     public GameObject ItemsTab;
     public GameObject NotesTab;
     public GameObject PaintingsTab;
-    public GameObject player;
+    public GameObject UseButton;
+    public GameObject ExamineButton;
     public GameObject hidingGameObject;
+
+    static string boxtexture = "A_Inventory Box.dds";
 
     public override void Awake()
     {
@@ -97,18 +101,29 @@ public class InventoryScript : Script
             Console.WriteLine("Mouse clicked Inventory");
             if(withinButton(ItemsTab)) // Slightly off in y-axis
             {
-                Console.WriteLine("Collide Items\n");
+                Console.WriteLine("Collide Items");
                 currentTab = "Items";
             }
             if(withinButton(NotesTab)) // Slightly off in y-axis
             {
-                Console.WriteLine("Collide Notes\n");
+                Console.WriteLine("Collide Notes");
                 currentTab = "Notes";
             }
             if (withinButton(PaintingsTab)) // Slightly off in y-axis
             { 
-                Console.WriteLine("Collide Paintings\n");
+                Console.WriteLine("Collide Paintings");
                 currentTab = "Paintings";
+            }
+            if (withinButton(UseButton)) // Slightly off in y-axis
+            {
+                Console.WriteLine("Collide Use Button");
+                UseObject();
+
+            }
+            if (withinButton(ExamineButton)) // Slightly off in y-axis
+            {
+                Console.WriteLine("Collide Examine Button");
+                // do examine stuff
             }
         }
     }
@@ -121,15 +136,17 @@ public class InventoryScript : Script
         ItemsTab        = GameObjectScriptFind("ItemsTab");
         NotesTab        = GameObjectScriptFind("NotesTab");
         PaintingsTab    = GameObjectScriptFind("PaintingsTab");
+        UseButton = GameObjectScriptFind("UseButton");
+        ExamineButton = GameObjectScriptFind("ExamineButton");
 
         itemsObjsImg = new List<string>
         {
             "Invnt Battery Img.dds",            "Invnt Battery Img.dds",
             "Invnt Battery Img.dds",            "Invnt Battery Img.dds",
-            "Inventory Box Img.dds",            "Inventory Box Img.dds",
-            "Inventory Box Img.dds",            "Inventory Box Img.dds",
-            "Inventory Box Img.dds",            "Inventory Box Img.dds",
-            "Inventory Box Img.dds",            "Inventory Box Img.dds"
+            boxtexture,            boxtexture,
+            boxtexture,            boxtexture,
+            boxtexture,            boxtexture,
+            boxtexture,            boxtexture
         };
 
         itemObjsInInventory = new List<string>
@@ -144,12 +161,12 @@ public class InventoryScript : Script
 
         notesObjsImg = new List<string>
         {
-            "Inventory Box Img.dds",            "Inventory Box Img.dds",
-            "Inventory Box Img.dds",            "Inventory Box Img.dds",
-            "Inventory Box Img.dds",            "Inventory Box Img.dds",
-            "Inventory Box Img.dds",            "Inventory Box Img.dds",
-            "Inventory Box Img.dds",            "Inventory Box Img.dds",
-            "Inventory Box Img.dds",            "Inventory Box Img.dds"
+            boxtexture,            boxtexture,
+            boxtexture,            boxtexture,
+            boxtexture,            boxtexture,
+            boxtexture,            boxtexture,
+            boxtexture,            boxtexture,
+            boxtexture,            boxtexture
         };
 
         noteObjsInInventory = new List<string>
@@ -164,12 +181,12 @@ public class InventoryScript : Script
 
         paintingsObjsImg = new List<string>
         {
-            "Inventory Box Img.dds",            "Inventory Box Img.dds",
-            "Inventory Box Img.dds",            "Inventory Box Img.dds",
-            "Inventory Box Img.dds",            "Inventory Box Img.dds",
-            "Inventory Box Img.dds",            "Inventory Box Img.dds",
-            "Inventory Box Img.dds",            "Inventory Box Img.dds",
-            "Inventory Box Img.dds",            "Inventory Box Img.dds"
+            boxtexture,           boxtexture,
+            boxtexture,           boxtexture,
+            boxtexture,           boxtexture,
+            boxtexture,           boxtexture,
+            boxtexture,           boxtexture,
+            boxtexture,           boxtexture
         };
 
         paintingObjsInInventory = new List<string>
@@ -192,7 +209,7 @@ public class InventoryScript : Script
         Console.WriteLine("Adding painting " + texture_name);
         for (int i = 0; i < 12; ++i)
         {
-            if (paintingObjsInInventory[i] == "" && paintingsObjsImg[i] == "Inventory Box Img.dds")
+            if (paintingObjsInInventory[i] == "" && paintingsObjsImg[i] == boxtexture)
             {
                 paintingObjsInInventory[i] = painting_name;
                 paintingsObjsImg[i] = texture_name;
@@ -206,7 +223,7 @@ public class InventoryScript : Script
         Console.WriteLine("Adding note " + texture_name);
         for (int i = 0; i < 12; ++i)
         {
-            if (noteObjsInInventory[i] == "" && notesObjsImg[i] == "Inventory Box Img.dds")
+            if (noteObjsInInventory[i] == "" && notesObjsImg[i] == boxtexture)
             {
                 noteObjsInInventory[i] = note_name;
                 notesObjsImg[i] = texture_name;
@@ -220,7 +237,7 @@ public class InventoryScript : Script
         Console.WriteLine("Adding item " + texture_name);
         for(int i = 0; i < 12; ++i)
         {
-            if (itemObjsInInventory[i] == "" && itemsObjsImg[i] == "Inventory Box Img.dds")
+            if (itemObjsInInventory[i] == "" && itemsObjsImg[i] == boxtexture)
             {
                 itemObjsInInventory[i] = item_name;
                 itemsObjsImg[i] = texture_name;
@@ -232,5 +249,27 @@ public class InventoryScript : Script
     bool withinButton(GameObject obj)
     {
         return obj.GetComponent<UISpriteComponent>().IsMouseCollided();
+    }
+
+    void UseObject()
+    {
+        if (itemObjsInInventory[currentBox] != "")
+        {
+            string storedObjName = itemObjsInInventory[currentBox];
+            itemObjsInInventory[currentBox] = "";
+            itemsObjsImg[currentBox] = "A_Inventory Box.dds";
+            GameObjectScriptFind("ItemDisplay").GetComponent<UISpriteComponent>().SetTextureName("A_Item Display.dds");
+
+            // Do stuff based on what item is used
+            if (storedObjName == "Battery")
+            {
+                // Do battery logic
+                Flashlight_Script.batteryLife = 100.0f;
+            }
+            if (storedObjName == "???")
+            {
+                // Do ??? logic
+            }
+        }
     }
 }
