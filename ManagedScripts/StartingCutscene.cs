@@ -15,6 +15,10 @@ public class StartingCutscene : Script
 {
     String[] Textures;
     int counter;
+    private bool fadeIn = true;
+    private bool fadeOut = true;
+    private float incrementFading = Time.deltaTime / 3f;
+    public GameObject blackScreen;
     public override void Awake()
     {
         GraphicsManagerWrapper.ToggleViewFrom2D(true);
@@ -34,7 +38,29 @@ public class StartingCutscene : Script
 
     public override void Update()
     {
-        
+
+        if (fadeIn == true)
+        {
+            float alpha = blackScreen.GetComponent<UISpriteComponent>().getColourAlpha();
+            alpha -= incrementFading;
+            alpha = Mathf.Clamp(alpha, 0, 1);
+            blackScreen.GetComponent<UISpriteComponent>().setColourAlpha(alpha);
+            if (alpha <= 0)
+            {
+                fadeIn = false;
+            }
+        }
+        if (fadeOut == true)
+        {
+            float alpha = blackScreen.GetComponent<UISpriteComponent>().getColourAlpha();
+            alpha += incrementFading;
+            alpha = Mathf.Clamp(alpha, 0, 1);
+            blackScreen.GetComponent<UISpriteComponent>().setColourAlpha(alpha);
+            if (alpha >= 1)
+            {
+                fadeOut = false;
+            }
+        }
         counter = CutsceneSubtitle.counter;
 
         UISpriteComponent Sprite = gameObject.GetComponent<UISpriteComponent>();
@@ -63,7 +89,11 @@ public class StartingCutscene : Script
         else if (counter == 15)
             Sprite.SetTextureName(Textures[7]);
         else if (counter > 15)
+        {
             Sprite.SetTextureName(Textures[8]);
+            fadeOut = true;
+        }
+        
 
         //change subtitle
 

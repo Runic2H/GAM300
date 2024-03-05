@@ -172,6 +172,7 @@ namespace ScriptAPI
                     SAFE_NATIVE_CALL_BEGIN
                         if (!script->Value->getAwakeFlag())
                         {
+                            System::Console::WriteLine(script->Key);
                             script->Value->Awake();
                             script->Value->setAwakeFlag();
                         }

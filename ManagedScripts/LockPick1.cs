@@ -76,6 +76,7 @@ public class LockPick1 : Script
     private bool movePick;
     private bool deduct;
     private bool displayTutorial;
+    private bool next_VO;
     private bool pickWasCloseButYouMovedAway;
     private bool firstTimeTutorial = true;
     private bool playOnce = true;
@@ -83,16 +84,18 @@ public class LockPick1 : Script
 
     private Vector3 originalPosition = new Vector3(0.0f, 350.0f, 1500.0f);
     private Vector3 originalRotation;
+    public TransformComponent arrowTransform;
+    public UISpriteComponent arrowSprite;
+    private Vector3 originalArrowPosition;
     public static AudioComponent audio;
     public static bool failed;
     public static bool passed;
     float timer;
-    
+
     public int doorIndex;
     public GameObject doorText;
     public GameObject monster;
     public GameObject doorStates;
-    public GameObject popupUI;
 
     // Start is called before the first frame update
     override public void Awake()
@@ -133,7 +136,9 @@ public class LockPick1 : Script
 
         counter = 0;
         audio = gameObject.GetComponent<AudioComponent>();
-        // GameplaySubtitles.counter = 5; //no effect on set gameplay subtitles to be empty 
+        next_VO = true;
+        // GameplaySubtitles.counter = 5; //no effect on set gameplay subtitles to be empty
+        originalArrowPosition = arrowTransform.GetPosition();
 
         newLock();
     }
@@ -142,6 +147,7 @@ public class LockPick1 : Script
     {
         //audio.play(startingVOstr);
         movePick = true;
+        next_VO = true;
         pickWasCloseButYouMovedAway = false;
     }
 
@@ -161,7 +167,6 @@ public class LockPick1 : Script
             lockGroup.SetActive(false);
             GraphicsManagerWrapper.ToggleViewFrom2D(false);
             doorStates.SetActive(true);
-            popupUI.GetComponent<PopupUI>().lockpickDisplayed = false;
         }
 
         //if (!_TutorialCompleted)
@@ -193,14 +198,13 @@ public class LockPick1 : Script
         UISpriteComponent ClosedSub = GameObjectScriptFind("Subtitles").GetComponent<UISpriteComponent>();
         //UISpriteComponent Sprite = gameObject.GetComponent<UISpriteComponent>();
 
-        if (counter < 5)
+        if (counter < 5 && next_VO)
+        {
             audio.play(playerGuideVO[counter]);
-        if(audio.finished(playerGuideVO[0]))
+            next_VO = false;
+        }
+        if (audio.finished(playerGuideVO[0]))
             counter = 6;
-        // if (audio.finished(playerGuideVO[counter]))
-        // {
-        //     audio.stop(playerGuideVO[counter]);
-        // }
 
         #region Move Pick
         float eulerAngleDegree = toDegree(eulerAngle);
@@ -230,7 +234,17 @@ public class LockPick1 : Script
                                                 originalPosition.X * Mathf.Sin(-eulerAngle) + originalPosition.Y * Mathf.Cos(-eulerAngle));
             transform.SetPosition(new Vector3(newPosition.X, newPosition.Y, originalPosition.Z));
 
+            #region Green / Red Arrow
+
+            Vector2 newArrowPosition = new Vector2(originalArrowPosition.X * Mathf.Cos(-eulerAngle) - originalArrowPosition.Y * Mathf.Sin(-eulerAngle),
+                                                originalArrowPosition.X * Mathf.Sin(-eulerAngle) + originalArrowPosition.Y * Mathf.Cos(-eulerAngle));
+            arrowTransform.SetPosition(new Vector3(-newArrowPosition.X, newArrowPosition.Y, 0.0f));
+            arrowTransform.SetRotation(new Vector3(0.0f, 0.0f, eulerAngle));
+
+            #endregion
+
             //do rattling sounds based on pick angle
+            #region Rattle Sounds & Arrow Color
 
             //note on ranges (the wider the range in if statement, the further the pick is)
             // STRICTEST if statement first (small range to wide range)
@@ -246,7 +260,8 @@ public class LockPick1 : Script
             //range 1
             if (eulerAngleDegree < unlockRange.Y && eulerAngleDegree > unlockRange.X)
             {
-               
+                arrowSprite.SetTextureName("Arrow-Green.dds");
+
                 if (audio.finished(lockSoundEffects[0]))
                 {
                     audio.stop(lockSoundEffects[0]);
@@ -275,7 +290,7 @@ public class LockPick1 : Script
                 }
 
                 //play VO
-                if (playOnce)
+                if (playOnce && audio.finished("pc_findtherightspot") && audio.finished(playerGuideVO[0]))
                 {
                     audio.play("pc_turnthelock");
                     
@@ -305,7 +320,8 @@ public class LockPick1 : Script
             //range 2
             else if (eulerAngleDegree < unlockRange.Y + 15 && eulerAngleDegree > unlockRange.X - 15)
             {
-                
+                arrowSprite.SetTextureName("Arrow-Red.dds");
+
                 if (audio.finished(lockSoundEffects[0]))
                 {
                     audio.stop(lockSoundEffects[0]);
@@ -338,7 +354,8 @@ public class LockPick1 : Script
             //range 3
             else if (eulerAngleDegree < unlockRange.Y + 30 && eulerAngleDegree > unlockRange.X - 30)
             {
-                
+                arrowSprite.SetTextureName("Arrow-Red.dds");
+
                 if (audio.finished(lockSoundEffects[0]))
                 {
                     audio.stop(lockSoundEffects[0]);
@@ -370,6 +387,7 @@ public class LockPick1 : Script
             //range 4
             else if (eulerAngleDegree < unlockRange.Y + 45 && eulerAngleDegree > unlockRange.X - 45)
             {
+                arrowSprite.SetTextureName("Arrow-Red.dds");
 
                 if (audio.finished(lockSoundEffects[0]))
                 {
@@ -404,6 +422,7 @@ public class LockPick1 : Script
             //range 5
             else if (eulerAngleDegree < unlockRange.Y + 60 && eulerAngleDegree > unlockRange.X - 60)
             {
+                arrowSprite.SetTextureName("Arrow-Red.dds");
 
                 if (audio.finished(lockSoundEffects[0]))
                 {
@@ -437,6 +456,7 @@ public class LockPick1 : Script
             //range 6
             else if (eulerAngleDegree < unlockRange.Y + 75 && eulerAngleDegree > unlockRange.X - 75)
             {
+                arrowSprite.SetTextureName("Arrow-Red.dds");
 
                 if (audio.finished(lockSoundEffects[0]))
                 {
@@ -465,8 +485,11 @@ public class LockPick1 : Script
                     }
                 }
             }
-            else if (pickWasCloseButYouMovedAway) //range 7
+            //range 7
+            else if (pickWasCloseButYouMovedAway) 
             {
+                arrowSprite.SetTextureName("Arrow-Red.dds");
+
                 if (audio.finished(lockSoundEffects[0]))
                 {
                     audio.stop(lockSoundEffects[0]);
@@ -493,7 +516,7 @@ public class LockPick1 : Script
                         delay = 0.4f;
                     }
                 }
-                if (audio.finished(rattleSoundEffects[6]))
+                if (audio.finished(rattleSoundEffects[6]) && audio.finished(playerGuideVO[0]) && audio.finished("pc_turnthelock")) //prevent multiple VO playing
                 {
                     audio.stop(rattleSoundEffects[0]);
 
@@ -501,12 +524,15 @@ public class LockPick1 : Script
                 }
                 playOnce = true;
             }
+
             if (audio.finished("pc_findtherightspot"))
             {
                 audio.stop("pc_findtherightspot");
             }
+
+            #endregion
         }
-        
+
         if (!failed && Input.GetKeyDown(Keycode.E)) //lock turns
         {
             originalRotation = transform.GetRotation();
@@ -518,6 +544,7 @@ public class LockPick1 : Script
         if (Input.GetKey(Keycode.E))
         {
             counter = 5; //"Move [mouse] to adjust pick";
+            next_VO = true;
 
         }
         if (Input.GetKeyUp(Keycode.E)) //lock not turning
@@ -527,20 +554,18 @@ public class LockPick1 : Script
             deduct = true;
             if (audio.finished(playerGuideVO[0]))
             {
-            audio.stop(playerGuideVO[0]);
                 //;
                 //wait for "Hopefully I won't forget how to 
                 //do this".. to finish playing before showing ui instructions
                 counter = 6; //"Press [E] to turn lock";
-            } 
+                next_VO = true;
+            }
         }
         #endregion
 
         #region Check if pick is at correct position
         float lockLerp = Mathf.LerpAngle(toDegree(innerLock.GetRotation().Z), lockRotation, Time.deltaTime * lockSpeed);
         innerLock.SetRotation(new Vector3(0, 0, toRadians(lockLerp)));
-
-        
 
         if (!movePick && (lockLerp >= maxRotation - 1))
         {
@@ -606,18 +631,40 @@ public class LockPick1 : Script
                 doorStates.GetComponent<DoorState>().Doors[doorIndex] = DoorState.State.Unlocked;
                 lockGroup.SetActive(false);
                 GraphicsManagerWrapper.ToggleViewFrom2D(false);
-                popupUI.GetComponent<PopupUI>().lockpickDisplayed = false;
-                
+
                 //no turning back now
                 //ClosedSub.SetFontMessage(Subtitles[1]); no effect
-                counter = 2;
-                audio.play(playerGuideVO[2]);
-                GameplaySubtitles.counter = 7;
+
+                if (doorIndex == 0)
+                {
+                    counter = 2;
+                    audio.play(playerGuideVO[2]); //aite looks like im in
+                    next_VO = true;
+                    GameplaySubtitles.counter = 7;
+                }
+                if (doorIndex == 1)
+                {
+                    GameplaySubtitles.counter = 21;
+                    audio.play("creak3"); 
+                    audio.play("pc_approachbedroom"); //placeholder
+                }
+
+                if (doorIndex == 3)
+                {
+                    //bathroom is near
+
+                }
+                if (doorIndex == 4) //you are in bathroom
+                {
+                   
+
+                }
+
                 // if (audio.finished(playerGuideVO[2]))
                 // {
                 //     GameplaySubtitles.counter = 5; //no effect
                 // }
-            
+
 
                 // if (audio.finished(playerGuideVO[1])) //also no effect, doont do this
                 // {
@@ -626,12 +673,12 @@ public class LockPick1 : Script
                 //     audio.play(playerGuideVO[2]);
 
                 // }
-                
+
             }
             else
             {
                 timer -= Time.deltaTime;
-            }           
+            }
         }
 
         if (failed)
@@ -639,7 +686,7 @@ public class LockPick1 : Script
             counter = 3;
             if (timer <= 0 && audio.finished(playerGuideVO[3]))
             {
-                audio.stop(playerGuideVO[3]);
+                //audio.stop(playerGuideVO[3]);
                 playerController.SetActive(true);
                 gameBlackboard.gameState = GameBlackboard.GameState.InGame;
                 //Input.Lock(true);
@@ -648,20 +695,20 @@ public class LockPick1 : Script
                 lockGroup.SetActive(false);
                 GraphicsManagerWrapper.ToggleViewFrom2D(false);
                 doorStates.SetActive(true);
-                popupUI.GetComponent<PopupUI>().lockpickDisplayed = false;
 
                 if (doorIndex != 0)
                 {
                     monster.GetComponent<GhostMovement>().AlertMonster();
                 }
                 counter = 5; //move mouse to adjust pick
+                next_VO = true;
             }
             else
             {
                 timer -= Time.deltaTime;
             }
         }
-        
+
         Sprite.SetFontMessage(Subtitles[counter]); //update last
     }
 
@@ -673,7 +720,7 @@ public class LockPick1 : Script
 
         audio.stop(lockSoundEffects[1]);
         audio.stop(lockSoundEffects[2]);
-        popupUI.GetComponent<PopupUI>().lockpickDisplayed = true;
+        //popupUI.GetComponent<PopupUI>().lockpickDisplayed = true;
         //Input.Lock(false);
 
         failed = false;
