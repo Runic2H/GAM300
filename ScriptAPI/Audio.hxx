@@ -35,7 +35,7 @@ namespace ScriptAPI
         /*float get_volume();
         void set_volume(float vol);*/
         static void Loop(bool set);
-        static bool enabled();
+        static bool finished(System::String^ clip);
         /*float get_pitch();
         void set_pitch(float set);*/
 

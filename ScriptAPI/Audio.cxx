@@ -71,9 +71,11 @@ namespace ScriptAPI
 		
 	}
 
-	bool AudioSource::enabled()
+	bool AudioSource::finished(System::String^ clip)
 	{
-		return true;
+		TDS::SoundInfo* temp = audio_engine->findSound(toStdString(clip));
+
+		return audio_engine->soundFinished(*temp);
 	}
 
 	/*float AudioSource::get_pitch()

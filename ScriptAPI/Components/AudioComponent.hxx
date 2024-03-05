@@ -37,12 +37,12 @@ namespace ScriptAPI
 		float getY();
 		float getZ();
 		float getReverbAmount();
-		float getVolume();
+		float getVolume(System::String^ pathing);
 		float getMasterVol();
 		float getBGMVol();
 		float getSFXVol();
 
-		void setVolume(float vol);
+		void setVolume(float vol, System::String^ pathing);
 		void setMasterVol(float vol);
 		void setBGMVol(float vol);
 		void setSFXVol(float vol);

@@ -595,6 +595,10 @@ namespace TDS
 	{
 		m_ScreenFadeFactor = fadeValue;
 	}
+	float DeferredController::GetFadeFactor()
+	{
+		return m_ScreenFadeFactor;
+	}
 	void DeferredController::RenderUISceneMeshInstance(VkCommandBuffer commandBuffer, std::uint32_t frameIndex)
 	{
 		auto GBufferPipeline = m_DeferredPipelines[DEFERRED_STAGE::STAGE_3D_COMPOSITION_INSTANCE];

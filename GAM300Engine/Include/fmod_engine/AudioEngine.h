@@ -172,6 +172,11 @@ namespace TDS
             DLL_API  void SetSoundVolume(float vol, SoundInfo& soundInfo);
 
             /**
+             * Get specific sound volume
+             */
+            DLL_API  float GetSoundVolume(SoundInfo& soundInfo);
+
+            /**
             * Fades out sound to a stop
             */
             DLL_API  void FadeOutSound(unsigned int duration, SoundInfo& soundInfo);
@@ -470,10 +475,12 @@ namespace TDS
         static void Play_queue();
         static void Clear_queue();
 
+        static float getVolume(std::string pathing);
         static float getMasterVolume();
         static float getBGMVolume();
         static float getSFXVolume();
 
+        static void SetVolume(float vol, std::string pathing);
         static void SetMasterVolume(float vol);
         static void SetBGMVolume(float vol);
         static void SetSFXVolume(float vol);

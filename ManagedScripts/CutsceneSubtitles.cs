@@ -106,7 +106,7 @@ public class CutsceneSubtitle : Script
 
             if (counter > 16)//cutscene over
             {
-                audio.FadeOut(2, BGMfile);
+                audio.FadeOut(3, BGMfile);
                 GraphicsManagerWrapper.ToggleViewFrom2D(false);
                 SceneLoader.LoadMainGame();
             }

@@ -35,3 +35,8 @@ void TDS::GraphicsManagerWrapperCalls::SetFadeFactor(float value)
 {
     TDS::GraphicsManager::getInstance().SetFadeFactor(value);
 }
+
+float TDS::GraphicsManagerWrapperCalls::GetFadeFactor()
+{
+    return TDS::GraphicsManager::getInstance().GetFadeFactor();
+}

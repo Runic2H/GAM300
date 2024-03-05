@@ -133,7 +133,7 @@ namespace TDS
             }
             else
             {
-                std::cout << "No such sound exists in the audio engine!\n";
+                //std::cout << "No such sound exists in the audio engine!\n";
             }
         }
 
@@ -184,7 +184,7 @@ namespace TDS
                 }
                 else
                 {
-                    std::cout << "Sound is already playing!" << std::endl;
+                    //std::cout << "Sound is already playing!" << std::endl;
                 }
             }
             else
@@ -275,17 +275,13 @@ namespace TDS
 
         void AudioEngine::SetGlobalVolume(float vol)
         {
-            if (vol > 100)
-            {
-                vol = 100;
-            }
-            else if (vol < 0)
-            {
-                vol = 0;
-            }
+            vol /= 100.f;
+            vol = Mathf::Clamp(vol, 0.f, 1.f);
+            
+            //std::cout << vol << std::endl;
             
             mastergroup->setPaused(true);
-            mastergroup->setVolume(vol / 100.f);
+            mastergroup->setVolume(vol);
             mastergroup->setPaused(false);
         }
 
@@ -299,28 +295,28 @@ namespace TDS
 
         void AudioEngine::SetChannelGroupVolume(char tag, float vol)
         {
-            if (vol > 100)
-            {
-                vol = 100;
-            }
-            else if (vol < 0)
-            {
-                vol = 0;
-            }
-            
+            vol /= 100.f;
+            vol = Mathf::Clamp(vol, 0.f, 1.f);
+
             switch (tag)
             {
                 case 'S':
                 {
                     SFX->setPaused(true);
-                    SFX->setVolume(vol / 100.f);
+                    SFX->setVolume(vol);
                     SFX->setPaused(false);
+                    break;
                 }
                 case 'B':
                 {
                     BGM->setPaused(true);
-                    BGM->setVolume(vol / 100.f);
+                    BGM->setVolume(vol);
                     BGM->setPaused(false);
+                    break;
+                }
+                default:
+                {
+                    //std::cout << "No channelgroup chosen" << std::endl;
                 }
             }
         }
@@ -334,13 +330,35 @@ namespace TDS
                 case 'S':
                 {
                     SFX->getVolume(&vol);
+                    break;
                 }
                 case 'B':
                 {
                     BGM->getVolume(&vol);
                 }
+                default:
+                {
+                    //std::cout << "No channelgroup chosen" << std::endl;
+                }
             }
-            return vol * 100.f;
+            return vol;
+        }
+
+        void AudioEngine::SetSoundVolume(float vol, SoundInfo& soundInfo)
+        {
+            soundInfo.setVolume(vol);
+
+            channels[soundInfo.getUniqueID()]->setPaused(true);
+            channels[soundInfo.getUniqueID()]->setVolume(vol);
+            channels[soundInfo.getUniqueID()]->setPaused(false);
+        }
+
+        float AudioEngine::GetSoundVolume(SoundInfo& soundInfo)
+        {
+            float volume{ 0.f };
+            channels[soundInfo.getUniqueID()]->getVolume(&volume);
+
+            return volume;
         }
 
         void AudioEngine::FadeOutSound(unsigned int duration, SoundInfo& soundInfo)
@@ -404,8 +422,8 @@ namespace TDS
                 ERRCHECK(sounds[soundInfo.getUniqueID()]->setMode(FMOD_3D));
                 set3dChannelPosition(soundInfo, channels[soundInfo.getUniqueID()]);
             }
-            else
-                std::cout << "Audio Engine: Can't update sound position!\n";
+            /*else
+                std::cout << "Audio Engine: Can't update sound position!\n";*/
         }
 
         bool AudioEngine::checkPlaying(SoundInfo& soundInfo)
@@ -512,7 +530,7 @@ namespace TDS
 
         void AudioEngine::setEventVolume(const char* eventName, float volume0to1)
         {
-            //std::cout << "AudioEngine: Setting Event Volume\n";
+            std::cout << "AudioEngine: Setting Event Volume\n";
             ERRCHECK(eventInstances[eventName]->setVolume(volume0to1));
         }
 
@@ -618,9 +636,9 @@ namespace TDS
 
         void ERRCHECK_fn(FMOD_RESULT result, const char* file, int line)
         {
-            (void)file;//TODO
-            if (result != FMOD_OK)
-                std::cout << "FMOD ERROR: AudioEngine.cpp [Line " << line << "] " << result << "  - " << FMOD_ErrorString(result) << '\n';
+            //(void)file;//TODO
+            //if (result != FMOD_OK)
+            //    std::cout << "FMOD ERROR: AudioEngine.cpp [Line " << line << "] " << result << "  - " << FMOD_ErrorString(result) << '\n';
         }
 
         void AudioEngine::printEventInfo(FMOD::Studio::EventDescription * eventDescription)
@@ -632,11 +650,11 @@ namespace TDS
             ERRCHECK(eventDescription->is3D(&is3D));
             ERRCHECK(eventDescription->isOneshot(&isOneshot));
 
-            std::cout << "FMOD EventDescription has " << params << " parameter descriptions, "
+            /*std::cout << "FMOD EventDescription has " << params << " parameter descriptions, "
                 << (is3D ? " is " : " isn't ") << " 3D, "
                 << (isOneshot ? " is " : " isn't ") << " oneshot, "
                 << (eventDescription->isValid() ? " is " : " isn't ") << " valid."
-                << '\n';
+                << '\n';*/
         }
     } //end of AudioWerks
 
@@ -755,7 +773,7 @@ namespace TDS
         }
         else
         {
-            std::cout << "Sound already loaded!\n" << std::endl;
+            //std::cout << "Sound already loaded!\n" << std::endl;
         }
     }
 
@@ -890,6 +908,11 @@ namespace TDS
         Queue.clear();
     }
 
+    float proxy_audio_system::getVolume(std::string pathing)
+    {
+        return aud_instance->GetSoundVolume(*find_sound_info(pathing));
+    }
+
     float proxy_audio_system::getMasterVolume()
     {
         return aud_instance->getGlobalVolume();
@@ -903,6 +926,11 @@ namespace TDS
     float proxy_audio_system::getSFXVolume()
     {
         return aud_instance->getChannelGroupVolume('S');
+    }
+
+    void proxy_audio_system::SetVolume(float vol, std::string pathing)
+    {
+        aud_instance->SetSoundVolume(vol, *find_sound_info(pathing));
     }
 
     void proxy_audio_system::SetMasterVolume(float vol)
