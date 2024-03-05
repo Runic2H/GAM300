@@ -335,13 +335,14 @@ namespace TDS
                 case 'B':
                 {
                     BGM->getVolume(&vol);
+                    break;
                 }
                 default:
                 {
                     //std::cout << "No channelgroup chosen" << std::endl;
                 }
             }
-            return vol;
+            return vol * 100.f;
         }
 
         void AudioEngine::SetSoundVolume(float vol, SoundInfo& soundInfo)

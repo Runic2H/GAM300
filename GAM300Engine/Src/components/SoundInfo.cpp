@@ -95,8 +95,6 @@ namespace TDS
     float SoundInfo::getVolume()
     {
         return volume;
-        
-        //return (volume * 100.f);
     }
 
     /**
@@ -104,16 +102,8 @@ namespace TDS
     */
     void SoundInfo::setVolume(float vol)
     {
-        /*volume = 20.0f * log10f(vol);
-
-        if (volume > 1.f)
-        {
-            volume = 1.f;
-        }*/
-        
-        volume = vol / 100.f;
-
-        volume = Mathf::Clamp(volume, 0.f, 1.f);
+        vol /= 100.f;
+        volume = Mathf::Clamp(vol, 0.f, 1.f);
     }
 
     SoundInfo::SoundInfo(std::string _filePath, bool _isLoop, bool _is3D, bool _muted, SOUND_STATE _theState, float _x, float _y, float _z, float _volume, float _reverbamount)

@@ -937,7 +937,16 @@
                 }
             }
         },
-        "3": {},
+        "3": {
+            "MainMenuOptions": {
+                "inOptionsMenu": {
+                    "System.Boolean": "False"
+                },
+                "gameObject": {
+                    "ScriptAPI.GameObject": 3
+                }
+            }
+        },
         "4": {
             "QuitButton": {
                 "bgm": {
