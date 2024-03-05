@@ -473,14 +473,12 @@ namespace TDS
 			SubmitMeshForUI(entityID, textureID, graphComp, transformComp);
 		}
 
-		if (auto ac = ecs.getComponent<AnimationComponent>(entityID); ac != nullptr)
+		if ( auto pAC = ecs.getComponent<AnimationComponent>(entityID); pAC != nullptr)
 		{
-			if (!ac->m_AnimationJson.empty())
+			if (!pAC->m_AnimationJson.empty())
 			{
-				ModelAnimation m_interpolateModel(ac->getAnimationData().m_Bones, ac->getAnimationData().m_Animations[0]);
-				m_interpolateModel.Update(_dt);
-
-				auto animBones = m_interpolateModel.getCurrentBones();
+				pAC->m_AnimationPlayer.Update(_dt);
+				auto animBones = pAC->m_AnimationPlayer.getCurrentBonesMatrices();
 
 				for (int i{ 0 }; i < animBones->size() && i < MAX_BONES; i++)
 				{

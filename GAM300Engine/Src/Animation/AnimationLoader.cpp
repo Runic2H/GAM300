@@ -11,20 +11,6 @@ namespace TDS
 	{
 
 
-
-
-
-		/*
-				std::vector<int> m_Child;
-		int				 m_ParentNode;
-		int				 m_BoneID = -1;
-		
-		*/
-
-
-
-
-
 		RTTR_REGISTER_WITH_NAME(AnimKeyFrame, "AnimKeyFrame")
 			RTTR_REGISTER_PROPERTY(AnimKeyFrame, time);
 
@@ -36,13 +22,6 @@ namespace TDS
 
 		RTTR_REGISTER_WITH_NAME(AnimScale, "AnimScale")
 			RTTR_REGISTER_PROPERTY(AnimScale, Scale);
-
-
-		/*RTTR_REGISTER_WITH_NAME(AnimNode, "AnimNode")
-			RTTR_REGISTER_PROPERTY(AnimNode, Transform)
-			RTTR_REGISTER_PROPERTY(AnimNode, Child)
-			RTTR_REGISTER_PROPERTY(AnimNode, ParentNode)
-			RTTR_REGISTER_PROPERTY(AnimNode, BoneID);*/
 
 		RTTR_REGISTER_WITH_NAME(AnimNode, "AnimNode")
 			RTTR_REGISTER_PROPERTY(AnimNode, Transform)

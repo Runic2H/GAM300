@@ -45,13 +45,13 @@ namespace TDS
 			bool MergeMesh = false;
 		};
 
-		bool		m_Compress = true;
+		bool		m_Compress = false;
 		bool		m_PretransformedVertices = false;
 		bool		m_RemoveChildMeshes = false;
 		bool		m_MergeMesh = false;
 		bool		m_LoadMesh = true;
 		bool		m_LoadAnimation = false; 
-		bool		m_LoadMaterials = true;
+		bool		m_LoadMaterials = false;
 		bool		m_Centralize = false;
 		Desc		m_Descriptor;
 		GenerateLOD m_LodOptions;

@@ -9,11 +9,17 @@ namespace TDS {
 
 	struct AnimationVertex
 	{
+		Vec3				m_Position;
+		Vec3				m_Bitangent;
+		Vec3				m_Tangent;
+		Vec3				m_Normal;
+		Vec2				m_UV;
+		Vec4				m_Color;
 		std::vector <unsigned int> m_BoneIDs{};
 		std::vector <float>		   m_BoneWeights{};
 
-		RTTR_ENABLE()
-		RTTR_REGISTRATION_FRIEND
+		/*RTTR_ENABLE()
+		RTTR_REGISTRATION_FRIEND*/
 
 	};
 
@@ -38,8 +44,8 @@ namespace TDS {
 		// Leave as the identity matrix if the model is not animated.
 		Mat4 m_BindTransform{};
 
-		RTTR_ENABLE()
-		RTTR_REGISTRATION_FRIEND
+		/*RTTR_ENABLE()
+		RTTR_REGISTRATION_FRIEND*/
 
 	};
 
@@ -97,19 +103,19 @@ namespace TDS {
 		RTTR_REGISTRATION_FRIEND
 	};
 
-	struct AnimationModel
-	{
-		std::vector<AnimationMesh> m_Meshes{};
-		std::vector<AnimNode> m_Nodes{};
+	//struct AnimationModel
+	//{
+	//	std::vector<AnimationMesh> m_Meshes{};
+	//	std::vector<AnimNode> m_Nodes{};
 
-		std::map<std::string, int> nodeMap{};
-		std::map<std::string, int> m_BoneMap{};
-		std::vector<Mat4>		   m_Bones{};
-		std::vector<Animation>     m_Animations{};
+	//	std::map<std::string, int> nodeMap{};
+	//	std::map<std::string, int> m_BoneMap{};
+	//	std::vector<Mat4>		   m_Bones{};
+	//	std::vector<Animation>     m_Animations{};
 
-		/*RTTR_ENABLE()
-		RTTR_REGISTRATION_FRIEND*/
-	};
+	//	/*RTTR_ENABLE()
+	//	RTTR_REGISTRATION_FRIEND*/
+	//};
 }
 
 #endif

@@ -1,6 +1,7 @@
 #pragma once
 #include "ecs/ecs.h"
 #include "Animation/AnimationLoader.h"
+#include "Animation/Animation.h"
 #include <string>
 namespace TDS
 {
@@ -13,7 +14,7 @@ namespace TDS
 		inline void	setAnimationJsonFile(const std::string& input) { m_AnimationJson = input; }
 		inline void ToggleAnimate(bool _animate) { m_Animate = _animate; }
 		inline void setAnimateSpeed(float& _speed) { m_AnimationSpeed = _speed; }
-
+		
 		//getter
 		inline bool& getAnimate() { return m_Animate; }
 		inline std::string& getAnimationFile() { return m_AnimationJson; }
@@ -27,7 +28,7 @@ namespace TDS
 		std::string m_AnimationJson{};//json for bone and ticks information 
 		float m_AnimationSpeed{ 0.f };//adjust on this speed * dt
 		AnimationData m_AnimationData;
-
+		AnimationPlayer m_AnimationPlayer;
 	};
 
 	DLL_API AnimationComponent* GetAnimationComponent(EntityID entityID);

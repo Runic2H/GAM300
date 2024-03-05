@@ -1440,6 +1440,10 @@ namespace TDS
 							{
 								AnimationData::Serialize(anim->getAnimationData(), filename, true);
 								anim->setAnimationJsonFile(filename);
+								if (anim->getAnimationData().m_Animations.size() > 0)
+								{
+									anim->m_AnimationPlayer.setAnimation(anim->getAnimationData().m_Animations[0]);
+								}
 							}
 
 						}

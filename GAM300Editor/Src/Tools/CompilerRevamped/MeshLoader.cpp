@@ -22,15 +22,16 @@ namespace TDS
 		Vec3							m_SceneScale;
 		std::vector<std::uint32_t>		m_Indices;
 		int								iMatertialInstance{};
-		std::vector<std::uint32_t>		m_BoneIDs{};
-		std::vector<float>			    m_BoneWeight{};
-		std::vector<Mat4>				m_Bones{};
-		std::vector<AnimNode>			m_Nodes{};
-		std::vector<AnimationVertex>				 m_AnimationVertex{}; 
-		std::map<std::string_view, unsigned int>	 m_BoneMap{};
-		std::map<std::string_view, int>				 m_NodeMap{};
-		std::vector<Animation>						 m_Animations{};
+	};
+	struct AnimModel
+	{
+		std::vector<AnimationMesh> m_MeshData;
+		std::vector<AnimNode> m_Nodes;
 
+		std::map<std::string, int> nodeMap;
+		std::vector<Mat4> bones;
+		std::map<std::string, unsigned int> boneMap;
+		std::vector<Animation> animations;
 	};
 
 	inline Mat4 aiToMat4(aiMatrix4x4 mat);
@@ -142,7 +143,7 @@ namespace TDS
 		}
 
 		Assimp::Importer importer{};
-		importer.SetPropertyBool(AI_CONFIG_PP_PTV_NORMALIZE, true);
+		//importer.SetPropertyBool(AI_CONFIG_PP_PTV_NORMALIZE, true);
 
 		std::string filePath = "../assets/models/" + request.m_FileName;
 		std::uint32_t flags = 0;
@@ -158,7 +159,8 @@ namespace TDS
 			| aiProcess_GenSmoothNormals
 			| aiProcess_RemoveRedundantMaterials
 			| aiProcess_FindInvalidData
-			| aiProcess_FlipUVs;
+			| aiProcess_FlipUVs
+			| aiProcess_JoinIdenticalVertices;
 
 		if (request.currSetting.m_RemoveChildMeshes)
 			flags |= aiProcess_PreTransformVertices;
@@ -175,36 +177,53 @@ namespace TDS
 
 
 		std::vector<RawMeshData> assimpData;
-		ImportMeshData(request, *currSceneInfo, assimpData);
+		auto model = AnimModel{};
 
-		for (auto& data : assimpData)
+		if (currSceneInfo->m_Scene->HasAnimations())
 		{
-			if (!data.m_AnimationVertex.empty())
+			request.currSetting.m_LoadAnimation = true;
+			ImportAnimation(request, *currSceneInfo, model);
+
+			assimpData.resize(model.m_MeshData.size());
+
+			for (unsigned int l{ 0 }; l < model.m_MeshData.size(); l++)
 			{
-				for (unsigned int vert{ 0 }; vert < data.m_AnimationVertex.size(); vert++)
+				for (int vert{ 0 }; vert < model.m_MeshData[l].m_AnimVertex.size(); vert++)
 				{
-					for (unsigned int vecElement{ 0 }; vecElement < 4; vecElement++)
+					
+					TDSModel::Vertex vertex{};
+					vertex.m_Position = model.m_MeshData[l].m_AnimVertex[vert].m_Position;
+					vertex.m_Normal = model.m_MeshData[l].m_AnimVertex[vert].m_Normal;
+					vertex.m_UV = model.m_MeshData[l].m_AnimVertex[vert].m_UV;
+
+					for (int vertElem{ 0 }; vertElem < 4; vertElem++)
 					{
-						if (data.m_AnimationVertex[vert].m_BoneIDs.size() <= vecElement)
+						if (model.m_MeshData[l].m_AnimVertex[vert].m_BoneIDs.size() <= vertElem)
 						{
-							data.m_Vertices[vert].m_BoneID[vecElement] = -1; // this vertex no boneID
-							data.m_Vertices[vert].m_Weights[vecElement] = 0; // hence no weight
+							vertex.m_BoneID[vertElem] = -1;
+							vertex.m_Weights[vertElem] = 0;
 						}
 						else
 						{
-							data.m_Vertices[vert].m_BoneID[vecElement] = data.m_AnimationVertex[vert].m_BoneIDs[vecElement];
-							data.m_Vertices[vert].m_Weights[vecElement] = data.m_AnimationVertex[vert].m_BoneWeights[vecElement];
+							vertex.m_BoneID[vertElem] = model.m_MeshData[l].m_AnimVertex[vert].m_BoneIDs[vertElem];
+							vertex.m_Weights[vertElem] = model.m_MeshData[l].m_AnimVertex[vert].m_BoneWeights[vertElem];
 						}
 					}
 
-					if (data.m_AnimationVertex[vert].m_BoneIDs.size() > 4)
-					{
-						std::cerr << "index : " << vert << "influnced more than 4 bones, but only bones will be used!\n";
-					}
+					if(model.m_MeshData[l].m_AnimVertex[vert].m_BoneIDs.size() > 4)
+						TDS_LOGGER("vertex influenced by more than 4 bones, but only 4 bones will be used!");
+
+					
+					assimpData[l].m_Vertices.push_back(vertex);
 				}
+
+				//indices
+				assimpData[l].m_Indices = model.m_MeshData[l].m_Indices;
 			}
 		}
-
+		else
+			ImportMeshData(request, *currSceneInfo, assimpData);
+		
 		MergeMesh(request, assimpData);
 		CreateLODs(request, assimpData);
 
@@ -213,7 +232,7 @@ namespace TDS
 			LoadMaterials(*currSceneInfo, request, assimpData);
 		if (request.currSetting.m_Compress)
 			OptimizeMesh(assimpData);
-		CreateFinalGeom(assimpData, data, request);
+		CreateFinalGeom(assimpData, data, request, model);
 		data.ConvertToTDSModel(request.m_Output);
 
 		request.m_Output.Serialize(request.m_OutFile);
@@ -231,18 +250,7 @@ namespace TDS
 		//}
 		//SerializeGeom(request.m_Output, fileStream);
 
-
-		
-
-
-
-
 		//
-
-
-
-
-
 
 	}
 
@@ -341,28 +349,32 @@ namespace TDS
 			}
 		}
 
-		ProcessScene(assimpData, *assimp.m_Scene->mRootNode, *assimp.m_Scene, assimp.m_AppliedTransformation, rootName, request, -1);
+		
+		ProcessScene(assimpData, *assimp.m_Scene->mRootNode, *assimp.m_Scene, assimp.m_AppliedTransformation, rootName, request);
+		
+	}
 
-		for (auto& i : assimpData)
+	void MeshLoader::ImportAnimation(Request& request, AssimpSceneInfo& assimp, AnimModel& model)
+	{
+		
+		AnimProcessNode(request, &model, assimp.m_Scene->mRootNode, assimp.m_Scene, aiMatrix4x4(), -1);
+
+		//BoneMap
+
+		for (auto& e : model.boneMap)
 		{
-			for (auto& e : i.m_BoneMap)
-			{
-				i.m_Nodes[i.m_NodeMap[e.first]].m_BoneID = e.second;
-				i.m_Nodes[i.m_NodeMap[e.first]].m_boneOffset = i.m_Bones[e.second];
-			}
-
-			TDS_LOGGER("model bone count: ", i.m_Bones.size());
-			TDS_LOGGER("model animation count: ", assimp.m_Scene->mNumAnimations);
-
-			if (assimp.m_Scene->HasAnimations())
-			{
-				request.currSetting.m_LoadAnimation = true;
-				for (size_t j{ 0 }; j < assimp.m_Scene->mNumAnimations; j++)
-				{
-					buildAnimation(i, assimp.m_Scene->mAnimations[j]);
-				}
-			}
+			model.m_Nodes[model.nodeMap[e.first]].m_BoneID = e.second;
+			model.m_Nodes[model.nodeMap[e.first]].m_boneOffset = model.bones[e.second];
 		}
+
+		TDS_LOGGER("model bone count: ", model.bones.size());
+
+		TDS_LOGGER("model animation count: ", assimp.m_Scene->mNumAnimations);
+
+		for (size_t i = 0; i < assimp.m_Scene->mNumAnimations; i++) {
+			buildAnimation(&model, assimp.m_Scene->mAnimations[i]);
+		}
+
 	}
 
 	aiMatrix4x4 GetScaleMatrix(const aiMatrix4x4& m)
@@ -463,7 +475,7 @@ namespace TDS
 		scale.z = sqrt(mat.a3 * mat.a3 + mat.b3 * mat.b3 + mat.c3 * mat.c3);
 	}
 
-	void MeshLoader::ProcessScene(std::vector<RawMeshData>& assimpData, const aiNode& Node, const aiScene& Scene, aiMatrix4x4& ParentTransform, std::string_view ParentName, Request& request, int _ParentNode)
+	void MeshLoader::ProcessScene(std::vector<RawMeshData>& assimpData, const aiNode& Node, const aiScene& Scene, aiMatrix4x4& ParentTransform, std::string_view ParentName, Request& request)
 	{
 		aiMatrix4x4 AccumulatedTransform = ParentTransform * Node.mTransformation;
 		aiMatrix4x4 transformWithoutTrans;
@@ -471,19 +483,6 @@ namespace TDS
 
 		assimpData.resize(iNode + Scene.mNumMeshes);
 
-		if (Scene.HasAnimations())
-		{
-			assimpData[iNode].m_Nodes.push_back(AnimNode{});
-			assimpData[iNode].m_Nodes.back().m_ParentNode = _ParentNode;
-			assimpData[iNode].m_Nodes.back().m_Transform = aiToMat4(Node.mTransformation);
-
-			int thisID = static_cast<int>(assimpData[iNode].m_Nodes.size() - 1);
-			assimpData[iNode].m_NodeMap[Node.mName.C_Str()] = thisID;
-			if (_ParentNode >= 0)
-			{
-				assimpData[iNode].m_Nodes[_ParentNode].m_Child.push_back(thisID);
-			}
-		}
 
 		for (std::uint32_t i = 0; i < Node.mNumMeshes; ++i)
 		{
@@ -576,7 +575,6 @@ namespace TDS
 
 
 			rawMesh.m_Vertices.resize(mesh.mNumVertices);
-			rawMesh.m_AnimationVertex.resize(mesh.mNumVertices);
 			rawMesh.m_ScenePos = Vec3(translate.x, translate.y, translate.z);
 			rawMesh.m_SceneRotate = Vec3(rot.x, rot.y, rot.z);
 			rawMesh.m_SceneScale = Vec3(scaling.x, scaling.y, scaling.z);
@@ -626,11 +624,11 @@ namespace TDS
 						N = mesh.mNormals[i];
 					}
 
-				
+					
 					vert.m_Normal = { N.x, N.y, N.z };
 					vert.m_Tangent = { T.x, T.y, T.z };
 					vert.m_Bitangent = { B.x, B.y, B.z };
-
+					
 					vert.m_Normal.Normalize();
 					vert.m_Tangent.Normalize();
 					vert.m_Bitangent.Normalize();
@@ -645,11 +643,10 @@ namespace TDS
 					else
 						N = mesh.mNormals[i];
 					
-
+					
 					vert.m_Normal = { N.x, N.y, N.z };
 					vert.m_Tangent = { 1.f, 0.f, 0.f };
 					vert.m_Bitangent = { 1.f, 0.f, 0.f };
-
 					vert.m_Normal.Normalize();
 				}
 			}
@@ -659,31 +656,6 @@ namespace TDS
 				for (std::uint32_t j = 0; j < face.mNumIndices; ++j)
 					rawMesh.m_Indices.emplace_back(face.mIndices[j]);
 
-			}
-
-
-			//Bones relies on verticies
-			for (std::uint32_t i = 0; i < mesh.mNumBones; ++i)
-			{
-				auto aibone = mesh.mBones[i];
-				std::uint32_t boneID{};
-				std::string_view boneName = aibone->mName.C_Str();
-
-				if (rawMesh.m_BoneMap.find(boneName) == rawMesh.m_BoneMap.end())
-				{
-					rawMesh.m_Bones.push_back(aiToMat4(aibone->mOffsetMatrix /** AccumulatedTransform*/));
-					boneID = (unsigned int)(rawMesh.m_Bones.size() - 1);
-					rawMesh.m_BoneMap[boneName] = boneID;
-				}
-				else
-					boneID = rawMesh.m_BoneMap[boneName];
-
-				for (unsigned int weightI{ 0 }; weightI < aibone->mNumWeights; ++weightI)
-				{
-					auto vertexWeight = aibone->mWeights[weightI];
-					rawMesh.m_AnimationVertex[vertexWeight.mVertexId].m_BoneIDs.push_back(boneID == -1 ? 0 : boneID);
-					rawMesh.m_AnimationVertex[vertexWeight.mVertexId].m_BoneWeights.push_back(vertexWeight.mWeight);
-				}
 			}
 
 			rawMesh.iMatertialInstance = mesh.mMaterialIndex;
@@ -753,12 +725,99 @@ namespace TDS
 		}
 		for (std::uint32_t i = 0; i < Node.mNumChildren; ++i)
 		{
-			ProcessScene(assimpData, *Node.mChildren[i], Scene, AccumulatedTransform, std::string(Node.mName.C_Str()), request, _ParentNode);
+			ProcessScene(assimpData, *Node.mChildren[i], Scene, AccumulatedTransform, std::string(Node.mName.C_Str()), request);
 		}
 
 	}
 
+	
+	void MeshLoader::AnimProcessNode(Request& request, AnimModel* model, aiNode* node, const aiScene* scene, aiMatrix4x4 parentTransform, int parentNode)
+	{
+		aiMatrix4x4 transform = parentTransform * node->mTransformation;
 
+		model->m_Nodes.push_back(AnimNode{});
+		model->m_Nodes.back().m_ParentNode = parentNode;
+		model->m_Nodes.back().m_Transform = aiToMat4(node->mTransformation);
+
+		int thisID = static_cast<int>(model->m_Nodes.size() - 1);
+		model->nodeMap[node->mName.C_Str()] = thisID;
+		if (parentNode >= 0)
+			model->m_Nodes[parentNode].m_Child.push_back(thisID);
+
+		for (unsigned int i{ 0 }; i < node->mNumMeshes; i++)
+		{
+			aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
+			model->m_MeshData.push_back(AnimationMesh{});
+			AnimProcessMesh(request, model, mesh, scene, transform);
+		}
+
+
+		for (unsigned int i{ 0 }; i < node->mNumChildren; i++)
+		{
+			AnimProcessNode(request, model, node->mChildren[i], scene, transform, thisID);
+		}
+
+	}
+	void MeshLoader::AnimProcessMesh(Request& request, AnimModel* model, aiMesh* aimesh, const aiScene* scene, aiMatrix4x4 transform)
+	{
+		AnimationMesh* mesh = &model->m_MeshData[model->m_MeshData.size() - 1];
+		mesh->m_BindTransform = aiToMat4(transform);
+
+		//vertcies
+		for (unsigned int i = 0; i < aimesh->mNumVertices; i++) {
+			AnimationVertex vertex;
+			vertex.m_Position.x = aimesh->mVertices[i].x;
+			vertex.m_Position.y = aimesh->mVertices[i].y;
+			vertex.m_Position.z = aimesh->mVertices[i].z;
+			//vertex.m_Position.normalize();
+
+			if (aimesh->HasNormals()) {
+				vertex.m_Normal.x = aimesh->mNormals[i].x;
+				vertex.m_Normal.y = aimesh->mNormals[i].y;
+				vertex.m_Normal.z = aimesh->mNormals[i].z;
+				//vertex.m_Normal.normalize();
+			}
+			else
+				vertex.m_Normal = Vec3(0.f);
+
+			if (aimesh->mTextureCoords[0]) {
+				vertex.m_UV.x = aimesh->mTextureCoords[0][i].x;
+				vertex.m_UV.y = aimesh->mTextureCoords[0][i].y;
+				//vertex.m_UV.normalize();
+			}
+			else
+				vertex.m_UV = Vec2(0.f);
+
+			mesh->m_AnimVertex.push_back(vertex);
+		}
+		//bones - relies on verticies
+		for (unsigned int i = 0; i < aimesh->mNumBones; i++) {
+			auto aibone = aimesh->mBones[i];
+			unsigned int boneID;
+			std::string boneName = aibone->mName.C_Str();
+			if (model->boneMap.find(boneName) == model->boneMap.end()) {
+				model->bones.push_back(aiToMat4(aibone->mOffsetMatrix) * mesh->m_BindTransform);
+				boneID = (unsigned int)(model->bones.size() - 1);
+				model->boneMap[boneName] = boneID;
+			}
+			else
+				boneID = model->boneMap[boneName];
+
+			for (unsigned int weightI = 0; weightI < aibone->mNumWeights; weightI++) {
+				auto vertexWeight = aibone->mWeights[weightI];
+				mesh->m_AnimVertex[vertexWeight.mVertexId].m_BoneIDs.push_back(boneID == -1 ? 0 : boneID);
+				mesh->m_AnimVertex[vertexWeight.mVertexId].m_BoneWeights.push_back(vertexWeight.mWeight);
+			}
+		}
+		//indicies
+		for (unsigned int i = 0; i < aimesh->mNumFaces; i++) {
+			aiFace face = aimesh->mFaces[i];
+			for (unsigned int j = 0; j < face.mNumIndices; j++)
+				mesh->m_Indices.push_back(face.mIndices[j]);
+		}
+
+
+	}
 
 	bool MeshLoader::AssimpSceneInfo::MeshValidityCheck(Request& request)
 	{
@@ -876,7 +935,7 @@ namespace TDS
 		}
 	}
 
-	void MeshLoader::CreateFinalGeom(const std::vector<RawMeshData>& rawMesh, GeomData& geom, Request& request)
+	void MeshLoader::CreateFinalGeom(const std::vector<RawMeshData>& rawMesh, GeomData& geom, Request& request, const AnimModel& model)
 	{
 		
 		for (auto& mesh : rawMesh)
@@ -912,39 +971,33 @@ namespace TDS
 			subMesh.m_Lods = mesh.m_Lod;
 			subMesh.m_SubMeshName = mesh.m_MeshName;
 			
-
-
-			for (auto& animation : mesh.m_Animations)
-				request.m_AnimationData.m_Animations.push_back(animation);
-			
-			
-			/*for (auto& boneMap : mesh.m_BoneMap)
-				request.m_AnimationData.m_BoneMap[boneMap.first.data()] = boneMap.second;*/
-			
-
-			for (auto& bone : mesh.m_Bones)
-				request.m_AnimationData.m_Bones.push_back(bone);
-			
-
 		}
+
+
+		for (auto& animation : model.animations)
+			request.m_AnimationData.m_Animations.push_back(animation);
+
+		for (auto& bone : model.bones)
+			request.m_AnimationData.m_Bones.push_back(bone);
+
 	}
 
-	void MeshLoader::buildAnimation(TDS::RawMeshData& data, aiAnimation* aiAnim)
+	void MeshLoader::buildAnimation(AnimModel* data, aiAnimation* aiAnim)
 	{
-		data.m_Animations.push_back(TDS::Animation());
-		auto anim = &data.m_Animations[data.m_Animations.size() - 1];
+		data->animations.push_back(TDS::Animation());
+		auto anim = &data->animations[data->animations.size() - 1];
 		anim->m_name = aiAnim->mName.C_Str();
 
 
 		//copy nodes from the fbx
-		anim->m_nodes.resize(data.m_Nodes.size());
-		for (int i{ 0 }; i < data.m_Nodes.size(); i++)
+		anim->m_nodes.resize(data->m_Nodes.size());
+		for (int i{ 0 }; i < data->m_Nodes.size(); i++)
 		{
-			anim->m_nodes[i].m_ModelNode = data.m_Nodes[i];
+			anim->m_nodes[i].m_ModelNode = data->m_Nodes[i];
 		}
 
 		anim->m_duration = aiAnim->mDuration;
-		anim->m_ticks = aiAnim->mTicksPerSecond * 0.001f; //in terms of millisec time
+		anim->m_ticks = aiAnim->mTicksPerSecond/* * 0.001f*/; //in terms of millisec time
 		if (anim->m_ticks == 0.f)
 		{
 			//if fbx some how does specify any tics/ms assume 1/ms
@@ -957,7 +1010,7 @@ namespace TDS
 		{
 			auto channel = aiAnim->mChannels[i];
 			std::string nodeName = channel->mNodeName.C_Str();
-			auto node = &anim->m_nodes[data.m_NodeMap[nodeName]];
+			auto node = &anim->m_nodes[data->nodeMap[nodeName]];
 			extractKeyFrame(node, channel);
 		}
 
