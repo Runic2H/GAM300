@@ -22,7 +22,7 @@ public class OptionsSfxVolume : Script
     public GameObject sfxText;
     public override void Awake()
     {
-        GraphicsManagerWrapper.ToggleViewFrom2D(true);
+        //GraphicsManagerWrapper.ToggleViewFrom2D(true);
         sprite = gameObject.GetComponent<UISpriteComponent>();
         sfxVol = gameObject.GetComponent<AudioComponent>();
         // sfxName = "fireplace";

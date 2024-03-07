@@ -23,7 +23,7 @@ public class OptionsBgmVolume : Script
 
     public override void Awake()
     {
-        GraphicsManagerWrapper.ToggleViewFrom2D(true);
+        //GraphicsManagerWrapper.ToggleViewFrom2D(true);
         sprite = gameObject.GetComponent<UISpriteComponent>();
         bgmVol = gameObject.GetComponent<AudioComponent>();
         //bgmSoundName = "basement_music";

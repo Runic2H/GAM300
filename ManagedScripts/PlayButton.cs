@@ -18,6 +18,7 @@ public class PlayButton : Script
     private UISpriteComponent sprite;
     public GameObject blackScreen;
     private bool fading = false;
+    private bool inMainMenu = false;
     private float incrementFading = Time.deltaTime / 3f;
     bool withinArea(float mouse, float min, float max)
     {
@@ -37,18 +38,21 @@ public class PlayButton : Script
 
     public override void Start()
     {
+        inMainMenu = true;
     }
 
     public override void Update()
     {
-        if (bgm.finished(bgmName))
+        if (bgm.finished(bgmName) && inMainMenu)
         {
             bgm.play(bgmName);
+            //Console.WriteLine("playing main Menu music");
         }
         
         if (Input.GetMouseButtonDown(Keycode.M1) && sprite.IsMouseCollided())
         {
             fading = true;
+            inMainMenu = false;
             bgm.FadeOut(3, bgmName);
         }
 

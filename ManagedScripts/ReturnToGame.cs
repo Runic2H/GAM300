@@ -27,7 +27,6 @@ public class ReturnToGame : Script
 
     public override void Update()
     {
-        //if(PopupUI.isDisplayed)
         if(gameBlackboard.gameState == GameBlackboard.GameState.Paused)
         {
             buttonSprite.SetEnabled(true);
