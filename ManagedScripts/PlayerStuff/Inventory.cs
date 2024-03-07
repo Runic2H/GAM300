@@ -21,18 +21,20 @@ public class InventoryScript : Script
     public static List<string> noteObjsInInventory;
     public static List<string> itemObjsInInventory;
     public static List<string> paintingObjsInInventory;
-    public static string currentTab;
-    public static int currentBox;
 
     public static List<string> notesObjsImg;
     public static List<string> itemsObjsImg;
     public static List<string> paintingsObjsImg;
 
+    public static string currentTab;
+    public static int currentBox;
     public static bool InventoryIsOpen;
+    public static bool IsUseable;
+
     public bool LockpickIsOpen;
 
     //public Dictionary<string, string> ItemTexture;
-
+   
     //buttons
     public GameObject ItemsTab;
     public GameObject NotesTab;
@@ -261,7 +263,7 @@ public class InventoryScript : Script
 
     void UseObject()
     {
-        if (itemObjsInInventory[currentBox] != "")
+        if (IsUseable && itemObjsInInventory[currentBox] != "")
         {
             string storedObjName = itemObjsInInventory[currentBox];
             itemObjsInInventory[currentBox] = "";

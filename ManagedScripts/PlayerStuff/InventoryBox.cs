@@ -44,11 +44,11 @@ public class InventoryBox : Script
             //{
             //    ViewObject();
             //}
-
+            InventoryScript.IsUseable = InventoryScript.currentTab == "Items" ? true : false;
             GameObjectScriptFind("ItemDisplay").GetComponent<UISpriteComponent>().SetTextureName(storedObjTexture);
-            Console.WriteLine(storedObjTexture);
+            //Console.WriteLine(storedObjTexture);
             GameObjectScriptFind("ItemName").GetComponent<UISpriteComponent>().SetFontMessage(storedObjName);
-            Console.WriteLine(storedObjName);
+            //Console.WriteLine(storedObjName);
 
             InventoryScript.currentBox = BoxNumber;
         }
@@ -104,6 +104,7 @@ public class InventoryBox : Script
             {
                 // Do battery logic
                 Flashlight_Script.batteryLife = 100.0f;
+                Flashlight_Script.replaceBattery = true;
             }
             if(storedObjName == "???")
             {
