@@ -401,7 +401,8 @@ public class GhostMovement : Script
                 isChasingPlayer = false;
                 SHDoor.GetComponent<Door_Script>().forcedLocked = false;
 
-                audio.stop("pc_afterscare_breathing"); 
+                audio.FadeOut(2, "pc_afterscare_breathing");
+                audio.FadeOut(2, "pc_afterscare_heartbeat");
                 audio.play(voiceClips);
                 GameplaySubtitles.counter = 11; // wth was that
 

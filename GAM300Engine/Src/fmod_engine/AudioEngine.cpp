@@ -275,20 +275,9 @@ namespace TDS
 
         void AudioEngine::SetGlobalVolume(float vol)
         {
-            /*if (vol > 100)
-            {
-                vol = 100;
-            }
-            else if (vol < 0)
-            {
-                vol = 0;
-            }*/
-            vol = 20.0f * log10f(vol / 100.f);
-
-            if ((vol / 100.f) > 1.f)
-            {
-                vol = 1.f;
-            }
+            vol /= 100.f;
+            vol = Mathf::Clamp(vol, 0.f, 1.f);
+            
             //std::cout << vol << std::endl;
             
             mastergroup->setPaused(true);
@@ -306,21 +295,9 @@ namespace TDS
 
         void AudioEngine::SetChannelGroupVolume(char tag, float vol)
         {
-            /*if (vol > 100)
-            {
-                vol = 100;
-            }
-            else if (vol < 0)
-            {
-                vol = 0;
-            }*/
-            vol = 20.0f * log10f(vol);
+            vol /= 100.f;
+            vol = Mathf::Clamp(vol, 0.f, 1.f);
 
-            if ((vol) > 1.f)
-            {
-                vol = 1.f;
-            }
-            std::cout << vol << std::endl;
             switch (tag)
             {
                 case 'S':
@@ -358,13 +335,14 @@ namespace TDS
                 case 'B':
                 {
                     BGM->getVolume(&vol);
+                    break;
                 }
                 default:
                 {
                     //std::cout << "No channelgroup chosen" << std::endl;
                 }
             }
-            return vol;
+            return vol * 100.f;
         }
 
         void AudioEngine::SetSoundVolume(float vol, SoundInfo& soundInfo)
@@ -445,8 +423,9 @@ namespace TDS
                 ERRCHECK(sounds[soundInfo.getUniqueID()]->setMode(FMOD_3D));
                 set3dChannelPosition(soundInfo, channels[soundInfo.getUniqueID()]);
             }
-            else
-                std::cout << "Audio Engine: Can't update sound position!\n";
+            //else
+                //std::cout << "Audio Engine: Can't update sound position!\n";
+
         }
 
         bool AudioEngine::checkPlaying(SoundInfo& soundInfo)
@@ -659,9 +638,9 @@ namespace TDS
 
         void ERRCHECK_fn(FMOD_RESULT result, const char* file, int line)
         {
-            (void)file;//TODO
-            if (result != FMOD_OK)
-                std::cout << "FMOD ERROR: AudioEngine.cpp [Line " << line << "] " << result << "  - " << FMOD_ErrorString(result) << '\n';
+            //(void)file;//TODO
+            //if (result != FMOD_OK)
+            //    std::cout << "FMOD ERROR: AudioEngine.cpp [Line " << line << "] " << result << "  - " << FMOD_ErrorString(result) << '\n';
         }
 
         void AudioEngine::printEventInfo(FMOD::Studio::EventDescription * eventDescription)

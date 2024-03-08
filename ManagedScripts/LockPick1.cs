@@ -68,6 +68,7 @@ public class LockPick1 : Script
     public float lockRange = 10;
 
     [SerializeField] private int numOfTries;
+    public int savedNumOfTries = 0;
     private float percentage;
     private float eulerAngle;
     private float unlockAngle;
@@ -135,6 +136,7 @@ public class LockPick1 : Script
         Subtitles[8] = "Martin (Internal): There, now to turn the lock.";
 
         counter = 0;
+        savedNumOfTries = 0;
         audio = gameObject.GetComponent<AudioComponent>();
         next_VO = true;
         // GameplaySubtitles.counter = 5; //no effect on set gameplay subtitles to be empty
@@ -167,6 +169,14 @@ public class LockPick1 : Script
             lockGroup.SetActive(false);
             GraphicsManagerWrapper.ToggleViewFrom2D(false);
             doorStates.SetActive(true);
+
+            savedNumOfTries = numOfTries;
+        }
+
+        if (Input.GetKeyDown(Keycode.L))
+        {
+            //cheatcode for presentation
+            passed = true;
         }
 
         //if (!_TutorialCompleted)
@@ -267,7 +277,7 @@ public class LockPick1 : Script
                     audio.stop(lockSoundEffects[0]);
                     delay -= Time.deltaTime;
 
-                    if (delay <= 0)
+                    if (delay <= 0 && !passed)
                     {
                         // Not sure if there is a better way to do this
                         if (audio.finished(rattleSoundEffects[0]))
@@ -290,7 +300,7 @@ public class LockPick1 : Script
                 }
 
                 //play VO
-                if (playOnce && audio.finished("pc_findtherightspot") && audio.finished(playerGuideVO[0]))
+                if (playOnce && audio.finished("pc_findtherightspot") && audio.finished(playerGuideVO[0]) && !passed)
                 {
                     audio.play("pc_turnthelock");
                     
@@ -327,7 +337,7 @@ public class LockPick1 : Script
                     audio.stop(lockSoundEffects[0]);
                     delay -= Time.deltaTime;
 
-                    if (delay <= 0)
+                    if (delay <= 0 && !passed)
                     {
                         // Not sure if there is a better way to do this
                         if (audio.finished(rattleSoundEffects[0]))
@@ -361,7 +371,7 @@ public class LockPick1 : Script
                     audio.stop(lockSoundEffects[0]);
                     delay -= Time.deltaTime;
 
-                    if (delay <= 0)
+                    if (delay <= 0 && !passed)
                     {
                         // Not sure if there is a better way to do this
                         if (audio.finished(rattleSoundEffects[0]))
@@ -394,7 +404,7 @@ public class LockPick1 : Script
                     audio.stop(lockSoundEffects[0]);
                     delay -= Time.deltaTime;
 
-                    if (delay <= 0)
+                    if (delay <= 0 && !passed)
                     {
                         // Not sure if there is a better way to do this
                         if (audio.finished(rattleSoundEffects[0]))
@@ -429,7 +439,7 @@ public class LockPick1 : Script
                     audio.stop(lockSoundEffects[0]);
                     delay -= Time.deltaTime;
 
-                    if (delay <= 0)
+                    if (delay <= 0 && !passed)
                     {
                         // Not sure if there is a better way to do this
                         if (audio.finished(rattleSoundEffects[0]))
@@ -463,7 +473,7 @@ public class LockPick1 : Script
                     audio.stop(lockSoundEffects[0]);
                     delay -= Time.deltaTime;
 
-                    if (delay <= 0)
+                    if (delay <= 0 && !passed)
                     {
                         // Not sure if there is a better way to do this
                         if (audio.finished(rattleSoundEffects[0]))
@@ -495,7 +505,7 @@ public class LockPick1 : Script
                     audio.stop(lockSoundEffects[0]);
                     delay -= Time.deltaTime;
 
-                    if (delay <= 0)
+                    if (delay <= 0 && !passed)
                     {
                         // Not sure if there is a better way to do this
                         if (audio.finished(rattleSoundEffects[0]))
@@ -516,7 +526,7 @@ public class LockPick1 : Script
                         delay = 0.4f;
                     }
                 }
-                if (audio.finished(rattleSoundEffects[6]) && audio.finished(playerGuideVO[0]) && audio.finished("pc_turnthelock")) //prevent multiple VO playing
+                if (audio.finished(rattleSoundEffects[6]) && audio.finished(playerGuideVO[0]) && audio.finished("pc_turnthelock") && !passed) //prevent multiple VO playing
                 {
                     audio.stop(rattleSoundEffects[0]);
 
@@ -631,6 +641,7 @@ public class LockPick1 : Script
                 doorStates.GetComponent<DoorState>().Doors[doorIndex] = DoorState.State.Unlocked;
                 lockGroup.SetActive(false);
                 GraphicsManagerWrapper.ToggleViewFrom2D(false);
+                savedNumOfTries = 0;
 
                 //no turning back now
                 //ClosedSub.SetFontMessage(Subtitles[1]); no effect
@@ -641,12 +652,20 @@ public class LockPick1 : Script
                     audio.play(playerGuideVO[2]); //aite looks like im in
                     next_VO = true;
                     GameplaySubtitles.counter = 7;
+                    Flashlight_Script.batteryLife = 49;
+
                 }
                 if (doorIndex == 1)
                 {
-                    GameplaySubtitles.counter = 21;
-                    audio.play("creak3"); 
-                    audio.play("pc_approachbedroom"); //placeholder
+                    Flashlight_Script.batteryLife = 24;
+                    audio.play("lightshut2");
+
+                    GameplaySubtitles.counter = 23;
+                    audio.play("pc_runningoutofjuice");
+
+                    //"is someone here?" event:
+                   // GameplaySubtitles.counter = 21;
+                    //audio.play("pc_approachbedroom"); //placeholder
                 }
 
                 if (doorIndex == 3)
@@ -654,10 +673,16 @@ public class LockPick1 : Script
                     //bathroom is near
 
                 }
-                if (doorIndex == 4) //you are in bathroom
+                if (doorIndex == 4) //you are just outside bathroom
                 {
-                   
+                    
 
+                }
+                if (doorIndex == 5)
+                {
+                    //audio.play("shower_running");
+                    //audio.play("drowningloop");
+                    //audio.play("splashing");
                 }
 
                 // if (audio.finished(playerGuideVO[2]))
@@ -695,6 +720,7 @@ public class LockPick1 : Script
                 lockGroup.SetActive(false);
                 GraphicsManagerWrapper.ToggleViewFrom2D(false);
                 doorStates.SetActive(true);
+                savedNumOfTries = 0;
 
                 if (doorIndex != 0)
                 {
@@ -737,18 +763,25 @@ public class LockPick1 : Script
         unlockAngle = ScriptAPI.Random.Range(-maxAngle + lockRange, maxAngle - lockRange);
         unlockRange = new Vector2(unlockAngle - lockRange, unlockAngle + lockRange);
 
-        numOfTries = 5;
-        if (difficultyLvl == "Easy")
-        {
-            numOfTries = 10;
-        }
-        else if (difficultyLvl == "Normal")
+        if (savedNumOfTries == 0)
         {
             numOfTries = 5;
+            if (difficultyLvl == "Easy")
+            {
+                numOfTries = 10;
+            }
+            else if (difficultyLvl == "Normal")
+            {
+                numOfTries = 5;
+            }
+            else if (difficultyLvl == "Hard")
+            {
+                numOfTries = 3;
+            }
         }
-        else if (difficultyLvl == "Hard")
+        else
         {
-            numOfTries = 3;
+            numOfTries = savedNumOfTries;
         }
 
         if (_TutorialCompleted)
