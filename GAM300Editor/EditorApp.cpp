@@ -49,7 +49,7 @@ namespace TDS
     Application::Application(HINSTANCE hinstance, int& nCmdShow, const wchar_t* classname, WNDPROC wndproc)
         :m_window(hinstance, nCmdShow, classname)
     {
-        m_window.createWindow(wndproc, 1280, 720);
+        m_window.createWindow(wndproc, 1280, 720, false);
 
         //m_pVKInst = std::make_shared<VulkanInstance>(m_window);
         //m_Renderer = std::make_shared<Renderer>(m_window, *m_pVKInst.get());
@@ -103,6 +103,20 @@ namespace TDS
 
         case WM_KEYDOWN:
         {
+            if (wParam == VK_F11)
+            {
+                if (m_window.IsFullScreen() == false && !GraphicsManager::getInstance().IfFrameHasBegin())
+                {
+                    m_window.IsFullScreen() = true;
+                    m_window.ToggleFullScreen(true);
+                }
+                else if (m_window.IsFullScreen() == true && !GraphicsManager::getInstance().IfFrameHasBegin())
+                {
+                    m_window.IsFullScreen() = false;
+                    m_window.ToggleFullScreen(false);
+                }
+                else { }
+            }
             uint32_t VKcode = static_cast<uint32_t>(wParam);
             WORD keyflags = HIWORD(lParam);
             if (!(keyflags & KF_REPEAT))
