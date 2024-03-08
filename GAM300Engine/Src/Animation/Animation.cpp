@@ -16,9 +16,9 @@ namespace TDS {
 		processNode(m_pAnimation->m_nodes[0], Mat4::identity(), false);
 	}
 
-	void AnimationPlayer::Update(float dt)
+	void AnimationPlayer::Update(float dt, float speed)
 	{
-		m_CurrentTime = fmod(m_CurrentTime + (dt * m_pAnimation->m_ticks), m_pAnimation->m_duration);
+		m_CurrentTime = fmod(m_CurrentTime + (speed * dt * m_pAnimation->m_ticks), m_pAnimation->m_duration);
 		processNode(m_pAnimation->m_nodes[0], Mat4::identity(), true);
 
 	}

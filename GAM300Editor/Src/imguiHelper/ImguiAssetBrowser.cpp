@@ -599,23 +599,19 @@ namespace TDS
 				//}
 
 
-				if (strstr(filename.c_str(), ".json"))
-				{
 
-				}
+				//if (strstr(filename.c_str(), ".json"))
+				//{
 
-				if (strstr(filename.c_str(), ".json"))
-				{
+				//}
 
-				}
+				////if .wav, play audio...
+				//if (strstr(filename.c_str(), ".wav") || strstr(filename.c_str(), ".flac") || strstr(filename.c_str(), ".mp3"))
+				//{
+				//	/*audimg.ToggleControls(true);
 
-				//if .wav, play audio...
-				if (strstr(filename.c_str(), ".wav") || strstr(filename.c_str(), ".flac") || strstr(filename.c_str(), ".mp3"))
-				{
-					/*audimg.ToggleControls(true);
-
-					audimg.play(filename);*/
-				}
+				//	audimg.play(filename);*/
+				//}
 
 
 			}
@@ -689,6 +685,24 @@ namespace TDS
 			OutputPath = OutPath;
 
 		}
+
+		if (strstr(FileName.c_str(), ".json"))
+		{
+			std::string InPath = "../assets/animations/";
+			std::string OutPath = InPath;
+
+			OutPath += FileName.c_str();
+
+			
+
+			OutName = AssetManager::GetInstance()->GetAnimationFactory().LoadAnimationPack(OutPath);
+			//if (strstr(OutName.c_str(), ".json"))
+			//	OutName = RemoveFileExtension(OutName, ".json");
+
+			return OutName;
+
+		}
+
 		if (strstr(FileName.c_str(), ".obj") || strstr(FileName.c_str(), ".fbx") || strstr(FileName.c_str(), ".gltf") || strstr(FileName.c_str(), ".bin"))
 		{
 			
@@ -732,17 +746,36 @@ namespace TDS
 				MeshLoader::Request req{};
 				req.m_FileName = std::filesystem::path(FileName).filename().string();
 				req.m_OutFile = OutPath;
-				req.m_OutFile += "_Bin";
-				req.m_OutFile += ".bin";
+
 				req.currSetting = geomDisplay->m_GeomDecriptor;
 				req.currSetting.m_Descriptor.m_FilePath = std::filesystem::path(FileName).filename().string();
+
+				if (req.currSetting.m_LoadAnimation)
+				{
+					req.m_AnimOutFile = req.m_FileName;
+					req.m_AnimOutFile = RemoveFileExtension(req.m_AnimOutFile, ".fbx");
+					req.m_AnimOutFile += ".json";
+				}
+
+				req.m_OutFile += "_Bin";
+				req.m_OutFile += ".bin";
+
+				
+		
 				MeshLoader::GetInstance().RunCompiler(req);
 
-				std::string OutputFile = req.m_OutFile;
-				OutName = AssetManager::GetInstance()->GetMeshFactory().LoadModel(OutputFile);
+				
 
-				/*OutputPath = OutputFile;*/
 
+				if (req.currSetting.m_LoadAnimation && !req.currSetting.m_LoadMesh)
+				{
+					return std::string();
+				}
+				else
+				{
+					std::string OutputFile = req.m_OutFile;
+					OutName = AssetManager::GetInstance()->GetMeshFactory().LoadModel(OutputFile);
+				}
 
 			}
 			else
@@ -755,6 +788,9 @@ namespace TDS
 			//std::string assetName = FilePath.filename().string();
 
 			BuildEntityMeshHierachy(OutName, currEntity);
+			
+			
+
 
 			return OutName;
 		}

@@ -156,11 +156,17 @@ namespace TDS
 			| aiProcess_FindInstances
 			| aiProcess_CalcTangentSpace
 			| aiProcess_GenBoundingBoxes
-			| aiProcess_GenSmoothNormals
 			| aiProcess_RemoveRedundantMaterials
 			| aiProcess_FindInvalidData
-			| aiProcess_FlipUVs
-			| aiProcess_JoinIdenticalVertices;
+			| aiProcess_FlipUVs;
+
+		if (request.currSetting.m_OptimizeNormals)
+			flags |= aiProcess_GenSmoothNormals;
+		else
+			flags |= aiProcess_GenNormals;
+
+		if (request.currSetting.m_MergeIdenticalVertices)
+			flags != aiProcess_JoinIdenticalVertices;
 
 		if (request.currSetting.m_RemoveChildMeshes)
 			flags |= aiProcess_PreTransformVertices;
@@ -179,9 +185,8 @@ namespace TDS
 		std::vector<RawMeshData> assimpData;
 		auto model = AnimModel{};
 
-		if (currSceneInfo->m_Scene->HasAnimations())
+		if (request.currSetting.m_LoadAnimation && currSceneInfo->m_Scene->HasAnimations())
 		{
-			request.currSetting.m_LoadAnimation = true;
 			ImportAnimation(request, *currSceneInfo, model);
 
 			assimpData.resize(model.m_MeshData.size());
@@ -222,24 +227,28 @@ namespace TDS
 			}
 		}
 		else
+		{
 			ImportMeshData(request, *currSceneInfo, assimpData);
-		
+		}
 		MergeMesh(request, assimpData);
 		CreateLODs(request, assimpData);
 
 		GeomData data{};
+		
 		if (request.currSetting.m_LoadMaterials)
 			LoadMaterials(*currSceneInfo, request, assimpData);
 		if (request.currSetting.m_Compress)
 			OptimizeMesh(assimpData);
+
 		CreateFinalGeom(assimpData, data, request, model);
 		data.ConvertToTDSModel(request.m_Output);
 
-		request.m_Output.Serialize(request.m_OutFile);
+		if (request.currSetting.m_LoadMesh)
+			request.m_Output.Serialize(request.m_OutFile);
 
-		if (request.currSetting.m_LoadAnimation)//serialize
+		if (request.currSetting.m_LoadAnimation)
 		{
-			AnimationData::Serialize(request.m_AnimationData, "test.json", false);
+			AnimationData::Serialize(request.m_AnimationData, request.m_AnimOutFile, false);
 		}
 
 
@@ -312,42 +321,31 @@ namespace TDS
 		std::cout << totalmesh << std::endl;
 		std::cout << totalNodesWithMeshes << std::endl;
 
-		if (request.currSetting.m_Centralize)
+		if (request.currSetting.m_Normalized)
 		{
-			Vec3 min{}, max{};
-			bool firstVertex = true;
-			for (unsigned int m = 0; m < assimp.m_Scene->mNumMeshes; m++) {
-				aiMesh* mesh = assimp.m_Scene->mMeshes[m];
-				for (unsigned int v = 0; v < mesh->mNumVertices; v++) {
-					aiVector3D vertex = mesh->mVertices[v];
-					if (firstVertex) {
-						min = max = Vec3(vertex.x, vertex.y, vertex.z);
-						firstVertex = false;
-					}
-					else {
-						min.x = std::min(min.x, vertex.x);
-						min.y = std::min(min.y, vertex.y);
-						min.z = std::min(min.z, vertex.z);
-
-						max.x = std::max(max.x, vertex.x);
-						max.y = std::max(max.y, vertex.y);
-						max.z = std::max(max.z, vertex.z);
-					}
-				}
-			}
-
-			Vec3 center = (min + max) * 0.5f;
-
+			Vec3 minBoundingBox(FLT_MAX, FLT_MAX, FLT_MAX);
+			Vec3 maxBoundingBox(-FLT_MAX, -FLT_MAX, -FLT_MAX);
 			for (unsigned int m = 0; m < assimp.m_Scene->mNumMeshes; m++)
 			{
 				aiMesh* mesh = assimp.m_Scene->mMeshes[m];
-				for (unsigned int v = 0; v < mesh->mNumVertices; v++) {
-					mesh->mVertices[v].x -= center.x;
-					mesh->mVertices[v].y -= center.y;
-					mesh->mVertices[v].z -= center.z;
+				for (unsigned int v = 0; v < mesh->mNumVertices; v++)
+				{
+					aiVector3D vertex = mesh->mVertices[v];
+					minBoundingBox.x = Mathf::Min(minBoundingBox.x, vertex.x);
+					minBoundingBox.y = Mathf::Min(minBoundingBox.y, vertex.y);
+					minBoundingBox.z = Mathf::Min(minBoundingBox.z, vertex.z);
+
+					maxBoundingBox.x = Mathf::Max(maxBoundingBox.x, vertex.x);
+					maxBoundingBox.y = Mathf::Max(maxBoundingBox.y, vertex.y);
+					maxBoundingBox.z = Mathf::Max(maxBoundingBox.z, vertex.z);
 				}
+
+
 			}
+
+			m_BoundingBoxScene.SetMinMax(minBoundingBox, maxBoundingBox);
 		}
+
 
 		
 		ProcessScene(assimpData, *assimp.m_Scene->mRootNode, *assimp.m_Scene, assimp.m_AppliedTransformation, rootName, request);
@@ -483,6 +481,11 @@ namespace TDS
 
 		assimpData.resize(iNode + Scene.mNumMeshes);
 
+		Vec3 center = (m_BoundingBoxScene.getMax() + m_BoundingBoxScene.getMin()) / 2.0f;
+		Vec3 size = m_BoundingBoxScene.getMax() - m_BoundingBoxScene.getMin();
+		float maxDimension = std::max({ size.x, size.y, size.z });
+
+		float scale = 1.0f / maxDimension;
 
 		for (std::uint32_t i = 0; i < Node.mNumMeshes; ++i)
 		{
@@ -581,13 +584,24 @@ namespace TDS
 			for (std::uint32_t i = 0; i < mesh.mNumVertices; ++i)
 			{
 				auto& vert = rawMesh.m_Vertices[i];
+
 				aiVector3D L;
 				if (request.currSetting.m_PretransformedVertices)
 					L = AccumulatedTransform * mesh.mVertices[i];
 				else
 					L = mesh.mVertices[i];
 
+				if (request.currSetting.m_Normalized)
+				{
+					L.x = (L.x - center.x) * scale;
+					L.y = (L.y - center.y) * scale;
+					L.z = (L.z - center.z) * scale;
+				}
+
+
 				vert.m_Position = Vec3(static_cast<float>(L.x), static_cast<float>(L.y), static_cast<float>(L.z));
+
+
 
 				if (iUV == -1)
 					vert.m_UV = Vec2(0.f, 0.f);

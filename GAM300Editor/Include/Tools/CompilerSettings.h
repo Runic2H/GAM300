@@ -48,11 +48,14 @@ namespace TDS
 		bool		m_Compress = false;
 		bool		m_PretransformedVertices = false;
 		bool		m_RemoveChildMeshes = false;
+		bool		m_MergeIdenticalVertices = false;
+		bool		m_OptimizeNormals = false;
 		bool		m_MergeMesh = false;
 		bool		m_LoadMesh = true;
 		bool		m_LoadAnimation = false; 
 		bool		m_LoadMaterials = false;
-		bool		m_Centralize = false;
+		bool		m_Normalized = false;
+
 		Desc		m_Descriptor;
 		GenerateLOD m_LodOptions;
 		NormalizationValues m_NDC;

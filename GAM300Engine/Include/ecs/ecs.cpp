@@ -18,7 +18,7 @@
 #include "Rendering/UiSystem.h"
 #include "eventManager/eventHandler.h"
 #include "Physics/CollisionSystem.h"
-#include "Rendering/FontSystem.h"
+#include "Animation/AnimationSystem.h"
 #include "AI/Pathfinder.h"
 
 namespace TDS
@@ -35,6 +35,7 @@ namespace TDS
 		_EventHandler_Enable.action(EventHandler::childEnableHandlerInit, EventHandler::childEnableHandlerUpdate);
 		_UiSystem.action(UiSystem::Init, UiSystem::Update);
 		_ColliderDebugSystem.action(CollisionSystem::CollisionSystemInit, CollisionSystem::CollisionSystemUpdate);
+		_AnimationSystem.action(AnimationSystem::Init, AnimationSystem::Update);
 		_RenderSystem.action(RendererSystem::OnInit, RendererSystem::OnUpdate);
 		_AudioSystem.action(proxy_audio_system::audio_system_init, proxy_audio_system::audio_system_update);
 		_PathfinderSystem.action(Pathfinder::Initialize, Pathfinder::Update);

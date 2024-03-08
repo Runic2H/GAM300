@@ -1430,20 +1430,24 @@ namespace TDS
 						const wchar_t* path = (const wchar_t*)payload->Data;
 						std::wstring ws(path);
 
+						std::string finalPackName = anim->m_AnimationPackName;
+						
 						std::string str(ws.begin(), ws.end());
 
 						const std::filesystem::path filesystempath = str;
 						std::string filename = filesystempath.filename().string();
-						if (propertyName.get_name() == "Filename")
+						if (propertyName.get_name() == "AnimationPackName")
 						{
 							if (filesystempath.extension() == ".json")
 							{
-								AnimationData::Serialize(anim->getAnimationData(), filename, true);
-								anim->setAnimationJsonFile(filename);
-								if (anim->getAnimationData().m_Animations.size() > 0)
-								{
-									anim->m_AnimationPlayer.setAnimation(anim->getAnimationData().m_Animations[0]);
-								}
+								Assetbrowser->getFileNameFromPath(str.c_str(), nullptr, nullptr, &finalPackName, nullptr);
+								anim->m_AnimationPackName = Assetbrowser->LoadAssetRevamped(finalPackName);
+								//AnimationData::Serialize(anim->getAnimationData(), filename, true);
+								//anim->setAnimationJsonFile(filename);
+								//if (anim->getAnimationData().m_Animations.size() > 0)
+								//{
+								//	anim->m_AnimationPlayer.setAnimation(anim->getAnimationData().m_Animations[0]);
+								//}
 							}
 
 						}

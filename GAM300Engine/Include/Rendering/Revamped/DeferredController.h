@@ -2,7 +2,7 @@
 #include "vulkanTools/FrameInfo.h"
 namespace TDS
 {
-	const uint32_t MAX_BONES = 80;
+	const uint32_t MAX_BONES = 1000;
 	enum DEFERRED_STAGE
 	{
 		STAGE_G_BUFFER_BATCH = 0,
@@ -49,13 +49,14 @@ namespace TDS
 
 	struct Transform;
 
-
+	class AnimationPlayer;
 
 
 
 	struct MeshUpdate
 	{
-		Transform* m_pTransform = nullptr;
+		Transform*				m_pTransform = nullptr;
+		AnimationPlayer*		m_pAnimationPlayer = nullptr;
 		int						m_MeshID;
 		int						m_EntityID = -1;
 		int						m_TextureID = -1;
@@ -74,12 +75,17 @@ namespace TDS
 
 	struct alignas(16) BatchData
 	{
+		Mat4			m_modelMatrix;
 		std::uint32_t	m_MaterialID;
 		std::uint32_t	m_TextureID;
 		std::uint32_t	m_IsRender;
 		std::uint32_t	m_EntityID;
-		Mat4			m_modelMatrix;
+		std::uint32_t	m_AnimOffset;
+		std::uint32_t	m_IsAnimated;
+		std::uint32_t	m_Pad[2];
+		
 	};
+
 
 	//Batch Rendering Data
 
@@ -198,10 +204,10 @@ namespace TDS
 		Mat4 m_View = Mat4(1.f);
 	};
 
-	struct BoneUniform
-	{
-		alignas(16) Mat4 m_Bones[MAX_BONES];
-	};
+	//struct BoneUniform
+	//{
+	//	alignas(16) Mat4 m_Bones[MAX_BONES];
+	//};
 
 
 
@@ -274,12 +280,13 @@ namespace TDS
 		Instance3D										m_GBufferInstance;
 		Instance3D										m_Composition3DInstance;
 
+
 		PIPELINE_LIST									m_DeferredPipelines;
 		std::unique_ptr<VulkanPipeline>					m_LightSource;
 		std::array<FBO*, RENDER_TOTAL>					m_FrameBuffers;
 
-
-		BoneUniform										m_BonesUniform;
+		std::vector<Mat4>								m_Bones;
+		/*BoneUniform										m_BonesUniform;*/
 
 	};
 

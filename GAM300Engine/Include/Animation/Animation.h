@@ -9,7 +9,7 @@ namespace TDS {
 	public:
 		DLL_API void setAnimation(const Animation& animation);
 		void returnToBindPose();
-		void Update(float dt);
+		void Update(float dt, float speed);
 
 		// get list of transforms for the all of the bones at the current point of the animation.
 		std::vector<Mat4>* getCurrentBonesMatrices() { return &m_BonesMatrices; }

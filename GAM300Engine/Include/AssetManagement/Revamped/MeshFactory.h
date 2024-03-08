@@ -32,7 +32,10 @@ namespace TDS
 		{
 			return m_TotalBatchMeshes;
 		}
-
+		std::unordered_map<std::string, std::uint32_t>& GetReferenceCounts()
+		{
+			return m_ReferenceCnt;
+		}
 		std::array<MeshController, MAX_MODELS>& GetMeshControllers()
 		{
 			return m_MeshControllers;

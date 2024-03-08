@@ -86,6 +86,7 @@ namespace TDS
 				TDSModel			m_Output;
 				MaterialLoader		m_MaterialData;
 				AnimationData		m_AnimationData;
+				std::string			m_AnimOutFile;
 			};
 
 			struct AssimpSceneInfo

@@ -3,6 +3,7 @@
 #include "Animation/AnimationLoader.h"
 #include "Animation/Animation.h"
 #include <string>
+#include "ResourceManagement/ResourceRef.h"
 namespace TDS
 {
 	class AnimationComponent : public IComponent
@@ -11,23 +12,22 @@ namespace TDS
 		DLL_API AnimationComponent();
 		DLL_API ~AnimationComponent() = default;
 		//setter
-		inline void	setAnimationJsonFile(const std::string& input) { m_AnimationJson = input; }
+		inline void	SetAnimationPack(const std::string& input) { m_AnimationPackName = input; }
 		inline void ToggleAnimate(bool _animate) { m_Animate = _animate; }
 		inline void setAnimateSpeed(float& _speed) { m_AnimationSpeed = _speed; }
 		
 		//getter
 		inline bool& getAnimate() { return m_Animate; }
-		inline std::string& getAnimationFile() { return m_AnimationJson; }
+		inline std::string& getAnimationPackName() { return m_AnimationPackName; }
 		inline float& getAnimateSpeed() { return m_AnimationSpeed; }
-		inline AnimationData& getAnimationData() { return m_AnimationData; }
 		RTTR_ENABLE(IComponent);
 		RTTR_REGISTRATION_FRIEND
 
 	public: 
-		bool m_Animate{ false };//toggling to animate or not to animate the mesh
-		std::string m_AnimationJson{};//json for bone and ticks information 
-		float m_AnimationSpeed{ 0.f };//adjust on this speed * dt
-		AnimationData m_AnimationData;
+		bool m_Animate{ false };
+		std::string m_AnimationPackName;
+		float m_AnimationSpeed;
+		TypeReference<AnimationData> m_AnimationAsset;
 		AnimationPlayer m_AnimationPlayer;
 	};
 

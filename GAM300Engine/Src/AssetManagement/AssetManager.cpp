@@ -1,5 +1,5 @@
 #include "AssetManagement/AssetManager.h"
-
+#include "Serialization/JSONSerializer.h"
 namespace TDS
 {
 
@@ -18,6 +18,7 @@ namespace TDS
 		m_MeshFactory.Preload();
 		m_TextureFactory.Preload();
 		m_FontFactory.Preload();
+		m_AnimationFactory.Preload();
 	}
 
 	void AssetManager::ShutDown()
@@ -25,6 +26,7 @@ namespace TDS
 		m_MeshFactory.DestroyAllMesh();
 		m_TextureFactory.DestroyAllTextures();
 		m_FontFactory.DestroyAllFonts();
+		m_AnimationFactory.DestryoAllAnimation();
 
 	}
 
@@ -45,11 +47,56 @@ namespace TDS
 		return m_MeshFactory;
 	}
 
+	AssetFactory<AnimationData>& AssetManager::GetAnimationFactory()
+	{
+		return m_AnimationFactory;
+	}
+
 	std::shared_ptr<AssetManager> AssetManager::GetInstance()
 	{
 		if (m_Instance == nullptr)
 			m_Instance = std::make_shared<AssetManager>();
 		return m_Instance;
+	}
+
+#define SCENE_ASSET_PATH "../assets/sceneAssetInfo/"
+
+	void AssetManager::SerializeMetaData(std::string_view SceneName)
+	{
+		for (auto& [name,refCnt] : m_MeshFactory.GetReferenceCounts())
+		{
+			if (refCnt > 0)
+			{
+				m_AssetMeta.m_ModelName.emplace_back(name);
+			}
+		}
+
+		for (auto& [name, refCnt] : m_TextureFactory.GetReferenceCounts())
+		{
+			if (refCnt > 0)
+			{
+				m_AssetMeta.m_TextureNames.emplace_back(name);
+			}
+		}
+
+		for (auto& [name, refCnt] : m_AnimationFactory.GetReferenceCounts())
+		{
+			if (refCnt > 0)
+			{
+				m_AssetMeta.m_AnimationName.emplace_back(name);
+			}
+		}
+		std::string OutputFile = SCENE_ASSET_PATH;
+		OutputFile += SceneName;
+		OutputFile += ".json";
+		JSONSerializer serializer;
+
+		if (serializer.Open(OutputFile, false) == JSONSerializer::ERROR_TYPE::SUCCESS)
+		{
+			serializer.StartSerializer(&m_AssetMeta);
+			
+			serializer.CloseData(false);
+		}
 	}
 
 
