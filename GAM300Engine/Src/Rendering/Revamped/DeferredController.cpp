@@ -27,7 +27,6 @@ namespace TDS
 
 	void DeferredController::Init(std::uint32_t w, std::uint32_t h)
 	{
-		m_Bones.resize(MAX_BONES);
 		CreateFrameBuffers(w, h);
 		CreatePipelines();
 
@@ -373,10 +372,14 @@ namespace TDS
 				if (meshUpdateData.m_IsAnimated)
 				{
 					if (meshUpdateData.m_pAnimationPlayer == nullptr)
-						meshUpdateData.m_pAnimationPlayer = &ecs.getComponent<AnimationComponent>(instaneBuffer.m_EntityID)->m_AnimationPlayer;
-					for (size_t i = 0; i < meshUpdateData.m_pAnimationPlayer->getCurrentBonesMatrices()->size(); ++i)
 					{
-						m_Bones[totalAnimationOffset] = meshUpdateData.m_pAnimationPlayer->getCurrentBonesMatrices()->at(i);
+						meshUpdateData.m_pAnimationPlayer = &ecs.getComponent<AnimationComponent>(meshUpdateData.m_EntityID)->m_AnimationPlayer;
+					}
+
+					auto bones = meshUpdateData.m_pAnimationPlayer->getCurrentBonesMatrices();
+					for (size_t i = 0; i < bones->size() && i < MAX_BONES_PER_MESH; ++i)
+					{
+						m_Bones[totalAnimationOffset] = bones->at(i);
 						totalAnimationOffset++;
 					}
 
@@ -502,6 +505,9 @@ namespace TDS
 		{
 			SubmitMeshForUI(entityID, textureID, graphComp, transformComp);
 		}
+
+
+
 
 	}
 	void DeferredController::SubmitBatch(std::uint32_t entityID, int TextureID, Transform* transformComp, GraphicsComponent* graphComp)

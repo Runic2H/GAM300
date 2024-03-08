@@ -183,7 +183,7 @@ namespace TDS
     }
     void Application::Initialize()
     {
-        ShaderReflector::GetInstance()->Init(SHADER_DIRECTORY, REFLECTED_BIN);
+         ShaderReflector::GetInstance()->Init(SHADER_DIRECTORY, REFLECTED_BIN);
         GraphicsManager::getInstance().Init(&m_window);
         AssetManager::GetInstance()->PreloadAssets();
         //skyboxrender.Init();

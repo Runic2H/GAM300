@@ -26,14 +26,15 @@ layout(set = 0, binding = 5) uniform SceneUBO
 
 struct InstanceData
 {
-    mat4 modelMatrix;
+    mat4 modelMatrix; // 64 bytes
+
     uint matID;
     uint textureID;
     uint isRenderable;
-    uint entityID;
+    uint entityID;// 16 bytes
+
     uint m_AnimOffset;
     uint m_IsAnimated;
-    uint m_Pad[2];
 };
 
 layout(std140, binding = 15) readonly buffer InstanceBuffer
@@ -49,7 +50,7 @@ layout(push_constant) uniform ConstantData
 };
 
 
-layout(std430, binding = 19) readonly buffer boneView
+layout(std140, binding = 19) readonly buffer boneView
 {
     mat4 BoneMatrices[];
 }bones;
@@ -80,7 +81,7 @@ void main()
     uint textureID = instance.textureID;
     mat4 modelMatrix = instance.modelMatrix;
 
-    mat4 skinMat = mat4(1.0);
+    mat4 skinMat = mat4(0.0);
 
     if (instance.m_IsAnimated == 1)
     {
@@ -89,6 +90,10 @@ void main()
             uint j = uint(BoneIDs[i]);
             skinMat += Weights[i] * bones.BoneMatrices[instance.m_AnimOffset + j];
         }
+    }
+    else
+    {
+        skinMat = mat4(1.0);
     }
 
     mat4 accumulated = modelMatrix * skinMat;

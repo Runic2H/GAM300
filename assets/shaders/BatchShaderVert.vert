@@ -34,7 +34,6 @@ struct BatchData
     uint entityID;
     uint m_AnimOffset;
     uint m_IsAnimated;
-    uint m_Pad[2];
 };
 
 
