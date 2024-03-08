@@ -22,7 +22,8 @@ public class GameBlackboard : Script
         Lockpicking,
         Inventory,
         Paused,
-        Map
+        Map,
+        Options
     }
 
     [DontSerializeField]
@@ -94,7 +95,14 @@ public class GameBlackboard : Script
                 Input.HideMouse(true);
                 //Console.WriteLine("GameState.Map");
 
-                break; 
+                break;
+
+            case GameState.Options:
+                Input.Lock(false);
+                Input.HideMouse(false);
+                //Console.WriteLine("GameState.Options");
+                
+                break;
         }
     }
 

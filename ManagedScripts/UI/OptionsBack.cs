@@ -17,7 +17,7 @@ public class OptionsBack : Script
     public AudioComponent optionsmenusound;
     public override void Awake()
     {
-        GraphicsManagerWrapper.ToggleViewFrom2D(true);
+        //GraphicsManagerWrapper.ToggleViewFrom2D(true);
         sprite = gameObject.GetComponent<UISpriteComponent>();
     }
     public override void Start()
@@ -28,7 +28,8 @@ public class OptionsBack : Script
     {
         if (Input.GetMouseButtonDown(Keycode.M1) && sprite.IsMouseCollided())
         {
-            optionsmenusound.stop("ambience_gallery");
+            optionsmenusound.stop("basement_music");
+            MainMenuOptions.isOpened = false;
             SceneLoader.LoadMainMenu();
         }
     }

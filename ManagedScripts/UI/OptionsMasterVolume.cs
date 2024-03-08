@@ -22,7 +22,7 @@ public class OptionsMasterVolume : Script
     public GameObject masterText;
     public override void Awake()
     {
-        GraphicsManagerWrapper.ToggleViewFrom2D(true);
+       // GraphicsManagerWrapper.ToggleViewFrom2D(true);
         optionsSoundName = "basement_music";
         masterVol = gameObject.GetComponent<AudioComponent>();
         sprite = gameObject.GetComponent<UISpriteComponent>();
@@ -32,9 +32,10 @@ public class OptionsMasterVolume : Script
     {
         MasterVolume = masterVol.getMasterVol();
 
-        if (masterVol.finished(optionsSoundName))
+        if (masterVol.finished(optionsSoundName) && MainMenuOptions.isOpened)
         {
             masterVol.play(optionsSoundName);
+            Console.WriteLine("playing master vol audio");
         }
 
         if (Input.GetMouseButtonDown(Keycode.M1) && sprite.IsMouseCollided())

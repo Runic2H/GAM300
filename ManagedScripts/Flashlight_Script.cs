@@ -32,8 +32,10 @@ public class Flashlight_Script : Script
 
     private Vector3 lookAmount = new Vector3();
 
-    [SerializeField] public static bool flicker = false;
-    [SerializeField] private float flickerTimer;
+    [SerializeField] private bool flicker = false;
+    [SerializeField] private float flickerTimer = 0.0f;
+    [SerializeField] public float flickerSpeed = 1.0f;
+    [SerializeField] public bool flickerBool = true;
 
     public override void Awake()
     {
@@ -83,10 +85,6 @@ public class Flashlight_Script : Script
             //Input.KeyRelease(Keycode.F);
         }
 
-        //if (flicker)
-        //{
-        //    FlickeringLight();
-        //}
         if (activateLight)
         {
             if (batteryLife < 25 && batteryLife > 0)
@@ -97,6 +95,10 @@ public class Flashlight_Script : Script
                 flicker = false;
             lightSourceObj.SetActive(true);
             BatteryLife();
+            if (flicker)
+            {
+                FlickeringLight();
+            }
         }
         else
         {
@@ -122,13 +124,21 @@ public class Flashlight_Script : Script
 
     void BatteryLife()
     {
-        if (batteryLife <= 0)
+        if (batteryLife <= 50)
         {
             activateLight = false;
         }
 
         if (activateLight)
         {
+            if (batteryLife <= 65)
+            {
+                flicker = true;
+            }
+            else
+            {
+                flicker = false;
+            }
             tick += Time.deltaTime;
             if (tick >= batteryTick) 
             {
@@ -163,15 +173,14 @@ public class Flashlight_Script : Script
             alternate = true;
         }
         //This chunck of code is not right, by I like the result of the code so yea lul
-        //if (flickerTimer >= 0)
-        //{
-        //    lightSource.enabled = true;
-        //    flickerTimer -= 0.1f;
-        //}
-        //else if (flickerTimer <= 1)
-        //{
-        //    lightSource.enabled = false;
-        //    flickerTimer += 0.1f;
-        //}
+        flickerTimer += Time.deltaTime;
+
+        if (flickerTimer >= flickerSpeed)
+        {
+            flickerBool = !flickerBool;
+            flickerTimer = 0.0f;
+        }
+
+        lightSourceObj.SetActive(flickerBool);
     }
 }

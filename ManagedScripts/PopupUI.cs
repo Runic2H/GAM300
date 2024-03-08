@@ -19,7 +19,7 @@ public class PopupUI : Script
     public static bool changeDisplayed = false;
     //public static bool isDisplayed = false;
     public bool lockpickDisplayed;
-    UISpriteComponent popUpScreen;
+    public UISpriteComponent popUpScreen;
 
     public GameObject player;
 
@@ -36,7 +36,9 @@ public class PopupUI : Script
     {
 
         if (changeDisplayed || ((Input.GetKeyDown(Keycode.ESC) || Input.GetKeyDown(Keycode.P)) && 
-            (gameBlackboard.previousGameState == GameBlackboard.GameState.InGame || gameBlackboard.previousGameState == GameBlackboard.GameState.Paused)))
+            (  gameBlackboard.previousGameState == GameBlackboard.GameState.InGame 
+            || gameBlackboard.previousGameState == GameBlackboard.GameState.Paused
+            || gameBlackboard.previousGameState == GameBlackboard.GameState.Options)))
         {
             if (gameBlackboard.gameState == GameBlackboard.GameState.InGame)
             {
@@ -45,7 +47,15 @@ public class PopupUI : Script
                 player.GetComponent<FPS_Controller_Script>().cameraCanMove = false;
                 gameBlackboard.gameState = GameBlackboard.GameState.Paused;
             }
-            else
+
+            else if (gameBlackboard.gameState == GameBlackboard.GameState.Options)
+            {
+                popUpScreen.SetEnabled(false);
+                player.GetComponent<FPS_Controller_Script>().playerCanMove = false;
+                player.GetComponent<FPS_Controller_Script>().cameraCanMove = false;
+            }
+
+            else //if in pause menu close and continue game
             {
                 popUpScreen.SetEnabled(false);
                 player.GetComponent<FPS_Controller_Script>().playerCanMove = true;
