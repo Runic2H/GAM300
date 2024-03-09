@@ -139,7 +139,7 @@ namespace TDS
 
 			void	AnimProcessMesh(Request& request, AnimModel* model, aiMesh* aimesh, const aiScene* scene, aiMatrix4x4 transform);
 
-			void	ProcessScene(std::vector<RawMeshData>& assimpData, const aiNode& Node, const aiScene& Scene, aiMatrix4x4& ParentTransform, std::string_view ParentName, Request& request, int _ParentNode);
+			void	ProcessScene(std::vector<RawMeshData>& assimpData, const aiNode& Node, const aiScene& Scene, aiMatrix4x4& ParentTransform, std::string_view ParentName, Request& request);
 
 			void	MergeMesh(Request& request, std::vector<RawMeshData>& assimpData);
 
