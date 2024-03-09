@@ -35,19 +35,21 @@ public class GallerySwitch : Script
         if (gameObject.GetComponent<RigidBodyComponent>().IsRayHit())
         {
             Console.WriteLine("Gallery Switch");
-            _InteractUI.SetActive(true);
+
             if (Input.GetKeyDown(Keycode.E))
             {
                 isActivated = true;
                 if(GalleryLetter.isNotePicked)
                 {
                     audioPlayer.play("pc_mighthaveopened");
+                    GameplaySubtitles.counter = 43;
                 }
                 else
                 {
                     audioPlayer.play("pc_openedsomething");
+                    GameplaySubtitles.counter = 44;
                 }
-                GameplaySubtitles.counter = 30;
+
             }
         }
     }

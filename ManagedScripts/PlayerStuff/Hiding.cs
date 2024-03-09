@@ -73,7 +73,7 @@ public class Hiding : Script
             _InteractUI.SetActive(true);
 
 
-            if (playOnce && !Painting_Script.isPaintingCollected)
+            if (playOnce && !p07.isPaintingCollected)
             {
                 //textmachine.SetActive(false);
                 //UISpriteComponent Sprite = GameObjectScriptFind("VOSubtitles").GetComponent<UISpriteComponent>();

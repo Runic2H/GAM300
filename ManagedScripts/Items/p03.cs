@@ -42,36 +42,39 @@ public class p03 : Script
     // Update is called once per frame
     override public void Update()
     {
-        if (gameObject.GetComponent<RigidBodyComponent>().IsRayHit())
+        //if (GalleryLetter.isNotePicked) // Don't allow player to proceed with puzzle before getting the hint.
         {
-            Console.WriteLine("p01");
-            _InteractUI.SetActive(true);
-
-            if (Input.GetKeyDown(Keycode.E))
+            if (gameObject.GetComponent<RigidBodyComponent>().IsRayHit())
             {
-                Hiding.playOnce = false;
-                Console.WriteLine("Picked up p01");
-                isPaintingCollected = true;
-                InventoryScript.addPaintingIntoInventory(Painting_Name, Painting_Texture);
+                Console.WriteLine("p01");
+                _InteractUI.SetActive(true);
 
-                // View Object Stuff
-                gameObject.GetComponent<GraphicComponent>().SetView2D(true);
-                gameObject.transform.SetPosition(new Vector3(-10000.0f, -10000.0f, -10000.0f));
-                gameObject.transform.SetRotation(new Vector3(-0.0f, -0.0f, -0.0f));
-                gameObject.SetActive(false);
+                if (Input.GetKeyDown(Keycode.E))
+                {
+                    Hiding.playOnce = false;
+                    Console.WriteLine("Picked up p01");
+                    isPaintingCollected = true;
+                    InventoryScript.addPaintingIntoInventory(Painting_Name, Painting_Texture);
 
-                // Trigger Painting Event
-                AudioPlayer.play("gallery_movepainting");
-                GameplaySubtitles.counter = 8;
+                    // View Object Stuff
+                    gameObject.GetComponent<GraphicComponent>().SetView2D(true);
+                    gameObject.transform.SetPosition(new Vector3(-10000.0f, -10000.0f, -10000.0f));
+                    gameObject.transform.SetRotation(new Vector3(-0.0f, -0.0f, -0.0f));
+                    gameObject.SetActive(false);
 
-                // hiding event 
-                //hidingGameObject.GetComponent<Hiding>().numOfPaintingsTook++;
-                //if (hidingGameObject.GetComponent<Hiding>().numOfPaintingsTook == 1)
-                //{
-                //    ghost.GetComponent<GhostMovement>().PlayMonsterWalkingSoundInitial();
-                //}
+                    // Trigger Painting Event
+                    AudioPlayer.play("gallery_movepainting");
+                    GameplaySubtitles.counter = 8;
+
+                    // hiding event 
+                    //hidingGameObject.GetComponent<Hiding>().numOfPaintingsTook++;
+                    //if (hidingGameObject.GetComponent<Hiding>().numOfPaintingsTook == 1)
+                    //{
+                    //    ghost.GetComponent<GhostMovement>().PlayMonsterWalkingSoundInitial();
+                    //}
+                }
             }
-        }
+        }   
     }
 
     public override void LateUpdate()

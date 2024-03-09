@@ -68,73 +68,15 @@ public class GalleryHiding : Script
     public override void Update()
     {
 
-        if (interactable && gameObject.GetComponent<RigidBodyComponent>().IsRayHit())
+        if (gameObject.GetComponent<RigidBodyComponent>().IsRayHit())
         {
             _InteractUI.SetActive(true);
 
-
-            if (playOnce && !Painting_Script.isPaintingCollected)
-            {
-                //textmachine.SetActive(false);
-                //UISpriteComponent Sprite = GameObjectScriptFind("VOSubtitles").GetComponent<UISpriteComponent>();
-                if (timer <= 0.0f)
-                {
-                    //counter = 1;
-
-                    GameplaySubtitles.counter = 10; //but i could hide
-                    playOnce = false;
-                }
-                else
-                {
-                    timer -= Time.deltaTime;
-                    GameplaySubtitles.counter = 9; //nothing inside
-                    audioPlayer.play(voClips[0]);
-
-
-                }
-            }
-
-
-            //Sprite.SetFontMessage(subtitles[counter]); //no effect
-
-
-
             if (Input.GetKeyDown(Keycode.E) && hiding == false)
             {
-                hiding = true;
-                interactable = false;
-                nonHidingPos = player.transform.GetPosition();
-                //player.transform.SetPosition(closet.transform.GetPosition());
-                //counter = 1;
-
-                Vector3 rotation = new Vector3(0, 0, 0);
-                //player.transform.SetRotation(rotation);
-
-                Quaternion quat = new Quaternion(rotation);
-                Vector3 newPosition = new Vector3(closet.transform.GetPosition().X, player.transform.GetPosition().Y, closet.transform.GetPosition().Z);
-                player.GetComponent<RigidBodyComponent>().SetPositionRotationAndVelocity(newPosition, new Vector4(quat.X, quat.Y, quat.Z, quat.W), new Vector3(0, 0, 0), new Vector3(0, 0, 0));
-
-                player.transform.SetRotation(new Vector3(0, -_RotationAngle, 0));
-
-                player.GetComponent<FPS_Controller_Script>().playerCanMove = false;
-                player.GetComponent<FPS_Controller_Script>().enableHeadBob = false;
-                if (player.GetComponent<Flashlight_Script>().flashAudio.finished(player.GetComponent<Flashlight_Script>().flashAudiostr[0]) && player.GetComponent<Flashlight_Script>().activateLight)
-                {
-                    player.GetComponent<Flashlight_Script>().flashAudio.play(player.GetComponent<Flashlight_Script>().flashAudiostr[1]);
-                }
-                player.GetComponent<Flashlight_Script>().activateLight = false;
-                _flashlight.SetActive(false);
-
-                if (enemyPathfinding.GetComponent<GhostMovement>().hideEventDone == false && numOfPaintingsTook == 1)
-                {
-                    if (enemyPathfinding.GetComponent<GhostMovement>().hideEvent == false)
-                    {
-                        enemyPathfinding.transform.SetPosition(new Vector3(1790.0f, enemyPathfinding.transform.GetPosition().Y, -750.0f));
-                        enemyPathfinding.GetComponent<GhostMovement>().hideEvent = true;
-                    }
-                    enemyPathfinding.GetComponent<GhostMovement>().isChasingPlayer = false;
-                    enemyPathfinding.GetComponent<GhostMovement>().playSound = false;
-                }
+                Hide();
+                GhostMove();
+               
             }
         }
         else if (hiding)
@@ -146,7 +88,6 @@ public class GalleryHiding : Script
                 //Console.WriteLine("There");
                 hiding = false;
                 interactable = true;
-                //player.transform.SetPosition(nonHidingPos);
 
                 Vector3 rotation = player.transform.GetRotation();
                 Quaternion quat = new Quaternion(rotation);
@@ -161,33 +102,64 @@ public class GalleryHiding : Script
                     audioPlayer.play(voClips[2]);
                     GameplaySubtitles.counter = 15;
                 }
-
-
-                //Input.KeyRelease(Keycode.E);
             }
         }
         else
         {
             _InteractUI.SetActive(false);
-
-
         }
-
     }
 
-    /*private void OnTriggerEnter(GameObject other)
+    public void Hide()
     {
-        if (other.GetComponent<NameTagComponent>().GetName() == "Enemy" && hiding == true)
+        hiding = true;
+        interactable = false;
+        nonHidingPos = player.transform.GetPosition();
+
+        Vector3 rotation = new Vector3(0, 0, 0);
+        Quaternion quat = new Quaternion(rotation);
+        Vector3 newPosition = new Vector3(closet.transform.GetPosition().X, player.transform.GetPosition().Y, closet.transform.GetPosition().Z);
+        player.GetComponent<RigidBodyComponent>().SetPositionRotationAndVelocity(newPosition, new Vector4(quat.X, quat.Y, quat.Z, quat.W), new Vector3(0, 0, 0), new Vector3(0, 0, 0));
+        player.transform.SetRotation(new Vector3(0, -_RotationAngle, 0));
+
+        player.GetComponent<FPS_Controller_Script>().playerCanMove = false;
+        player.GetComponent<FPS_Controller_Script>().enableHeadBob = false;
+        if (player.GetComponent<Flashlight_Script>().flashAudio.finished(player.GetComponent<Flashlight_Script>().flashAudiostr[0]) && player.GetComponent<Flashlight_Script>().activateLight)
         {
-            if (enemyPathfinding.isChasingPlayer && hiding == true)
+            player.GetComponent<Flashlight_Script>().flashAudio.play(player.GetComponent<Flashlight_Script>().flashAudiostr[1]);
+        }
+        player.GetComponent<Flashlight_Script>().activateLight = false;
+        _flashlight.SetActive(false);
+    }
+
+    public void GhostMove()
+    {
+        if (!p02.isPaintingCollected)
+        {
+            if (enemyPathfinding.GetComponent<GhostMovement>().hideEventDone == false)
             {
-                player.transform.SetPosition(nonHidingPos);
-                hiding = false;
-                interactable = false;
-                _flashlight.is_Enabled = true;
-                //Debug.LogError("Pulled Out");
-                //Play Attack Player Animation
+                if (enemyPathfinding.GetComponent<GhostMovement>().galleryHideEvent == false)
+                {
+                    enemyPathfinding.transform.SetPosition(new Vector3(-1920.0f, enemyPathfinding.transform.GetPosition().Y, 175.0f));
+                    enemyPathfinding.GetComponent<GhostMovement>().galleryHideEvent = true;
+                }
+                enemyPathfinding.GetComponent<GhostMovement>().isChasingPlayer = false;
+                enemyPathfinding.GetComponent<GhostMovement>().playSound = false;
             }
         }
-    }*/
+        
+        else
+        {
+            if (enemyPathfinding.GetComponent<GhostMovement>().hideEventDone == false)
+            {
+                if (enemyPathfinding.GetComponent<GhostMovement>().galleryChasingEvent == false)
+                {
+                    enemyPathfinding.transform.SetPosition(new Vector3(-1920.0f, enemyPathfinding.transform.GetPosition().Y, 175.0f));
+                    enemyPathfinding.GetComponent<GhostMovement>().galleryChasingEvent = true;
+                }
+                enemyPathfinding.GetComponent<GhostMovement>().isChasingPlayer = false;
+                enemyPathfinding.GetComponent<GhostMovement>().playSound = false;
+            }
+        }
+    }
 }

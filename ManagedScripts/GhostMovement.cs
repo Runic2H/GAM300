@@ -62,6 +62,8 @@ public class GhostMovement : Script
     public bool hideEventDone;
     public static bool GhostGone;
     public bool hideEvent;
+    public bool galleryHideEvent;
+    public bool galleryChasingEvent;
     public int hideEventStep;
     public GameObject SHDoor;
 
@@ -134,6 +136,8 @@ public class GhostMovement : Script
 
         playerMoved = false;
         hideEvent = false;
+        galleryHideEvent = false;
+        galleryChasingEvent = false;
         hideEventDone = false;
         GhostGone = false;
 
@@ -273,7 +277,14 @@ public class GhostMovement : Script
         {
             BedroomHidingEvent();
         }
-
+        else if (galleryHideEvent)
+        {
+            GalleryHidingEvent();
+        }
+        else if (galleryChasingEvent)
+        {
+            GalleryHidingEvent();
+        }
         if (hideEventDone)
         {
             // AudioComponent audio = gameObject.GetComponent<AudioComponent>();
@@ -410,5 +421,145 @@ public class GhostMovement : Script
                 break;
         }
         
+    }
+
+    public void GalleryHidingEvent()
+    {
+        if (!hidingGameObject.GetComponent<Hiding>().hiding)
+        {
+            isChasingPlayer = true;
+        }
+        else
+        {
+            isChasingPlayer = false;
+        }
+        ScriptAPI.Vector3 originalPosition = transform.GetPosition();
+        ScriptAPI.Vector2 ghostPosition = new ScriptAPI.Vector2(originalPosition.X, originalPosition.Z);
+        AudioComponent audio = gameObject.GetComponent<AudioComponent>();
+        switch (hideEventStep)
+        {
+            case 0:
+                ScriptAPI.Vector2 firstPosition = new ScriptAPI.Vector2(-1920, -300);
+                ScriptAPI.Vector2 firstPositionNext = ScriptAPI.Vector2.MoveTowards(ghostPosition, firstPosition, 5.0f);
+                transform.SetPosition(new ScriptAPI.Vector3(firstPositionNext.X, originalPosition.Y, firstPositionNext.Y));
+
+                if (firstPositionNext.X == firstPosition.X && firstPositionNext.Y == firstPosition.Y)
+                {
+                    ++hideEventStep;
+                }
+                audio.play("pc_afterscare_breathing");
+                audio.play("pc_afterscare_heartbeat");
+                break;
+
+            case 1:
+                ScriptAPI.Vector2 secondPosition = new ScriptAPI.Vector2(-2850, -300);
+                ScriptAPI.Vector2 secondPositionNext = ScriptAPI.Vector2.MoveTowards(ghostPosition, secondPosition, 5.0f);
+                transform.SetPosition(new ScriptAPI.Vector3(secondPositionNext.X, originalPosition.Y, secondPositionNext.Y));
+
+                if (secondPositionNext.X == secondPosition.X && secondPositionNext.Y == secondPosition.Y)
+                {
+                    ++hideEventStep;
+                }
+
+                break;
+
+            case 2:
+                ScriptAPI.Vector2 thirdPosition = new ScriptAPI.Vector2(-2850, 175);
+                ScriptAPI.Vector2 thirdPositionNext = ScriptAPI.Vector2.MoveTowards(ghostPosition, thirdPosition, 5.0f);
+                transform.SetPosition(new ScriptAPI.Vector3(thirdPositionNext.X, originalPosition.Y, thirdPositionNext.Y));
+
+                if (thirdPositionNext.X == thirdPosition.X && thirdPositionNext.Y == thirdPosition.Y)
+                {
+                    ++hideEventStep;
+                }
+
+                break;
+
+            case 3:
+                transform.SetPositionX(-2840.0f);
+                transform.SetPositionZ(-650.0f);
+                hideEventDone = true;
+                galleryHideEvent = false;
+                isChasingPlayer = false;
+                SHDoor.GetComponent<Door_Script>().forcedLocked = false;
+
+                audio.FadeOut(2, "pc_afterscare_breathing");
+                audio.FadeOut(2, "pc_afterscare_heartbeat");
+                audio.play(voiceClips);
+                GameplaySubtitles.counter = 11; // wth was that
+
+
+                break;
+        }
+    }
+
+    public void GalleryChasingEvent()
+    {
+        if (!hidingGameObject.GetComponent<Hiding>().hiding)
+        {
+            isChasingPlayer = true;
+        }
+        else
+        {
+            isChasingPlayer = false;
+        }
+        ScriptAPI.Vector3 originalPosition = transform.GetPosition();
+        ScriptAPI.Vector2 ghostPosition = new ScriptAPI.Vector2(originalPosition.X, originalPosition.Z);
+        AudioComponent audio = gameObject.GetComponent<AudioComponent>();
+        switch (hideEventStep)
+        {
+            case 0:
+                ScriptAPI.Vector2 firstPosition = new ScriptAPI.Vector2(-1920, -300);
+                ScriptAPI.Vector2 firstPositionNext = ScriptAPI.Vector2.MoveTowards(ghostPosition, firstPosition, 5.0f);
+                transform.SetPosition(new ScriptAPI.Vector3(firstPositionNext.X, originalPosition.Y, firstPositionNext.Y));
+
+                if (firstPositionNext.X == firstPosition.X && firstPositionNext.Y == firstPosition.Y)
+                {
+                    ++hideEventStep;
+                }
+                audio.play("pc_afterscare_breathing");
+                audio.play("pc_afterscare_heartbeat");
+                break;
+
+            case 1:
+                ScriptAPI.Vector2 secondPosition = new ScriptAPI.Vector2(-2850, -300);
+                ScriptAPI.Vector2 secondPositionNext = ScriptAPI.Vector2.MoveTowards(ghostPosition, secondPosition, 5.0f);
+                transform.SetPosition(new ScriptAPI.Vector3(secondPositionNext.X, originalPosition.Y, secondPositionNext.Y));
+
+                if (secondPositionNext.X == secondPosition.X && secondPositionNext.Y == secondPosition.Y)
+                {
+                    ++hideEventStep;
+                }
+
+                break;
+
+            case 2:
+                ScriptAPI.Vector2 thirdPosition = new ScriptAPI.Vector2(-2850, 175);
+                ScriptAPI.Vector2 thirdPositionNext = ScriptAPI.Vector2.MoveTowards(ghostPosition, thirdPosition, 5.0f);
+                transform.SetPosition(new ScriptAPI.Vector3(thirdPositionNext.X, originalPosition.Y, thirdPositionNext.Y));
+
+                if (thirdPositionNext.X == thirdPosition.X && thirdPositionNext.Y == thirdPosition.Y)
+                {
+                    ++hideEventStep;
+                }
+
+                break;
+
+            case 3:
+                transform.SetPositionX(-2840.0f);
+                transform.SetPositionZ(-650.0f);
+                hideEventDone = true;
+                galleryHideEvent = false;
+                isChasingPlayer = false;
+                SHDoor.GetComponent<Door_Script>().forcedLocked = false;
+
+                audio.FadeOut(2, "pc_afterscare_breathing");
+                audio.FadeOut(2, "pc_afterscare_heartbeat");
+                audio.play(voiceClips);
+                GameplaySubtitles.counter = 11; // wth was that
+
+
+                break;
+        }
     }
 }

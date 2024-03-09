@@ -25,7 +25,7 @@ public class GameplaySubtitles : Script
     public override void Awake()
     {
         Audiofiles = new String[17];
-        Subtitles = new String[43];
+        Subtitles = new String[45];
         GraphicsManagerWrapper.ToggleViewFrom2D(false);
         Subtitles[0] = "Press [F] for flashlight";
         Subtitles[1] = "Press [WASD] to move";
@@ -83,6 +83,8 @@ public class GameplaySubtitles : Script
         Subtitles[40] = "Looks like the receipt was right.";
         Subtitles[41] = "Looks like there's more in the basement of this house.";
         Subtitles[42] = "The switch to open it is somewhere in this room.";
+        Subtitles[43] = "That might have opened the door. Worth taking a look.";
+        Subtitles[44] = "Sounds like it opened something. But what?";
 
         Audiofiles[0] = ""; //wasd no audio
         Audiofiles[1] = ""; //no audio
@@ -317,6 +319,23 @@ public class GameplaySubtitles : Script
             }
         }
 
+        // Gallery Switch
+        if(counter == 43)
+        {
+            if (audio.finished("pc_mighthaveopened"))
+            {
+                audio.stop("pc_mighthaveopened");
+                GameplaySubtitles.counter = 8;
+            }
+        }
+        if (counter == 44)
+        {
+            if (audio.finished("pc_openedsomething"))
+            {
+                audio.stop("pc_openedsomething");
+                GameplaySubtitles.counter = 8;
+            }
+        }
         // if (Input.GetKeyDown(Keycode.SPACE))
         // {
         //     audio.stop(Audiofiles[counter]);
