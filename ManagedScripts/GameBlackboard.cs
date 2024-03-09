@@ -10,6 +10,8 @@
 ***/
 using ScriptAPI;
 using System;
+using System.Diagnostics.Contracts;
+using System.Reflection.Metadata.Ecma335;
 using static DoorState;
 
 public class GameBlackboard : Script
@@ -19,13 +21,15 @@ public class GameBlackboard : Script
         InGame,
         Lockpicking,
         Inventory,
-        Paused
+        Paused,
+        Map,
+        Options
     }
 
-    //[DontSerializeField]
+    [DontSerializeField]
     [HideInInspector]
     public GameState gameState;
-    //[DontSerializeField]
+    [DontSerializeField]
     [HideInInspector]
     public GameState previousGameState;
 
@@ -37,7 +41,7 @@ public class GameBlackboard : Script
         ForcedLock
     }
 
-    //[DontSerializeField]    
+    [DontSerializeField]    
     [HideInInspector]
     public DoorState[] doorStates;
 
@@ -85,6 +89,20 @@ public class GameBlackboard : Script
                 //Console.WriteLine("GameState.Paused");
 
                 break; 
+
+            case GameState.Map:
+                Input.Lock(true);
+                Input.HideMouse(true);
+                //Console.WriteLine("GameState.Map");
+
+                break;
+
+            case GameState.Options:
+                Input.Lock(false);
+                Input.HideMouse(false);
+                //Console.WriteLine("GameState.Options");
+                
+                break;
         }
     }
 

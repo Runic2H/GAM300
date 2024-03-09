@@ -19,7 +19,7 @@ public class Painting_Script : Script
     public string Painting_Name;
     public string Painting_Texture;
     public bool opened;
-    public GameObject? _InteractUI;
+    public GameObject _InteractUI;
 
     //public Animator _PaintingAnimator;
     //public Flashlight_Script _FlashlightScript;
@@ -32,17 +32,20 @@ public class Painting_Script : Script
     public float timer;
     public GameObject hidingGameObject;
     public GameObject ghost;
+    public static bool isPaintingCollected;
+    bool once = true;
 
     override public void Awake()
     {
         voClip = new string[3];
-        voClip[0] = "pc_stealpainting1";
+        voClip[0] = "pc_stealpainting1"; 
         voClip[1] = "pc_shinelightbeforereceipt";
         voClip[2] = "pc_shinelightafterreceipt";
         AudioPlayer = gameObject.GetComponent<AudioComponent>();
         //_color.a = 1;
         //timer = 1.0f;
         //Console.WriteLine("Painting script");
+        isPaintingCollected = false;
     }
 
     public override void Start()
@@ -56,15 +59,58 @@ public class Painting_Script : Script
         if (gameObject.GetComponent<RigidBodyComponent>().IsRayHit())
         {
             Console.WriteLine("Painting");
-            AudioPlayer.play(voClip[1]);
+            _InteractUI.SetActive(true);
+
+            if (once)
+            {
+                if(Painting_Texture == "p07.dds") //bedrooom
+                {
+                    AudioPlayer.play(voClip[1]); //something's behing this painting
+                    GameplaySubtitles.counter = 20;
+                }
+                if (Painting_Texture == "p03.dds")
+                {
+                    //Something’s different about this one. What’s this symbol on the back?
+                }
+
+                once = false;
+            }
 
             if (Input.GetKeyDown(Keycode.E))
             {
+                Hiding.playOnce = false;
                 Console.WriteLine("Picked up painting");
+                isPaintingCollected = true;
                 InventoryScript.addPaintingIntoInventory(Painting_Name, Painting_Texture);
                 gameObject.GetComponent<GraphicComponent>().SetView2D(true);
+                gameObject.transform.SetPosition(new Vector3(-10000.0f, -10000.0f, -10000.0f));
+                gameObject.transform.SetRotation(new Vector3(-0.0f, -0.0f, -0.0f));
+
                 gameObject.SetActive(false);
-                AudioPlayer.play(voClip[0]);
+                if (Painting_Texture == "p07.dds") //bedrooom
+                {
+                    AudioPlayer.play(voClip[0]); //one down
+                    GameplaySubtitles.counter = 13;
+                }
+                if (Painting_Texture == "p03.dds") //living room
+                {
+                    //screaming painting
+                    AudioPlayer.play("painting_dropin"); 
+                    AudioPlayer.play("painting_burning");
+                    //GameplaySubtitles.counter = ;
+                }
+                if (Painting_Name == "p04.dds") //dining room
+                {
+                    //AudioPlayer.play();
+                    //GameplaySubtitles.counter = ;
+                }
+                if (Painting_Name == "p01.dds") //dining room
+                {
+                    //AudioPlayer.play();
+                    //GameplaySubtitles.counter = ;
+                }
+                AudioPlayer.play("gallery_movepainting");
+                
 
                 // hiding event 
                 hidingGameObject.GetComponent<Hiding>().numOfPaintingsTook++;
@@ -74,6 +120,7 @@ public class Painting_Script : Script
                 }
             }
         }
+        
     }
 
     public override void LateUpdate()

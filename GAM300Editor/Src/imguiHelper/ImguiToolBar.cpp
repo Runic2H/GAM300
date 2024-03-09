@@ -153,11 +153,11 @@ namespace TDS
 		if (ImGui::Button("Save Scene", { 90, 19 }))
 		{
 			//console->AddLog("Save Scene Button Pressed");
-			if (isSaveScene) {
+			//if (isSaveScene) {
 
 				//std::shared_ptr<Hierarchy> hierarchyPanel = static_pointer_cast<Hierarchy>(LevelEditorManager::GetInstance()->panels[PanelTypes::HIERARCHY]);
 				SceneManager::GetInstance()->saveCurrentScene();
-			}
+			//}
 		}
 
 

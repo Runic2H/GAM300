@@ -69,6 +69,9 @@ namespace TDS
         {
         case WM_CREATE:
             TDS::InputSystem::GetInstance()->setWindowCenter(GetSystemMetrics(SM_CXSCREEN) / 2, GetSystemMetrics(SM_CYSCREEN) / 2);
+            TDS::InputSystem::GetInstance()->app_wparam = wParam;
+            TDS::InputSystem::GetInstance()->app_lparam = lParam;
+            TDS::InputSystem::GetInstance()->app_handler = hWnd;
             break;
         case WM_DESTROY:
             PostQuitMessage(0);
@@ -162,12 +165,6 @@ namespace TDS
 
             }
 
-        }break;
-        case WM_MOUSEWHEEL: {
-            InputSystem::GetInstance()->processMouseScroll(wParam);
-        }break;
-        case WM_MOUSEMOVE:
-        {
             POINT p;
             GetCursorPos(&p);
             ScreenToClient(GetActiveWindow(), &p);
@@ -181,9 +178,24 @@ namespace TDS
                         TDS::InputSystem::GetInstance()->setWindowCenter((windowRect.left + windowRect.right) / 2, (windowRect.top + windowRect.bottom) / 2);
                     }
                 }
-                TDS::InputSystem::GetInstance()->lockMouseCenter(hWnd);
+                TDS::InputSystem::GetInstance()->lockMouseCenter(activeWindow);
             }
 
+        }break;
+        case WM_MOUSEWHEEL: {
+            InputSystem::GetInstance()->processMouseScroll(wParam);
+        }break;
+        case WM_MOUSEMOVE:
+        {
+            /*if (TDS::InputSystem::GetInstance()->getCursorVisible())
+            {
+                TDS::InputSystem::GetInstance()->hideMouse();
+            }*/
+
+        }break;
+        case WM_SETCURSOR:
+        {
+            //TDS::InputSystem::GetInstance()->hideMouse();
         }break;
         }
     }
@@ -269,6 +281,7 @@ namespace TDS
         {
             InputSystem::GetInstance()->update();
 
+
             TimeStep::CalculateDeltaTime();
             float DeltaTime = TimeStep::GetDeltaTime();
             std::shared_ptr<EditorScene> pScene = static_pointer_cast<EditorScene>(LevelEditorManager::GetInstance()->panels[SCENE]);
@@ -326,6 +339,7 @@ namespace TDS
                     startPlaying = false;
                     SceneManager::GetInstance()->awake();
                     SceneManager::GetInstance()->start();
+                    proxy_audio_system::ScriptPlayAllPaused();
                 }
 
                 if (!gamePaused)

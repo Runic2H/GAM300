@@ -151,6 +151,10 @@ namespace TDS
 	{
 		m_DeferredController->SetFadeFactor(val);
 	}
+	float GraphicsManager::GetFadeFactor()
+	{
+		return m_DeferredController->GetFadeFactor();
+	}
 	void GraphicsManager::SetClearColor(Vec4 clearColor)
 	{
 		m_CurrClearColor = clearColor;

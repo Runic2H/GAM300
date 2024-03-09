@@ -48,6 +48,7 @@ namespace TDS
 		void setRawMouseInput(int x, int y);
 		void setCursorVisible(bool visible);
 		bool getCursorVisible();
+		void hideMouse();
 		void lockMouseCenter(HWND hwnd);
 		void setMouseLock(bool lock);
 		bool getMouseLock();
@@ -69,6 +70,10 @@ namespace TDS
 
 		float getSensitivity() { return 0.1f; }
 		void setSensitivity(float value) { m_sensitivity = value; }
+
+		WPARAM app_wparam;
+		LPARAM app_lparam;
+		HWND app_handler;
 
 
 		struct KeyState
@@ -102,5 +107,6 @@ namespace TDS
 		Point m_localMousePos;
 		static Vec2 m_uiMousePos;
 		float m_sensitivity = 0.1f;
+		bool m_previous = mouseVisible;
 	};
 }

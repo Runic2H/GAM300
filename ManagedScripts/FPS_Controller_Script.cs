@@ -6,7 +6,6 @@ using System.Security.Cryptography;
 public class FPS_Controller_Script : Script
 {
     public RigidBodyComponent rb;
-    public AudioComponent startingVO;   //To be changed
     public string[] footStepSoundEffects;
     String[] backgroundMusic;
     private int currentFootStepPlaying;
@@ -93,8 +92,8 @@ public class FPS_Controller_Script : Script
     #endregion
 
     #region Crouch
-    public bool enableCrouch = true;
-    public bool holdToCrouch = true;
+    public bool enableCrouch;
+    public bool holdToCrouch;
     public uint crouchKey = Keycode.CTRL;
     public float crouchHeight = .75f;
     public float speedReduction = .5f;
@@ -126,8 +125,7 @@ public class FPS_Controller_Script : Script
     public override void Awake()
     {
         rb = gameObject.GetComponent<RigidBodyComponent>();
-        //playerCamera = GameObjectScriptFind("playerCameraObject").GetComponent<CameraComponent>();
-        startingVO = gameObject.GetComponent<AudioComponent>();
+        playerCamera = GameObjectScriptFind("playerCameraObject").GetComponent<CameraComponent>();
         // Set internal variables
         playerCamera.SetFieldOfView(fov);
         originalScale = transform.GetScale();
@@ -140,15 +138,17 @@ public class FPS_Controller_Script : Script
             sprintCooldownReset = sprintCooldown;
         }
 
-        footStepSoundEffects = new string[8];
+        footStepSoundEffects = new string[10];
         footStepSoundEffects[0] = "pc_woodstep1";
         footStepSoundEffects[1] = "pc_woodstep2";
         footStepSoundEffects[2] = "pc_woodstep3";
-        footStepSoundEffects[3] = "pc_woodstep4";
-        footStepSoundEffects[4] = "pc_woodstep5";
-        footStepSoundEffects[5] = "pc_woodstep6";
-        footStepSoundEffects[6] = "pc_woodstep7";
-        footStepSoundEffects[7] = "pc_woodstep8";
+        footStepSoundEffects[3] = "creak1";
+        footStepSoundEffects[4] = "pc_woodstep4";
+        footStepSoundEffects[5] = "pc_woodstep5";
+        footStepSoundEffects[6] = "pc_woodstep6";
+        footStepSoundEffects[7] = "pc_woodstep7";
+        footStepSoundEffects[8] = "pc_woodstep8";
+        footStepSoundEffects[9] = "creak3";
         currentFootStepPlaying = 0;
         audioTimer = 1.0f;
 
@@ -193,6 +193,8 @@ public class FPS_Controller_Script : Script
         }
         #endregion
 
+        enableCrouch = true;
+        holdToCrouch = false;
     }
     public override void Update()
     {
@@ -274,9 +276,7 @@ public class FPS_Controller_Script : Script
                 if (isCrouched) StandUp();
                 else Crouch();
 
-
                 isCrouched = !isCrouched;
-                //Console.WriteLine(isCrouched);
             }
 
             //else if (Input.GetKeyDown(crouchKey) && holdToCrouch)
@@ -297,7 +297,6 @@ public class FPS_Controller_Script : Script
         {
             HeadBob();
         }
-
     }
     public override void FixedUpdate()
     {
@@ -573,7 +572,6 @@ public class FPS_Controller_Script : Script
             new Vector4 (quat.X, quat.Y, quat.Z, quat.W), new Vector3(0, 0, 0), new Vector3(0, 0, 0));
 
         if (speedReduction != 0) walkSpeed *= speedReduction;
-
     }
 
     private void StandUp()
@@ -624,22 +622,25 @@ public class FPS_Controller_Script : Script
     {
         audio = gameObject.GetComponent<AudioComponent>();
         
-        if(isWalking)
+        if(isWalking && !isCrouched) //no footsteps sfx when crouching
         {
             if (audioTimer < 0.0f)
             {
                 if (isSprinting)
                 {
-                    currentFootStepPlaying = (currentFootStepPlaying > 6 ? 0 : currentFootStepPlaying + 1);
+                    currentFootStepPlaying = (currentFootStepPlaying > 10 ? 0 : currentFootStepPlaying + 1);
                     audio.play(footStepSoundEffects[currentFootStepPlaying]);
                     audioTimer = 0.5f;
                 }
                 else
                 {
-                    currentFootStepPlaying = (currentFootStepPlaying > 6 ? 0 : currentFootStepPlaying + 1);
+                    currentFootStepPlaying = (currentFootStepPlaying > 10 ? 0 : currentFootStepPlaying + 1);
                     audio.play(footStepSoundEffects[currentFootStepPlaying]);
                     audioTimer = 1.0f;
                 }
+
+                Vector3 up_vector = Vector3.Cross(playerCamera.getForwardVector(), playerCamera.getRightVector());
+                audio.setPlayerCoords(transform.GetPosition(), playerCamera.getForwardVector(), up_vector);
             }
             else
             {

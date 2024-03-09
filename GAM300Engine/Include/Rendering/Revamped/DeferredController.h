@@ -246,6 +246,7 @@ namespace TDS
 		void											RenderUISceneMeshBatch(VkCommandBuffer commandBuffer, std::uint32_t frameIndex);
 		void											RenderUISceneMeshInstance(VkCommandBuffer commandBuffer, std::uint32_t frameIndex);
 		void											SetFadeFactor(float fadeValue);
+		float											GetFadeFactor();
 
 
 		void											ClearBatchSubmission();
