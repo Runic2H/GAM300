@@ -304,7 +304,12 @@ namespace TDS
 			for (rapidjson::Value::ConstMemberIterator itr = obj["Active Archetype"].MemberBegin(); itr != obj["Active Archetype"].MemberEnd(); ++itr)
 			{
 				EntityID currentEntity = static_cast<EntityID>(std::stoi(itr->name.GetString()));
-				auto activeArchetype = itr->value.GetString();
+				std::string activeArchetype = itr->value.GetString();
+
+				while (activeArchetype.length() < ecs.getNumberOfComponents())
+				{
+					activeArchetype += "0";
+				}
 
 				ecs.setActiveArchetype(currentEntity, activeArchetype);
 			}
