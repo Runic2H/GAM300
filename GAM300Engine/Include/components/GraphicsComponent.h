@@ -59,6 +59,7 @@ namespace TDS
 		std::string						m_TextureName = "";
 		std::uint64_t					m_modelUID; //For duplicates;
 		bool							m_UsedIn2D{ false };
+		bool							m_IsAnimated{ false };
 
 
 

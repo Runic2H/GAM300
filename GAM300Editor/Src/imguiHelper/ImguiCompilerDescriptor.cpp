@@ -43,12 +43,17 @@ namespace TDS
 				ImGui::InputFloat3("Rotate", geomDesc->m_GeomDecriptor.m_Descriptor.m_L2W.m_Rotate);
 				ImGui::InputFloat3("Translate", geomDesc->m_GeomDecriptor.m_Descriptor.m_L2W.m_Translate);
 				ImGui::InputFloat2("Normalization", geomDesc->m_GeomDecriptor.m_NDC.m_MinMax);
+
 				ImGui::Checkbox("PreTransform Vertices", &geomDesc->m_GeomDecriptor.m_PretransformedVertices);
+				ImGui::Checkbox("Load Optimized Normals", &geomDesc->m_GeomDecriptor.m_OptimizeNormals);
+				ImGui::Checkbox("Merge identical Vertices", &geomDesc->m_GeomDecriptor.m_MergeIdenticalVertices);
 				ImGui::Checkbox("Compress Mesh", &geomDesc->m_GeomDecriptor.m_Compress);
 				ImGui::Checkbox("Load Mesh", &geomDesc->m_GeomDecriptor.m_LoadMesh);
-				ImGui::Checkbox("Load Animations", &geomDesc->m_GeomDecriptor.m_LoadAnimation);
+				ImGui::Checkbox("Load Bone Animations", &geomDesc->m_GeomDecriptor.m_LoadAnimation);
+				ImGui::Checkbox("Load Model Animations(For doors, closets, etc...)", &geomDesc->m_GeomDecriptor.m_LoadModelAnimation);
 				ImGui::Checkbox("Load Materials", &geomDesc->m_GeomDecriptor.m_LoadMaterials);
 				ImGui::Checkbox("Merge Mesh", &geomDesc->m_GeomDecriptor.m_MergeMesh);
+				ImGui::Checkbox("Normalized Vertices", &geomDesc->m_GeomDecriptor.m_Normalized);
 				ImGui::Checkbox("Create LOD", &geomDesc->m_GeomDecriptor.m_LodOptions.m_CreateLOD);
 				ImGui::Checkbox("Remove Child Meshes", &geomDesc->m_GeomDecriptor.m_RemoveChildMeshes);
 				ImGui::SliderFloat("Reduction Factor", &geomDesc->m_GeomDecriptor.m_LodOptions.ReductionFactor, 0.0f, 1.0f);

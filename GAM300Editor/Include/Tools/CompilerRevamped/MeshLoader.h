@@ -16,6 +16,7 @@ namespace TDS
 {
 	struct GeomDescriptor;
 	struct RawMeshData;
+	struct AnimModel;
 	struct MaterialDataLoaded;
 
 
@@ -79,12 +80,14 @@ namespace TDS
 
 			struct Request
 			{
-				std::string			m_FileName;
-				std::string			m_OutFile;
-				GeomDescriptor		currSetting;
-				TDSModel			m_Output;
-				MaterialLoader		m_MaterialData;
-				AnimationData		m_AnimationData;
+				std::string				m_FileName;
+				std::string				m_OutFile;
+				GeomDescriptor			currSetting;
+				TDSModel				m_Output;
+				MaterialLoader			m_MaterialData;
+				AnimationData			m_AnimationData;
+				BonelessAnimationData	m_BonelessAnimationData;
+				std::string				m_AnimOutFile;
 			};
 
 			struct AssimpSceneInfo
@@ -127,8 +130,16 @@ namespace TDS
 
 			//Mesh Importing
 			void	ImportMeshData(Request& request, AssimpSceneInfo& assimp, std::vector<RawMeshData>& assimpData);
+			
+			void	ImportBonelessAnimation(Request& request, AssimpSceneInfo& assimp);
 
-			void	ProcessScene(std::vector<RawMeshData>& assimpData, const aiNode& Node, const aiScene& Scene, aiMatrix4x4& ParentTransform, std::string_view ParentName, Request& request, int _ParentNode);
+			void	ImportAnimation(Request& request, AssimpSceneInfo& assimp, AnimModel& model);
+
+			void	AnimProcessNode(Request& request, AnimModel* model, aiNode* node, const aiScene* scene, aiMatrix4x4 parentTransform, int parentNode);
+
+			void	AnimProcessMesh(Request& request, AnimModel* model, aiMesh* aimesh, const aiScene* scene, aiMatrix4x4 transform);
+
+			void	ProcessScene(std::vector<RawMeshData>& assimpData, const aiNode& Node, const aiScene& Scene, aiMatrix4x4& ParentTransform, std::string_view ParentName, Request& request);
 
 			void	MergeMesh(Request& request, std::vector<RawMeshData>& assimpData);
 
@@ -136,10 +147,10 @@ namespace TDS
 
 			void	CreateLODs(Request& request, std::vector<RawMeshData>& InputNodes);
 	
-			void	CreateFinalGeom(const std::vector<RawMeshData>& rawMesh, GeomData& geom, Request& request);
+			void	CreateFinalGeom(const std::vector<RawMeshData>& rawMesh, GeomData& geom, Request& request, const AnimModel& model);
 			
 			//Load Animation Data
-			void	buildAnimation(TDS::RawMeshData& data, aiAnimation* aiAnim);
+			void	buildAnimation(AnimModel* data, aiAnimation* aiAnim);
 
 			void	extractKeyFrame(TDS::AnimationNodes* pNode, aiNodeAnim* AssimpNode);
 

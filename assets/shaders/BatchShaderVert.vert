@@ -27,11 +27,13 @@ layout(set = 0, binding = 5) uniform SceneUBO
 
 struct BatchData
 {
+    mat4 modelMatrix;
     uint matID;
     uint textureID;
-    uint IsRender;
+    uint isRender;
     uint entityID;
-    mat4 modelMatrix;
+    uint m_AnimOffset;
+    uint m_IsAnimated;
 };
 
 
@@ -60,13 +62,6 @@ struct Material
 };
 
 
-
-/*
-    layout(std140, binding = 16) readonly buffer MaterialBuffer
-    {   
-        Material materials[];
-    };
-*/
 
 layout(location = 0) out vec4 fragColor;
 layout(location = 1) out vec2 fragTexCoord;
@@ -112,5 +107,5 @@ void main()
     fragColor = vColor;
     linearDepth = -(Scene3D.view * position_in_world).z;
     
-    isRenderable = batchData.IsRender;
+    isRenderable = batchData.isRender;
 }

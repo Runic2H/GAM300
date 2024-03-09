@@ -26,11 +26,15 @@ layout(set = 0, binding = 5) uniform SceneUBO
 
 struct InstanceData
 {
+    mat4 modelMatrix; // 64 bytes
+
     uint matID;
     uint textureID;
     uint isRenderable;
-    uint entityID;
-    mat4 modelMatrix;
+    uint entityID;// 16 bytes
+
+    uint m_AnimOffset;
+    uint m_IsAnimated;
 };
 
 layout(std140, binding = 15) readonly buffer InstanceBuffer
@@ -38,37 +42,26 @@ layout(std140, binding = 15) readonly buffer InstanceBuffer
 	InstanceData instances[];
 };
 
-// for phong bling bling
-struct Material
-{
-    vec4 ambient;
-    vec4 diffuse;
-    vec4 specular;
 
-    float shininess;
-    float reflectivity;
-    float opacity;
-    uint diffuseID;
-    
-    uint specularID;
-    uint normalID;
-    uint emissiveID;
-    uint opacityID;
- 
-};
 
 layout(push_constant) uniform ConstantData
 {
 	uint offset;
 };
 
-/*
-    layout(std140, binding = 16) readonly buffer MaterialBuffer
-    {   
-        Material materials[];
-    };
-*/
 
+layout(std140, binding = 19) readonly buffer boneView
+{
+    mat4 BoneMatrices[];
+}bones;
+
+/*
+    const int MAX_BONES = 80;
+    layout(binding = 19) uniform boneView
+    {
+        mat4 mat[MAX_BONES];
+    } bones;
+*/
 layout(location = 0) out vec4 fragColor;
 layout(location = 1) out vec2 fragTexCoord;
 layout(location = 2) out vec3 fragPosWorld;
@@ -88,9 +81,20 @@ void main()
     uint textureID = instance.textureID;
     mat4 modelMatrix = instance.modelMatrix;
 
-    mat4 skinMat = mat4(1.0);
+    mat4 skinMat = mat4(0.0);
 
-
+    if (instance.m_IsAnimated == 1)
+    {
+        for(int i = 0; i < 4; i++)
+        {
+            uint j = uint(BoneIDs[i]);
+            skinMat += Weights[i] * bones.BoneMatrices[instance.m_AnimOffset + j];
+        }
+    }
+    else
+    {
+        skinMat = mat4(1.0);
+    }
 
     mat4 accumulated = modelMatrix * skinMat;
     
