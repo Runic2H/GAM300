@@ -13,6 +13,10 @@
 #include "sceneManager/sceneManager.h"
 #include "propertyManager/registration.h"
 #include "eventManager/eventManager.h"
+#include "AssetManagement/AssetManager.h"
+
+#undef GetObject
+
 
 namespace TDS
 {
@@ -66,6 +70,10 @@ namespace TDS
 		ecs.registerComponent<UISprite>("UI Sprite");
 		ecs.registerComponent<SoundInfo>("Audio");
 		ecs.registerComponent<Particle_Component>("Particles");
+		ecs.registerComponent<DirectionalLightComponent>("DirectionalLight");
+		ecs.registerComponent<SpotLightComponent>("SpotLight");
+		ecs.registerComponent<PointLightComponent>("PointLight");
+		ecs.registerComponent<AnimationComponent>("AnimationComponent");
 
 		startScene = "";
 		//startScene = "MainMenu";
@@ -250,27 +258,30 @@ namespace TDS
 					else
 					{
 						std::cout << "Deserialize: Invalid type" << std::endl;
+						values.referenceEntityID = variableTypeValue.MemberBegin()->value.GetUint64();
+						scriptReferences.emplace_back(std::tuple<EntityID, std::string, ScriptValues>(currentEntity, scriptName, values));
+						continue; // Set value later
 
 						// Old code, in case there is old files using the old serialization method
-						if (values.type == "Bool")
-							values.value = variableTypeValue.MemberBegin()->value.GetBool() ? "true" : "false";
-						else if (values.type == "Int")
-							values.value = std::to_string(static_cast<int>(variableTypeValue.MemberBegin()->value.GetInt()));
-						else if (values.type == "UInt")
-							values.value = std::to_string(static_cast<uint32_t>(variableTypeValue.MemberBegin()->value.GetUint()));
-						else if (values.type == "Double")
-							values.value = std::to_string(static_cast<double>(variableTypeValue.MemberBegin()->value.GetDouble()));
-						else if (values.type == "Float")
-							values.value = std::to_string(static_cast<double>(variableTypeValue.MemberBegin()->value.GetDouble()));
-						else if (values.type == "String")
-							values.value = variableTypeValue.MemberBegin()->value.GetString();
-						else if (values.type == "Vector3")
-						{
-							auto object = variableTypeValue.MemberBegin()->value.GetObj();
-							values.vectorValueX = object["X"].GetFloat();
-							values.vectorValueY = object["Y"].GetFloat();
-							values.vectorValueZ = object["Z"].GetFloat();
-						}
+						//if (values.type == "Bool")
+						//	values.value = variableTypeValue.MemberBegin()->value.GetBool() ? "true" : "false";
+						//else if (values.type == "Int")
+						//	values.value = std::to_string(static_cast<int>(variableTypeValue.MemberBegin()->value.GetInt()));
+						//else if (values.type == "UInt")
+						//	values.value = std::to_string(static_cast<uint32_t>(variableTypeValue.MemberBegin()->value.GetUint()));
+						//else if (values.type == "Double")
+						//	values.value = std::to_string(static_cast<double>(variableTypeValue.MemberBegin()->value.GetDouble()));
+						//else if (values.type == "Float")
+						//	values.value = std::to_string(static_cast<double>(variableTypeValue.MemberBegin()->value.GetDouble()));
+						//else if (values.type == "String")
+						//	values.value = variableTypeValue.MemberBegin()->value.GetString();
+						//else if (values.type == "Vector3")
+						//{
+						//	auto object = variableTypeValue.MemberBegin()->value.GetObj();
+						//	values.vectorValueX = object["X"].GetFloat();
+						//	values.vectorValueY = object["Y"].GetFloat();
+						//	values.vectorValueZ = object["Z"].GetFloat();
+						//}
 					}
 
 					allVariableInfo.emplace_back(values);
@@ -293,7 +304,12 @@ namespace TDS
 			for (rapidjson::Value::ConstMemberIterator itr = obj["Active Archetype"].MemberBegin(); itr != obj["Active Archetype"].MemberEnd(); ++itr)
 			{
 				EntityID currentEntity = static_cast<EntityID>(std::stoi(itr->name.GetString()));
-				auto activeArchetype = itr->value.GetString();
+				std::string activeArchetype = itr->value.GetString();
+
+				while (activeArchetype.length() < ecs.getNumberOfComponents())
+				{
+					activeArchetype += "0";
+				}
 
 				ecs.setActiveArchetype(currentEntity, activeArchetype);
 			}
@@ -457,7 +473,8 @@ namespace TDS
 						}
 						else
 						{
-							std::cout << "Serialize: Invalid type" << std::endl;
+							writer->Uint64(scriptValues.referenceEntityID);
+							//std::cout << "Serialize: Invalid type" << std::endl;
 						}
 
 						//if (scriptValues.type == "System.Boolean")
@@ -566,6 +583,7 @@ namespace TDS
 	/*!*************************************************************************
 	This function serializes scenes into JSON files
 	****************************************************************************/
+
 	bool SceneManager::sceneSerialize()
 	{
 		std::ofstream ofs(parentFilePath + "scene.json");
@@ -677,6 +695,7 @@ namespace TDS
 	****************************************************************************/
 	void SceneManager::loadScene(std::string scene)
 	{
+		AssetManager::GetInstance()->ResetReferences();
 		ecs.removeAllEntities();
 		eventManager.clearQueues();
 		DeserializeFromFile(filePath + scene + ".json");

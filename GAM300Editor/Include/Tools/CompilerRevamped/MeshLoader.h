@@ -7,13 +7,16 @@
 #include "GraphicsResource/GeomStruct.h"
 #include "GraphicsResource/MaterialInfo.h"
 #include "../GAM300Engine/Include/GraphicsResource/GraphicsResourceDefines.h"
+#include "GraphicsResource/GeomStruct.h"
+#include "Animation/AnimationLoader.h"
 #include "pch.h"
-
+#include "rttr/registration.h"
 
 namespace TDS
 {
 	struct GeomDescriptor;
 	struct RawMeshData;
+	struct AnimModel;
 	struct MaterialDataLoaded;
 
 
@@ -42,43 +45,7 @@ namespace TDS
 			}
 
 
-			struct AnimationMesh
-			{
-				struct Skeleton
-				{
-					struct Bone
-					{
-						std::uint32_t		m_ID;
-						std::uint32_t		m_ParentID;
-						std::string			m_Name;
-						std::string			m_ParentName;
 
-						aiMatrix4x4			m_BoneTransform;;
-
-					};
-
-					std::vector<Bone>		m_BoneList;
-				};
-
-				struct AnimationFrameData
-				{
-					aiVector3D				m_Scale;
-					aiVector3D				m_Translate;
-					aiQuaternion			m_Rotate;
-				};
-
-				struct AnimationChannel
-				{
-					std::string						m_Name;
-					int								m_FPS;
-					float							m_FrameTime;
-					std::vector<AnimationFrameData>	m_FrameData;
-				};
-
-				Skeleton							m_SkeletonData;
-				std::vector<AnimationChannel>		m_Animations;
-
-			};
 			struct GeomData
 			{
 				struct lod
@@ -113,12 +80,14 @@ namespace TDS
 
 			struct Request
 			{
-				std::string			m_FileName;
-				std::string			m_OutFile;
-				GeomDescriptor		currSetting;
-				TDSModel			m_Output;
-				MaterialList		m_MaterialList;
-				AnimationMesh		m_AnimationMesh;
+				std::string				m_FileName;
+				std::string				m_OutFile;
+				GeomDescriptor			currSetting;
+				TDSModel				m_Output;
+				MaterialLoader			m_MaterialData;
+				AnimationData			m_AnimationData;
+				BonelessAnimationData	m_BonelessAnimationData;
+				std::string				m_AnimOutFile;
 			};
 
 			struct AssimpSceneInfo
@@ -148,7 +117,7 @@ namespace TDS
 
 		private:
 			
-		
+			AABB											m_BoundingBoxScene;
 			std::array<AssimpSceneInfo, MAX_MESH_LOADER>	m_AssimpLoaders;
 			std::deque<Request>								m_RequestLoad;
 
@@ -161,6 +130,14 @@ namespace TDS
 
 			//Mesh Importing
 			void	ImportMeshData(Request& request, AssimpSceneInfo& assimp, std::vector<RawMeshData>& assimpData);
+			
+			void	ImportBonelessAnimation(Request& request, AssimpSceneInfo& assimp);
+
+			void	ImportAnimation(Request& request, AssimpSceneInfo& assimp, AnimModel& model);
+
+			void	AnimProcessNode(Request& request, AnimModel* model, aiNode* node, const aiScene* scene, aiMatrix4x4 parentTransform, int parentNode);
+
+			void	AnimProcessMesh(Request& request, AnimModel* model, aiMesh* aimesh, const aiScene* scene, aiMatrix4x4 transform);
 
 			void	ProcessScene(std::vector<RawMeshData>& assimpData, const aiNode& Node, const aiScene& Scene, aiMatrix4x4& ParentTransform, std::string_view ParentName, Request& request);
 
@@ -170,14 +147,14 @@ namespace TDS
 
 			void	CreateLODs(Request& request, std::vector<RawMeshData>& InputNodes);
 	
-			void	CreateFinalGeom(const std::vector<RawMeshData>& rawMesh, GeomData& geom);
+			void	CreateFinalGeom(const std::vector<RawMeshData>& rawMesh, GeomData& geom, Request& request, const AnimModel& model);
 			
 			//Load Animation Data
-			void	LoadAnimationData(Request& request, AssimpSceneInfo& assimp);
+			void	buildAnimation(AnimModel* data, aiAnimation* aiAnim);
 
-			void	LoadAnimations(Request& request, AssimpSceneInfo& assimp, int SamplingFPS = 60);
+			void	extractKeyFrame(TDS::AnimationNodes* pNode, aiNodeAnim* AssimpNode);
 
-
+			void	LoadMaterials(AssimpSceneInfo& assimp, Request& request, std::vector<RawMeshData>& assimpData);
 	};
 
 

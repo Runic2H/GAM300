@@ -282,7 +282,7 @@ namespace ScriptAPI
 
 	void Input::HideMouse(bool value)
 	{
-		return TDS::InputSystem::GetInstance()->setCursorVisible(value);
+		return TDS::InputSystem::GetInstance()->setCursorVisible(!value);
 	}
 
 	void Input::Lock(bool value)
@@ -293,6 +293,11 @@ namespace ScriptAPI
 	bool Input::isMouseLocked()
 	{
 		return TDS::InputSystem::GetInstance()->getMouseLock();
+	}
+
+	bool Input::isMouseVisible()
+	{
+		return TDS::InputSystem::GetInstance()->getCursorVisible();
 	}
 
 	Vector3 Input::GetLocalMousePos()
@@ -363,5 +368,25 @@ namespace ScriptAPI
 	int Input::GetVerticalAxis()
 	{
 		return TDS::InputSystem::GetInstance()->getVerticalAxis();
+	}
+
+	float Input::GetSensitivity()
+	{
+		return TDS::InputSystem::GetInstance()->getSensitivity();
+	}
+
+	void Input::SetSensitivity(float value)
+	{
+		TDS::InputSystem::GetInstance()->setSensitivity(value);
+	}
+
+	float Input::GetUIMousePosX()
+	{
+		return TDS::InputSystem::GetInstance()->getUIMousePosX();
+	}
+
+	float Input::GetUIMousePosY()
+	{
+		return TDS::InputSystem::GetInstance()->getUIMousePosY();
 	}
 }

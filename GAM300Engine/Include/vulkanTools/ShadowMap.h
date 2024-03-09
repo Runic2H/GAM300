@@ -46,7 +46,7 @@ namespace TDS {
 		void createFrameBuffer();
 		void createCommandBuffer();
 
-		VulkanInstance&				m_Instance;
+		VulkanInstance& m_Instance;
 		VkRenderPass				m_Renderpass;
 		VkFramebuffer				m_FrameBuffer;
 		VkCommandBuffer				m_CmdBuffer;

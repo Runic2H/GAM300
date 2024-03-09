@@ -1,4 +1,14 @@
-﻿using ScriptAPI;
+﻿/*!*************************************************************************
+****
+\file InventoryBox.cs
+\author Celine Leong
+\par DP email: jiayiceline.leong@digipen.edu
+\par Course: csd3450
+\date 15-1-2024
+\brief  Gameplay script for each inventory slot 
+****************************************************************************
+***/
+using ScriptAPI;
 using System;
 using static System.Net.Mime.MediaTypeNames;
 
@@ -8,6 +18,7 @@ public class InventoryBox : Script
     public int BoxNumber;
     public string storedObjName;
     public string storedObjTexture;
+    
 
     //public Sprite emptyBox;
 
@@ -25,14 +36,21 @@ public class InventoryBox : Script
         DisplayItem();
         if(Clicked())
         {
-            if(InventoryScript.currentTab == "Items")
-            {
-                UseObject();
-            }
-            else
-            {
-                ViewObject();
-            }
+            //if(InventoryScript.currentTab == "Items")
+            //{
+            //    UseObject();
+            //}
+            //else
+            //{
+            //    ViewObject();
+            //}
+            InventoryScript.IsUseable = InventoryScript.currentTab == "Items" ? true : false;
+            GameObjectScriptFind("ItemDisplay").GetComponent<UISpriteComponent>().SetTextureName(storedObjTexture);
+            //Console.WriteLine(storedObjTexture);
+            GameObjectScriptFind("ItemName").GetComponent<UISpriteComponent>().SetFontMessage(storedObjName);
+            //Console.WriteLine(storedObjName);
+
+            InventoryScript.currentBox = BoxNumber;
         }
     }
 
@@ -59,24 +77,8 @@ public class InventoryBox : Script
     }
 
     public bool Clicked()
-    {
-        if(Input.GetKeyDown(Keycode.M1))
-        {
-            Vector3 ObjectPos = gameObject.transform.GetPosition();
-            Vector3 ObjectScale = gameObject.transform.GetScale();
-            float mouseX = Input.GetLocalMousePosX();
-            float mouseY = Input.GetLocalMousePosY();
-            float minX = ObjectPos.X - ObjectScale.X * 0.5f;
-            float maxX = ObjectPos.X + ObjectScale.X * 0.5f;
-            float minY = ObjectPos.Y - ObjectScale.Y * 0.5f;
-            float maxY = ObjectPos.Y + ObjectScale.Y * 0.5f;
-
-            Console.WriteLine("MouseX: " + mouseX + " MinX: " + minX + " MaxX: " + maxX);
-            Console.WriteLine("MouseY: " + mouseY + " MinY: " + minY + " MaxY: " + maxY);
-            if (mouseX >= minX && mouseX <= maxX && mouseY >= minY && mouseY <= maxY)
-                return true;
-        }
-        return false;
+    {       
+        return Input.GetKeyDown(Keycode.M1) && gameObject.GetComponent<UISpriteComponent>().IsMouseCollided();
     }
 
     public void ViewObject()
@@ -85,9 +87,7 @@ public class InventoryBox : Script
         {
             View_Object.ObjectName = storedObjName;
             View_Object.OnEnter = true;
-
             GameObjectScriptFind("ObjectViewer").SetActive(true);
-            GameObjectScriptFind("InventoryObject").SetActive(false);
         }    
     }
 
@@ -97,12 +97,14 @@ public class InventoryBox : Script
         if(storedObjName != "")
         {
             InventoryScript.itemObjsInInventory[BoxNumber] = "";
-            InventoryScript.itemsObjsImg[BoxNumber] = "Inventory Box Img.dds";
+            InventoryScript.itemsObjsImg[BoxNumber] = "A_Inventory Box.dds";
 
             // Do stuff based on what item is used
             if(storedObjName == "Battery")
             {
                 // Do battery logic
+                Flashlight_Script.batteryLife = 100.0f;
+                Flashlight_Script.replaceBattery = true;
             }
             if(storedObjName == "???")
             {

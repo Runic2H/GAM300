@@ -1,53 +1,52 @@
-//using ScriptAPI;
-//using System;
+/*!*************************************************************************
+****
+\file QTE.cs
+\author Cheang Wen Ding
+\par DP email: cheang.w@digipen.edu
+\par Course: csd3450
+\date 25-11-2023
+\brief  QTE Script
+****************************************************************************
+***/
 
-//public class QTE : Script
-//{
-//    public bool isQTE = false;
-//    public GameObject interaction;
-//    public override void Awake()
-//    {
-//        interaction = GameObjectScriptFind("QTE for interaction");
-//    }
-//    public override void OnEnable()
-//    {
+using ScriptAPI;
+using System;
 
-//    }
-//    public override void Start()
-//    {
-//    }
-//    public override void Update()
-//    {
-//        if (gameObject.GetSphereColliderComponent().GetIsInteract())
-//        {
-//            isQTE = true;
-//        }
-//        else
-//        {
-//            isQTE = false;
-//            gameObject.GetSphereColliderComponent().SetIsInteract(false);
-//            gameObject.GetSphereColliderComponent().SetIsTrigger(false);
-//        }
+public class QTE : Script
+{
 
-//        if (isQTE)
-//        {
-//            interaction.SetActive(interaction.GetEntityID(), true);
-//        }
-//        else
-//        {
-//            interaction.SetActive(interaction.GetEntityID(), false);
-//        }
+    public GameObject interaction;
+    public override void Awake()
+    {
+    }
+    public override void OnEnable()
+    {
 
-//    }
-//    public override void LateUpdate()
-//    {
-//    }
-//    public override void OnDisable()
-//    {
+    }
+    public override void Start()
+    {
+    }
+    public override void Update()
+    {
+        if (gameObject.GetComponent<RigidBodyComponent>().IsRayHit())
+        {
+            interaction.SetActive(false);
+        }
+    }
+    public override void LateUpdate()
+    {
+        if (gameObject.GetComponent<RigidBodyComponent>().IsRayHit())
+        {
+            //Console.WriteLine(gameObject.GetComponent<NameTagComponent>().GetName());
+            interaction.SetActive(true);
+        }
+    }
+    public override void OnDisable()
+    {
 
-//    }
-//    public override void OnDestroy()
-//    {
+    }
+    public override void OnDestroy()
+    {
 
-//    }
-//}
+    }
+}

@@ -29,8 +29,6 @@ public class MilestoneScript : Script
     {
         soundEffectstring[0] = "pc_monsterrattledoor";
         soundEffectstring[1] = "Heartbeating_Sound";
-        soundEffectstring[2] = "pc_monstergoesaway1";
-        soundEffectstring[3] = "pc_monstergoesaway2";
         bedroomLights = GameObjectScriptFind("BedroomLight");
         monster = GameObjectScriptFind("Monster");
         bedroomDoor = GameObjectScriptFind("Bedroom Double Door");

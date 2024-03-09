@@ -81,6 +81,24 @@ namespace TDS
 		DLL_API bool& getSensorActivate() { return sensorActivated; }
 		DLL_API void setSensorActivate(bool input) { sensorActivated = input; }
 
+		DLL_API bool& getIsRayCast() { return mIsRayCast; }
+		DLL_API void setIsRayCast(bool isRayCast) { mIsRayCast = isRayCast; }
+
+		DLL_API Vec3& getRayDirection() { return mRayDirection; }
+		DLL_API void setRayDirection(Vec3 direction) { mRayDirection = direction; }
+
+		DLL_API Vec3& getRayOrigin() { return mRayOrigin; }
+		DLL_API void setRayOrigin(Vec3 origin) { mRayOrigin = origin; }
+
+		DLL_API float& getRayScale() { return mRayScale; }
+		DLL_API void setRayScale(float scale) { mRayScale = scale; }
+
+		DLL_API bool& getIsRayHit() { return mIsRayHit; }
+		DLL_API void setIsRayHit(bool hit) { mIsRayHit = hit; }
+
+		DLL_API bool& getDoor() { return mDoor; }
+		DLL_API void setDoor(bool door) { mDoor = door; }
+
 		RTTR_ENABLE(IComponent);
 		RTTR_REGISTRATION_FRIEND
 
@@ -95,9 +113,17 @@ namespace TDS
 		float mGravityFactor;
 		float mLinearDamping;
 		float mAngularDamping;
-		
+
 		bool mUseGravity;
 		bool sensorActivated;
+		
+		// Raycast
+		Vec3 mRayDirection;
+		Vec3 mRayOrigin;
+		float mRayScale;
+		bool mIsRayCast;
+		bool mIsRayHit;
+		bool mDoor;
 
 		MotionType	mMotionType;
 		JoltBodyID	mBodyID;

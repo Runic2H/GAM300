@@ -1,5 +1,5 @@
 #pragma once
-
+#include "dotnet/ImportExport.h"
 
 #define CREATE_CONST_GETTOR(NAME, RET)\
     inline const RET& Get##NAME() const \
@@ -33,3 +33,8 @@
     TYPE_NAME(TYPE_NAME&&)                 = delete; \
     TYPE_NAME& operator=(TYPE_NAME&&)      = delete;
 
+
+namespace TDS
+{
+   DLL_API void QuitEngine();
+}

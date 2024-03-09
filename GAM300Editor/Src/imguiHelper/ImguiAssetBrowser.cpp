@@ -11,8 +11,8 @@
 #include "imguiHelper/ImguiAudio.h"
 #include "Tools/CompilerRevamped/MeshLoader.h"
 #include <string>
-#include "GraphicsResource/Revamped/ModelPack.h"
 #include "AssetManagement/Revamped/MeshFactory.h"
+#include "imguiHelper/ImguiCompilerDescriptor.h"
 
 #define ASSET_PATH "../assets"
 namespace TDS
@@ -119,7 +119,7 @@ namespace TDS
 				{
 					//Get asset reference,
 					AssetManager::GetInstance()->GetMeshFactory().GetMeshController(ModelAssetName, graphComp->m_MeshControllerRef);
-
+					
 					//This is a root, so no rendered mesh
 					graphComp->m_MeshName = "";
 					graphComp->m_ModelName = ModelAssetName;
@@ -136,9 +136,18 @@ namespace TDS
 					}
 					//set initial transform position,
 
-					transformComp->SetRealPosition(rootNodes.second.m_SceneTranslation);
-					transformComp->SetRealScale(rootNodes.second.m_SceneScale);
-					transformComp->SetRealRotate(rootNodes.second.m_SceneRotation);
+					if (ModelAssetName == "Adjusted_Bin.bin")
+					{
+						transformComp->SetPosition(rootNodes.second.m_SceneTranslation);
+						transformComp->SetRotation(rootNodes.second.m_SceneRotation);
+						transformComp->SetScale(rootNodes.second.m_SceneScale);
+					}
+					else
+					{
+						transformComp->SetRealPosition(rootNodes.second.m_SceneTranslation);
+						//transformComp->SetRealScale(rootNodes.second.m_SceneScale);
+						//transformComp->SetRealRotate(rootNodes.second.m_SceneRotation);
+					}
 					// push this entity into the main root
 
 				}
@@ -169,18 +178,30 @@ namespace TDS
 
 						//Get Reference
 						AssetManager::GetInstance()->GetMeshFactory().GetMeshController(ModelAssetName, childGrapComp->m_MeshControllerRef);
-
+			
 						//Set the correct mesh name and model name
 						childGrapComp->m_MeshName = meshNode.first;
 						childGrapComp->m_ModelName = ModelAssetName;
 						childGrapComp->m_MeshNodeName = rootNodes.first;
-						//Set initial transform positions
-						childTransformComp->SetRealPosition(rootNodes.second.m_SceneTranslation);
-						childTransformComp->SetRealScale(rootNodes.second.m_SceneScale);
-						childTransformComp->SetRealRotate(rootNodes.second.m_SceneRotation);
-						//childTransformComp->SetScale(Vec3(1.f, 1.f, 1.f));
-						//childTransformComp->SetRotation(Vec3(0.f, 0.f, 0.f));
-						//If entity validity check
+						//Set initial transform position
+						if (ModelAssetName == "Adjusted_Bin.bin")
+						{
+							childTransformComp->SetPosition(rootNodes.second.m_SceneTranslation);
+							childTransformComp->SetRotation(rootNodes.second.m_SceneRotation);
+							childTransformComp->SetScale(rootNodes.second.m_SceneScale);
+						}
+						else
+						{
+							childTransformComp->SetRealPosition(rootNodes.second.m_SceneTranslation);
+
+							//transformComp->SetRealScale(rootNodes.second.m_SceneScale);
+							//transformComp->SetRealRotate(rootNodes.second.m_SceneRotation);
+						}
+						/*		childTransformComp->SetRealScale(rootNodes.second.m_SceneScale);
+								childTransformComp->SetRealRotate(rootNodes.second.m_SceneRotation);*/
+								//childTransformComp->SetScale(Vec3(1.f, 1.f, 1.f));
+								//childTransformComp->SetRotation(Vec3(0.f, 0.f, 0.f));
+								//If entity validity check
 						if (nodeEntityID != 0)
 						{
 							//Push into the root parent
@@ -578,23 +599,19 @@ namespace TDS
 				//}
 
 
-				if (strstr(filename.c_str(), ".json"))
-				{
 
-				}
+				//if (strstr(filename.c_str(), ".json"))
+				//{
 
-				if (strstr(filename.c_str(), ".json"))
-				{
+				//}
 
-				}
+				////if .wav, play audio...
+				//if (strstr(filename.c_str(), ".wav") || strstr(filename.c_str(), ".flac") || strstr(filename.c_str(), ".mp3"))
+				//{
+				//	/*audimg.ToggleControls(true);
 
-				//if .wav, play audio...
-				if (strstr(filename.c_str(), ".wav") || strstr(filename.c_str(), ".flac") || strstr(filename.c_str(), ".mp3"))
-				{
-					/*audimg.ToggleControls(true);
-
-					audimg.play(filename);*/
-				}
+				//	audimg.play(filename);*/
+				//}
 
 
 			}
@@ -627,7 +644,11 @@ namespace TDS
 
 	std::string AssetBrowser::LoadAssetRevamped(const std::string& FileName)
 	{
+
+		std::shared_ptr<LevelEditorPanel> panel = LevelEditorManager::GetInstance()->panels[PanelTypes::COMPILER_DESCRIPTOR];
+		std::shared_ptr<CompilerDescriptors> imguiDesc = std::static_pointer_cast<CompilerDescriptors>(panel);
 		std::string OutputPath{};
+		std::string OutName{};
 		if (strstr(FileName.c_str(), ".jpg") || strstr(FileName.c_str(), ".png") || strstr(FileName.c_str(), ".dds"))
 		{
 			lookUp = false;
@@ -664,8 +685,28 @@ namespace TDS
 			OutputPath = OutPath;
 
 		}
+
+		if (strstr(FileName.c_str(), ".json"))
+		{
+			std::string InPath = "../assets/animations/";
+			std::string OutPath = InPath;
+
+			OutPath += FileName.c_str();
+
+			
+
+			OutName = AssetManager::GetInstance()->GetAnimationFactory().LoadAnimationPack(OutPath);
+			//if (strstr(OutName.c_str(), ".json"))
+			//	OutName = RemoveFileExtension(OutName, ".json");
+
+			return OutName;
+
+		}
+
 		if (strstr(FileName.c_str(), ".obj") || strstr(FileName.c_str(), ".fbx") || strstr(FileName.c_str(), ".gltf") || strstr(FileName.c_str(), ".bin"))
 		{
+			
+
 			lookUp = false;
 			std::string& OutPath = GeomCompiler::GetInstance()->OutPath;
 			OutPath = "../assets/models/";
@@ -697,34 +738,61 @@ namespace TDS
 
 			if (lookUp == false)
 			{
-				GeomDescriptor m_GeomDescriptor{};
-				m_GeomDescriptor.m_Descriptor.m_FilePath = std::filesystem::path(FileName).filename().string();
+				CompilerDescriptors::GeomDescDisplay* geomDisplay = reinterpret_cast<CompilerDescriptors::GeomDescDisplay*>(imguiDesc->m_CompilerDescriptors[CompilerDescriptors::DESC_GEOMETRY]);
+
+				/*GeomDescriptor m_GeomDescriptor{};
+				m_GeomDescriptor.m_Descriptor.m_FilePath = std::filesystem::path(FileName).filename().string();*/
 
 				MeshLoader::Request req{};
 				req.m_FileName = std::filesystem::path(FileName).filename().string();
 				req.m_OutFile = OutPath;
+
+				req.currSetting = geomDisplay->m_GeomDecriptor;
+				req.currSetting.m_Descriptor.m_FilePath = std::filesystem::path(FileName).filename().string();
+
+				if (req.currSetting.m_LoadAnimation)
+				{
+					req.m_AnimOutFile = req.m_FileName;
+					req.m_AnimOutFile = RemoveFileExtension(req.m_AnimOutFile, ".fbx");
+					req.m_AnimOutFile += ".json";
+				}
+
 				req.m_OutFile += "_Bin";
 				req.m_OutFile += ".bin";
+
+				
+		
 				MeshLoader::GetInstance().RunCompiler(req);
 
-				std::string OutputFile = req.m_OutFile;
-				AssetManager::GetInstance()->GetMeshFactory().LoadModel(OutputFile);
-				OutputPath = OutputFile;
+				
 
+
+				if (req.currSetting.m_LoadAnimation && !req.currSetting.m_LoadMesh)
+				{
+					return std::string();
+				}
+				else
+				{
+					std::string OutputFile = req.m_OutFile;
+					OutName = AssetManager::GetInstance()->GetMeshFactory().LoadModel(OutputFile);
+				}
 
 			}
 			else
 			{
-				AssetManager::GetInstance()->GetMeshFactory().LoadModel(OutPath);
-				OutputPath = OutPath;
+				OutName = AssetManager::GetInstance()->GetMeshFactory().LoadModel(OutPath);
+				/*OutputPath = OutPath;*/
 			}
 
-			std::filesystem::path FilePath(OutputPath);
-			std::string assetName = FilePath.filename().string();
+			//std::filesystem::path FilePath(OutputPath);
+			//std::string assetName = FilePath.filename().string();
 
-			BuildEntityMeshHierachy(assetName, currEntity);
+			BuildEntityMeshHierachy(OutName, currEntity);
+			
+			
 
-			return assetName;
+
+			return OutName;
 		}
 		//if .json, load scene...
 		if (strstr(FileName.c_str(), ".ttf"))

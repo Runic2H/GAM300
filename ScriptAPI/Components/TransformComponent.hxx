@@ -30,6 +30,8 @@ namespace ScriptAPI
 
 		Vector3 TransformDirection(Vector3 direction);
 
+		Vector3 getForwardVector();
+
 		virtual TDS::EntityID GetEntityID();
 		virtual void SetEntityID(TDS::EntityID ID);
 

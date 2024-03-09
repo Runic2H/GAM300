@@ -102,11 +102,11 @@ namespace TDS
 	template <typename T>
 	concept Is_Builtin_Array = std::is_array_v<T>;
 
-	
+
 	template<typename T>
 	concept Is_Associative_Container = requires(T a)
 	{
-		typename T::key_type; 
+		typename T::key_type;
 		{ a.find(typename T::key_type{}) } -> std::same_as<typename T::iterator>;
 	};
 

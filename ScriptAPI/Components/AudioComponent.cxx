@@ -7,6 +7,7 @@ namespace ScriptAPI
 	AudioComponent::AudioComponent(TDS::EntityID ID) : entityID(ID), transform(TransformComponent(ID))
 	{
 		gameObject = EngineInterface::GetGameObject(ID);
+		TDS::SoundInfo temp;
 	}
 
 	void AudioComponent::SetEntityID(TDS::EntityID id)
@@ -21,14 +22,23 @@ namespace ScriptAPI
 		return entityID;
 	}
 
-	void AudioComponent::set3DCoords(float x, float y, float z)
+	void AudioComponent::set3DCoords(float x, float y, float z, System::String^ name)
 	{
-		pos = Vector3(x, y, z);
+		//pos = Vector3(x, y, z);
+		TDS::proxy_audio_system::ScriptSetPosition(TDS::floatsToVec3(x, y, z), toStdString(name));
 	}
 
-	void AudioComponent::set3DCoords(Vector3 in_pos)
+	void AudioComponent::set3DCoords(Vector3 in_pos, System::String^ name)
 	{
-		pos = in_pos;
+		//pos = in_pos;
+		TDS::proxy_audio_system::ScriptSetPosition(TDS::floatsToVec3(in_pos.X, in_pos.Y, in_pos.Z), toStdString(name));
+	}
+
+	void AudioComponent::setPlayerCoords(Vector3 in_pos, Vector3 in_for, Vector3 in_up)
+	{
+		TDS::proxy_audio_system::ScriptSetListenerPos(TDS::floatsToVec3(in_pos.X, in_pos.Y, in_pos.Z),
+			TDS::floatsToVec3(in_for.X, in_for.Y, in_for.Z),
+			TDS::floatsToVec3(in_up.X, in_up.Y, in_up.Z));
 	}
 
 	bool AudioComponent::isLoaded()
@@ -36,34 +46,39 @@ namespace ScriptAPI
 		return (whatState == TDS::SOUND_LOADED);
 	}
 
-	bool AudioComponent::is3D()
+	bool AudioComponent::isit3D()
 	{
-		return isit3D;
+		return is3D;
 	}
 
-	bool AudioComponent::isLoop()
+	bool AudioComponent::isitLoop()
 	{
-		return isitLoop;
+		return isLoop;
 	}
 
-	bool AudioComponent::isMuted()
+	bool AudioComponent::isitMuted()
 	{
-		return isitMuted;
-	}
-
-	bool AudioComponent::isPlaying()
-	{
-		return (whatState == TDS::SOUND_PLAYING);
-	}
-
-	bool AudioComponent::isPaused()
-	{
-		return (whatState == TDS::SOUND_PAUSE);
+		return isMuted;
 	}
 
 	bool AudioComponent::finished(System::String^ str_path)
 	{
 		return TDS::proxy_audio_system::checkifdone(toStdString(str_path));
+	}
+
+	bool AudioComponent::anyPlaying()
+	{
+		return TDS::proxy_audio_system::ScriptAnySoundPlaying();
+	}
+
+	bool AudioComponent::checkPlaying(System::String^ str_path)
+	{
+		return TDS::proxy_audio_system::CheckPlaying(toStdString(str_path));
+	}
+
+	bool AudioComponent::checkPaused(System::String^ str_path)
+	{
+		return TDS::proxy_audio_system::CheckPause(toStdString(str_path));
 	}
 
 	Vector3 AudioComponent::get3DCoords()
@@ -91,11 +106,6 @@ namespace ScriptAPI
 		return filePath;
 	}
 
-	const char* AudioComponent::getFilePath_inChar()
-	{
-		return filePath.c_str();
-	}
-
 	void AudioComponent::setFilePath(System::String^ str_path)
 	{
 		filePath = toStdString(str_path);
@@ -121,14 +131,45 @@ namespace ScriptAPI
 		return ReverbAmount;
 	}
 
-	float AudioComponent::getVolume()
+	float AudioComponent::getVolume(System::String^ pathing)
 	{
-		return volume;
+		return TDS::proxy_audio_system::getVolume(toStdString(pathing));
+	}
+	
+	float AudioComponent::getMasterVol()
+	{
+		return TDS::proxy_audio_system::getMasterVolume();
 	}
 
-	void AudioComponent::setVolume(float vol)
+	float AudioComponent::getBGMVol()
+	{
+		return TDS::proxy_audio_system::getBGMVolume();
+	}
+
+	float AudioComponent::getSFXVol()
+	{
+		return TDS::proxy_audio_system::getSFXVolume();
+	}
+
+	void AudioComponent::setVolume(float vol, System::String^ pathing)
 	{
 		volume = vol;
+		TDS::proxy_audio_system::SetVolume(vol, toStdString(pathing));
+	}
+
+	void AudioComponent::setMasterVol(float vol)
+	{
+		TDS::proxy_audio_system::SetMasterVolume(vol);
+	}
+
+	void AudioComponent::setBGMVol(float vol)
+	{
+		TDS::proxy_audio_system::SetBGMVolume(vol);
+	}
+
+	void AudioComponent::setSFXVol(float vol)
+	{
+		TDS::proxy_audio_system::SetSFXVolume(vol);
 	}
 
 	void AudioComponent::setMSLength(unsigned int len)
@@ -143,17 +184,17 @@ namespace ScriptAPI
 
 	void AudioComponent::setLoop(bool condition)
 	{
-		isitLoop = condition;
+		isLoop = condition;
 	}
 
 	void AudioComponent::set3D(bool condition)
 	{
-		isit3D = condition;
+		is3D = condition;
 	}
 
 	void AudioComponent::setMute(bool condition)
 	{
-		isitMuted = condition;
+		isMuted = condition;
 	}
 
 	void AudioComponent::play(System::String^ pathing)
@@ -174,6 +215,21 @@ namespace ScriptAPI
 	void AudioComponent::stop(System::String^ pathing)
 	{
 		TDS::proxy_audio_system::ScriptStop(toStdString(pathing));
+	}
+
+	void AudioComponent::stopAll()
+	{
+		TDS::proxy_audio_system::ScriptStopAll();
+	}
+
+	void AudioComponent::FadeOut(unsigned int duration, System::String^ pathing)
+	{
+		TDS::proxy_audio_system::ScriptFadeOut(duration, toStdString(pathing));
+	}
+
+	void AudioComponent::FadeIn(unsigned int duration, System::String^ pathing)
+	{
+		TDS::proxy_audio_system::ScriptFadeIn(duration, toStdString(pathing));
 	}
 
 	void AudioComponent::Queue(System::String^ str)
@@ -204,11 +260,11 @@ namespace ScriptAPI
 	//MS Length
 	unsigned int AudioComponent::MSLength::get()
 	{
-		return TDS::GetSoundInfo(entityID)->getMSLength();
+		return TDS::GetSoundInfo(entityID)->MSLength;
 	}
 	void AudioComponent::MSLength::set(unsigned int value)
 	{
-		TDS::GetSoundInfo(entityID)->setMSLength(value);
+		TDS::GetSoundInfo(entityID)->MSLength = value;
 	}
 
 	//file path
@@ -222,33 +278,33 @@ namespace ScriptAPI
 	}
 
 	//loop
-	bool AudioComponent::isitLoop::get()
+	bool AudioComponent::isLoop::get()
 	{
-		return TDS::GetSoundInfo(entityID)->isLoop();
+		return TDS::GetSoundInfo(entityID)->isLoop;
 	}
-	void AudioComponent::isitLoop::set(bool value)
+	void AudioComponent::isLoop::set(bool value)
 	{
-		TDS::GetSoundInfo(entityID)->setLoop(value);
+		TDS::GetSoundInfo(entityID)->isLoop = value;
 	}
 
 	//3D boolean
-	bool AudioComponent::isit3D::get()
+	bool AudioComponent::is3D::get()
 	{
-		return TDS::GetSoundInfo(entityID)->is3D();
+		return TDS::GetSoundInfo(entityID)->is3D;
 	}
-	void AudioComponent::isit3D::set(bool value)
+	void AudioComponent::is3D::set(bool value)
 	{
-		TDS::GetSoundInfo(entityID)->set3D(value);
+		TDS::GetSoundInfo(entityID)->is3D = value;
 	}
 
 	//muted
-	bool AudioComponent::isitMuted::get()
+	bool AudioComponent::isMuted::get()
 	{
-		return TDS::GetSoundInfo(entityID)->isMuted();
+		return TDS::GetSoundInfo(entityID)->isMuted;
 	}
-	void AudioComponent::isitMuted::set(bool value)
+	void AudioComponent::isMuted::set(bool value)
 	{
-		TDS::GetSoundInfo(entityID)->setMute(value);
+		TDS::GetSoundInfo(entityID)->isMuted = value;
 	}
 
 	//state of sound info
@@ -258,7 +314,7 @@ namespace ScriptAPI
 	}
 	void AudioComponent::whatState::set(snd value)
 	{
-		TDS::GetSoundInfo(entityID)->setState(value);
+		TDS::GetSoundInfo(entityID)->whatState = value;
 	}
 
 	//3D position
@@ -278,7 +334,7 @@ namespace ScriptAPI
 	}
 	void AudioComponent::volume::set(float value)
 	{
-		TDS::GetSoundInfo(entityID)->setVolume(value);
+		TDS::GetSoundInfo(entityID)->setVol(value);
 	}
 
 	//Reverb
@@ -288,6 +344,6 @@ namespace ScriptAPI
 	}
 	void AudioComponent::ReverbAmount::set(float value)
 	{
-		TDS::GetSoundInfo(entityID)->setReverbAmount(value);
+		TDS::GetSoundInfo(entityID)->ReverbAmount = value;
 	}
 }

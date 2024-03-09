@@ -18,6 +18,7 @@ namespace TDS
 	bool Modelpack::LoadModelPack(std::string_view path)
 	{
 		m_ModelHandle.Deserialize(path);
+		m_TotalMeshCnt = std::uint32_t(m_ModelHandle.m_Mesh.size());
 		return true;
 		/*std::ifstream inFile(path.data(), std::ios::binary);
 		if (!inFile)

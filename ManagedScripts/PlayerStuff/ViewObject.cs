@@ -1,56 +1,77 @@
-﻿using ScriptAPI;
+﻿/*!*************************************************************************
+****
+\file ViewObject.cs
+\author Celine Leong
+\par DP email: jiayiceline.leong@digipen.edu
+\par Course: csd3450
+\date 15-1-2024
+\brief  Gameplay script inspecting objects
+****************************************************************************
+***/
+using ScriptAPI;
 using System;
 using System.Diagnostics;
 
 public class View_Object : Script
 {
-    GameObject ObjectViewer;
-    GameObject ObjectViewerCam;
-    GameObject ObjectViewerModel;
-    GameObject MainCam;
-
+    GameObject ViewingModel;
+    CameraComponent ObjectViewerCam;
+    
+    //public static string ModelName;
     public static string ObjectName;
     public static bool OnEnter;
     public static bool isExamining;
-
-    //public GameDataManager myGameDataManager;
-    //public Text added;
-
-    TransformComponent target;                     //transform
-
     
     float root_y;
-    float rotateValue;
+    float rotateValueY, rotateValueX;
+    Vector3 originalPos, originalRot;
     bool isZoomed;
 
     public override void Awake()
     {
+        ObjectViewerCam = gameObject.GetComponent<CameraComponent>();
     }
 
     public override void Start()
     {
         Console.WriteLine("Init ObjectViewer\n");
-        ObjectViewer        = GameObjectScriptFind("ObjectViewer");
-        ObjectViewerCam     = GameObjectScriptFind("ObjectViewerCam");
-        ObjectViewerModel   = GameObjectScriptFind("ObjectViewerModel"); // or should I use ObjectName instead?
-        MainCam             = GameObjectScriptFind("playerCameraObject");
-        ObjectViewer.SetActive(false);
         gameObject.SetActive(false);
-
-        OnEnter = false;
-        isExamining = false;
-        rotateValue = 0.0f;
-        root_y = gameObject.transform.GetPosition().Y;
     }
     public override void Update()
     {
-        //var mainCamID = mainCam.GetEntityID();
-        //var examineCamID = examineCam.GetEntityID();
-        //var examineUIID = examineUI.GetEntityID();
         if (OnEnter)
         {
-            // Change Rendering Cam to ObjectViewerCam here
-            // Hide and lock cursor??
+            Console.WriteLine("On Enter");
+            GameObjectScriptFind("InventoryObject").SetActive(false);
+            InventoryScript.InventoryIsOpen = false;
+
+            //ObjectViewerModel.GetComponent<GraphicComponent>().SetModelName("cube_Bin.bin"); // Not working.. probably becaus some models have many entities
+            ViewingModel = GameObjectScriptFind(ObjectName);
+            //ViewingModel.transform.SetPosition(ObjectViewerModel.transform.GetPosition());
+            ViewingModel.SetActive(true);
+
+            ObjectViewerCam.SetFieldOfView(60f);
+            Vector3 objectSize = ViewingModel.GetComponent<BoxColliderComponent>().GetSize();
+            Vector3 offsetScale = ViewingModel.GetComponent<BoxColliderComponent>().GetOffsetScale();
+            objectSize.X /= (offsetScale.X + 1);
+            objectSize.Y /= (offsetScale.Y + 1);
+            objectSize.Z /= (offsetScale.Z + 1);
+            float biggestAxis = Mathf.Max(Mathf.Max(objectSize.X, objectSize.Y), objectSize.Z);
+            float cameraView = 2.0f * Mathf.Tan(0.5f * ObjectViewerCam.GetFieldOfView() * MathF.PI / 180.0f);
+            float distance = 4.0f * biggestAxis / cameraView;
+            distance += 0.5f * biggestAxis;
+            ObjectViewerCam.transform.SetPosition(ViewingModel.transform.GetPosition() - distance * ObjectViewerCam.transform.getForwardVector());
+            
+            //ObjectViewerCam.setForwardVector();
+            //ObjectViewerCam.setForwardVector();
+            rotateValueX = 0.0f;
+            rotateValueY = 0.0f;
+
+            root_y = 0.0f;
+
+            originalPos = ViewingModel.transform.GetPosition();
+            originalRot = ViewingModel.transform.GetRotation();
+
             isExamining = true;
             isZoomed = false;
             OnEnter = false;
@@ -58,92 +79,112 @@ public class View_Object : Script
         
         if(isExamining)
         {
+            Console.WriteLine("Examining");
+            GraphicsManagerWrapper.ToggleViewFrom2D(true);
             CheckMouseInput();
             CheckKeyboardInput();
             UpdateCamera();
         }
     }
 
-    public void CheckKeyboardInput() // Need to test
+    public void CheckKeyboardInput() // Keyboard Controls
+
     {
-        // Keyboard Controls
-        if (Input.GetKey(Keycode.A))
+        //Console.WriteLine("Check Keyboard Input ViewObject");
+        if (Input.GetKey(Keycode.LEFT))
         {
-            rotateValue += 1;
+            Console.WriteLine("LEFT pressed");
 
-            if (target.gameObject.GetComponent<NameTagComponent>().GetTag() == "Painting")
-            {
-                //eulerAngles
-                target.SetRotation(new Vector3(0, rotateValue, 0));
-            }
-            else
-            {
-                target.SetRotation(new Vector3(90, 180, rotateValue));
-            }
+            rotateValueY += 0.01f;
+            //ObjectViewerModel.transform.SetRotation(new Vector3(0, rotateValue, 0));
+            //ViewingModel.transform.SetRotation(new Vector3(0, rotateValue, 0));
         }
-        else if (Input.GetKey(Keycode.D))
+        else if (Input.GetKey(Keycode.RIGHT))
         {
-            rotateValue -= 1;
+            Console.WriteLine("RIGHT pressed");
 
-            if (target.gameObject.GetComponent<NameTagComponent>().GetTag() == "Painting")
-            {
-                target.SetRotation(new Vector3(0, rotateValue, 0));
-            }
-            else
-            {
-                target.SetRotation(new Vector3(90, 180, rotateValue));
-            }
+            rotateValueY -= 0.01f;
+            //ObjectViewerModel.transform.SetRotation(new Vector3(0, rotateValue, 0));
+            //ViewingModel.transform.SetRotation(new Vector3(0, rotateValue, 0));
         }
+        else if (Input.GetKey(Keycode.UP))
+        {
+            Console.WriteLine("UP pressed");
+
+            rotateValueX += 0.01f;
+            //ObjectViewerModel.transform.SetRotation(new Vector3(0, rotateValue, 0));
+            //ViewingModel.transform.SetRotation(new Vector3(0, 0 , rotateValue));
+        }
+        else if (Input.GetKey(Keycode.DOWN))
+        {
+            Console.WriteLine("DOWN pressed");
+
+            rotateValueX -= 0.01f;
+            //ObjectViewerModel.transform.SetRotation(new Vector3(0, rotateValue, 0));
+            //ViewingModel.transform.SetRotation(new Vector3(0, rotateValueY, 0));
+        }
+        ViewingModel.transform.SetRotation(new Vector3(rotateValueX, rotateValueY, 0));
 
         if (Input.GetKey(Keycode.S))
         {
-            if (target.GetPosition().Y > 0.4)
+            Console.WriteLine("S pressed");
+
+            if (root_y > -20.0f)
             {
-                root_y -= 0.01f;
-                target.SetPositionY(root_y);
+                root_y -= 1.0f;
+                //ObjectViewerModel.transform.SetPositionY(root_y);
             }
         }
         else if (Input.GetKey(Keycode.W))
         {
-            if (target.GetPosition().Y < 3.7)
+            Console.WriteLine("W pressed");
+
+            if (root_y < 20.0f)
             {
-                root_y += 0.01f;
-                target.SetPositionY(root_y);
+                root_y += 1.0f;
+                //ObjectViewerModel.transform.SetPositionY(root_y);
             }
         }
+        ViewingModel.transform.SetPositionY(originalPos.Y + root_y);
+
     }
 
-    public void CheckMouseInput()
+    public void CheckMouseInput()  // Mouse Controls
     {
-        // Mouse Controls
+        //Console.WriteLine("Check Mouse Input ViewObject");
         if (Input.GetMouseButtonDown(Keycode.M1)) //left click to zoom
         {
+            Console.WriteLine("Left click pressed");
+
             isZoomed = !isZoomed;
         }
         if (Input.GetMouseButtonDown(Keycode.M2)) //right click to exit
         {
+            Console.WriteLine("Right click pressed");
+
             isExamining = false;
             isZoomed = false;
-            ObjectViewer.SetActive(false);
-
-            // Switch Rendering Cam to MainCam here
-
+            GraphicsManagerWrapper.ToggleViewFrom2D(false);
+            InventoryScript.InventoryIsOpen = true;
+            ViewingModel.transform.SetPosition(originalPos);
+            ViewingModel.transform.SetRotation(originalRot);
             GameObjectScriptFind("InventoryObject").SetActive(true);
+            ViewingModel.SetActive(false);
             gameObject.SetActive(false);
         }
     }
 
     public void UpdateCamera()
     {
+        Console.WriteLine("UpdateCam");
+
         if (isZoomed)
         {
-            CameraComponent cam = ObjectViewerCam.GetComponent<CameraComponent>();
-            cam.SetFieldOfView(Mathf.Lerp(cam.GetFieldOfView(), 30, 30 * Time.deltaTime));
+            ObjectViewerCam.SetFieldOfView(30f);
         }
         else
         {
-            CameraComponent cam = ObjectViewerCam.GetComponent<CameraComponent>();
-            cam.SetFieldOfView(Mathf.Lerp(cam.GetFieldOfView(), 60, 5f * Time.deltaTime));
+            ObjectViewerCam.SetFieldOfView(120f);
         }
     }
 }

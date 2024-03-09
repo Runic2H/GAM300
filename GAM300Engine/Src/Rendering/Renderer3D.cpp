@@ -23,29 +23,29 @@ namespace TDS
 		Renderer3D& inst = *getInstance();
 		PipelineCreateEntry entry{};
 		entry.m_NumDescriptorSets = 1;
-		
+
 		entry.m_ShaderInputs.m_Shaders.insert(std::make_pair(SHADER_FLAG::VERTEX, "../assets/shaders/shadervert.spv"));
 		entry.m_ShaderInputs.m_Shaders.insert(std::make_pair(SHADER_FLAG::FRAGMENT, "../assets/shaders/shaderfrag.spv"));
 		entry.m_PipelineConfig.m_DstClrBlend = VK_BLEND_FACTOR_ZERO;
 		entry.m_PipelineConfig.m_SrcClrBlend = VK_BLEND_FACTOR_ZERO;
 		entry.m_PipelineConfig.m_SrcAlphaBlend = VK_BLEND_FACTOR_ZERO;
 		entry.m_PipelineConfig.m_DstAlphaBlend = VK_BLEND_FACTOR_ZERO;
-		entry.m_PipelineConfig.m_CullMode= VkCullModeFlagBits::VK_CULL_MODE_NONE;
-		VertexLayout layout = 
-		VertexLayout(
-		{ 
-		  VertexBufferElement(VAR_TYPE::VEC3, "vPosition"),
-		  VertexBufferElement(VAR_TYPE::VEC3, "vColor"),
-		  VertexBufferElement(VAR_TYPE::VEC3, "inTexCoord"),
-		  VertexBufferElement(VAR_TYPE::VEC4, "vNormals"),
-		});
+		entry.m_PipelineConfig.m_CullMode = VkCullModeFlagBits::VK_CULL_MODE_NONE;
+		VertexLayout layout =
+			VertexLayout(
+				{
+				  VertexBufferElement(VAR_TYPE::VEC3, "vPosition"),
+				  VertexBufferElement(VAR_TYPE::VEC3, "vColor"),
+				  VertexBufferElement(VAR_TYPE::VEC3, "inTexCoord"),
+				  VertexBufferElement(VAR_TYPE::VEC4, "vNormals"),
+				});
 		GlobalBufferPool::GetInstance()->AddToGlobalPool(sizeof(GlobalUBO), 0, VkBufferUsageFlagBits::VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT, "PL");
 		entry.m_ShaderInputs.m_InputVertex.push_back(VertexBufferInfo(false, layout, sizeof(VertexData)));
 		inst.m_DefaultPipeline = std::make_shared<VulkanPipeline>();
-		
+
 
 		inst.m_DefaultPipeline->Create(entry);
-	
+
 		inst.m_TempPipeline = std::make_shared<VulkanPipeline>();
 
 		VertexLayout layout2 =

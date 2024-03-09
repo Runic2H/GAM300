@@ -3,17 +3,18 @@
 #include "vulkanTools/Renderer.h"
 #include "vulkanTools/VulkanTexture.h"
 #include "Rendering/GraphicsManager.h"
+#include "Rendering/Revamped/DeferredController.h"
 namespace TDS
 {
 	void SkyBoxRenderer::Init()
 	{
-	
+
 		m_SkyBoxTexture.m_VulkanTexture = new VulkanTexture();
 		m_SkyBoxPipeline = std::make_shared<VulkanPipeline>();
-	
+
 		m_SkyBoxTexture.LoadTexture("../assets/textures/skybox1.dds");
 
-	
+
 		if (!AssetManager::GetInstance()->GetMeshFactory().GetMeshController("cube_Bin.bin", m_CubeMapModel))
 		{
 			TDS_ERROR("FAILED TO LOAD SKYBOX!");
@@ -38,6 +39,9 @@ namespace TDS
 		m_CubeMapIndexBuffer->CreateIndexBuffer(modelPack->m_ModelHandle.m_Indices.size() * sizeof(uint32_t), true, modelPack->m_ModelHandle.m_Indices.data());
 		m_CubeMapIndexBuffer->SetDataCnt(static_cast<uint32_t>(modelPack->m_ModelHandle.m_Indices.size()));
 
+		auto deferredController = GraphicsManager::getInstance().GetDeferredController();
+
+		auto frameBuffer = deferredController->GetFrameBuffer(RENDER_G_BUFFER);
 
 		PipelineCreateEntry skyboxCE{};
 		skyboxCE.m_NumDescriptorSets = 1;
@@ -45,10 +49,12 @@ namespace TDS
 		skyboxCE.m_ShaderInputs.m_Shaders.insert(std::make_pair(SHADER_FLAG::VERTEX, "../assets/shaders/skybox.spv"));
 		skyboxCE.m_ShaderInputs.m_Shaders.insert(std::make_pair(SHADER_FLAG::FRAGMENT, "../assets/shaders/skyboxfrag.spv"));
 		VertexLayout layout{ VertexBufferElement(VAR_TYPE::VEC3, "inPos") };
+		skyboxCE.m_PipelineConfig.m_EnableDepthTest = false;
+		skyboxCE.m_PipelineConfig.m_EnableDepthWrite = false;
 		skyboxCE.m_ShaderInputs.m_InputVertex.push_back(VertexBufferInfo(false, layout, sizeof(SkyBoxVertexData)));
-
+		skyboxCE.m_FBTarget = frameBuffer;
 		m_SkyBoxPipeline->Create(skyboxCE);
-		
+
 	}
 
 	void SkyBoxRenderer::RenderSkyBox(VkCommandBuffer commandBuffer, uint32_t frameIndex)
@@ -70,14 +76,14 @@ namespace TDS
 		skyboxubo.m_Projection = Mat4::Perspective(GraphicsManager::getInstance().GetCamera().m_Fov * Mathf::Deg2Rad,
 			GraphicsManager::getInstance().GetSwapchainRenderer().getAspectRatio(), 0.1f, 1000.f);
 		skyboxubo.m_Projection.m[1][1] *= -1;
-		
+
 		m_SkyBoxPipeline->BindPipeline();
 		m_SkyBoxPipeline->BindDescriptor(frameIndex, 1, 0);
-		m_SkyBoxPipeline->UpdateUBO(&skyboxubo, sizeof(SkyBoxUBO),2, frameIndex);
+		m_SkyBoxPipeline->UpdateUBO(&skyboxubo, sizeof(SkyBoxUBO), 2, frameIndex);
 		m_SkyBoxPipeline->BindVertexBuffer(*m_CubeMapVertexBuffer);
 		m_SkyBoxPipeline->BindIndexBuffer(*m_CubeMapIndexBuffer);
 		m_SkyBoxPipeline->DrawIndexed(*m_CubeMapVertexBuffer, *m_CubeMapIndexBuffer, frameIndex);
-		
+
 	}
 
 	DLL_API void SkyBoxRenderer::ShutDown()

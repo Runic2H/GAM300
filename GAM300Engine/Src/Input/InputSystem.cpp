@@ -5,6 +5,7 @@ namespace TDS
 {
 	// Unique pointer to instance of Scene
 	std::unique_ptr<InputSystem> InputSystem::m_instance;
+	Vec2 InputSystem::m_uiMousePos;
 
 	InputSystem::InputSystem()
 	{
@@ -79,6 +80,9 @@ namespace TDS
 			// store current keys state to old keys state buffer
 			::memcpy(m_old_keys_state, m_keys_state, sizeof(unsigned char) * 256);
 		}
+			//PostMessage(hWnd, WM_SETCURSOR, 0, 0);
+		TDS::InputSystem::GetInstance()->hideMouse();
+			
 	}
 
 	bool InputSystem::isKeyPressed(int key)
@@ -207,7 +211,8 @@ namespace TDS
 		//	return 1;
 		//}
 		//return 0;
-		return Mathf::Clamp(m_rawMouseInput.x, -1, 1);
+		//return Mathf::Clamp(m_rawMouseInput.x, -1, 1);
+		return accumulatedMouseX;
 	}
 
 	int InputSystem::getAxisY()
@@ -221,7 +226,8 @@ namespace TDS
 		//	return 1;
 		//}
 		//return 0;
-		return Mathf::Clamp(m_rawMouseInput.y, -1, 1);
+		//return Mathf::Clamp(m_rawMouseInput.y, -1, 1);
+		return accumulatedMouseY;
 	}
 
 	int InputSystem::getHorizontalAxis()
@@ -257,8 +263,29 @@ namespace TDS
 
 	void InputSystem::setCursorVisible(bool visible)
 	{
-		ShowCursor(visible ? TRUE : FALSE);
 		mouseVisible = visible;
+		/*POINT p;
+		if (::GetCursorPos(&p))
+		{
+			SetCursorPos(p.x, p.y);
+		}*/
+	}
+
+	void InputSystem::hideMouse()
+	{
+		if (mouseVisible != m_previous)
+		{
+			SendMessage(app_handler, WM_SETCURSOR, app_wparam, app_lparam);
+			if (mouseVisible)
+			{
+				SetCursor(LoadCursor(NULL, IDC_ARROW));
+			}
+			else
+			{
+				SetCursor(NULL);
+			}
+			m_previous = mouseVisible;
+		}
 	}
 
 	bool InputSystem::getCursorVisible()
@@ -305,5 +332,20 @@ namespace TDS
 	short& InputSystem::getWheelDelta()
 	{
 		return wheelDelta;
+	}
+
+	void InputSystem::setUIMousePos(Vec2 mousePos)
+	{
+		m_uiMousePos = mousePos;
+	}
+
+	float InputSystem::getUIMousePosX()
+	{
+		return m_uiMousePos.x;
+	}
+
+	float InputSystem::getUIMousePosY()
+	{
+		return m_uiMousePos.y;
 	}
 }

@@ -2,10 +2,10 @@
 #include "Rendering/GraphicsManager.h"
 namespace TDS
 {
-	
+
 	FrameBuffer::FrameBuffer(VkDevice _device, VkRenderPass _renderPass, const std::vector<RenderTarget*>& _attachments, uint32_t _layer, uint32_t _mipLevel)
-		:m_device(_device),m_UseLayer(_layer),m_UseMipLevel(_mipLevel), m_renderPass(_renderPass)
-	
+		:m_device(_device), m_UseLayer(_layer), m_UseMipLevel(_mipLevel), m_renderPass(_renderPass)
+
 	{
 		create(_device, _renderPass, _attachments);
 		m_Attachments.reserve(_attachments.size());
@@ -14,7 +14,7 @@ namespace TDS
 	}
 
 	FrameBuffer::FrameBuffer(VkDevice _device, VkRenderPass _renderPass, [[maybe_unused]] bool _imageless, Vec3 _ImageLessDim)
-		:m_device(_device),m_UseLayer(0), m_UseMipLevel(0), m_renderPass(_renderPass)
+		:m_device(_device), m_UseLayer(0), m_UseMipLevel(0), m_renderPass(_renderPass)
 	{
 		m_Width = static_cast<uint32_t>(_ImageLessDim.x);
 		m_Height = static_cast<uint32_t>(_ImageLessDim.y);
@@ -104,7 +104,7 @@ namespace TDS
 	{
 		vkDeviceWaitIdle(GraphicsManager::getInstance().getVkInstance().getVkLogicalDevice());
 		vkDestroyFramebuffer(GraphicsManager::getInstance().getVkInstance().getVkLogicalDevice(), m_FrameBuffer, nullptr);
-		
+
 
 	}
 

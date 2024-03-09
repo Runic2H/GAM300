@@ -133,16 +133,20 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Audio.hxx" />
+    <ClInclude Include="Components\AnimatedComponent.hxx" />
     <ClInclude Include="Components\AudioComponent.hxx" />
     <ClInclude Include="Components\BoxColliderComponent.hxx" />
     <ClInclude Include="Components\CameraComponent.hxx" />
     <ClInclude Include="Components\CapsuleColliderComponent.hxx" />
     <ClInclude Include="Components\ColliderComponent.hxx" />
     <ClInclude Include="Components\ComponentBase.hxx" />
+    <ClInclude Include="Components\DirectionalLightComponent.hxx" />
     <ClInclude Include="Components\GraphicComponent.hxx" />
     <ClInclude Include="Components\NameTagComponent.hxx" />
+    <ClInclude Include="Components\PointlightComponent.hxx" />
     <ClInclude Include="Components\RigidBodyComponent.hxx" />
     <ClInclude Include="Components\SphereColliderComponent.hxx" />
+    <ClInclude Include="Components\SpotlightComponent.hxx" />
     <ClInclude Include="Components\TransformComponent.hxx" />
     <ClInclude Include="Components\UISpriteComponent.hxx" />
     <ClInclude Include="Components\ViewObject.hxx" />
@@ -157,6 +161,7 @@
     <ClInclude Include="Input.hxx" />
     <ClInclude Include="JsonUtility.hxx" />
     <ClInclude Include="Mathf.hxx" />
+    <ClInclude Include="Pathfinder.hxx" />
     <ClInclude Include="Quaternion.hxx" />
     <ClInclude Include="Random.hxx" />
     <ClInclude Include="Screen.hxx" />
@@ -171,15 +176,19 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Audio.cxx" />
+    <ClCompile Include="Components\AnimatedComponent.cxx" />
     <ClCompile Include="Components\AudioComponent.cxx" />
     <ClCompile Include="Components\BoxColliderComponent.cxx" />
     <ClCompile Include="Components\CameraComponent.cxx" />
     <ClCompile Include="Components\CapsuleColliderComponent.cxx" />
     <ClCompile Include="Components\ColliderComponent.cxx" />
+    <ClCompile Include="Components\DirectionalLightComponent.cxx" />
     <ClCompile Include="Components\GraphicComponent.cxx" />
     <ClCompile Include="Components\NameTagComponent.cxx" />
+    <ClCompile Include="Components\PointlightComponent.cxx" />
     <ClCompile Include="Components\RigidBodyComponent.cxx" />
     <ClCompile Include="Components\SphereColliderComponent.cxx" />
+    <ClCompile Include="Components\SpotlightComponent.cxx" />
     <ClCompile Include="Components\TransformComponent.cxx" />
     <ClCompile Include="Components\UISpriteComponent.cxx" />
     <ClCompile Include="Components\ViewObject.cxx" />
@@ -190,6 +199,7 @@
     <ClCompile Include="Input.cxx" />
     <ClCompile Include="JsonUtility.cxx" />
     <ClCompile Include="Mathf.cxx" />
+    <ClCompile Include="Pathfinder.cxx" />
     <ClCompile Include="Quaternion.cxx" />
     <ClCompile Include="Random.cxx" />
     <ClCompile Include="Screen.cxx" />

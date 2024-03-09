@@ -12,7 +12,17 @@ namespace ScriptAPI
 		static void LoadMainGame();
 
 		static void LoadStartingCutscene();
-		
+
+		static void LoadLoseScreen();
+
+		static void LoadEndGameCredits();
+
+		static void LoadQuitGame();
+
+		static void LoadOptionsScreen();
+
+		static void LoadTempEndScene();
+
 		static System::String^ dataPath;
 	};
 }

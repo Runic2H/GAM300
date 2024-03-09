@@ -20,6 +20,8 @@
 
 #include "Input/Input.h"
 
+#include "GraphicsResource/Revamped/MeshController.h"
+
 namespace TDS
 {
 	/*!*************************************************************************
@@ -33,6 +35,267 @@ namespace TDS
 
 		addComponentWidth = 200.0f;
 		addComponentHeight = 300.0f;
+	}
+
+	/*"A",
+	"B",
+	"C",
+	"D",
+	"E",
+	"F",
+	"G",
+	"H",
+	"I",
+	"J",
+	"K",
+	"L",
+	"M",
+	"N",
+	"O",
+	"P",
+	"Q",
+	"R",
+	"S",
+	"T",
+	"U",
+	"V",
+	"W",
+	"X",
+	"Y",
+	"Z",
+	"Left Arrow",
+	"Up Arrow",
+	"Right Arrow",
+	"Down Arrow",
+	"Numpad 0",		// 30
+	"Numpad 1",
+	"Numpad 2",
+	"Numpad 3",
+	"Numpad 4",
+	"Numpad 5",
+	"Numpad 6",
+	"Numpad 7",
+	"Numpad 8",
+	"Numpad 9",
+
+	"Semicolon",	//40
+	"Plus",
+	"Comma",
+	"Minus",
+	"Period",
+	"Slash",
+
+	"Shift",		//46
+	"Control",
+	"Alt",
+
+	"Left Shift",	//49
+	"Right Shift",
+	"Left Control",
+	"Right Control",
+
+	"Space",		//53
+	"Escape",
+	"Capslock",
+	"Tab",
+	"Enter",
+	"Backspace",
+	"Tilde",
+
+	"F1",			//60
+	"F2",
+	"F3",
+	"F4",
+	"F5",
+	"F6",
+	"F7",
+	"F8",
+	"F9",
+	"F10",
+	"F11",
+	"F12",
+
+	"Left Mouse",		//72
+	"Right Mouse",
+	"Middle Mouse",
+	"Mouse 4",
+	"Mouse 5",
+	"Mouse 6",
+	"Scroll"*/
+
+	uint32_t toKeyCode(uint32_t index)
+	{
+		if (index >= 0 && index <= 25) // A to Z
+		{
+			return index + 0x41;
+		}
+		else if (index >= 26 && index <= 29) // Up Down Left Right
+		{
+			return index - 26 + 0x25;
+		}
+		else if (index >= 30 && index <= 39) // Numbers
+		{
+			return index - 30 + 0x30;
+		}
+		else if (index >= 40 && index <= 45) // Special Characters
+		{
+			return index - 40 + 0xBA;
+		}
+		else if (index >= 46 && index <= 48) // Shift, Ctrl & Alt
+		{
+			return index - 46 + 0x10;
+		}
+		else if (index >= 49 && index <= 52) // Left and Right Shift + Control
+		{
+			return index - 49 + 0xA0;
+		}
+		else if (index >= 60 && index <= 71) // Function Keys
+		{
+			return index - 60 + 0x70;
+		}
+
+		else if (index == 53) // Space
+		{
+			return 0x20;
+		}
+		else if (index == 54) // Esc
+		{
+			return 0x1B;
+		}
+		else if (index == 55) // Caps
+		{
+			return 0x14;
+		}
+		else if (index == 56) // Tab
+		{
+			return 0x09;
+		}
+		else if (index == 57) // Enter
+		{
+			return 0x0D;
+		}
+		else if (index == 58) // Backspace
+		{
+			return 0x08;
+		}
+		else if (index == 59) // Tilde
+		{
+			return 0xC0;
+		}
+
+		else if (index == 72) // Left Mouse
+		{
+			return 0x01;
+		}
+		else if (index == 73) // Right Mouse
+		{
+			return 0x02;
+		}
+		else if (index == 74) // Middle Mouse
+		{
+			return 0x04;
+		}
+		else if (index == 75) // M4
+		{
+			return 0x05;
+		}
+		else if (index == 76) // M5
+		{
+			return 0x06;
+		}
+		else if (index == 77) // Scroll
+		{
+			return 0x07;
+		}
+
+		return 0;
+	}
+	uint32_t toKeyCodeIndex(uint32_t keyCode)
+	{
+		if (keyCode >= 0x41 && keyCode <= 0x5A) // A to Z
+		{
+			return keyCode - 0x41;
+		}
+		else if (keyCode >= 0x25 && keyCode <= 0x28) // Up Down Left Right
+		{
+			return keyCode - 0x25 + 26;
+		}
+		else if (keyCode >= 0x30 && keyCode <= 0x39) // Numbers
+		{
+			return keyCode - 0x30 + 30;
+		}
+		else if (keyCode >= 0xBA && keyCode <= 0xBF) // Special Characters
+		{
+			return keyCode - 0xBA + 40;
+		}
+		else if (keyCode >= 0x10 && keyCode <= 0x10) // Shift, Ctrl & Alt
+		{
+			return keyCode - 0x10 + 46;
+		}
+		else if (keyCode >= 0xA0 && keyCode <= 0xA3) // Left and Right Shift + Control
+		{
+			return keyCode - 0xA0 + 49;
+		}
+		else if (keyCode >= 0x70 && keyCode <= 0x7B) // Function Keys
+		{
+			return keyCode - 0x70 + 60;
+		}
+
+		else if (keyCode == 0x20) // Space
+		{
+			return 53;
+		}
+		else if (keyCode == 0x1B) // Esc
+		{
+			return 54;
+		}
+		else if (keyCode == 0x14) // Caps
+		{
+			return 55;
+		}
+		else if (keyCode == 0x09) // Tab
+		{
+			return 56;
+		}
+		else if (keyCode == 0x0D) // Enter
+		{
+			return 57;
+		}
+		else if (keyCode == 0x08) // Backspace
+		{
+			return 58;
+		}
+		else if (keyCode == 0xC0) // Tilde
+		{
+			return 59;
+		}
+
+		else if (keyCode == 0x01) // Left Mouse
+		{
+			return 72;
+		}
+		else if (keyCode == 0x02) // Right Mouse
+		{
+			return 73;
+		}
+		else if (keyCode == 0x04) // Middle Mouse
+		{
+			return 74;
+		}
+		else if (keyCode == 0x05) // M4
+		{
+			return 75;
+		}
+		else if (keyCode == 0x06) // M5
+		{
+			return 76;
+		}
+		else if (keyCode == 0x07) // Scroll
+		{
+			return 77;
+		}
+
+		return 0;
 	}
 
 	/*!*************************************************************************
@@ -206,7 +469,19 @@ namespace TDS
 						{
 							ImguiComponentDisplay(componentName, componentBase);
 						}
+						if (componentName == "Graphics Component")
+						{
+							if (ImGui::Button("Reset all Mesh position(MANSION MESH ONLY)"))
+							{
+								GraphicsComponent* graphComponent = reinterpret_cast<GraphicsComponent*>(componentBase);
+								if (graphComponent->m_MeshControllerRef.m_ResourcePtr != nullptr)
+								{
+									graphComponent->m_MeshControllerRef.m_ResourcePtr->ResetMeshPosition();
+								}
 
+
+							}
+						}
 						ImGui::PopItemWidth();
 						ImGui::EndTable();
 					}
@@ -372,11 +647,11 @@ namespace TDS
 									"X",
 									"Y",
 									"Z",
-									"Up Arrow",
-									"Down Arrow",
 									"Left Arrow",
+									"Up Arrow",
 									"Right Arrow",
-									"Numpad 0",
+									"Down Arrow",
+									"Numpad 0",		// 30
 									"Numpad 1",
 									"Numpad 2",
 									"Numpad 3",
@@ -386,42 +661,57 @@ namespace TDS
 									"Numpad 7",
 									"Numpad 8",
 									"Numpad 9",
-									"Minus",
+									"Semicolon",	//40
 									"Plus",
-									"Shift",
+									"Comma",
+									"Minus",
+									"Period",
+									"Slash",
+
+									"Shift",		//46
 									"Control",
 									"Alt",
-									"Space",
+
+									"Left Shift",	//49
+									"Right Shift",
+									"Left Control",
+									"Right Control",
+
+									"Space",		//53
 									"Escape",
 									"Capslock",
 									"Tab",
 									"Enter",
 									"Backspace",
 									"Tilde",
-									"Comma",
-									"Period",
-									"Slash",
-									"Semicolon",
-									"Mouse1",
-									"Mouse2",
-									"Mouse3",
-									"Mouse4",
-									"Mouse5",
-									"Mouse6",
-									"Mouse7"
+
+									"F1",			//60
+									"F2",
+									"F3",
+									"F4",
+									"F5",
+									"F6",
+									"F7",
+									"F8",
+									"F9",
+									"F10",
+									"F11",
+									"F12",
+
+									"Left Mouse",		//62
+									"Right Mouse",
+									"Middle Mouse",
+									"Mouse 4",
+									"Mouse 5",
+									"Mouse 6",
+									"Scroll"
 								};
 
-								int value = std::stoi(scriptValue.value);
-
-								if (value > TDS_MAX_KEYS)
-								{
-									value -= TDS_MAX_KEYS;
-									value += 55; // cus shift for mouse...
-								}
+								int value = toKeyCodeIndex(std::stoi(scriptValue.value));
 
 								if (ImguiInput(scriptValue.name, KeyCodeTypeString, value))
 								{
-									scriptValue.value = std::to_string(value);
+									scriptValue.value = std::to_string(toKeyCode(value));
 									sceneManagerInstance->setScriptValue(selectedEntity, scriptName, scriptValue);
 								}
 							}
@@ -814,7 +1104,22 @@ namespace TDS
 					{
 						addComponentByName("Graphics Component", selectedEntity);
 					}
-
+					if (!GetDirLightComponent(selectedEntity) && ImGui::Selectable("DirectionalLight"))
+					{
+						addComponentByName("DirectionalLight", selectedEntity);
+					}
+					if (!GetSpotLightComponent(selectedEntity) && ImGui::Selectable("SpotLight"))
+					{
+						addComponentByName("SpotLight", selectedEntity);
+					}
+					if (!GetPointLightComponent(selectedEntity) && ImGui::Selectable("PointLight"))
+					{
+						addComponentByName("PointLight", selectedEntity);
+					}
+					if (!GetAnimationComponent(selectedEntity) && ImGui::Selectable("Animation"))
+					{
+						addComponentByName("AnimationComponent", selectedEntity);
+					}
 					break;
 				case AddComponentStage::SCRIPTS:
 
@@ -950,7 +1255,7 @@ namespace TDS
 			else if (propertyName.get_type() == rttr::type::get<float>())
 			{
 				float newValue = propertyName.get_value(componentInstance).convert<float>();
-				ImguiInput(propertyName.get_name().to_string(), newValue);
+				ImguiInput(propertyName.get_name().to_string(), newValue, 0.0001f);
 				propertyName.set_value(componentInstance, newValue);
 			}
 			else if (propertyName.get_type() == rttr::type::get<bool>())
@@ -969,7 +1274,7 @@ namespace TDS
 				{
 					GraphicsComponent* g = reinterpret_cast<GraphicsComponent*>(componentBase);
 					std::string finaltexture = g->GetTextureName();
-					std::string finalmodel = g->GetModelName();
+					std::string finalmodel = g->GetModelName(); 
 					if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("CONTENT_BROWSER_ITEM"))
 					{
 						const wchar_t* path = (const wchar_t*)payload->Data;
@@ -1116,6 +1421,38 @@ namespace TDS
 						}
 					}
 				}
+				else if (componentName == "AnimationComponent" && ImGui::BeginDragDropTarget())
+				{
+					AnimationComponent* anim = reinterpret_cast<AnimationComponent*>(componentBase);
+					if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("CONTENT_BROWSER_ITEM"))
+					{
+						std::shared_ptr<AssetBrowser> Assetbrowser = static_pointer_cast<AssetBrowser>(LevelEditorManager::GetInstance()->panels[PanelTypes::ASSETBROWSER]);
+						const wchar_t* path = (const wchar_t*)payload->Data;
+						std::wstring ws(path);
+
+						std::string finalPackName = anim->m_AnimationPackName;
+						
+						std::string str(ws.begin(), ws.end());
+
+						const std::filesystem::path filesystempath = str;
+						std::string filename = filesystempath.filename().string();
+						if (propertyName.get_name() == "AnimationPackName")
+						{
+							if (filesystempath.extension() == ".json")
+							{
+								Assetbrowser->getFileNameFromPath(str.c_str(), nullptr, nullptr, &finalPackName, nullptr);
+								anim->m_AnimationPackName = Assetbrowser->LoadAssetRevamped(finalPackName);
+								//AnimationData::Serialize(anim->getAnimationData(), filename, true);
+								//anim->setAnimationJsonFile(filename);
+								//if (anim->getAnimationData().m_Animations.size() > 0)
+								//{
+								//	anim->m_AnimationPlayer.setAnimation(anim->getAnimationData().m_Animations[0]);
+								//}
+							}
+
+						}
+					}
+				}
 				else
 				{
 					propertyName.set_value(componentInstance, newValue);
@@ -1134,7 +1471,10 @@ namespace TDS
 					|| propertyName.get_name().to_string() == "FakeScale"
 					|| propertyName.get_name().to_string() == "OldPosition"
 					|| propertyName.get_name().to_string() == "OldScale"
-					|| propertyName.get_name().to_string() == "OldRotation") continue;
+					|| propertyName.get_name().to_string() == "OldRotation"
+					|| propertyName.get_name().to_string() == "OldFakePosition"
+					|| propertyName.get_name().to_string() == "OldFakeScale"
+					|| propertyName.get_name().to_string() == "OldFakeRotation") continue;
 
 				Vec3 newValue = propertyName.get_value(componentInstance).convert<Vec3>();
 				ImguiInput(propertyName.get_name().to_string(), newValue);
@@ -1400,10 +1740,6 @@ namespace TDS
 			ImGui::EndCombo();
 		}
 
-		if (ImGui::IsItemDeactivatedAfterEdit())
-		{
-			return true;
-		}
-		return false;
+		return true;
 	}
 }

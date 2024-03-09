@@ -8,6 +8,7 @@
  * \brief         Implementation of the physics system.
  *******************************************************************************/
 #include "Physics/PhysicsSystem.h"
+#include "Rendering/GraphicsManager.h"
 
 namespace TDS
 {
@@ -19,9 +20,11 @@ namespace TDS
 	std::unique_ptr<JPH::PhysicsSystem>			PhysicsSystem::m_pSystem;
 	std::unique_ptr<JPH::TempAllocatorImpl>		PhysicsSystem::m_pTempAllocator;
 	std::unique_ptr<JPH::JobSystemThreadPool>	PhysicsSystem::m_pJobSystem;
+	std::unique_ptr<JPH::BodyManager>           PhysicsSystem::m_pBodyManager;
 	std::vector<JoltBodyID>					    PhysicsSystem::m_pBodyIDVector;
 	std::unordered_map<uint32_t, EntityID>		PhysicsSystem::m_pBodyIDMap;
 	MyContactListener*							PhysicsSystem::contact_listener;
+	std::unique_ptr<JPH::AllHitCollisionCollector<RayCastBodyCollector>>		PhysicsSystem::collector;
 
 	BPLayerInterfaceImpl						broad_phase_layer_interface;
 	ObjectVsBroadPhaseLayerFilterImpl			object_vs_broadphase_layer_filter;
@@ -98,7 +101,8 @@ namespace TDS
 			object_vs_broadphase_layer_filter,
 			object_vs_object_layer_filter);
 
-
+		// initialise collector
+		collector = std::make_unique<JPH::AllHitCollisionCollector<RayCastBodyCollector>>();
 		// A contact listener gets notified when bodies (are about to) collide, and when they separate again.
 		// Note that this is called from a job so whatever you do here needs to be thread safe.
 		contact_listener = new MyContactListener();
@@ -142,9 +146,23 @@ namespace TDS
 			{
 				using namespace JoltToTDS;
 				EActivation mode = EActivation::Activate;
-				//pBodies->SetPosition(ToBodyID(_rigidbody[i]), ToVec3(_transform[i].GetPosition()), mode); // debugging
-			}
+				//pBodies->SetPosition(ToBodyID(_rigidbody[i]), ToVec3(_transform[i].GetPosition()), mode); // only uncomment for debugging in editor
+				if (GetBoxCollider(entities[i])) // Temporary will be remove with animation system
+				{
+					BoxCollider* vBox = GetBoxCollider(entities[i]);
+					auto* pBody = m_pSystem->GetBodyLockInterfaceNoLock().TryGetBody(ToBodyID(_rigidbody[i]));
+					if (vBox->GetIsTrigger())
+					{
+						pBody->SetIsSensor(true);
+					}
+					else
+					{
+						pBody->SetIsSensor(false);
+					}
+				}
 
+			}
+			
 			m_pSystem->Update(TimeStep::GetFixedDeltaTime(), 1, m_pTempAllocator.get(), m_pJobSystem.get());
 			// Update back to the ECS
 			for (int j = 0; j < entities.size(); ++j)
@@ -153,7 +171,10 @@ namespace TDS
 				{
 					continue;
 				}
-		
+				if (_rigidbody[j].getIsRayCast())
+				{
+					JPH_Raycast(entities[j], &_transform[j], &_rigidbody[j]);
+				}
 				/*if (GetBoxCollider(entities[j]))
 				{
 					BoxCollider* vBox = GetBoxCollider(entities[j]);
@@ -184,6 +205,17 @@ namespace TDS
 			_transform->SetPosition(JoltToTDS::ToVec3(pBodies->GetPosition(JPHBodyID)));
 			_rigidbody->SetLinearVel(JoltToTDS::ToVec3(pBodies->GetLinearVelocity(JPHBodyID)));
 		}
+		else if (_rigidbody->getDoor())
+		{
+			_transform->SetPosition(JoltToTDS::ToVec3(pBodies->GetRotation(JPHBodyID).GetEulerAngles()));
+		}
+		if (_rigidbody->getIsRayHit() &&  
+			(collector->mHits.data()->mBodyID.GetIndexAndSequenceNumber() != _rigidbody->GetBodyID().GetIndexAndSequenceNumber() ||
+			collector->HadHit() == false))
+		{
+			_rigidbody->setIsRayHit(false);
+		}
+
 	}
 	void PhysicsSystem::JPH_SystemShutdown()
 	{
@@ -191,7 +223,7 @@ namespace TDS
 		m_pTempAllocator = nullptr;
 		m_pSystem = nullptr;
 		m_pJobSystem = nullptr;
-		
+		collector = nullptr;
 		delete contact_listener;
 		contact_listener = nullptr;
 	}
@@ -267,7 +299,7 @@ namespace TDS
 		else if (GetCapsuleCollider(_entityID))
 		{
 			CapsuleCollider* vCapsule = GetCapsuleCollider(_entityID);
-			JPH::CapsuleShapeSettings s_capsuleSettings(vCapsule->GetHeight()*2.f, vCapsule->GetRadius()*2.f);
+			JPH::CapsuleShapeSettings s_capsuleSettings(vCapsule->GetHeight(), vCapsule->GetRadius());
 			JPH::ShapeSettings::ShapeResult result = s_capsuleSettings.Create();
 			JPH::ShapeRefC capsuleShape = result.Get();
 			JPH::BodyCreationSettings b_capsuleSetting
@@ -280,12 +312,11 @@ namespace TDS
 			);
 			b_capsuleSetting.mFriction = _rigidbody->GetFriction();
 			b_capsuleSetting.mRestitution = _rigidbody->GetRestitution();
-			b_capsuleSetting.mGravityFactor = _rigidbody->GetGravityFactor();
+			b_capsuleSetting.mGravityFactor = (_rigidbody->GetUseGravity()) ? _rigidbody->GetGravityFactor() : 0.0f;
 			b_capsuleSetting.mLinearDamping = _rigidbody->GetLinearDamping();
 			b_capsuleSetting.mAngularDamping = _rigidbody->GetAngularDamping();
-			b_capsuleSetting.mLinearVelocity = JoltToTDS::ToVec3(_rigidbody->GetLinearVel());
-			b_capsuleSetting.mAngularVelocity = JoltToTDS::ToVec3(_rigidbody->GetAngularVel());
-			b_capsuleSetting.mIsSensor = vCapsule->GetIsTrigger();
+			b_capsuleSetting.mAllowSleeping = false;
+			//b_capsuleSetting.mIsSensor = b_capsuleSetting->GetIsTrigger();
 			
 			JPH::BodyID capsuleID = m_pSystem->GetBodyInterface().CreateAndAddBody(b_capsuleSetting, JPH::EActivation::Activate);
 			
@@ -304,6 +335,41 @@ namespace TDS
 			TDS_ASSERT(false, "No collider found for entity, for now rigidbody need to have collider")
 		}
 		
+	}
+
+
+	void PhysicsSystem::JPH_Raycast(const EntityID& entities, Transform* _transform, RigidBody* _rigidbody)
+
+	{
+		//float vRayScale = _rigidbody->getRayScale();
+		////float offsetDistance = _transform->GetScale().x + 100.0f;
+		//JPH::Vec3 vRayOrigin = JoltToTDS::ToVec3(_transform->GetPosition());
+		//JPH::Vec3 vRayDirection = JoltToTDS::ToVec3(GraphicsManager::getInstance().GetCamera().getForwardVector());
+
+		//JPH::RayCast ray{ vRayOrigin, vRayDirection * 20.0f * vRayScale };
+		//collector->Reset();
+		//m_pSystem->GetBroadPhaseQuery().CastRay(ray, *collector);
+		float offsetDistance = _transform->GetScale().x * 0.5f;
+		JPH::Vec3 vRayOrigin = JoltToTDS::ToVec3(_transform->GetPosition() + GraphicsManager::getInstance().GetCamera().getForwardVector() * offsetDistance);
+		JPH::Vec3 vRayDirection = JoltToTDS::ToVec3(GraphicsManager::getInstance().GetCamera().getForwardVector());
+		JPH::Vec3 vScaledRayDir = vRayDirection * _rigidbody->getRayScale();
+
+		JPH::RayCast ray{ vRayOrigin, vScaledRayDir };
+		collector->Reset();
+		m_pSystem->GetBroadPhaseQuery().CastRay(ray, *collector);
+
+		const JPH::BroadPhaseQuery* broadphase = &m_pSystem->GetBroadPhaseQuery();
+
+		if (collector->HadHit())
+		{
+			JPH::BroadPhaseCastResult* result = collector->mHits.data();
+			auto entityID = findEntityByID(result->mBodyID.GetIndex());
+			if (entityID.has_value())
+			{
+				GetRigidBody(entityID.value())->setIsRayHit(true);
+			}
+		}
+
 	}
 
 	std::optional<EntityID> TDS::PhysicsSystem::findEntityByID(uint32_t key)

@@ -48,6 +48,7 @@ namespace TDS
 		void setRawMouseInput(int x, int y);
 		void setCursorVisible(bool visible);
 		bool getCursorVisible();
+		void hideMouse();
 		void lockMouseCenter(HWND hwnd);
 		void setMouseLock(bool lock);
 		bool getMouseLock();
@@ -62,12 +63,28 @@ namespace TDS
 
 		short& getWheelDelta();
 
+
+		static void setUIMousePos(Vec2 mousePos);
+		float getUIMousePosX();
+		float getUIMousePosY();
+
+		float getSensitivity() { return 0.1f; }
+		void setSensitivity(float value) { m_sensitivity = value; }
+
+		WPARAM app_wparam;
+		LPARAM app_lparam;
+		HWND app_handler;
+
+
 		struct KeyState
 		{
 			bool pressed;
 			bool down;
 			bool up;
 		};
+
+		int accumulatedMouseX = 0;
+		int accumulatedMouseY = 0;
 
 	private:
 		static std::unique_ptr<InputSystem> m_instance;
@@ -88,5 +105,8 @@ namespace TDS
 		Point m_winCenter;
 		bool mouseVisible = false;
 		Point m_localMousePos;
+		static Vec2 m_uiMousePos;
+		float m_sensitivity = 0.1f;
+		bool m_previous = mouseVisible;
 	};
 }

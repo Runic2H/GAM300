@@ -241,9 +241,9 @@ namespace TDS
 			//if (TDS::Input::isKeyPressed(TDS_1)) { m_gizmoType = static_cast<int>(ImGuizmo::OPERATION::TRANSLATE); }
 			//else if (TDS::Input::isKeyPressed(TDS_2)) { m_gizmoType = static_cast<int>(ImGuizmo::OPERATION::SCALE); }
 			//else if (TDS::Input::isKeyPressed(TDS_3)) { m_gizmoType = static_cast<int>(ImGuizmo::OPERATION::ROTATE); }
-			if (InputSystem::GetInstance()->isKeyPressed(VK_NUMPAD1)) { m_gizmoType = static_cast<int>(ImGuizmo::OPERATION::TRANSLATE); }
-			else if (InputSystem::GetInstance()->isKeyPressed(VK_NUMPAD2)) { m_gizmoType = static_cast<int>(ImGuizmo::OPERATION::SCALE); }
-			else if (InputSystem::GetInstance()->isKeyPressed(VK_NUMPAD3)) { m_gizmoType = static_cast<int>(ImGuizmo::OPERATION::ROTATE); }
+			if (InputSystem::GetInstance()->isKeyPressed('1')) { m_gizmoType = static_cast<int>(ImGuizmo::OPERATION::TRANSLATE); }
+			else if (InputSystem::GetInstance()->isKeyPressed('2')) { m_gizmoType = static_cast<int>(ImGuizmo::OPERATION::SCALE); }
+			else if (InputSystem::GetInstance()->isKeyPressed('3')) { m_gizmoType = static_cast<int>(ImGuizmo::OPERATION::ROTATE); }
 			bool val = ImGuizmo::Manipulate(
 				_view, _proj, (ImGuizmo::OPERATION)m_gizmoType, ImGuizmo::WORLD, _trans,
 				nullptr, false ? _snap : nullptr
@@ -289,9 +289,9 @@ namespace TDS
 	{
 		if (m_DescSet)
 		{
-			ImGui_ImplVulkan_RemoveTexture(m_DescSet);
-			m_DescSet = ImGui_ImplVulkan_AddTexture(GraphicsManager::getInstance().getFinalImage().getSampler(), GraphicsManager::getInstance().getFinalImage().getImageView(), VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL);
-
+			//ImGui_ImplVulkan_RemoveTexture(m_DescSet);
+			//m_DescSet = ImGui_ImplVulkan_AddTexture(GraphicsManager::getInstance().getFinalImage().getSampler(), GraphicsManager::getInstance().getFinalImage().getImageView(), VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL);
+			ImGui_ImplVulkan_UpdateTexture(GraphicsManager::getInstance().getFinalImage().getSampler(), m_DescSet, GraphicsManager::getInstance().getFinalImage().getImageView(), VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL);
 		}
 	}
 }

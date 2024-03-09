@@ -3,12 +3,12 @@
 namespace TDS
 {
     Vec2::Vec2() : x(0), y(0) {}
-    Vec2::Vec2(const Vec2& v) : x(v.x), y(v.y) {}
+    //Vec2::Vec2(const Vec2& v) : x(v.x), y(v.y) {}
     Vec2::Vec2(float value) : x(value), y(value) {}
     Vec2::Vec2(float data[]) : x(data[0]), y(data[1]) {}
     Vec2::Vec2(float newX, float newY) : x(newX), y(newY) {}
     Vec2::Vec2(const float* newX, const float* newY) : x(*newX), y(*newY) {}
-    Vec2::~Vec2() {}
+    //Vec2::~Vec2() {}
 
     Vec2 Vec2::down() { return Vec2(0.f, -1.f); }
     Vec2 Vec2::left() { return Vec2(-1.f, 0.f); }
@@ -312,5 +312,9 @@ namespace TDS
         return v1.x != v2.x || v1.y != v2.y;
     }
 
+    Vec2 floatsToVec2(float x, float y)
+    {
+        return Vec2(x, y);
+    }
 
 }  // namespace WD

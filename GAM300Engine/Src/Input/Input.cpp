@@ -356,7 +356,6 @@ namespace TDS
 		//SetCursorPos(center.x, center.y);
 		//ShowCursor(FALSE);
 	}
-
 	
 	// float Input::GetObjectPickPosX()
 	// {

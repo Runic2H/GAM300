@@ -24,9 +24,13 @@
 #include "transform.h"
 #include "winData.h"
 #include "UiSprite.h"
+#include "PointLightComponent.h"
+#include "DirLightComponent.h"
+#include "SpotLightComponent.h"
 #include "fmod_engine/AudioEngine.h"
 #include "SoundInfo.h"
 #include "ParticleComponent.h"
+#include "animationComponent.h"
 
 // Helper functions for components
 namespace TDS

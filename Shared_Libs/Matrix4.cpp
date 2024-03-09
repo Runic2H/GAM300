@@ -134,7 +134,7 @@ namespace TDS
         float m02 = m[0][2]; float m12 = m[1][2]; float m22 = m[2][2]; float m32 = m[3][2];
         float m03 = m[0][3]; float m13 = m[1][3]; float m23 = m[2][3]; float m33 = m[3][3];
         float det = determinant();
-        if (det == 0.0f) throw std::invalid_argument("Matrix is not invertible.");
+        if (det< FLT_EPSILON) throw std::invalid_argument("Matrix is not invertible.");
         float invDet = 1.0f / det;
         return Mat4((m12 * m23 * m31 - m13 * m22 * m31 + m13 * m21 * m32 - m11 * m23 * m32 - m12 * m21 * m33 + m11 * m22 * m33) * invDet,
                     (m03 * m22 * m31 - m02 * m23 * m31 - m03 * m21 * m32 + m01 * m23 * m32 + m02 * m21 * m33 - m01 * m22 * m33) * invDet,
@@ -156,10 +156,16 @@ namespace TDS
 
     Mat4 Mat4::transpose()
     {
-        Vec4 v1(m[0], m[4], m[8], m[12]);
-        Vec4 v2(m[1], m[5], m[9], m[13]);
-        Vec4 v3(m[2], m[6], m[10], m[14]);
-        Vec4 v4(m[3], m[7], m[11], m[15]);
+        //Vec4 v1(m[0], m[4], m[8], m[12]);
+        //Vec4 v2(m[1], m[5], m[9], m[13]);
+        //Vec4 v3(m[2], m[6], m[10], m[14]);
+        //Vec4 v4(m[3], m[7], m[11], m[15]);
+
+        Vec4 v1(m[0].data(), m[4].data(), m[8].data(), m[12].data());
+        Vec4 v2(m[1].data(), m[5].data(), m[9].data(), m[13].data());
+        Vec4 v3(m[2].data(), m[6].data(), m[10].data(), m[14].data());
+        Vec4 v4(m[3].data(), m[7].data(), m[11].data(), m[15].data());
+
         return Mat4(v1, v2, v3, v4);
     }
 

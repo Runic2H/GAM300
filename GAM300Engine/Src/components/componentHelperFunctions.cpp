@@ -77,8 +77,16 @@ namespace TDS
 			return ecs.addComponent<UISprite>(entityID);
 		else if (componentName == "Audio")
 			return ecs.addComponent<SoundInfo>(entityID);
-		
-		else 
+		else if (componentName == "DirectionalLight")
+			return ecs.addComponent<DirectionalLightComponent>(entityID);
+		else if (componentName == "SpotLight")
+			return ecs.addComponent<SpotLightComponent>(entityID);
+		else if (componentName == "PointLight")
+			return ecs.addComponent<PointLightComponent>(entityID);
+		else if (componentName == "AnimationComponent")
+			return ecs.addComponent<AnimationComponent>(entityID);
+
+		else
 			return nullptr;
 	}
 
@@ -116,6 +124,14 @@ namespace TDS
 			return *(ecs.addComponent<WinData>(entityID));
 		else if (componentName == rttr::type::get<SoundInfo>())
 			return *(ecs.addComponent<SoundInfo>(entityID));
+		else if (componentName == rttr::type::get<DirectionalLightComponent>())
+			return *(ecs.addComponent<DirectionalLightComponent>(entityID));
+		else if (componentName == rttr::type::get<SpotLightComponent>())
+			return *(ecs.addComponent<SpotLightComponent>(entityID));
+		else if (componentName == rttr::type::get<PointLightComponent>())
+			return *(ecs.addComponent<PointLightComponent>(entityID));
+		else if (componentName == rttr::type::get<AnimationComponent>())
+			return *(ecs.addComponent<AnimationComponent>(entityID));
 	}
 
 	/*!*************************************************************************
@@ -151,6 +167,15 @@ namespace TDS
 			return ecs.getComponent<UISprite>(entityID);
 		else if (componentName == "Audio" || componentName == "ScriptAPI.AudioComponent")
 			return ecs.getComponent<SoundInfo>(entityID);
+		else if (componentName == "DirectionalLight")
+			return ecs.getComponent<DirectionalLightComponent>(entityID);
+		else if (componentName == "SpotLight")
+			return ecs.getComponent<SpotLightComponent>(entityID);
+		else if (componentName == "PointLight")
+			return ecs.getComponent<PointLightComponent>(entityID);
+		else if (componentName == "AnimationComponent")
+			return ecs.getComponent<AnimationComponent>(entityID);
+
 		else
 			return nullptr;
 	}
@@ -189,6 +214,14 @@ namespace TDS
 			return *(ecs.getComponent<WinData>(entityID));
 		else if (componentName == rttr::type::get<SoundInfo>())
 			return *(ecs.getComponent<SoundInfo>(entityID));
+		else if (componentName == rttr::type::get<DirectionalLightComponent>())
+			return *(ecs.getComponent<DirectionalLightComponent>(entityID));
+		else if (componentName == rttr::type::get<SpotLightComponent>())
+			return *(ecs.getComponent<SpotLightComponent>(entityID));
+		else if (componentName == rttr::type::get<PointLightComponent>())
+			return  *(ecs.getComponent<PointLightComponent>(entityID));
+		else if (componentName == rttr::type::get<AnimationComponent>())
+			return  *(ecs.getComponent<AnimationComponent>(entityID));
 	}
 
 	/*!*************************************************************************
@@ -224,6 +257,14 @@ namespace TDS
 			ecs.removeComponent<UISprite>(entityID);
 		else if (componentName == "Audio")
 			ecs.removeComponent<SoundInfo>(entityID);
+		else if (componentName == "DirectionalLight")
+			ecs.removeComponent<DirectionalLightComponent>(entityID);
+		else if (componentName == "SpotLight")
+			ecs.removeComponent<SpotLightComponent>(entityID);
+		else if (componentName == "PointLight")
+			ecs.removeComponent<PointLightComponent>(entityID);
+		else if (componentName == "AnimationComponent")
+			ecs.removeComponent<AnimationComponent>(entityID);
 	}
 
 	/*!*************************************************************************
@@ -259,6 +300,14 @@ namespace TDS
 			ecs.setComponentIsEnabled<UISprite>(entityID, isEnabled);
 		else if (componentName == "Audio")
 			ecs.setComponentIsEnabled<SoundInfo>(entityID, isEnabled);
+		else if (componentName == "DirectionalLight")
+			ecs.setComponentIsEnabled<DirectionalLightComponent>(entityID, isEnabled);
+		else if (componentName == "SpotLight")
+			ecs.setComponentIsEnabled<SpotLightComponent>(entityID, isEnabled);
+		else if (componentName == "PointLight")
+			ecs.setComponentIsEnabled<PointLightComponent>(entityID, isEnabled);
+		else if (componentName == "AnimationComponent")
+			ecs.setComponentIsEnabled<AnimationComponent>(entityID, isEnabled);
 	}
 
 	/*!*************************************************************************
@@ -294,6 +343,14 @@ namespace TDS
 			return ecs.getComponentIsEnabled<UISprite>(entityID);
 		else if (componentName == "Audio")
 			return ecs.getComponentIsEnabled<SoundInfo>(entityID);
+		else if (componentName == "DirectionalLight")
+			return  ecs.getComponentIsEnabled<DirectionalLightComponent>(entityID);
+		else if (componentName == "SpotLight")
+			return  ecs.getComponentIsEnabled<SpotLightComponent>(entityID);
+		else if (componentName == "PointLight")
+			return  ecs.getComponentIsEnabled<PointLightComponent>(entityID);
+		else if (componentName == "AnimationComponent")
+			return  ecs.getComponentIsEnabled<AnimationComponent>(entityID);
 		else
 			return false;
 	}

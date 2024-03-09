@@ -13,7 +13,7 @@ namespace TDS
 	class FrameBuffer
 	{
 	public:
-		DLL_API FrameBuffer(VkDevice _device, VkRenderPass _renderPass, const std::vector<RenderTarget*>& _attachments, uint32_t _layer = 0, uint32_t _mipLevel = 0 );
+		DLL_API FrameBuffer(VkDevice _device, VkRenderPass _renderPass, const std::vector<RenderTarget*>& _attachments, uint32_t _layer = 0, uint32_t _mipLevel = 0);
 		DLL_API FrameBuffer(VkDevice _device, VkRenderPass _renderPass, bool _imageless, Vec3 _ImageLessDim);
 		DLL_API ~FrameBuffer();
 
@@ -45,7 +45,7 @@ namespace TDS
 		VkFramebuffer m_FrameBuffer{};
 		VkRenderPass m_renderPass{};
 		std::vector<RenderTarget*> m_Attachments;
-	
+
 
 
 	};

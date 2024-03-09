@@ -167,7 +167,7 @@ namespace TDS
 	bool TDSCamera::moving()
 	{
 		auto& inputSystem = InputSystem::GetInstance();
-		if (/*inputSystem->isKeyPressed('W') ||*/ inputSystem->isKeyDown('W'))
+		if (inputSystem->isKeyPressed('W') || inputSystem->isKeyDown('W'))
 		{
 			keys.up = true;
 		}
@@ -176,7 +176,7 @@ namespace TDS
 			keys.up = false;
 		}
 
-		if (/*inputSystem->isKeyPressed('A') ||*/ inputSystem->isKeyDown('A'))
+		if (inputSystem->isKeyPressed('A') || inputSystem->isKeyDown('A'))
 		{
 			keys.left = true;
 		}
@@ -185,7 +185,7 @@ namespace TDS
 			keys.left = false;
 		}
 
-		if (/*inputSystem->isKeyPressed('S') ||*/ inputSystem->isKeyDown('S'))
+		if (inputSystem->isKeyPressed('S') || inputSystem->isKeyDown('S'))
 		{
 			keys.down = true;
 		}
@@ -194,7 +194,7 @@ namespace TDS
 			keys.down = false;
 		}
 
-		if (/*inputSystem->isKeyPressed('D') ||*/ inputSystem->isKeyDown('D'))
+		if (inputSystem->isKeyPressed('D') || inputSystem->isKeyDown('D'))
 		{
 			keys.right = true;
 		}

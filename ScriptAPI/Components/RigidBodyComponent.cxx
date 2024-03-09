@@ -157,6 +157,31 @@ namespace ScriptAPI
 		TDS::SetPositionRotationAndVelocity(*TDS::GetRigidBody(entityID), inPositionVec3, inRotationQuat, inLinearVelocityVec3, inAngularVelocityVec3);
 	}
 
+	void RigidBodyComponent::SetPosition(Vector3 inPosition)
+	{
+		if (!TDS::GetRigidBody(entityID))
+		{
+			// throw error instead (not sure how)
+			return;
+		}
+
+		TDS::Vec3 inPositionVec3 = TDS::floatsToVec3(inPosition.X, inPosition.Y, inPosition.Z);
+		TDS::SetPosition(*TDS::GetRigidBody(entityID), inPositionVec3, true);
+	}
+
+	void RigidBodyComponent::SetRotation(Quaternion inRotation)
+	{
+		if (!TDS::GetRigidBody(entityID))
+		{
+			// throw error instead (not sure how)
+			return;
+		}
+
+		TDS::Quat inRotationQuat = TDS::floatsToQuat(inRotation.X, inRotation.Y, inRotation.Z, inRotation.W);
+		TDS::SetRotation(*TDS::GetRigidBody(entityID), inRotationQuat, true);
+
+	}
+
 	// FORCES
 	void RigidBodyComponent::AddForce(Vector3 inForce)
 	{
@@ -341,6 +366,18 @@ namespace ScriptAPI
 		entityID = ID;
 		transform = TransformComponent(ID);
 		gameObject = EngineInterface::GetGameObject(ID);
+	}
+
+	bool RigidBodyComponent::IsRayHit()
+	{
+		// May wanna change to a function
+		if (!TDS::GetRigidBody(entityID))
+		{
+			// throw error instead (not sure how)
+			return false;
+		}
+
+		return TDS::GetRigidBody(entityID)->getIsRayHit();
 	}
 
 	TDS::EntityID RigidBodyComponent::GetEntityID()

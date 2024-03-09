@@ -55,7 +55,7 @@ void TDS::GamePlayScene::update()
 		//{
 		//	Input::setExitCursor(true);
 		//}
-		if (inputSystem->isKeyPressed(VK_ESCAPE))
+		if ((inputSystem->isKeyDown(VK_SHIFT) || inputSystem->isKeyPressed(VK_SHIFT)) && inputSystem->isKeyPressed(VK_ESCAPE))
 		{
 			gamePaused = true;
 			inputSystem->setCursorVisible(true);
@@ -63,6 +63,7 @@ void TDS::GamePlayScene::update()
 		}
 		else if (inputSystem->getCursorVisible() && ImGui::IsWindowHovered() && inputSystem->isMousePressed(VK_LBUTTON) && gamePaused)
 		{
+			proxy_audio_system::ScriptPlayAllPaused();
 			inputSystem->setCursorVisible(false);
 			inputSystem->setMouseLock(true);
 			gamePaused = false;
@@ -96,9 +97,8 @@ void TDS::GamePlayScene::update()
 
 			float normalizedLocalMouseX = ((globalMousePos.x - window_pos.x) / (window_size.x * 0.5f)) - 1.f;
 			float normalizedLocalMouseY = ((window_pos.y + window_size.y - globalMousePos.y) / (window_size.y * 0.5f)) - 1.f;
-			Vec2 localMousePos = { normalizedLocalMouseX, normalizedLocalMouseY };
 
-			//Input::setLocalMousePos(localMousePos);
+			InputSystem::setUIMousePos(Vec2(normalizedLocalMouseX, normalizedLocalMouseY));
 
 		}
 		ShowCursor(show_cursor);
@@ -129,8 +129,8 @@ void TDS::GamePlayScene::Resize()
 {
 	if (m_GamePlayDesc)
 	{
-		ImGui_ImplVulkan_RemoveTexture(m_GamePlayDesc);
-		m_GamePlayDesc = ImGui_ImplVulkan_AddTexture(GraphicsManager::getInstance().getFinalImage().getSampler(), GraphicsManager::getInstance().getFinalImage().getImageView(), VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL);
-
+		/*ImGui_ImplVulkan_RemoveTexture(m_GamePlayDesc);
+		m_GamePlayDesc = ImGui_ImplVulkan_AddTexture(GraphicsManager::getInstance().getFinalImage().getSampler(), GraphicsManager::getInstance().getFinalImage().getImageView(), VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL);*/
+		ImGui_ImplVulkan_UpdateTexture(GraphicsManager::getInstance().getFinalImage().getSampler(), m_GamePlayDesc, GraphicsManager::getInstance().getFinalImage().getImageView(), VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL);
 	}
 }

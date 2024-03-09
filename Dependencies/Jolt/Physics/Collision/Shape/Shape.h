@@ -123,7 +123,7 @@ static constexpr EShapeSubType sCompoundSubShapeTypes[] = { EShapeSubType::Stati
 static constexpr EShapeSubType sDecoratorSubShapeTypes[] = { EShapeSubType::RotatedTranslated, EShapeSubType::Scaled, EShapeSubType::OffsetCenterOfMass };
 
 /// How many shape types we support
-static constexpr uint NumSubShapeTypes = (uint)size(sAllSubShapeTypes);
+static constexpr uint NumSubShapeTypes = uint(size(sAllSubShapeTypes));
 
 /// Names of sub shape types
 static constexpr const char *sSubShapeTypeNames[] = { "Sphere", "Box", "Triangle", "Capsule", "TaperedCapsule", "Cylinder", "ConvexHull", "StaticCompound", "MutableCompound", "RotatedTranslated", "Scaled", "OffsetCenterOfMass", "Mesh", "HeightField", "SoftBody", "User1", "User2", "User3", "User4", "User5", "User6", "User7", "User8", "UserConvex1", "UserConvex2", "UserConvex3", "UserConvex4", "UserConvex5", "UserConvex6", "UserConvex7", "UserConvex8" };
@@ -163,7 +163,7 @@ public:
 	Color							mColor = Color::sBlack;
 
 	/// Get an entry in the registry for a particular sub type
-	static inline ShapeFunctions &	sGet(EShapeSubType inSubType)										{ return sRegistry[(int)inSubType]; }
+	static inline ShapeFunctions &	sGet(EShapeSubType inSubType)										{ return sRegistry[int(inSubType)]; }
 
 private:
 	static ShapeFunctions 			sRegistry[NumSubShapeTypes];
@@ -306,10 +306,11 @@ public:
 	/// @param inCenterOfMassTransform Center of mass transform for this shape relative to the vertices.
 	/// @param inScale The scale to use for this shape
 	/// @param ioVertices The vertices of the soft body
+	/// @param inNumVertices The number of vertices in ioVertices
 	/// @param inDeltaTime Delta time of this time step (can be used to extrapolate the position using the velocity of the particle)
 	/// @param inDisplacementDueToGravity Displacement due to gravity during this time step
 	/// @param inCollidingShapeIndex Value to store in SoftBodyVertex::mCollidingShapeIndex when a collision was found
-	virtual void					CollideSoftBodyVertices(Mat44Arg inCenterOfMassTransform, Vec3Arg inScale, Array<SoftBodyVertex> &ioVertices, float inDeltaTime, Vec3Arg inDisplacementDueToGravity, int inCollidingShapeIndex) const = 0;
+	virtual void					CollideSoftBodyVertices(Mat44Arg inCenterOfMassTransform, Vec3Arg inScale, SoftBodyVertex *ioVertices, uint inNumVertices, float inDeltaTime, Vec3Arg inDisplacementDueToGravity, int inCollidingShapeIndex) const = 0;
 
 	/// Collect the leaf transformed shapes of all leaf shapes of this shape.
 	/// inBox is the world space axis aligned box which leaf shapes should collide with.
@@ -323,8 +324,8 @@ public:
 	/// @param ioCollector The transformed shapes will be passed to this collector
 	virtual void					TransformShape(Mat44Arg inCenterOfMassTransform, TransformedShapeCollector &ioCollector) const;
 
-	/// Scale this shape. Note that not all shapes support all scales, this will return a shape that matches the scale as accurately as possible.
-	/// @param inScale The scale to use for this shape (note: this scale is applied to the entire shape in the space it was created, most function apply the scale in the space of the leaf shapes and from the center of mass!)
+	/// Scale this shape. Note that not all shapes support all scales, this will return a shape that matches the scale as accurately as possible. See Shape::IsValidScale for more information.
+	/// @param inScale The scale to use for this shape (note: this scale is applied to the entire shape in the space it was created, most other functions apply the scale in the space of the leaf shapes and from the center of mass!)
 	ShapeResult						ScaleShape(Vec3Arg inScale) const;
 
 	/// An opaque buffer that holds shape specific information during GetTrianglesStart/Next.
@@ -351,7 +352,8 @@ public:
 	///@name Binary serialization of the shape. Note that this saves the 'cooked' shape in a format which will not be backwards compatible for newer library versions.
 	/// In this case you need to recreate the shape from the ShapeSettings object and save it again. The user is expected to call SaveBinaryState followed by SaveMaterialState and SaveSubShapeState.
 	/// The stream should be stored as is and the material and shape list should be saved using the applications own serialization system (e.g. by assigning an ID to each pointer).
-	/// When restoring data, call sRestoreFromBinararyState to get the shape and then call RestoreMaterialState and RestoreSubShapeState to restore the pointers to the external objects.
+	/// When restoring data, call sRestoreFromBinaryState to get the shape and then call RestoreMaterialState and RestoreSubShapeState to restore the pointers to the external objects.
+	/// Alternatively you can use SaveWithChildren and sRestoreWithChildren to save and restore the shape and all its child shapes and materials in a single stream.
 	///@{
 
 	/// Saves the contents of the shape in binary form to inStream.
@@ -407,7 +409,17 @@ public:
 	virtual float					GetVolume() const = 0;
 
 	/// Test if inScale is a valid scale for this shape. Some shapes can only be scaled uniformly, compound shapes cannot handle shapes
-	/// being rotated and scaled (this would cause shearing). In this case this function will return false.
+	/// being rotated and scaled (this would cause shearing), scale can never be zero. When the scale is invalid, the function will return false.
+	///
+	/// Here's a list of supported scales:
+	/// * SphereShape: Scale must be uniform (signs of scale are ignored).
+	/// * BoxShape: Any scale supported (signs of scale are ignored).
+	/// * TriangleShape: Any scale supported when convex radius is zero, otherwise only uniform scale supported.
+	/// * CapsuleShape: Scale must be uniform (signs of scale are ignored).
+	/// * TaperedCapsuleShape: Scale must be uniform (sign of Y scale can be used to flip the capsule).
+	/// * CylinderShape: Scale must be uniform in XZ plane, Y can scale independently (signs of scale are ignored).
+	/// * RotatedTranslatedShape: Scale must not cause shear in the child shape.
+	/// * CompoundShape: Scale must not cause shear in any of the child shapes.
 	virtual bool					IsValidScale(Vec3Arg inScale) const									{ return !inScale.IsNearZero(); }
 
 #ifdef JPH_DEBUG_RENDERER
@@ -421,9 +433,6 @@ protected:
 
 	/// A fallback version of CollidePoint that uses a ray cast and counts the number of hits to determine if the point is inside the shape. Odd number of hits means inside, even number of hits means outside.
 	static void						sCollidePointUsingRayCast(const Shape &inShape, Vec3Arg inPoint, const SubShapeIDCreator &inSubShapeIDCreator, CollidePointCollector &ioCollector, const ShapeFilter &inShapeFilter);
-
-	/// A fallback version of CollideSoftBodyVertices that uses a raycast to collide the vertices with the shape.
-	static void						sCollideSoftBodyVerticesUsingRayCast(const Shape &inShape, Mat44Arg inCenterOfMassTransform, Vec3Arg inScale, Array<SoftBodyVertex> &ioVertices, float inDeltaTime, Vec3Arg inDisplacementDueToGravity, int inCollidingShapeIndex);
 
 private:
 	uint64							mUserData = 0;

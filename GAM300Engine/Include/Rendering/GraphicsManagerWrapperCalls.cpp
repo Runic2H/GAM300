@@ -31,10 +31,12 @@ void TDS::GraphicsManagerWrapperCalls::SetClearColor(float x, float y, float z, 
     TDS::GraphicsManager::getInstance().SetClearColor(Vec4(x,y,z,w));
 }
 
-int TDS::GraphicsManagerWrapperCalls::GetWinPosX() {
-    return TDS::GraphicsManager::getInstance().GetWindow()->GetWindowPosX();
+void TDS::GraphicsManagerWrapperCalls::SetFadeFactor(float value)
+{
+    TDS::GraphicsManager::getInstance().SetFadeFactor(value);
 }
 
-int TDS::GraphicsManagerWrapperCalls::GetWinPosY() {
-    return TDS::GraphicsManager::getInstance().GetWindow()->GetWindowPosY();
+float TDS::GraphicsManagerWrapperCalls::GetFadeFactor()
+{
+    return TDS::GraphicsManager::getInstance().GetFadeFactor();
 }
