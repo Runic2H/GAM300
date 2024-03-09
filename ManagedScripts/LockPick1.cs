@@ -129,8 +129,8 @@ public class LockPick1 : Script
         Subtitles[2] = "Martin (Internal): No turning back now.";
         Subtitles[3] = "Martin (Internal): That was too loud... I better not screw up again.";
         Subtitles[4] = "";
-        Subtitles[5] = "Move [mouse] to adjust pick";
-        Subtitles[6] = "Hold [E] to turn lock";
+        Subtitles[5] = "Move [mouse] to adjust pick & Hold [E] to turn lock";
+        Subtitles[6] = "Move [mouse] to adjust pick & Hold [E] to turn lock";
         Subtitles[7] = "Martin (Internal): Find the right spot, and it should click...";
         Subtitles[8] = "Martin (Internal): There, now to turn the lock.";
 
@@ -531,7 +531,7 @@ public class LockPick1 : Script
             #endregion
         }
 
-        if (!failed && Input.GetKeyDown(Keycode.E)) //lock turns
+        if (!failed && !passed && Input.GetKeyDown(Keycode.E)) //lock turns
         {
             originalRotation = transform.GetRotation();
             movePick = false;
@@ -565,7 +565,7 @@ public class LockPick1 : Script
         float lockLerp = Mathf.LerpAngle(toDegree(innerLock.GetRotation().Z), lockRotation, Time.deltaTime * lockSpeed);
         innerLock.SetRotation(new Vector3(0, 0, toRadians(lockLerp)));
 
-        if (!movePick && (lockLerp >= maxRotation - 1 && !failed))
+        if (!movePick && (lockLerp >= maxRotation - 1) && !failed)
         {
             // If you pick correct
             if (eulerAngleDegree < unlockRange.Y && eulerAngleDegree > unlockRange.X)
