@@ -42,15 +42,15 @@ namespace TDS
 
 		struct Vertex
 		{
-			Vec3				m_Position;
-			Vec3				m_Bitangent;
-			Vec3				m_Tangent;
-			Vec3				m_Normal;
-			Vec2				m_UV;
-			Vec4				m_Color;
-			Vec4				m_BoneID;
-			Vec4				m_Weights;
-			Vec2				m_MeshID;
+			Vec3				m_Position{};
+			Vec3				m_Bitangent{};
+			Vec3				m_Tangent{};
+			Vec3				m_Normal{};
+			Vec2				m_UV{};
+			Vec4				m_Color{};
+			Vec4				m_BoneID{};
+			Vec4				m_Weights{};
+			Vec2				m_MeshID{};
 
 		};
 

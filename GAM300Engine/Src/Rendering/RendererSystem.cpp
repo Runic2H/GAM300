@@ -89,7 +89,7 @@ namespace TDS
 
 			}
 
-
+			
 			//if (_Graphics[i].ShowMesh() == false)
 			//	continue;
 			if (!ecs.getEntityIsEnabled(entities[i]) || !ecs.getComponentIsEnabled<GraphicsComponent>(entities[i]))
@@ -125,7 +125,7 @@ namespace TDS
 			}
 			else
 			{
-				deferredController->SubmitMesh(entities[i], &_Graphics[i], &_TransComponent[i]);
+				deferredController->SubmitMesh(entities[i], &_Graphics[i], &_TransComponent[i], dt);
 				if (CollisionSystem::m_RenderDebugDrawing)
 					debugRenderer.GetDebugInstance().SubmitToDebugGroup(&_TransComponent[i], entities[i]);
 			}

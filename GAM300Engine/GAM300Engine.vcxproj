@@ -200,6 +200,9 @@ xcopy /y /d "$(SolutionDir)Libs\rttr_core.dll" "$(OutDir)"</Command>
     <ClInclude Include="Include\Animation\Animation.h" />
     <ClInclude Include="Include\Animation\AnimationInfo.h" />
     <ClInclude Include="Include\Animation\AnimationLoader.h" />
+    <ClInclude Include="Include\Animation\AnimationSystem.h" />
+    <ClInclude Include="Include\AssetManagement\AnimationFactory.h" />
+    <ClInclude Include="Include\components\animationComponent.h" />
     <ClInclude Include="Include\components\CompReflectionMacro.h" />
     <ClInclude Include="Include\components\DirLightComponent.h" />
     <ClInclude Include="Include\components\ParticleComponent.h" />
@@ -223,6 +226,8 @@ xcopy /y /d "$(SolutionDir)Libs\rttr_core.dll" "$(OutDir)"</Command>
     <ClCompile Include="Src\AI\TileEntity.cpp" />
     <ClCompile Include="Src\Animation\Animation.cpp" />
     <ClCompile Include="Src\Animation\AnimationLoader.cpp" />
+    <ClCompile Include="Src\Animation\AnimationSystem.cpp" />
+    <ClCompile Include="Src\components\animationComponent.cpp" />
     <ClCompile Include="Src\components\DirLightComponent.cpp" />
     <ClCompile Include="Src\components\PointLightComponent.cpp" />
     <ClCompile Include="Src\components\SpotLightComponent.cpp" />
@@ -287,7 +292,6 @@ xcopy /y /d "$(SolutionDir)Libs\rttr_core.dll" "$(OutDir)"</Command>
     <ClCompile Include="Src\Physics\PhysicsSystem.cpp" />
     <ClCompile Include="Src\Rendering\DebugRenderer.cpp" />
     <ClCompile Include="Src\Rendering\FontRenderer.cpp" />
-    <ClCompile Include="Src\Rendering\FontSystem.cpp" />
     <ClCompile Include="Src\Rendering\GraphicsManager.cpp" />
     <ClCompile Include="Src\Rendering\GridRenderer.cpp" />
     <ClCompile Include="Src\Rendering\ObjectPicking.cpp" />
@@ -418,7 +422,6 @@ xcopy /y /d "$(SolutionDir)Libs\rttr_core.dll" "$(OutDir)"</Command>
     <ClInclude Include="Include\Rendering\Batch2D.h" />
     <ClInclude Include="Include\Rendering\DebugRenderer.h" />
     <ClInclude Include="Include\Rendering\FontRenderer.h" />
-    <ClInclude Include="Include\Rendering\FontSystem.h" />
     <ClInclude Include="Include\Rendering\GraphicsManager.h" />
     <ClInclude Include="Include\Rendering\GraphicsManagerWrapperCalls.h" />
     <ClInclude Include="Include\Rendering\GridRenderer.h" />

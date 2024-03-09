@@ -44,7 +44,7 @@ namespace TDS
         :m_window(hinstance, nCmdShow, classname)
     {
         Log::Init();
-        m_window.createWindow(wndproc, 1280, 720);
+        m_window.createWindow(wndproc, 1280, 720, true);
         TDS_INFO("window width: {}, window height: {}", m_window.getWidth(), m_window.getHeight());
     }
     void  GamApp::handleMessages(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)

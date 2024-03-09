@@ -19,6 +19,7 @@
 #include "Physics/CollisionSystem.h"
 #include "components/tag.h"
 #include "Rendering/Skybox.h"
+#include "Animation/Animation.h"
 namespace TDS
 {
 
@@ -28,6 +29,7 @@ namespace TDS
 	{
 		CreateFrameBuffers(w, h);
 		CreatePipelines();
+
 
 
 	}
@@ -124,6 +126,11 @@ namespace TDS
 			Buffer2.m_Static = false;
 			entry2.m_ShaderInputs.m_InputBuffers[15] = Buffer2;
 
+			BufferInfo Buffer3{};
+			Buffer3.m_Data = m_Bones.data();
+			Buffer3.m_Size = MAX_BONES * sizeof(Mat4);
+			Buffer3.m_Static = false;
+			entry2.m_ShaderInputs.m_InputBuffers[19] = Buffer3;
 
 			m_DeferredPipelines[DEFERRED_STAGE::STAGE_G_BUFFER_INSTANCE] = std::make_shared<VulkanPipeline>();
 			m_DeferredPipelines[DEFERRED_STAGE::STAGE_G_BUFFER_INSTANCE]->Create(entry2);
@@ -262,6 +269,11 @@ namespace TDS
 			Buffer2.m_Static = false;
 			entry2.m_ShaderInputs.m_InputBuffers[15] = Buffer2;
 
+			BufferInfo Buffer3{};
+			Buffer3.m_Data = m_Bones.data();
+			Buffer3.m_Size = MAX_BONES * sizeof(Mat4);
+			Buffer3.m_Static = false;
+			entry2.m_ShaderInputs.m_InputBuffers[19] = Buffer3;
 
 			m_DeferredPipelines[DEFERRED_STAGE::STAGE_3D_COMPOSITION_INSTANCE] = std::make_shared<VulkanPipeline>();
 			m_DeferredPipelines[DEFERRED_STAGE::STAGE_3D_COMPOSITION_INSTANCE]->Create(entry2);
@@ -319,7 +331,6 @@ namespace TDS
 			GBufferPipeline->BindDescriptor(frameIndex, 1);
 			GBufferPipeline->BindArrayDescriptorSet(0, 1, 1);
 
-			
 			//GBufferPipeline->DrawIndexed(*meshUpdate.m_MeshBuffer->m_VertexBuffer, *meshUpdate.m_MeshBuffer->m_IndexBuffer, frameIndex);
 			vkCmdDrawIndexedIndirect(commandBuffer, meshUpdate.m_MeshBuffer->m_IndirectBuffer->GetBuffer(), 0, meshUpdate.m_MeshBuffer->m_IndirectBuffer->getDataCount(), sizeof(VkDrawIndexedIndirectCommand));
 
@@ -330,7 +341,8 @@ namespace TDS
 	void DeferredController::G_BufferInstanced(VkCommandBuffer commandBuffer, std::uint32_t frameIndex)
 	{
 		auto GBufferPipeline = m_DeferredPipelines[DEFERRED_STAGE::STAGE_G_BUFFER_INSTANCE];
-		int startingOffset = 0;
+		unsigned int startingOffset = 0;
+		unsigned int totalAnimationOffset = 0;
 		for (auto& itr : m_GBufferInstance.m_instanceRenderManager.m_InstanceUpdateInfo)
 		{
 			auto& instanceReq = m_GBufferInstance.m_InstanceRequests[m_GBufferInstance.m_GroupIdx];
@@ -346,13 +358,34 @@ namespace TDS
 				InstanceInfo.m_InstanceOffset = startingOffset;
 				InstanceInfo.m_Instances = itr.second.m_Index;
 
+				instaneBuffer.m_AnimOffset = totalAnimationOffset;
+				instaneBuffer.m_MaterialID = m_GBufferInstance.m_TotalInstances;
+				instaneBuffer.m_IsRender = meshUpdateData.m_ShowMesh;
+				instaneBuffer.m_TextureID = meshUpdateData.m_TextureID;
+				instaneBuffer.m_EntityID = meshUpdateData.m_EntityID;
+				instaneBuffer.m_modelMatrix = meshUpdateData.m_pTransform->GetTransformMatrix();
+				instaneBuffer.m_IsAnimated = meshUpdateData.m_IsAnimated;
+
+
+				
+				if (meshUpdateData.m_IsAnimated)
 				{
-					instaneBuffer.m_MaterialID = m_GBufferInstance.m_TotalInstances;
-					instaneBuffer.m_IsRender = meshUpdateData.m_ShowMesh;
-					instaneBuffer.m_TextureID = meshUpdateData.m_TextureID;
-					instaneBuffer.m_EntityID = meshUpdateData.m_EntityID;
-					instaneBuffer.m_modelMatrix = meshUpdateData.m_pTransform->GetTransformMatrix();
+					if (meshUpdateData.m_pAnimationPlayer == nullptr)
+					{
+						meshUpdateData.m_pAnimationPlayer = &ecs.getComponent<AnimationComponent>(meshUpdateData.m_EntityID)->m_AnimationPlayer;
+					}
+
+					auto bones = meshUpdateData.m_pAnimationPlayer->getCurrentBonesMatrices();
+					for (size_t i = 0; i < bones->size() && i < MAX_BONES_PER_MESH; ++i)
+					{
+						m_Bones[totalAnimationOffset] = bones->at(i);
+						totalAnimationOffset++;
+					}
+
+
 				}
+
+
 
 				++m_GBufferInstance.m_TotalInstances;
 
@@ -364,6 +397,9 @@ namespace TDS
 
 
 		GBufferPipeline->UpdateUBO(&m_SceneUBO, sizeof(SceneUniform), 5, frameIndex);
+
+		GBufferPipeline->UpdateUBO(m_Bones.data(), sizeof(Mat4) * totalAnimationOffset, 19, frameIndex);
+
 		GBufferPipeline->UpdateUBO(m_GBufferInstance.m_InstanceBuffers.data(), sizeof(BatchData) * m_GBufferInstance.m_TotalInstances, 15, frameIndex);
 
 		if (AssetManager::GetInstance()->GetTextureFactory().m_UpdateArrayInstance)
@@ -399,7 +435,7 @@ namespace TDS
 		m_GBufferInstance.m_TotalInstances = 0;
 
 	}
-	void DeferredController::SubmitMesh(std::uint32_t entityID, GraphicsComponent* graphComp, Transform* transformComp)
+	void DeferredController::SubmitMesh(std::uint32_t entityID, GraphicsComponent* graphComp, Transform* transformComp, float _dt)
 	{
 		Mat4 temp{};
 
@@ -441,7 +477,6 @@ namespace TDS
 		}
 
 
-		//Check if this graphics component is even referencing a model
 		if (pModelController == nullptr) return;
 
 		auto entityToNodeItr = pModelController->m_EntityToNodeName.find(entityID);
@@ -469,6 +504,9 @@ namespace TDS
 		{
 			SubmitMeshForUI(entityID, textureID, graphComp, transformComp);
 		}
+
+
+
 
 	}
 	void DeferredController::SubmitBatch(std::uint32_t entityID, int TextureID, Transform* transformComp, GraphicsComponent* graphComp)
@@ -711,7 +749,7 @@ namespace TDS
 
 
 		updateData->m_pTransform = transformComp;
-		updateData->m_IsAnimated = false;
+		updateData->m_IsAnimated = graphComp->m_IsAnimated;
 		updateData->m_TextureID = TextureID;
 		updateData->m_EntityID = entityID;
 		updateData->m_MeshID = 0;
@@ -777,9 +815,9 @@ namespace TDS
 		lightingPipeline->UpdateUBO(m_LightUBOs.m_DirectionalLight.data(), sizeof(DirectionalLight) * m_LightingPushConstant.activeDirLights, 22, frameIndex);
 		lightingPipeline->UpdateUBO(m_LightUBOs.m_SpotLights.data(), sizeof(SpotLight) * m_LightingPushConstant.activeSpotLights, 23, frameIndex);
 
-		m_LightSource->SetCommandBuffer(commandBuffer);
-		m_LightSource->UpdateUBO(&m_SceneUBO, sizeof(SceneUniform), 5, frameIndex);
-		m_LightSource->UpdateUBO(m_LightSourceBuffers.data(), m_LightSrcInstance * sizeof(LightSourceProperties), 11, frameIndex);
+		//m_LightSource->SetCommandBuffer(commandBuffer);
+		//m_LightSource->UpdateUBO(&m_SceneUBO, sizeof(SceneUniform), 5, frameIndex);
+		//m_LightSource->UpdateUBO(m_LightSourceBuffers.data(), m_LightSrcInstance * sizeof(LightSourceProperties), 11, frameIndex);
 
 		LightingBuffer->BeginRenderPass(commandBuffer);
 		{
@@ -838,7 +876,7 @@ namespace TDS
 		}
 
 	}
-	
+
 	void DeferredController::CombinationPass(VkCommandBuffer commandBuffer, std::uint32_t frameIndex)
 	{
 		auto fbo = m_FrameBuffers[RENDER_PASS::RENDER_COMPOSITION];
@@ -893,15 +931,15 @@ namespace TDS
 
 	void DeferredController::SubmitPointLight(std::uint32_t entityID, PointLightComponent* poingLight, Transform* transformComp)
 	{
-		auto& LightSrcBuffer = m_LightSourceBuffers[m_LightSrcInstance];
-		LightSrcBuffer.Position = transformComp->GetPosition();
-		LightSrcBuffer.Radius = transformComp->GetScale().x;
-		LightSrcBuffer.Color = poingLight->m_color;
+		//auto& LightSrcBuffer = m_LightSourceBuffers[m_LightSrcInstance];
+		//LightSrcBuffer.Position = transformComp->GetPosition();
+		//LightSrcBuffer.Radius = transformComp->GetScale().x;
+		//LightSrcBuffer.Color = poingLight->m_color;
 
 
 		poingLight->m_Position = transformComp->GetPosition();
 
-		m_LightSrcInstance++;
+		//m_LightSrcInstance++;
 
 		auto& pointLightBuffer = m_LightUBOs.m_PointLights[m_LightingPushConstant.activepointlights];
 		pointLightBuffer.Position = poingLight->m_Position;
@@ -911,12 +949,12 @@ namespace TDS
 	}
 	void DeferredController::SubmitDirectionalLight(std::uint32_t entityID, DirectionalLightComponent* dirLight, Transform* transformComp)
 	{
-		auto& LightSrcBuffer = m_LightSourceBuffers[m_LightSrcInstance];
-		LightSrcBuffer.Position = transformComp->GetPosition();
-		LightSrcBuffer.Radius = transformComp->GetScale().x;
-		LightSrcBuffer.Color = dirLight->m_color;
+		//auto& LightSrcBuffer = m_LightSourceBuffers[m_LightSrcInstance];
+		//LightSrcBuffer.Position = transformComp->GetPosition();
+		//LightSrcBuffer.Radius = transformComp->GetScale().x;
+		//LightSrcBuffer.Color = dirLight->m_color;
 
-		m_LightSrcInstance++;
+		//m_LightSrcInstance++;
 
 		auto& dirLightBuffer = m_LightUBOs.m_DirectionalLight[m_LightingPushConstant.activeDirLights];
 		dirLightBuffer.direction = dirLight->m_Direction;
@@ -945,17 +983,17 @@ namespace TDS
 
 		//spotLightComp->m_Position = GraphicsManager::getInstance().GetCamera().getPosition();
 		//spotLightComp->m_direction = forwardDirection;
-		
-
-		
 
 
 
-		auto& LightSrcBuffer = m_LightSourceBuffers[m_LightSrcInstance];
-		LightSrcBuffer.Position = transformComp->GetPosition();
-		LightSrcBuffer.Radius = transformComp->GetScale().x;
-		LightSrcBuffer.Color = spotLightComp->m_color;
-		m_LightSrcInstance++;
+
+
+
+		//auto& LightSrcBuffer = m_LightSourceBuffers[m_LightSrcInstance];
+		//LightSrcBuffer.Position = transformComp->GetPosition();
+		//LightSrcBuffer.Radius = transformComp->GetScale().x;
+		//LightSrcBuffer.Color = spotLightComp->m_color;
+		//m_LightSrcInstance++;
 
 		//Vec4 positionInViewSpace = m_SceneUBO.m_View * Vec4(spotLightComp->m_Position, 1.0);
 
@@ -978,7 +1016,7 @@ namespace TDS
 
 
 		spotLightBuffer.direction = spotLightComp->m_direction;
-		spotLightBuffer.Position = LightSrcBuffer.Position;
+		spotLightBuffer.Position = transformComp->GetPosition();
 
 
 		spotLightBuffer.attenuation = spotLightComp->m_attenuation;
