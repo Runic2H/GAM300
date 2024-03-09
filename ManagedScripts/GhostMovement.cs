@@ -79,6 +79,7 @@ public class GhostMovement : Script
 
     public GameObject galleryHidingGameObject; // (Study) Hide Closet > Door_2 > Door_2
     public bool galleryHideEventDone;
+    public bool galleryChaseEventDone;
 
     #endregion
 
@@ -91,7 +92,8 @@ public class GhostMovement : Script
         BedroomHidingEvent,
         LivingDiningRoomEvent,
         LivingRoomHidingEvent,
-        GalleryHidingEvent
+        GalleryHidingEvent,
+        GalleryChasingEvent
     }
 
     [DontSerializeField]
@@ -206,7 +208,7 @@ public class GhostMovement : Script
                 break;
 
             case GhostEvent.ChasingPlayer:
-
+                Console.WriteLine("ChasingPlayer");
                 if (!WaypointPathfinder.SameRoom(ghostPosition, playerPosition)) // If player moves out of the room, ghost doesnt chase (MAYBE CHANGE)
                 {
                     currentEvent = GhostEvent.Nothing;
@@ -239,6 +241,7 @@ public class GhostMovement : Script
                 break;
 
             case GhostEvent.MovingToDoor:
+                Console.WriteLine("MovingToDoor");
 
                 if (WaypointPathfinder.SameRoom(ghostPosition, playerPosition)) // If player is in the same room as ghost, chase player
                 {
@@ -288,6 +291,12 @@ public class GhostMovement : Script
             case GhostEvent.GalleryHidingEvent:
 
                 GalleryHidingEvent();
+
+                break;
+
+            case GhostEvent.GalleryChasingEvent:
+
+                GalleryChasingEvent();
 
                 break;
         }
@@ -389,6 +398,8 @@ public class GhostMovement : Script
 
     public void BedroomHidingEvent()
     {
+        Console.WriteLine("BedroomHidingEvent");
+
         if (startEvent) // Initialize variables (teleporting monster to starting position etc)
         {
             transform.SetPosition(new Vector3(1790.0f, transform.GetPosition().Y, -750.0f));
@@ -456,6 +467,8 @@ public class GhostMovement : Script
 
     public void LivingDiningRoomEvent()
     {
+        Console.WriteLine("LivingDiningRoomEvent");
+
         if (startEvent) // Initialize variables
         {
             livingDiningRoomStandingTimer = 1.0f;
@@ -513,6 +526,8 @@ public class GhostMovement : Script
     // LivingRoomHidingEvent => move from living room - right wing door to left of couch, look ard, walk into dining room painting & stay there
     public void LivingRoomHidingEvent()
     {
+        Console.WriteLine("LivingRoomHidingEvent");
+
         if (startEvent) // Initialize variables
         {
             livingRoomHidingTimer = 1.0f;
@@ -576,6 +591,7 @@ public class GhostMovement : Script
 
     public void GalleryHidingEvent()
     {
+        Console.WriteLine("GalleryHidingEvent");
         if (startEvent) // Initialize variables (teleporting monster to starting position etc)
         {
             transform.SetPosition(new Vector3(-1920.0f, transform.GetPosition().Y, -300.0f));
@@ -592,8 +608,6 @@ public class GhostMovement : Script
             isChasingPlayer = false;
         }
 
-        Vector3 originalPosition = transform.GetPosition();
-        Vector2 ghostPosition = new Vector2(originalPosition.X, originalPosition.Z);
         AudioComponent audio = gameObject.GetComponent<AudioComponent>();
 
         switch (eventStep)
@@ -632,6 +646,7 @@ public class GhostMovement : Script
                 galleryHideEventDone = true;
                 currentEvent = GhostEvent.Nothing;
                 isChasingPlayer = false;
+                GalleryHiding.GhostShouldMove = false;
 
                 audio.FadeOut(2, "pc_afterscare_breathing");
                 audio.FadeOut(2, "pc_afterscare_heartbeat");
@@ -642,67 +657,41 @@ public class GhostMovement : Script
 
     public void GalleryChasingEvent() 
     {
-        //if (startEvent) // Initialize variables (teleporting monster to starting position etc)
-        //{
-        //    transform.SetPosition(new Vector3(-1920.0f, transform.GetPosition().Y, -300.0f));
-        //    eventStep = 0;
-        //    startEvent = false;
-        //}
+        Console.WriteLine("GalleryChasingEvent");
+        if (startEvent) // Initialize variables (teleporting monster to starting position etc)
+        {
+            transform.SetPosition(new Vector3(-1920.0f, transform.GetPosition().Y, -300.0f));
+            eventStep = 0;
+            startEvent = false;
+        }
 
-        //if (!galleryHidingGameObject.GetComponent<GalleryHiding>().hiding) // If player comes out of hiding, monster will chase player
-        //{
-        //    isChasingPlayer = true;
-        //}
-        //else // If player goes back into closet / does not come out, monster will just move and disappear
-        //{
-        //    isChasingPlayer = false;
-        //}
+        if (!galleryHidingGameObject.GetComponent<GalleryHiding>().hiding) // If player comes out of hiding, monster will chase player
+        {
+            isChasingPlayer = true;
+        }
+        else // If player goes back into closet / does not come out, monster will just move and disappear
+        {
+            isChasingPlayer = false;
+        }
 
-        //Vector3 originalPosition = transform.GetPosition();
-        //Vector2 ghostPosition = new Vector2(originalPosition.X, originalPosition.Z);
-        //AudioComponent audio = gameObject.GetComponent<AudioComponent>();
+        switch (eventStep)
+        {
+            case 0: // Walk to Study Room Door
 
-        //switch (eventStep)
-        //{
-        //    case 0: // Walk to Study Room Door
+                if (MoveTo(new Vector2(-1414, -729), 5.0f))
+                {
+                    ++eventStep;
+                }
 
-        //        if (MoveTo(new Vector2(-1414, -729), 5.0f)) // Walk to Switch
-        //        {
-        //            ++eventStep;
-        //        }
+                break;
 
-        //        audio.play("pc_afterscare_breathing");
-        //        audio.play("pc_afterscare_heartbeat");
-        //        break;
+            case 1: // Event done
 
-        //    case 1: // Walk into Study Room
+                galleryChaseEventDone = true;
+                currentEvent = GhostEvent.Nothing;
+                isChasingPlayer = false;
 
-        //        if (MoveTo(new Vector2(-2850, 175), 5.0f))
-        //        {
-        //            ++eventStep;
-        //        }
-
-        //        break;
-
-        //    case 2: // Walk out of Study Room
-
-        //        if (MoveTo(new Vector2(-1920, 175), 5.0f))
-        //        {
-        //            ++eventStep;
-        //        }
-
-        //        break;
-
-        //    case 3: // Event done
-
-        //        galleryHideEventDone = true;
-        //        currentEvent = GhostEvent.Nothing;
-        //        isChasingPlayer = false;
-
-        //        audio.FadeOut(2, "pc_afterscare_breathing");
-        //        audio.FadeOut(2, "pc_afterscare_heartbeat");
-
-        //        break;
-        //}
+                break;
+        }
     }
 }

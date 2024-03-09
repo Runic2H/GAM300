@@ -23,28 +23,18 @@ public class GalleryHiding : Script
     public GameObject enemyPathfinding;
     public GameObject _flashlight;
     public GameObject _InteractUI;
-    //public CheckGameState myGameState;
     public GameObject closet;
+
     [Header("AudioStuff")]
     //public AudioSource playerVOSource;
     public AudioComponent audioPlayer;
     String[] voClips;
     public String[] subtitles;
     int counter;
-    public static bool playOnce = true;
-    GameObject textmachine;
-
-    private float timer = 1.0f;
-
-    public float turnSpeed = 0.01f;
-
-    public int numOfPaintingsTook = 0;
+    public static bool GhostShouldMove = false;
 
     public override void Awake()
     {
-        numOfPaintingsTook = 0;
-
-        //counter = 0;
         audioPlayer = gameObject.GetComponent<AudioComponent>();
         voClips = new string[3];
         voClips[0] = "pc_hideinclosetfirst";
@@ -58,11 +48,9 @@ public class GalleryHiding : Script
     public override void Start()
     {
         //_flashlight = player.GetComponent<Flashlight_Script>();
+        GhostShouldMove = false;
         hidingPos = closet.transform.GetPosition();
         _RotationAngle = 180.0f;
-
-        timer = 0.8f;
-
     }
 
     public override void Update()
@@ -75,8 +63,10 @@ public class GalleryHiding : Script
             if (Input.GetKeyDown(Keycode.E) && hiding == false)
             {
                 Hide();
-                GhostMove();
-               
+                if(GhostShouldMove)
+                {
+                    GhostMove();
+                }
             }
         }
         else if (hiding)
@@ -101,6 +91,7 @@ public class GalleryHiding : Script
                 {
                     audioPlayer.play(voClips[2]);
                     GameplaySubtitles.counter = 15;
+                    enemyPathfinding.GetComponent<GhostMovement>().galleryHideEventDone = false; // Reset for multiple hiding
                 }
             }
         }
@@ -136,29 +127,27 @@ public class GalleryHiding : Script
     {
         if (!p02.isPaintingCollected)
         {
-            if (enemyPathfinding.GetComponent<GhostMovement>().hideEventDone == false)
+            if (enemyPathfinding.GetComponent<GhostMovement>().galleryHideEventDone == false)
             {
-                if (enemyPathfinding.GetComponent<GhostMovement>().galleryHideEvent == false)
+                if (enemyPathfinding.GetComponent<GhostMovement>().currentEvent != GhostMovement.GhostEvent.GalleryHidingEvent)
                 {
-                    enemyPathfinding.transform.SetPosition(new Vector3(-1920.0f, enemyPathfinding.transform.GetPosition().Y, 175.0f));
-                    enemyPathfinding.GetComponent<GhostMovement>().galleryHideEvent = true;
+                    enemyPathfinding.GetComponent<GhostMovement>().currentEvent = GhostMovement.GhostEvent.GalleryHidingEvent;
+                    enemyPathfinding.GetComponent<GhostMovement>().startEvent = true;
                 }
                 enemyPathfinding.GetComponent<GhostMovement>().isChasingPlayer = false;
-                enemyPathfinding.GetComponent<GhostMovement>().playSound = false;
             }
         }
         
         else
         {
-            if (enemyPathfinding.GetComponent<GhostMovement>().hideEventDone == false)
+            if (enemyPathfinding.GetComponent<GhostMovement>().galleryChaseEventDone == false)
             {
-                if (enemyPathfinding.GetComponent<GhostMovement>().galleryChasingEvent == false)
+                if (enemyPathfinding.GetComponent<GhostMovement>().currentEvent != GhostMovement.GhostEvent.GalleryChasingEvent)
                 {
-                    enemyPathfinding.transform.SetPosition(new Vector3(-1920.0f, enemyPathfinding.transform.GetPosition().Y, 175.0f));
-                    enemyPathfinding.GetComponent<GhostMovement>().galleryChasingEvent = true;
+                    enemyPathfinding.GetComponent<GhostMovement>().currentEvent = GhostMovement.GhostEvent.GalleryChasingEvent;
+                    enemyPathfinding.GetComponent<GhostMovement>().startEvent = true;
                 }
                 enemyPathfinding.GetComponent<GhostMovement>().isChasingPlayer = false;
-                enemyPathfinding.GetComponent<GhostMovement>().playSound = false;
             }
         }
     }

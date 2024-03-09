@@ -39,7 +39,9 @@ public class GallerySwitch : Script
             if (Input.GetKeyDown(Keycode.E))
             {
                 isActivated = true;
-                if(GalleryLetter.isNotePicked)
+                GalleryHiding.GhostShouldMove = true;
+
+                if (GalleryLetter.isNotePicked)
                 {
                     audioPlayer.play("pc_mighthaveopened");
                     GameplaySubtitles.counter = 43;

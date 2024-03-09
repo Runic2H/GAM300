@@ -70,7 +70,9 @@ public class p03 : Script
                     //hidingGameObject.GetComponent<Hiding>().numOfPaintingsTook++;
                     //if (hidingGameObject.GetComponent<Hiding>().numOfPaintingsTook == 1)
                     //{
-                    //    ghost.GetComponent<GhostMovement>().PlayMonsterWalkingSoundInitial();
+                    GalleryHiding.GhostShouldMove = true;
+
+                    ghost.GetComponent<GhostMovement>().PlayMonsterWalkingSoundInitial();
                     //}
                 }
             }
