@@ -37,42 +37,41 @@ public class Note_Script : Script
     {
         //rigidBodyComponent = gameObject.GetComponent<RigidBodyComponent>();
         clip = gameObject.GetComponent<AudioComponent>();
-        player = gameObject.GetComponent<AudioSource>();
     }
 
     public override void Update()
     {
-        if (gameObject.GetComponent<RigidBodyComponent>().IsRayHit())
-        {
-            Console.WriteLine("Note");
-            if (Input.GetKeyDown(Keycode.E))
-            {
-                Console.WriteLine("Picked up note");
-                InventoryScript.addNoteIntoInventory(Note_Name, Note_Texture);
-                gameObject.GetComponent<GraphicComponent>().SetView2D(true);
-                gameObject.transform.SetPosition(new Vector3(-10000.0f, -10000.0f, -10000.0f));
-                gameObject.transform.SetRotation(new Vector3(-0.0f, -0.0f, -0.0f));
-                gameObject.SetActive(false);
-                clip.play(Note_VO);
-                GameplaySubtitles.counter = 14;
-                isNotePicked = true;
+        //if (gameObject.GetComponent<RigidBodyComponent>().IsRayHit())
+        //{
+        //    Console.WriteLine("Note");
+        //    if (Input.GetKeyDown(Keycode.E))
+        //    {
+        //        Console.WriteLine("Picked up note");
+        //        InventoryScript.addNoteIntoInventory(Note_Name, Note_Texture);
+        //        gameObject.GetComponent<GraphicComponent>().SetView2D(true);
+        //        gameObject.transform.SetPosition(new Vector3(-10000.0f, -10000.0f, -10000.0f));
+        //        gameObject.transform.SetRotation(new Vector3(-0.0f, -0.0f, -0.0f));
+        //        gameObject.SetActive(false);
+        //        clip.play(Note_VO);
+        //        GameplaySubtitles.counter = 14;
+        //        isNotePicked = true;
 
-            }
-        }
+        //    }
+        //}
         
         
     }
 
     public override void LateUpdate()
     {   
-        if (gameObject.GetComponent<RigidBodyComponent>().IsRayHit())
-        {
-            _InteractUI.SetActive(true);
-        }
-        else
-        {
-            _InteractUI.SetActive(false);
-        }
+        //if (gameObject.GetComponent<RigidBodyComponent>().IsRayHit())
+        //{
+        //    _InteractUI.SetActive(true);
+        //}
+        //else
+        //{
+        //    _InteractUI.SetActive(false);
+        //}
         
     }
 }
