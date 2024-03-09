@@ -1,6 +1,6 @@
 {
     "Archetype Sizes": {
-        "110000100000100000": {
+        "1100001000001000000": {
             "0": 952,
             "1": 2688,
             "6": 2520,
@@ -9,7 +9,7 @@
     },
     "Entity Data": {
         "1": {
-            "ArchetypeID": "110000100000100000",
+            "ArchetypeID": "1100001000001000000",
             "Enabled": true,
             "Name Tag": {
                 "Name": "BackGround",
@@ -139,7 +139,7 @@
             }
         },
         "2": {
-            "ArchetypeID": "110000100000100000",
+            "ArchetypeID": "1100001000001000000",
             "Enabled": true,
             "Name Tag": {
                 "Name": "PlayButton",
@@ -269,7 +269,7 @@
             }
         },
         "3": {
-            "ArchetypeID": "110000100000100000",
+            "ArchetypeID": "1100001000001000000",
             "Enabled": true,
             "Name Tag": {
                 "Name": "SettingsButton",
@@ -399,7 +399,7 @@
             }
         },
         "4": {
-            "ArchetypeID": "110000100000100000",
+            "ArchetypeID": "1100001000001000000",
             "Enabled": true,
             "Name Tag": {
                 "Name": "QuitButton",
@@ -529,7 +529,7 @@
             }
         },
         "5": {
-            "ArchetypeID": "110000100000100000",
+            "ArchetypeID": "1100001000001000000",
             "Enabled": true,
             "Name Tag": {
                 "Name": "TeamLogo",
@@ -659,7 +659,7 @@
             }
         },
         "6": {
-            "ArchetypeID": "110000100000100000",
+            "ArchetypeID": "1100001000001000000",
             "Enabled": true,
             "Name Tag": {
                 "Name": "Title",
@@ -789,7 +789,7 @@
             }
         },
         "7": {
-            "ArchetypeID": "110000100000100000",
+            "ArchetypeID": "1100001000001000000",
             "Enabled": true,
             "Name Tag": {
                 "Name": "BlackScreen",
@@ -926,6 +926,9 @@
                 "bgm": {
                     "ScriptAPI.AudioComponent": 2
                 },
+                "buttonSfx": {
+                    "ScriptAPI.AudioComponent": 0
+                },
                 "bgmName": {
                     "System.String": "Horror_Menu_Finale_Finale"
                 },
@@ -962,12 +965,12 @@
         "7": {}
     },
     "Active Archetype": {
-        "1": "1100001000001",
-        "2": "1100001000001",
-        "3": "1100001000001",
-        "4": "1100001000001",
-        "5": "1100001000001",
-        "6": "1100001000001",
-        "7": "110000100000100000"
+        "1": "1100001000001000000",
+        "2": "1100001000001000000",
+        "3": "1100001000001000000",
+        "4": "1100001000001000000",
+        "5": "1100001000001000000",
+        "6": "1100001000001000000",
+        "7": "1100001000001000000"
     }
 }
