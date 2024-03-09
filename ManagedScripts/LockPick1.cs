@@ -565,7 +565,7 @@ public class LockPick1 : Script
         float lockLerp = Mathf.LerpAngle(toDegree(innerLock.GetRotation().Z), lockRotation, Time.deltaTime * lockSpeed);
         innerLock.SetRotation(new Vector3(0, 0, toRadians(lockLerp)));
 
-        if (!movePick && (lockLerp >= maxRotation - 1))
+        if (!movePick && (lockLerp >= maxRotation - 1 && !failed))
         {
             // If you pick correct
             if (eulerAngleDegree < unlockRange.Y && eulerAngleDegree > unlockRange.X)
