@@ -42,7 +42,7 @@ namespace TDS
 		void DLL_API Init();
 		void DLL_API PreloadAssets();
 		void DLL_API ShutDown();
-
+		void DLL_API ResetReferences();
 		DLL_API AssetFactory<Texture>& GetTextureFactory();
 		DLL_API AssetFactory<FontAtlas>& GetFontFactory();
 		DLL_API AssetFactory<MeshController>& GetMeshFactory();

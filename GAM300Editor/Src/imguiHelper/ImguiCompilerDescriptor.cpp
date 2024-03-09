@@ -49,7 +49,8 @@ namespace TDS
 				ImGui::Checkbox("Merge identical Vertices", &geomDesc->m_GeomDecriptor.m_MergeIdenticalVertices);
 				ImGui::Checkbox("Compress Mesh", &geomDesc->m_GeomDecriptor.m_Compress);
 				ImGui::Checkbox("Load Mesh", &geomDesc->m_GeomDecriptor.m_LoadMesh);
-				ImGui::Checkbox("Load Animations", &geomDesc->m_GeomDecriptor.m_LoadAnimation);
+				ImGui::Checkbox("Load Bone Animations", &geomDesc->m_GeomDecriptor.m_LoadAnimation);
+				ImGui::Checkbox("Load Model Animations(For doors, closets, etc...)", &geomDesc->m_GeomDecriptor.m_LoadModelAnimation);
 				ImGui::Checkbox("Load Materials", &geomDesc->m_GeomDecriptor.m_LoadMaterials);
 				ImGui::Checkbox("Merge Mesh", &geomDesc->m_GeomDecriptor.m_MergeMesh);
 				ImGui::Checkbox("Normalized Vertices", &geomDesc->m_GeomDecriptor.m_Normalized);

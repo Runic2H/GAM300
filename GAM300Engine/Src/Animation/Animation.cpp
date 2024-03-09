@@ -135,4 +135,40 @@ namespace TDS {
 
 
 
+	DLL_API void ModelAnimationPlayer::SetAnimation(const BonelessAnimation& modelAnim)
+	{
+		m_CurrentTime = 0;
+		m_pModelAnimation = &modelAnim;
+		ResetTransformation();
+
+	}
+
+	void ModelAnimationPlayer::ResetTransformation()
+	{
+		m_OriginalTransform = m_AbsTransform;
+	}
+
+	void ModelAnimationPlayer::Update(float dt, float speed)
+	{
+		m_CurrentTime = fmod(m_CurrentTime + (speed * dt * m_pModelAnimation->m_ticksPerSecond), m_pModelAnimation->m_duration);
+		UpdateChannel(m_pModelAnimation->m_channels[0], true);
+	}
+
+	void ModelAnimationPlayer::UpdateChannel(const BonelessAnimationNodes& _animNode, bool animated)
+	{
+		Mat4 transform = ModelTransform(_animNode);
+		
+		m_AbsTransform = transform * m_AbsTransform;
+	}
+
+	Mat4 ModelAnimationPlayer::ModelTransform(const BonelessAnimationNodes& _animNode)
+	{
+		Mat4 matrix =
+			bone(_animNode.m_positions, m_CurrentTime) *
+			bone(_animNode.m_rotationsQ, m_CurrentTime) *
+			bone(_animNode.m_scalings, m_CurrentTime);
+
+		return matrix;
+	}
+
 }

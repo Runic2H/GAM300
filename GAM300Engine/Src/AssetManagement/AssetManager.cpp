@@ -24,10 +24,18 @@ namespace TDS
 	void AssetManager::ShutDown()
 	{
 		m_MeshFactory.DestroyAllMesh();
+
 		m_TextureFactory.DestroyAllTextures();
 		m_FontFactory.DestroyAllFonts();
 		m_AnimationFactory.DestryoAllAnimation();
 
+	}
+
+	void DLL_API AssetManager::ResetReferences()
+	{
+		m_MeshFactory.GetReferenceCounts().clear();
+		m_TextureFactory.GetReferenceCounts().clear();
+		m_AnimationFactory.GetReferenceCounts().clear();
 	}
 
 

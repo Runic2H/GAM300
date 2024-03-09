@@ -103,6 +103,23 @@ namespace TDS {
 		RTTR_REGISTRATION_FRIEND
 	};
 
+
+	struct BonelessAnimationNodes
+	{
+		std::string m_name; 
+		std::vector<AnimPos>	m_positions;
+		std::vector<AnimRotQ>	m_rotationsQ;
+		std::vector<AnimScale>	m_scalings;
+	};
+
+	struct BonelessAnimation
+	{
+		float m_duration; 
+		float m_ticksPerSecond; 
+		std::vector<BonelessAnimationNodes> m_channels; 
+	};
+
+
 	//struct AnimationModel
 	//{
 	//	std::vector<AnimationMesh> m_Meshes{};

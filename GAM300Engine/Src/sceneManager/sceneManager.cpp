@@ -13,6 +13,10 @@
 #include "sceneManager/sceneManager.h"
 #include "propertyManager/registration.h"
 #include "eventManager/eventManager.h"
+#include "AssetManagement/AssetManager.h"
+
+#undef GetObject
+
 
 namespace TDS
 {
@@ -574,6 +578,7 @@ namespace TDS
 	/*!*************************************************************************
 	This function serializes scenes into JSON files
 	****************************************************************************/
+
 	bool SceneManager::sceneSerialize()
 	{
 		std::ofstream ofs(parentFilePath + "scene.json");
@@ -685,6 +690,7 @@ namespace TDS
 	****************************************************************************/
 	void SceneManager::loadScene(std::string scene)
 	{
+		AssetManager::GetInstance()->ResetReferences();
 		ecs.removeAllEntities();
 		eventManager.clearQueues();
 		DeserializeFromFile(filePath + scene + ".json");

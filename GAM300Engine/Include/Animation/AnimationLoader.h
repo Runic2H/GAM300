@@ -24,7 +24,15 @@ namespace TDS
 	};
 
 
-	
+	struct BonelessAnimationData
+	{
+		std::vector<BonelessAnimation>	m_Animations;
+		std::string						m_AnimationPackName;
+
+		DLL_API static void Serialize(BonelessAnimationData& anim, std::string_view fileName, bool read);
+		RTTR_ENABLE()
+			friend void ::rttr_auto_register_reflection_function_(); template<typename Ctor_Type, typename Policy, typename Accessor, typename Arg_Indexer> friend struct rttr::detail::constructor_invoker;
+	};
 
 
 

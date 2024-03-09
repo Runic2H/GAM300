@@ -185,7 +185,7 @@ namespace TDS
 		std::vector<RawMeshData> assimpData;
 		auto model = AnimModel{};
 
-		if (request.currSetting.m_LoadAnimation && currSceneInfo->m_Scene->HasAnimations())
+		if (request.currSetting.m_LoadAnimation && currSceneInfo->m_Scene->HasAnimations() && currSceneInfo->m_Scene->hasSkeletons())
 		{
 			ImportAnimation(request, *currSceneInfo, model);
 
@@ -228,6 +228,13 @@ namespace TDS
 		}
 		else
 		{
+			if (request.currSetting.m_LoadModelAnimation)
+			{
+				ImportBonelessAnimation(request, *currSceneInfo);
+			}
+			
+
+
 			ImportMeshData(request, *currSceneInfo, assimpData);
 		}
 		MergeMesh(request, assimpData);
@@ -351,7 +358,59 @@ namespace TDS
 		ProcessScene(assimpData, *assimp.m_Scene->mRootNode, *assimp.m_Scene, assimp.m_AppliedTransformation, rootName, request);
 		
 	}
+	void MeshLoader::ImportBonelessAnimation(Request& request, AssimpSceneInfo& assimp)
+	{
+		for (std::uint32_t i = 0; i < assimp.m_Scene->mNumAnimations; ++i)
+		{
+			auto& aiAnim = assimp.m_Scene->mAnimations[i];
+			auto& back = request.m_BonelessAnimationData.m_Animations.emplace_back();
+			back.m_duration = aiAnim->mDuration;
+			back.m_ticksPerSecond = aiAnim->mTicksPerSecond;
+			for (std::uint32_t j = 0; j < aiAnim->mNumChannels; ++j)
+			{
+				auto& aiChannel = aiAnim->mChannels[j];
+				auto& newChannel = back.m_channels.emplace_back();
 
+				newChannel.m_name = aiChannel->mNodeName.C_Str();
+
+				for (std::uint32_t k = 0; k < aiChannel->mNumPositionKeys; ++k)
+				{
+					auto& newPositionKey = newChannel.m_positions.emplace_back();
+					newPositionKey.m_time = aiChannel->mPositionKeys[k].mTime;
+
+					newPositionKey.m_Pos = Vec3(aiChannel->mPositionKeys[k].mValue.x, aiChannel->mPositionKeys[k].mValue.y, aiChannel->mPositionKeys[k].mValue.z);
+
+				}
+
+				for (std::uint32_t k = 0; k < aiChannel->mNumRotationKeys; ++k)
+				{
+					auto& newRotationKeys = newChannel.m_rotationsQ.emplace_back();
+					newRotationKeys.m_time = aiChannel->mRotationKeys[k].mTime;
+
+					newRotationKeys.m_RotQ.x = aiChannel->mRotationKeys[k].mValue.x;
+					newRotationKeys.m_RotQ.y = aiChannel->mRotationKeys[k].mValue.y;
+					newRotationKeys.m_RotQ.z = aiChannel->mRotationKeys[k].mValue.z;
+					newRotationKeys.m_RotQ.w = aiChannel->mRotationKeys[k].mValue.w;
+
+				}
+				
+				for (std::uint32_t k = 0; k < aiChannel->mNumScalingKeys; ++k)
+				{
+					auto& newScalingKeys = newChannel.m_scalings.emplace_back();
+					newScalingKeys.m_time = aiChannel->mScalingKeys[k].mTime;
+
+					newScalingKeys.m_Scale.x = aiChannel->mScalingKeys[k].mValue.x;
+					newScalingKeys.m_Scale.y = aiChannel->mScalingKeys[k].mValue.y;
+					newScalingKeys.m_Scale.z = aiChannel->mScalingKeys[k].mValue.z;
+		
+				}
+				
+				
+
+			}
+
+		}
+	}
 	void MeshLoader::ImportAnimation(Request& request, AssimpSceneInfo& assimp, AnimModel& model)
 	{
 		

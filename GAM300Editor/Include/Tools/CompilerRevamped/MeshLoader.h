@@ -80,13 +80,14 @@ namespace TDS
 
 			struct Request
 			{
-				std::string			m_FileName;
-				std::string			m_OutFile;
-				GeomDescriptor		currSetting;
-				TDSModel			m_Output;
-				MaterialLoader		m_MaterialData;
-				AnimationData		m_AnimationData;
-				std::string			m_AnimOutFile;
+				std::string				m_FileName;
+				std::string				m_OutFile;
+				GeomDescriptor			currSetting;
+				TDSModel				m_Output;
+				MaterialLoader			m_MaterialData;
+				AnimationData			m_AnimationData;
+				BonelessAnimationData	m_BonelessAnimationData;
+				std::string				m_AnimOutFile;
 			};
 
 			struct AssimpSceneInfo
@@ -130,6 +131,8 @@ namespace TDS
 			//Mesh Importing
 			void	ImportMeshData(Request& request, AssimpSceneInfo& assimp, std::vector<RawMeshData>& assimpData);
 			
+			void	ImportBonelessAnimation(Request& request, AssimpSceneInfo& assimp);
+
 			void	ImportAnimation(Request& request, AssimpSceneInfo& assimp, AnimModel& model);
 
 			void	AnimProcessNode(Request& request, AnimModel* model, aiNode* node, const aiScene* scene, aiMatrix4x4 parentTransform, int parentNode);

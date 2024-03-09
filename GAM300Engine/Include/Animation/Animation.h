@@ -24,5 +24,41 @@ namespace TDS {
 		const Animation* m_pAnimation{};
 		double m_CurrentTime{ 0 };
 	};
+
+	//FOR SINGLE NODE MESH, DO NOT USE THIS IF UR MESH GOT CHILD MESH, IF NOT I WILL CONVERT IT TO A SINGLE MESH
+	class ModelAnimationPlayer
+	{
+	public:
+		DLL_API void SetAnimation(const BonelessAnimation& modelAnim);
+
+
+		void		SetAbsTransform(Mat4& transform)
+		{
+					m_AbsTransform = transform;
+		}
+
+		void		SetOriginalTransform(Mat4& transform)
+		{
+					m_OriginalTransform = transform;
+		}
+
+		void		ResetTransformation();
+		void		Update(float dt, float speed);
+
+		inline Mat4& GetAbsoluteTransform()
+		{
+			return m_AbsTransform;
+		}
+	private:
+		void					UpdateChannel(const BonelessAnimationNodes& _animNode, bool animated);
+		Mat4					ModelTransform(const BonelessAnimationNodes& _animNode);
+		Mat4					m_AbsTransform;
+		Mat4					m_OriginalTransform;
+		const BonelessAnimation* m_pModelAnimation;
+		double					m_CurrentTime{ 0 };
+
+
+	};
+	
 }
 #endif // !ANIMATION_H

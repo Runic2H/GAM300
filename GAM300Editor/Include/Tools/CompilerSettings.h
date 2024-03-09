@@ -53,6 +53,7 @@ namespace TDS
 		bool		m_MergeMesh = false;
 		bool		m_LoadMesh = true;
 		bool		m_LoadAnimation = false; 
+		bool		m_LoadModelAnimation = false;
 		bool		m_LoadMaterials = false;
 		bool		m_Normalized = false;
 

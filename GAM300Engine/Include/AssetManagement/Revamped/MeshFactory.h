@@ -28,6 +28,17 @@ namespace TDS
 		std::uint32_t													m_TotalBatchMeshes = 0;
 
 	public:
+		void ResetBatchCount()
+		{
+			m_TotalBatchMeshes = 0;
+		}
+
+		void ResetCurrentIndex()
+		{
+			m_CurrentIndex = 0;
+		}
+
+
 		std::uint32_t GetBatchCount()
 		{
 			return m_TotalBatchMeshes;
