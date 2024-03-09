@@ -16,9 +16,13 @@ public class InGameOptionsButton : Script
     public GameBlackboard? gameBlackboard;
     UISpriteComponent optionsButtonSprite;
     public static bool openedOptionsMenu;
+    private AudioComponent buttonSfx;
+    private string buttonSfxName = "";
 
     public override void Awake()
     {
+        buttonSfxName = "button_press";
+        buttonSfx = gameObject.GetComponent<AudioComponent>();
     }
 
     public override void Start()
@@ -40,8 +44,9 @@ public class InGameOptionsButton : Script
         if (Input.GetMouseButtonDown(Keycode.M1) && optionsButtonSprite.IsMouseCollided() && gameBlackboard.gameState == GameBlackboard.GameState.Paused)
         {
             Console.WriteLine("Options Button Pressed");
+            buttonSfx.play(buttonSfxName);
             AudioComponent audio = gameObject.GetComponent<AudioComponent>();
-            audio.stopAll();
+            //audio.stopAll();
             openedOptionsMenu = true;
             gameBlackboard.gameState = GameBlackboard.GameState.Options;
             PopupUI.changeDisplayed = true;

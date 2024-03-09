@@ -97,7 +97,7 @@ public class GalleryHiding : Script
                 player.GetComponent<FPS_Controller_Script>().playerCanMove = true;
                 player.GetComponent<FPS_Controller_Script>().enableHeadBob = true;
                 _flashlight.SetActive(true);
-                if (GhostMovement.GhostGone)
+                if (enemyPathfinding.GetComponent<GhostMovement>().galleryHideEventDone)
                 {
                     audioPlayer.play(voClips[2]);
                     GameplaySubtitles.counter = 15;

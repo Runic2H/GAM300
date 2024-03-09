@@ -15,8 +15,12 @@ public class RestartButton : Script
 {
     public GameBlackboard? gameBlackboard;
     UISpriteComponent restartButtonSprite;
+    private AudioComponent buttonSfx;
+    private string buttonSfxName = "";
     public override void Awake()
     {
+        buttonSfxName = "button_press";
+        buttonSfx = gameObject.GetComponent<AudioComponent>();
     }
 
     public override void Start()
@@ -39,9 +43,10 @@ public class RestartButton : Script
         //if (Input.GetMouseButtonDown(Keycode.M1) && restartButtonSprite.IsMouseCollided() && PopupUI.isDisplayed == true)
         if (Input.GetMouseButtonDown(Keycode.M1) && restartButtonSprite.IsMouseCollided() && gameBlackboard.gameState == GameBlackboard.GameState.Paused)
         {
-            Console.WriteLine("Restart Button Pressed");
+            //Console.WriteLine("Restart Button Pressed");
+            buttonSfx.play(buttonSfxName);
             AudioComponent audio = gameObject.GetComponent<AudioComponent>();
-            audio.stopAll();
+            //audio.stopAll();
             //PopupUI.changeDisplayed = true;
             SceneLoader.LoadMainGame();
         }

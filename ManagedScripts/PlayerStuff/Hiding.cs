@@ -8,8 +8,6 @@
 \brief  Gameplay script for player hiding from the monster
 ****************************************************************************
 ***/
-using System;
-using System.Reflection.Emit;
 using ScriptAPI;
 
 public class Hiding : Script
@@ -99,7 +97,7 @@ public class Hiding : Script
 
             
 
-            if (Input.GetKeyDown(Keycode.E) && hiding == false)
+            if (Input.GetKeyDown(Keycode.E) && hiding == false) // Player hides to trigger the monster event
             {
                 hiding = true;
                 interactable = false;
@@ -125,15 +123,14 @@ public class Hiding : Script
                 player.GetComponent<Flashlight_Script>().activateLight = false;
                 _flashlight.SetActive(false);
 
-                if (enemyPathfinding.GetComponent<GhostMovement>().hideEventDone == false && numOfPaintingsTook == 1)
+                if (enemyPathfinding.GetComponent<GhostMovement>().bedroomHideEventDone == false && numOfPaintingsTook == 1) // triggering bedroom monster event 
                 {
-                    if (enemyPathfinding.GetComponent<GhostMovement>().hideEvent == false)
+                    if (enemyPathfinding.GetComponent<GhostMovement>().currentEvent != GhostMovement.GhostEvent.BedroomHidingEvent)
                     {
-                        enemyPathfinding.transform.SetPosition(new Vector3(1790.0f, enemyPathfinding.transform.GetPosition().Y, -750.0f));
-                        enemyPathfinding.GetComponent<GhostMovement>().hideEvent = true;
+                        enemyPathfinding.GetComponent<GhostMovement>().currentEvent = GhostMovement.GhostEvent.BedroomHidingEvent;
+                        enemyPathfinding.GetComponent<GhostMovement>().startEvent = true;
                     }
                     enemyPathfinding.GetComponent<GhostMovement>().isChasingPlayer = false;
-                    enemyPathfinding.GetComponent<GhostMovement>().playSound = false;
                 }
             }
         }
@@ -156,7 +153,7 @@ public class Hiding : Script
                 player.GetComponent<FPS_Controller_Script>().playerCanMove = true;
                 player.GetComponent<FPS_Controller_Script>().enableHeadBob = true;
                 _flashlight.SetActive(true);
-                if (GhostMovement.GhostGone)
+                if (enemyPathfinding.GetComponent<GhostMovement>().bedroomHideEventDone)
                 {
                     audioPlayer.play(voClips[2]);
                     GameplaySubtitles.counter = 15;

@@ -14,7 +14,9 @@ using System;
 public class PlayButton : Script
 {
     public AudioComponent bgm;
+    private AudioComponent buttonSfx;
     public string bgmName;
+    private string buttonSfxName;
     private UISpriteComponent sprite;
     public GameObject blackScreen;
     private bool fading = false;
@@ -32,7 +34,9 @@ public class PlayButton : Script
     {
         GraphicsManagerWrapper.ToggleViewFrom2D(true);
         bgmName = "Horror_Menu_Finale_Finale";
+        buttonSfxName = "button_press";
         bgm = gameObject.GetComponent<AudioComponent>();
+        buttonSfx = gameObject.GetComponent<AudioComponent>();
         sprite = gameObject.GetComponent<UISpriteComponent>();
     }
 
@@ -54,6 +58,7 @@ public class PlayButton : Script
         {
             fading = true;
             inMainMenu = false;
+            buttonSfx.play(buttonSfxName);
             bgm.FadeOut(3, bgmName);
         }
 
