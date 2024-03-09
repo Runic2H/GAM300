@@ -333,7 +333,7 @@ namespace TDS
                 if (Input::isKeyPressed(VK_ESCAPE))
                 {
                     gamePaused = !gamePaused;
-                    proxy_audio_system::ScriptPlayAllPaused();
+                    //proxy_audio_system::ScriptPlayAllPaused();
                 }
 
                 if (startPlaying)
@@ -343,6 +343,7 @@ namespace TDS
                     startPlaying = false;
                     SceneManager::GetInstance()->awake();
                     SceneManager::GetInstance()->start();
+                    proxy_audio_system::ScriptPlayAllPaused();
                 }
 
                 if (!gamePaused)

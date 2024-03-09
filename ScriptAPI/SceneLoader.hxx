@@ -21,6 +21,8 @@ namespace ScriptAPI
 
 		static void LoadOptionsScreen();
 
+		static void LoadTempEndScene();
+
 		static System::String^ dataPath;
 	};
 }

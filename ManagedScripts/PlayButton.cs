@@ -46,8 +46,9 @@ public class PlayButton : Script
         if (bgm.finished(bgmName) && inMainMenu)
         {
             bgm.play(bgmName);
-            //Console.WriteLine("playing main Menu music");
+            
         }
+        
         
         if (Input.GetMouseButtonDown(Keycode.M1) && sprite.IsMouseCollided())
         {

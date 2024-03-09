@@ -7,6 +7,7 @@ namespace ScriptAPI
 	AudioComponent::AudioComponent(TDS::EntityID ID) : entityID(ID), transform(TransformComponent(ID))
 	{
 		gameObject = EngineInterface::GetGameObject(ID);
+		TDS::SoundInfo temp;
 	}
 
 	void AudioComponent::SetEntityID(TDS::EntityID id)
@@ -333,7 +334,7 @@ namespace ScriptAPI
 	}
 	void AudioComponent::volume::set(float value)
 	{
-		TDS::GetSoundInfo(entityID)->setVolume(value);
+		TDS::GetSoundInfo(entityID)->setVol(value);
 	}
 
 	//Reverb

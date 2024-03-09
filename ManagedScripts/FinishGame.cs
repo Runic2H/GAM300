@@ -13,10 +13,14 @@ public class FinishGame : Script
     public GameObject doorText;
     public GameBlackboard blackboard;
 
+    readonly string climbingSFX = "end_climbing";
+    AudioComponent audio;
+
     public override void Awake()
     {
         doorText = GameObjectScriptFind("DoorText");    // Hate this please change after milestone
         blackboard = GameObjectScriptFind("GameBlackboard").GetComponent<GameBlackboard>();    // Hate this please change after milestone
+        audio = gameObject.GetComponent<AudioComponent>();
     }
     public override void Start()
     {
@@ -37,12 +41,14 @@ public class FinishGame : Script
                 {
                     fadeValue -= fadeValueIncrement;
                     GraphicsManagerWrapper.SetFadeFactor(fadeValue);
+                    audio.play(climbingSFX);
+                    audio.FadeOut(2, climbingSFX);
                     if (fadeValue <= 0.0f)
                     {
                         fadeOut = false;
                         Input.Lock(false);
                         Input.HideMouse(false);
-                        SceneLoader.LoadEndGameCredits();
+                        SceneLoader.LoadTempEndScene();
                     }
                 }
             }
