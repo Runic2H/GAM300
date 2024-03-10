@@ -349,6 +349,8 @@ namespace TDS
 
                 if (startPlaying)
                 {
+                    InputSystem::GetInstance()->setMouseLock(false);
+                    InputSystem::GetInstance()->setCursorVisible(true);
                     SceneManager::GetInstance()->isPlaying = true;
                     SceneManager::GetInstance()->loadScene(SceneManager::GetInstance()->getCurrentScene());
                     startPlaying = false;

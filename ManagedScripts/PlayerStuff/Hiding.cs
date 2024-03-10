@@ -130,7 +130,6 @@ public class Hiding : Script
                         enemyPathfinding.GetComponent<GhostMovement>().currentEvent = GhostMovement.GhostEvent.BedroomHidingEvent;
                         enemyPathfinding.GetComponent<GhostMovement>().startEvent = true;
                     }
-                    enemyPathfinding.GetComponent<GhostMovement>().isChasingPlayer = false;
                 }
             }
         }

@@ -97,9 +97,9 @@ public class FPS_Controller_Script : Script
     public uint crouchKey = Keycode.CTRL;
     public float crouchHeight = .75f;
     public float speedReduction = .5f;
+    public bool isCrouched = false; // Needed for dining event
 
     // Internal Variables
-    private bool isCrouched = false;
     private Vector3 originalScale;
     private float originalHeight;
     #endregion
@@ -463,6 +463,12 @@ public class FPS_Controller_Script : Script
                 pitch = Mathf.Clamp(pitch, -maxLookAngle, maxLookAngle);
 
                 transform.SetRotation(Vector3.Up() * yaw);
+                transform.SetRotationY(transform.GetRotation().Y % 360);
+                if (transform.GetRotation().Y < 0)
+                {
+                    transform.SetRotationY(360 - transform.GetRotation().Y);
+                }
+
                 playerCamera.transform.SetRotationX(pitch);
                 playerCamera.transform.SetRotationY(transform.GetRotation().Y);
             }

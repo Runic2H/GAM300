@@ -55,7 +55,6 @@ public class GalleryHiding : Script
 
     public override void Update()
     {
-
         if (gameObject.GetComponent<RigidBodyComponent>().IsRayHit())
         {
             _InteractUI.SetActive(true);
@@ -134,7 +133,6 @@ public class GalleryHiding : Script
                     enemyPathfinding.GetComponent<GhostMovement>().currentEvent = GhostMovement.GhostEvent.GalleryHidingEvent;
                     enemyPathfinding.GetComponent<GhostMovement>().startEvent = true;
                 }
-                enemyPathfinding.GetComponent<GhostMovement>().isChasingPlayer = false;
             }
         }
         
@@ -142,12 +140,11 @@ public class GalleryHiding : Script
         {
             if (enemyPathfinding.GetComponent<GhostMovement>().galleryChaseEventDone == false)
             {
-                if (enemyPathfinding.GetComponent<GhostMovement>().currentEvent != GhostMovement.GhostEvent.GalleryChasingEvent)
+                if (enemyPathfinding.GetComponent<GhostMovement>().currentEvent != GhostMovement.GhostEvent.FinalChasingEvent)
                 {
-                    enemyPathfinding.GetComponent<GhostMovement>().currentEvent = GhostMovement.GhostEvent.GalleryChasingEvent;
+                    enemyPathfinding.GetComponent<GhostMovement>().currentEvent = GhostMovement.GhostEvent.FinalChasingEvent;
                     enemyPathfinding.GetComponent<GhostMovement>().startEvent = true;
                 }
-                enemyPathfinding.GetComponent<GhostMovement>().isChasingPlayer = false;
             }
         }
     }
