@@ -50,7 +50,7 @@ public class GalleryLetter : Script
                 InventoryScript.addNoteIntoInventory(Note_Name, Note_Texture);
 
                 // ViewObject Stuff
-                gameObject.GetComponent<GraphicComponent>().SetView2D(true);
+                //gameObject.GetComponent<GraphicComponent>().SetView2D(true);
                 gameObject.transform.SetPosition(new Vector3(-10000.0f, -10000.0f, -10000.0f));
                 gameObject.transform.SetRotation(new Vector3(-0.0f, -0.0f, -0.0f));
                 gameObject.SetActive(false);

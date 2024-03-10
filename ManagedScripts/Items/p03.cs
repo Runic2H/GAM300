@@ -64,6 +64,7 @@ public class p03 : Script
 
                     // Trigger Painting Event
                     AudioPlayer.play("gallery_movepainting");
+                    AudioPlayer.play("mon_patrol4");
                     GameplaySubtitles.counter = 8;
 
                     // hiding event 

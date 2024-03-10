@@ -66,7 +66,7 @@ public class p02 : Script
                     //GameplaySubtitles.counter = 8;
 
                     // hiding event 
-                    ghost.GetComponent<GhostMovement>().PlayMonsterWalkingSoundInitial();
+                    //ghost.GetComponent<GhostMovement>().PlayMonsterWalkingSoundInitial();
                 }
             }
         }

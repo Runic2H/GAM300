@@ -323,6 +323,16 @@ public class GameplaySubtitles : Script
                 GameplaySubtitles.counter = 8;
             }
         }
+        if (counter == 44)
+        {
+            if (audio.finished("pc_openedsomething"))
+            {
+                audio.stop("pc_openedsomething");
+                GameplaySubtitles.counter = 8;
+            }
+        }
+
+        // Living Room Painting
         if (counter == 27)
         {
             if (audio.finished("pc_somethingdiff"))
@@ -375,25 +385,6 @@ public class GameplaySubtitles : Script
             audio.play("painting_burning");
         }
 
-       
-        if (counter == 44)
-        {
-            if (audio.finished("pc_openedsomething"))
-            {
-                audio.stop("pc_openedsomething");
-                GameplaySubtitles.counter = 8;
-            }
-        }
-        
-        if (Painting_Script.isPaintingCollected)
-        {
-            //if (audio.finished("pc_stealpainting1"))
-            //{
-            //    audio.stop("pc_stealpainting1");
-            //    GameplaySubtitles.counter = 8;
-            //}
-            //Painting_Script.isPaintingCollected = false; //reset for other paintings
-        }
         if (counter == 8)
         {
             Note_Script.isNotePicked = false;
