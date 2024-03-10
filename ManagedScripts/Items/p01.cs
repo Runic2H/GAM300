@@ -69,6 +69,8 @@ public class p01 : Script
 
                     // hiding event 
                     GalleryHiding.GhostShouldMove = true;
+                    GalleryHiding.timeLimit = 10.0f;
+                    GalleryHiding.GhostMoved = false;
                     ghost.GetComponent<GhostMovement>().PlayMonsterWalkingSoundInitial();
                 }
             }

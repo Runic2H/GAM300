@@ -32,6 +32,9 @@ public class GalleryHiding : Script
     public String[] subtitles;
     int counter;
     public static bool GhostShouldMove = false;
+    public static bool GhostMoved = false;
+
+    public static float timeLimit = 5.0f;
 
     public override void Awake()
     {
@@ -49,12 +52,24 @@ public class GalleryHiding : Script
     {
         //_flashlight = player.GetComponent<Flashlight_Script>();
         GhostShouldMove = false;
+        GhostMoved = false;
         hidingPos = closet.transform.GetPosition();
         _RotationAngle = 180.0f;
+        timeLimit = 10.0f;
     }
 
     public override void Update()
     {
+        if(GhostShouldMove && !hiding)
+        {
+            timeLimit -= Time.deltaTime;
+            if (timeLimit <= 0.0f && !GhostMoved)
+            {
+                GhostMove();
+                GhostMoved = true;
+            }
+        }
+        
         if (gameObject.GetComponent<RigidBodyComponent>().IsRayHit())
         {
             _InteractUI.SetActive(true);

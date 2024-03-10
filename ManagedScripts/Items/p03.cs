@@ -72,7 +72,8 @@ public class p03 : Script
                     //if (hidingGameObject.GetComponent<Hiding>().numOfPaintingsTook == 1)
                     //{
                     GalleryHiding.GhostShouldMove = true;
-
+                    GalleryHiding.timeLimit = 10.0f;
+                    GalleryHiding.GhostMoved = false;
                     ghost.GetComponent<GhostMovement>().PlayMonsterWalkingSoundInitial();
                     //}
                 }
