@@ -96,7 +96,6 @@
     <ClCompile Include="Src\Physics\Interface\PhysicsInterface.cpp" />
     <ClCompile Include="Src\Rendering\ObjectPicking.cpp" />
     <ClCompile Include="Src\vulkanTools\Synchronization.cpp" />
-    <ClCompile Include="Src\Rendering\FontSystem.cpp" />
     <ClCompile Include="Include\Rendering\GraphicsManagerWrapperCalls.cpp" />
     <ClCompile Include="src\fmod_engine\AudioEngine.cpp" />
     <ClCompile Include="src\components\SoundInfo.cpp" />
@@ -132,6 +131,8 @@
     <ClCompile Include="Src\GraphicsResource\MaterialInfo.cpp" />
     <ClCompile Include="Src\Rendering\MaterialFactory\PhongBlinnMaterial.cpp" />
     <ClCompile Include="Src\Rendering\MaterialFactory\PBRMaterial.cpp" />
+    <ClCompile Include="Src\components\animationComponent.cpp" />
+    <ClCompile Include="Src\Animation\AnimationSystem.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Shared_Libs\MathCommon.h" />
@@ -262,7 +263,6 @@
     <ClInclude Include="Include\vulkanTools\Synchronization.h" />
     <ClInclude Include="Include\AssetManagement\FontFactory.h" />
     <ClInclude Include="Include\Rendering\Batch2D.h" />
-    <ClInclude Include="Include\Rendering\FontSystem.h" />
     <ClInclude Include="Include\Rendering\GraphicsManagerWrapperCalls.h" />
     <ClInclude Include="Include\components\SoundInfo.h" />
     <ClInclude Include="Include\Rendering\UISpriteWrapper.h" />
@@ -307,6 +307,9 @@
     <ClInclude Include="Include\Rendering\MaterialFactory\PhongBlinnMaterial.h" />
     <ClInclude Include="Include\Rendering\Revamped\FrameBuffers\IrrandianceFBO.h" />
     <ClInclude Include="Include\Rendering\Revamped\FrameBuffers\PrefilteredFBO.h" />
+    <ClInclude Include="Include\components\animationComponent.h" />
+    <ClInclude Include="Include\Animation\AnimationSystem.h" />
+    <ClInclude Include="Include\AssetManagement\AnimationFactory.h" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Include\Logger\Logger.h" />

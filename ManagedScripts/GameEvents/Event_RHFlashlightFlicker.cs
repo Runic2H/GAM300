@@ -14,7 +14,7 @@ public class EventRHFlashlightFlicker : Script
     {
         if (doOnce)
         {
-            Flashlight_Script.batteryLife = 65.0f;
+            Flashlight_Script.batteryLife = 50.0f;
             doOnce = false;
             gameObject.GetComponent<ColliderComponent>().SetEnabled(false);
         }

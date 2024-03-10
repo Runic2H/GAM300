@@ -57,4 +57,12 @@ namespace ScriptAPI
 		TDS::SceneManager::GetInstance()->start();
 	}
 
+	void SceneLoader::LoadTempEndScene()
+	{
+		EngineInterface::Reload();
+		TDS::SceneManager::GetInstance()->loadScene("TempEndScene");
+		TDS::SceneManager::GetInstance()->awake();
+		TDS::SceneManager::GetInstance()->start();
+	}
+
 }

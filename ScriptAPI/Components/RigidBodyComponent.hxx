@@ -53,6 +53,7 @@ namespace ScriptAPI
 
 		// Raycasting (Scripting)
 		bool IsRayHit();
+		bool IsPlayerCast();
 
 		virtual TDS::EntityID GetEntityID();
 		virtual void SetEntityID(TDS::EntityID ID);

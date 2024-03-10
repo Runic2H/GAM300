@@ -173,7 +173,7 @@ namespace TDS
 				}
 				if (_rigidbody[j].getIsRayCast())
 				{
-					JPH_Raycast(entities[j], &_transform[j], &_rigidbody[j]);
+					JPH_Raycast(entities[j], &_transform[j], &_rigidbody[j], &_rigidbody[j].getIsPlayer());
 				}
 				/*if (GetBoxCollider(entities[j]))
 				{
@@ -205,15 +205,15 @@ namespace TDS
 			_transform->SetPosition(JoltToTDS::ToVec3(pBodies->GetPosition(JPHBodyID)));
 			_rigidbody->SetLinearVel(JoltToTDS::ToVec3(pBodies->GetLinearVelocity(JPHBodyID)));
 		}
-		else if (_rigidbody->getDoor())
-		{
-			_transform->SetPosition(JoltToTDS::ToVec3(pBodies->GetRotation(JPHBodyID).GetEulerAngles()));
-		}
 		if (_rigidbody->getIsRayHit() &&  
 			(collector->mHits.data()->mBodyID.GetIndexAndSequenceNumber() != _rigidbody->GetBodyID().GetIndexAndSequenceNumber() ||
 			collector->HadHit() == false))
 		{
 			_rigidbody->setIsRayHit(false);
+			if (_rigidbody->getIsPlayer())
+			{
+				_rigidbody->setIsPlayerCast(false);
+			}
 		}
 
 	}
@@ -338,7 +338,7 @@ namespace TDS
 	}
 
 
-	void PhysicsSystem::JPH_Raycast(const EntityID& entities, Transform* _transform, RigidBody* _rigidbody)
+	void PhysicsSystem::JPH_Raycast(const EntityID& entities, Transform* _transform, RigidBody* _rigidbody, bool isPlayer)
 
 	{
 		//float vRayScale = _rigidbody->getRayScale();
@@ -367,6 +367,7 @@ namespace TDS
 			if (entityID.has_value())
 			{
 				GetRigidBody(entityID.value())->setIsRayHit(true);
+				GetRigidBody(entityID.value())->setIsPlayerCast(isPlayer);
 			}
 		}
 

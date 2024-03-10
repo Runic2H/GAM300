@@ -59,6 +59,11 @@ namespace TDS
 			return m_TextureArray;
 		}
 
+		std::unordered_map<std::string, std::uint32_t>& GetReferenceCounts()
+		{
+			return m_InstanceCnt;
+		}
+
 		void Preload()
 		{
 			std::uint32_t NumOfLoadedTexture = 0;

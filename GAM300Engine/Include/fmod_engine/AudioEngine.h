@@ -228,6 +228,17 @@ namespace TDS
                 float upX, float upY, float upZ);
 
             /**
+             * Get the values of the listener
+             * @param pos - position of the listener
+             * @param velocity - speed of the movement
+             * @param forward - forward angle character is looking in
+             * @param up - up vector that is perpendicular to forward vector 
+            */
+            DLL_API  void get3DListenerCharacteristics(float& posX, float& posY, float& posZ,
+                float& velX, float& velY, float& velZ, float& forX, float& forY, float& forZ,
+                float& upX, float& upY, float& upZ);
+
+            /**
             * Utility method that returns the length of a SoundInfo's audio file in milliseconds
             * If the sound hasn't been loaded, returns 0
             */
@@ -302,7 +313,12 @@ namespace TDS
             /**
              * Get container of sounds that's loaded
              */
-            DLL_API std::map<unsigned int, FMOD::Sound*> getSoundContainer();
+            DLL_API  std::map<unsigned int, FMOD::Sound*> getSoundContainer();
+
+            /**
+             * Get the amount of channels that's playing
+            */
+            DLL_API  int GetAmountOfChannelsPlaying();
 
             /**
              * Get container of banks that's loaded

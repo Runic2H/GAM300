@@ -15,8 +15,13 @@ public class ReturnToMainMenuButton : Script
 {
     public GameBlackboard? gameBlackboard;
     UISpriteComponent returntoMMButtonSprite;
+    private AudioComponent buttonSfx;
+    private string buttonSfxName = "";
     public override void Awake()
     {
+        buttonSfxName = "button_press";
+        buttonSfx = gameObject.GetComponent<AudioComponent>();
+
     }
 
     public override void Start()
@@ -39,9 +44,10 @@ public class ReturnToMainMenuButton : Script
         //if (Input.GetMouseButtonDown(Keycode.M1) && returntoMMButtonSprite.IsMouseCollided() && PopupUI.isDisplayed == true)
         if (Input.GetMouseButtonDown(Keycode.M1) && returntoMMButtonSprite.IsMouseCollided() && gameBlackboard.gameState == GameBlackboard.GameState.Paused)
         {
-            Console.WriteLine("Return to MM Button Pressed");
+            //Console.WriteLine("Return to MM Button Pressed");
+            buttonSfx.play(buttonSfxName);
             AudioComponent audio = gameObject.GetComponent<AudioComponent>();
-            audio.stopAll();
+            //audio.stopAll();
             //PopupUI.isDisplayed = false;
             SceneLoader.LoadMainMenu();
         }

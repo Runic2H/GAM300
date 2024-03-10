@@ -65,7 +65,6 @@ namespace TDS
 		}
 		else
 		{
-			m_Document->Clear();
 			m_InputStream->close();
 			delete m_InputStream;
 			delete m_Document;
