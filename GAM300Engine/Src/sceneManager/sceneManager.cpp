@@ -69,7 +69,7 @@ namespace TDS
 		ecs.registerComponent<WinData>("Win Data");
 		ecs.registerComponent<UISprite>("UI Sprite");
 		ecs.registerComponent<SoundInfo>("Audio");
-		ecs.registerComponent<Particle_Component>("Particles");
+		ecs.registerComponent<Particle_Component>("Particle Component");
 		ecs.registerComponent<DirectionalLightComponent>("DirectionalLight");
 		ecs.registerComponent<SpotLightComponent>("SpotLight");
 		ecs.registerComponent<PointLightComponent>("PointLight");

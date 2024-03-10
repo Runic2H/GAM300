@@ -1120,6 +1120,10 @@ namespace TDS
 					{
 						addComponentByName("AnimationComponent", selectedEntity);
 					}
+					if (!GetParticle_Component(selectedEntity) && ImGui::Selectable("Particle Component"))
+					{
+						addComponentByName("Particle Component", selectedEntity);
+					}
 					break;
 				case AddComponentStage::SCRIPTS:
 

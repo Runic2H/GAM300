@@ -85,6 +85,8 @@ namespace TDS
 			return ecs.addComponent<PointLightComponent>(entityID);
 		else if (componentName == "AnimationComponent")
 			return ecs.addComponent<AnimationComponent>(entityID);
+		else if (componentName == "Particle Component")
+			return ecs.addComponent<Particle_Component>(entityID);
 
 		else
 			return nullptr;
@@ -132,6 +134,8 @@ namespace TDS
 			return *(ecs.addComponent<PointLightComponent>(entityID));
 		else if (componentName == rttr::type::get<AnimationComponent>())
 			return *(ecs.addComponent<AnimationComponent>(entityID));
+		else if (componentName == rttr::type::get<Particle_Component>())
+			return *ecs.addComponent<Particle_Component>(entityID);
 	}
 
 	/*!*************************************************************************
@@ -175,6 +179,8 @@ namespace TDS
 			return ecs.getComponent<PointLightComponent>(entityID);
 		else if (componentName == "AnimationComponent")
 			return ecs.getComponent<AnimationComponent>(entityID);
+		else if (componentName == "Particle Component")
+			return ecs.getComponent<Particle_Component>(entityID);
 
 		else
 			return nullptr;
@@ -222,6 +228,8 @@ namespace TDS
 			return  *(ecs.getComponent<PointLightComponent>(entityID));
 		else if (componentName == rttr::type::get<AnimationComponent>())
 			return  *(ecs.getComponent<AnimationComponent>(entityID));
+		else if (componentName == rttr::type::get<Particle_Component>())
+			return *(ecs.getComponent<Particle_Component>(entityID));
 	}
 
 	/*!*************************************************************************
@@ -265,6 +273,8 @@ namespace TDS
 			ecs.removeComponent<PointLightComponent>(entityID);
 		else if (componentName == "AnimationComponent")
 			ecs.removeComponent<AnimationComponent>(entityID);
+		else if (componentName == "Particle Component")
+			return ecs.removeComponent<Particle_Component>(entityID);
 	}
 
 	/*!*************************************************************************
@@ -308,6 +318,8 @@ namespace TDS
 			ecs.setComponentIsEnabled<PointLightComponent>(entityID, isEnabled);
 		else if (componentName == "AnimationComponent")
 			ecs.setComponentIsEnabled<AnimationComponent>(entityID, isEnabled);
+		else if (componentName == "Particle Component")
+			ecs.setComponentIsEnabled<Particle_Component>(entityID, isEnabled);
 	}
 
 	/*!*************************************************************************
@@ -351,6 +363,8 @@ namespace TDS
 			return  ecs.getComponentIsEnabled<PointLightComponent>(entityID);
 		else if (componentName == "AnimationComponent")
 			return  ecs.getComponentIsEnabled<AnimationComponent>(entityID);
+		else if (componentName == "Particle Component")
+			return ecs.getComponentIsEnabled<Particle_Component>(entityID);
 		else
 			return false;
 	}

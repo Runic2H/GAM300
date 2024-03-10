@@ -1,10 +1,17 @@
 #include "Rendering/ParticleSystem.h"
+#include "vulkanTools/GlobalBufferPool.h"
+#include "Rendering/GraphicsManager.h"
+#include "vulkanTools/Renderer.h"
+#include "AssetManagement/AssetManager.h"
+#include "Rendering/Revamped/DeferredController.h"
+
+
 
 namespace TDS {
 
 
 
-	ParticleSystem::ParticleSystem(VulkanInstance& Instance) : m_Instance(Instance) {
+	ParticleSystem::ParticleSystem() {
 
 	}
 
@@ -13,46 +20,176 @@ namespace TDS {
 	}
 
 	void ParticleSystem::Init() {
+		//create vulkan stuff to create
+
+		//create a spawn pipeline here
+		m_EmitterPipeline = std::make_shared<VulkanPipeline>();
+
+		PipelineCreateEntry EmitterComputeEntry;
+		EmitterComputeEntry.m_NumDescriptorSets = 1;
+		EmitterComputeEntry.m_PipelineConfig.m_DstClrBlend = VK_BLEND_FACTOR_ZERO;
+		EmitterComputeEntry.m_PipelineConfig.m_SrcClrBlend = VK_BLEND_FACTOR_ZERO;
+		EmitterComputeEntry.m_PipelineConfig.m_DstAlphaBlend = VK_BLEND_FACTOR_ZERO;
+		EmitterComputeEntry.m_PipelineConfig.m_SrcAlphaBlend = VK_BLEND_FACTOR_ZERO;
+		EmitterComputeEntry.m_ShaderInputs.m_Shaders.insert(std::make_pair(SHADER_FLAG::COMPUTE_SHADER, "../assets/shaders/ParticleEmitter.spv"));
+
+		GlobalBufferPool::GetInstance()->AddToGlobalPool(1000 * sizeof(Particle), 31, VK_BUFFER_USAGE_STORAGE_BUFFER_BIT, "v_ParticleOut");
+		GlobalBufferPool::GetInstance()->AddToGlobalPool(1001 * sizeof(int), 32, VK_BUFFER_USAGE_STORAGE_BUFFER_BIT, "FreeList");
+
+		m_EmitterPipeline->Create(EmitterComputeEntry);
+
+		//compute pipeline
+		m_ComputePipeline = std::make_shared<VulkanPipeline>();
+
+		PipelineCreateEntry ParticleComputeEntry;
+		ParticleComputeEntry.m_NumDescriptorSets = 1;
+		ParticleComputeEntry.m_PipelineConfig.m_DstClrBlend = VK_BLEND_FACTOR_ZERO;
+		ParticleComputeEntry.m_PipelineConfig.m_SrcClrBlend = VK_BLEND_FACTOR_ZERO;
+		ParticleComputeEntry.m_PipelineConfig.m_DstAlphaBlend = VK_BLEND_FACTOR_ZERO;
+		ParticleComputeEntry.m_PipelineConfig.m_SrcAlphaBlend = VK_BLEND_FACTOR_ZERO;
+		ParticleComputeEntry.m_ShaderInputs.m_Shaders.insert(std::make_pair(SHADER_FLAG::COMPUTE_SHADER, "../assets/shaders/ParticleCompute.spv"));
+
+		GlobalBufferPool::GetInstance()->AddToGlobalPool(1000 * sizeof(Mat4), 34, VK_BUFFER_USAGE_STORAGE_BUFFER_BIT, "v_TransformMatrix");
+
+		m_ComputePipeline->Create(ParticleComputeEntry);
+
+
+		//rendering pipeline
+		m_RenderPipeline = std::make_shared<VulkanPipeline>();
+
+		PipelineCreateEntry ParticleRenderEntry;
+		ParticleRenderEntry.m_NumDescriptorSets = 1;
+		ParticleRenderEntry.m_PipelineConfig.m_DstClrBlend = VK_BLEND_FACTOR_ZERO;
+		ParticleRenderEntry.m_PipelineConfig.m_SrcClrBlend = VK_BLEND_FACTOR_ZERO;
+		ParticleRenderEntry.m_PipelineConfig.m_DstAlphaBlend = VK_BLEND_FACTOR_ZERO;
+		ParticleRenderEntry.m_PipelineConfig.m_SrcAlphaBlend = VK_BLEND_FACTOR_ZERO;
+		ParticleRenderEntry.m_FBTarget = GraphicsManager::getInstance().GetDeferredController()->GetFrameBuffer(RENDER_PASS::RENDER_COMPOSITION);
+		ParticleRenderEntry.m_ShaderInputs.m_Shaders.insert(std::make_pair(SHADER_FLAG::VERTEX, "../assets/shaders/RenderParticleVert.spv"));
+		ParticleRenderEntry.m_ShaderInputs.m_Shaders.insert(std::make_pair(SHADER_FLAG::FRAGMENT, "../assets/shaders/RenderParticleFrag.spv"));
+
+		VertexLayout layout = VertexLayout({
+			VertexBufferElement(VAR_TYPE::VEC2, "in_Position")
+			});
+		ParticleRenderEntry.m_ShaderInputs.m_InputVertex.push_back(VertexBufferInfo(false, layout, sizeof(Vec2)));
+
+		MeshRenderBuffers[CUBE].m_MeshReference.m_ResourcePtr = AssetManager::GetInstance()->GetMeshFactory().GetMeshController("cube_Bin.bin", MeshRenderBuffers[CUBE].m_MeshReference);
+
+		MeshRenderBuffers[SPHERE].m_MeshReference.m_ResourcePtr = AssetManager::GetInstance()->GetMeshFactory().GetMeshController("cube_Bin.bin", MeshRenderBuffers[SPHERE].m_MeshReference);
+
+		MeshRenderBuffers[CAPSULE].m_MeshReference.m_ResourcePtr = AssetManager::GetInstance()->GetMeshFactory().GetMeshController("cube_Bin.bin", MeshRenderBuffers[CAPSULE].m_MeshReference);
+
+
+
+		m_RenderPipeline->Create(ParticleRenderEntry);
+
 
 	}
 
-	void ParticleSystem::UpdateAll(float deltatime, std::vector<EntityID>& Entities, Particle_Component* Particles, Transform* Xform) {
-		for (size_t i{ 0 }; i < Entities.size(); ++i) {
-			UpdateEmitter(deltatime, Entities[i], &Particles[i]);
+
+
+	void ParticleSystem::UpdateSystem(const float deltatime, const std::vector<EntityID>& Entities, Transform* Xform, Particle_Component* EmitterList) {
+		//send data into compute shader for calculations
+		/*
+		* loop through all entities with the particle component and run the emitter computeshader
+		*/
+
+		if (Entities.empty()) return;
+
+		uint32_t currentframe = GraphicsManager::getInstance().GetSwapchainRenderer().getFrameIndex();
+
+		auto commandBuffer = GraphicsManager::getInstance().getCommandBuffer();
+		m_EmitterPipeline->SetCommandBuffer(commandBuffer);
+		m_EmitterPipeline->BindComputePipeline();
+		for (unsigned int i{ 0 }; i < Entities.size(); ++i) {
+			Particle_Component currentEmitter = EmitterList[i];
+			currentEmitter.GetSpawnTimer() += deltatime;
+
+			//currentEmitter.SetSpawnTimer(currentEmitter.GetSpawnTimer() + deltatime);
+
+			unsigned int SpawnAmt = currentEmitter.GetSpawnTimer() / currentEmitter.GetSpawnInterval();
+
+			if (SpawnAmt <= 0)
+				continue;
+			currentEmitter.GetEmitter().Position = Xform[i].GetPosition();
+			Particle_Emitter_PushData GPUPush = { SpawnAmt, currentEmitter.GetEmitter() };
+			m_EmitterPipeline->BindDescriptor(currentframe, 1, 0, true);
+			m_EmitterPipeline->UpdateUBO(&GPUPush, sizeof(Particle_Emitter_PushData), 33, currentframe);
+			//bind ssbos?
+
+
+			ParticleInstanceGroup* group = (m_GroupCnt >= m_Group.size()) ? &m_Group.emplace_back() : &m_Group[m_GroupCnt];
+			m_GroupCnt++;
+
+			group->m_ParticleAmount = SpawnAmt;
+			group->m_PRenderBuffers = &MeshRenderBuffers[EmitterList[i].GetMeshType()];
+
+
+			int numwrkgrp = (SpawnAmt + 64 - 1) / 64;
+			m_EmitterPipeline->DispatchCompute(numwrkgrp, 1, 1);
+
 		}
+
+		VkMemoryBarrier memBarrier{};
+		memBarrier.sType = VK_STRUCTURE_TYPE_MEMORY_BARRIER;
+		memBarrier.srcAccessMask = VK_ACCESS_SHADER_WRITE_BIT;
+		memBarrier.dstAccessMask = VK_ACCESS_SHADER_READ_BIT;
+
+		vkCmdPipelineBarrier(commandBuffer, VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT, VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT,
+			0, 1, &memBarrier, 0, nullptr, 0, nullptr);
+
+		//compute particles
+
+		m_ComputePipeline->SetCommandBuffer(commandBuffer);
+		m_ComputePipeline->BindComputePipeline();
+		float dt = TimeStep::GetDeltaTime();
+		for (unsigned int i{ 0 }; i < Entities.size(); ++i) {
+			Particle_Component currentEmitter = EmitterList[i];
+			//bind ssbos?
+			m_ComputePipeline->BindDescriptor(currentframe, 1, 0, true);
+			m_ComputePipeline->UpdateUBO(&dt, sizeof(float), 35, currentframe);
+			int numwrkgrp = (currentEmitter.GetMaxParticles() + 128 - 1) / 128;
+			m_ComputePipeline->DispatchCompute(numwrkgrp, 1, 1);
+		}
+
+		VkMemoryBarrier barrier2{};
+		barrier2.sType = VK_STRUCTURE_TYPE_MEMORY_BARRIER;
+		barrier2.srcAccessMask = VK_ACCESS_SHADER_WRITE_BIT;
+		barrier2.dstAccessMask = VK_ACCESS_SHADER_READ_BIT;
+
+		vkCmdPipelineBarrier(commandBuffer, VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT, VkPipelineStageFlagBits::VK_PIPELINE_STAGE_ALL_GRAPHICS_BIT,
+			0, 1, &barrier2, 0, nullptr, 0, nullptr);
 	}
 
-	void ParticleSystem::UpdateEmitter(float deltatime,EntityID ID, Particle_Component* Emitter) {
-		std::uint32_t currentparticlecount = Emitter->GetCurrentParticleCount();
-		std::uint32_t Desiredparticlecount = Emitter->GetDesiredParticleCount();
-		if (currentparticlecount != Desiredparticlecount) {
-			AddParticlestoEmitter(Emitter, Desiredparticlecount - currentparticlecount, ID);
+	void ParticleSystem::Render() 
+	{
+		uint32_t currentframe = GraphicsManager::getInstance().GetSwapchainRenderer().getFrameIndex();
+		TDSCamera cam = GraphicsManager::getInstance().GetCamera();
+		Mat4 view = cam.GetViewMatrix();
+		Mat4 proj = Mat4::Perspective(cam.m_Fov * Mathf::Deg2Rad,
+			GraphicsManager::getInstance().GetSwapchainRenderer().getAspectRatio(), 0.1f, 1000000.f);
+		//send data into vertex and fragment shader to render into scene
+		auto commandBuffer = GraphicsManager::getInstance().getCommandBuffer();
+		m_RenderPipeline->SetCommandBuffer(commandBuffer);
+		m_RenderPipeline->BindPipeline();
+		CameraUBO temp = { view, proj };
+		m_RenderPipeline->UpdateUBO(&temp, sizeof(CameraUBO), 5, currentframe);
+
+		for (std::uint32_t i = 0; i < m_GroupCnt; ++i)
+		{
+			m_RenderPipeline->BindVertexBuffer(*m_Group[i].m_PRenderBuffers->m_MeshReference.m_ResourcePtr->GetMeshBuffer()->m_VertexBuffer);
+			m_RenderPipeline->BindIndexBuffer(*m_Group[i].m_PRenderBuffers->m_MeshReference.m_ResourcePtr->GetMeshBuffer()->m_IndexBuffer);
+
+			m_RenderPipeline->BindDescriptor(currentframe, 1);
+
+			m_RenderPipeline->DrawInstancedIndexed(*m_Group[i].m_PRenderBuffers->m_MeshReference.m_ResourcePtr->GetMeshBuffer()->m_VertexBuffer, *m_Group[i].m_PRenderBuffers->m_MeshReference.m_ResourcePtr->GetMeshBuffer()->m_IndexBuffer, m_Group[i].m_ParticleAmount, currentframe);
 		}
-		//if amount is equal, run the update loop for the particle activity
-		else {
-			for (auto& particle : Emitter->GetParticleVector()) {
-				if (particle.isActive) {
-					particle.Age += deltatime;
-					if (particle.Age >= particle.Lifetime) {
-						particle.Age = 0.f;
-						particle.isActive = false;
-						continue;
-					}
-					particle.Velocity += particle.Acceleration * deltatime;//updating velocity with acceleration
-					particle.Acceleration *= std::exp(-Emitter->GetDecayRate() * deltatime);//decaying acceleration per frame
-					particle.Position += particle.Velocity * deltatime;//updaing particle position
-				}
-			}
-		}
+
+		m_GroupCnt = 0;
 	}
 
-	void ParticleSystem::AddParticlestoEmitter(Particle_Component* Emitter, std::uint32_t particleamount, EntityID ID) {
-		Particle newparticle = Particle();
-		Transform* EntityXform = ecs.getComponent<Transform>(ID);
-		newparticle.Position = EntityXform->GetPosition();
-		for (size_t i{ 0 }; i < particleamount; ++i) {
-			Emitter->GetParticleVector().push_back(newparticle);
-
-		}
+	void ParticleSystem::ShutDown() {
+		m_ComputePipeline->ShutDown();
+		m_EmitterPipeline->ShutDown();
+		m_RenderPipeline->ShutDown();
 	}
 }

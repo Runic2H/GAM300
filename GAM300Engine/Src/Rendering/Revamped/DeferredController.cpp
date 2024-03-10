@@ -20,6 +20,7 @@
 #include "components/tag.h"
 #include "Rendering/Skybox.h"
 #include "Animation/Animation.h"
+#include "Rendering/ParticleSystem.h"
 namespace TDS
 {
 
@@ -714,7 +715,7 @@ namespace TDS
 
 			G_BufferPassBatch(commandBuffer, frameIndex);
 			G_BufferInstanced(commandBuffer, frameIndex);
-
+		
 
 			auto& DebugRenderer = GraphicsManager::getInstance().GetDebugRenderer();
 			if (CollisionSystem::m_RenderDebugDrawing)
@@ -902,14 +903,19 @@ namespace TDS
 				pipeline->SubmitPushConstant(&m_ScreenFadeFactor, sizeof(float), SHADER_FLAG::FRAGMENT);
 				pipeline->BindDescriptor(frameIndex, 1);
 				pipeline->Draw(6, frameIndex);
+
+				ParticleSystem::Render();
 			}
 			else
 			{
 				RenderUISceneMeshBatch(commandBuffer, frameIndex);
 				RenderUISceneMeshInstance(commandBuffer, frameIndex);
 			}
+			
+
 			renderer2D->Draw(commandBuffer, frameIndex);
 			fontrenderer->Draw(commandBuffer, frameIndex);
+			
 
 
 		}
