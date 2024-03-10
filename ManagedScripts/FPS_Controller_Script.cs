@@ -639,8 +639,8 @@ public class FPS_Controller_Script : Script
                     audioTimer = 1.0f;
                 }
 
-                Vector3 up_vector = Vector3.Cross(playerCamera.getForwardVector(), playerCamera.getRightVector());
-                audio.setPlayerCoords(transform.GetPosition(), playerCamera.getForwardVector(), up_vector);
+                Vector3 up_vector = Vector3.Normalize(Vector3.Cross(playerCamera.getForwardVector(), playerCamera.getRightVector()));
+                audio.setPlayerCoords(transform.GetPosition(), Vector3.Normalize(playerCamera.getForwardVector()), up_vector);
             }
             else
             {

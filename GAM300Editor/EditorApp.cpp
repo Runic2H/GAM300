@@ -69,9 +69,6 @@ namespace TDS
         {
         case WM_CREATE:
             TDS::InputSystem::GetInstance()->setWindowCenter(GetSystemMetrics(SM_CXSCREEN) / 2, GetSystemMetrics(SM_CYSCREEN) / 2);
-            TDS::InputSystem::GetInstance()->app_wparam = wParam;
-            TDS::InputSystem::GetInstance()->app_lparam = lParam;
-            TDS::InputSystem::GetInstance()->app_handler = hWnd;
             break;
         case WM_DESTROY:
             PostQuitMessage(0);
@@ -185,17 +182,9 @@ namespace TDS
         case WM_MOUSEWHEEL: {
             InputSystem::GetInstance()->processMouseScroll(wParam);
         }break;
-        case WM_MOUSEMOVE:
-        {
-            /*if (TDS::InputSystem::GetInstance()->getCursorVisible())
-            {
-                TDS::InputSystem::GetInstance()->hideMouse();
-            }*/
-
-        }break;
         case WM_SETCURSOR:
         {
-            //TDS::InputSystem::GetInstance()->hideMouse();
+            TDS::InputSystem::GetInstance()->hideMouse();
         }break;
         }
     }

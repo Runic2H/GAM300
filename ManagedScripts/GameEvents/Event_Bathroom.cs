@@ -3,7 +3,8 @@ using System;
 
 public class EventBathroom : Script
 {
-    public GameObject? battery;
+
+    public bool doOnce = true;
 
     public override void Update()
     {
@@ -13,7 +14,11 @@ public class EventBathroom : Script
 
     public override void OnTriggerEnter(ColliderComponent collider)
     {
-        Console.WriteLine("Martin (Internal): The tub is still wet, but there’s no one...");
-        gameObject.GetComponent<ColliderComponent>().SetEnabled(false);
+        if (doOnce)
+        {
+            Console.WriteLine("Martin (Internal): The tub is still wet, but there’s no one...");
+            doOnce = false;
+            gameObject.GetComponent<ColliderComponent>().SetEnabled(false);
+        }
     }
 }

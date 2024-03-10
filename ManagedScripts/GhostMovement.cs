@@ -314,7 +314,6 @@ public class GhostMovement : Script
     public bool PlayMonsterWalkingSound()
     {
         AudioComponent audio = gameObject.GetComponent<AudioComponent>();
-        Vector3 temp = new Vector3(1000, 1000, 0);
 
         if (audio.finished(walkingSounds[walkingSoundCounter]))
         {
@@ -330,10 +329,8 @@ public class GhostMovement : Script
                 }
 
                 audio.play(walkingSounds[walkingSoundCounter]);
-                audio.set3DCoords(temp/*transform.GetPosition()*/, walkingSounds[walkingSoundCounter]);
+                audio.set3DCoords(transform.GetPosition(), walkingSounds[walkingSoundCounter]);
                 playSoundTimer = soundSpeed - walkingSoundCounter * 0.05f;
-
-                //audio.set3DCoords(transform.GetPosition());
                 //if (!triggerBedroomHideEvent)
                 //{
                 //    int ra = RandomNumberGenerator.GetInt32(8);

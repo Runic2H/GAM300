@@ -7,7 +7,7 @@ public class EventLivingRoom : Script
     public GameObject? enemyPathfinding;
     public GameObject? player;
     private Vector3 lookAmount = new Vector3();
-    public float timer = 5.0f;
+    public float timer = 1.0f;
     public bool doOnce = true;
     public bool timerStart = false;
 
