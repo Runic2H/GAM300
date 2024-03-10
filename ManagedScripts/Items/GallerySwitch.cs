@@ -32,7 +32,7 @@ public class GallerySwitch : Script
 
     public override void Update()
     {
-        if (gameObject.GetComponent<RigidBodyComponent>().IsRayHit())
+        if (p02.isPaintingCollected && gameObject.GetComponent<RigidBodyComponent>().IsRayHit())
         {
             Console.WriteLine("Gallery Switch");
 
