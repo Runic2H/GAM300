@@ -141,6 +141,7 @@ public class p06 : Script
                 {
                     player.GetComponent<FPS_Controller_Script>().cameraCanMove = true;
                     player.GetComponent<FPS_Controller_Script>().playerCanMove = true;
+                    ghost.GetComponent<GhostMovement>().currentEvent = GhostMovement.GhostEvent.LivingRoomHidingEvent;
                     endingSequence = true;
                     gameObject.SetActive(false);
                 }

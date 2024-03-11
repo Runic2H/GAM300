@@ -25,7 +25,7 @@ public class Hiding : Script
     public GameObject closet;
     [Header("AudioStuff")]
     //public AudioSource playerVOSource;
-    public AudioComponent audioPlayer;
+    public AudioComponent audioPlayer;  //#1
     String[] voClips;
     public String[] subtitles;
     int counter;
@@ -43,7 +43,7 @@ public class Hiding : Script
         numOfPaintingsTook = 0;
 
         //counter = 0;
-        audioPlayer = gameObject.GetComponent<AudioComponent>();
+        audioPlayer = gameObject.GetComponent<AudioComponent>();    //#2
         voClips = new string[3];
         voClips[0] = "pc_hideinclosetfirst";
         voClips[1] = "pc_wanderingcloset";
@@ -66,7 +66,7 @@ public class Hiding : Script
     public override void Update()
     {
 
-        if (interactable && gameObject.GetComponent<RigidBodyComponent>().IsRayHit())
+        if (interactable && gameObject.GetComponent<RigidBodyComponent>().IsRayHit() && gameObject.GetComponent<RigidBodyComponent>().IsPlayerCast())
         {
             _InteractUI.SetActive(true);
 

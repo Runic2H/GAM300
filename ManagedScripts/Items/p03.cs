@@ -44,7 +44,7 @@ public class p03 : Script
     {
         //if (GalleryLetter.isNotePicked) // Don't allow player to proceed with puzzle before getting the hint.
         {
-            if (gameObject.GetComponent<RigidBodyComponent>().IsRayHit())
+            if (gameObject.GetComponent<RigidBodyComponent>().IsRayHit() && gameObject.GetComponent<RigidBodyComponent>().IsPlayerCast())
             {
                 Console.WriteLine("p01");
                 _InteractUI.SetActive(true);
@@ -83,7 +83,7 @@ public class p03 : Script
 
     public override void LateUpdate()
     {
-        if (gameObject.GetComponent<RigidBodyComponent>().IsRayHit())
+        if (gameObject.GetComponent<RigidBodyComponent>().IsRayHit() && gameObject.GetComponent<RigidBodyComponent>().IsPlayerCast())
         {
             _InteractUI.SetActive(true);
         }

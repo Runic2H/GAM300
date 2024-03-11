@@ -48,7 +48,6 @@ public class OptionsSfxVolume : Script
                 SfxVolume -= 5.0f;
                 sfxVol.setSFXVol(SfxVolume);
             }
-            //Console.WriteLine("sfx vol: " + sfxVol.getSFXVol());
             buttonSfx.play(buttonSfxName);
         }
     }

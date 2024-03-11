@@ -49,7 +49,7 @@ public class OptionsBgmVolume : Script
                 BgmVolume -= 5.0f;
                 bgmVol.setBGMVol(BgmVolume);
             }
-            //Console.WriteLine(bgmVol.getBGMVol());
+
             buttonSfx.play(buttonSfxName);
         }
     }

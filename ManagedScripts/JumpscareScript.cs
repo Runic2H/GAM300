@@ -65,6 +65,7 @@ public class JumpscareScript : Script
 
                 if (player.transform.GetRotation().Y >= yRotation - 3 && player.transform.GetRotation().Y <= yRotation + 3)
                 {
+                    gameObject.GetComponent<AudioComponent>().stopAll();
                     gameObject.GetComponent<AudioComponent>().play("mon_death");
                     ++jumpscareSequenceIndex;
                 }
@@ -99,7 +100,8 @@ public class JumpscareScript : Script
 
             // 5. lost screen
             case 4:
-
+                Input.HideMouse(false);
+                Input.Lock(false);
                 SceneLoader.LoadLoseScreen();
                 break;
         }

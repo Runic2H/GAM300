@@ -580,7 +580,7 @@ public class FPS_Controller_Script : Script
         if (speedReduction != 0) walkSpeed *= speedReduction;
     }
 
-    private void StandUp()
+    public void StandUp()
     {
         transform.SetScale(new Vector3(originalScale.X, originalScale.Y, originalScale.Z));
         //transform.SetPositionY(originalHeight);
