@@ -5,16 +5,18 @@ public class TempEndScene : Script
     private bool fadeIn = false;
     private bool fadeOut = true;
     private bool once = true;
-    private float incrementFading = Time.deltaTime / 4f;
+    private float incrementFading = Time.deltaTime / 5f;
     readonly string runningSFX = "end_grassrunning";
     readonly string monsterSFX = "mon_death";
     AudioComponent audio;
+    private float waitTimer;
     public override void Awake()
     {
         //audio = new AudioComponent();
         audio = gameObject.GetComponent<AudioComponent>();
-        audio.play(monsterSFX);
-        audio.FadeOut(3, monsterSFX);
+        //audio.play(monsterSFX);
+        //audio.FadeOut(3, monsterSFX);
+        waitTimer = 5.0f;
     }
     public override void Start()
     {
@@ -36,8 +38,12 @@ public class TempEndScene : Script
             gameObject.GetComponent<UISpriteComponent>().setColourAlpha(alpha);
             if (alpha <= 0)
             {
-                fadeIn = false;
-                SceneLoader.LoadEndGameCredits();
+                if (waitTimer <= 0.0f)
+                {
+                    fadeIn = false;
+                    SceneLoader.LoadTempJumpscare();
+                }
+                waitTimer -= Time.deltaTime;
             }
         }
         if (fadeOut == true)

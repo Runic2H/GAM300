@@ -86,46 +86,47 @@ public class p06 : Script
                 //}
             }
 
-            if (isPaintingCollected && !takingDownPainting)
-            {
-                player.GetComponent<FPS_Controller_Script>().cameraCanMove = false;
-                player.GetComponent<FPS_Controller_Script>().playerCanMove = false;
-                player.GetComponent<RigidBodyComponent>().SetLinearVelocity(Vector3.Zero());
-                if (TestTimer >= 0.0f)
-                {
-                    position = Mathf.Lerp(gameObject.transform.GetPosition().Y, 100.0f, 1.0f * Time.deltaTime);
-                    playerLook = Mathf.Lerp(player.GetComponent<FPS_Controller_Script>().playerCamera.transform.GetRotation().X, 0.0f, 2.0f * Time.deltaTime);
-                    gameObject.transform.SetPositionY(position);
-                    player.GetComponent<FPS_Controller_Script>().playerCamera.transform.SetRotationX(playerLook);
-                    TestTimer -= Time.deltaTime;
-                    
-                }
-                else
-                {
-                    takingDownPainting = true;
-                }
-            }
+        }
 
-            if (takingDownPainting)
+        if (isPaintingCollected && !takingDownPainting)
+        {
+            player.GetComponent<FPS_Controller_Script>().cameraCanMove = false;
+            player.GetComponent<FPS_Controller_Script>().playerCanMove = false;
+            player.GetComponent<RigidBodyComponent>().SetLinearVelocity(Vector3.Zero());
+            if (TestTimer >= 0.0f)
             {
-                if (FlipBackTimer >= 0.0f)
-                {
-                    paintingRotation = Mathf.Lerp((float)(Math.PI), gameObject.transform.GetRotation().Y, 1.0f * Time.deltaTime);
-                    gameObject.transform.SetRotationY(paintingRotation);
-                    FlipBackTimer -= Time.deltaTime;
-                }
-                if (FlipBackTimer <= 0.0f && contineuDialogue >= 0.0f)
-                {
-                    contineuDialogue -= Time.deltaTime;
-                    if (contineuDialogue < 0.0f)
-                    {
-                        paintingRotation = Mathf.InverseLerp(0.0f, gameObject.transform.GetRotation().Y, 1.0f * Time.deltaTime);
-                        gameObject.transform.SetRotationY(paintingRotation);
-                        DropPainting = true;
-                    }
-                }
-                
+                position = Mathf.Lerp(gameObject.transform.GetPosition().Y, 100.0f, 1.0f * Time.deltaTime);
+                playerLook = Mathf.Lerp(player.GetComponent<FPS_Controller_Script>().playerCamera.transform.GetRotation().X, 0.0f, 2.0f * Time.deltaTime);
+                gameObject.transform.SetPositionY(position);
+                player.GetComponent<FPS_Controller_Script>().playerCamera.transform.SetRotationX(playerLook);
+                TestTimer -= Time.deltaTime;
+                    
             }
+            else
+            {
+                takingDownPainting = true;
+            }
+        }
+
+        if (takingDownPainting)
+        {
+            if (FlipBackTimer >= 0.0f)
+            {
+                paintingRotation = Mathf.Lerp((float)(Math.PI), gameObject.transform.GetRotation().Y, 1.0f * Time.deltaTime);
+                gameObject.transform.SetRotationY(paintingRotation);
+                FlipBackTimer -= Time.deltaTime;
+            }
+            if (FlipBackTimer <= 0.0f && contineuDialogue >= 0.0f)
+            {
+                contineuDialogue -= Time.deltaTime;
+                if (contineuDialogue < 0.0f)
+                {
+                    paintingRotation = Mathf.InverseLerp(0.0f, gameObject.transform.GetRotation().Y, 1.0f * Time.deltaTime);
+                    gameObject.transform.SetRotationY(paintingRotation);
+                    DropPainting = true;
+                }
+            }
+                
         }
         if (DropPainting)
         {
@@ -142,6 +143,7 @@ public class p06 : Script
                     player.GetComponent<FPS_Controller_Script>().cameraCanMove = true;
                     player.GetComponent<FPS_Controller_Script>().playerCanMove = true;
                     ghost.GetComponent<GhostMovement>().currentEvent = GhostMovement.GhostEvent.LivingRoomHidingEvent;
+                    ghost.GetComponent<GhostMovement>().startEvent = true;
                     endingSequence = true;
                     gameObject.SetActive(false);
                 }
@@ -151,7 +153,7 @@ public class p06 : Script
 
     public override void LateUpdate()
     {
-        if (gameObject.GetComponent<RigidBodyComponent>().IsRayHit())
+        if (gameObject.GetComponent<RigidBodyComponent>().IsRayHit() && gameObject.GetComponent<RigidBodyComponent>().IsPlayerCast())
         {
             _InteractUI.SetActive(true);
         }

@@ -57,7 +57,7 @@ public class EventBathroomSink : Script
             {
                 monster.GetComponent<AnimatedComponent>().SetEnabled(true);
                 monster.SetActive(true);
-                if (player.transform.GetRotation().Y >= lastPlayerRot.Y + 160 || player.transform.GetRotation().Y <= lastPlayerRot.Y - 160)
+                if (player.transform.GetRotation().Y >= lastPlayerRot.Y + 150 || player.transform.GetRotation().Y <= lastPlayerRot.Y - 150)
                 {
                     ghostTimer -= Time.deltaTime;
                     if (ghostTimer <= 0.7f)

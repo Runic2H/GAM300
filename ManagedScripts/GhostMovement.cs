@@ -73,6 +73,7 @@ public class GhostMovement : Script
 
     private float livingRoomHidingTimer;
     public bool livingRoomHideEventDone;
+    public GameObject livingRoomHidingGameObject;
 
     #endregion
 
@@ -179,22 +180,6 @@ public class GhostMovement : Script
             return;
         }
 
-        // Testing (to be removed)
-        if (Input.GetKeyDown(Keycode.K))
-        {
-            currentEvent = GhostEvent.DiningRoomEvent;
-            startEvent = true;
-
-            transform.SetPositionX(-58.0f);
-            transform.SetPositionZ(-1060.0f);
-            transform.SetRotationY((float)Math.PI);
-        }
-        if (Input.GetKeyDown(Keycode.M))
-        {
-            currentEvent = GhostEvent.FinalChasingEvent;
-            startEvent = true;
-        }
-
         Vector2 ghostPosition = new Vector2(transform.GetPosition().X, transform.GetPosition().Z);
         Vector2 playerPosition = new Vector2(player.transform.GetPosition().X, player.transform.GetPosition().Z);
 
@@ -209,6 +194,12 @@ public class GhostMovement : Script
                 //    // NOTE: May want to add in "not hiding" condition
                 //    currentEvent = GhostEvent.ChasingPlayer;
                 //}
+
+                if (player.transform.GetPosition().X <= 319.0f && livingRoomHideEventDone && !diningRoomEventDone) // Trigger dining room event
+                {
+                    currentEvent = GhostEvent.DiningRoomEvent;
+                    startEvent = true;
+                }
 
                 break;
 
@@ -235,7 +226,8 @@ public class GhostMovement : Script
                 //}
 
                 if (bedroomHidingGameObject.GetComponent<Hiding>().hiding || 
-                    galleryHidingGameObject.GetComponent<GalleryHiding>().hiding) // NOTE: Will add in the other hiding boolean variables later
+                    galleryHidingGameObject.GetComponent<GalleryHiding>().hiding ||
+                    livingRoomHidingGameObject.GetComponent<Hiding>().hiding) // NOTE: Will add in the other hiding boolean variables later
                 {
                     currentEvent = previousEvent;
                 }
@@ -243,7 +235,7 @@ public class GhostMovement : Script
                 // If touches, loses
                 if (Vector2.Distance(ghostPosition, playerPosition) <= 75.0f)
                 {
-                    QueueJumpscare();
+                    //QueueJumpscare();
                     return;
                 }
                 else
@@ -476,7 +468,7 @@ public class GhostMovement : Script
         {
             case 0: // Moving from SH door to end of bedframe in bed
 
-                if (MoveTo(new Vector2(1790, -323), 5.0f))
+                if (MoveTo(new Vector2(1790, -323), 2.0f))
                 {
                     ++eventStep;
                 }
@@ -487,7 +479,7 @@ public class GhostMovement : Script
 
             case 1: // Moving to player / hiding closet
 
-                if (MoveTo(new Vector2(2167, -100), 5.0f))
+                if (MoveTo(new Vector2(2167, -100), 2.0f))
                 {
                     ++eventStep;
                 }
@@ -517,8 +509,6 @@ public class GhostMovement : Script
 
     public void LivingDiningRoomEvent()
     {
-        Console.WriteLine("LivingDiningRoomEvent");
-
         if (startEvent) // Initialize variables
         {
             livingDiningRoomStandingTimer = 1.0f;
@@ -527,6 +517,7 @@ public class GhostMovement : Script
 
             transform.SetPositionX(319.0f);
             transform.SetPositionZ(-379.0f);
+            gameObject.GetComponent<AnimatedComponent>().PlayAnimation();
 
             //Console.WriteLine("initialized living dining room event");
         }
@@ -541,7 +532,6 @@ public class GhostMovement : Script
                 if (livingDiningRoomStandingTimer <= 0)
                 {
                     ++eventStep;
-                    gameObject.GetComponent<AnimatedComponent>().PlayAnimation();
                 }
                 livingDiningRoomStandingTimer -= Time.deltaTime;
 
@@ -549,7 +539,7 @@ public class GhostMovement : Script
 
             case 1: // Move to beside dining room - main entrance door (making it look a little better)
 
-                if (MoveTo(new Vector2(-272, -200), 5.0f))
+                if (MoveTo(new Vector2(-272, -300), 2.0f))
                 {
                     ++eventStep;
                 }
@@ -558,7 +548,7 @@ public class GhostMovement : Script
 
             case 2: // Move to dining room - main entrance door & disappear
 
-                if (MoveTo(new Vector2(-272, -80), 5.0f))
+                if (MoveTo(new Vector2(-272, -80), 2.0f))
                 {
                     ++eventStep;
                 }
@@ -580,13 +570,16 @@ public class GhostMovement : Script
 
     public void LivingRoomHidingEvent()
     {
-        Console.WriteLine("LivingRoomHidingEvent");
-
         if (startEvent) // Initialize variables
         {
             livingRoomHidingTimer = 1.0f;
             eventStep = 0;
-            startEvent = false;
+
+            if (livingRoomHidingGameObject.GetComponent<Hiding>().hiding) // Start after hiding
+            {
+                gameObject.GetComponent<AnimatedComponent>().PlayAnimation();
+                startEvent = false;
+            }
 
             // Teleporting monster to behind the living room - right hall door
             transform.SetPositionX(938.0f);
@@ -594,14 +587,13 @@ public class GhostMovement : Script
 
             //Console.WriteLine("initialized living room hiding event");
 
-            gameObject.GetComponent<AnimatedComponent>().PlayAnimation();
         }
 
         switch (eventStep)
         {
             case 0: // Move to couch
 
-                if (MoveTo(new Vector2(938.0f, -379.0f), 5.0f))
+                if (MoveTo(new Vector2(938.0f, -379.0f), 2.0f))
                 {
                     ++eventStep;
                     gameObject.GetComponent<AnimatedComponent>().StopAnimation();
@@ -622,7 +614,7 @@ public class GhostMovement : Script
 
             case 2: // Move to living room - dining room door
 
-                if (MoveTo(new Vector2(156.0f, -379.0f), 5.0f))
+                if (MoveTo(new Vector2(156.0f, -379.0f), 2.0f))
                 {
                     ++eventStep;
                 }
@@ -631,7 +623,7 @@ public class GhostMovement : Script
 
             case 3: // Move to picture in dining room
 
-                if (MoveTo(new Vector2(-58.0f, -1060.0f), 5.0f))
+                if (MoveTo(new Vector2(-58.0f, -1060.0f), 2.0f))
                 {
                     ++eventStep;
                 }
@@ -656,6 +648,7 @@ public class GhostMovement : Script
             diningRoomTimer = ScriptAPI.Random.Range(1.0f, 3.0f);
             eventStep = 0;
             startEvent = false;
+            gameObject.GetComponent<AudioComponent>().play("pc_movethissilently");
 
             //Console.WriteLine("initialized dining event (red light green light)");
         }
@@ -663,8 +656,6 @@ public class GhostMovement : Script
         switch (eventStep)
         {
             case 0: // Turns every once in a while 
-
-                Console.WriteLine(diningRoomTimer);
 
                 if (diningRoomTimer <= 0)
                 {
@@ -675,8 +666,6 @@ public class GhostMovement : Script
                 break;
 
             case 1: // Turning towards player (5 degrees per frame)
-
-                Console.WriteLine("Turning");
 
                 transform.SetRotationY(transform.GetRotation().Y - (float)(5.0f / 180.0f * Math.PI));
 
@@ -693,14 +682,12 @@ public class GhostMovement : Script
             case 2: // "Looking" around for player (just made it wait for a while for now)
 
                 // Looking for player
-                if ((playerOriginalPosition - player.transform.GetPosition() != new Vector3 (0.0f, 0.0f, 0.0f)) || // Player moved
-                    !player.GetComponent<FPS_Controller_Script>().isCrouched)
-                {
-                    currentEvent = GhostEvent.ChasingPlayer;
-                    speed = 25.0f;
-                }
-
-                Console.WriteLine(diningRoomTimer);
+                //if ((playerOriginalPosition - player.transform.GetPosition() != new Vector3 (0.0f, 0.0f, 0.0f)) || // Player moved
+                //    !player.GetComponent<FPS_Controller_Script>().isCrouched)
+                //{
+                //    currentEvent = GhostEvent.ChasingPlayer;
+                //    speed = 25.0f;
+                //}
 
                 if (diningRoomTimer <= 0)
                 {
@@ -711,8 +698,6 @@ public class GhostMovement : Script
                 break;
 
             case 3: // Turn back and go back to the first eventStep
-
-                Console.WriteLine("Turning Back");
 
                 transform.SetRotationY(transform.GetRotation().Y + (float)(5.0f / 180.0f * Math.PI));
 
@@ -725,7 +710,6 @@ public class GhostMovement : Script
 
                 break;
         }
-
 
         // When player enters kitchen, event ends
         if (player.transform.GetPosition().X < -873.0f)

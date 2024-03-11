@@ -5,6 +5,7 @@ public class EventBathroom : Script
 {
 
     public bool doOnce = true;
+    public GameObject? bathroomLight; 
 
     public override void Update()
     {
@@ -17,6 +18,7 @@ public class EventBathroom : Script
         if (doOnce)
         {
             Console.WriteLine("Martin (Internal): The tub is still wet, but there’s no one...");
+            bathroomLight.SetActive(true);
             doOnce = false;
             gameObject.GetComponent<ColliderComponent>().SetEnabled(false);
         }

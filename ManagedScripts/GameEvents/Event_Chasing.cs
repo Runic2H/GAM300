@@ -63,8 +63,8 @@ public class EventChasing : Script
     public override void OnTriggerEnter(ColliderComponent collider)
     {
         //monster.GetComponent<GhostMovement>().currentEvent = GhostMovement.GhostEvent.FinalChasingEvent;
-        gameObject.GetComponent<ColliderComponent>().SetEnabled(false);
         eventStarted = true;      
+        gameObject.GetComponent<ColliderComponent>().SetEnabled(false);
 
     }
 }

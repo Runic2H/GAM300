@@ -12,20 +12,43 @@ using ScriptAPI;
 
 public class JumpscareScript : Script
 {
-    public GameBlackboard gameBlackboard;
     public GameObject player;
     public int jumpscareSequenceIndex;
 
     private float yRotation = 0.0f;
-    private bool turnClockwise;
+    private bool fadeOut = true;
+    private float incrementFading = Time.deltaTime / 2f;
+    private float alpha = 0;
+
+    private Vector3 originalPosition;
+    private float screamTimer = 0;
+    public GameObject playerCamera;
 
     public override void Awake()
     {
-        jumpscareSequenceIndex = 0;
-        SetEnabled(false);
+        jumpscareSequenceIndex = 1;
+        alpha = 0;
+        GraphicsManagerWrapper.SetFadeFactor(0.2f);
+        //jumpscareSequenceIndex = 0;
+        //SetEnabled(false);
+        originalPosition = transform.GetPosition();
+        screamTimer = 2.5f;
+        playerCamera.transform.SetPosition(new Vector3(0.0f , 90.0f, 0.0f));
+        player.transform.SetPosition(new Vector3(0.0f , 90.0f, 0.0f));
     }
     public override void Update()
     {
+        //if (fadeOut == true)
+        //{
+        //    alpha += incrementFading;
+        //    alpha = Mathf.Clamp(alpha, 0, 0.2f);
+        //      GraphicsManagerWrapper.SetFadeFactor(0.2f);
+        //    if (alpha >= 0.2f)
+        //    {
+        //        fadeOut = false;
+        //    }
+        //}
+
         switch (jumpscareSequenceIndex)
         {
             // 1. calculating rotations
@@ -52,34 +75,42 @@ public class JumpscareScript : Script
             // 2. turn player camera towards ghost, then up fast
             case 1:
 
-                player.transform.SetRotationY(Mathf.LerpAngle(player.transform.GetRotation().Y, yRotation, Time.deltaTime * 12));
-                player.GetComponent<FPS_Controller_Script>().playerCamera.transform.SetRotationX(
-                    Mathf.LerpAngle(player.GetComponent<FPS_Controller_Script>().playerCamera.transform.GetRotation().X, 28, Time.deltaTime * 12));
+                //player.transform.SetRotationY(Mathf.LerpAngle(player.transform.GetRotation().Y, yRotation, Time.deltaTime * 12));
+                //player.GetComponent<FPS_Controller_Script>().playerCamera.transform.SetRotationX(
+                //    Mathf.LerpAngle(player.GetComponent<FPS_Controller_Script>().playerCamera.transform.GetRotation().X, 28, Time.deltaTime * 12));
 
-                Console.WriteLine(yRotation);
+                //Console.WriteLine(yRotation);
 
-                if (player.transform.GetRotation().Y >= 360)
-                {
-                    player.transform.SetRotationY(player.transform.GetRotation().Y - 360);
-                }
+                //if (player.transform.GetRotation().Y >= 360)
+                //{
+                //    player.transform.SetRotationY(player.transform.GetRotation().Y - 360);
+                //}
 
-                if (player.transform.GetRotation().Y >= yRotation - 3 && player.transform.GetRotation().Y <= yRotation + 3)
-                {
-                    gameObject.GetComponent<AudioComponent>().stopAll();
-                    gameObject.GetComponent<AudioComponent>().play("mon_death");
-                    ++jumpscareSequenceIndex;
-                }
+                //if (player.transform.GetRotation().Y >= yRotation - 3 && player.transform.GetRotation().Y <= yRotation + 3)
+                //{
+                //    gameObject.GetComponent<AudioComponent>().stopAll();
+                //    gameObject.GetComponent<AudioComponent>().play("mon_death");
+                //    ++jumpscareSequenceIndex;
+                //}
 
+                GraphicsManagerWrapper.ToggleViewFrom2D(false);
+                gameObject.GetComponent<AudioComponent>().play("mon_death");
+                ++jumpscareSequenceIndex;
                 break;
 
             // 3. (may want to add scream sounds here before next step)
             // Add head shaking
             case 2:
 
-                if (gameObject.GetComponent<AudioComponent>().finished("mon_death"))
+                transform.SetPosition(originalPosition + new Vector3(ScriptAPI.Random.Range(-2.0f, 2.0f), ScriptAPI.Random.Range(-2.0f, 2.0f), 0.0f));
+
+                if (screamTimer <= 0.0f)
                 {
+                    gameObject.GetComponent<AudioComponent>().stop("mon_death");
+                    transform.SetPosition(originalPosition);
                     ++jumpscareSequenceIndex;
                 }
+                screamTimer -= Time.deltaTime;
 
                 break;
 
@@ -102,7 +133,7 @@ public class JumpscareScript : Script
             case 4:
                 Input.HideMouse(false);
                 Input.Lock(false);
-                SceneLoader.LoadLoseScreen();
+                SceneLoader.LoadEndGameCredits();
                 break;
         }
     }
