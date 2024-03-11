@@ -105,7 +105,7 @@ namespace TDS
 		void									SubmitPushConstant(void* data, size_t size, std::int32_t flags);
 		void									UpdateUBO(void* data, size_t size, std::uint32_t binding, std::uint32_t frameIndex = 0, std::uint32_t offset = 0, bool readonly = false);
 		void									UpdateTextureArray(std::uint32_t binding, VkDescriptorType descriptorType, std::vector<Texture*>& texture);
-		void									UpdateTextureArray(std::uint32_t binding, VkDescriptorType descriptorType, std::array<Texture, 500>& texture);
+		void									UpdateTextureArray(std::uint32_t binding, VkDescriptorType descriptorType, std::array<Texture, 1000>& texture);
 		void									UpdateTexture(std::uint32_t binding, VkDescriptorType descriptorType, VulkanTexture& texture);
 		void									BindPipeline(VkPrimitiveTopology drawMode = VkPrimitiveTopology::VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST);
 		void									BindDescriptor(std::int32_t frame, std::uint32_t numofSet, std::uint32_t firstSet = 0, bool Compute = false);

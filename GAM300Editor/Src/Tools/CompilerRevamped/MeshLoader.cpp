@@ -185,7 +185,7 @@ namespace TDS
 		std::vector<RawMeshData> assimpData;
 		auto model = AnimModel{};
 
-		if (request.currSetting.m_LoadAnimation && currSceneInfo->m_Scene->HasAnimations() && currSceneInfo->m_Scene->hasSkeletons())
+		if (request.currSetting.m_LoadAnimation && currSceneInfo->m_Scene->HasAnimations())
 		{
 			ImportAnimation(request, *currSceneInfo, model);
 
@@ -583,7 +583,13 @@ namespace TDS
 				for (std::uint32_t i = 0; i < mesh.GetNumUVChannels(); ++i)
 				{
 					if (mesh.HasTextureCoords(i))
-						return i;
+					{
+						std::uint32_t uVChannels = mesh.GetNumUVChannels();
+						if (uVChannels >= 1)
+						{
+							return uVChannels - 1;
+						}
+					}
 				}
 				return -1;
 			};

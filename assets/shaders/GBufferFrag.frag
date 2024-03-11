@@ -20,7 +20,7 @@ struct Material
  
 };
 
-layout(set = 1, binding = 4) uniform sampler2D texArraySampler[500];
+layout(set = 1, binding = 4) uniform sampler2D texArraySampler[1000];
 
 layout(location = 0) in vec4 fragColor;
 layout(location = 1) in vec2 fragTexCoord;

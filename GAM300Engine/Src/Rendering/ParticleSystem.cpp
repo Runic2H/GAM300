@@ -82,7 +82,21 @@ namespace TDS {
 
 		m_RenderPipeline->Create(ParticleRenderEntry);
 
+		/*struct Freelist
+		{
+			int count = 1000;
+			std::array<int, 1000> arr;
+		};
 
+
+
+		Freelist init;
+		std::fill_n(init.arr.data(), 1000, -1);
+		m_RenderPipeline->UpdateUBO(&init, sizeof(Freelist), 32, 0);
+		m_RenderPipeline->UpdateUBO(&init, sizeof(Freelist), 32, 1);
+		std::vector<Particle> InitData(1000);
+		m_ComputePipeline->UpdateUBO(InitData.data(), sizeof(Particle)* InitData.size(), 31, 0, 0, false);
+		m_ComputePipeline->UpdateUBO(InitData.data(), sizeof(Particle)* InitData.size(), 31, 1, 0, false);*/
 	}
 
 
@@ -92,7 +106,7 @@ namespace TDS {
 		/*
 		* loop through all entities with the particle component and run the emitter computeshader
 		*/
-
+		std::vector<Particle> test(1000);
 		if (Entities.empty()) return;
 
 		uint32_t currentframe = GraphicsManager::getInstance().GetSwapchainRenderer().getFrameIndex();
@@ -101,7 +115,7 @@ namespace TDS {
 		m_EmitterPipeline->SetCommandBuffer(commandBuffer);
 		m_EmitterPipeline->BindComputePipeline();
 		for (unsigned int i{ 0 }; i < Entities.size(); ++i) {
-			Particle_Component currentEmitter = EmitterList[i];
+			Particle_Component& currentEmitter = EmitterList[i];
 			currentEmitter.GetSpawnTimer() += deltatime;
 
 			//currentEmitter.SetSpawnTimer(currentEmitter.GetSpawnTimer() + deltatime);
@@ -111,7 +125,7 @@ namespace TDS {
 			if (SpawnAmt <= 0)
 				continue;
 			currentEmitter.GetEmitter().Position = Xform[i].GetPosition();
-			Particle_Emitter_PushData GPUPush = { SpawnAmt, currentEmitter.GetEmitter() };
+			Particle_Emitter_PushData GPUPush = {currentEmitter.GetEmitter(), SpawnAmt };
 			m_EmitterPipeline->BindDescriptor(currentframe, 1, 0, true);
 			m_EmitterPipeline->UpdateUBO(&GPUPush, sizeof(Particle_Emitter_PushData), 33, currentframe);
 			//bind ssbos?
@@ -124,8 +138,7 @@ namespace TDS {
 			group->m_PRenderBuffers = &MeshRenderBuffers[EmitterList[i].GetMeshType()];
 
 
-			int numwrkgrp = (SpawnAmt + 64 - 1) / 64;
-			m_EmitterPipeline->DispatchCompute(numwrkgrp, 1, 1);
+			m_EmitterPipeline->DispatchCompute(ceil(SpawnAmt / 64), 1, 1);
 
 		}
 
@@ -140,24 +153,27 @@ namespace TDS {
 		//compute particles
 
 		m_ComputePipeline->SetCommandBuffer(commandBuffer);
-		m_ComputePipeline->BindComputePipeline();
-		float dt = TimeStep::GetDeltaTime();
-		for (unsigned int i{ 0 }; i < Entities.size(); ++i) {
-			Particle_Component currentEmitter = EmitterList[i];
-			//bind ssbos?
-			m_ComputePipeline->BindDescriptor(currentframe, 1, 0, true);
-			m_ComputePipeline->UpdateUBO(&dt, sizeof(float), 35, currentframe);
-			int numwrkgrp = (currentEmitter.GetMaxParticles() + 128 - 1) / 128;
-			m_ComputePipeline->DispatchCompute(numwrkgrp, 1, 1);
-		}
+		//m_ComputePipeline->BindComputePipeline();
+		//float dt = TimeStep::GetDeltaTime();
+		//for (unsigned int i{ 0 }; i < Entities.size(); ++i) {
+		//	Particle_Component currentEmitter = EmitterList[i];
+		//	//bind ssbos?
+		//	m_ComputePipeline->BindDescriptor(currentframe, 1, 0, true);
+		//	m_ComputePipeline->UpdateUBO(&dt, sizeof(float), 35, currentframe);
+		//	int numwrkgrp = (currentEmitter.GetMaxParticles() + 64 - 1) / 64;
+		//	m_ComputePipeline->DispatchCompute(numwrkgrp, 1, 1);
+		//}
 
-		VkMemoryBarrier barrier2{};
-		barrier2.sType = VK_STRUCTURE_TYPE_MEMORY_BARRIER;
-		barrier2.srcAccessMask = VK_ACCESS_SHADER_WRITE_BIT;
-		barrier2.dstAccessMask = VK_ACCESS_SHADER_READ_BIT;
 
-		vkCmdPipelineBarrier(commandBuffer, VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT, VkPipelineStageFlagBits::VK_PIPELINE_STAGE_ALL_GRAPHICS_BIT,
-			0, 1, &barrier2, 0, nullptr, 0, nullptr);
+		//VkMemoryBarrier barrier2{};
+		//barrier2.sType = VK_STRUCTURE_TYPE_MEMORY_BARRIER;
+		//barrier2.srcAccessMask = VK_ACCESS_SHADER_WRITE_BIT;
+		//barrier2.dstAccessMask = VK_ACCESS_SHADER_READ_BIT;
+
+		//vkCmdPipelineBarrier(commandBuffer, VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT, VkPipelineStageFlagBits::VK_PIPELINE_STAGE_ALL_GRAPHICS_BIT,
+		//	0, 1, &barrier2, 0, nullptr, 0, nullptr);
+
+		m_ComputePipeline->UpdateUBO(test.data(), sizeof(Particle) * test.size(), 31, currentframe, 0, true);
 	}
 
 	void ParticleSystem::Render() 

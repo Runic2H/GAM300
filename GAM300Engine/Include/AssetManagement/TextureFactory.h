@@ -12,7 +12,7 @@ namespace TDS
 
 	public:
 
-		std::array<Texture, 500> m_TextureArray;
+		std::array<Texture, 1000> m_TextureArray;
 		std::unordered_map<std::string, std::uint32_t> m_TextureIndices;
 		std::unordered_map<std::string, std::uint32_t> m_InstanceCnt;
 		std::uint32_t m_CurrentIndex = 0;
@@ -54,7 +54,7 @@ namespace TDS
 				}
 			}
 		}*/
-		std::array<Texture, 500>& GetTextureArray()
+		std::array<Texture, 1000>& GetTextureArray()
 		{
 			return m_TextureArray;
 		}

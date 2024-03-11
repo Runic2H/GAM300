@@ -487,7 +487,7 @@ namespace TDS
 		int textureID = AssetManager::GetInstance()->GetTextureFactory().GetTextureIndex(graphComp->m_TextureName, graphComp->m_TextureReference);
 
 		if (textureID == -1)
-			textureID = 499;
+			textureID = 999;
 
 		if (graphComp->m_UsedIn2D == false)
 		{
@@ -904,7 +904,7 @@ namespace TDS
 				pipeline->BindDescriptor(frameIndex, 1);
 				pipeline->Draw(6, frameIndex);
 
-				ParticleSystem::Render();
+				//ParticleSystem::Render();
 			}
 			else
 			{

@@ -281,7 +281,7 @@ namespace TDS
 
 		if (TextureID == -1)
 		{
-			m_InstanceInfo[m_InstanceCnt].m_TextureIndex = 499;
+			m_InstanceInfo[m_InstanceCnt].m_TextureIndex = 999;
 			componentSprite->GetReference().m_AssetName = "";
 		}
 		else

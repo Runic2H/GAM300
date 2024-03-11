@@ -605,7 +605,7 @@ namespace TDS
 				, 1, &findItr->second, 0, 0);
 		}
 	}
-	void VulkanPipeline::UpdateTextureArray(std::uint32_t binding, VkDescriptorType descriptorType, std::array<Texture, 500>& texture)
+	void VulkanPipeline::UpdateTextureArray(std::uint32_t binding, VkDescriptorType descriptorType, std::array<Texture, 1000>& texture)
 	{
 		std::int32_t frame = GraphicsManager::getInstance().GetSwapchainRenderer().getFrameIndex();
 		bool invalid = false;
@@ -614,7 +614,7 @@ namespace TDS
 		{
 			VkWriteDescriptorSet write{};
 			std::uint32_t ArrayCnt = std::uint32_t(texture.size());
-			std::array<VkDescriptorImageInfo, 500> Infos;
+			std::array<VkDescriptorImageInfo, 1000> Infos;
 			for (std::uint32_t i = 0; i < ArrayCnt; ++i)
 			{
 				if (texture[i].m_VulkanTexture == nullptr)

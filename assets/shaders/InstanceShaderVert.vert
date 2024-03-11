@@ -81,20 +81,17 @@ void main()
     uint textureID = instance.textureID;
     mat4 modelMatrix = instance.modelMatrix;
 
-    mat4 skinMat = mat4(0.0);
+    mat4 skinMat = mat4(1.0);
 
     if (instance.m_IsAnimated == 1)
     {
-        for(int i = 0; i < 4; i++)
-        {
-            uint j = uint(BoneIDs[i]);
-            skinMat += Weights[i] * bones.BoneMatrices[instance.m_AnimOffset + j];
-        }
+        skinMat = 
+		Weights.x * bones.BoneMatrices[instance.m_AnimOffset + uint(BoneIDs.x)] +
+		Weights.y * bones.BoneMatrices[instance.m_AnimOffset + uint(BoneIDs.y)] +
+		Weights.z * bones.BoneMatrices[instance.m_AnimOffset + uint(BoneIDs.z)] +
+		Weights.w * bones.BoneMatrices[instance.m_AnimOffset + uint(BoneIDs.w)];
     }
-    else
-    {
-        skinMat = mat4(1.0);
-    }
+
 
     mat4 accumulated = modelMatrix * skinMat;
     
