@@ -43,10 +43,7 @@ public class InGameOptionsButton : Script
 
         if (Input.GetMouseButtonDown(Keycode.M1) && optionsButtonSprite.IsMouseCollided() && gameBlackboard.gameState == GameBlackboard.GameState.Paused)
         {
-            Console.WriteLine("Options Button Pressed");
             buttonSfx.play(buttonSfxName);
-            AudioComponent audio = gameObject.GetComponent<AudioComponent>();
-            //audio.stopAll();
             openedOptionsMenu = true;
             gameBlackboard.gameState = GameBlackboard.GameState.Options;
             PopupUI.changeDisplayed = true;

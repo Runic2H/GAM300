@@ -1,10 +1,10 @@
 {
     "Archetype Sizes": {
         "1100001000001000000": {
-            "0": 952,
+            "0": 784,
             "1": 2688,
-            "6": 2520,
-            "12": 2520
+            "6": 2128,
+            "12": 2240
         }
     },
     "Entity Data": {
@@ -234,7 +234,7 @@
                 "Model UID": 0
             },
             "UI Sprite": {
-                "Texture": "Play_Button.dds",
+                "Texture": "Play_button_2.dds",
                 "EnableSprite": true,
                 "LayerID": 0,
                 "is Font": false,
@@ -364,7 +364,7 @@
                 "Model UID": 0
             },
             "UI Sprite": {
-                "Texture": "Settings_Button.dds",
+                "Texture": "Settings_button_1.dds",
                 "EnableSprite": true,
                 "LayerID": 0,
                 "is Font": false,
@@ -494,7 +494,7 @@
                 "Model UID": 0
             },
             "UI Sprite": {
-                "Texture": "Quit_Button.dds",
+                "Texture": "Quit_button_1.dds",
                 "EnableSprite": true,
                 "LayerID": 0,
                 "is Font": false,
@@ -925,9 +925,6 @@
             "PlayButton": {
                 "bgm": {
                     "ScriptAPI.AudioComponent": 2
-                },
-                "buttonSfx": {
-                    "ScriptAPI.AudioComponent": 0
                 },
                 "bgmName": {
                     "System.String": "Horror_Menu_Finale_Finale"

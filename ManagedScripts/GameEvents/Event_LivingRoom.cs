@@ -29,7 +29,7 @@ public class EventLivingRoom : Script
             #endregion
 
             #region EnemyMovement
-            // For RuoYan
+            enemyPathfinding.GetComponent<GhostMovement>().currentEvent = GhostMovement.GhostEvent.LivingDiningRoomEvent;
             #endregion
         }
         if (timer <= 0.0f && timerStart)

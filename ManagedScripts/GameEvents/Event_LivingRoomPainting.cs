@@ -12,7 +12,7 @@ public class EventLivingRoomPainting : Script
 
     public override void Update()
     {
-        if (gameObject.GetComponent<RigidBodyComponent>().IsRayHit() && Input.GetKeyDown(Keycode.E))
+        if (gameObject.GetComponent<RigidBodyComponent>().IsRayHit() && gameObject.GetComponent<RigidBodyComponent>().IsPlayerCast() && Input.GetKeyDown(Keycode.E))
         {
             Dialogue = true;
         }

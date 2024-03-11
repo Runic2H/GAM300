@@ -25,7 +25,6 @@ public class OptionsMasterVolume : Script
     public override void Awake()
     {
        // GraphicsManagerWrapper.ToggleViewFrom2D(true);
-        optionsSoundName = "basement_music";
         buttonSfxName = "button_press";
         buttonSfx = gameObject.GetComponent<AudioComponent>();
         masterVol = gameObject.GetComponent<AudioComponent>();
@@ -36,11 +35,8 @@ public class OptionsMasterVolume : Script
     {
         MasterVolume = masterVol.getMasterVol();
 
-        if (masterVol.finished(optionsSoundName) && MainMenuOptions.isOpened)
-        {
-            masterVol.play(optionsSoundName);
-            Console.WriteLine("playing master vol audio");
-        }
+        MasterVolume = Math.Clamp(MasterVolume, 0, 100);
+        masterText.GetComponent<UISpriteComponent>().SetFontMessage(((int)MasterVolume).ToString());
 
         if (Input.GetMouseButtonDown(Keycode.M1) && sprite.IsMouseCollided())
         {
@@ -55,8 +51,6 @@ public class OptionsMasterVolume : Script
                 masterVol.setMasterVol(MasterVolume);
             }
 
-            MasterVolume = Math.Clamp(MasterVolume, 0, 100);
-            masterText.GetComponent<UISpriteComponent>().SetFontMessage(((int)MasterVolume).ToString());
             buttonSfx.play(buttonSfxName);
         }
 

@@ -37,7 +37,6 @@ public class InGameOptions : Script
         if (gameBlackboard.gameState == GameBlackboard.GameState.Options)
         {
             OptionsObject.SetActive(true);
-            
         }
         if(InGameOptionsButton.openedOptionsMenu == false)
         {

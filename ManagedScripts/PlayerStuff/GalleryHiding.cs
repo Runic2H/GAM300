@@ -32,6 +32,9 @@ public class GalleryHiding : Script
     public String[] subtitles;
     int counter;
     public static bool GhostShouldMove = false;
+    public static bool GhostMoved = false;
+
+    public static float timeLimit = 5.0f;
 
     public override void Awake()
     {
@@ -49,14 +52,25 @@ public class GalleryHiding : Script
     {
         //_flashlight = player.GetComponent<Flashlight_Script>();
         GhostShouldMove = false;
+        GhostMoved = false;
         hidingPos = closet.transform.GetPosition();
         _RotationAngle = 180.0f;
+        timeLimit = 10.0f;
     }
 
     public override void Update()
     {
-
-        if (gameObject.GetComponent<RigidBodyComponent>().IsRayHit())
+        if(GhostShouldMove && !hiding)
+        {
+            timeLimit -= Time.deltaTime;
+            if (timeLimit <= 0.0f && !GhostMoved)
+            {
+                GhostMove();
+                GhostMoved = true;
+            }
+        }
+        
+        if (gameObject.GetComponent<RigidBodyComponent>().IsRayHit() && gameObject.GetComponent<RigidBodyComponent>().IsPlayerCast())
         {
             _InteractUI.SetActive(true);
 
@@ -134,7 +148,6 @@ public class GalleryHiding : Script
                     enemyPathfinding.GetComponent<GhostMovement>().currentEvent = GhostMovement.GhostEvent.GalleryHidingEvent;
                     enemyPathfinding.GetComponent<GhostMovement>().startEvent = true;
                 }
-                enemyPathfinding.GetComponent<GhostMovement>().isChasingPlayer = false;
             }
         }
         
@@ -142,12 +155,11 @@ public class GalleryHiding : Script
         {
             if (enemyPathfinding.GetComponent<GhostMovement>().galleryChaseEventDone == false)
             {
-                if (enemyPathfinding.GetComponent<GhostMovement>().currentEvent != GhostMovement.GhostEvent.GalleryChasingEvent)
+                if (enemyPathfinding.GetComponent<GhostMovement>().currentEvent != GhostMovement.GhostEvent.FinalChasingEvent)
                 {
-                    enemyPathfinding.GetComponent<GhostMovement>().currentEvent = GhostMovement.GhostEvent.GalleryChasingEvent;
+                    enemyPathfinding.GetComponent<GhostMovement>().currentEvent = GhostMovement.GhostEvent.FinalChasingEvent;
                     enemyPathfinding.GetComponent<GhostMovement>().startEvent = true;
                 }
-                enemyPathfinding.GetComponent<GhostMovement>().isChasingPlayer = false;
             }
         }
     }

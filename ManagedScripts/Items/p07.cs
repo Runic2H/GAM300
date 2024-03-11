@@ -47,7 +47,7 @@ public class p07 : Script
     // Update is called once per frame
     override public void Update()
     {
-        if (gameObject.GetComponent<RigidBodyComponent>().IsRayHit())
+        if (gameObject.GetComponent<RigidBodyComponent>().IsRayHit() && gameObject.GetComponent<RigidBodyComponent>().IsPlayerCast())
         {
             Console.WriteLine("p07");
 
@@ -95,7 +95,7 @@ public class p07 : Script
 
     public override void LateUpdate()
     {
-        //if (gameObject.GetComponent<RigidBodyComponent>().IsRayHit())
+        //if (gameObject.GetComponent<RigidBodyComponent>().IsRayHit() && gameObject.GetComponent<RigidBodyComponent>().IsPlayerCast())
         //{
         //    _InteractUI.SetActive(true);
         //}

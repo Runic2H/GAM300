@@ -4,7 +4,6 @@ public class TempEndScene : Script
 {
     private bool fadeIn = false;
     private bool fadeOut = true;
-    private float timing = 1;
     private bool once = true;
     private float incrementFading = Time.deltaTime / 4f;
     readonly string runningSFX = "end_grassrunning";
@@ -23,14 +22,10 @@ public class TempEndScene : Script
     }
     public override void Update()
     {
-        if(timing <= 0f && once)
+        if(once)
         {
             audio.play(runningSFX);
             once = false;
-        }
-        else
-        {
-            timing -= Time.deltaTime;
         }
 
         if (fadeIn == true)

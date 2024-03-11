@@ -28,14 +28,14 @@ public class QTE : Script
     }
     public override void Update()
     {
-        if (gameObject.GetComponent<RigidBodyComponent>().IsRayHit())
+        if (gameObject.GetComponent<RigidBodyComponent>().IsRayHit() && gameObject.GetComponent<RigidBodyComponent>().IsPlayerCast())
         {
             interaction.SetActive(false);
         }
     }
     public override void LateUpdate()
     {
-        if (gameObject.GetComponent<RigidBodyComponent>().IsRayHit())
+        if (gameObject.GetComponent<RigidBodyComponent>().IsRayHit() && gameObject.GetComponent<RigidBodyComponent>().IsPlayerCast())
         {
             //Console.WriteLine(gameObject.GetComponent<NameTagComponent>().GetName());
             interaction.SetActive(true);

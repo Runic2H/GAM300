@@ -37,10 +37,10 @@ public class Item_Script : Script
 
     public override void Update()
     {
-        if (gameObject.GetComponent<RigidBodyComponent>().IsRayHit())
+        if (gameObject.GetComponent<RigidBodyComponent>().IsRayHit() && gameObject.GetComponent<RigidBodyComponent>().IsPlayerCast())
         {
             _InteractUI.SetActive(true);
-            if (Input.GetKeyDown(Keycode.E) /*&& isWithinRange() && rigidBodyComponent.IsRayHit()*/) // Maybe add 1 more condition to check if its within player's view
+            if (Input.GetKeyDown(Keycode.E) /*&& isWithinRange() && rigidBodyComponent.IsRayHit() && gameObject.GetComponent<RigidBodyComponent>().IsPlayerCast()*/) // Maybe add 1 more condition to check if its within player's view
             {
                 Console.WriteLine("Picked up item");
                 InventoryScript.addItemIntoInventory(Item_Name, Item_Texture);

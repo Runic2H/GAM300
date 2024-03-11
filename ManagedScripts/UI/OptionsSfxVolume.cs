@@ -33,6 +33,9 @@ public class OptionsSfxVolume : Script
     {
         SfxVolume = sfxVol.getSFXVol();
 
+        SfxVolume = Math.Clamp(SfxVolume, 0, 100);
+        sfxText.GetComponent<UISpriteComponent>().SetFontMessage(((int)SfxVolume).ToString());
+
         if (Input.GetMouseButtonDown(Keycode.M1) && sprite.IsMouseCollided())
         {
             if (SFXpressedVolUp)
@@ -45,9 +48,6 @@ public class OptionsSfxVolume : Script
                 SfxVolume -= 5.0f;
                 sfxVol.setSFXVol(SfxVolume);
             }
-            //Console.WriteLine("sfx vol: " + sfxVol.getSFXVol());
-            SfxVolume = Math.Clamp(SfxVolume, 0, 100);
-            sfxText.GetComponent<UISpriteComponent>().SetFontMessage(((int)SfxVolume).ToString());
             buttonSfx.play(buttonSfxName);
         }
     }

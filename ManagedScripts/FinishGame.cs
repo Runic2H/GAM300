@@ -28,7 +28,7 @@ public class FinishGame : Script
     }
     public override void Update()
     {
-        if (gameObject.GetComponent<RigidBodyComponent>().IsRayHit())
+        if (gameObject.GetComponent<RigidBodyComponent>().IsRayHit() && gameObject.GetComponent<RigidBodyComponent>().IsPlayerCast())
         {
             doorStates.GetComponent<DoorState>().doorLookedAt = true;
             doorText.GetComponent<UISpriteComponent>().SetFontMessage("Press E to Interact");
