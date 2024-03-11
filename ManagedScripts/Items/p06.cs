@@ -18,14 +18,14 @@ public class p06 : Script
     public string Painting_Name;
     public string Painting_Texture;
 
+    public GameObject? _InteractUI;
+
     [Header("AudioStuff")]
     public AudioComponent AudioPlayer;
 
     public GameObject hidingGameObject;
     public GameObject ghost;
     public static bool isPaintingCollected;
-    public static bool isInteractable;
-
     public GameObject player;
 
     public float TestTimer = 1.0f;
@@ -46,7 +46,6 @@ public class p06 : Script
     {
         AudioPlayer = gameObject.GetComponent<AudioComponent>();
         isPaintingCollected = false;
-        isInteractable = false;
     }
 
     public override void Start()
@@ -59,7 +58,7 @@ public class p06 : Script
         if (gameObject.GetComponent<RigidBodyComponent>().IsRayHit() && !DropPainting)
         {
             Console.WriteLine("p06");
-            isInteractable = true;
+            _InteractUI.SetActive(true);
 
             if (Input.GetKeyDown(Keycode.E) && !isPaintingCollected)
             {
@@ -128,10 +127,6 @@ public class p06 : Script
                 
             }
         }
-        else
-        {
-            isInteractable = false;
-        }
         if (DropPainting)
         {
             dropPaintingTimer -= Time.deltaTime;
@@ -151,6 +146,18 @@ public class p06 : Script
                     gameObject.SetActive(false);
                 }
             }
+        }
+    }
+
+    public override void LateUpdate()
+    {
+        if (gameObject.GetComponent<RigidBodyComponent>().IsRayHit())
+        {
+            _InteractUI.SetActive(true);
+        }
+        else
+        {
+            _InteractUI.SetActive(false);
         }
     }
 }

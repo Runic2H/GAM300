@@ -22,7 +22,7 @@ public class Item_Script : Script
     [SerializeField]
     public string Item_Name;
     public string Item_Texture;
-    //public GameObject? _InteractUI;
+    public GameObject? _InteractUI;
 
     public override void Awake()
     {
@@ -39,7 +39,7 @@ public class Item_Script : Script
     {
         if (gameObject.GetComponent<RigidBodyComponent>().IsRayHit() && gameObject.GetComponent<RigidBodyComponent>().IsPlayerCast())
         {
-            //_InteractUI.SetActive(true);
+            _InteractUI.SetActive(true);
             if (Input.GetKeyDown(Keycode.E) /*&& isWithinRange() && rigidBodyComponent.IsRayHit() && gameObject.GetComponent<RigidBodyComponent>().IsPlayerCast()*/) // Maybe add 1 more condition to check if its within player's view
             {
                 Console.WriteLine("Picked up item");
@@ -49,7 +49,7 @@ public class Item_Script : Script
         }
         else
         {
-            //_InteractUI.SetActive(false);
+            _InteractUI.SetActive(false);
         }
     }
 

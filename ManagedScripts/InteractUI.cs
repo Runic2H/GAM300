@@ -32,15 +32,6 @@ public class InteractUI : Script
 
     public override void LateUpdate()
     {
-        if (p01.isInteractable || p02.isInteractable || p03.isInteractable || p04.isInteractable
-            || p05.isInteractable || p06.isInteractable || p07.isInteractable || GallerySwitch.isInteractable
-            || GalleryLetter.isInteractable || Receipt.isInteractable)
-        {
-            gameObject.GetComponent<UISpriteComponent>().SetEnabled(true);
-        }
-        else
-        {
-            gameObject.GetComponent<UISpriteComponent>().SetEnabled(false);
-        }
+        
     }
 }

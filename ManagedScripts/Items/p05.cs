@@ -18,19 +18,19 @@ public class p05 : Script
     public string Painting_Name;
     public string Painting_Texture;
 
+    public GameObject? _InteractUI;
+
     [Header("AudioStuff")]
     public AudioComponent AudioPlayer;
 
     public GameObject hidingGameObject;
     public GameObject ghost;
     public static bool isPaintingCollected;
-    public static bool isInteractable;
 
     override public void Awake()
     {
         AudioPlayer = gameObject.GetComponent<AudioComponent>();
         isPaintingCollected = false;
-        isInteractable = false;
     }
 
     public override void Start()
@@ -43,7 +43,7 @@ public class p05 : Script
         if (gameObject.GetComponent<RigidBodyComponent>().IsRayHit() && gameObject.GetComponent<RigidBodyComponent>().IsPlayerCast())
         {
             Console.WriteLine("p05");
-            isInteractable = true;
+            _InteractUI.SetActive(true);
 
             if (Input.GetKeyDown(Keycode.E))
             {
@@ -69,9 +69,17 @@ public class p05 : Script
                 //}
             }
         }
+    }
+
+    public override void LateUpdate()
+    {
+        if (gameObject.GetComponent<RigidBodyComponent>().IsRayHit() && gameObject.GetComponent<RigidBodyComponent>().IsPlayerCast())
+        {
+            _InteractUI.SetActive(true);
+        }
         else
         {
-            isInteractable = false;
+            _InteractUI.SetActive(false);
         }
     }
 }
