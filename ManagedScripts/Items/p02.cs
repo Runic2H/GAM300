@@ -11,6 +11,7 @@
 using Microsoft.VisualBasic;
 using ScriptAPI;
 using System;
+using System.Numerics;
 
 public class p02 : Script
 {
@@ -18,20 +19,22 @@ public class p02 : Script
     public string Painting_Name;
     public string Painting_Texture;
 
-    public GameObject _InteractUI;
-
     [Header("AudioStuff")]
     public AudioComponent AudioPlayer;
 
     public GameObject hidingGameObject;
     public GameObject ghost;
     public static bool isPaintingCollected;
+    public static bool isInteractable;
 
+    float timer = 2.0f;
+    bool paintingMoved = false;
 
     override public void Awake()
     {
         AudioPlayer = gameObject.GetComponent<AudioComponent>();
         isPaintingCollected = false;
+        isInteractable = false;
     }
 
     public override void Start()
@@ -43,44 +46,45 @@ public class p02 : Script
     {
         //if (GalleryLetter.isNotePicked) // Don't allow player to proceed with puzzle before getting the hint.
         {
-            if (gameObject.GetComponent<RigidBodyComponent>().IsRayHit() && gameObject.GetComponent<RigidBodyComponent>().IsPlayerCast())
+            if (!isPaintingCollected && gameObject.GetComponent<RigidBodyComponent>().IsRayHit() && gameObject.GetComponent<RigidBodyComponent>().IsPlayerCast())
             {
                 Console.WriteLine("p02");
-                _InteractUI.SetActive(true);
+                isInteractable = true;
 
                 if (Input.GetKeyDown(Keycode.E))
                 {
-                    Hiding.playOnce = false;
                     Console.WriteLine("Picked up p02");
                     isPaintingCollected = true;
-                    InventoryScript.addPaintingIntoInventory(Painting_Name, Painting_Texture);
-
-                    // View Object Stuff
-                    gameObject.GetComponent<GraphicComponent>().SetView2D(true);
-                    gameObject.transform.SetPosition(new Vector3(-10000.0f, -10000.0f, -10000.0f));
-                    gameObject.transform.SetRotation(new Vector3(-0.0f, -0.0f, -0.0f));
-                    gameObject.SetActive(false);
 
                     // Trigger Painting Event
-                    //AudioPlayer.play("gallery_movepainting");
+                    AudioPlayer.play("gallery_movepainting");
+
                     //GameplaySubtitles.counter = 8;
 
                     // hiding event 
-                    //ghost.GetComponent<GhostMovement>().PlayMonsterWalkingSoundInitial();
+                    
                 }
             }
-        }
-    }
+            else
+            {
+                isInteractable = false;
+            }
 
-    public override void LateUpdate()
-    {
-        if (gameObject.GetComponent<RigidBodyComponent>().IsRayHit() && gameObject.GetComponent<RigidBodyComponent>().IsPlayerCast())
-        {
-            _InteractUI.SetActive(true);
-        }
-        else
-        {
-            _InteractUI.SetActive(false);
+            if (isPaintingCollected && !paintingMoved)
+            {
+                if (timer >= 0.0f)
+                {
+                    Console.WriteLine("Moving p02");
+                    //gameObject.transform.SetPosition(gameObject.transform.GetPosition() + gameObject.transform.getRightVector() * 50.0f * Time.deltaTime); // Right Vector is moving backwards instead
+                    gameObject.transform.SetPosition(gameObject.transform.GetPosition() + new ScriptAPI.Vector3(0, 0, 75) * Time.deltaTime);
+                    timer -= Time.deltaTime;
+                }
+                else
+                {
+                    Console.WriteLine("Moving done p02");
+                    paintingMoved = true;
+                }
+            }
         }
     }
 }

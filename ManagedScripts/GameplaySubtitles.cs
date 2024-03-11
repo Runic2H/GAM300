@@ -301,6 +301,7 @@ public class GameplaySubtitles : Script
             if (audio.finished("gallery_movepainting")) // Creaking sound ends
             {
                 audio.stop("gallery_movepainting");
+                audio.play("mon_woodstep1");
                 audio.play("pc_monsterrattledoor"); // Someone's coming, better hide
                 counter = 22; //commented this out as u dont hide after every painting u pick up
             }
@@ -383,13 +384,6 @@ public class GameplaySubtitles : Script
                 GameplaySubtitles.counter = 8;
             }
             audio.play("painting_burning");
-        }
-
-        if (counter == 8)
-        {
-            Note_Script.isNotePicked = false;
-            Painting_Script.isPaintingCollected = false; //reset for other paintings
-            
         }
 
         // if (Input.GetKeyDown(Keycode.SPACE))

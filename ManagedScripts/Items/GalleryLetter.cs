@@ -23,9 +23,8 @@ public class GalleryLetter : Script
     [SerializeField]
     public string Note_Name;
     public string Note_Texture;
-    public GameObject? _InteractUI;
     public static bool isNotePicked = false;
-
+    public static bool isInteractable;
     public override void Awake()
     {
     }
@@ -35,6 +34,7 @@ public class GalleryLetter : Script
         //rigidBodyComponent = gameObject.GetComponent<RigidBodyComponent>();
         clip = gameObject.GetComponent<AudioComponent>();
         player = gameObject.GetComponent<AudioSource>();
+        isInteractable = false;
     }
 
     public override void Update()
@@ -42,6 +42,7 @@ public class GalleryLetter : Script
         if (gameObject.GetComponent<RigidBodyComponent>().IsRayHit() && gameObject.GetComponent<RigidBodyComponent>().IsPlayerCast())
         {
             Console.WriteLine("Gallery Letter");
+            isInteractable = true;
             if (Input.GetKeyDown(Keycode.E))
             {
                 Console.WriteLine("Picked up gallery letter");
@@ -61,18 +62,9 @@ public class GalleryLetter : Script
                 GameplaySubtitles.counter = 41;
             }
         }
-    }
-
-    public override void LateUpdate()
-    {
-        if (gameObject.GetComponent<RigidBodyComponent>().IsRayHit() && gameObject.GetComponent<RigidBodyComponent>().IsPlayerCast())
-        {
-            _InteractUI.SetActive(true);
-        }
         else
         {
-            _InteractUI.SetActive(false);
+            isInteractable = false;
         }
-
     }
 }

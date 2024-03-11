@@ -19,7 +19,6 @@ public class Painting_Script : Script
     public string Painting_Name;
     public string Painting_Texture;
     public bool opened;
-    public GameObject _InteractUI;
 
     //public Animator _PaintingAnimator;
     //public Flashlight_Script _FlashlightScript;
@@ -59,7 +58,6 @@ public class Painting_Script : Script
         if (gameObject.GetComponent<RigidBodyComponent>().IsRayHit() && gameObject.GetComponent<RigidBodyComponent>().IsPlayerCast())
         {
             Console.WriteLine("Painting");
-            _InteractUI.SetActive(true);
 
             if (once)
             {
@@ -123,17 +121,5 @@ public class Painting_Script : Script
             }
         }
         
-    }
-
-    public override void LateUpdate()
-    {
-        if (gameObject.GetComponent<RigidBodyComponent>().IsRayHit() && gameObject.GetComponent<RigidBodyComponent>().IsPlayerCast())
-        {
-            _InteractUI.SetActive(true);
-        }
-        else
-        {
-            _InteractUI.SetActive(false);
-        }
     }
 }

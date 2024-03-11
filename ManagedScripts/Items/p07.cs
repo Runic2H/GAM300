@@ -19,7 +19,6 @@ public class p07 : Script
     public string Painting_Name;
     public string Painting_Texture;
     public bool opened;
-    public GameObject _InteractUI;
 
     //public Animator _PaintingAnimator;
     //public Flashlight_Script _FlashlightScript;
@@ -31,12 +30,15 @@ public class p07 : Script
     public GameObject hidingGameObject;
     public GameObject ghost;
     public static bool isPaintingCollected;
+    public static bool isInteractable;
+
     bool once = true;
 
     override public void Awake()
     {
         AudioPlayer = gameObject.GetComponent<AudioComponent>();
         isPaintingCollected = false;
+        isInteractable = false;
     }
 
     public override void Start()
@@ -50,6 +52,7 @@ public class p07 : Script
         if (gameObject.GetComponent<RigidBodyComponent>().IsRayHit() && gameObject.GetComponent<RigidBodyComponent>().IsPlayerCast())
         {
             Console.WriteLine("p07");
+            isInteractable = true;
 
             if (once)
             {
@@ -91,17 +94,9 @@ public class p07 : Script
                 }
             }
         }
-    }
-
-    public override void LateUpdate()
-    {
-        //if (gameObject.GetComponent<RigidBodyComponent>().IsRayHit() && gameObject.GetComponent<RigidBodyComponent>().IsPlayerCast())
-        //{
-        //    _InteractUI.SetActive(true);
-        //}
-        //else
-        //{
-        //    _InteractUI.SetActive(false);
-        //}
+        else
+        {
+            isInteractable = false;
+        }
     }
 }

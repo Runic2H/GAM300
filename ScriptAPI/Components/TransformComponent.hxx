@@ -32,6 +32,8 @@ namespace ScriptAPI
 
 		Vector3 getForwardVector();
 
+		Vector3 getRightVector();
+
 		virtual TDS::EntityID GetEntityID();
 		virtual void SetEntityID(TDS::EntityID ID);
 

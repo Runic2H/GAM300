@@ -21,7 +21,7 @@ public class Receipt : Script
     [SerializeField]
     public string Note_Name;
     public string Note_Texture;
-    public GameObject? _InteractUI;
+    public static bool isInteractable;
     public static bool isNotePicked = false;
 
     public override void Awake()
@@ -41,6 +41,7 @@ public class Receipt : Script
         if (gameObject.GetComponent<RigidBodyComponent>().IsRayHit() && gameObject.GetComponent<RigidBodyComponent>().IsPlayerCast())
         {
             Console.WriteLine("Receipt");
+            isInteractable = true;
             if (Input.GetKeyDown(Keycode.E))
             {
                 Console.WriteLine("Picked up receipt");
@@ -56,18 +57,9 @@ public class Receipt : Script
                 isNotePicked = true;
             }
         }
-    }
-
-    public override void LateUpdate()
-    {
-        //if (gameObject.GetComponent<RigidBodyComponent>().IsRayHit() && gameObject.GetComponent<RigidBodyComponent>().IsPlayerCast())
-        //{
-        //    _InteractUI.SetActive(true);
-        //}
-        //else
-        //{
-        //    _InteractUI.SetActive(false);
-        //}
-
+        else
+        {
+            isInteractable = false;
+        }
     }
 }

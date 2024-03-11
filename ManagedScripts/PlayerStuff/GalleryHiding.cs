@@ -139,7 +139,7 @@ public class GalleryHiding : Script
 
     public void GhostMove()
     {
-        if (!p02.isPaintingCollected)
+        if (!GallerySwitch.isActivated)
         {
             if (enemyPathfinding.GetComponent<GhostMovement>().galleryHideEventDone == false)
             {

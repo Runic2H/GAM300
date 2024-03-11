@@ -206,6 +206,11 @@ namespace ScriptAPI
 		return Vector3(TDS::GetTransform(entityID)->getForwardVector().x, TDS::GetTransform(entityID)->getForwardVector().y, TDS::GetTransform(entityID)->getForwardVector().z);
 	}
 
+	Vector3 TransformComponent::getRightVector()
+	{
+		return Vector3(TDS::GetTransform(entityID)->getRightVector().x, TDS::GetTransform(entityID)->getRightVector().y, TDS::GetTransform(entityID)->getRightVector().z);
+	}
+
 	// CONSTRUCTOR ===========================================================================
 	TransformComponent::TransformComponent(TDS::EntityID ID) : entityID (ID)
 	{

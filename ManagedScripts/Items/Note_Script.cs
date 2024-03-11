@@ -24,7 +24,6 @@ public class Note_Script : Script
     public string Note_Name;
     public string Note_Texture;
     public string Note_VO;
-    public GameObject? _InteractUI;
     public static bool isNotePicked = false;
 
     public override void Awake()

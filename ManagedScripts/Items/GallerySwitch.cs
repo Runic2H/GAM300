@@ -17,8 +17,7 @@ public class GallerySwitch : Script
     AudioComponent audioPlayer;
 
     public static bool isActivated = false;
-    [SerializeField]
-    public GameObject? _InteractUI;
+    public static bool isInteractable;
 
     public override void Awake()
     {
@@ -32,9 +31,10 @@ public class GallerySwitch : Script
 
     public override void Update()
     {
-        if (p02.isPaintingCollected && gameObject.GetComponent<RigidBodyComponent>().IsRayHit() && gameObject.GetComponent<RigidBodyComponent>().IsPlayerCast())
+        if (p02.isPaintingCollected && gameObject.GetComponent<RigidBodyComponent>().IsRayHit())
         {
             Console.WriteLine("Gallery Switch");
+            isInteractable = true;
 
             if (Input.GetKeyDown(Keycode.E))
             {
@@ -53,6 +53,10 @@ public class GallerySwitch : Script
                 }
 
             }
+        }
+        else
+        {
+            isInteractable = false;
         }
     }
 }

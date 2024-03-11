@@ -18,20 +18,23 @@ public class p01 : Script
     public string Painting_Name;
     public string Painting_Texture;
 
-    public GameObject _InteractUI;
-
     [Header("AudioStuff")]
     public AudioComponent AudioPlayer;
 
     public GameObject hidingGameObject;
     public GameObject ghost;
-    public static bool isPaintingCollected;
 
+    public static bool isPaintingCollected;
+    public static bool isInteractable;
+
+    float timer = 2.0f;
+    bool paintingMoved = false;
 
     override public void Awake()
     {
         AudioPlayer = gameObject.GetComponent<AudioComponent>();
         isPaintingCollected = false;
+        isInteractable = false;
     }
 
     public override void Start()
@@ -44,23 +47,15 @@ public class p01 : Script
     {
         //if(GalleryLetter.isNotePicked) // Don't allow player to proceed with puzzle before getting the hint.
         {
-            if (gameObject.GetComponent<RigidBodyComponent>().IsRayHit() && gameObject.GetComponent<RigidBodyComponent>().IsPlayerCast())
+            if (!isPaintingCollected && gameObject.GetComponent<RigidBodyComponent>().IsRayHit() && gameObject.GetComponent<RigidBodyComponent>().IsPlayerCast())
             {
+                isInteractable = true;
                 Console.WriteLine("p01");
-                _InteractUI.SetActive(true);
 
                 if (Input.GetKeyDown(Keycode.E))
                 {
-                    Hiding.playOnce = false;
                     Console.WriteLine("Picked up p01");
                     isPaintingCollected = true;
-                    InventoryScript.addPaintingIntoInventory(Painting_Name, Painting_Texture);
-
-                    // View Object Stuff
-                    gameObject.GetComponent<GraphicComponent>().SetView2D(true);
-                    gameObject.transform.SetPosition(new Vector3(-10000.0f, -10000.0f, -10000.0f));
-                    gameObject.transform.SetRotation(new Vector3(-0.0f, -0.0f, -0.0f));
-                    gameObject.SetActive(false);
 
                     // Trigger Painting Event
                     AudioPlayer.play("gallery_movepainting");
@@ -74,19 +69,26 @@ public class p01 : Script
                     ghost.GetComponent<GhostMovement>().PlayMonsterWalkingSoundInitial();
                 }
             }
+            else
+            {
+                isInteractable = false;
+            }
+            if (isPaintingCollected && !paintingMoved)
+            {
+                if (timer >= 0.0f)
+                {
+                    Console.WriteLine("Moving p03");
+                    //gameObject.transform.SetPosition(gameObject.transform.GetPosition() + gameObject.transform.getRightVector() * 50.0f * Time.deltaTime); // Right Vector is moving backwards instead
+                    gameObject.transform.SetPosition(gameObject.transform.GetPosition() + new ScriptAPI.Vector3(75, 0, 0) * Time.deltaTime);
+                    timer -= Time.deltaTime;
+                }
+                else
+                {
+                    Console.WriteLine("Moving done p03");
+                    paintingMoved = true;
+                }
+            }
         }
         
-    }
-
-    public override void LateUpdate()
-    {
-        if (gameObject.GetComponent<RigidBodyComponent>().IsRayHit() && gameObject.GetComponent<RigidBodyComponent>().IsPlayerCast())
-        {
-            _InteractUI.SetActive(true);
-        }
-        else
-        {
-            _InteractUI.SetActive(false);
-        }
     }
 }
