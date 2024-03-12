@@ -386,13 +386,6 @@ public class GameplaySubtitles : Script
             audio.play("painting_burning");
         }
 
-        if (counter == 8)
-        {
-            Note_Script.isNotePicked = false;
-            Painting_Script.isPaintingCollected = false; //reset for other paintings
-            
-        }
-
         // if (Input.GetKeyDown(Keycode.SPACE))
         // {
         //     audio.stop(Audiofiles[counter]);
