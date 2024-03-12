@@ -49,10 +49,8 @@ public class PlayButton : Script
     {
         if (bgm.finished(bgmName) && inMainMenu)
         {
-            bgm.play(bgmName);
-            
+            bgm.FadeIn(3, bgmName);
         }
-        
         
         if (Input.GetMouseButtonDown(Keycode.M1) && sprite.IsMouseCollided())
         {

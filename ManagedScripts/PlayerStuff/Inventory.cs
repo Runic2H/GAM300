@@ -27,6 +27,7 @@ public class InventoryScript : Script
     public static List<string> paintingsObjsImg;
 
     public static string currentTab;
+    public static string currentObjectName;
     public static int currentBox;
     public static bool InventoryIsOpen;
     public static bool IsUseable;
@@ -134,6 +135,7 @@ public class InventoryScript : Script
             {
                 Console.WriteLine("Collide Examine Button");
                 // do examine stuff
+                ExamineObject();
             }
         }
     }
@@ -275,11 +277,23 @@ public class InventoryScript : Script
             {
                 // Do battery logic
                 Flashlight_Script.batteryLife = 100.0f;
+                AudioComponent audio = gameObject.GetComponent<AudioComponent>();
+                audio.play("flashlight battery restore");
             }
             if (storedObjName == "???")
             {
                 // Do ??? logic
             }
+        }
+    }
+
+    void ExamineObject()
+    {
+        if (currentObjectName != "" && !IsUseable)
+        {
+            View_Object.ObjectName = currentObjectName;
+            View_Object.OnEnter = true;
+            GameObjectScriptFind("ObjectViewer").SetActive(true);
         }
     }
 }

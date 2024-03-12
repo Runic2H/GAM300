@@ -32,14 +32,16 @@ public class GallerySwitch : Script
 
     public override void Update()
     {
-        if (gameObject.GetComponent<RigidBodyComponent>().IsRayHit())
+        if (p02.isPaintingCollected && gameObject.GetComponent<RigidBodyComponent>().IsRayHit() && gameObject.GetComponent<RigidBodyComponent>().IsPlayerCast())
         {
             Console.WriteLine("Gallery Switch");
 
             if (Input.GetKeyDown(Keycode.E))
             {
                 isActivated = true;
-                if(GalleryLetter.isNotePicked)
+                GalleryHiding.GhostShouldMove = true;
+
+                if (GalleryLetter.isNotePicked)
                 {
                     audioPlayer.play("pc_mighthaveopened");
                     GameplaySubtitles.counter = 43;

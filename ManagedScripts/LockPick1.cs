@@ -8,7 +8,6 @@
 \brief  Script lock picking gameplay
 ****************************************************************************
 ***/
-using System;
 using System.ComponentModel.DataAnnotations;
 using ScriptAPI;
 
@@ -85,18 +84,18 @@ public class LockPick1 : Script
 
     private Vector3 originalPosition = new Vector3(0.0f, 350.0f, 1500.0f);
     private Vector3 originalRotation;
-    public TransformComponent arrowTransform;
-    public UISpriteComponent arrowSprite;
-    private Vector3 originalArrowPosition;
     public static AudioComponent audio;
     public static bool failed;
     public static bool passed;
+    public static bool enteredHouse = false;
     float timer;
 
     public int doorIndex;
     public GameObject doorText;
     public GameObject monster;
     public GameObject doorStates;
+
+    public float lockpickShakeTimer;
 
     // Start is called before the first frame update
     override public void Awake()
@@ -130,8 +129,8 @@ public class LockPick1 : Script
         Subtitles[2] = "Martin (Internal): No turning back now.";
         Subtitles[3] = "Martin (Internal): That was too loud... I better not screw up again.";
         Subtitles[4] = "";
-        Subtitles[5] = "Move [mouse] to adjust pick";
-        Subtitles[6] = "Press [E] to turn lock";
+        Subtitles[5] = "Move [mouse] to adjust pick & Hold [E] to turn lock";
+        Subtitles[6] = "Move [mouse] to adjust pick & Hold [E] to turn lock";
         Subtitles[7] = "Martin (Internal): Find the right spot, and it should click...";
         Subtitles[8] = "Martin (Internal): There, now to turn the lock.";
 
@@ -140,7 +139,6 @@ public class LockPick1 : Script
         audio = gameObject.GetComponent<AudioComponent>();
         next_VO = true;
         // GameplaySubtitles.counter = 5; //no effect on set gameplay subtitles to be empty
-        originalArrowPosition = arrowTransform.GetPosition();
 
         newLock();
     }
@@ -176,6 +174,7 @@ public class LockPick1 : Script
         if (Input.GetKeyDown(Keycode.L))
         {
             //cheatcode for presentation
+            timer = 0.0f;
             passed = true;
         }
 
@@ -234,9 +233,6 @@ public class LockPick1 : Script
             if (cross.Z < 0) { eulerAngle = -eulerAngle; }
             eulerAngle = Mathf.Clamp(eulerAngle, toRadians(-maxAngle), toRadians(maxAngle));
 
-            Quaternion rotateTo = Quaternion.AngleAxis(eulerAngle, Vector3.Forward());
-            //transform.SetRotation(Quaternion.EulerAngle(rotateTo));
-
             Vector3 originalRotation = transform.GetRotation();
             transform.SetRotation(new Vector3(originalRotation.X, originalRotation.Y, -eulerAngle));
 
@@ -244,17 +240,24 @@ public class LockPick1 : Script
                                                 originalPosition.X * Mathf.Sin(-eulerAngle) + originalPosition.Y * Mathf.Cos(-eulerAngle));
             transform.SetPosition(new Vector3(newPosition.X, newPosition.Y, originalPosition.Z));
 
-            #region Green / Red Arrow
 
-            Vector2 newArrowPosition = new Vector2(originalArrowPosition.X * Mathf.Cos(-eulerAngle) - originalArrowPosition.Y * Mathf.Sin(-eulerAngle),
-                                                originalArrowPosition.X * Mathf.Sin(-eulerAngle) + originalArrowPosition.Y * Mathf.Cos(-eulerAngle));
-            arrowTransform.SetPosition(new Vector3(-newArrowPosition.X, newArrowPosition.Y, 0.0f));
-            arrowTransform.SetRotation(new Vector3(0.0f, 0.0f, eulerAngle));
-
-            #endregion
+            if (eulerAngleDegree < unlockRange.Y && eulerAngleDegree > unlockRange.X)
+            {
+                if (lockpickShakeTimer > 0)
+                {
+                    // Shake the lockpick for a while if its in the correct range
+                    float randomRotation = ScriptAPI.Random.Range(-2.0f, 2.0f);
+                    transform.SetRotationZ(transform.GetRotation().Z + (float)(randomRotation / 180.0 * Math.PI));
+                    lockpickShakeTimer -= Time.deltaTime;
+                }
+            }
+            else
+            {
+                lockpickShakeTimer = 1.0f;
+            }
 
             //do rattling sounds based on pick angle
-            #region Rattle Sounds & Arrow Color
+            #region Rattle Sounds
 
             //note on ranges (the wider the range in if statement, the further the pick is)
             // STRICTEST if statement first (small range to wide range)
@@ -270,8 +273,6 @@ public class LockPick1 : Script
             //range 1
             if (eulerAngleDegree < unlockRange.Y && eulerAngleDegree > unlockRange.X)
             {
-                arrowSprite.SetTextureName("Arrow-Green.dds");
-
                 if (audio.finished(lockSoundEffects[0]))
                 {
                     audio.stop(lockSoundEffects[0]);
@@ -330,8 +331,6 @@ public class LockPick1 : Script
             //range 2
             else if (eulerAngleDegree < unlockRange.Y + 15 && eulerAngleDegree > unlockRange.X - 15)
             {
-                arrowSprite.SetTextureName("Arrow-Red.dds");
-
                 if (audio.finished(lockSoundEffects[0]))
                 {
                     audio.stop(lockSoundEffects[0]);
@@ -364,8 +363,6 @@ public class LockPick1 : Script
             //range 3
             else if (eulerAngleDegree < unlockRange.Y + 30 && eulerAngleDegree > unlockRange.X - 30)
             {
-                arrowSprite.SetTextureName("Arrow-Red.dds");
-
                 if (audio.finished(lockSoundEffects[0]))
                 {
                     audio.stop(lockSoundEffects[0]);
@@ -397,8 +394,6 @@ public class LockPick1 : Script
             //range 4
             else if (eulerAngleDegree < unlockRange.Y + 45 && eulerAngleDegree > unlockRange.X - 45)
             {
-                arrowSprite.SetTextureName("Arrow-Red.dds");
-
                 if (audio.finished(lockSoundEffects[0]))
                 {
                     audio.stop(lockSoundEffects[0]);
@@ -432,8 +427,6 @@ public class LockPick1 : Script
             //range 5
             else if (eulerAngleDegree < unlockRange.Y + 60 && eulerAngleDegree > unlockRange.X - 60)
             {
-                arrowSprite.SetTextureName("Arrow-Red.dds");
-
                 if (audio.finished(lockSoundEffects[0]))
                 {
                     audio.stop(lockSoundEffects[0]);
@@ -466,8 +459,6 @@ public class LockPick1 : Script
             //range 6
             else if (eulerAngleDegree < unlockRange.Y + 75 && eulerAngleDegree > unlockRange.X - 75)
             {
-                arrowSprite.SetTextureName("Arrow-Red.dds");
-
                 if (audio.finished(lockSoundEffects[0]))
                 {
                     audio.stop(lockSoundEffects[0]);
@@ -498,8 +489,6 @@ public class LockPick1 : Script
             //range 7
             else if (pickWasCloseButYouMovedAway) 
             {
-                arrowSprite.SetTextureName("Arrow-Red.dds");
-
                 if (audio.finished(lockSoundEffects[0]))
                 {
                     audio.stop(lockSoundEffects[0]);
@@ -543,7 +532,7 @@ public class LockPick1 : Script
             #endregion
         }
 
-        if (!failed && Input.GetKeyDown(Keycode.E)) //lock turns
+        if (!failed && !passed && Input.GetKeyDown(Keycode.E)) //lock turns
         {
             originalRotation = transform.GetRotation();
             movePick = false;
@@ -567,7 +556,7 @@ public class LockPick1 : Script
                 //;
                 //wait for "Hopefully I won't forget how to 
                 //do this".. to finish playing before showing ui instructions
-                counter = 6; //"Press [E] to turn lock";
+                counter = 6; //"Hold [E] to turn lock";
                 next_VO = true;
             }
         }
@@ -577,9 +566,9 @@ public class LockPick1 : Script
         float lockLerp = Mathf.LerpAngle(toDegree(innerLock.GetRotation().Z), lockRotation, Time.deltaTime * lockSpeed);
         innerLock.SetRotation(new Vector3(0, 0, toRadians(lockLerp)));
 
-        if (!movePick && (lockLerp >= maxRotation - 1))
+        if (!movePick && (lockLerp >= maxRotation - 1) && !failed)
         {
-            //if you pick correct
+            // If you pick correct
             if (eulerAngleDegree < unlockRange.Y && eulerAngleDegree > unlockRange.X)
             {
                 audio.stop(lockSoundEffects[0]);
@@ -591,9 +580,13 @@ public class LockPick1 : Script
                 passed = true;
 
             }
-            //you pick but it wasnt correct
+            // You pick but it wasnt correct
             else
             {
+                // Shake inner lock depending on how far away the correct angle is
+                float randomRotation = ScriptAPI.Random.Range(-1.5f, 1.5f) * ((unlockAngle - eulerAngleDegree) / unlockAngle); // NOTE: Not sure if insideUnitCircle keeps changing or is a fixed Vector2 that is reset on Start
+                innerLock.SetRotationZ(toRadians(lockLerp + randomRotation));
+
                 if (deduct == true)
                 {
                     numOfTries -= 1;
@@ -621,6 +614,7 @@ public class LockPick1 : Script
 
         if (passed)
         {
+            movePick = false;
             audio.stop(rattleSoundEffects[0]);
             counter = 1;
             firstTimeTutorial = false;
@@ -653,6 +647,7 @@ public class LockPick1 : Script
                     next_VO = true;
                     GameplaySubtitles.counter = 7;
                     Flashlight_Script.batteryLife = 49;
+                    enteredHouse = true;
 
                 }
                 if (doorIndex == 1)
@@ -708,6 +703,7 @@ public class LockPick1 : Script
 
         if (failed)
         {
+            movePick = false;
             counter = 3;
             if (timer <= 0 && audio.finished(playerGuideVO[3]))
             {
@@ -740,6 +736,8 @@ public class LockPick1 : Script
 
     public void newLock()
     {
+        playerController.GetComponent<RigidBodyComponent>().SetLinearVelocity(new Vector3(0.0f, 0.0f, 0.0f));
+
         gameBlackboard.gameState = GameBlackboard.GameState.Lockpicking;
         originalPosition = new Vector3(0.0f, 600.0f, 2500.0f);
         originalRotation = transform.GetRotation();
@@ -789,5 +787,7 @@ public class LockPick1 : Script
             movePick = true;
         }
         //start with subtitle press E to turn lock
+
+        lockpickShakeTimer = 1.0f;
     }
 }

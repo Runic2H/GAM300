@@ -93,6 +93,10 @@ namespace ScriptAPI
 		{
 			return safe_cast<T>(PointlightComponent(entityID));
 		}
+		else if (type == AnimatedComponent::typeid)
+		{
+			return safe_cast<T>(AnimatedComponent(entityID));
+		}
 
 		//Console::WriteLine(entityID.ToString() + "\t" + type->FullName);
 		return safe_cast<T>(EngineInterface::GetScriptReference(entityID, type->FullName));

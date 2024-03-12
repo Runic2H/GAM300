@@ -9,93 +9,120 @@
 ****************************************************************************
 ***/
 using ScriptAPI;
-using System;
-using System.Collections.Specialized;
-using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 using System.Security.Cryptography;
-using System.Threading.Tasks;
-using System.Globalization; //for time??
-
-using static Waypoint; //to get the waypoints you placed
-using System.Reflection.PortableExecutable;
-using System.Numerics;
+using System.Threading;
 
 public class GhostMovement : Script
 {
-
-    // [SerializeField]
-    // float ManualMovementUnit = 3.0f;
-
-    [SerializeField]
-    float patrolSpeed = 0.1f;
-
-    [SerializeField]
-    int currTargetWaypt = 0;
-    // float angle = 0f;
-
-    [SerializeField]
-    float deltaTime = 0f;
-
-    [SerializeField]
-    int NumOfWaypoints = 1;
-
-    [SerializeField]
-    bool isPatrol = true;
-    [SerializeField]
-    public bool isChasingPlayer = false;
-
-    public GameObject player;
-    public GameObject hidingGameObject;
-
     public float speed;
-    public float soundSpeed;
 
-    public int walkingSoundCounter = -1;
-    public String[] walkingSounds;
     String[] monsterPatrol;
     String[] monsterAlert;
-    public String voiceClips;
-    public bool playSound;
+
+    public GameBlackboard gameBlackboard;
+
+    #region Monster Sounds
+
+    public float soundSpeed;
+    public int walkingSoundCounter = -1;
     public float playSoundTimer;
 
+    public String[] walkingSounds;
+    public String voiceClips;
+
+    #endregion
+
+    #region Chasing Player Variables
+
     public bool playerMoved;
-    public bool hideEventDone;
-    public static bool GhostGone;
-    public bool hideEvent;
-    public bool galleryHideEvent;
-    public bool galleryChasingEvent;
-    public int hideEventStep;
-    public GameObject SHDoor;
+    public GameObject player;
 
-    //public void ReadWaypoint(Waypoint wp)
-    //{
+    #endregion
 
-    //}
+    #region Moving To Door Variables
 
-    //// rotate the ghost to look at the target waypoint/player
-    //void LookAtPoint(Vector3 targetPoint) //WIP (need to finish asap)
-    //{
-    //    Vector3 upVector = new Vector3(0f, 1f, 0f);
-    //    Vector3 directionToTarget = targetPoint - gameObject.GetComponent<TransformComponent>().GetPosition();
-    //    directionToTarget.Y = 0; //rotation is only around the y-axis
+    private Vector2 doorPosition;
 
-    //    //Quaternion targetRotation = Quaternion.LookRotation(directionToTarget, upVector);
+    #endregion
 
-    //    //gameObject.GetComponent<TransformComponent>().SetRotation(targetRotation);
-    //    //set rotation to targetRotation;
-    //}
+    #region General Event Variables
 
-    //static int CounterBehaviour(int current, int max)
-    //{
+    // For initializing events 
+    public bool startEvent;
+    private int eventStep;
 
+    #endregion
 
-    //    if (current > max)
-    //    {
-    //        current = 0; // Reset to 1 after reaching the maximum value
-    //    }
+    #region Bedroom Hiding Event Variables
 
-    //    return current;
-    //}
+    public GameObject bedroomHidingGameObject; // (Bedroom) Hide Closet > Door_2 > Door_2
+    public bool bedroomHideEventDone;
+    public GameObject SHDoor; // Small Hallway Door
+
+    #endregion
+
+    #region Living Dining Room Event Variables
+
+    private float livingDiningRoomStandingTimer;
+    public bool livingDiningRoomEventDone;
+
+    #endregion
+
+    #region Living Room Hiding Event
+
+    private float livingRoomHidingTimer;
+    public bool livingRoomHideEventDone;
+    public GameObject livingRoomHidingGameObject;
+
+    #endregion
+
+    #region Dining Room Event
+
+    private float diningRoomTimer;
+    private Vector3 playerOriginalPosition;
+    public bool diningRoomEventDone;
+
+    #endregion
+
+    #region Gallery Hiding Event
+
+    public bool galleryCorrectPainting;
+    public float galleryTimer;
+    public bool galleryHideEventDone;
+    public bool galleryChaseEventDone;
+    public GameObject galleryHidingGameObject;
+
+    #endregion
+
+    #region Final Chase Event
+
+    public bool finalChaseEventDone;
+    public GameObject leftWingDoor;
+    public GameObject lockGroup;
+
+    #endregion
+
+    public enum GhostEvent
+    {
+        Nothing,
+        PlayingWalkingSound,
+        ChasingPlayer,
+        MovingToDoor,
+        BedroomHidingEvent,
+        LivingDiningRoomEvent,
+        LivingRoomHidingEvent,
+        DiningRoomEvent,
+        GalleryHidingEvent,
+        FinalChasingEvent
+    }
+
+    [DontSerializeField]
+    [HideInInspector]
+    public GhostEvent currentEvent;
+    [DontSerializeField]
+    [HideInInspector]
+    public GhostEvent previousEvent;
 
     public override void Awake()
     {
@@ -130,173 +157,189 @@ public class GhostMovement : Script
 
         voiceClips = "pc_monstergoesaway1";
 
-        speed = 1.0f;
+        speed = 3.0f;
         soundSpeed = 1.0f;
-        hideEventStep = 0;
+        eventStep = 0;
 
         playerMoved = false;
-        hideEvent = false;
-        galleryHideEvent = false;
-        galleryChasingEvent = false;
-        hideEventDone = false;
-        GhostGone = false;
+        bedroomHideEventDone = false;
+        livingDiningRoomEventDone = false;
+        livingRoomHideEventDone = false;
+        galleryHideEventDone = false;
+        startEvent = false;
+
+        currentEvent = GhostEvent.Nothing;
 
         transform.SetPositionX(-2840.0f);
         transform.SetPositionZ(-650.0f);
     }
-
     public override void Update()
     {
-        //isChasingPlayer = !isPatrol;//can only be one or another
-        //if (gameObject.GetComponent<SphereColliderComponent>().GetIsTrigger())
-        //{
-        //    isPatrol = false;
-        //}
-        //else
-        //{
-        //    isPatrol = true;
-        //}
-        ////Console.WriteLine(isChasingPlayer);
-
-        //List<Vector3> waypointVector = new List<Vector3>();
-        ////Console.WriteLine( GameObjectScriptFind("Waypoint"));
-        ////Console.WriteLine($"Ghost sees target : ({GameObjectScriptFind("Waypoint").GetComponent<TransformComponent>().GetPosition().X}, {GameObjectScriptFind("Waypoint").GetComponent<TransformComponent>().GetPosition().Z})");
-        ////Waypoint waypt1 = GameObjectScriptFind("Waypoint").GetComponent<TransformComponent>().GetPosition().Z;
-        ////^ better way of accessing waypoint
-        ////List<GameObject> test = MultipleGameObjectScriptFind("Waypoint");
-        ////MultipleGameObjectScriptFind("Waypoint");
-        //Vector3 pos = gameObject.GetComponent<TransformComponent>().GetPosition();
-        ////Console.WriteLine(playerPos.X + " " + playerPos.Y + " " + playerPos.Z);
-        ////Vector3 playerPos = player.GetComponent<TransformComponent>().GetPosition();
-        //deltaTime += 0.01f; //i need help syncing with game time
-
-        //for (int i = 0; i < NumOfWaypoints; ++i)
-        //{
-        //    //set position where the ghost will go (ghost approaches cabinet in the room)
-        //    Vector3 wp1 = new Vector3(
-        //        GameObjectScriptFind(i.ToString()).GetComponent<TransformComponent>().GetPosition().X,
-        //        0,
-        //        GameObjectScriptFind(i.ToString()).GetComponent<TransformComponent>().GetPosition().Z);
-        //    //push back the waypoints
-        //    waypointVector.Add(wp1);
-
-
-        //}
-
-        ////patrol in loop
-        //if (isPatrol)
-        //{
-
-        //    //move the ghost if its posX and posZ is not = target Pos (target can be either player or the patrol waypoint)
-        //    if (pos.X != waypointVector[currTargetWaypt].X)
-        //    {
-        //        if (Math.Abs(pos.X - waypointVector[currTargetWaypt].X) <= patrolSpeed) { pos.X = waypointVector[currTargetWaypt].X; } //stop moving
-        //        if (pos.X > waypointVector[currTargetWaypt].X) { pos.X -= patrolSpeed; }
-        //        else if (pos.X < waypointVector[currTargetWaypt].X) { pos.X += patrolSpeed; }
-
-        //    }
-        //    if (pos.Z != waypointVector[currTargetWaypt].Z)
-        //    {
-
-        //        if (Math.Abs(pos.Z - waypointVector[currTargetWaypt].Z) <= patrolSpeed) { pos.Z = waypointVector[currTargetWaypt].Z; } //stop
-        //        if (pos.Z > waypointVector[currTargetWaypt].Z) { pos.Z -= patrolSpeed; }
-        //        else if (pos.Z < waypointVector[currTargetWaypt].Z) { pos.Z += patrolSpeed; }
-
-        //    }
-        //    if (pos.X == waypointVector[currTargetWaypt].X && pos.Z == waypointVector[currTargetWaypt].Z)
-        //    {
-        //        currTargetWaypt++; //move to next waypoint
-        //        if (currTargetWaypt == NumOfWaypoints) { currTargetWaypt = 0; }
-
-        //    }
-        //}
-        //else
-        //{
-        //    //Vector3 diff = (playerPos - pos).normalise();
-        //    //Vector3 updatePos = diff * patrolSpeed;
-        //    //pos.X = updatePos.X;
-        //    //pos.Z = updatePos.Z;
-        //}
-
-        //// pos.X = startingX + patrolRadius * (float)Math.Cos(angle);
-        //// pos.Z = startingZ + patrolRadius * (float)Math.Sin(angle);
-
-        //gameObject.GetComponent<TransformComponent>().SetPositionX(pos.X);
-
-        //gameObject.GetComponent<TransformComponent>().SetPositionZ(pos.Z);
-
-        ////Console.WriteLine($"Enemy Position: ({pos.X}, {pos.Z})");
-        ////Console.WriteLine($"Going to waypoint at : ({wp1.X}, {wp1.Z})");
-
-        // Play monster walking sound
-
-        if (playSound)
+        if (gameBlackboard.gameState == GameBlackboard.GameState.Paused)
         {
-            playSound = PlayMonsterWalkingSound();
+            return;
         }
-        else if (isChasingPlayer) // done playing sound, chasing player
+
+        Vector2 ghostPosition = new Vector2(transform.GetPosition().X, transform.GetPosition().Z);
+        Vector2 playerPosition = new Vector2(player.transform.GetPosition().X, player.transform.GetPosition().Z);
+
+        switch (currentEvent)
         {
-            ScriptAPI.Vector2 ghostPosition = new ScriptAPI.Vector2(transform.GetPosition().X, transform.GetPosition().Z);
-            ScriptAPI.Vector2 playerPosition = new ScriptAPI.Vector2(player.transform.GetPosition().X, player.transform.GetPosition().Z);
-            if (WaypointPathfinder.SameRoom(ghostPosition, playerPosition)) 
-            {
-                // If touches, loses
-                if (ScriptAPI.Vector2.Distance(ghostPosition, playerPosition) <= 10.0f)
+            case GhostEvent.Nothing:
+
+                gameObject.GetComponent<AnimatedComponent>().StopAnimation();
+
+                //if (gameObject.GetComponent<RigidBodyComponent>().IsRayHit()) // If player is in sight
+                //{
+                //    // NOTE: May want to add in "not hiding" condition
+                //    currentEvent = GhostEvent.ChasingPlayer;
+                //}
+
+                if (player.transform.GetPosition().X <= 319.0f && livingRoomHideEventDone && !diningRoomEventDone) // Trigger dining room event
                 {
-                    // Losing screen
-                    SceneLoader.LoadLoseScreen();
+                    currentEvent = GhostEvent.DiningRoomEvent;
+                    startEvent = true;
+                }
+
+                break;
+
+            case GhostEvent.PlayingWalkingSound:
+
+                gameObject.GetComponent<AnimatedComponent>().StopAnimation();
+
+                if (!PlayMonsterWalkingSound())
+                {
+                    currentEvent = GhostEvent.MovingToDoor; // done playing sound, move to door that player failed the lockpick
+                }
+
+                break;
+
+            case GhostEvent.ChasingPlayer:
+
+                gameObject.GetComponent<AnimatedComponent>().PlayAnimation();
+
+                //if (!gameObject.GetComponent<RigidBodyComponent>().IsRayHit()) // If player is not in sight
+                //{
+                //    // NOTE: May want to add in "not hiding" condition
+                //    currentEvent = GhostEvent.Nothing;
+                //    break;
+                //}
+
+                if (bedroomHidingGameObject.GetComponent<Hiding>().hiding || 
+                    galleryHidingGameObject.GetComponent<GalleryHiding>().hiding ||
+                    livingRoomHidingGameObject.GetComponent<Hiding>().hiding) // NOTE: Will add in the other hiding boolean variables later
+                {
+                    currentEvent = previousEvent;
+                }
+
+                // If touches, loses
+                if (Vector2.Distance(ghostPosition, playerPosition) <= 75.0f)
+                {
+                    //QueueJumpscare();
+                    return;
                 }
                 else
                 {
                     // Go straight to player
-                    ScriptAPI.Vector3 originalPosition = transform.GetPosition();
-                    ScriptAPI.Vector2 nextPosition = ScriptAPI.Vector2.MoveTowards(ghostPosition, playerPosition, speed);
-                    transform.SetPosition(new ScriptAPI.Vector3(nextPosition.X, originalPosition.Y, nextPosition.Y));
-                    
+                    //Vector3 originalPosition = transform.GetPosition();
+                    //Vector2 nextPosition = Vector2.MoveTowards(ghostPosition, playerPosition, speed);
+                    //transform.SetPosition(new Vector3(nextPosition.X, originalPosition.Y, nextPosition.Y));
+
+                    MoveTo(playerPosition, speed);
                 }
                 playerMoved = true;
                 speed += 0.001f;
-            }
-            else
-            {
-                if (playerMoved)
-                {
-                    WaypointPathfinder.FindPath(ghostPosition, playerPosition);
-                }
-                ScriptAPI.Vector3 originalPosition = transform.GetPosition();
-                ScriptAPI.Vector2 nextPosition = WaypointPathfinder.NextStep(new ScriptAPI.Vector2(originalPosition.X, originalPosition.Z), speed);
-                transform.SetPosition(new ScriptAPI.Vector3(nextPosition.X, originalPosition.Y, nextPosition.Y));
-                playerMoved = false;
-            }
-            AudioComponent audio = gameObject.GetComponent<AudioComponent>();
-            int ran_num = RandomNumberGenerator.GetInt32(7);
-            audio.play(monsterAlert[ran_num]);
-            audio.set3DCoords(transform.GetPosition(), monsterAlert[ran_num]);
-        }
-        else if (hideEvent)
-        {
-            BedroomHidingEvent();
-        }
-        else if (galleryHideEvent)
-        {
-            GalleryHidingEvent();
-        }
-        else if (galleryChasingEvent)
-        {
-            GalleryHidingEvent();
-        }
-        if (hideEventDone)
-        {
-            // AudioComponent audio = gameObject.GetComponent<AudioComponent>();
-            // if (audio.finished(voiceClips))
-            // {
-            //     audio.stop(voiceClips);
-            //     GameplaySubtitles.counter = 8;
-            // }
-            GhostGone = true;
-        }
-        
 
+                break;
+
+            case GhostEvent.MovingToDoor:
+
+                gameObject.GetComponent<AnimatedComponent>().PlayAnimation();
+
+                if (WaypointPathfinder.SameRoom(ghostPosition, playerPosition)) // If player is in the same room as ghost, chase player
+                {
+                    currentEvent = GhostEvent.ChasingPlayer;
+                }
+                else // Move to doors
+                {
+                    if (playerMoved)
+                    {
+                        WaypointPathfinder.FindPath(ghostPosition, playerPosition);
+                    }
+                    Vector3 originalPosition = transform.GetPosition();
+                    Vector2 nextPosition = WaypointPathfinder.NextStep(new Vector2(originalPosition.X, originalPosition.Z), speed);
+                    transform.SetPosition(new Vector3(nextPosition.X, originalPosition.Y, nextPosition.Y));
+                    playerMoved = false;
+
+                    if (doorPosition.X == transform.GetPosition().X && doorPosition.Y == transform.GetPosition().Z) // Reached
+                    {
+                        currentEvent = GhostEvent.Nothing;
+                    }
+                }
+                AudioComponent audio = gameObject.GetComponent<AudioComponent>();
+                int ran_num = RandomNumberGenerator.GetInt32(7);
+                audio.play(monsterAlert[ran_num]);
+                audio.set3DCoords(transform.GetPosition(), monsterAlert[ran_num]);
+
+                break;
+
+            case GhostEvent.BedroomHidingEvent:
+
+                BedroomHidingEvent();
+
+                break;
+
+            case GhostEvent.LivingDiningRoomEvent: // 1. LivingDiningRoomEvent => move from dining room - living room door to dining room - main hall door & disappear
+
+                LivingDiningRoomEvent();
+
+                break;
+
+            case GhostEvent.LivingRoomHidingEvent: // 2. LivingRoomHidingEvent => move from living room - right wing door to left of couch, look around, walk into dining room painting & stay there
+
+                LivingRoomHidingEvent();
+
+                break;
+
+            case GhostEvent.DiningRoomEvent:
+
+                DiningRoomEvent();
+
+                break;
+
+            case GhostEvent.GalleryHidingEvent:
+
+                GalleryHidingEvent();
+
+                break;
+
+            case GhostEvent.FinalChasingEvent:
+
+                FinalChaseEvent();
+
+                break;
+        }
+    }
+    public void QueueJumpscare()
+    {
+        GraphicsManagerWrapper.ToggleViewFrom2D(false);
+
+        // Jumpscare scene
+        gameBlackboard.gameState = GameBlackboard.GameState.Jumpscare; // Locks everything else, play jumpscare
+        player.GetComponent<FPS_Controller_Script>().StandUp();
+
+        SetEnabled(false);
+        player.GetComponent<RigidBodyComponent>().SetLinearVelocity(new Vector3(0.0f, 0.0f, 0.0f));
+        player.SetActive(true);
+        player.GetComponent<FPS_Controller_Script>().SetEnabled(false);
+        lockGroup.SetActive(false);
+
+        // Switch with the jumpscare entity
+        gameObject.GetComponent<JumpscareScript>().SetEnabled(true); // Jumpscare entity will have the script instead
+
+        gameObject.GetComponent<AnimatedComponent>().StopAnimation();
+
+        Quaternion quat = new Quaternion(transform.GetRotation());
     }
 
     public void PlayMonsterWalkingSoundInitial()
@@ -304,15 +347,13 @@ public class GhostMovement : Script
         AudioComponent audio = gameObject.GetComponent<AudioComponent>();
         walkingSoundCounter = 0;
         audio.play(walkingSounds[walkingSoundCounter]);
-        ScriptAPI.Vector3 temp = new ScriptAPI.Vector3(1000, 1000, 0);
-        audio.set3DCoords(temp/*transform.GetPosition()*/ ,walkingSounds[walkingSoundCounter]);
-        playSound = true;
+        Vector3 temp = new Vector3(1000, 1000, 0);
+        audio.set3DCoords(temp/*transform.GetPosition()*/ , walkingSounds[walkingSoundCounter]);
+        currentEvent = GhostEvent.PlayingWalkingSound;
     }
-
     public bool PlayMonsterWalkingSound()
     {
         AudioComponent audio = gameObject.GetComponent<AudioComponent>();
-        ScriptAPI.Vector3 temp = new ScriptAPI.Vector3(1000, 1000, 0);
 
         if (audio.finished(walkingSounds[walkingSoundCounter]))
         {
@@ -328,16 +369,14 @@ public class GhostMovement : Script
                 }
 
                 audio.play(walkingSounds[walkingSoundCounter]);
-                audio.set3DCoords(temp/*transform.GetPosition()*/, walkingSounds[walkingSoundCounter]);
+                audio.set3DCoords(transform.GetPosition(), walkingSounds[walkingSoundCounter]);
                 playSoundTimer = soundSpeed - walkingSoundCounter * 0.05f;
-
-                //audio.set3DCoords(transform.GetPosition());
-                if (!hideEvent)
-                {
-                    int ra = RandomNumberGenerator.GetInt32(8);
-                    audio.play(monsterPatrol[ra]);
-                    audio.set3DCoords(temp /*transform.GetPosition()*/, monsterPatrol[ra]);
-                }
+                //if (!triggerBedroomHideEvent)
+                //{
+                //    int ra = RandomNumberGenerator.GetInt32(8);
+                //    audio.play(monsterPatrol[ra]);
+                //    audio.set3DCoords(temp /*transform.GetPosition()*/, monsterPatrol[ra]);
+                //}
             }
             else
             {
@@ -353,213 +392,480 @@ public class GhostMovement : Script
         soundSpeed -= 0.1f;
         speed += 0.2f;
         playSoundTimer = soundSpeed;
-        isPatrol = false;
-        isChasingPlayer = true;
 
-        // Teleport monster based on door
-        WaypointPathfinder.FindPath(new ScriptAPI.Vector2(-2840, -650), new ScriptAPI.Vector2(player.transform.GetPosition().X, player.transform.GetPosition().Z)); // temp position
+        // Move monster to player position if lockpick fails
+        doorPosition = new Vector2(player.transform.GetPosition().X, player.transform.GetPosition().Z);
+        WaypointPathfinder.FindPath(new Vector2(-2840, -650), doorPosition); // NOTE: temp position
 
         player.transform.SetPosition(transform.GetPosition());
 
         PlayMonsterWalkingSoundInitial();
     }
 
+    //public bool PlayerInSight()
+    //{
+    //    Vector2 lineToNextPosition = new Vector2(player.transform.GetPosition().X - transform.GetPosition().X, player.transform.GetPosition().Z - transform.GetPosition().Z);
+    //    float lineToNextPositionLength = Mathf.Sqrt(lineToNextPosition.X * lineToNextPosition.X + lineToNextPosition.Y * lineToNextPosition.Y);
+    //    float forwardVectorLength = Mathf.Sqrt(Vector3.Forward().X * Vector3.Forward().X + Vector3.Forward().Z * Vector3.Forward().Z);
+
+    //    float rotationOfPlayer = Mathf.Acos((lineToNextPosition.X * Vector3.Forward().X + lineToNextPosition.Y * Vector3.Forward().Z) / (lineToNextPositionLength * forwardVectorLength));
+
+    //    return false;
+    //}
+
+    public bool MoveTo(Vector2 destination, float speed)
+    {
+        Vector2 ghostPosition = new Vector2(transform.GetPosition().X, transform.GetPosition().Z);
+        Vector2 nextPosition = Vector2.MoveTowards(ghostPosition, destination, speed);
+        transform.SetPosition(new Vector3(nextPosition.X, transform.GetPosition().Y, nextPosition.Y));
+
+        #region Turning monster to face where its walking
+
+        Vector2 lineToNextPosition = new Vector2(nextPosition.X - ghostPosition.X, nextPosition.Y - ghostPosition.Y);
+        float lineToNextPositionLength = Mathf.Sqrt(lineToNextPosition.X * lineToNextPosition.X + lineToNextPosition.Y * lineToNextPosition.Y);
+        float forwardVectorLength = Mathf.Sqrt(Vector3.Forward().X * Vector3.Forward().X + Vector3.Forward().Z * Vector3.Forward().Z);
+
+        float rotationOfMonster = Mathf.Acos((lineToNextPosition.X * Vector3.Forward().X + lineToNextPosition.Y * Vector3.Forward().Z) / (lineToNextPositionLength * forwardVectorLength));
+
+        if (lineToNextPosition.X < 0)
+            transform.SetRotation(new Vector3(0.0f, -rotationOfMonster, 0.0f));
+        else
+            transform.SetRotation(new Vector3(0.0f, rotationOfMonster, 0.0f));
+
+        #endregion
+
+        if (transform.GetPosition().X == destination.X && transform.GetPosition().Z == destination.Y)
+        {
+            return true;
+        }
+
+        return false;
+    }
+
     public void BedroomHidingEvent()
     {
-        if (!hidingGameObject.GetComponent<Hiding>().hiding)
+        if (startEvent) // Initialize variables (teleporting monster to starting position etc)
         {
-            isChasingPlayer = true;
+            transform.SetPosition(new Vector3(1790.0f, transform.GetPosition().Y, -750.0f));
+            eventStep = 0;
+            startEvent = false;
+            //Console.WriteLine("initialized bedroom hiding event");
+
+            gameObject.GetComponent<AnimatedComponent>().PlayAnimation();
         }
-        else
+
+        if (!bedroomHidingGameObject.GetComponent<Hiding>().hiding) // If player comes out of hiding, monster will chase player
         {
-            isChasingPlayer = false;
+            previousEvent = GhostEvent.BedroomHidingEvent;
+            currentEvent = GhostEvent.ChasingPlayer;
         }
-        ScriptAPI.Vector3 originalPosition = transform.GetPosition();
-        ScriptAPI.Vector2 ghostPosition = new ScriptAPI.Vector2(originalPosition.X, originalPosition.Z);
+
+        Vector3 originalPosition = transform.GetPosition();
+        Vector2 ghostPosition = new Vector2(originalPosition.X, originalPosition.Z);
         AudioComponent audio = gameObject.GetComponent<AudioComponent>();
-        switch (hideEventStep)
+
+        switch (eventStep)
         {
-            case 0:
-                ScriptAPI.Vector2 firstPosition = new ScriptAPI.Vector2(1790, -323);
-                ScriptAPI.Vector2 firstPositionNext = ScriptAPI.Vector2.MoveTowards(ghostPosition, firstPosition, 5.0f);
-                transform.SetPosition(new ScriptAPI.Vector3(firstPositionNext.X, originalPosition.Y, firstPositionNext.Y));
+            case 0: // Moving from SH door to end of bedframe in bed
 
-                if (firstPositionNext.X == firstPosition.X && firstPositionNext.Y == firstPosition.Y)
+                if (MoveTo(new Vector2(1790, -323), 2.0f))
                 {
-                    ++hideEventStep;
+                    ++eventStep;
                 }
+
                 audio.play("pc_afterscare_breathing");
-                audio.play("pc_afterscare_heartbeat"); 
+                audio.play("pc_afterscare_heartbeat");
                 break;
 
-            case 1:
-                ScriptAPI.Vector2 secondPosition = new ScriptAPI.Vector2(2167, -100);
-                ScriptAPI.Vector2 secondPositionNext = ScriptAPI.Vector2.MoveTowards(ghostPosition, secondPosition, 5.0f);
-                transform.SetPosition(new ScriptAPI.Vector3(secondPositionNext.X, originalPosition.Y, secondPositionNext.Y));
+            case 1: // Moving to player / hiding closet
 
-                if (secondPositionNext.X == secondPosition.X && secondPositionNext.Y == secondPosition.Y)
+                if (MoveTo(new Vector2(2167, -100), 2.0f))
                 {
-                    ++hideEventStep;
+                    ++eventStep;
                 }
 
                 break;
 
-            case 2:
-                transform.SetPositionX(-2840.0f);
-                transform.SetPositionZ(-650.0f);
-                hideEventDone = true;
-                hideEvent = false;
-                isChasingPlayer = false;
+            case 2: // Event done
+
+                bedroomHideEventDone = true;
+                currentEvent = GhostEvent.Nothing;
                 SHDoor.GetComponent<Door_Script>().forcedLocked = false;
+
+                // Teleporting monster to Living Room - Dining Room door for next event
+                transform.SetPositionX(319.0f);
+                transform.SetPositionZ(-379.0f);
+                transform.SetRotationY(-(float)(0.5 * Math.PI));
 
                 audio.FadeOut(2, "pc_afterscare_breathing");
                 audio.FadeOut(2, "pc_afterscare_heartbeat");
                 audio.play(voiceClips);
                 GameplaySubtitles.counter = 11; // wth was that
 
+                break;
+        }
+
+    }
+
+    public void LivingDiningRoomEvent()
+    {
+        if (startEvent) // Initialize variables
+        {
+            livingDiningRoomStandingTimer = 1.0f;
+            eventStep = 0;
+            startEvent = false;
+
+            transform.SetPositionX(319.0f);
+            transform.SetPositionZ(-379.0f);
+            gameObject.GetComponent<AnimatedComponent>().PlayAnimation();
+
+            //Console.WriteLine("initialized living dining room event");
+        }
+
+        Vector2 ghostPosition = new Vector2(transform.GetPosition().X, transform.GetPosition().Z);
+        Vector2 nextPosition = new Vector2(0.0f, 0.0f);
+
+        switch (eventStep)
+        {
+            case 0: // Stay for a while
+
+                if (livingDiningRoomStandingTimer <= 0)
+                {
+                    ++eventStep;
+                }
+                livingDiningRoomStandingTimer -= Time.deltaTime;
+
+                break;
+
+            case 1: // Move to beside dining room - main entrance door (making it look a little better)
+
+                if (MoveTo(new Vector2(-272, -300), 2.0f))
+                {
+                    ++eventStep;
+                }
+
+                break;
+
+            case 2: // Move to dining room - main entrance door & disappear
+
+                if (MoveTo(new Vector2(-272, -80), 2.0f))
+                {
+                    ++eventStep;
+                }
+
+                break;
+
+            case 3: // Event done
+
+                livingDiningRoomEventDone = true;
+                currentEvent = GhostEvent.Nothing;
+
+                // Teleporting monster away so player wont see it (for now the position is in the gallery)
+                transform.SetPositionX(-1920.0f);
+                transform.SetPositionZ(175.0f);
 
                 break;
         }
-        
+    }
+
+    public void LivingRoomHidingEvent()
+    {
+        if (startEvent) // Initialize variables
+        {
+            livingRoomHidingTimer = 1.0f;
+            eventStep = 0;
+
+            if (livingRoomHidingGameObject.GetComponent<Hiding>().hiding) // Start after hiding
+            {
+                gameObject.GetComponent<AnimatedComponent>().PlayAnimation();
+                startEvent = false;
+            }
+
+            // Teleporting monster to behind the living room - right hall door
+            transform.SetPositionX(938.0f);
+            transform.SetPositionZ(17.0f);
+
+            //Console.WriteLine("initialized living room hiding event");
+
+        }
+
+        switch (eventStep)
+        {
+            case 0: // Move to couch
+
+                if (MoveTo(new Vector2(938.0f, -379.0f), 2.0f))
+                {
+                    ++eventStep;
+                    gameObject.GetComponent<AnimatedComponent>().StopAnimation();
+                }
+
+                break;
+
+            case 1: // Look around / wait
+
+                if (livingRoomHidingTimer <= 0)
+                {
+                    ++eventStep;
+                    gameObject.GetComponent<AnimatedComponent>().PlayAnimation();
+                }
+                livingRoomHidingTimer -= Time.deltaTime;
+
+                break;
+
+            case 2: // Move to living room - dining room door
+
+                if (MoveTo(new Vector2(156.0f, -379.0f), 2.0f))
+                {
+                    ++eventStep;
+                }
+
+                break;
+
+            case 3: // Move to picture in dining room
+
+                if (MoveTo(new Vector2(-58.0f, -1060.0f), 2.0f))
+                {
+                    ++eventStep;
+                }
+
+                break;
+
+            case 4: // Event done
+
+                livingRoomHideEventDone = true;
+                currentEvent = GhostEvent.Nothing;
+
+                transform.SetRotationY((float)Math.PI);
+
+                break;
+        }
+    }
+
+    public void DiningRoomEvent()
+    {
+        if (startEvent) // Initialize variables
+        {
+            diningRoomTimer = ScriptAPI.Random.Range(1.0f, 3.0f);
+            eventStep = 0;
+            startEvent = false;
+            gameObject.GetComponent<AudioComponent>().play("pc_movethissilently");
+
+            //Console.WriteLine("initialized dining event (red light green light)");
+        }
+
+        switch (eventStep)
+        {
+            case 0: // Turns every once in a while 
+
+                if (diningRoomTimer <= 0)
+                {
+                    ++eventStep;
+                }
+                diningRoomTimer -= Time.deltaTime;
+
+                break;
+
+            case 1: // Turning towards player (5 degrees per frame)
+
+                transform.SetRotationY(transform.GetRotation().Y - (float)(5.0f / 180.0f * Math.PI));
+
+                // Finished turning
+                if (transform.GetRotation().Y <= 0.0f)
+                {
+                    ++eventStep;
+                    diningRoomTimer = 0.5f;
+                    playerOriginalPosition = player.transform.GetPosition();
+                }
+
+                break;
+
+            case 2: // "Looking" around for player (just made it wait for a while for now)
+
+                // Looking for player
+                //if ((playerOriginalPosition - player.transform.GetPosition() != new Vector3 (0.0f, 0.0f, 0.0f)) || // Player moved
+                //    !player.GetComponent<FPS_Controller_Script>().isCrouched)
+                //{
+                //    currentEvent = GhostEvent.ChasingPlayer;
+                //    speed = 25.0f;
+                //}
+
+                if (diningRoomTimer <= 0)
+                {
+                    ++eventStep;
+                }
+                diningRoomTimer -= Time.deltaTime;
+
+                break;
+
+            case 3: // Turn back and go back to the first eventStep
+
+                transform.SetRotationY(transform.GetRotation().Y + (float)(5.0f / 180.0f * Math.PI));
+
+                // Finished turning
+                if (transform.GetRotation().Y >= (float)(Math.PI))
+                {
+                    eventStep = 0;
+                    diningRoomTimer = ScriptAPI.Random.Range(1.0f, 3.0f);
+                }
+
+                break;
+        }
+
+        // When player enters kitchen, event ends
+        if (player.transform.GetPosition().X < -873.0f)
+        {
+            currentEvent = GhostEvent.Nothing;
+            diningRoomEventDone = true;
+        }
     }
 
     public void GalleryHidingEvent()
     {
-        if (!hidingGameObject.GetComponent<Hiding>().hiding)
+        if (startEvent) // Initialize variables (teleporting monster to starting position etc)
         {
-            isChasingPlayer = true;
-        }
-        else
-        {
-            isChasingPlayer = false;
-        }
-        ScriptAPI.Vector3 originalPosition = transform.GetPosition();
-        ScriptAPI.Vector2 ghostPosition = new ScriptAPI.Vector2(originalPosition.X, originalPosition.Z);
-        AudioComponent audio = gameObject.GetComponent<AudioComponent>();
-        switch (hideEventStep)
-        {
-            case 0:
-                ScriptAPI.Vector2 firstPosition = new ScriptAPI.Vector2(-1920, -300);
-                ScriptAPI.Vector2 firstPositionNext = ScriptAPI.Vector2.MoveTowards(ghostPosition, firstPosition, 5.0f);
-                transform.SetPosition(new ScriptAPI.Vector3(firstPositionNext.X, originalPosition.Y, firstPositionNext.Y));
+            transform.SetPosition(new Vector3(-1920.0f, transform.GetPosition().Y, -300.0f));
+            eventStep = 0;
+            startEvent = false;
 
-                if (firstPositionNext.X == firstPosition.X && firstPositionNext.Y == firstPosition.Y)
+            gameObject.GetComponent<AnimatedComponent>().PlayAnimation();
+        }
+
+        if (!galleryHidingGameObject.GetComponent<GalleryHiding>().hiding) // If player comes out of hiding, monster will chase player
+        {
+            previousEvent = GhostEvent.GalleryHidingEvent;
+            currentEvent = GhostEvent.ChasingPlayer;
+        }
+
+        AudioComponent audio = gameObject.GetComponent<AudioComponent>();
+
+        switch (eventStep)
+        {
+            case 0: // Walk to Study Room Door
+
+                if (MoveTo(new Vector2(-2850, -300), 10.0f))
                 {
-                    ++hideEventStep;
+                    ++eventStep;
                 }
+
                 audio.play("pc_afterscare_breathing");
                 audio.play("pc_afterscare_heartbeat");
                 break;
 
-            case 1:
-                ScriptAPI.Vector2 secondPosition = new ScriptAPI.Vector2(-2850, -300);
-                ScriptAPI.Vector2 secondPositionNext = ScriptAPI.Vector2.MoveTowards(ghostPosition, secondPosition, 5.0f);
-                transform.SetPosition(new ScriptAPI.Vector3(secondPositionNext.X, originalPosition.Y, secondPositionNext.Y));
+            case 1: // Walk into Study Room
 
-                if (secondPositionNext.X == secondPosition.X && secondPositionNext.Y == secondPosition.Y)
+                if (MoveTo(new Vector2(-2850, 175), 5.0f))
                 {
-                    ++hideEventStep;
+                    ++eventStep;
                 }
 
                 break;
 
-            case 2:
-                ScriptAPI.Vector2 thirdPosition = new ScriptAPI.Vector2(-2850, 175);
-                ScriptAPI.Vector2 thirdPositionNext = ScriptAPI.Vector2.MoveTowards(ghostPosition, thirdPosition, 5.0f);
-                transform.SetPosition(new ScriptAPI.Vector3(thirdPositionNext.X, originalPosition.Y, thirdPositionNext.Y));
+            case 2: // Walk out of Study Room
 
-                if (thirdPositionNext.X == thirdPosition.X && thirdPositionNext.Y == thirdPosition.Y)
+                if (MoveTo(new Vector2(-1920, 175), 5.0f))
                 {
-                    ++hideEventStep;
+                    ++eventStep;
                 }
 
                 break;
 
-            case 3:
-                transform.SetPositionX(-2840.0f);
-                transform.SetPositionZ(-650.0f);
-                hideEventDone = true;
-                galleryHideEvent = false;
-                isChasingPlayer = false;
-                SHDoor.GetComponent<Door_Script>().forcedLocked = false;
+            case 3: // Event done
+
+                galleryHideEventDone = true;
+                currentEvent = GhostEvent.Nothing;
+                GalleryHiding.GhostShouldMove = false;
 
                 audio.FadeOut(2, "pc_afterscare_breathing");
                 audio.FadeOut(2, "pc_afterscare_heartbeat");
-                audio.play(voiceClips);
-                GameplaySubtitles.counter = 11; // wth was that
-
 
                 break;
         }
     }
 
-    public void GalleryChasingEvent()
+    public void FinalChaseEvent()
     {
-        if (!hidingGameObject.GetComponent<Hiding>().hiding)
+        if (startEvent) // Initialize variables
         {
-            isChasingPlayer = true;
+            transform.SetPositionX(-2840);
+            transform.SetPositionZ(-300);
+
+            // Change forced lock to locked
+            leftWingDoor.GetComponent<Door_Script>().forcedLocked = false;
+
+            eventStep = 0;
+            startEvent = false;
+            gameObject.GetComponent<AnimatedComponent>().PlayAnimation();
+
+            //Console.WriteLine("initialized final chasing event");
         }
-        else
+
+        // Monster starts in the gallery
+        // Chases player across the mansion
+        // Fast but slow enough for player to lockpick left wing - main entrance door
+
+        switch (eventStep)
         {
-            isChasingPlayer = false;
-        }
-        ScriptAPI.Vector3 originalPosition = transform.GetPosition();
-        ScriptAPI.Vector2 ghostPosition = new ScriptAPI.Vector2(originalPosition.X, originalPosition.Z);
-        AudioComponent audio = gameObject.GetComponent<AudioComponent>();
-        switch (hideEventStep)
-        {
-            case 0:
-                ScriptAPI.Vector2 firstPosition = new ScriptAPI.Vector2(-1920, -300);
-                ScriptAPI.Vector2 firstPositionNext = ScriptAPI.Vector2.MoveTowards(ghostPosition, firstPosition, 5.0f);
-                transform.SetPosition(new ScriptAPI.Vector3(firstPositionNext.X, originalPosition.Y, firstPositionNext.Y));
+            case 0: // Make noise
 
-                if (firstPositionNext.X == firstPosition.X && firstPositionNext.Y == firstPosition.Y)
-                {
-                    ++hideEventStep;
-                }
-                audio.play("pc_afterscare_breathing");
-                audio.play("pc_afterscare_heartbeat");
+                ++eventStep;
+
                 break;
 
-            case 1:
-                ScriptAPI.Vector2 secondPosition = new ScriptAPI.Vector2(-2850, -300);
-                ScriptAPI.Vector2 secondPositionNext = ScriptAPI.Vector2.MoveTowards(ghostPosition, secondPosition, 5.0f);
-                transform.SetPosition(new ScriptAPI.Vector3(secondPositionNext.X, originalPosition.Y, secondPositionNext.Y));
+            case 1: // Move into study room
 
-                if (secondPositionNext.X == secondPosition.X && secondPositionNext.Y == secondPosition.Y)
+                if (MoveTo(new Vector2(-2840, 100), speed))
                 {
-                    ++hideEventStep;
+                    ++eventStep;
                 }
 
                 break;
 
-            case 2:
-                ScriptAPI.Vector2 thirdPosition = new ScriptAPI.Vector2(-2850, 175);
-                ScriptAPI.Vector2 thirdPositionNext = ScriptAPI.Vector2.MoveTowards(ghostPosition, thirdPosition, 5.0f);
-                transform.SetPosition(new ScriptAPI.Vector3(thirdPositionNext.X, originalPosition.Y, thirdPositionNext.Y));
+            case 2: // Move to before study room - left wing door
 
-                if (thirdPositionNext.X == thirdPosition.X && thirdPositionNext.Y == thirdPosition.Y)
+                if (MoveTo(new Vector2(-2380, 178), speed))
                 {
-                    ++hideEventStep;
+                    ++eventStep;
                 }
 
                 break;
 
-            case 3:
-                transform.SetPositionX(-2840.0f);
-                transform.SetPositionZ(-650.0f);
-                hideEventDone = true;
-                galleryHideEvent = false;
-                isChasingPlayer = false;
-                SHDoor.GetComponent<Door_Script>().forcedLocked = false;
+            case 3: // Chase player across mansion
 
-                audio.FadeOut(2, "pc_afterscare_breathing");
-                audio.FadeOut(2, "pc_afterscare_heartbeat");
-                audio.play(voiceClips);
-                GameplaySubtitles.counter = 11; // wth was that
+                Vector2 ghostPosition = new Vector2(transform.GetPosition().X, transform.GetPosition().Z);
+                Vector2 playerPosition = new Vector2(player.transform.GetPosition().X, player.transform.GetPosition().Z);
 
+                if (playerPosition.X >= 2600) // If player goes to basement (NOTE: to change)
+                {
+                    ++eventStep;
+                }
+
+                // If touches, loses
+                if (Vector2.Distance(ghostPosition, playerPosition) <= 75.0f)
+                {
+                    //QueueJumpscare(); // For presentation
+                    return;
+                }
+                else
+                {
+                    float finalChaseSpeed = 2.0f;
+
+                    if (player.transform.GetPosition().X >= -730)
+                    {
+                        finalChaseSpeed = 6.0f;
+                    }
+                    
+                    MoveTo(playerPosition, finalChaseSpeed);
+                }
 
                 break;
+
+            case 4: // Event done
+
+                currentEvent = GhostEvent.Nothing;
+                finalChaseEventDone = true;
+
+                break;
+
         }
     }
 }

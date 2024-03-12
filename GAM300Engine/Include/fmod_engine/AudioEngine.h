@@ -313,7 +313,12 @@ namespace TDS
             /**
              * Get container of sounds that's loaded
              */
-            DLL_API std::map<unsigned int, FMOD::Sound*> getSoundContainer();
+            DLL_API  std::map<unsigned int, FMOD::Sound*> getSoundContainer();
+
+            /**
+             * Get the amount of channels that's playing
+            */
+            DLL_API  int GetAmountOfChannelsPlaying();
 
             /**
              * Get container of banks that's loaded

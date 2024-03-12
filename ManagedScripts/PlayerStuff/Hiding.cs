@@ -8,8 +8,6 @@
 \brief  Gameplay script for player hiding from the monster
 ****************************************************************************
 ***/
-using System;
-using System.Reflection.Emit;
 using ScriptAPI;
 
 public class Hiding : Script
@@ -27,7 +25,7 @@ public class Hiding : Script
     public GameObject closet;
     [Header("AudioStuff")]
     //public AudioSource playerVOSource;
-    public AudioComponent audioPlayer;
+    public AudioComponent audioPlayer;  //#1
     String[] voClips;
     public String[] subtitles;
     int counter;
@@ -45,7 +43,7 @@ public class Hiding : Script
         numOfPaintingsTook = 0;
 
         //counter = 0;
-        audioPlayer = gameObject.GetComponent<AudioComponent>();
+        audioPlayer = gameObject.GetComponent<AudioComponent>();    //#2
         voClips = new string[3];
         voClips[0] = "pc_hideinclosetfirst";
         voClips[1] = "pc_wanderingcloset";
@@ -68,7 +66,7 @@ public class Hiding : Script
     public override void Update()
     {
 
-        if (interactable && gameObject.GetComponent<RigidBodyComponent>().IsRayHit())
+        if (interactable && gameObject.GetComponent<RigidBodyComponent>().IsRayHit() && gameObject.GetComponent<RigidBodyComponent>().IsPlayerCast())
         {
             _InteractUI.SetActive(true);
 
@@ -99,7 +97,7 @@ public class Hiding : Script
 
             
 
-            if (Input.GetKeyDown(Keycode.E) && hiding == false)
+            if (Input.GetKeyDown(Keycode.E) && hiding == false) // Player hides to trigger the monster event
             {
                 hiding = true;
                 interactable = false;
@@ -124,16 +122,15 @@ public class Hiding : Script
                 }
                 player.GetComponent<Flashlight_Script>().activateLight = false;
                 _flashlight.SetActive(false);
+                audioPlayer.play("door open");
 
-                if (enemyPathfinding.GetComponent<GhostMovement>().hideEventDone == false && numOfPaintingsTook == 1)
+                if (enemyPathfinding.GetComponent<GhostMovement>().bedroomHideEventDone == false && numOfPaintingsTook == 1) // triggering bedroom monster event 
                 {
-                    if (enemyPathfinding.GetComponent<GhostMovement>().hideEvent == false)
+                    if (enemyPathfinding.GetComponent<GhostMovement>().currentEvent != GhostMovement.GhostEvent.BedroomHidingEvent)
                     {
-                        enemyPathfinding.transform.SetPosition(new Vector3(1790.0f, enemyPathfinding.transform.GetPosition().Y, -750.0f));
-                        enemyPathfinding.GetComponent<GhostMovement>().hideEvent = true;
+                        enemyPathfinding.GetComponent<GhostMovement>().currentEvent = GhostMovement.GhostEvent.BedroomHidingEvent;
+                        enemyPathfinding.GetComponent<GhostMovement>().startEvent = true;
                     }
-                    enemyPathfinding.GetComponent<GhostMovement>().isChasingPlayer = false;
-                    enemyPathfinding.GetComponent<GhostMovement>().playSound = false;
                 }
             }
         }
@@ -144,6 +141,8 @@ public class Hiding : Script
             if (Input.GetKeyDown(Keycode.E))
             {
                 //Console.WriteLine("There");
+                audioPlayer.play("door close");
+
                 hiding = false;
                 interactable = true;
                 //player.transform.SetPosition(nonHidingPos);
@@ -156,7 +155,7 @@ public class Hiding : Script
                 player.GetComponent<FPS_Controller_Script>().playerCanMove = true;
                 player.GetComponent<FPS_Controller_Script>().enableHeadBob = true;
                 _flashlight.SetActive(true);
-                if (GhostMovement.GhostGone)
+                if (enemyPathfinding.GetComponent<GhostMovement>().bedroomHideEventDone)
                 {
                     audioPlayer.play(voClips[2]);
                     GameplaySubtitles.counter = 15;

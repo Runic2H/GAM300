@@ -56,14 +56,14 @@ public class Painting_Script : Script
     // Update is called once per frame
     override public void Update()
     {
-        if (gameObject.GetComponent<RigidBodyComponent>().IsRayHit())
+        if (gameObject.GetComponent<RigidBodyComponent>().IsRayHit() && gameObject.GetComponent<RigidBodyComponent>().IsPlayerCast())
         {
             Console.WriteLine("Painting");
             _InteractUI.SetActive(true);
 
             if (once)
             {
-                if(Painting_Texture == "p07.dds") //bedrooom
+                if (Painting_Texture == "p07.dds") //bedrooom
                 {
                     AudioPlayer.play(voClip[1]); //something's behing this painting
                     GameplaySubtitles.counter = 20;
@@ -92,19 +92,21 @@ public class Painting_Script : Script
                     AudioPlayer.play(voClip[0]); //one down
                     GameplaySubtitles.counter = 13;
                 }
-                if (Painting_Texture == "p03.dds") //living room
+                if (Painting_Texture == "p06.dds") //living room
                 {
                     //screaming painting
-                    AudioPlayer.play("painting_dropin"); 
-                    AudioPlayer.play("painting_burning");
+                    GameplaySubtitles.counter = 27; //somethings diff..
+                    AudioPlayer.play("pc_somethingdiff");
+                   
+                   
                     //GameplaySubtitles.counter = ;
                 }
-                if (Painting_Name == "p04.dds") //dining room
+                if (Painting_Name == "p04.dds") //dining room MOUNTAIN
                 {
                     //AudioPlayer.play();
                     //GameplaySubtitles.counter = ;
                 }
-                if (Painting_Name == "p01.dds") //dining room
+                if (Painting_Name == "p03.dds") //dining room FLOWER
                 {
                     //AudioPlayer.play();
                     //GameplaySubtitles.counter = ;
@@ -125,7 +127,7 @@ public class Painting_Script : Script
 
     public override void LateUpdate()
     {
-        if (gameObject.GetComponent<RigidBodyComponent>().IsRayHit())
+        if (gameObject.GetComponent<RigidBodyComponent>().IsRayHit() && gameObject.GetComponent<RigidBodyComponent>().IsPlayerCast())
         {
             _InteractUI.SetActive(true);
         }

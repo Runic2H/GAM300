@@ -44,7 +44,7 @@ public class p01 : Script
     {
         //if(GalleryLetter.isNotePicked) // Don't allow player to proceed with puzzle before getting the hint.
         {
-            if (gameObject.GetComponent<RigidBodyComponent>().IsRayHit())
+            if (gameObject.GetComponent<RigidBodyComponent>().IsRayHit() && gameObject.GetComponent<RigidBodyComponent>().IsPlayerCast())
             {
                 Console.WriteLine("p01");
                 _InteractUI.SetActive(true);
@@ -64,14 +64,14 @@ public class p01 : Script
 
                     // Trigger Painting Event
                     AudioPlayer.play("gallery_movepainting");
+                    AudioPlayer.play("mon_patrol4");
                     GameplaySubtitles.counter = 8;
 
                     // hiding event 
-                    //hidingGameObject.GetComponent<Hiding>().numOfPaintingsTook++;
-                    //if (hidingGameObject.GetComponent<Hiding>().numOfPaintingsTook == 1)
-                    //{
-                    //    ghost.GetComponent<GhostMovement>().PlayMonsterWalkingSoundInitial();
-                    //}
+                    GalleryHiding.GhostShouldMove = true;
+                    GalleryHiding.timeLimit = 10.0f;
+                    GalleryHiding.GhostMoved = false;
+                    ghost.GetComponent<GhostMovement>().PlayMonsterWalkingSoundInitial();
                 }
             }
         }
@@ -80,7 +80,7 @@ public class p01 : Script
 
     public override void LateUpdate()
     {
-        if (gameObject.GetComponent<RigidBodyComponent>().IsRayHit())
+        if (gameObject.GetComponent<RigidBodyComponent>().IsRayHit() && gameObject.GetComponent<RigidBodyComponent>().IsPlayerCast())
         {
             _InteractUI.SetActive(true);
         }
