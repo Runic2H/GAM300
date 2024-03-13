@@ -43,7 +43,7 @@ public class p04 : Script
         if (gameObject.GetComponent<RigidBodyComponent>().IsRayHit() && gameObject.GetComponent<RigidBodyComponent>().IsPlayerCast())
         {
             Console.WriteLine("Painting");
-            _InteractUI.SetActive(true);
+            InteractUI.isShow = true;
 
             if (Input.GetKeyDown(Keycode.E))
             {
@@ -69,17 +69,9 @@ public class p04 : Script
                 //}
             }
         }
-    }
-
-    public override void LateUpdate()
-    {
-        if (gameObject.GetComponent<RigidBodyComponent>().IsRayHit() && gameObject.GetComponent<RigidBodyComponent>().IsPlayerCast())
-        {
-            _InteractUI.SetActive(true);
-        }
         else
         {
-            _InteractUI.SetActive(false);
+            //_InteractUI.SetActive(false);
         }
     }
 }

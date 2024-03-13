@@ -32,15 +32,16 @@ public class GallerySwitch : Script
 
     public override void Update()
     {
-        if (p02.isPaintingCollected && gameObject.GetComponent<RigidBodyComponent>().IsRayHit() && gameObject.GetComponent<RigidBodyComponent>().IsPlayerCast())
+        if (!isActivated && p02.isPaintingCollected && gameObject.GetComponent<RigidBodyComponent>().IsRayHit())
         {
             Console.WriteLine("Gallery Switch");
+            InteractUI.isShow = true;
 
             if (Input.GetKeyDown(Keycode.E))
             {
                 isActivated = true;
                 GalleryHiding.GhostShouldMove = true;
-
+                GalleryHiding.timeLimit = 10.0f;
                 if (GalleryLetter.isNotePicked)
                 {
                     audioPlayer.play("pc_mighthaveopened");
@@ -51,8 +52,11 @@ public class GallerySwitch : Script
                     audioPlayer.play("pc_openedsomething");
                     GameplaySubtitles.counter = 44;
                 }
-
             }
+        }
+        else
+        {
+            //_InteractUI.SetActive(false);
         }
     }
 }

@@ -42,6 +42,8 @@ public class GalleryLetter : Script
         if (gameObject.GetComponent<RigidBodyComponent>().IsRayHit() && gameObject.GetComponent<RigidBodyComponent>().IsPlayerCast())
         {
             Console.WriteLine("Gallery Letter");
+            InteractUI.isShow = true;
+
             if (Input.GetKeyDown(Keycode.E))
             {
                 Console.WriteLine("Picked up gallery letter");
@@ -61,18 +63,9 @@ public class GalleryLetter : Script
                 GameplaySubtitles.counter = 41;
             }
         }
-    }
-
-    public override void LateUpdate()
-    {
-        if (gameObject.GetComponent<RigidBodyComponent>().IsRayHit() && gameObject.GetComponent<RigidBodyComponent>().IsPlayerCast())
-        {
-            _InteractUI.SetActive(true);
-        }
         else
         {
-            _InteractUI.SetActive(false);
+            //_InteractUI.SetActive(false);
         }
-
     }
 }
