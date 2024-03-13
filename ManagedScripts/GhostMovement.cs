@@ -807,13 +807,8 @@ public class GhostMovement : Script
             case 5:
                 Console.WriteLine("Reached");
                 
-                if (Input.GetKeyDown(Keycode.U)) //temporary, to end galleryHideEvent and start chaseEvent to replace with open door
-                {
-                    galleryHideEventDone = true;
-                    galleryChaseEventDone = false;
-                    currentEvent = GhostEvent.FinalChasingEvent;
-                    startEvent = true;
-                }
+                galleryHideEventDone = true;
+                galleryChaseEventDone = false;
 
                 break;
 
