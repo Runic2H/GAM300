@@ -47,6 +47,7 @@ public class p02 : Script
             if (!isPaintingCollected && gameObject.GetComponent<RigidBodyComponent>().IsRayHit() && gameObject.GetComponent<RigidBodyComponent>().IsPlayerCast())
             {
                 Console.WriteLine("p02");
+                InteractUI.isShow = true;
 
                 if (Input.GetKeyDown(Keycode.E))
                 {
@@ -62,7 +63,10 @@ public class p02 : Script
 
                 }
             }
-
+            else
+            {
+                //_InteractUI.SetActive(false);
+            }
             if (isPaintingCollected && !paintingMoved)
             {
                 if (timer >= 0.0f)
@@ -78,18 +82,6 @@ public class p02 : Script
                     paintingMoved = true;
                 }
             }
-        }
-    }
-
-    public override void LateUpdate()
-    {
-        if (gameObject.GetComponent<RigidBodyComponent>().IsRayHit() && gameObject.GetComponent<RigidBodyComponent>().IsPlayerCast())
-        {
-            _InteractUI.SetActive(true);
-        }
-        else
-        {
-            _InteractUI.SetActive(false);
         }
     }
 }

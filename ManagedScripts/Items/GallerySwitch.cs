@@ -32,9 +32,10 @@ public class GallerySwitch : Script
 
     public override void Update()
     {
-        if (p02.isPaintingCollected && gameObject.GetComponent<RigidBodyComponent>().IsRayHit())
+        if (!isActivated && p02.isPaintingCollected && gameObject.GetComponent<RigidBodyComponent>().IsRayHit())
         {
             Console.WriteLine("Gallery Switch");
+            InteractUI.isShow = true;
 
             if (Input.GetKeyDown(Keycode.E))
             {
@@ -52,6 +53,10 @@ public class GallerySwitch : Script
                     GameplaySubtitles.counter = 44;
                 }
             }
+        }
+        else
+        {
+            //_InteractUI.SetActive(false);
         }
     }
 }

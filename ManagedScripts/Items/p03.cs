@@ -49,7 +49,7 @@ public class p03 : Script
             if (!isPaintingCollected && gameObject.GetComponent<RigidBodyComponent>().IsRayHit() && gameObject.GetComponent<RigidBodyComponent>().IsPlayerCast())
             {
                 Console.WriteLine("p03");
-
+                InteractUI.isShow = true;
                 if (Input.GetKeyDown(Keycode.E))
                 {
                     Console.WriteLine("Picked up p03");
@@ -68,7 +68,10 @@ public class p03 : Script
                     ghost.GetComponent<GhostMovement>().PlayMonsterWalkingSoundInitial();
                 }
             }
-
+            else
+            {
+                //_InteractUI.SetActive(false);
+            }
             if (isPaintingCollected && !paintingMoved)
             {
                 if (timer >= 0.0f)
@@ -84,18 +87,6 @@ public class p03 : Script
                     paintingMoved = true;
                 }
             }
-        }
-    }
-
-    public override void LateUpdate()
-    {
-        if (gameObject.GetComponent<RigidBodyComponent>().IsRayHit() && gameObject.GetComponent<RigidBodyComponent>().IsPlayerCast())
-        {
-            _InteractUI.SetActive(true);
-        }
-        else
-        {
-            _InteractUI.SetActive(false);
         }
     }
 }

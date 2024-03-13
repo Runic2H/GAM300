@@ -44,7 +44,7 @@ public class p08 : Script
         if (gameObject.GetComponent<RigidBodyComponent>().IsRayHit() && gameObject.GetComponent<RigidBodyComponent>().IsPlayerCast())
         {
             Console.WriteLine("Painting");
-            _InteractUI.SetActive(true);
+            InteractUI.isShow = true;
             // AudioPlayer.play(""); // Mom's face is scratched
 
             if (Input.GetKeyDown(Keycode.E))
@@ -55,17 +55,9 @@ public class p08 : Script
                 AudioPlayer.play("pc_movethissilently");
             }
         }
-    }
-
-    public override void LateUpdate()
-    {
-        if (gameObject.GetComponent<RigidBodyComponent>().IsRayHit() && gameObject.GetComponent<RigidBodyComponent>().IsPlayerCast())
-        {
-            _InteractUI.SetActive(true);
-        }
         else
         {
-            _InteractUI.SetActive(false);
+            //_InteractUI.SetActive(false);
         }
     }
 }
