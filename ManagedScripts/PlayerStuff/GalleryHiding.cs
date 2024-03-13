@@ -67,6 +67,7 @@ public class GalleryHiding : Script
             {
                 GhostMove();
                 GhostMoved = true;
+                GhostShouldMove = false;
             }
         }
         
@@ -80,6 +81,7 @@ public class GalleryHiding : Script
                 if(GhostShouldMove)
                 {
                     GhostMove();
+                    GhostShouldMove = false;
                 }
             }
         }
@@ -139,27 +141,12 @@ public class GalleryHiding : Script
 
     public void GhostMove()
     {
-        if (!p02.isPaintingCollected)
+        if (enemyPathfinding.GetComponent<GhostMovement>().galleryHideEventDone == false)
         {
-            if (enemyPathfinding.GetComponent<GhostMovement>().galleryHideEventDone == false)
+            if (enemyPathfinding.GetComponent<GhostMovement>().currentEvent != GhostMovement.GhostEvent.GalleryHidingEvent)
             {
-                if (enemyPathfinding.GetComponent<GhostMovement>().currentEvent != GhostMovement.GhostEvent.GalleryHidingEvent)
-                {
-                    enemyPathfinding.GetComponent<GhostMovement>().currentEvent = GhostMovement.GhostEvent.GalleryHidingEvent;
-                    enemyPathfinding.GetComponent<GhostMovement>().startEvent = true;
-                }
-            }
-        }
-        
-        else
-        {
-            if (enemyPathfinding.GetComponent<GhostMovement>().galleryChaseEventDone == false)
-            {
-                if (enemyPathfinding.GetComponent<GhostMovement>().currentEvent != GhostMovement.GhostEvent.FinalChasingEvent)
-                {
-                    enemyPathfinding.GetComponent<GhostMovement>().currentEvent = GhostMovement.GhostEvent.FinalChasingEvent;
-                    enemyPathfinding.GetComponent<GhostMovement>().startEvent = true;
-                }
+                enemyPathfinding.GetComponent<GhostMovement>().currentEvent = GhostMovement.GhostEvent.GalleryHidingEvent;
+                enemyPathfinding.GetComponent<GhostMovement>().startEvent = true;
             }
         }
     }
