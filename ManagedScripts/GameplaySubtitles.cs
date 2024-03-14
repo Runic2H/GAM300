@@ -25,7 +25,7 @@ public class GameplaySubtitles : Script
     public override void Awake()
     {
         Audiofiles = new String[17];
-        Subtitles = new String[45];
+        Subtitles = new String[46];
         GraphicsManagerWrapper.ToggleViewFrom2D(false);
         Subtitles[0] = "Press [F] for flashlight";
         Subtitles[1] = "Press [WASD] to move";
@@ -85,6 +85,7 @@ public class GameplaySubtitles : Script
         Subtitles[42] = "The switch to open it is somewhere in this room.";
         Subtitles[43] = "That might have opened the door. Worth taking a look.";
         Subtitles[44] = "Sounds like it opened something. But what?";
+        Subtitles[45] = "That's it. Time to get out of here.";
 
         Audiofiles[0] = ""; //wasd no audio
         Audiofiles[1] = ""; //no audio
@@ -332,6 +333,14 @@ public class GameplaySubtitles : Script
                 GameplaySubtitles.counter = 8;
             }
         }
+        if(counter == 45)
+        {
+            if (audio.finished("pc_timetogetout"))
+            {
+                audio.stop("pc_timetogetout");
+                GameplaySubtitles.counter = 5;
+            }
+        }
 
         // Living Room Painting
         if (counter == 27)
@@ -384,13 +393,6 @@ public class GameplaySubtitles : Script
                 GameplaySubtitles.counter = 8;
             }
             audio.play("painting_burning");
-        }
-
-        if (counter == 8)
-        {
-            Note_Script.isNotePicked = false;
-            Painting_Script.isPaintingCollected = false; //reset for other paintings
-            
         }
 
         // if (Input.GetKeyDown(Keycode.SPACE))

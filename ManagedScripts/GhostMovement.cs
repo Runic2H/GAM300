@@ -723,12 +723,21 @@ public class GhostMovement : Script
     {
         if (startEvent) // Initialize variables (teleporting monster to starting position etc)
         {
-            transform.SetPosition(new Vector3(-1920.0f, transform.GetPosition().Y, -300.0f));
-            eventStep = 0;
+            if(GallerySwitch.isActivated)
+            {
+                eventStep = 4;
+            }
+            else
+            {
+                eventStep = 0;
+            }
+
+            transform.SetPosition(new Vector3(-1920.0f, transform.GetPosition().Y, -300.0f)); // Gallery entrance
             startEvent = false;
 
             gameObject.GetComponent<AnimatedComponent>().PlayAnimation();
         }
+        
 
         if (!galleryHidingGameObject.GetComponent<GalleryHiding>().hiding) // If player comes out of hiding, monster will chase player
         {
@@ -779,6 +788,32 @@ public class GhostMovement : Script
                 audio.FadeOut(2, "pc_afterscare_heartbeat");
 
                 break;
+
+            case 4: // Walk to Family Painting
+                Console.Write("Pos:" + gameObject.transform.GetPosition().X + " " + gameObject.transform.GetPosition().Z);
+                if (MoveTo(new Vector2(-3000, -666), 5.0f))
+                {
+                    ++eventStep;
+                    leftWingDoor.GetComponent<Door_Script>().forcedLocked = false;      // Unlock door
+                    audio.play("pc_timetogetout");                                      // Player audio
+                    GameplaySubtitles.counter = 45;                                     // Subtitles
+                }
+
+                audio.play("pc_afterscare_breathing");
+                audio.play("pc_afterscare_heartbeat");
+
+                break;
+
+            case 5:
+                Console.WriteLine("Reached");
+                
+                galleryHideEventDone = true;
+                galleryChaseEventDone = false;
+
+                break;
+
+
+           
         }
     }
 

@@ -50,6 +50,7 @@ public class p07 : Script
         if (gameObject.GetComponent<RigidBodyComponent>().IsRayHit() && gameObject.GetComponent<RigidBodyComponent>().IsPlayerCast())
         {
             Console.WriteLine("p07");
+            InteractUI.isShow = true;
 
             if (once)
             {
@@ -91,17 +92,9 @@ public class p07 : Script
                 }
             }
         }
-    }
-
-    public override void LateUpdate()
-    {
-        //if (gameObject.GetComponent<RigidBodyComponent>().IsRayHit() && gameObject.GetComponent<RigidBodyComponent>().IsPlayerCast())
-        //{
-        //    _InteractUI.SetActive(true);
-        //}
-        //else
-        //{
-        //    _InteractUI.SetActive(false);
-        //}
+        else
+        {
+            //_InteractUI.SetActive(false);
+        }
     }
 }
