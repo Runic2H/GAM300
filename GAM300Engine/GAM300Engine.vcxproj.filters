@@ -305,8 +305,6 @@
     <ClInclude Include="Include\Rendering\MaterialFactory\MaterialShader.h" />
     <ClInclude Include="Include\Rendering\MaterialFactory\PBRMaterial.h" />
     <ClInclude Include="Include\Rendering\MaterialFactory\PhongBlinnMaterial.h" />
-    <ClInclude Include="Include\Rendering\Revamped\FrameBuffers\IrrandianceFBO.h" />
-    <ClInclude Include="Include\Rendering\Revamped\FrameBuffers\PrefilteredFBO.h" />
     <ClInclude Include="Include\components\animationComponent.h" />
     <ClInclude Include="Include\Animation\AnimationSystem.h" />
     <ClInclude Include="Include\AssetManagement\AnimationFactory.h" />

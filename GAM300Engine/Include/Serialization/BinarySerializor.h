@@ -66,7 +66,7 @@ void	WriteData(TYPE& data)\
 			void			WriteData(T& data)
 			{
 				(data);
-				return false;
+				return;
 			}
 
 

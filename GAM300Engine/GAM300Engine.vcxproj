@@ -444,9 +444,7 @@ xcopy /y /d "$(SolutionDir)Libs\rttr_core.dll" "$(OutDir)"</Command>
     <ClInclude Include="Include\Rendering\Revamped\FrameBuffers\DebugView.h" />
     <ClInclude Include="Include\Rendering\Revamped\FrameBuffers\FrameBufferObject.h" />
     <ClInclude Include="Include\Rendering\Revamped\FrameBuffers\G_Buffer.h" />
-    <ClInclude Include="Include\Rendering\Revamped\FrameBuffers\IrrandianceFBO.h" />
     <ClInclude Include="Include\Rendering\Revamped\FrameBuffers\LightingBuffer.h" />
-    <ClInclude Include="Include\Rendering\Revamped\FrameBuffers\PrefilteredFBO.h" />
     <ClInclude Include="Include\Rendering\Revamped\MaterialPipeline.h" />
     <ClInclude Include="Include\Rendering\Skybox.h" />
     <ClInclude Include="Include\Rendering\UISpriteWrapper.h" />

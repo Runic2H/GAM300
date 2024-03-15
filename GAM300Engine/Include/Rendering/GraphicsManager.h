@@ -69,6 +69,7 @@ namespace TDS
 		bool									m_ViewingFrom2D = false;
 		bool									m_FrameHasBegin = false;
 		bool									m_StartRender = true;
+		bool									m_NormalizedView = false;
 		Vec4									m_CurrClearColor;
 		float									m_TabOffset{};
 		Vec4									m_ViewportScreen{};
@@ -86,6 +87,16 @@ namespace TDS
 		void								StopAllRender();
 		void								StartAllRender();
 		bool								IsRenderOn();
+
+		inline bool							IsNormalizedView()
+		{
+			return							m_NormalizedView;
+		}
+
+		inline void							ToggleNormalizedView(bool condition)
+		{
+			m_NormalizedView = condition;
+		}
 		inline bool							IfFrameHasBegin()
 		{
 			return m_FrameHasBegin;
@@ -111,6 +122,7 @@ namespace TDS
 
 		void								SetLayerToRender(int ID);
 		bool								RenderAllLayer();
+		
 		std::uint32_t						PickedObject();
 		void								ToggleRenderAllLayer(bool condition);
 		int									LayerToRender();

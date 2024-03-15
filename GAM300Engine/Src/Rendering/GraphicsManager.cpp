@@ -175,8 +175,11 @@ namespace TDS
 		if (currentCommand == nullptr) return;
 
 		auto currFrame = m_SwapchainRenderer->getFrameIndex();
+
+		
 		m_DeferredController->G_BufferPass(currentCommand, currFrame);
 		m_DeferredController->LightingPass(currentCommand, currFrame);
+		
 		m_DeferredController->CombinationPass(currentCommand, currFrame);
 
 		

@@ -228,6 +228,9 @@ namespace TDS
 		std::uint32_t location = 0;
 		std::uint32_t bindingIndex = 0;
 
+
+
+
 		for (; bindingIndex < numInputVertex; ++bindingIndex)
 		{
 			m_inputBindings[bindingIndex].binding = bindingIndex;
@@ -247,6 +250,8 @@ namespace TDS
 					m_InputAttributes.push_back(GenerateVectorInputAttribute(location, bindingIndex, elem));
 			}
 		}
+
+
 		VkPipelineVertexInputStateCreateInfo vertexInputStateInfo = { VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO };
 
 

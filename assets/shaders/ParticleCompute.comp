@@ -103,7 +103,8 @@ void main(){
             currentparticle.Active = 0;
             v_Freelist.indices[atomicAdd(v_Freelist.count,1)] = int(index);
         }
+        
     }
 
-    v_TransformMatrix.List[index] = GenerateTransform(v_Particles.List[index].Size, v_Particles.List[index].Rotation, v_Particles.List[index].CurrentPosition);
+    //v_TransformMatrix.List[index] = GenerateTransform(v_Particles.List[index].Size, v_Particles.List[index].Rotation, v_Particles.List[index].CurrentPosition);
 }

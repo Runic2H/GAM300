@@ -148,6 +148,7 @@ namespace TDS
 		features2.features.samplerAnisotropy = VK_TRUE;
 		features2.features.shaderSampledImageArrayDynamicIndexing = VK_TRUE;
 		features2.features.independentBlend = VK_TRUE;
+		features2.features.multiDrawIndirect = VK_TRUE;
 		/*VkPhysicalDeviceFeatures deviceFeatures{};
 		deviceFeatures = features2.features;
 		deviceFeatures.samplerAnisotropy = VK_TRUE;

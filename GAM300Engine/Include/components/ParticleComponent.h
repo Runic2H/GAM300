@@ -23,13 +23,18 @@ namespace TDS {
 	};
 
 	struct alignas(16) ParticleEmitter {
-		Vec4 minSpawnoffset{ 0.f,0.f,0.f }, maxSpawnoffset{ 0.f,0.f,0.f };
-		Vec4 minVelocity{ 0.f,10.f,0.f }, maxVelocity{ 0.f,15.f,0.f };
-		Vec4 minAcceleration{ 0.f,10.f,0.f }, maxAcceleration{ 0.f,15.f,0.f };
-		Vec4 minSize{ 1.f,1.f,1.f }, maxSize{ 10.f,10.f,10.f };
-		Vec4 Position{ 0.f,0.f,0.f };
+		Vec4 minSpawnoffset{ 0.f,0.f,0.f,0.f };
+		Vec4 maxSpawnoffset{ 0.f,0.f,0.f,0.f };
+		Vec4 minVelocity{ 0.f,10.f,0.f,0.f };
+		Vec4 maxVelocity{ 0.f,15.f,0.f,0.f };
+		Vec4 minAcceleration{ 0.f,10.f,0.f,0.f }; 
+		Vec4 maxAcceleration{ 0.f,15.f,0.f,0.f };
+		Vec4 minSize{ 1.f,1.f,1.f,0.f };
+		Vec4 maxSize{ 10.f,10.f,10.f,0.f };
+		Vec4 Position{ 0.f,0.f,0.f,0.f };
 		Vec4 Color{ 0.f,1.f,1.f,1.f };
-		float minlife{ 1.f }, maxlife{ 10.f };
+		float minlife{ 1.f };
+		float maxlife{ 10.f };
 		float padding[2];
 	};
 
@@ -46,23 +51,23 @@ namespace TDS {
 
 
 		//getter
-		float& GetMinLife() { return Emitter.minlife; };
-		float& GetMaxLife() { return Emitter.maxlife; };
-		Vec4& GetMinSpawnoffset() { return Emitter.minSpawnoffset; };
-		Vec4& GetMaxSpawnoffset() { return Emitter.maxSpawnoffset; };
-		Vec4& GetMinVelocity() { return Emitter.minVelocity; };
-		Vec4& GetMaxVelocity() { return Emitter.maxVelocity; };
-		Vec4& GetMinAcceleration() { return Emitter.minAcceleration; };
-		Vec4& GetMaxAcceleration() { return Emitter.maxAcceleration; };
-		Vec4& GetMinSize() { return Emitter.minSize; };
-		Vec4& GetMaxSize() { return Emitter.maxSize; };
-		Vec4& GetPosition() { return Emitter.Position; };
-		Vec4& GetColor() { return Emitter.Color; };
+		float&		GetMinLife() { return Emitter.minlife; };
+		float&		GetMaxLife() { return Emitter.maxlife; };
+		Vec4&		GetMinSpawnoffset() { return Emitter.minSpawnoffset; };
+		Vec4&		GetMaxSpawnoffset() { return Emitter.maxSpawnoffset; };
+		Vec4&		GetMinVelocity() { return Emitter.minVelocity; };
+		Vec4&		GetMaxVelocity() { return Emitter.maxVelocity; };
+		Vec4&		GetMinAcceleration() { return Emitter.minAcceleration; };
+		Vec4&		GetMaxAcceleration() { return Emitter.maxAcceleration; };
+		Vec4&		GetMinSize() { return Emitter.minSize; };
+		Vec4&		GetMaxSize() { return Emitter.maxSize; };
+		Vec4&		GetPosition() { return Emitter.Position; };
+		Vec4&		GetColor() { return Emitter.Color; };
 		ParticleEmitter& GetEmitter() { return Emitter; }
-		ParticleMesh& GetMeshType() { return type; }
-		float& GetSpawnInterval() { return spawninterval; }
-		float& GetSpawnTimer() { return spawntimer; }
-		uint32_t& GetMaxParticles() { return maxparticles; }
+		ParticleMesh&	 GetMeshType() { return type; }
+		float&			 GetSpawnInterval() { return spawninterval; }
+		float&			 GetSpawnTimer() { return spawntimer; }
+		uint32_t&		 GetMaxParticles() { return maxparticles; }
 
 		//setters
 		void SetMinLife(float& input) { Emitter.minlife = input; }

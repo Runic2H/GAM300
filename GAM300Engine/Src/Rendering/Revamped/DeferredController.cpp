@@ -326,7 +326,10 @@ namespace TDS
 
 		for (auto& [meshName, meshUpdate] : m_GBufferBatch3D.m_BatchUpdateInfo)
 		{
+			if (meshUpdate.m_MeshBuffer == nullptr) continue;
+
 			GBufferPipeline->BindPipeline();
+			
 			GBufferPipeline->BindVertexBuffer(*meshUpdate.m_MeshBuffer->m_VertexBuffer);
 			GBufferPipeline->BindIndexBuffer(*meshUpdate.m_MeshBuffer->m_IndexBuffer);
 			GBufferPipeline->BindDescriptor(frameIndex, 1);
@@ -554,7 +557,7 @@ namespace TDS
 
 
 			m_Composition3DBatch.m_BatchUpdateInfo[graphComp->m_ModelName].m_MeshBuffer = pMeshController->GetMeshBuffer();
-			auto& batchUpdate = m_GBufferBatch3D.m_BatchUpdateInfo[graphComp->m_ModelName].m_MeshUpdates.emplace_back();
+			auto& batchUpdate = m_Composition3DBatch.m_BatchUpdateInfo[graphComp->m_ModelName].m_MeshUpdates.emplace_back();
 
 			batchUpdate.m_EntityID = entityID;
 			batchUpdate.m_pTransform = transformComp;
@@ -595,6 +598,7 @@ namespace TDS
 
 	void DeferredController::RenderUISceneMeshBatch(VkCommandBuffer commandBuffer, std::uint32_t frameIndex)
 	{
+		if (GraphicsManager::getInstance().IsViewingFrom2D() == false) return;
 		auto GBufferPipeline = m_DeferredPipelines[DEFERRED_STAGE::STAGE_3D_COMPOSITION_BATCH];
 		GBufferPipeline->SetCommandBuffer(commandBuffer);
 		for (auto& meshItr : m_Composition3DBatch.m_BatchUpdateInfo)
@@ -608,6 +612,9 @@ namespace TDS
 			}
 			meshItr.second.m_MeshUpdates.clear();
 		}
+
+
+
 
 		GBufferPipeline->UpdateUBO(&m_SceneUBO, sizeof(SceneUniform), 5, frameIndex);
 		GBufferPipeline->UpdateUBO(m_Composition3DBatch.m_BatchBuffers.data(), sizeof(BatchData) * m_Composition3DBatch.m_BatchBuffers.size(), 15, frameIndex);
@@ -640,6 +647,7 @@ namespace TDS
 	}
 	void DeferredController::RenderUISceneMeshInstance(VkCommandBuffer commandBuffer, std::uint32_t frameIndex)
 	{
+		if (GraphicsManager::getInstance().IsViewingFrom2D() == false) return;
 		auto GBufferPipeline = m_DeferredPipelines[DEFERRED_STAGE::STAGE_3D_COMPOSITION_INSTANCE];
 		int startingOffset = 0;
 		for (auto& itr : m_Composition3DInstance.m_instanceRenderManager.m_InstanceUpdateInfo)
@@ -673,7 +681,6 @@ namespace TDS
 			++m_Composition3DInstance.m_GroupIdx;
 		}
 
-
 		GBufferPipeline->UpdateUBO(&m_SceneUBO, sizeof(SceneUniform), 5, frameIndex);
 		GBufferPipeline->UpdateUBO(m_Composition3DInstance.m_InstanceBuffers.data(), sizeof(BatchData) * m_Composition3DInstance.m_TotalInstances, 15, frameIndex);
 
@@ -705,7 +712,6 @@ namespace TDS
 	}
 	void DeferredController::G_BufferPass(VkCommandBuffer commandBuffer, std::uint32_t frameIndex)
 	{
-
 		m_FrameBuffers[RENDER_PASS::RENDER_G_BUFFER]->BeginRenderPass(commandBuffer);
 		{
 
@@ -904,10 +910,19 @@ namespace TDS
 				pipeline->BindDescriptor(frameIndex, 1);
 				pipeline->Draw(6, frameIndex);
 
-				//ParticleSystem::Render();
 			}
 			else
 			{
+				Mat4 scaleFactor = Mat4::identity();
+				if (GraphicsManager::getInstance().IsNormalizedView())
+				{
+					scaleFactor = Mat4::Scale(Vec3(0.005f, 0.005f, 0.005f));
+				}
+				m_SceneUBO.m_View = GraphicsManager::getInstance().GetCamera().GetViewMatrix() * scaleFactor;
+				m_SceneUBO.m_Proj = Mat4::Perspective(GraphicsManager::getInstance().GetCamera().m_Fov * Mathf::Deg2Rad,
+					GraphicsManager::getInstance().GetSwapchainRenderer().getAspectRatio(), 0.1f, 1000000.f);
+
+				m_SceneUBO.m_Proj.m[1][1] *= -1;
 				RenderUISceneMeshBatch(commandBuffer, frameIndex);
 				RenderUISceneMeshInstance(commandBuffer, frameIndex);
 			}

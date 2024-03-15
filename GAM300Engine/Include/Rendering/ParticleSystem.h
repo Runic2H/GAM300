@@ -27,10 +27,8 @@ namespace TDS {
 			std::uint32_t				m_ParticleAmount;
 		};
 
-
-
-
-		struct CameraUBO {
+		struct CameraUBO 
+		{
 			Mat4 view;
 			Mat4 Proj;
 		};
