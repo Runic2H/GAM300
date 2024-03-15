@@ -8,7 +8,6 @@
 \brief  Script lock picking gameplay
 ****************************************************************************
 ***/
-using System;
 using System.ComponentModel.DataAnnotations;
 using ScriptAPI;
 
@@ -88,6 +87,7 @@ public class LockPick1 : Script
     public static AudioComponent audio;
     public static bool failed;
     public static bool passed;
+    public static bool enteredHouse = false;
     float timer;
 
     public int doorIndex;
@@ -174,6 +174,7 @@ public class LockPick1 : Script
         if (Input.GetKeyDown(Keycode.L))
         {
             //cheatcode for presentation
+            timer = 0.0f;
             passed = true;
         }
 
@@ -646,6 +647,7 @@ public class LockPick1 : Script
                     next_VO = true;
                     GameplaySubtitles.counter = 7;
                     Flashlight_Script.batteryLife = 49;
+                    enteredHouse = true;
 
                 }
                 if (doorIndex == 1)
@@ -734,6 +736,8 @@ public class LockPick1 : Script
 
     public void newLock()
     {
+        playerController.GetComponent<RigidBodyComponent>().SetLinearVelocity(new Vector3(0.0f, 0.0f, 0.0f));
+
         gameBlackboard.gameState = GameBlackboard.GameState.Lockpicking;
         originalPosition = new Vector3(0.0f, 600.0f, 2500.0f);
         originalRotation = transform.GetRotation();

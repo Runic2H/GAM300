@@ -34,6 +34,9 @@ public class OptionsBgmVolume : Script
     {
         BgmVolume = bgmVol.getBGMVol();
 
+        BgmVolume = Math.Clamp(BgmVolume, 0, 100);
+        bgmText.GetComponent<UISpriteComponent>().SetFontMessage(((int)BgmVolume).ToString());
+
         if (Input.GetMouseButtonDown(Keycode.M1) && sprite.IsMouseCollided())
         {
             if (BGMpressedVolUp)
@@ -46,9 +49,7 @@ public class OptionsBgmVolume : Script
                 BgmVolume -= 5.0f;
                 bgmVol.setBGMVol(BgmVolume);
             }
-            //Console.WriteLine(bgmVol.getBGMVol());
-            BgmVolume = Math.Clamp(BgmVolume, 0, 100);
-            bgmText.GetComponent<UISpriteComponent>().SetFontMessage(((int)BgmVolume).ToString());
+
             buttonSfx.play(buttonSfxName);
         }
     }

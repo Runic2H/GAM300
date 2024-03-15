@@ -25,7 +25,7 @@ public class GameplaySubtitles : Script
     public override void Awake()
     {
         Audiofiles = new String[17];
-        Subtitles = new String[45];
+        Subtitles = new String[46];
         GraphicsManagerWrapper.ToggleViewFrom2D(false);
         Subtitles[0] = "Press [F] for flashlight";
         Subtitles[1] = "Press [WASD] to move";
@@ -49,7 +49,7 @@ public class GameplaySubtitles : Script
         Subtitles[10] = "But I could hide in here in case someone shows up";
         Subtitles[11] = "What the hell was that?";
         //to be continued, cause how to detect player is in bedroom? change of scene?
-        Subtitles[12] = "Empty, but i could've sworn someone opened that door";
+        Subtitles[12] = "Empty, but I could've sworn someone opened that door";
         Subtitles[13] = "One down. Hopefully this is worth a lot";
 
         Subtitles[14] = "According to this, there's a painting somewhere in here. But where?";
@@ -66,11 +66,11 @@ public class GameplaySubtitles : Script
         Subtitles[23] = "Flashlight's running out of juice... better replace the battery.";
         Subtitles[24] = "Press [Ctrl] to toggle crouch";
         Subtitles[25] = "The shower’s running... but I don’t hear anyone in there.";
-        Subtitles[26] = "The tub is still wet, but there’s no one...";
-        Subtitles[27] = "Something’s different about this one. What’s this symbol on the back?";
-        Subtitles[28] = "Painting: You shouldn’t be here";
+        Subtitles[26] = "The tub is still wet, but there's no one...";
+        Subtitles[27] = "Something's different about this one. What's this symbol on the back?";
+        Subtitles[28] = "Painting: You shouldn't be here";
         Subtitles[29] = "Martin: Huh?";
-        Subtitles[30] = "Painting: You have our blood, but you’re not one of us..";
+        Subtitles[30] = "Painting: You have our blood, but you're not one of us..";
         Subtitles[31] = "Painting: And yet you choose to come back... why?";
         Subtitles[32] = "Painting: LEAVE WHILE YOU STILL CAN!";
         Subtitles[33] = "More paintings.";
@@ -85,6 +85,7 @@ public class GameplaySubtitles : Script
         Subtitles[42] = "The switch to open it is somewhere in this room.";
         Subtitles[43] = "That might have opened the door. Worth taking a look.";
         Subtitles[44] = "Sounds like it opened something. But what?";
+        Subtitles[45] = "That's it. Time to get out of here.";
 
         Audiofiles[0] = ""; //wasd no audio
         Audiofiles[1] = ""; //no audio
@@ -155,7 +156,7 @@ public class GameplaySubtitles : Script
             if (pressCtrlTwice == 2)
             {
                 counter = 17;
-                audio.play("pc_okuncle"); //placeholder
+                audio.play("pc_okuncle");
 
             }
             if (Input.GetKeyDown(Keycode.CTRL))
@@ -176,6 +177,7 @@ public class GameplaySubtitles : Script
                 LockPick1.counter = 6;//prevent audio repeat
                 //play enter house bgm
                 audio.play(BGMfile[0]);
+                audio.stop("outside_ambience");
             }
 
         }
@@ -241,11 +243,6 @@ public class GameplaySubtitles : Script
 
             }
         }
-        if(counter == 30)
-        {
-
-        }
-
         
         // Notes stuff
         if (counter == 14) // Bedroom Receipt
@@ -307,7 +304,7 @@ public class GameplaySubtitles : Script
             {
                 audio.stop("gallery_movepainting");
                 audio.play("pc_monsterrattledoor"); // Someone's coming, better hide
-                counter = 22;
+                counter = 22; //commented this out as u dont hide after every painting u pick up
             }
         }
         if (counter == 22)
@@ -336,6 +333,68 @@ public class GameplaySubtitles : Script
                 GameplaySubtitles.counter = 8;
             }
         }
+        if(counter == 45)
+        {
+            if (audio.finished("pc_timetogetout"))
+            {
+                audio.stop("pc_timetogetout");
+                GameplaySubtitles.counter = 5;
+            }
+        }
+
+        // Living Room Painting
+        if (counter == 27)
+        {
+            if (audio.finished("pc_somethingdiff"))
+            {
+                audio.play("misc_shouldntbehere");
+                GameplaySubtitles.counter = 28;
+            }
+        }
+        if (counter == 28)
+        {
+            if (audio.finished("misc_shouldntbehere"))
+            {
+                audio.play("pc_huh");
+                GameplaySubtitles.counter = 29;
+            }
+        }
+        if (counter == 29)
+        {
+            if (audio.finished("pc_huh"))
+            {
+                audio.play("misc_haveourblood");
+                GameplaySubtitles.counter = 30;
+            }
+
+        }
+        if (counter == 30)
+        {
+            if (audio.finished("misc_haveourblood"))
+            {
+                audio.play("misc_comeback");
+                counter = 31;
+            }
+        }
+        if (counter == 31)
+        {
+            if (audio.finished("misc_comeback"))
+            {
+                audio.play("misc_leave");
+                counter = 32;
+            }
+        }
+        if (counter == 32)
+        {
+            if (audio.finished("misc_leave"))
+            {
+                audio.play("pc_scream");
+                audio.play("painting_dropin"); //scream and drop painting into fire same time 
+                GameplaySubtitles.counter = 8;
+            }
+            audio.play("painting_burning");
+        }
+
         // if (Input.GetKeyDown(Keycode.SPACE))
         // {
         //     audio.stop(Audiofiles[counter]);

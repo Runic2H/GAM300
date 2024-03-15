@@ -37,10 +37,10 @@ public class Item_Script : Script
 
     public override void Update()
     {
-        if (gameObject.GetComponent<RigidBodyComponent>().IsRayHit())
+        if (gameObject.GetComponent<RigidBodyComponent>().IsRayHit() && gameObject.GetComponent<RigidBodyComponent>().IsPlayerCast())
         {
-            _InteractUI.SetActive(true);
-            if (Input.GetKeyDown(Keycode.E) /*&& isWithinRange() && rigidBodyComponent.IsRayHit()*/) // Maybe add 1 more condition to check if its within player's view
+            InteractUI.isShow = true;
+            if (Input.GetKeyDown(Keycode.E) /*&& isWithinRange() && rigidBodyComponent.IsRayHit() && gameObject.GetComponent<RigidBodyComponent>().IsPlayerCast()*/) // Maybe add 1 more condition to check if its within player's view
             {
                 Console.WriteLine("Picked up item");
                 InventoryScript.addItemIntoInventory(Item_Name, Item_Texture);
@@ -49,16 +49,7 @@ public class Item_Script : Script
         }
         else
         {
-            _InteractUI.SetActive(false);
+            //_InteractUI.SetActive(false);
         }
-    }
-
-    public bool isWithinRange()
-    {
-        Vector3 itemPos = gameObject.transform.GetPosition();
-        Vector3 playerPos = playerObject.transform.GetPosition();
-        float distance = Vector3.Distance(itemPos, playerPos);
-        //Console.WriteLine(distance);
-        return distance < 100.0;
     }
 }

@@ -71,11 +71,6 @@ namespace TDS
 		float getSensitivity() { return 0.1f; }
 		void setSensitivity(float value) { m_sensitivity = value; }
 
-		WPARAM app_wparam;
-		LPARAM app_lparam;
-		HWND app_handler;
-
-
 		struct KeyState
 		{
 			bool pressed;

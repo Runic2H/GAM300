@@ -7,7 +7,7 @@ public class FPS_Controller_Script : Script
 {
     public RigidBodyComponent rb;
     public string[] footStepSoundEffects;
-    String[] backgroundMusic;
+    public static String[] backgroundMusic;
     private int currentFootStepPlaying;
     float audioTimer;
     AudioComponent audio;
@@ -97,9 +97,9 @@ public class FPS_Controller_Script : Script
     public uint crouchKey = Keycode.CTRL;
     public float crouchHeight = .75f;
     public float speedReduction = .5f;
+    public bool isCrouched = false; // Needed for dining event
 
     // Internal Variables
-    private bool isCrouched = false;
     private Vector3 originalScale;
     private float originalHeight;
     #endregion
@@ -153,7 +153,7 @@ public class FPS_Controller_Script : Script
         audioTimer = 1.0f;
 
         backgroundMusic = new String[3];
-        backgroundMusic[0] = "ambientdrone1";
+        backgroundMusic[0] = "outside_ambience";
     }
     public override void Start()
     {
@@ -433,11 +433,21 @@ public class FPS_Controller_Script : Script
 
         //}
         #endregion
-
-        if (audio.finished(backgroundMusic[0]))
+        if (!LockPick1.enteredHouse)
         {
-            audio.play(backgroundMusic[0]);
-            //audio.setVolume(0.5f);
+            if (audio.finished(backgroundMusic[0]))
+            {
+                audio.play(backgroundMusic[0]);
+                //audio.setVolume(0.5f);
+            }
+        }
+        else
+        {
+            audio.FadeOut(3, backgroundMusic[0]);
+            if (audio.finished(backgroundMusic[0]))
+            {
+                audio.FadeIn(3, "ambientdrone1");
+            }
         }
     }
 
@@ -463,6 +473,12 @@ public class FPS_Controller_Script : Script
                 pitch = Mathf.Clamp(pitch, -maxLookAngle, maxLookAngle);
 
                 transform.SetRotation(Vector3.Up() * yaw);
+                transform.SetRotationY(transform.GetRotation().Y % 360);
+                if (transform.GetRotation().Y < 0)
+                {
+                    transform.SetRotationY(360 - transform.GetRotation().Y);
+                }
+
                 playerCamera.transform.SetRotationX(pitch);
                 playerCamera.transform.SetRotationY(transform.GetRotation().Y);
             }
@@ -574,7 +590,7 @@ public class FPS_Controller_Script : Script
         if (speedReduction != 0) walkSpeed *= speedReduction;
     }
 
-    private void StandUp()
+    public void StandUp()
     {
         transform.SetScale(new Vector3(originalScale.X, originalScale.Y, originalScale.Z));
         //transform.SetPositionY(originalHeight);
@@ -639,8 +655,8 @@ public class FPS_Controller_Script : Script
                     audioTimer = 1.0f;
                 }
 
-                Vector3 up_vector = Vector3.Cross(playerCamera.getForwardVector(), playerCamera.getRightVector());
-                audio.setPlayerCoords(transform.GetPosition(), playerCamera.getForwardVector(), up_vector);
+                Vector3 up_vector = Vector3.Normalize(Vector3.Cross(playerCamera.getForwardVector(), playerCamera.getRightVector()));
+                audio.setPlayerCoords(transform.GetPosition(), Vector3.Normalize(playerCamera.getForwardVector()), up_vector);
             }
             else
             {

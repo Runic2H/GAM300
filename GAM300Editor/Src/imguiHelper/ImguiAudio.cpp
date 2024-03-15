@@ -64,44 +64,7 @@ namespace TDS
 
 	void AudioImgui::add_audio_files(std::filesystem::path folder_path)
 	{
-		/*std::filesystem::path Music_path{ folder_path / "Music" }, Background_path{ folder_path / "Songs" },
-			SFX_path{ folder_path / "Sound Effects" }, Voice_path{ folder_path / "Voice Overs" };*/
-
-		std::filesystem::path full_path = folder_path; //pathing / append;
-		std::vector<std::filesystem::path> all_files; //store all file path
-
-		if (std::filesystem::is_directory(folder_path))
-		{
-			all_files = go_deeper(full_path);
-		}
-
-		for (auto& str : all_files)
-		{
-			if (str.string().find("/Music\\") != std::string::npos)
-			{
-				SoundInfo temp(str.string());
-
-				background.push_back(temp);
-			}
-			else if (str.string().find("/Songs\\") != std::string::npos)
-			{
-				SoundInfo temp(str.string());
-
-				music.push_back(temp);
-			}
-			else if (str.string().find("/Sound Effects\\") != std::string::npos)
-			{
-				SoundInfo temp(str.string());
-
-				SFX.push_back(temp);
-			}
-			else if (str.string().find("/Voice Overs\\") != std::string::npos)
-			{
-				SoundInfo temp(str.string());
-
-				VO.push_back(temp);
-			}
-		}
+		
 	}
 
 	std::vector<std::filesystem::path> AudioImgui::go_deeper(std::filesystem::path f_path)
@@ -131,7 +94,7 @@ namespace TDS
 
 	void AudioImgui::play(std::string file)
 	{
-		SoundInfo incase{};
+		/*SoundInfo incase{};
 		SoundInfo* this_one{ &incase };
 
 		for (SoundInfo& temp : music)
@@ -172,30 +135,60 @@ namespace TDS
 		audeng->loadSound(*this_one);
 		audeng->playSound(*this_one);
 
-		playing = true;
+		playing = true;*/
 	}
 
 	void AudioImgui::update()
 	{
-		if (appear)
+		//if (appear)
+		//{
+		//	ImGui::Text("Controls: ");
+		//	ImGui::SameLine();
+
+		//	if (ImGui::Selectable("Play Song"))
+		//	{
+		//		if (ImGui::ArrowButton("Play", ImGuiDir_Right))
+		//		{
+		//			/*SoundInfo selected{};
+		//			selected = ImGui::IsItemClicked();
+
+		//			audeng->playSound();*/
+		//		}
+		//	}
+
+		//	ImGui::Columns(3);
+		//	ImGui::SliderFloat("Playback", &bar, 16, 512);
+		//}
+
+		int AmountOfSound = (int)audeng->GetAmountOfChannelsPlaying();
+
+		ImGui::Text("INFORMATION");
+		// Begin the table with two columns
+		ImGui::BeginTable("Audio table", 7);
+
+		// Add headers for the two columns
+		ImGui::TableSetupColumn("Name");
+		ImGui::TableSetupColumn("3D");
+		ImGui::TableSetupColumn("Loop");
+		ImGui::TableSetupColumn("Position X");
+		ImGui::TableSetupColumn("Position Y");
+		ImGui::TableSetupColumn("Position Z");
+		ImGui::TableSetupColumn("State");
+
+		// Add data to the table
+		for (int row = 0; row < AmountOfSound; ++row)
 		{
-			ImGui::Text("Controls: ");
-			ImGui::SameLine();
+			ImGui::TableNextRow();
 
-			if (ImGui::Selectable("Play Song"))
+			for (int col = 0; col < 7; ++col)
 			{
-				if (ImGui::ArrowButton("Play", ImGuiDir_Right))
-				{
-					/*SoundInfo selected{};
-					selected = ImGui::IsItemClicked();
-
-					audeng->playSound();*/
-				}
+				ImGui::TableNextColumn();
+				ImGui::Text("test %d", col);
 			}
-
-			ImGui::Columns(3);
-			ImGui::SliderFloat("Playback", &bar, 16, 512);
 		}
+
+		// End the table
+		ImGui::EndTable();
 
 		audeng->update();
 	}

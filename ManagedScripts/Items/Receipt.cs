@@ -38,9 +38,10 @@ public class Receipt : Script
 
     public override void Update()
     {
-        if (gameObject.GetComponent<RigidBodyComponent>().IsRayHit())
+        if (gameObject.GetComponent<RigidBodyComponent>().IsRayHit() && gameObject.GetComponent<RigidBodyComponent>().IsPlayerCast())
         {
             Console.WriteLine("Receipt");
+            InteractUI.isShow = true;
             if (Input.GetKeyDown(Keycode.E))
             {
                 Console.WriteLine("Picked up receipt");
@@ -56,18 +57,9 @@ public class Receipt : Script
                 isNotePicked = true;
             }
         }
-    }
-
-    public override void LateUpdate()
-    {
-        //if (gameObject.GetComponent<RigidBodyComponent>().IsRayHit())
-        //{
-        //    _InteractUI.SetActive(true);
-        //}
-        //else
-        //{
-        //    _InteractUI.SetActive(false);
-        //}
-
+        else
+        {
+            //_InteractUI.SetActive(false);
+        }
     }
 }

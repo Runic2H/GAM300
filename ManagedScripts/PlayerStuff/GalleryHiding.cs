@@ -23,28 +23,21 @@ public class GalleryHiding : Script
     public GameObject enemyPathfinding;
     public GameObject _flashlight;
     public GameObject _InteractUI;
-    //public CheckGameState myGameState;
     public GameObject closet;
+
     [Header("AudioStuff")]
     //public AudioSource playerVOSource;
     public AudioComponent audioPlayer;
     String[] voClips;
     public String[] subtitles;
     int counter;
-    public static bool playOnce = true;
-    GameObject textmachine;
+    public static bool GhostShouldMove = false;
+    public static bool GhostMoved = false;
 
-    private float timer = 1.0f;
-
-    public float turnSpeed = 0.01f;
-
-    public int numOfPaintingsTook = 0;
+    public static float timeLimit = 5.0f;
 
     public override void Awake()
     {
-        numOfPaintingsTook = 0;
-
-        //counter = 0;
         audioPlayer = gameObject.GetComponent<AudioComponent>();
         voClips = new string[3];
         voClips[0] = "pc_hideinclosetfirst";
@@ -58,25 +51,38 @@ public class GalleryHiding : Script
     public override void Start()
     {
         //_flashlight = player.GetComponent<Flashlight_Script>();
+        GhostShouldMove = false;
+        GhostMoved = false;
         hidingPos = closet.transform.GetPosition();
         _RotationAngle = 180.0f;
-
-        timer = 0.8f;
-
+        timeLimit = 10.0f;
     }
 
     public override void Update()
     {
-
-        if (gameObject.GetComponent<RigidBodyComponent>().IsRayHit())
+        if(GhostShouldMove && !hiding)
+        {
+            timeLimit -= Time.deltaTime;
+            if (timeLimit <= 0.0f && !GhostMoved)
+            {
+                GhostMove();
+                GhostMoved = true;
+                GhostShouldMove = false;
+            }
+        }
+        
+        if (gameObject.GetComponent<RigidBodyComponent>().IsRayHit() && gameObject.GetComponent<RigidBodyComponent>().IsPlayerCast())
         {
             _InteractUI.SetActive(true);
 
             if (Input.GetKeyDown(Keycode.E) && hiding == false)
             {
                 Hide();
-                GhostMove();
-               
+                if(GhostShouldMove)
+                {
+                    GhostMove();
+                    GhostShouldMove = false;
+                }
             }
         }
         else if (hiding)
@@ -101,6 +107,7 @@ public class GalleryHiding : Script
                 {
                     audioPlayer.play(voClips[2]);
                     GameplaySubtitles.counter = 15;
+                    enemyPathfinding.GetComponent<GhostMovement>().galleryHideEventDone = false; // Reset for multiple hiding
                 }
             }
         }
@@ -134,32 +141,13 @@ public class GalleryHiding : Script
 
     public void GhostMove()
     {
-        //if (!p02.isPaintingCollected)
-        //{
-        //    if (enemyPathfinding.GetComponent<GhostMovement>().hideEventDone == false)
-        //    {
-        //        if (enemyPathfinding.GetComponent<GhostMovement>().galleryHideEvent == false)
-        //        {
-        //            enemyPathfinding.transform.SetPosition(new Vector3(-1920.0f, enemyPathfinding.transform.GetPosition().Y, 175.0f));
-        //            enemyPathfinding.GetComponent<GhostMovement>().galleryHideEvent = true;
-        //        }
-        //        enemyPathfinding.GetComponent<GhostMovement>().isChasingPlayer = false;
-        //        enemyPathfinding.GetComponent<GhostMovement>().playSound = false;
-        //    }
-        //}
-        
-        //else
-        //{
-        //    if (enemyPathfinding.GetComponent<GhostMovement>().hideEventDone == false)
-        //    {
-        //        if (enemyPathfinding.GetComponent<GhostMovement>().galleryChasingEvent == false)
-        //        {
-        //            enemyPathfinding.transform.SetPosition(new Vector3(-1920.0f, enemyPathfinding.transform.GetPosition().Y, 175.0f));
-        //            enemyPathfinding.GetComponent<GhostMovement>().galleryChasingEvent = true;
-        //        }
-        //        enemyPathfinding.GetComponent<GhostMovement>().isChasingPlayer = false;
-        //        enemyPathfinding.GetComponent<GhostMovement>().playSound = false;
-        //    }
-        //}
+        if (enemyPathfinding.GetComponent<GhostMovement>().galleryHideEventDone == false)
+        {
+            if (enemyPathfinding.GetComponent<GhostMovement>().currentEvent != GhostMovement.GhostEvent.GalleryHidingEvent)
+            {
+                enemyPathfinding.GetComponent<GhostMovement>().currentEvent = GhostMovement.GhostEvent.GalleryHidingEvent;
+                enemyPathfinding.GetComponent<GhostMovement>().startEvent = true;
+            }
+        }
     }
 }

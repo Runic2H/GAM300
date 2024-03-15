@@ -36,20 +36,10 @@ public class InventoryBox : Script
         DisplayItem();
         if(Clicked())
         {
-            //if(InventoryScript.currentTab == "Items")
-            //{
-            //    UseObject();
-            //}
-            //else
-            //{
-            //    ViewObject();
-            //}
             InventoryScript.IsUseable = InventoryScript.currentTab == "Items" ? true : false;
             GameObjectScriptFind("ItemDisplay").GetComponent<UISpriteComponent>().SetTextureName(storedObjTexture);
-            //Console.WriteLine(storedObjTexture);
             GameObjectScriptFind("ItemName").GetComponent<UISpriteComponent>().SetFontMessage(storedObjName);
-            //Console.WriteLine(storedObjName);
-
+            InventoryScript.currentObjectName = storedObjName;
             InventoryScript.currentBox = BoxNumber;
         }
     }
@@ -79,37 +69,5 @@ public class InventoryBox : Script
     public bool Clicked()
     {       
         return Input.GetKeyDown(Keycode.M1) && gameObject.GetComponent<UISpriteComponent>().IsMouseCollided();
-    }
-
-    public void ViewObject()
-    {
-        if (storedObjName != "")
-        {
-            View_Object.ObjectName = storedObjName;
-            View_Object.OnEnter = true;
-            GameObjectScriptFind("ObjectViewer").SetActive(true);
-        }    
-    }
-
-    public void UseObject()
-    {
-        Console.WriteLine("Use Object");
-        if(storedObjName != "")
-        {
-            InventoryScript.itemObjsInInventory[BoxNumber] = "";
-            InventoryScript.itemsObjsImg[BoxNumber] = "A_Inventory Box.dds";
-
-            // Do stuff based on what item is used
-            if(storedObjName == "Battery")
-            {
-                // Do battery logic
-                Flashlight_Script.batteryLife = 100.0f;
-                Flashlight_Script.replaceBattery = true;
-            }
-            if(storedObjName == "???")
-            {
-                // Do ??? logic
-            }
-        }
     }
 }

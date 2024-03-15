@@ -33,7 +33,6 @@ public class OptionsBack : Script
         if (Input.GetMouseButtonDown(Keycode.M1) && sprite.IsMouseCollided())
         {
             buttonSfx.play(buttonSfxName);
-            optionsmenusound.stop("basement_music");
             MainMenuOptions.isOpened = false;
             SceneLoader.LoadMainMenu();
         }
