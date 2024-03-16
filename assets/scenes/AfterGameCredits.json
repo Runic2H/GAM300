@@ -1,9 +1,9 @@
 {
     "Archetype Sizes": {
         "1100000000001000000": {
-            "0": 112,
+            "0": 136,
             "1": 384,
-            "12": 320
+            "12": 360
         }
     },
     "Entity Data": {
@@ -123,11 +123,6 @@
     },
     "Scripts": {
         "1": {
-            "AfterGameCredits": {
-                "gameObject": {
-                    "ScriptAPI.GameObject": 1
-                }
-            },
             "AfterGameCredits": {
                 "gameObject": {
                     "ScriptAPI.GameObject": 1

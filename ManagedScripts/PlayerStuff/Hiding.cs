@@ -127,7 +127,7 @@ public class Hiding : Script
                 }
                 player.GetComponent<Flashlight_Script>().activateLight = false;
                 _flashlight.SetActive(false);
-                audioPlayer.play("door open");
+                audioPlayer.play("hiding enter exit");
             }
         }
         else if (hiding)
@@ -143,7 +143,7 @@ public class Hiding : Script
                 {
                     //Console.WriteLine("There");
                     _ExitTimerUI.SetActive(false);
-                    audioPlayer.play("door close");
+                    audioPlayer.play("hiding enter exit");
                     hiding = false;
                     interactable = true;
                     //player.transform.SetPosition(nonHidingPos);

@@ -45,7 +45,10 @@ public class InventoryScript : Script
     public GameObject hidingGameObject;
 
     static string boxtexture = "A_Inventory Box.dds";
-
+    
+    private AudioComponent audio;
+    private string audioOpenName = "inventory open";
+    private string audioCloseName = "inventory close";
     public override void Awake()
     {
         LockpickIsOpen = false;
@@ -102,6 +105,15 @@ public class InventoryScript : Script
         Console.WriteLine("Toggle Inventory\n");
         InventoryIsOpen = !InventoryIsOpen;
         InventoryObject.SetActive(InventoryIsOpen);
+        
+        if (InventoryIsOpen)
+        {
+            audio.play(audioOpenName);
+        }       
+        else
+        {
+            audio.play(audioCloseName);
+        }
     }
 
     public void checkMouseInput()

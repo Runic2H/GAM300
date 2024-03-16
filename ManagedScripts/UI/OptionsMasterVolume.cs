@@ -4,7 +4,7 @@
 \author Matthew Cheung
 \par DP email: j.cheung@digipen.edu
 \par Course: csd3450
-\date 5-33-2024
+\date 5-03-2024
 \brief  Script for settings menu master volume
 ****************************************************************************
 ***/
