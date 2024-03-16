@@ -88,7 +88,7 @@ namespace TDS {
 
 		//Memset the array to 0
 		for (int i = 0; i < MAX_PARTICLES; ++i)
-			initList.arr[i] = MAX_PARTICLES-1 - i;
+			initList.arr[i] = i;
 
 
 		m_RenderPipeline->UpdateUBO(&initList, sizeof(FreeList), 32, 0);
@@ -177,7 +177,7 @@ namespace TDS {
 		Mat4 view = cam.GetViewMatrix();
 		Mat4 proj = Mat4::Perspective(cam.m_Fov * Mathf::Deg2Rad,
 			GraphicsManager::getInstance().GetSwapchainRenderer().getAspectRatio(), 0.1f, 1000000.f);
-		//proj.m[1][1] *= -1;
+		proj.m[1][1] *= -1;
 		//send data into vertex and fragment shader to render into scene
 		auto commandBuffer = GraphicsManager::getInstance().getCommandBuffer();
 		m_RenderPipeline->SetCommandBuffer(commandBuffer);

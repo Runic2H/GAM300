@@ -34,8 +34,6 @@ layout (std140, binding = 34) buffer TransformMatrix{
     mat4 List[];
 }v_TransformMatrix;
 
-//vertex positions
-//layout (location = 0) in vec3 in_Position;
 
 //output to fragment shader
 layout (location = 0) out vec3 out_Color;
@@ -46,6 +44,7 @@ void main(){
     fragoffset = OFFSET[gl_VertexIndex];
     //mat4 currentParticlexform = v_TransformMatrix.List[index];
     Particle currentParticle = v_Particles.List[index];
+    //if the particle is not active, don't draw it
     if(v_Particles.List[index].Active == 0){
         //gl_Position = vec4(0.0, 0.0, 0.0, 0.0);
         out_Color = vec3(0.0, 0.0, 0.0);
@@ -58,12 +57,12 @@ void main(){
 
     vec3 worldPosition = currentParticle.CurrentPosition.xyz + 
     (currentParticle.Size.x * fragoffset.x * WorldCameraRight) + 
-    (currentParticle.Size.y * fragoffset.y * WorldCameraUp);
+    (currentParticle.Size.y * -fragoffset.y * WorldCameraUp);
     gl_Position = Cam.ProjectionMatrix * Cam.ViewMatrix * vec4(worldPosition, 1.0);
     
     //output the color
     out_Color = v_Particles.List[index].Color.rgb;
 
-    //if the particle is not active, don't draw it
+    
     
 }

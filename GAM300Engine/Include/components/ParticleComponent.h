@@ -13,13 +13,14 @@ namespace TDS {
 		CAPSULE,
 		MAX_MESHES
 	};
+
 	struct alignas(16) Particle {
-		Vec4 Size{ 10.f,10.f,10.f };
-		Vec4 Rotation{ 0.f,0.f,0.f };
-		Vec4 Position{ 0.f,0.f,0.f };
-		Vec4 Velocity{ 0.f,10.f,0.f };
-		Vec4 Acceleration{ 0.f, 10.f, 0.f };
-		Vec4 Color{ 0.f,0.f,1.f };
+		Vec4 Size{ 10.f,10.f,10.f ,1.f};
+		Vec4 Rotation{ 0.f,0.f,0.f,0.f };
+		Vec4 Position{ 0.f,0.f,0.f ,1.f};
+		Vec4 Velocity{ 0.f,10.f,0.f,0.f };
+		Vec4 Acceleration{ 0.f, 10.f, 0.f,0.f };
+		Vec4 Color{ 0.f,0.f,1.f ,1.f};
 		float Age{ 0.f };
 		std::uint32_t isActive{ 0 };
 		std::uint32_t padding[2];
