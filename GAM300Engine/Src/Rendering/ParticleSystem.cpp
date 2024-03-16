@@ -33,8 +33,8 @@ namespace TDS {
 		EmitterComputeEntry.m_PipelineConfig.m_SrcAlphaBlend = VK_BLEND_FACTOR_ZERO;
 		EmitterComputeEntry.m_ShaderInputs.m_Shaders.insert(std::make_pair(SHADER_FLAG::COMPUTE_SHADER, "../assets/shaders/ParticleEmitter.spv"));
 
-		GlobalBufferPool::GetInstance()->AddToGlobalPool(1000 * sizeof(Particle), 31, VK_BUFFER_USAGE_STORAGE_BUFFER_BIT, "v_ParticleOut");
-		GlobalBufferPool::GetInstance()->AddToGlobalPool(1001 * sizeof(int), 32, VK_BUFFER_USAGE_STORAGE_BUFFER_BIT, "FreeList");
+		GlobalBufferPool::GetInstance()->AddToGlobalPool(MAX_PARTICLES * sizeof(Particle), 31, VK_BUFFER_USAGE_STORAGE_BUFFER_BIT, "v_ParticleOut");
+		GlobalBufferPool::GetInstance()->AddToGlobalPool((MAX_PARTICLES+1) * sizeof(int), 32, VK_BUFFER_USAGE_STORAGE_BUFFER_BIT, "FreeList");
 
 		m_EmitterPipeline->Create(EmitterComputeEntry);
 
@@ -49,7 +49,7 @@ namespace TDS {
 		ParticleComputeEntry.m_PipelineConfig.m_SrcAlphaBlend = VK_BLEND_FACTOR_ZERO;
 		ParticleComputeEntry.m_ShaderInputs.m_Shaders.insert(std::make_pair(SHADER_FLAG::COMPUTE_SHADER, "../assets/shaders/ParticleCompute.spv"));
 
-		GlobalBufferPool::GetInstance()->AddToGlobalPool(1000 * sizeof(Mat4), 34, VK_BUFFER_USAGE_STORAGE_BUFFER_BIT, "v_TransformMatrix");
+		GlobalBufferPool::GetInstance()->AddToGlobalPool(MAX_PARTICLES * sizeof(Mat4), 34, VK_BUFFER_USAGE_STORAGE_BUFFER_BIT, "v_TransformMatrix");
 
 		m_ComputePipeline->Create(ParticleComputeEntry);
 
@@ -82,20 +82,17 @@ namespace TDS {
 
 		struct FreeList
 		{
-			int count = 1000;
-			std::array<int, 1000> arr;
+			int count = MAX_PARTICLES;
+			std::array<int, MAX_PARTICLES> arr;
 		}initList;
 
 		//Memset the array to 0
-		for (int i = 0; i < 1000; ++i)
-			initList.arr[i] = 999 - i;
+		for (int i = 0; i < MAX_PARTICLES; ++i)
+			initList.arr[i] = MAX_PARTICLES-1 - i;
 
 
 		m_RenderPipeline->UpdateUBO(&initList, sizeof(FreeList), 32, 0);
-		std::vector<Particle> InitData(1000);
-		std::memset(InitData.data(), 0, sizeof(Particle) * 1000);
-		m_ComputePipeline->UpdateUBO(InitData.data(), sizeof(Particle)* InitData.size(), 31, 0, 0, false);
-
+		
 		//creating index buffer for quad
 		std::vector<std::uint32_t> IndexQuad;
 		IndexQuad.push_back(0);
@@ -107,11 +104,6 @@ namespace TDS {
 		m_IndexQuad = std::make_shared<VMABuffer>();
 		m_IndexQuad->CreateIndexBuffer(IndexQuad.size() * sizeof(std::uint32_t),false, IndexQuad.data()) ;
 
-
-		//m_RenderPipeline->UpdateUBO(&initList, sizeof(FreeList), 32, 1);
-	/*	std::vector<Particle> InitData(1000);*/
-	/*	m_ComputePipeline->UpdateUBO(InitData.data(), sizeof(Particle)* InitData.size(), 31, 0, 0, false);
-		m_ComputePipeline->UpdateUBO(InitData.data(), sizeof(Particle)* InitData.size(), 31, 1, 0, false);*/
 	}
 
 
@@ -121,7 +113,6 @@ namespace TDS {
 		/*
 		* loop through all entities with the particle component and run the emitter computeshader
 		*/
-		//std::vector<Particle> test(1000);
 		if (Entities.empty()) return;
 
 		uint32_t currentframe = GraphicsManager::getInstance().GetSwapchainRenderer().getFrameIndex();

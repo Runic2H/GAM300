@@ -4,6 +4,9 @@
 #include "ecs/ecs.h"
 
 namespace TDS {
+
+	#define MAX_PARTICLES 50
+
 	enum ParticleMesh {
 		CUBE = 0,
 		SPHERE,
