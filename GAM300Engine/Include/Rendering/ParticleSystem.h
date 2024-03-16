@@ -62,7 +62,7 @@ namespace TDS {
 
 		//std::shared_ptr<VMABuffer> m_ComputeBuffer;
 		//std::shared_ptr<VMABuffer> m_EmitterBuffer;
-
+		inline static std::shared_ptr<VMABuffer> m_IndexQuad = nullptr;
 	};
 
 

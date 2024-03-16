@@ -30,7 +30,7 @@ namespace TDS {
 		Vec4 minAcceleration{ 0.f,10.f,0.f,0.f }; 
 		Vec4 maxAcceleration{ 0.f,15.f,0.f,0.f };
 		Vec4 minSize{ 1.f,1.f,1.f,0.f };
-		Vec4 maxSize{ 10.f,10.f,10.f,0.f };
+		Vec4 maxSize{ 2.5f,2.5f,2.5f,0.f };
 		Vec4 Position{ 0.f,0.f,0.f,0.f };
 		Vec4 Color{ 0.f,1.f,1.f,1.f };
 		float minlife{ 1.f };

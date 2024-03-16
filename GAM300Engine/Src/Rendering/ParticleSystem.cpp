@@ -97,6 +97,18 @@ namespace TDS {
 		std::vector<Particle> InitData(1000);
 		std::memset(InitData.data(), 0, sizeof(Particle) * 1000);
 		m_ComputePipeline->UpdateUBO(InitData.data(), sizeof(Particle)* InitData.size(), 31, 0, 0, false);
+
+		std::vector<std::uint32_t> IndexQuad;
+		IndexQuad.push_back(0);
+		IndexQuad.push_back(1);
+		IndexQuad.push_back(2);
+		IndexQuad.push_back(2);
+		IndexQuad.push_back(3);
+		IndexQuad.push_back(0);
+		m_IndexQuad = std::make_shared<VMABuffer>();
+		m_IndexQuad->CreateIndexBuffer(IndexQuad.size() * sizeof(std::uint32_t),false, IndexQuad.data()) ;
+
+
 		//m_RenderPipeline->UpdateUBO(&initList, sizeof(FreeList), 32, 1);
 	/*	std::vector<Particle> InitData(1000);*/
 	/*	m_ComputePipeline->UpdateUBO(InitData.data(), sizeof(Particle)* InitData.size(), 31, 0, 0, false);
@@ -182,12 +194,13 @@ namespace TDS {
 		m_RenderPipeline->BindPipeline();
 		CameraUBO temp = { view, proj };
 		m_RenderPipeline->UpdateUBO(&temp, sizeof(CameraUBO), 5, currentframe);
+		
 
 		for (std::uint32_t i = 0; i < m_GroupCnt; ++i)
 		{
 			m_RenderPipeline->BindVertexBuffer(*m_Group[i].m_PRenderBuffers->m_MeshReference.m_ResourcePtr->GetMeshBuffer()->m_VertexBuffer);
-			m_RenderPipeline->BindIndexBuffer(*m_Group[i].m_PRenderBuffers->m_MeshReference.m_ResourcePtr->GetMeshBuffer()->m_IndexBuffer);
-
+			//m_RenderPipeline->BindIndexBuffer(*m_Group[i].m_PRenderBuffers->m_MeshReference.m_ResourcePtr->GetMeshBuffer()->m_IndexBuffer);
+			m_RenderPipeline->BindIndexBuffer(*m_IndexQuad);
 			m_RenderPipeline->BindDescriptor(currentframe, 1);
 
 			m_RenderPipeline->DrawInstancedIndexed(*m_Group[i].m_PRenderBuffers->m_MeshReference.m_ResourcePtr->GetMeshBuffer()->m_VertexBuffer, *m_Group[i].m_PRenderBuffers->m_MeshReference.m_ResourcePtr->GetMeshBuffer()->m_IndexBuffer, m_Group[i].m_ParticleAmount, currentframe);

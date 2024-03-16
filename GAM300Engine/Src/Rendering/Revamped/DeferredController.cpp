@@ -909,6 +909,7 @@ namespace TDS
 				pipeline->SubmitPushConstant(&m_ScreenFadeFactor, sizeof(float), SHADER_FLAG::FRAGMENT);
 				pipeline->BindDescriptor(frameIndex, 1);
 				pipeline->Draw(6, frameIndex);
+				ParticleSystem::Render();
 
 			}
 			else
