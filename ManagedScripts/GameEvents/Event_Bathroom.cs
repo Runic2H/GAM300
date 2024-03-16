@@ -19,8 +19,6 @@ public class EventBathroom : Script
         if (doOnce)
         {
             Console.WriteLine("Martin (Internal): The tub is still wet, but there’s no one...");
-            AudioComponent audio = gameObject.GetComponent<AudioComponent>();
-            audio.play("shower_running"); //it runs even when player is a distance away from shower
             bathroomLight.SetActive(true);
             doOnce = false;
             gameObject.GetComponent<ColliderComponent>().SetEnabled(false);

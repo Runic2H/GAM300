@@ -12,7 +12,7 @@ using ScriptAPI;
 
 public class Hiding : Script
 {
-    public bool interactable;
+    public bool interactable = true;
     public bool hiding;
     public Vector3 hidingPos;
     public Vector3 nonHidingPos;
@@ -21,6 +21,7 @@ public class Hiding : Script
     public GameObject enemyPathfinding;
     public GameObject _flashlight;
     public GameObject _InteractUI;
+    public GameObject _ExitTimerUI;
     //public CheckGameState myGameState;
     public GameObject closet;
     [Header("AudioStuff")]
@@ -32,16 +33,22 @@ public class Hiding : Script
     public static bool playOnce = true;
     GameObject textmachine;
 
+    public float hidingTimer = 0.5f;
+    public float maxHidingTime = 0.5f;
+
+    private bool fadeOut = false;
+    private bool fadeIn = false;
+    private float originalFadeValue;
+    private float fadeValueIncrement = 0.05f;
+
+    private float originalUIScale;
+
     private float timer = 1.0f;
 
     public float turnSpeed = 0.01f;
 
-    public int numOfPaintingsTook = 0;
-
     public override void Awake()
     {
-        numOfPaintingsTook = 0;
-
         //counter = 0;
         audioPlayer = gameObject.GetComponent<AudioComponent>();    //#2
         voClips = new string[3];
@@ -58,9 +65,9 @@ public class Hiding : Script
         //_flashlight = player.GetComponent<Flashlight_Script>();
         hidingPos = closet.transform.GetPosition();
         _RotationAngle = 180.0f;
-
+        originalFadeValue = GraphicsManagerWrapper.GetFadeFactor();
+        originalUIScale = _ExitTimerUI.transform.GetScale().X;
         timer = 0.8f;
-
     }
 
     public override void Update()
@@ -87,8 +94,6 @@ public class Hiding : Script
                     timer -= Time.deltaTime;
                     GameplaySubtitles.counter = 9; //nothing inside
                     audioPlayer.play(voClips[0]);
-
-
                 }
             }
             
@@ -129,31 +134,34 @@ public class Hiding : Script
         {
             _InteractUI.SetActive(false);
 
-            if (Input.GetKeyDown(Keycode.E))
+            if (Input.GetKey(Keycode.E) || Input.GetKeyDown(Keycode.E))
             {
-                //Console.WriteLine("There");
-                audioPlayer.play("door close");
-
-                hiding = false;
-                interactable = true;
-                //player.transform.SetPosition(nonHidingPos);
-
-                Vector3 rotation = player.transform.GetRotation();
-                Quaternion quat = new Quaternion(rotation);
-                player.GetComponent<RigidBodyComponent>().SetPositionRotationAndVelocity(nonHidingPos, new Vector4(quat.X, quat.Y, quat.Z, quat.W), new Vector3(1, 1, 1).Normalize(), new Vector3(1, 1, 1).Normalize());
-
-                // add if monster is finished
-                player.GetComponent<FPS_Controller_Script>().playerCanMove = true;
-                player.GetComponent<FPS_Controller_Script>().enableHeadBob = true;
-                _flashlight.SetActive(true);
-                if (enemyPathfinding.GetComponent<GhostMovement>().bedroomHideEventDone)
+                hidingTimer -= Time.deltaTime;
+                _ExitTimerUI.SetActive(true);
+                _ExitTimerUI.transform.SetScaleX((hidingTimer / maxHidingTime) * originalUIScale);
+                if (hidingTimer <= 0.0f)
                 {
-                    audioPlayer.play(voClips[2]);
-                    GameplaySubtitles.counter = 15;
-                }
-                
+                    //Console.WriteLine("There");
+                    _ExitTimerUI.SetActive(false);
+                    audioPlayer.play("door close");
+                    hiding = false;
+                    interactable = true;
+                    //player.transform.SetPosition(nonHidingPos);
 
-                //Input.KeyRelease(Keycode.E);
+                    Vector3 rotation = player.transform.GetRotation();
+                    Quaternion quat = new Quaternion(rotation);
+                    player.GetComponent<RigidBodyComponent>().SetPositionRotationAndVelocity(nonHidingPos, new Vector4(quat.X, quat.Y, quat.Z, quat.W), new Vector3(1, 1, 1).Normalize(), new Vector3(1, 1, 1).Normalize());
+
+                    // add if monster is finished
+                    player.GetComponent<FPS_Controller_Script>().playerCanMove = true;
+                    player.GetComponent<FPS_Controller_Script>().enableHeadBob = true;
+                    _flashlight.SetActive(true);
+                }
+            }
+            else
+            {
+                hidingTimer = maxHidingTime;
+                _ExitTimerUI.SetActive(false);
             }
         }
         else
@@ -162,22 +170,57 @@ public class Hiding : Script
             
 
         }
-
     }
 
-    /*private void OnTriggerEnter(GameObject other)
+    void FadeInFadeOut()
     {
-        if (other.GetComponent<NameTagComponent>().GetName() == "Enemy" && hiding == true)
+        if (fadeOut && hiding)  //Start of hiding
         {
-            if (enemyPathfinding.isChasingPlayer && hiding == true)
+            float fadeValue = GraphicsManagerWrapper.GetFadeFactor();
+            fadeValue -= fadeValueIncrement;
+            GraphicsManagerWrapper.SetFadeFactor(fadeValue);
+            if (fadeValue <= 0.0f && !fadeIn)
             {
-                player.transform.SetPosition(nonHidingPos);
-                hiding = false;
-                interactable = false;
-                _flashlight.is_Enabled = true;
-                //Debug.LogError("Pulled Out");
-                //Play Attack Player Animation
+                fadeIn = true;
+                fadeOut = false;
             }
         }
-    }*/
+        if (fadeIn && hiding) //In the Closet
+        {
+            float fadeValue = GraphicsManagerWrapper.GetFadeFactor();
+            fadeValue += fadeValueIncrement;
+            GraphicsManagerWrapper.SetFadeFactor(fadeValue);
+            if (fadeValue >= originalFadeValue + 4.0f)
+            {
+                fadeIn = false;
+                fadeOut = false;
+            }
+        }
+        if (hidingTimer <= 0.0f)
+        {
+            fadeOut = true;
+        }
+        if (fadeOut && !hiding)
+        {
+            float fadeValue = GraphicsManagerWrapper.GetFadeFactor();
+            fadeValue -= fadeValueIncrement;
+            GraphicsManagerWrapper.SetFadeFactor(fadeValue);
+            if (fadeValue <= 0.0f && !fadeIn)
+            {
+                fadeIn = true;
+                fadeOut = false;
+            }
+        }
+        if (fadeIn && !hiding) //In the Closet
+        {
+            float fadeValue = GraphicsManagerWrapper.GetFadeFactor();
+            fadeValue += fadeValueIncrement;
+            GraphicsManagerWrapper.SetFadeFactor(fadeValue);
+            if (fadeValue >= originalFadeValue)
+            {
+                fadeIn = false;
+                fadeOut = false;
+            }
+        }
+    }
 }
