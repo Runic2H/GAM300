@@ -14,41 +14,39 @@ public class JumpscareScript : Script
 {
     public GameObject player;
     public int jumpscareSequenceIndex;
+    public float screamTimer = 0;
 
     private float yRotation = 0.0f;
-    private bool fadeOut = true;
-    private float incrementFading = Time.deltaTime / 2f;
-    private float alpha = 0;
 
     private Vector3 originalPosition;
-    private float screamTimer = 0;
     public GameObject playerCamera;
+    public Checkpoint checkpoint;
+    public GameBlackboard gameBlackboard;
+    public GameObject gameMonster;
+
+    private bool fadeIn = false;
+    private bool fadeOut = true;
+    private float fadeIncrement = 0.01f;
+    private float originalFadeValue;
+
+    private float timer;
 
     public override void Awake()
     {
-        jumpscareSequenceIndex = 1;
-        alpha = 0;
-        GraphicsManagerWrapper.SetFadeFactor(0.2f);
-        //jumpscareSequenceIndex = 0;
-        //SetEnabled(false);
-        originalPosition = transform.GetPosition();
+        jumpscareSequenceIndex = 0;
+        SetEnabled(false);
         screamTimer = 2.5f;
-        playerCamera.transform.SetPosition(new Vector3(0.0f , 90.0f, 0.0f));
-        player.transform.SetPosition(new Vector3(0.0f , 90.0f, 0.0f));
+        //playerCamera.transform.SetPosition(new Vector3(0.0f , 90.0f, 0.0f));
+        //player.transform.SetPosition(new Vector3(0.0f , 90.0f, 0.0f));
+
+        checkpoint = GameObjectScriptFind("Checkpoint").GetComponent<Checkpoint>();
+        gameBlackboard = GameObjectScriptFind("GameBlackboard").GetComponent<GameBlackboard>();
+        gameMonster = GameObjectScriptFind("Ghost");
+
+        originalFadeValue = GraphicsManagerWrapper.GetFadeFactor();
     }
     public override void Update()
     {
-        //if (fadeOut == true)
-        //{
-        //    alpha += incrementFading;
-        //    alpha = Mathf.Clamp(alpha, 0, 0.2f);
-        //      GraphicsManagerWrapper.SetFadeFactor(0.2f);
-        //    if (alpha >= 0.2f)
-        //    {
-        //        fadeOut = false;
-        //    }
-        //}
-
         switch (jumpscareSequenceIndex)
         {
             // 1. calculating rotations
@@ -69,33 +67,38 @@ public class JumpscareScript : Script
                     yRotation = (float)(yRotation / Math.PI * 180.0f);
 
                 ++jumpscareSequenceIndex;
+                timer = 0.3f;
 
                 break;
 
             // 2. turn player camera towards ghost, then up fast
             case 1:
 
-                //player.transform.SetRotationY(Mathf.LerpAngle(player.transform.GetRotation().Y, yRotation, Time.deltaTime * 12));
-                //player.GetComponent<FPS_Controller_Script>().playerCamera.transform.SetRotationX(
-                //    Mathf.LerpAngle(player.GetComponent<FPS_Controller_Script>().playerCamera.transform.GetRotation().X, 28, Time.deltaTime * 12));
+                player.transform.SetRotationY(Mathf.LerpAngle(player.transform.GetRotation().Y, yRotation, Time.deltaTime * 12));
+                player.GetComponent<FPS_Controller_Script>().playerCamera.transform.SetRotationX(
+                    Mathf.LerpAngle(player.GetComponent<FPS_Controller_Script>().playerCamera.transform.GetRotation().X, 28, Time.deltaTime * 12));
 
-                //Console.WriteLine(yRotation);
+                Console.WriteLine(yRotation);
 
-                //if (player.transform.GetRotation().Y >= 360)
-                //{
-                //    player.transform.SetRotationY(player.transform.GetRotation().Y - 360);
-                //}
+                if (player.transform.GetRotation().Y >= 360)
+                {
+                    player.transform.SetRotationY(player.transform.GetRotation().Y - 360);
+                }
 
-                //if (player.transform.GetRotation().Y >= yRotation - 3 && player.transform.GetRotation().Y <= yRotation + 3)
-                //{
-                //    gameObject.GetComponent<AudioComponent>().stopAll();
-                //    gameObject.GetComponent<AudioComponent>().play("mon_death");
-                //    ++jumpscareSequenceIndex;
-                //}
+                if (timer <= 0.0f ||
+                    (player.transform.GetRotation().Y >= yRotation - 3 && player.transform.GetRotation().Y <= yRotation + 3 &&
+                    player.GetComponent<FPS_Controller_Script>().playerCamera.transform.GetRotation().X >= 28 - 3 && player.GetComponent<FPS_Controller_Script>().playerCamera.transform.GetRotation().X <= 28 + 3))
+                {
+                    gameObject.GetComponent<AudioComponent>().stopAll();
+                    gameObject.GetComponent<AudioComponent>().play("mon_death");
+                    originalPosition = transform.GetPosition();
+                    ++jumpscareSequenceIndex;
+                }
+                timer -= Time.deltaTime;
 
-                GraphicsManagerWrapper.ToggleViewFrom2D(false);
-                gameObject.GetComponent<AudioComponent>().play("mon_death");
-                ++jumpscareSequenceIndex;
+                //GraphicsManagerWrapper.ToggleViewFrom2D(false);
+                //gameObject.GetComponent<AudioComponent>().play("mon_death");
+                //++jumpscareSequenceIndex;
                 break;
 
             // 3. (may want to add scream sounds here before next step)
@@ -124,6 +127,8 @@ public class JumpscareScript : Script
 
                 if (transform.GetPosition().X == playerPositon.X && transform.GetPosition().Z == playerPositon.Y)
                 {
+                    fadeOut = true;
+                    fadeIn = false;
                     ++jumpscareSequenceIndex;
                 }
 
@@ -131,9 +136,43 @@ public class JumpscareScript : Script
 
             // 5. lost screen
             case 4:
-                Input.HideMouse(false);
-                Input.Lock(false);
-                SceneLoader.LoadEndGameCredits();
+                // Fade to black
+                if (fadeOut)
+                {
+                    GraphicsManagerWrapper.SetFadeFactor(GraphicsManagerWrapper.GetFadeFactor() - fadeIncrement);
+
+                    if (GraphicsManagerWrapper.GetFadeFactor() <= 0.0f)
+                    {
+                        fadeOut = false;
+                        fadeIn = true;
+                    }
+                }
+                else if (fadeIn)
+                {
+                    GraphicsManagerWrapper.SetFadeFactor(GraphicsManagerWrapper.GetFadeFactor() + (fadeIncrement / 2));
+
+                    if (GraphicsManagerWrapper.GetFadeFactor() >= originalFadeValue)
+                    {
+                        fadeIn = false;
+                        GraphicsManagerWrapper.SetFadeFactor(originalFadeValue);
+                    }
+                }
+                else
+                {
+                    // Revert to checkpoint
+                    checkpoint.RevertToCheckpoint();
+
+                    // Fade back
+                    gameMonster.GetComponent<GhostMovement>().SetEnabled(true);
+                    player.GetComponent<FPS_Controller_Script>().SetEnabled(true);
+
+                    gameBlackboard.gameState = GameBlackboard.GameState.InGame;
+                    jumpscareSequenceIndex = 0;
+                    gameMonster.SetActive(true);
+                    gameObject.SetActive(false);
+                    SetEnabled(false);
+                }
+
                 break;
         }
     }

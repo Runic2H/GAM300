@@ -123,15 +123,6 @@ public class Hiding : Script
                 player.GetComponent<Flashlight_Script>().activateLight = false;
                 _flashlight.SetActive(false);
                 audioPlayer.play("door open");
-
-                if (enemyPathfinding.GetComponent<GhostMovement>().bedroomHideEventDone == false && numOfPaintingsTook == 1) // triggering bedroom monster event 
-                {
-                    if (enemyPathfinding.GetComponent<GhostMovement>().currentEvent != GhostMovement.GhostEvent.BedroomHidingEvent)
-                    {
-                        enemyPathfinding.GetComponent<GhostMovement>().currentEvent = GhostMovement.GhostEvent.BedroomHidingEvent;
-                        enemyPathfinding.GetComponent<GhostMovement>().startEvent = true;
-                    }
-                }
             }
         }
         else if (hiding)

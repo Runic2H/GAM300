@@ -9,9 +9,7 @@
 ****************************************************************************
 ***/
 using ScriptAPI;
-using System.Runtime.InteropServices;
 using System.Security.Cryptography;
-using System.Threading;
 
 public class GhostMovement : Script
 {
@@ -59,6 +57,7 @@ public class GhostMovement : Script
     public GameObject bedroomHidingGameObject; // (Bedroom) Hide Closet > Door_2 > Door_2
     public bool bedroomHideEventDone;
     public GameObject SHDoor; // Small Hallway Door
+    private float bedroomMonsterAppearTimer;
 
     #endregion
 
@@ -74,6 +73,7 @@ public class GhostMovement : Script
     private float livingRoomHidingTimer;
     public bool livingRoomHideEventDone;
     public GameObject livingRoomHidingGameObject;
+    private float livingRoomMonsterAppearTimer;
 
     #endregion
 
@@ -124,6 +124,12 @@ public class GhostMovement : Script
     [HideInInspector]
     public GhostEvent previousEvent;
 
+    public Checkpoint checkpoint;
+    public bool diningCheckpoint;
+    public bool livingRoomHideEventStarted;
+
+    public GameObject jumpscareMonster;
+
     public override void Awake()
     {
         walkingSounds = new string[8];
@@ -164,6 +170,7 @@ public class GhostMovement : Script
         playerMoved = false;
         bedroomHideEventDone = false;
         livingDiningRoomEventDone = false;
+        livingRoomHideEventStarted = false;
         livingRoomHideEventDone = false;
         galleryHideEventDone = false;
         startEvent = false;
@@ -172,6 +179,10 @@ public class GhostMovement : Script
 
         transform.SetPositionX(-2840.0f);
         transform.SetPositionZ(-650.0f);
+
+        checkpoint = GameObjectScriptFind("Checkpoint").GetComponent<Checkpoint>();
+        jumpscareMonster = GameObjectScriptFind("jumpscareMonster");
+        diningCheckpoint = false;
     }
     public override void Update()
     {
@@ -183,23 +194,29 @@ public class GhostMovement : Script
         Vector2 ghostPosition = new Vector2(transform.GetPosition().X, transform.GetPosition().Z);
         Vector2 playerPosition = new Vector2(player.transform.GetPosition().X, player.transform.GetPosition().Z);
 
+        if (!diningCheckpoint && !diningRoomEventDone && 
+            !livingRoomHidingGameObject.GetComponent<Hiding>().hiding &&
+            player.transform.GetPosition().X <= 380.0f && livingRoomHideEventStarted) // Trigger dining room event
+        {
+            checkpoint.OverrideCheckpoint(GhostEvent.DiningRoomEvent);
+            diningCheckpoint = true;
+        }
+
         switch (currentEvent)
         {
             case GhostEvent.Nothing:
 
                 gameObject.GetComponent<AnimatedComponent>().StopAnimation();
 
-                //if (gameObject.GetComponent<RigidBodyComponent>().IsRayHit()) // If player is in sight
-                //{
-                //    // NOTE: May want to add in "not hiding" condition
-                //    currentEvent = GhostEvent.ChasingPlayer;
-                //}
-
-                if (player.transform.GetPosition().X <= 319.0f && livingRoomHideEventDone && !diningRoomEventDone) // Trigger dining room event
+                if (livingRoomHideEventDone && !diningRoomEventDone) // Trigger dining room event
                 {
-                    currentEvent = GhostEvent.DiningRoomEvent;
-                    startEvent = true;
+                    if (player.transform.GetPosition().X <= 319.0f)
+                    {
+                        currentEvent = GhostEvent.DiningRoomEvent;
+                        startEvent = true;
+                    }
                 }
+                previousEvent = GhostEvent.Nothing;
 
                 break;
 
@@ -230,12 +247,13 @@ public class GhostMovement : Script
                     livingRoomHidingGameObject.GetComponent<Hiding>().hiding) // NOTE: Will add in the other hiding boolean variables later
                 {
                     currentEvent = previousEvent;
+                    return;
                 }
 
                 // If touches, loses
-                if (Vector2.Distance(ghostPosition, playerPosition) <= 75.0f)
+                if (Vector2.Distance(ghostPosition, playerPosition) <= 40.0f)
                 {
-                    //QueueJumpscare();
+                    QueueJumpscare();
                     return;
                 }
                 else
@@ -285,6 +303,16 @@ public class GhostMovement : Script
 
             case GhostEvent.BedroomHidingEvent:
 
+                //Console.WriteLine(Vector3.Distance(player.transform.GetPosition(), transform.GetPosition()));
+                //if (gameObject.GetComponent<RigidBodyComponent>().IsRayHit()) // If player is in sight
+                if (Vector3.Distance(player.transform.GetPosition(), transform.GetPosition()) <= 700.0f &&
+                    !bedroomHidingGameObject.GetComponent<Hiding>().hiding) // If player is in range
+                {
+                    // NOTE: May want to add in "not hiding" condition
+                    currentEvent = GhostEvent.ChasingPlayer;
+                    return;
+                }
+
                 BedroomHidingEvent();
 
                 break;
@@ -297,6 +325,17 @@ public class GhostMovement : Script
 
             case GhostEvent.LivingRoomHidingEvent: // 2. LivingRoomHidingEvent => move from living room - right wing door to left of couch, look around, walk into dining room painting & stay there
 
+                //Console.WriteLine(Vector3.Distance(player.transform.GetPosition(), transform.GetPosition()));
+                //if (gameObject.GetComponent<RigidBodyComponent>().IsRayHit()) // If player is in sight
+                if (Vector3.Distance(player.transform.GetPosition(), transform.GetPosition()) <= 700.0f &&
+                    !livingRoomHidingGameObject.GetComponent<Hiding>().hiding &&
+                    eventStep < 3) // If player is in range
+                {
+                    // NOTE: May want to add in "not hiding" condition
+                    currentEvent = GhostEvent.ChasingPlayer;
+                    return;
+                }
+
                 LivingRoomHidingEvent();
 
                 break;
@@ -308,6 +347,16 @@ public class GhostMovement : Script
                 break;
 
             case GhostEvent.GalleryHidingEvent:
+
+                //Console.WriteLine(Vector3.Distance(player.transform.GetPosition(), transform.GetPosition()));
+                //if (gameObject.GetComponent<RigidBodyComponent>().IsRayHit()) // If player is in sight
+                if (Vector3.Distance(player.transform.GetPosition(), transform.GetPosition()) <= 700.0f &&
+                    !galleryHidingGameObject.GetComponent<GalleryHiding>().hiding) // If player is in range
+                {
+                    // NOTE: May want to add in "not hiding" condition
+                    currentEvent = GhostEvent.ChasingPlayer;
+                    return;
+                }
 
                 GalleryHidingEvent();
 
@@ -327,6 +376,7 @@ public class GhostMovement : Script
         // Jumpscare scene
         gameBlackboard.gameState = GameBlackboard.GameState.Jumpscare; // Locks everything else, play jumpscare
         player.GetComponent<FPS_Controller_Script>().StandUp();
+        player.GetComponent<FPS_Controller_Script>().isCrouched = false;
 
         SetEnabled(false);
         player.GetComponent<RigidBodyComponent>().SetLinearVelocity(new Vector3(0.0f, 0.0f, 0.0f));
@@ -335,11 +385,23 @@ public class GhostMovement : Script
         lockGroup.SetActive(false);
 
         // Switch with the jumpscare entity
-        gameObject.GetComponent<JumpscareScript>().SetEnabled(true); // Jumpscare entity will have the script instead
+        jumpscareMonster.SetActive(true);
+        jumpscareMonster.transform.SetPositionX(transform.GetPosition().X);
+        jumpscareMonster.transform.SetPositionY(-100.0f);
+        jumpscareMonster.transform.SetPositionZ(transform.GetPosition().Z);
+        jumpscareMonster.transform.SetRotation(transform.GetRotation());
+
+        jumpscareMonster.GetComponent<JumpscareScript>().SetEnabled(true);
+        jumpscareMonster.GetComponent<JumpscareScript>().jumpscareSequenceIndex = 0;
+        jumpscareMonster.GetComponent<JumpscareScript>().screamTimer = 2.5f;
+
+        gameObject.SetActive(false);
+
+        //gameObject.GetComponent<JumpscareScript>().SetEnabled(true); // Jumpscare entity will have the script instead
+        //gameObject.GetComponent<JumpscareScript>().jumpscareSequenceIndex = 0;
+        //gameObject.GetComponent<JumpscareScript>().screamTimer = 2.5f;
 
         gameObject.GetComponent<AnimatedComponent>().StopAnimation();
-
-        Quaternion quat = new Quaternion(transform.GetRotation());
     }
 
     public void PlayMonsterWalkingSoundInitial()
@@ -446,18 +508,14 @@ public class GhostMovement : Script
     {
         if (startEvent) // Initialize variables (teleporting monster to starting position etc)
         {
-            transform.SetPosition(new Vector3(1790.0f, transform.GetPosition().Y, -750.0f));
-            eventStep = 0;
-            startEvent = false;
+            eventStep = -1;
             //Console.WriteLine("initialized bedroom hiding event");
 
-            gameObject.GetComponent<AnimatedComponent>().PlayAnimation();
-        }
+            startEvent = false;
+            bedroomMonsterAppearTimer = 3.0f;
 
-        if (!bedroomHidingGameObject.GetComponent<Hiding>().hiding) // If player comes out of hiding, monster will chase player
-        {
             previousEvent = GhostEvent.BedroomHidingEvent;
-            currentEvent = GhostEvent.ChasingPlayer;
+            return;
         }
 
         Vector3 originalPosition = transform.GetPosition();
@@ -466,6 +524,18 @@ public class GhostMovement : Script
 
         switch (eventStep)
         {
+            case -1:
+
+                if (bedroomMonsterAppearTimer <= 0.0f)
+                {
+                    transform.SetPosition(new Vector3(1790.0f, transform.GetPosition().Y, -750.0f));
+                    gameObject.GetComponent<AnimatedComponent>().PlayAnimation();
+                    ++eventStep;
+                }
+                bedroomMonsterAppearTimer -= Time.deltaTime;
+
+                break;
+
             case 0: // Moving from SH door to end of bedframe in bed
 
                 if (MoveTo(new Vector2(1790, -323), 2.0f))
@@ -518,6 +588,8 @@ public class GhostMovement : Script
             transform.SetPositionX(319.0f);
             transform.SetPositionZ(-379.0f);
             gameObject.GetComponent<AnimatedComponent>().PlayAnimation();
+
+            previousEvent = GhostEvent.LivingDiningRoomEvent;
 
             //Console.WriteLine("initialized living dining room event");
         }
@@ -573,24 +645,33 @@ public class GhostMovement : Script
         if (startEvent) // Initialize variables
         {
             livingRoomHidingTimer = 1.0f;
-            eventStep = 0;
+            eventStep = -1;
 
-            if (livingRoomHidingGameObject.GetComponent<Hiding>().hiding) // Start after hiding
-            {
-                gameObject.GetComponent<AnimatedComponent>().PlayAnimation();
-                startEvent = false;
-            }
+            startEvent = false;
+            livingRoomMonsterAppearTimer = 4.0f;
 
-            // Teleporting monster to behind the living room - right hall door
-            transform.SetPositionX(938.0f);
-            transform.SetPositionZ(17.0f);
+            previousEvent = GhostEvent.LivingRoomHidingEvent;
+            return;
 
             //Console.WriteLine("initialized living room hiding event");
-
         }
 
         switch (eventStep)
         {
+            case -1:
+
+                if (livingRoomMonsterAppearTimer <= 0.0f)
+                {
+                    // Teleporting monster to behind the living room - right hall door
+                    transform.SetPositionX(938.0f);
+                    transform.SetPositionZ(17.0f);
+                    gameObject.GetComponent<AnimatedComponent>().PlayAnimation();
+                    ++eventStep;
+                }
+                livingRoomMonsterAppearTimer -= Time.deltaTime;
+
+                break;
+
             case 0: // Move to couch
 
                 if (MoveTo(new Vector2(938.0f, -379.0f), 2.0f))
@@ -614,6 +695,7 @@ public class GhostMovement : Script
 
             case 2: // Move to living room - dining room door
 
+                livingRoomHideEventStarted = true;
                 if (MoveTo(new Vector2(156.0f, -379.0f), 2.0f))
                 {
                     ++eventStep;
@@ -647,8 +729,14 @@ public class GhostMovement : Script
         {
             diningRoomTimer = ScriptAPI.Random.Range(1.0f, 3.0f);
             eventStep = 0;
-            startEvent = false;
-            gameObject.GetComponent<AudioComponent>().play("pc_movethissilently");
+
+            if (player.transform.GetPosition().X <= 319.0f)
+            {
+                startEvent = false;
+                gameObject.GetComponent<AudioComponent>().play("pc_movethissilently");
+            }
+
+            previousEvent = GhostEvent.DiningRoomEvent;
 
             //Console.WriteLine("initialized dining event (red light green light)");
         }
@@ -682,12 +770,12 @@ public class GhostMovement : Script
             case 2: // "Looking" around for player (just made it wait for a while for now)
 
                 // Looking for player
-                //if ((playerOriginalPosition - player.transform.GetPosition() != new Vector3 (0.0f, 0.0f, 0.0f)) || // Player moved
-                //    !player.GetComponent<FPS_Controller_Script>().isCrouched)
-                //{
-                //    currentEvent = GhostEvent.ChasingPlayer;
-                //    speed = 25.0f;
-                //}
+                if ((playerOriginalPosition - player.transform.GetPosition() != new Vector3(0.0f, 0.0f, 0.0f)) || // Player moved
+                    !player.GetComponent<FPS_Controller_Script>().isCrouched)
+                {
+                    currentEvent = GhostEvent.ChasingPlayer;
+                    speed = 25.0f;
+                }
 
                 if (diningRoomTimer <= 0)
                 {
@@ -736,6 +824,8 @@ public class GhostMovement : Script
             startEvent = false;
 
             gameObject.GetComponent<AnimatedComponent>().PlayAnimation();
+
+            previousEvent = GhostEvent.GalleryHidingEvent;
         }
         
 
@@ -831,6 +921,8 @@ public class GhostMovement : Script
             startEvent = false;
             gameObject.GetComponent<AnimatedComponent>().PlayAnimation();
 
+            previousEvent = GhostEvent.FinalChasingEvent;
+
             //Console.WriteLine("initialized final chasing event");
         }
 
@@ -875,18 +967,18 @@ public class GhostMovement : Script
                 }
 
                 // If touches, loses
-                if (Vector2.Distance(ghostPosition, playerPosition) <= 75.0f)
+                if (Vector2.Distance(ghostPosition, playerPosition) <= 40.0f)
                 {
-                    //QueueJumpscare(); // For presentation
+                    QueueJumpscare(); // For presentation
                     return;
                 }
                 else
                 {
-                    float finalChaseSpeed = 2.0f;
+                    float finalChaseSpeed = 1.0f;
 
                     if (player.transform.GetPosition().X >= -730)
                     {
-                        finalChaseSpeed = 6.0f;
+                        finalChaseSpeed = 5.0f;
                     }
                     
                     MoveTo(playerPosition, finalChaseSpeed);

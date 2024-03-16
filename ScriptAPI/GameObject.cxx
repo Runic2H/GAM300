@@ -19,6 +19,17 @@ namespace ScriptAPI
 		Console::WriteLine("Unreferenced Game Object");
 	}
 
+	bool GameObject::GetActive()
+	{
+		if (GetEntityID())
+		{
+			return TDS::ecs.getEntityIsEnabled(GetEntityID());
+		}
+
+		Console::WriteLine("Unreferenced Game Object");
+		return false;
+	}
+
 	TDS::EntityID GameObject::GetEntityID()
 	{
 		return entityID;

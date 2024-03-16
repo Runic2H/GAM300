@@ -12,6 +12,8 @@ using Microsoft.VisualBasic;
 using ScriptAPI;
 using System;
 
+// Bedroom painting
+
 public class p07 : Script
 {
     //RigidBodyComponent rigidBodyComponent; //for raycast?
@@ -33,8 +35,11 @@ public class p07 : Script
     public static bool isPaintingCollected;
     bool once = true;
 
+    public Checkpoint checkpoint;
+
     override public void Awake()
     {
+        checkpoint = GameObjectScriptFind("Checkpoint").GetComponent<Checkpoint>();
         AudioPlayer = gameObject.GetComponent<AudioComponent>();
         isPaintingCollected = false;
     }
@@ -76,19 +81,23 @@ public class p07 : Script
 
                 // View Object Stuff
                 gameObject.GetComponent<GraphicComponent>().SetView2D(true);
-                gameObject.transform.SetPosition(new Vector3(-10000.0f, -10000.0f, -10000.0f));
-                gameObject.transform.SetRotation(new Vector3(-0.0f, -0.0f, -0.0f));
+                //gameObject.transform.SetPosition(new Vector3(-10000.0f, -10000.0f, -10000.0f));
+                //gameObject.transform.SetRotation(new Vector3(-0.0f, -0.0f, -0.0f));
                 gameObject.SetActive(false);
 
                 // Trigger Painting Event
                 AudioPlayer.play("pc_stealpainting1");
                 GameplaySubtitles.counter = 13;
 
+                checkpoint.OverrideCheckpoint(GhostMovement.GhostEvent.BedroomHidingEvent);
+
                 // hiding event 
                 hidingGameObject.GetComponent<Hiding>().numOfPaintingsTook++;
                 if (hidingGameObject.GetComponent<Hiding>().numOfPaintingsTook == 1)
                 {
                     ghost.GetComponent<GhostMovement>().PlayMonsterWalkingSoundInitial();
+                    ghost.GetComponent<GhostMovement>().currentEvent = GhostMovement.GhostEvent.BedroomHidingEvent;
+                    ghost.GetComponent<GhostMovement>().startEvent = true;
                 }
             }
         }

@@ -42,8 +42,11 @@ public class p06 : Script
     public bool DropPainting = false;
     public bool endingSequence = false;
 
+    public Checkpoint checkpoint;
+
     override public void Awake()
     {
+        checkpoint = GameObjectScriptFind("Checkpoint").GetComponent<Checkpoint>();
         AudioPlayer = gameObject.GetComponent<AudioComponent>();
         isPaintingCollected = false;
     }
@@ -144,6 +147,7 @@ public class p06 : Script
                 player.GetComponent<FPS_Controller_Script>().playerCamera.transform.SetRotationX(playerLook);
                 if (endingSequenceTimer <= 0.0f)
                 {
+                    checkpoint.OverrideCheckpoint(GhostMovement.GhostEvent.LivingRoomHidingEvent);
                     player.GetComponent<FPS_Controller_Script>().cameraCanMove = true;
                     player.GetComponent<FPS_Controller_Script>().playerCanMove = true;
                     ghost.GetComponent<GhostMovement>().currentEvent = GhostMovement.GhostEvent.LivingRoomHidingEvent;

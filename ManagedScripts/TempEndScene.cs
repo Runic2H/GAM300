@@ -14,9 +14,9 @@ public class TempEndScene : Script
     {
         //audio = new AudioComponent();
         audio = gameObject.GetComponent<AudioComponent>();
-        //audio.play(monsterSFX);
-        //audio.FadeOut(3, monsterSFX);
-        waitTimer = 5.0f;
+        audio.play(monsterSFX);
+        audio.FadeOut(3, monsterSFX);
+        waitTimer = 0.0f;
     }
     public override void Start()
     {
@@ -41,7 +41,8 @@ public class TempEndScene : Script
                 if (waitTimer <= 0.0f)
                 {
                     fadeIn = false;
-                    SceneLoader.LoadTempJumpscare();
+                    //SceneLoader.LoadTempJumpscare();
+                    SceneLoader.LoadMainMenu();
                 }
                 waitTimer -= Time.deltaTime;
             }

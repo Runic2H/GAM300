@@ -11,9 +11,13 @@ public class DoorSquek : Script
     private float elapsedTime = 0f;
     //public GameObject eventChasing;
     public GameObject monster;
+
+    public Checkpoint checkpoint;
+
     public override void Awake()
     {
         audio = gameObject.GetComponent<AudioComponent>();
+        checkpoint = GameObjectScriptFind("Checkpoint").GetComponent<Checkpoint>();
     }
 
     public override void Start()
@@ -24,6 +28,7 @@ public class DoorSquek : Script
     {
         if (gameObject.GetComponent<RigidBodyComponent>().IsRayHit() && Input.GetKeyDown(Keycode.E))
         {
+            checkpoint.OverrideCheckpoint(GhostMovement.GhostEvent.Nothing);
             audio.play(doorSquekSFX);
             monster.GetComponent<GhostMovement>().currentEvent = GhostMovement.GhostEvent.FinalChasingEvent;
             monster.GetComponent<GhostMovement>().startEvent = true;
