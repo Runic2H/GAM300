@@ -36,6 +36,13 @@ public class GalleryHiding : Script
 
     public static float timeLimit = 5.0f;
 
+    public float hidingTimer = 0.5f;
+    public float maxHidingTime = 0.5f;
+    private bool fadeOut = false;
+    private bool fadeIn = false;
+    private float originalFadeValue;
+    private float fadeValueIncrement = 0.05f;
+
     public override void Awake()
     {
         audioPlayer = gameObject.GetComponent<AudioComponent>();
@@ -89,9 +96,9 @@ public class GalleryHiding : Script
         {
             _InteractUI.SetActive(false);
 
-            if (Input.GetKeyDown(Keycode.E))
+            if (Input.GetKey(Keycode.E))
             {
-                //Console.WriteLine("There");
+                hidingTimer -= Time.deltaTime;
                 hiding = false;
                 interactable = true;
 
@@ -110,6 +117,7 @@ public class GalleryHiding : Script
                     enemyPathfinding.GetComponent<GhostMovement>().galleryHideEventDone = false; // Reset for multiple hiding
                 }
             }
+
         }
         else
         {

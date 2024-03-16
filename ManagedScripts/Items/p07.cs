@@ -92,8 +92,8 @@ public class p07 : Script
                 checkpoint.OverrideCheckpoint(GhostMovement.GhostEvent.BedroomHidingEvent);
 
                 // hiding event 
-                hidingGameObject.GetComponent<Hiding>().numOfPaintingsTook++;
-                if (hidingGameObject.GetComponent<Hiding>().numOfPaintingsTook == 1)
+                hidingGameObject.GetComponent<EventBedroomHiding>().numOfPaintingsTook++;
+                if (hidingGameObject.GetComponent<EventBedroomHiding>().numOfPaintingsTook == 1)
                 {
                     ghost.GetComponent<GhostMovement>().PlayMonsterWalkingSoundInitial();
                     ghost.GetComponent<GhostMovement>().currentEvent = GhostMovement.GhostEvent.BedroomHidingEvent;

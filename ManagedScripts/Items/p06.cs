@@ -30,12 +30,14 @@ public class p06 : Script
 
     public float TestTimer = 1.0f;
     public float position = 0.0f;
+    public float positionZ = 0.0f;
     public float playerLook = 0.0f;
     public float paintingRotation = 0.0f;
     public float FlipBackTimer = 1.0f;
     public float contineuDialogue = 2.0f;
     public float dropPaintingTimer = 12.0f;
     public float endingSequenceTimer = 5.0f;
+    public float transitionTimerToDropTimer = 1.0f;
 
     public bool takingDownPainting = false;
     public bool flippingBackPainting = false;
@@ -80,7 +82,7 @@ public class p06 : Script
                 GameplaySubtitles.counter = 27; //somethings diff..
                 AudioPlayer.play("pc_somethingdiff");
 
-
+                gameObject.GetComponent<ColliderComponent>().SetEnabled(false);
                 // hiding event 
                 //hidingGameObject.GetComponent<Hiding>().numOfPaintingsTook++;
                 //if (hidingGameObject.GetComponent<Hiding>().numOfPaintingsTook == 1)
@@ -103,8 +105,10 @@ public class p06 : Script
             if (TestTimer >= 0.0f)
             {
                 position = Mathf.Lerp(gameObject.transform.GetPosition().Y, 100.0f, 1.0f * Time.deltaTime);
-                playerLook = Mathf.Lerp(player.GetComponent<FPS_Controller_Script>().playerCamera.transform.GetRotation().X, 0.0f, 2.0f * Time.deltaTime);
+                positionZ = Mathf.Lerp(gameObject.transform.GetPosition().Z, gameObject.transform.GetPosition().Z + 50.0f, 1.0f * Time.deltaTime);
+                playerLook = Mathf.Lerp(player.GetComponent<FPS_Controller_Script>().playerCamera.transform.GetRotation().X, 20.0f, 2.0f * Time.deltaTime);
                 gameObject.transform.SetPositionY(position);
+                gameObject.transform.SetPositionZ(positionZ);
                 player.GetComponent<FPS_Controller_Script>().playerCamera.transform.SetRotationX(playerLook);
                 TestTimer -= Time.deltaTime;
                     
@@ -115,22 +119,26 @@ public class p06 : Script
             }
         }
 
-        if (takingDownPainting)
+        if (takingDownPainting && !DropPainting)
         {
             if (FlipBackTimer >= 0.0f)
             {
-                paintingRotation = Mathf.Lerp((float)(Math.PI), gameObject.transform.GetRotation().Y, 1.0f * Time.deltaTime);
+                paintingRotation = Mathf.Lerp(gameObject.transform.GetRotation().Y, (float)(Math.PI + gameObject.transform.GetRotation().Y), 1.0f * Time.deltaTime);
                 gameObject.transform.SetRotationY(paintingRotation);
                 FlipBackTimer -= Time.deltaTime;
             }
-            if (FlipBackTimer <= 0.0f && contineuDialogue >= 0.0f)
+            if (FlipBackTimer <= 0.0f)
             {
                 contineuDialogue -= Time.deltaTime;
                 if (contineuDialogue < 0.0f)
                 {
-                    paintingRotation = Mathf.InverseLerp(0.0f, gameObject.transform.GetRotation().Y, 1.0f * Time.deltaTime);
+                    paintingRotation = Mathf.Lerp(gameObject.transform.GetRotation().Y, (float)(gameObject.transform.GetRotation().Y - Math.PI) , 1.0f * Time.deltaTime);
                     gameObject.transform.SetRotationY(paintingRotation);
-                    DropPainting = true;
+                    transitionTimerToDropTimer -= Time.deltaTime;
+                    if (transitionTimerToDropTimer <= 0.0f)
+                    {
+                        DropPainting = true;
+                    }
                 }
             }
                 

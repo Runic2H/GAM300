@@ -371,7 +371,7 @@ public class FPS_Controller_Script : Script
                 {
                     //sprintBarCG.alpha -= 3 * Time.deltaTime;
                 }
-                targetVelocity = transform.TransformDirection(targetVelocity) * currentSprintSpeed;
+                targetVelocity = transform.TransformDirection(targetVelocity) * walkSpeed;
 
                 // Apply a force that attempts to reach our target velocity
                 //Vector3 velocity = rb.GetLinearVelocity();

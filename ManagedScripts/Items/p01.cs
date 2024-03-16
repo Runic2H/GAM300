@@ -62,9 +62,15 @@ public class p01 : Script
                     GameplaySubtitles.counter = 8;
 
                     // hiding event 
-                    GalleryHiding.GhostShouldMove = true;
+                    /*GalleryHiding.GhostShouldMove = true;
                     GalleryHiding.timeLimit = 10.0f;
-                    GalleryHiding.GhostMoved = false;
+                    GalleryHiding.GhostMoved = false;*/
+
+                    // hiding event 
+                    hidingGameObject.GetComponent<EventGalleryHiding>().GhostShouldMove = true;
+                    hidingGameObject.GetComponent<EventGalleryHiding>().timeLimit = 10.0f;
+                    hidingGameObject.GetComponent<EventGalleryHiding>().GhostMoved = false;
+
                     ghost.GetComponent<GhostMovement>().PlayMonsterWalkingSoundInitial();
                 }
             }
