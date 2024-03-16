@@ -67,18 +67,16 @@ namespace TDS {
 		ParticleRenderEntry.m_ShaderInputs.m_Shaders.insert(std::make_pair(SHADER_FLAG::VERTEX, "../assets/shaders/RenderParticleVert.spv"));
 		ParticleRenderEntry.m_ShaderInputs.m_Shaders.insert(std::make_pair(SHADER_FLAG::FRAGMENT, "../assets/shaders/RenderParticleFrag.spv"));
 
-		VertexLayout layout = VertexLayout({
+		/*VertexLayout layout = VertexLayout({
 			VertexBufferElement(VAR_TYPE::VEC2, "in_Position")
-			});
-		ParticleRenderEntry.m_ShaderInputs.m_InputVertex.push_back(VertexBufferInfo(false, layout, sizeof(Vec2)));
+			});*/
+		//ParticleRenderEntry.m_ShaderInputs.m_InputVertex.push_back(VertexBufferInfo(false, layout, sizeof(Vec2)));
 
 		MeshRenderBuffers[CUBE].m_MeshReference.m_ResourcePtr = AssetManager::GetInstance()->GetMeshFactory().GetMeshController("cube_Bin.bin", MeshRenderBuffers[CUBE].m_MeshReference);
 
 		MeshRenderBuffers[SPHERE].m_MeshReference.m_ResourcePtr = AssetManager::GetInstance()->GetMeshFactory().GetMeshController("cube_Bin.bin", MeshRenderBuffers[SPHERE].m_MeshReference);
 
 		MeshRenderBuffers[CAPSULE].m_MeshReference.m_ResourcePtr = AssetManager::GetInstance()->GetMeshFactory().GetMeshController("cube_Bin.bin", MeshRenderBuffers[CAPSULE].m_MeshReference);
-
-
 
 		m_RenderPipeline->Create(ParticleRenderEntry);
 
@@ -98,13 +96,14 @@ namespace TDS {
 		std::memset(InitData.data(), 0, sizeof(Particle) * 1000);
 		m_ComputePipeline->UpdateUBO(InitData.data(), sizeof(Particle)* InitData.size(), 31, 0, 0, false);
 
+		//creating index buffer for quad
 		std::vector<std::uint32_t> IndexQuad;
 		IndexQuad.push_back(0);
 		IndexQuad.push_back(1);
 		IndexQuad.push_back(2);
+		IndexQuad.push_back(0);
 		IndexQuad.push_back(2);
 		IndexQuad.push_back(3);
-		IndexQuad.push_back(0);
 		m_IndexQuad = std::make_shared<VMABuffer>();
 		m_IndexQuad->CreateIndexBuffer(IndexQuad.size() * sizeof(std::uint32_t),false, IndexQuad.data()) ;
 
@@ -144,8 +143,7 @@ namespace TDS {
 			Particle_Emitter_PushData GPUPush = {currentEmitter.GetEmitter(), SpawnAmt };
 			m_EmitterPipeline->BindDescriptor(0, 1, 0, true);
 			m_EmitterPipeline->UpdateUBO(&GPUPush, sizeof(Particle_Emitter_PushData), 33, 0);
-			//bind ssbos?
-
+			
 
 			ParticleInstanceGroup* group = (m_GroupCnt >= m_Group.size()) ? &m_Group.emplace_back() : &m_Group[m_GroupCnt];
 			m_GroupCnt++;
@@ -154,7 +152,7 @@ namespace TDS {
 			group->m_PRenderBuffers = &MeshRenderBuffers[EmitterList[i].GetMeshType()];
 
 
-			m_EmitterPipeline->DispatchCompute(ceil(SpawnAmt / 64), 1, 1);
+			m_EmitterPipeline->DispatchCompute(ceil((SpawnAmt+ 64) / 64), 1, 1);
 
 		}
 
@@ -188,6 +186,7 @@ namespace TDS {
 		Mat4 view = cam.GetViewMatrix();
 		Mat4 proj = Mat4::Perspective(cam.m_Fov * Mathf::Deg2Rad,
 			GraphicsManager::getInstance().GetSwapchainRenderer().getAspectRatio(), 0.1f, 1000000.f);
+		//proj.m[1][1] *= -1;
 		//send data into vertex and fragment shader to render into scene
 		auto commandBuffer = GraphicsManager::getInstance().getCommandBuffer();
 		m_RenderPipeline->SetCommandBuffer(commandBuffer);
@@ -198,12 +197,13 @@ namespace TDS {
 
 		for (std::uint32_t i = 0; i < m_GroupCnt; ++i)
 		{
-			m_RenderPipeline->BindVertexBuffer(*m_Group[i].m_PRenderBuffers->m_MeshReference.m_ResourcePtr->GetMeshBuffer()->m_VertexBuffer);
+			//m_RenderPipeline->BindVertexBuffer(*m_Group[i].m_PRenderBuffers->m_MeshReference.m_ResourcePtr->GetMeshBuffer()->m_VertexBuffer);
 			//m_RenderPipeline->BindIndexBuffer(*m_Group[i].m_PRenderBuffers->m_MeshReference.m_ResourcePtr->GetMeshBuffer()->m_IndexBuffer);
 			m_RenderPipeline->BindIndexBuffer(*m_IndexQuad);
 			m_RenderPipeline->BindDescriptor(currentframe, 1);
 
-			m_RenderPipeline->DrawInstancedIndexed(*m_Group[i].m_PRenderBuffers->m_MeshReference.m_ResourcePtr->GetMeshBuffer()->m_VertexBuffer, *m_Group[i].m_PRenderBuffers->m_MeshReference.m_ResourcePtr->GetMeshBuffer()->m_IndexBuffer, m_Group[i].m_ParticleAmount, currentframe);
+			m_RenderPipeline->Draw(6, currentframe, m_Group[i].m_ParticleAmount);
+			//m_RenderPipeline->DrawInstancedIndexed(*m_Group[i].m_PRenderBuffers->m_MeshReference.m_ResourcePtr->GetMeshBuffer()->m_VertexBuffer, *m_Group[i].m_PRenderBuffers->m_MeshReference.m_ResourcePtr->GetMeshBuffer()->m_IndexBuffer, m_Group[i].m_ParticleAmount, currentframe);
 		}
 
 		m_GroupCnt = 0;

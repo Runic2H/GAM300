@@ -353,6 +353,7 @@ namespace TDS
 		m_FinalQuad->BindIndexBuffer(*m_FinalQuadIndexBuffer);
 		m_FinalQuad->BindDescriptor(frame, 1);
 		m_FinalQuad->DrawIndexed(*m_FinalQuadVertexBuffer, *m_FinalQuadIndexBuffer, frame);
+		
 	}
 	void GraphicsManager::CreateFullScreen()
 	{

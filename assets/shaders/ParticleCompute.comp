@@ -77,8 +77,10 @@ void ComputeParticle(inout Particle p, int index){
         p.Velocity += p.Acceleration * Time.DeltaTime;
         p.CurrentPosition += p.Velocity * Time.DeltaTime;
 
+        //if the particle has expired, deactivate it and add it to the freelist
         if (p.Age <= 0.0){
             p.Active = 0;
+            p.Color = vec4(0.0, 0.0, 0.0, 0.0);
             v_Freelist.indices[atomicAdd(v_Freelist.count,1)] = index;
         }
     }
@@ -93,18 +95,9 @@ void main(){
         return;
     }
 
-    //ComputeParticle(v_Particles.List[index], index);
-    Particle currentparticle = v_Particles.List[index];
-    if (currentparticle.Age > 0.){
-        currentparticle.Age -= Time.DeltaTime;
-        currentparticle.Velocity += currentparticle.Acceleration * Time.DeltaTime;
-        currentparticle.CurrentPosition += currentparticle.Velocity * Time.DeltaTime;
-        if (currentparticle.Age <= 0.0){
-            currentparticle.Active = 0;
-            v_Freelist.indices[atomicAdd(v_Freelist.count,1)] = int(index);
-        }
-        
-    }
+    ComputeParticle(v_Particles.List[index], int(index));
+    
+    
 
     //v_TransformMatrix.List[index] = GenerateTransform(v_Particles.List[index].Size, v_Particles.List[index].Rotation, v_Particles.List[index].CurrentPosition);
 }

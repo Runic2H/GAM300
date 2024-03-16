@@ -37,5 +37,5 @@ namespace TDS {
 		return ecs.getComponent<Particle_Component>(entityID);
 	}
 
-	Particle_Component::Particle_Component() : Emitter(), type(CUBE), spawninterval(1.f), spawntimer(0.f), maxparticles(50) {}
+	Particle_Component::Particle_Component() : Emitter(), type(CUBE), spawninterval(5.f), spawntimer(0.f), maxparticles(50) {}
 }

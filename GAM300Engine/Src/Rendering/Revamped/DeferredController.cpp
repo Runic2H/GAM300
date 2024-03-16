@@ -909,8 +909,7 @@ namespace TDS
 				pipeline->SubmitPushConstant(&m_ScreenFadeFactor, sizeof(float), SHADER_FLAG::FRAGMENT);
 				pipeline->BindDescriptor(frameIndex, 1);
 				pipeline->Draw(6, frameIndex);
-				ParticleSystem::Render();
-
+				
 			}
 			else
 			{
@@ -927,7 +926,8 @@ namespace TDS
 				RenderUISceneMeshBatch(commandBuffer, frameIndex);
 				RenderUISceneMeshInstance(commandBuffer, frameIndex);
 			}
-			
+
+			ParticleSystem::Render();
 
 			renderer2D->Draw(commandBuffer, frameIndex);
 			fontrenderer->Draw(commandBuffer, frameIndex);

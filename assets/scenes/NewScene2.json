@@ -1,15 +1,14 @@
 {
     "Archetype Sizes": {
-        "1100001000000000001": {
+        "1100000000000010000": {
             "0": 136,
             "1": 384,
-            "6": 360,
-            "18": 160
+            "14": 208
         }
     },
     "Entity Data": {
-        "1": {
-            "ArchetypeID": "1100001000000000001",
+        "4": {
+            "ArchetypeID": "1100000000000010000",
             "Enabled": true,
             "Name Tag": {
                 "Name": "New Entity",
@@ -86,34 +85,50 @@
                     "z": 0.0
                 }
             },
-            "Graphics Component": {
-                "PointLight": false,
-                "TextureName": "",
-                "Show Mesh": true,
-                "Debug": false,
-                "ModelName": "attackanim2_Bin.bin",
-                "MeshName": "",
-                "MeshNodeName": "attackanim2_Bin.bin",
-                "Color": {
+            "Particle Component": {
+                "MinLife": 10.0,
+                "MaxLife": 10.0,
+                "Spawn Offset": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0,
+                    "w": 0.0
+                },
+                "Velocity": {
+                    "x": 0.0,
+                    "y": 10.0,
+                    "z": 0.0,
+                    "w": 0.0
+                },
+                "Acceleration": {
+                    "x": 0.0,
+                    "y": 10.0,
+                    "z": 0.0,
+                    "w": 0.0
+                },
+                "Size": {
                     "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0,
+                    "w": 0.0
+                },
+                "Color": {
+                    "x": 0.0,
                     "y": 1.0,
                     "z": 1.0,
                     "w": 1.0
                 },
-                "Used In 2D": false,
-                "Model UID": 0
-            },
-            "AnimationComponent": {
-                "AnimationPackName": "WalkingAnim.json",
-                "isAnimated": false,
-                "Speed": 1.0
+                "ParticleMesh": "CUBE",
+                "SpawnInterval": 5.0,
+                "SpawnTimer": 41.754878997802734,
+                "MaxParticles": 50
             }
         }
     },
     "Scripts": {
-        "1": {}
+        "4": {}
     },
     "Active Archetype": {
-        "1": "1100001000000000001"
+        "4": "1100000000000010000"
     }
 }
