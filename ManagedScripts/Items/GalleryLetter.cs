@@ -26,8 +26,11 @@ public class GalleryLetter : Script
     public GameObject? _InteractUI;
     public static bool isNotePicked = false;
 
+    public Checkpoint checkpoint;
+
     public override void Awake()
     {
+        checkpoint = GameObjectScriptFind("Checkpoint").GetComponent<Checkpoint>();
     }
 
     public override void Start()
@@ -61,6 +64,8 @@ public class GalleryLetter : Script
                 clip.play("pc_moreinthebasement");
                 isNotePicked = true;
                 GameplaySubtitles.counter = 41;
+
+                checkpoint.OverrideCheckpoint(GhostMovement.GhostEvent.Nothing);
             }
         }
         else

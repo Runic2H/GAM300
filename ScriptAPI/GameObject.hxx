@@ -25,6 +25,7 @@ namespace ScriptAPI
 
         bool ActiveInHierarchy();
         void SetActive(bool status);
+        bool GetActive();
 
         TDS::EntityID GetEntityID();
 
