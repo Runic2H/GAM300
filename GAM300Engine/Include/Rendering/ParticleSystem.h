@@ -45,7 +45,7 @@ namespace TDS {
 		DLL_API static void UpdateSystem(const float deltatime, const std::vector<EntityID>& Entities, Transform* Xform, Particle_Component* Particles);
 		//Spawn/Draws all particles from all entities
 		DLL_API static void Render();
-		DLL_API void ShutDown();
+		DLL_API static void ShutDown();
 
 		//helper functions
 

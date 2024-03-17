@@ -207,5 +207,6 @@ namespace TDS {
 		m_ComputePipeline->ShutDown();
 		m_EmitterPipeline->ShutDown();
 		m_RenderPipeline->ShutDown();
+		m_IndexQuad->DestroyBuffer();
 	}
 }

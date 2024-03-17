@@ -21,6 +21,7 @@
 #include "Rendering/Revamped/FrameBuffers/FrameBufferObject.h"
 #include "Rendering/FontRenderer.h"
 #include "Rendering/Skybox.h"
+#include "Rendering/ParticleSystem.h"
 #undef BROADCAST_MESSAGE
 
 
@@ -256,6 +257,7 @@ namespace TDS
 		m_DebugRenderer->DestroyPipeline();
 		m_FontRenderer->ShutDown();
 		m_ObjectPicking->Shutdown();
+		ParticleSystem::ShutDown();
 		m_FinalQuad->ShutDown();
 		m_FinalQuadVertexBuffer->DestroyBuffer();
 		m_FinalQuadIndexBuffer->DestroyBuffer();
@@ -267,9 +269,8 @@ namespace TDS
 		m_Framebuffer->~FrameBuffer();
 		DefaultTextures::GetInstance().DestroyDefaultTextures();
 		m_SwapchainRenderer->ShutDown();
+		
 		m_CommandManager->Shutdown();
-
-		RendererDataManager::Destroy();
 		GraphicsAllocator::GetInstance().ShutDown();
 
 
