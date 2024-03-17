@@ -28,7 +28,7 @@ float seed(vec2 co){
     return fract(sin(dot(co.xy ,vec2(12.9898,78.233)))* 43758.5453);
 }
 
-float brownian(){
+float brownian(float randomseed){
     float persistence = clamp(sin(gl_GlobalInvocationID.x *0.1), 0.1, 0.9);
     float frequency = clamp(cos(gl_GlobalInvocationID.x * 0.1), 0.5,2.0);
     int octaves = int (mod(gl_GlobalInvocationID.x, 10.0)+ 1.0);
@@ -39,7 +39,7 @@ float brownian(){
     float maxamp = 0.0;
 
     for (int i = 0; i < octaves; i++){
-        total += seed(vec2(gl_GlobalInvocationID.xy+ time)) * amp;
+        total += seed(vec2(gl_GlobalInvocationID.xy+ time)* randomseed) * amp;
         maxamp += amp;
         amp *= persistence;
         time *= frequency;
@@ -48,12 +48,25 @@ float brownian(){
     
 }
 
-float rand(float min, float max){
-    return mix(min, max, brownian());
+float rand(float Min, float Max, float randomseed){
+    // float range = abs(Max - Min);
+    // float shifted_min = Min - min(Max,Min);
+    // float shifted_max = Max - min(Max,Min);
+    // float mixed = mix(shifted_min, shifted_max, brownian());
+    // float randomsign =step(0.5, brownian())*2.0-1.0;
+    // return mixed * randomsign + min(Max,Min); 
+    return mix(Min, Max, brownian(randomseed));
 }
 
-vec3 randvec3(vec3 min, vec3 max){
-    return vec3(rand(min.x,max.x),rand(min.y,max.y),rand(min.z,max.z));
+vec3 randvec3(vec3 Min, vec3 Max){
+    vec3 randomvec3 = vec3(
+        rand(Min.x,Max.x,0.005),
+        rand(Min.y,Max.y,1.000),
+        rand(Min.z,Max.z,2.000)
+    );  
+    
+    return mix(Min, Max, randomvec3);
+    //return vec3(rand(min.x,max.x),rand(min.y,max.y),rand(min.z,max.z));
 }
 
 //writing the position of the particle out into a list to vertex buffer
@@ -75,7 +88,7 @@ layout (std140, binding = 33 ) buffer EmitterThingy
 
 void MakeParticle(out Particle newparticle){
     //constant spawn point from emitter location
-    newparticle.Age =           rand(EmitterStuff.Emitter.min_Life, EmitterStuff.Emitter.max_Life);
+    newparticle.Age =           rand(EmitterStuff.Emitter.min_Life, EmitterStuff.Emitter.max_Life, 0.005);
     newparticle.Velocity =      vec4(randvec3(EmitterStuff.Emitter.min_Velocity.xyz, EmitterStuff.Emitter.max_Velocity.xyz), 0.0);
     newparticle.Acceleration =  vec4(randvec3(EmitterStuff.Emitter.min_Acceleration.xyz, EmitterStuff.Emitter.max_Acceleration.xyz), 0.0);
     newparticle.Size =          vec4(randvec3(EmitterStuff.Emitter.min_Size.xyz, EmitterStuff.Emitter.max_Size.xyz), 0.0);
