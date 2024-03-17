@@ -19,7 +19,7 @@
 
 JPH_NAMESPACE_BEGIN
 
-CharacterVirtual::CharacterVirtual(const CharacterVirtualSettings *inSettings, RVec3Arg inPosition, QuatArg inRotation, PhysicsSystem *inSystem) :
+CharacterVirtual::CharacterVirtual(const CharacterVirtualSettings *inSettings, RVec3Arg inPosition, QuatArg inRotation, uint64 inUserData, PhysicsSystem *inSystem) :
 	CharacterBase(inSettings, inSystem),
 	mBackFaceMode(inSettings->mBackFaceMode),
 	mPredictiveContactDistance(inSettings->mPredictiveContactDistance),
@@ -33,7 +33,8 @@ CharacterVirtual::CharacterVirtual(const CharacterVirtualSettings *inSettings, R
 	mPenetrationRecoverySpeed(inSettings->mPenetrationRecoverySpeed),
 	mShapeOffset(inSettings->mShapeOffset),
 	mPosition(inPosition),
-	mRotation(inRotation)
+	mRotation(inRotation),
+	mUserData(inUserData)
 {
 	// Copy settings
 	SetMaxStrength(inSettings->mMaxStrength);
@@ -96,6 +97,7 @@ void CharacterVirtual::sFillContactProperties(const CharacterVirtual *inCharacte
 	outContact.mBodyB = inResult.mBodyID2;
 	outContact.mSubShapeIDB = inResult.mSubShapeID2;
 	outContact.mMotionTypeB = inBody.GetMotionType();
+	outContact.mIsSensorB = inBody.IsSensor();
 	outContact.mUserData = inBody.GetUserData();
 	outContact.mMaterial = inCollector.GetContext()->GetMaterial(inResult.mSubShapeID2);
 }
@@ -159,16 +161,10 @@ void CharacterVirtual::ContactCollector::AddHit(const CollideShapeResult &inResu
 	BodyLockRead lock(mSystem->GetBodyLockInterface(), inResult.mBodyID2);
 	if (lock.SucceededAndIsInBroadPhase())
 	{
-		// We don't collide with sensors, note that you should set up your collision layers so that sensors don't collide with the character.
-		// Rejecting the contact here means a lot of extra work for the collision detection system.
-		const Body &body = lock.GetBody();
-		if (!body.IsSensor())
-		{
-			mContacts.emplace_back();
-			Contact &contact = mContacts.back();
-			sFillContactProperties(mCharacter, contact, body, mUp, mBaseOffset, *this, inResult);
-			contact.mFraction = 0.0f;
-		}
+		mContacts.emplace_back();
+		Contact &contact = mContacts.back();
+		sFillContactProperties(mCharacter, contact, lock.GetBody(), mUp, mBaseOffset, *this, inResult);
+		contact.mFraction = 0.0f;
 	}
 }
 
@@ -193,8 +189,7 @@ void CharacterVirtual::ContactCastCollector::AddHit(const ShapeCastResult &inRes
 			if (!lock.SucceededAndIsInBroadPhase())
 				return;
 
-			// We don't collide with sensors, note that you should set up your collision layers so that sensors don't collide with the character.
-			// Rejecting the contact here means a lot of extra work for the collision detection system.
+			// Sweeps don't result in OnContactAdded callbacks so we can ignore sensors here
 			const Body &body = lock.GetBody();
 			if (body.IsSensor())
 				return;
@@ -239,6 +234,10 @@ void CharacterVirtual::GetContactsAtPosition(RVec3Arg inPosition, Vec3Arg inMove
 	// Collide shape
 	ContactCollector collector(mSystem, this, mMaxNumHits, mHitReductionCosMaxAngle, mUp, mPosition, outContacts);
 	CheckCollision(inPosition, mRotation, inMovementDirection, mPredictiveContactDistance, inShape, mPosition, collector, inBroadPhaseLayerFilter, inObjectLayerFilter, inBodyFilter, inShapeFilter);
+
+	// The broadphase bounding boxes will not be deterministic, which means that the order in which the contacts are received by the collector is not deterministic.
+	// Therefore we need to sort the contacts to preserve determinism. Note that currently this will fail if we exceed mMaxNumHits hits.
+	QuickSort(outContacts.begin(), outContacts.end(), ContactOrderingPredicate());
 
 	// Flag if we exceeded the max number of hits
 	mMaxHitsExceeded = collector.mMaxHitsExceeded;
@@ -340,10 +339,14 @@ bool CharacterVirtual::GetFirstContactForSweep(RVec3Arg inPosition, Vec3Arg inDi
 	settings.mUseShrunkenShapeAndConvexRadius = true;
 	settings.mReturnDeepestPoint = false;
 
+	// Calculate how much extra fraction we need to add to the cast to account for the character padding
+	float character_padding_fraction = mCharacterPadding / sqrt(displacement_len_sq);
+
 	// Cast shape
 	Contact contact;
-	contact.mFraction = 1.0f + FLT_EPSILON;
+	contact.mFraction = 1.0f + character_padding_fraction;
 	ContactCastCollector collector(mSystem, this, inDisplacement, mUp, inIgnoredContacts, start.GetTranslation(), contact);
+	collector.ResetEarlyOutFraction(contact.mFraction);
 	RShapeCast shape_cast(mShape, Vec3::sReplicate(1.0f), start, inDisplacement);
 	mSystem->GetNarrowPhaseQuery().CastShape(shape_cast, settings, start.GetTranslation(), collector, inBroadPhaseLayerFilter, inObjectLayerFilter, inBodyFilter, inShapeFilter);
 	if (contact.mBodyB.IsInvalid())
@@ -371,8 +374,11 @@ bool CharacterVirtual::GetFirstContactForSweep(RVec3Arg inPosition, Vec3Arg inDi
 	{
 		// When there's only a single contact point or when we were unable to correct the fraction,
 		// we can just move the fraction back so that the character and its padding don't hit the contact point anymore
-		outContact.mFraction = max(0.0f, outContact.mFraction - mCharacterPadding / sqrt(displacement_len_sq));
+		outContact.mFraction = max(0.0f, outContact.mFraction - character_padding_fraction);
 	}
+
+	// Ensure that we never return a fraction that's bigger than 1 (which could happen due to float precision issues).
+	outContact.mFraction = min(outContact.mFraction, 1.0f);
 
 	return true;
 }
@@ -402,6 +408,9 @@ void CharacterVirtual::DetermineConstraints(TempContactList &inContacts, float i
 			float dot = c.mContactNormal.Dot(mUp);
 			if (dot > 1.0e-3f) // Add a little slack, if the normal is perfectly horizontal we already have our vertical plane.
 			{
+				// Mark the slope constraint as steep
+				constraint.mIsSteepSlope = true;
+
 				// Make horizontal normal
 				Vec3 normal = (c.mContactNormal - dot * mUp).Normalized();
 
@@ -429,6 +438,10 @@ bool CharacterVirtual::HandleContact(Vec3Arg inVelocity, Constraint &ioConstrain
 	if (mListener != nullptr)
 		mListener->OnContactAdded(this, contact.mBodyB, contact.mSubShapeIDB, contact.mPosition, -contact.mContactNormal, settings);
 	contact.mCanPushCharacter = settings.mCanPushCharacter;
+
+	// We don't have any further interaction with sensors beyond an OnContactAdded notification
+	if (contact.mIsSensorB)
+		return false;
 
 	// If body B cannot receive an impulse, we're done
 	if (!settings.mCanReceiveImpulses || contact.mMotionTypeB != EMotionType::Dynamic)
@@ -628,6 +641,20 @@ void CharacterVirtual::SolveConstraints(Vec3Arg inVelocity, float inDeltaTime, f
 		// Get the normal of the plane we're hitting
 		Vec3 plane_normal = constraint->mPlane.GetNormal();
 
+		// If we're hitting a steep slope we cancel the velocity towards the slope first so that we don't end up sliding up the slope
+		// (we may hit the slope before the vertical wall constraint we added which will result in a small movement up causing jitter in the character movement)
+		if (constraint->mIsSteepSlope)
+		{
+			// We're hitting a steep slope, create a vertical plane that blocks any further movement up the slope (note: not normalized)
+			Vec3 vertical_plane_normal = plane_normal - plane_normal.Dot(mUp) * mUp;
+
+			// Get the relative velocity between the character and the constraint
+			Vec3 relative_velocity = velocity - constraint->mLinearVelocity;
+
+			// Remove velocity towards the slope
+			velocity = velocity - min(0.0f, relative_velocity.Dot(vertical_plane_normal)) * vertical_plane_normal / vertical_plane_normal.LengthSq();
+		}
+
 		// Get the relative velocity between the character and the constraint
 		Vec3 relative_velocity = velocity - constraint->mLinearVelocity;
 
@@ -734,7 +761,7 @@ void CharacterVirtual::UpdateSupportingContact(bool inSkipContactVelocityCheck, 
 			&& c.mDistance < mCollisionTolerance
 			&& (inSkipContactVelocityCheck || c.mSurfaceNormal.Dot(mLinearVelocity - c.mLinearVelocity) <= 1.0e-4f))
 		{
-			if (ValidateContact(c))
+			if (ValidateContact(c) && !c.mIsSensorB)
 				c.mHadCollision = true;
 			else
 				c.mWasDiscarded = true;
@@ -913,15 +940,24 @@ void CharacterVirtual::MoveShape(RVec3 &ioPosition, Vec3Arg inVelocity, float in
 #endif // JPH_DEBUG_RENDERER
 	) const
 {
+	JPH_DET_LOG("CharacterVirtual::MoveShape: pos: " << ioPosition << " vel: " << inVelocity << " dt: " << inDeltaTime);
+
 	Vec3 movement_direction = inVelocity.NormalizedOr(Vec3::sZero());
 
 	float time_remaining = inDeltaTime;
 	for (uint iteration = 0; iteration < mMaxCollisionIterations && time_remaining >= mMinTimeRemaining; iteration++)
 	{
+		JPH_DET_LOG("iter: " << iteration << " time: " << time_remaining);
+
 		// Determine contacts in the neighborhood
 		TempContactList contacts(inAllocator);
 		contacts.reserve(mMaxNumHits);
 		GetContactsAtPosition(ioPosition, movement_direction, mShape, contacts, inBroadPhaseLayerFilter, inObjectLayerFilter, inBodyFilter, inShapeFilter);
+
+#ifdef JPH_ENABLE_DETERMINISM_LOG
+		for (const Contact &c : contacts)
+			JPH_DET_LOG("contact: " << c.mPosition << " vel: " << c.mLinearVelocity << " cnormal: " << c.mContactNormal << " snormal: " << c.mSurfaceNormal << " dist: " << c.mDistance << " fraction: " << c.mFraction << " body: " << c.mBodyB << " subshape: " << c.mSubShapeIDB);
+#endif // JPH_ENABLE_DETERMINISM_LOG
 
 		// Remove contacts with the same body that have conflicting normals
 		IgnoredContactList ignored_contacts(inAllocator);
@@ -1220,9 +1256,8 @@ bool CharacterVirtual::WalkStairs(float inDeltaTime, Vec3Arg inStepUp, Vec3Arg i
 #endif // JPH_DEBUG_RENDERER
 
 	// Move down towards the floor.
-	// Note that we travel the same amount down as we travelled up with the character padding and the specified extra
-	// If we don't add the character padding, we may miss the floor (note that GetFirstContactForSweep will subtract the padding when it finds a hit)
-	Vec3 down = -up - mCharacterPadding * mUp + inStepDownExtra;
+	// Note that we travel the same amount down as we traveled up with the specified extra
+	Vec3 down = -up + inStepDownExtra;
 	if (!GetFirstContactForSweep(new_position, down, contact, dummy_ignored_contacts, inBroadPhaseLayerFilter, inObjectLayerFilter, inBodyFilter, inShapeFilter))
 		return false; // No floor found, we're in mid air, cancel stair walk
 

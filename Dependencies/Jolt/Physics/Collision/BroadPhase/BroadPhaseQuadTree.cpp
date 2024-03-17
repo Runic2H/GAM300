@@ -579,13 +579,29 @@ void BroadPhaseQuadTree::FindCollidingPairs(BodyID *ioActiveBodies, int inNumAct
 	}
 }
 
+AABox BroadPhaseQuadTree::GetBounds() const
+{
+	// Prevent this from running in parallel with node deletion in FrameSync(), see notes there
+	shared_lock lock(mQueryLocks[mQueryLockIdx]);
+
+	AABox bounds;
+	for (BroadPhaseLayer::Type l = 0; l < mNumLayers; ++l)
+		bounds.Encapsulate(mLayers[l].GetBounds());
+	return bounds;
+}
+
 #ifdef JPH_TRACK_BROADPHASE_STATS
 
 void BroadPhaseQuadTree::ReportStats()
 {
-	Trace("Query Type, Filter Description, Tree Name, Num Queries, Total Time (ms), Total Time Excl. Collector (ms), Nodes Visited, Bodies Visited, Hits Reported, Hits Reported vs Bodies Visited (%%), Hits Reported vs Nodes Visited");
+	Trace("Query Type, Filter Description, Tree Name, Num Queries, Total Time (%%), Total Time Excl. Collector (%%), Nodes Visited, Bodies Visited, Hits Reported, Hits Reported vs Bodies Visited (%%), Hits Reported vs Nodes Visited");
+
+	uint64 total_ticks = 0;
 	for (BroadPhaseLayer::Type l = 0; l < mNumLayers; ++l)
-		mLayers[l].ReportStats();
+		total_ticks += mLayers[l].GetTicks100Pct();
+
+	for (BroadPhaseLayer::Type l = 0; l < mNumLayers; ++l)
+		mLayers[l].ReportStats(total_ticks);
 }
 
 #endif // JPH_TRACK_BROADPHASE_STATS

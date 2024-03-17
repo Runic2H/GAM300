@@ -1,4 +1,5 @@
 #include "CapsuleColliderComponent.hxx"
+#include "../EngineInterface.hxx"
 
 namespace ScriptAPI
 {
@@ -202,16 +203,28 @@ namespace ScriptAPI
 
 	// CONSTRUCTOR ===========================================================================
 	CapsuleColliderComponent::CapsuleColliderComponent(TDS::EntityID ID) : entityID(ID), transform(TransformComponent(ID))
-	{ }
-
+	{
+		gameObject = EngineInterface::GetGameObject(ID);
+	}
+	
 	void CapsuleColliderComponent::SetEntityID(TDS::EntityID ID)
 	{
 		entityID = ID;
 		transform = TransformComponent(ID);
+		gameObject = EngineInterface::GetGameObject(ID);
 	}
 
 	TDS::EntityID CapsuleColliderComponent::GetEntityID()
 	{
 		return entityID;
+	}
+
+	void CapsuleColliderComponent::SetEnabled(bool enabled)
+	{
+		TDS::setComponentIsEnable("Capsule Collider", GetEntityID(), enabled);
+	}
+	bool CapsuleColliderComponent::GetEnabled()
+	{
+		return TDS::getComponentIsEnable("Capsule Collider", GetEntityID());
 	}
 }

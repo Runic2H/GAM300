@@ -1,5 +1,6 @@
 #include "components/UiSprite.h"
-#include "Input/Input.h"
+#include "Input/InputSystem.h"
+#include "Rendering/UiSystem.h"
 namespace TDS
 {
 
@@ -27,7 +28,8 @@ namespace TDS
 		.method("SetFontName", &UISprite::SetFontName)
 		.method("SetFontMessage", &UISprite::SetFontMessage)
 		.method("SetFontColour", &UISprite::SetFontColour)
-		.method("SetFontBackgroundColour", &UISprite::SetFontBackgroundColour);
+		.method("SetFontBackgroundColour", &UISprite::SetFontBackgroundColour)
+		.method("SetEnableSprite", &UISprite::SetEnableSprite);
 	}
 		UISprite::UISprite() :
 		m_TextureReference(),
@@ -53,7 +55,9 @@ namespace TDS
 		m_BackGroundColour(toMove.m_BackGroundColour),
 		m_ForeGroundColour(toMove.m_ForeGroundColour),
 		m_BoundingBoxMin(toMove.m_BoundingBoxMin),
-		m_BoundingBoxMax(toMove.m_BoundingBoxMax)
+		m_BoundingBoxMax(toMove.m_BoundingBoxMax),
+		m_IsFont(toMove.m_IsFont),
+		m_FontName(toMove.m_FontName)
 	{
 		
 	}
@@ -81,8 +85,7 @@ namespace TDS
 
 	bool UISprite::IsMouseCollided()
 	{
-		Vec2 mousePos = Input::getLocalMousePos();
-
+		Vec2 mousePos = UiSystem::getNDCMousePos();
 		if (mousePos.x >= m_BoundingBoxMin.x && mousePos.x <= m_BoundingBoxMax.x &&
 			mousePos.y >= m_BoundingBoxMin.y && mousePos.y <= m_BoundingBoxMax.y)
 			return true; 
@@ -141,6 +144,9 @@ namespace TDS
 		m_BackGroundColour = Vec4(x, y, z, w);
 	}
 
-
+	void TDS::UISprite::SetEnableSprite(bool status)
+	{
+		m_EnableSprite = status;
+	}
 
 }

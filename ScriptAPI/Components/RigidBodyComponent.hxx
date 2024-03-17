@@ -26,7 +26,8 @@ namespace ScriptAPI
 		Vector3 GetAngularVelocity();
 		Vector3 GetPointVelocity(Vector3& inPoint);
 		void SetPositionRotationAndVelocity(Vector3 inPosition, Vector4 inRotation, Vector3 inLinearVelocity, Vector3 inAngularVelocity);
-
+		void SetPosition(Vector3 inPosition);
+		void SetRotation(Quaternion inRotation);
 		// FORCES
 		void AddForce(Vector3 inForce);
 		void AddForce(Vector3 inForce, Vector3 inPoint);
@@ -50,13 +51,24 @@ namespace ScriptAPI
 		void SetGravityFactor(float inGravityFactor);
 		float GetGravityFactor();
 
+		// Raycasting (Scripting)
+		bool IsRayHit();
+		bool IsPlayerCast();
+
+		virtual TDS::EntityID GetEntityID();
 		virtual void SetEntityID(TDS::EntityID ID);
 
+		virtual void SetEnabled(bool enabled);
+		virtual bool GetEnabled();
+
 		TransformComponent transform;
+		GameObject^ gameObject;
+
+		// SENSOR
+		bool IsSensorActivated();
 
 	internal:
 		RigidBodyComponent(TDS::EntityID ID);
-		TDS::EntityID GetEntityID();
 
 	private:
 		TDS::EntityID entityID;

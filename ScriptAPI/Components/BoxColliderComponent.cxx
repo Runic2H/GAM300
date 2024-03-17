@@ -1,4 +1,6 @@
 #include "BoxColliderComponent.hxx"
+#include "../GameObject.hxx"
+#include "../EngineInterface.hxx"
 
 namespace ScriptAPI
 {
@@ -48,7 +50,7 @@ namespace ScriptAPI
 			return Vector3(0.f, 0.f, 0.f);
 		}
 
-		return Vector3(TDS::GetBoxCollider(entityID)->GetCenter());
+		return Vector3(TDS::GetBoxCollider(entityID)->GetColliderCenter());
 
 		//return TDS::GetTransform(entityID)->GetPosition();
 	}
@@ -61,7 +63,7 @@ namespace ScriptAPI
 			return;
 		}
 
-		TDS::GetBoxCollider(entityID)->SetCenter(value.X, value.Y, value.Z);
+		TDS::GetBoxCollider(entityID)->SetColliderCenter(value.X, value.Y, value.Z);
 	}
 
 	// Public
@@ -88,6 +90,10 @@ namespace ScriptAPI
 		Vector3 oldCenter = Center;
 		Center = Vector3(oldCenter.X, oldCenter.Y, valueZ);
 	}
+	Vector3 BoxColliderComponent::GetOffsetCenter()
+	{
+		return Vector3(TDS::GetBoxCollider(entityID)->GetOffsetCenter());
+	}
 
 	// SIZE ==================================================================================
 	// Private
@@ -100,7 +106,7 @@ namespace ScriptAPI
 			return Vector3(0.f, 0.f, 0.f);
 		}
 
-		return Vector3(TDS::GetBoxCollider(entityID)->GetSize());
+		return Vector3(TDS::GetBoxCollider(entityID)->GetColliderSize());
 
 		//return TDS::GetTransform(entityID)->GetPosition();
 	}
@@ -113,7 +119,7 @@ namespace ScriptAPI
 			return;
 		}
 
-		TDS::GetBoxCollider(entityID)->SetSize(value.X, value.Y, value.Z);
+		TDS::GetBoxCollider(entityID)->SetColliderSize(value.X, value.Y, value.Z);
 	}
 
 	// Public
@@ -140,19 +146,35 @@ namespace ScriptAPI
 		Vector3 oldSize = Size;
 		Size = Vector3(oldSize.X, oldSize.Y, valueZ);
 	}
+	Vector3 BoxColliderComponent::GetOffsetScale()
+	{
+		return Vector3(TDS::GetBoxCollider(entityID)->GetOffsetScale());
+	}
 
 	// CONSTRUCTOR ===========================================================================
 	BoxColliderComponent::BoxColliderComponent(TDS::EntityID ID) : entityID(ID), transform(TransformComponent(ID))
-	{ }
+	{
+		gameObject = EngineInterface::GetGameObject(ID);
+	}
 
 	void BoxColliderComponent::SetEntityID(TDS::EntityID ID)
 	{
 		entityID = ID;
 		transform = TransformComponent(ID);
+		gameObject = EngineInterface::GetGameObject(ID);
 	}
 
 	TDS::EntityID BoxColliderComponent::GetEntityID()
 	{
 		return entityID;
+	}
+
+	void BoxColliderComponent::SetEnabled(bool enabled)
+	{
+		TDS::setComponentIsEnable("Box Collider", GetEntityID(), enabled);
+	}
+	bool BoxColliderComponent::GetEnabled()
+	{
+		return TDS::getComponentIsEnable("Box Collider", GetEntityID());
 	}
 }

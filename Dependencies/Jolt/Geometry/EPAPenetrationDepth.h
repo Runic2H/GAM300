@@ -201,7 +201,7 @@ public:
 		hull.DrawLabel("Build initial hull");
 #endif
 #ifdef JPH_EPA_PENETRATION_DEPTH_DEBUG
-		Trace("Init: num_points = %d", support_points.mY.size());
+		Trace("Init: num_points = %u", (uint)support_points.mY.size());
 #endif
 		hull.Initialize(0, 1, 2);
 		for (typename Points::size_type i = 3; i < support_points.mY.size(); ++i)
@@ -284,9 +284,9 @@ public:
 			if (!t->IsFacing(w) || !hull.AddPoint(t, new_index, FLT_MAX, new_triangles))
 				return false;
 
-			// If the triangle was removed we can free it now
-			if (t->mRemoved)
-				hull.FreeTriangle(t);
+			// The triangle is facing the support point "w" and can now be safely removed
+			JPH_ASSERT(t->mRemoved);
+			hull.FreeTriangle(t);
 
 			// If we run out of triangles or points, we couldn't include the origin in the hull so there must be very little penetration and we report no collision.
 			if (!hull.HasNextTriangle() || support_points.mY.size() >= cMaxPointsToIncludeOriginInHull)
@@ -494,7 +494,7 @@ public:
 		return false;
 	}
 
-	/// Test if a cast shape inA moving from inStart to lambda * inStart.GetTranslation() + inDirection where lambda e [0, ioLambda> instersects inB
+	/// Test if a cast shape inA moving from inStart to lambda * inStart.GetTranslation() + inDirection where lambda e [0, ioLambda> intersects inB
 	///
 	/// @param inStart Start position and orientation of the convex object
 	/// @param inDirection Direction of the sweep (ioLambda * inDirection determines length)
@@ -504,7 +504,7 @@ public:
 	/// @param inB The convex object B, must support the GetSupport(Vec3) function.
 	/// @param inConvexRadiusA The convex radius of A, this will be added on all sides to pad A.
 	/// @param inConvexRadiusB The convex radius of B, this will be added on all sides to pad B.
-	/// @param inReturnDeepestPoint If the shapes are initially interesecting this determines if the EPA algorithm will run to find the deepest point
+	/// @param inReturnDeepestPoint If the shapes are initially intersecting this determines if the EPA algorithm will run to find the deepest point
 	/// @param ioLambda The max fraction along the sweep, on output updated with the actual collision fraction.
 	///	@param outPointA is the contact point on A
 	///	@param outPointB is the contact point on B

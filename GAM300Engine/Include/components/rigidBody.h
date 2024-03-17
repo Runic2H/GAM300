@@ -23,8 +23,7 @@ namespace TDS
 		enum class MotionType : uint8_t//EMotionType in Jolt/.../MotionType.h
 		{
 			STATIC = 0,		///< Non movable
-			KINEMATIC,		///< Movable using velocities only, does not respond to forces
-			DYNAMIC			///< Responds to forces as a normal physics object
+			DYNAMIC,		///< Responds to forces as a normal physics object
 		};
 
 		/*!*************************************************************************
@@ -82,11 +81,26 @@ namespace TDS
 		DLL_API bool& getSensorActivate() { return sensorActivated; }
 		DLL_API void setSensorActivate(bool input) { sensorActivated = input; }
 
-		DLL_API void setAABBmin(Vec3 minpt) { AABBmin = minpt; }
-		DLL_API Vec3& getAABBmin() { return AABBmin; }
+		DLL_API bool& getIsRayCast() { return mIsRayCast; }
+		DLL_API void setIsRayCast(bool isRayCast) { mIsRayCast = isRayCast; }
 
-		DLL_API void setAABBmax(Vec3 maxpt) { AABBmax = maxpt; }
-		DLL_API Vec3& getAABBmax() { return AABBmax; }
+		DLL_API Vec3& getRayDirection() { return mRayDirection; }
+		DLL_API void setRayDirection(Vec3 direction) { mRayDirection = direction; }
+
+		DLL_API Vec3& getRayOrigin() { return mRayOrigin; }
+		DLL_API void setRayOrigin(Vec3 origin) { mRayOrigin = origin; }
+
+		DLL_API float& getRayScale() { return mRayScale; }
+		DLL_API void setRayScale(float scale) { mRayScale = scale; }
+
+		DLL_API bool& getIsRayHit() { return mIsRayHit; }
+		DLL_API void setIsRayHit(bool hit) { mIsRayHit = hit; }
+
+		DLL_API bool& getIsPlayer() { return mIsPlayer; }
+		DLL_API void setIsPlayer(bool isPlayer) { mIsPlayer = isPlayer; }
+
+		DLL_API bool& getIsPlayerCast() { return mIsPlayerCast; }
+		DLL_API void setIsPlayerCast(bool isPlayerCast) { mIsPlayerCast = isPlayerCast; }
 
 		RTTR_ENABLE(IComponent);
 		RTTR_REGISTRATION_FRIEND
@@ -102,15 +116,22 @@ namespace TDS
 		float mGravityFactor;
 		float mLinearDamping;
 		float mAngularDamping;
-		
+
 		bool mUseGravity;
 		bool sensorActivated;
+		
+		// Raycast
+		Vec3 mRayDirection;
+		Vec3 mRayOrigin;
+		float mRayScale;
+		bool mIsRayCast;
+		bool mIsRayHit;
+		bool mIsPlayer;
+		bool mIsPlayerCast;
 
 		MotionType	mMotionType;
 		JoltBodyID	mBodyID;
 
-		Vec3 AABBmin;
-		Vec3 AABBmax;
 	};
 
 	DLL_API RigidBody* GetRigidBody(EntityID entityID);

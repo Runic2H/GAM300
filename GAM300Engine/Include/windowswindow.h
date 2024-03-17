@@ -32,7 +32,7 @@ namespace TDS
 		DLL_API void		setHeight(const uint32_t& _value) { m_Height = _value; }
 
 
-		DLL_API bool		createWindow(const WNDPROC& wndproc, int _width, int _height);
+		DLL_API bool		createWindow(const WNDPROC& wndproc, int _width, int _height, bool gameWindow);
 		DLL_API bool		processInputEvent();
 
 		DLL_API HWND		getWindowHandler() const { return m_handleWindows; }
@@ -41,7 +41,11 @@ namespace TDS
 		DLL_API bool		wasWindowResized() { return m_FrameBufferResize; }
 		DLL_API void		resetResizeFlag() { m_FrameBufferResize = false; }
 		DLL_API void		WindowIsResizing(bool resize) { m_FrameBufferResize = resize; }
-		DLL_API bool		GetWindowPos(int& xPos, int& yPos) const;
+		DLL_API bool		GetWindowPos();
+		DLL_API int			GetWindowPosX() { return WindowPosX; }
+		DLL_API int			GetWindowPosY() { return WindowPosY; }
+		DLL_API void        ToggleFullScreen(const bool& _toggle);
+		DLL_API bool&        IsFullScreen() { return m_isFullScreen; }
 
 	public:		//variables
 
@@ -63,6 +67,12 @@ namespace TDS
 		int		  m_cmdshow{};
 		bool	  m_FrameBufferResize{ false };
 		std::wstring_view  m_classname{};
+		bool	  m_isFullScreen{ false };
+		int		  m_OriginalWidth;
+		int		  m_OriginalHeight;
+	public:
+		int WindowPosX;
+		int WindowPosY;
 
 
 		//static constexpr int minWidth {1280};

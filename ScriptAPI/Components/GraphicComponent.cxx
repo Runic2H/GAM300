@@ -1,8 +1,12 @@
 #include "GraphicComponent.hxx"
 #include "components/GraphicsComponent.h"
+#include "../EngineInterface.hxx"
 
 namespace ScriptAPI {
-	GraphicComponent::GraphicComponent(TDS::EntityID ID) : entityID(ID) {}
+	GraphicComponent::GraphicComponent(TDS::EntityID ID) : entityID(ID), transform(TransformComponent(ID)) 
+	{
+		gameObject = EngineInterface::GetGameObject(ID);
+	}
 	
 	float GraphicComponent::getColourAlpha() 
 	{
@@ -23,6 +27,12 @@ namespace ScriptAPI {
 		Color = Vector4(r, g, b, value);
 	}
 
+	void GraphicComponent::SetModelName(System::String^ name)
+	{
+		
+		TDS::GetGraphicsComponent(entityID)->SetModelName(toStdString(name));
+	}
+
 	TDS::EntityID GraphicComponent::GetEntityID() 
 	{
 		return entityID;
@@ -31,6 +41,17 @@ namespace ScriptAPI {
 	void GraphicComponent::SetEntityID(TDS::EntityID ID) 
 	{
 		entityID = ID;
+		transform = TransformComponent(ID);
+		gameObject = EngineInterface::GetGameObject(ID);
+	}
+
+	void GraphicComponent::SetEnabled(bool enabled)
+	{
+		TDS::setComponentIsEnable("Graphics Component", GetEntityID(), enabled);
+	}
+	bool GraphicComponent::GetEnabled()
+	{
+		return TDS::getComponentIsEnable("Graphics Component", GetEntityID());
 	}
 
 	Vector4 GraphicComponent::Color::get() 
@@ -52,6 +73,12 @@ namespace ScriptAPI {
 			return;
 		}
 		TDS::GetGraphicsComponent(entityID)->SetColor(value.X, value.Y, value.Z, value.W);
+	}
+
+	void GraphicComponent::SetView2D(bool status)
+	{
+		
+		TDS::GetGraphicsComponent(entityID)->SetView2D(status);
 	}
 	
 }

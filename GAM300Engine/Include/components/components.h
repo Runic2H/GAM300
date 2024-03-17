@@ -24,8 +24,13 @@
 #include "transform.h"
 #include "winData.h"
 #include "UiSprite.h"
+#include "PointLightComponent.h"
+#include "DirLightComponent.h"
+#include "SpotLightComponent.h"
 #include "fmod_engine/AudioEngine.h"
 #include "SoundInfo.h"
+#include "ParticleComponent.h"
+#include "animationComponent.h"
 
 // Helper functions for components
 namespace TDS
@@ -40,13 +45,20 @@ namespace TDS
 	DLL_API struct ScriptValues
 	{
 		std::string name;
-		std::string value;
 		std::string type;
+
+		std::string value;
+
+		// For game objects and components
 		EntityID referenceEntityID = 0;
 
+		// For vector info
 		float vectorValueX;
 		float vectorValueY;
 		float vectorValueZ;
+		float vectorValueW;
+
+		// Header
 		std::string headerString;
 	};
 

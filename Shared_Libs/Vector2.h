@@ -13,12 +13,12 @@ class Vec2
     public:            
         // Constructors and destructors
         Vec2();
-        Vec2(const Vec2& v); // Copy constructor
+        //Vec2(const Vec2& v); // Copy constructor
         Vec2(float value); // Constructor with one value
         Vec2(float data[]); // Constructor with array of values
         Vec2(float newX, float newY); // Constructor with two values
         Vec2(const float* newX, const float* newY); // Constructor with two pointers
-        ~Vec2();
+        //~Vec2();
 
         // Static Properties
         static Vec2 down();
@@ -47,7 +47,7 @@ class Vec2
         // Returns a copy of vector with its magnitude clamped to maxLength.
         static Vec2 ClampMagnitude(Vec2 vector, float maxLength);
         // Returns the distance between a and b.
-        static float Distance(Vec2 a, Vec2 b);
+        DLL_API static float Distance(Vec2 a, Vec2 b);
         // Dot Product of two vectors.
         static float Dot(const Vec2 lhs, const Vec2 rhs);
         // Linearly interpolates between two vectors.
@@ -59,7 +59,7 @@ class Vec2
         // Returns a vector that is made from the smallest components of two vectors.
         static Vec2 Min(const Vec2 lhs, const Vec2 rhs);
         // Moves a point current in a straight line towards a target point.
-        static Vec2 MoveTowards(const Vec2 current, const Vec2 target, float maxDistanceDelta);
+        DLL_API static Vec2 MoveTowards(const Vec2 current, const Vec2 target, float maxDistanceDelta);
         static Vec2 Perpendicular(const Vec2 inDirection);
         static Vec2 Project(Vec2 vector, Vec2 onNormal);
         static Vec2 Reflect(Vec2 inDirection, Vec2 inNormal);
@@ -92,6 +92,7 @@ class Vec2
         float y;
         static constexpr float kEpsilon = 0.00001f;
         static constexpr float kEpsilonNormalSqrt = 1e-15f;
+
 };
 
 // Operators (unary arithmetic)
@@ -113,6 +114,8 @@ Vec2 operator/(float const& scalar, const Vec2& v);
 bool operator==(const Vec2& v1, const Vec2& v2);
 bool operator!=(const Vec2& v1, const Vec2& v2);
 std::ostream& operator<<(std::ostream& os, const Vec2& v);
+
+DLL_API Vec2 floatsToVec2(float x, float y);
 
 
 }

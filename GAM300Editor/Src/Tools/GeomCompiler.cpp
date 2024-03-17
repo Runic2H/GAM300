@@ -9,6 +9,7 @@
  *******************************************************************************/
 #include "Tools/GeomCompiler.h"
 #include "meshoptimizer-master/src/meshoptimizer.h"
+#include "GraphicsResource/GeomStruct.h"
 
 
 
@@ -319,7 +320,7 @@ void TDS::GeomCompiler::ProcessMesh(const aiMesh& AssimpMesh, const aiMatrix4x4&
 	{
 		RawVertex& Vertex = MeshPart.m_RawVertices[i];
 
-		auto L = AssimpMesh.mVertices[i];
+		auto L = /*Transform **/ AssimpMesh.mVertices[i];
 
 		Vertex.m_Pos = Vec3(static_cast<float>(L.x), static_cast<float>(L.y), static_cast<float>(L.z));
 		if (iTexCordinates == -1)

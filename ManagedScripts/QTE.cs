@@ -1,13 +1,23 @@
+/*!*************************************************************************
+****
+\file QTE.cs
+\author Cheang Wen Ding
+\par DP email: cheang.w@digipen.edu
+\par Course: csd3450
+\date 25-11-2023
+\brief  QTE Script
+****************************************************************************
+***/
+
 using ScriptAPI;
 using System;
 
 public class QTE : Script
 {
-    public bool isQTE = false;
+
     public GameObject interaction;
     public override void Awake()
     {
-        interaction = GameObjectScriptFind("QTE for interaction");
     }
     public override void OnEnable()
     {
@@ -18,29 +28,18 @@ public class QTE : Script
     }
     public override void Update()
     {
-        if (gameObject.GetSphereColliderComponent().GetIsInteract())
+        if (gameObject.GetComponent<RigidBodyComponent>().IsRayHit() && gameObject.GetComponent<RigidBodyComponent>().IsPlayerCast())
         {
-            isQTE = true;
+            interaction.SetActive(false);
         }
-        else
-        {
-            isQTE = false;
-            gameObject.GetSphereColliderComponent().SetIsInteract(false);
-            gameObject.GetSphereColliderComponent().SetIsTrigger(false);
-        }
-
-        if (isQTE)
-        {
-            interaction.SetActive(interaction.GetEntityID(), true);
-        }
-        else
-        {
-            interaction.SetActive(interaction.GetEntityID(), false);
-        }
-
     }
     public override void LateUpdate()
     {
+        if (gameObject.GetComponent<RigidBodyComponent>().IsRayHit() && gameObject.GetComponent<RigidBodyComponent>().IsPlayerCast())
+        {
+            //Console.WriteLine(gameObject.GetComponent<NameTagComponent>().GetName());
+            interaction.SetActive(true);
+        }
     }
     public override void OnDisable()
     {

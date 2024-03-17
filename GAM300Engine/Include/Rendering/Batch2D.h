@@ -8,7 +8,7 @@ namespace TDS
 		std::uint32_t	m_Instance = 0;
 		std::uint32_t	m_Offset = 0;
 	};
-	
+
 	class Transform;
 	//template <typename Derived>
 	struct Batch2D

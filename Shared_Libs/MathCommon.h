@@ -9,8 +9,9 @@
 #include <stdexcept>
 #include <iomanip>
 #include <limits>
+#include <algorithm>
 
-
+#include <rttr/registration.h>
 #include "Vector2.h"
 #include "Vector3.h"
 #include "Vector4.h"

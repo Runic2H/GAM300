@@ -8,8 +8,7 @@
  * \brief         Implementation of the physics system.
  *******************************************************************************/
 #include "Physics/PhysicsSystem.h"
-#include "AssetManagement/AssetManager.h"
-
+#include "Rendering/GraphicsManager.h"
 
 namespace TDS
 {
@@ -21,14 +20,19 @@ namespace TDS
 	std::unique_ptr<JPH::PhysicsSystem>			PhysicsSystem::m_pSystem;
 	std::unique_ptr<JPH::TempAllocatorImpl>		PhysicsSystem::m_pTempAllocator;
 	std::unique_ptr<JPH::JobSystemThreadPool>	PhysicsSystem::m_pJobSystem;
-	std::unique_ptr<JPH::BodyManager>			PhysicsSystem::m_BodyManager;
+	std::unique_ptr<JPH::BodyManager>           PhysicsSystem::m_pBodyManager;
 	std::vector<JoltBodyID>					    PhysicsSystem::m_pBodyIDVector;
-	
+	std::unordered_map<uint32_t, EntityID>		PhysicsSystem::m_pBodyIDMap;
+	MyContactListener*							PhysicsSystem::contact_listener;
+	std::unique_ptr<JPH::AllHitCollisionCollector<RayCastBodyCollector>>		PhysicsSystem::collector;
+
 	BPLayerInterfaceImpl						broad_phase_layer_interface;
 	ObjectVsBroadPhaseLayerFilterImpl			object_vs_broadphase_layer_filter;
 	ObjectLayerPairFilterImpl					object_vs_object_layer_filter;
-	MyBodyActivationListener body_activation_listener;
-	MyContactListener contact_listener;
+
+	void (*PhysicsSystem::OnTriggerEnter)(EntityID trigger, EntityID collider);
+	void (*PhysicsSystem::OnTriggerStay)(EntityID trigger, EntityID collider);
+	void (*PhysicsSystem::OnTriggerExit)(EntityID trigger, EntityID collider);
 
 	/*!*************************************************************************
 	 * Configuration
@@ -97,182 +101,89 @@ namespace TDS
 			object_vs_broadphase_layer_filter,
 			object_vs_object_layer_filter);
 
-		// A body activation listener gets notified when bodies activate and go to sleep
-		// Note that this is called from a job so whatever you do here needs to be thread safe.
-		// Registering one is entirely optional.
-		m_pSystem->SetBodyActivationListener(&body_activation_listener);
-
+		// initialise collector
+		collector = std::make_unique<JPH::AllHitCollisionCollector<RayCastBodyCollector>>();
 		// A contact listener gets notified when bodies (are about to) collide, and when they separate again.
 		// Note that this is called from a job so whatever you do here needs to be thread safe.
+		contact_listener = new MyContactListener();
 		// Registering one is entirely optional.
-		m_pSystem->SetContactListener(&contact_listener);
+		m_pSystem->SetContactListener(contact_listener);
 		std::cout << "successfully init Jolt Physics" << '\n';
 	}
 
-	void PhysicsSystem::PhysicsSystemUpdate(const float dt, const std::vector<EntityID>& entities, Transform* _transform, SphereCollider* _collider)
+	void PhysicsSystem::PhysicsSystemUpdate(const float dt, const std::vector<EntityID>& entities, Transform* _transform, RigidBody* _rigidbody)
 	{
-		static bool JPH_isPlay = false; // need to call only once in the update loop but it is a static function
 		// Physics loop
 		JPH::BodyInterface* pBodies = &m_pSystem->GetBodyInterface();
+		//for (int i = 0; i < entities.size(); ++i)
+		//{
+		//}
 		if (!GetIsPlaying())
 		{
-			TypeReference<AssetModel>* AssetModel = nullptr;
 			if (m_pSystem->GetNumBodies() != 0)
 			{
 				pBodies->RemoveBodies(JoltToTDS::ToBodyID(m_pBodyIDVector.data()), m_pBodyIDVector.size());
 				pBodies->DestroyBodies(JoltToTDS::ToBodyID(m_pBodyIDVector.data()), m_pBodyIDVector.size());
 				m_pBodyIDVector.clear();
+				m_pBodyIDMap.clear();
 			}
-			for (int i = 0; i < entities.size(); ++i)
-			{
-				/*if (_rigidbody[i].GetBodyID().IsInvalid())
-				{
-					
-					TDS_INFO("Init");
-					
-					TDS::AssetModel* tmp_assetModel = AssetManager::GetInstance()->GetModelFactory().GetModel(_graphics[i].GetModelName(), _graphics[i].GetAsset());
-					std::string key = _graphics[i].GetMeshName();
-					auto it = tmp_assetModel->m_Meshes.find(key);
-					if (it != tmp_assetModel->m_Meshes.end())
-					{
-						MeshData* tmp_MeshData = &(it->second);
-						Vec3 minBoundingBox(FLT_MAX, FLT_MAX, FLT_MAX);
-						Vec3 maxBoundingBox(-FLT_MAX, -FLT_MAX, -FLT_MAX);
-						for (auto &modelCoord : tmp_MeshData->m_VertexData)
-						{
-							minBoundingBox.x = Mathf::Min(minBoundingBox.x, modelCoord.m_Pos.x);
-							minBoundingBox.y = Mathf::Min(minBoundingBox.y, modelCoord.m_Pos.y);
-							minBoundingBox.z = Mathf::Min(minBoundingBox.z, modelCoord.m_Pos.z);
-
-							maxBoundingBox.x = Mathf::Max(maxBoundingBox.x, modelCoord.m_Pos.x);
-							maxBoundingBox.y = Mathf::Max(maxBoundingBox.y, modelCoord.m_Pos.y);
-							maxBoundingBox.z = Mathf::Max(maxBoundingBox.z, modelCoord.m_Pos.z);
-
-						}
-						_rigidbody[i].setAABBmin(minBoundingBox);
-						_rigidbody[i].setAABBmax(maxBoundingBox);
-					}
-					_graphics[i].setDebug(false);
-
-					JPH_CreateBodyID(entities[i], &_transform[i], &_rigidbody[i]);
-					
-				}*/
-				
-			}
-			
-			m_pSystem->OptimizeBroadPhase();
 			SetIsPlaying(true);
 		}
+		for (int i = 0; i < entities.size(); ++i)
+		{
+			if (_rigidbody[i].GetBodyID().IsInvalid() == false) continue;
+
+			JPH_CreateBodyID(entities[i], &_transform[i], &_rigidbody[i]);
+			m_pSystem->OptimizeBroadPhase();				
+		}
+			
 		//TDS_INFO(m_pSystem->GetNumBodies());
 		accumulatedTime += dt;		
 		while (accumulatedTime >= TimeStep::GetFixedDeltaTime())
 		{
+			// JPH physics simulation
 			for (int i = 0; i < entities.size(); ++i)
 			{
-				for (int j = 0; j < entities.size(); ++j)
-				{
-					if (!ecs.getEntityIsEnabled(entities[j]) || !ecs.getComponentIsEnabled<SphereCollider>(entities[j])) continue;
-					if (i == j) continue;
-					if (_collider[i].getAImode() != SphereCollider::AImode::PLAYER) continue;
-					if (_collider[j].getAImode() == SphereCollider::AImode::MONSTER)
-					{
-						float radii = _collider[i].GetRadius() + _collider[j].GetRadius();
-						float length = Vec3::Distance(_transform[i].GetPosition(), _transform[j].GetPosition());
-						if (length <= radii)
-						{
-							_collider[j].SetIsTrigger(true);
-						}
-						else
-						{
-							_collider[j].SetIsTrigger(false);
-						}
-						if (_collider[j].GetIsTrigger())
-						{
-							Vec3 monsterPos = _transform[i].GetPosition();
-							Vec3 playerPos = _transform[j].GetPosition();
-
-							Vec3 direction = (playerPos - monsterPos).normalize();
-
-							float speed = 300.0f;
-							monsterPos = monsterPos + direction * speed * TimeStep::GetFixedDeltaTime();
-							_transform[j].SetPosition({ monsterPos.x, _transform[j].GetPosition().y, monsterPos.z });
-						}
-					}
-					else if (_collider[j].getAImode() == SphereCollider::AImode::INTERACTABLE)
-					{
-						float radii = _collider[i].GetRadius() + _collider[j].GetRadius();
-						Vec3 interactable = { _transform[j].GetPosition().x, 0, _transform[j].GetPosition().z };
-						Vec3 playerPos = { _transform[i].GetPosition().x, 0, _transform[i].GetPosition().z };
-						float length = Vec3::Distance(playerPos, interactable);
-						float diffX = playerPos.x - interactable.x;
-						float diffY = playerPos.y - interactable.y;
-						float diffZ = playerPos.z - interactable.z;
-						//return Mathf::Sqrt(diffX * diffX + diffY * diffY + diffZ * diffZ);
-
-						//TDS_INFO("{}", length);
-						if (length <= radii)
-						{
-
-							_collider[i].SetIsInteract(true);
-							_collider[j].SetIsInteract(true);
-
-							_collider[j].SetIsTrigger(true);
-						}
-						/*else
-						{
-							_collider[i].SetIsInteract(false);
-							_collider[j].SetIsInteract(false);
-
-							_collider[j].SetIsTrigger(false);
-						}*/
-
-						if (_collider[j].GetIsInteract())
-						{
-							NameTag* vNameTag = ecs.getComponent<NameTag>(entities[j]);
-							_collider[i].setColliderName(vNameTag->GetName());
-						}
-					}
-				}
-				
-
-
-				//if (_rigidbody[i].GetBodyID().IsInvalid())
-				//{
-
-				//	TDS_INFO("In Update Loop");
-				//	JPH_CreateBodyID(entities[i], &_transform[i], &_rigidbody[i]);
-
-				//}
-				/*
 				using namespace JoltToTDS;
 				EActivation mode = EActivation::Activate;
-				pBodies->SetPosition(ToBodyID(_rigidbody[i]), ToVec3(_transform[i].GetPosition()), mode);
-				pBodies->SetRotation(ToBodyID(_rigidbody[i]), ToQuat(_transform[i].GetRotation()), mode);
-				*/
+				//pBodies->SetPosition(ToBodyID(_rigidbody[i]), ToVec3(_transform[i].GetPosition()), mode); // only uncomment for debugging in editor
+				if (GetBoxCollider(entities[i])) // Temporary will be remove with animation system
+				{
+					BoxCollider* vBox = GetBoxCollider(entities[i]);
+					auto* pBody = m_pSystem->GetBodyLockInterfaceNoLock().TryGetBody(ToBodyID(_rigidbody[i]));
+					if (vBox->GetIsTrigger())
+					{
+						pBody->SetIsSensor(true);
+					}
+					else
+					{
+						pBody->SetIsSensor(false);
+					}
+				}
+
 			}
-			// JPH physics simulation
-			//m_pSystem->Update(TimeStep::GetFixedDeltaTime(), 1, m_pTempAllocator.get(), m_pJobSystem.get());
+			
+			m_pSystem->Update(TimeStep::GetFixedDeltaTime(), 1, m_pTempAllocator.get(), m_pJobSystem.get());
 			// Update back to the ECS
-		/*
 			for (int j = 0; j < entities.size(); ++j)
 			{
 				if (!ecs.getEntityIsEnabled(entities[j]) || !ecs.getComponentIsEnabled<RigidBody>(entities[j]))
 				{
 					continue;
 				}
-				if (contact_listener.GetSensorActivate())
+				if (_rigidbody[j].getIsRayCast())
 				{
-					int index = contact_listener.getSensorBodyID();
-					if (_rigidbody[j].GetBodyID().GetIndexAndSequenceNumber() == index)
+					JPH_Raycast(entities[j], &_transform[j], &_rigidbody[j], &_rigidbody[j].getIsPlayer());
+				}
+				/*if (GetBoxCollider(entities[j]))
+				{
+					BoxCollider* vBox = GetBoxCollider(entities[j]);
+					if (vBox->GetIsTrigger())
 					{
-						_rigidbody[j].setSensorActivate(true);
+						std::cout << _rigidbody[j].GetBodyID().GetIndexAndSequenceNumber() << '\n';
 					}
-				}
-				else
-				{
-					_rigidbody[j].setSensorActivate(false);
-				}
-
+				}*/
+				
 				Vec3 pos = _transform[j].GetPosition();
 				Vec3 scale = _transform[j].GetScale();
 				Vec3 rot = _transform[j].GetRotation();
@@ -280,41 +191,41 @@ namespace TDS
 				EventHandler::postChildTransformationEvent(entities[j], pos, scale, rot);
 
 			}
-			*/
+			
 			accumulatedTime -= TimeStep::GetFixedDeltaTime();
 		}	
-		
 	}
 
 	void PhysicsSystem::JPH_SystemUpdate(Transform* _transform, RigidBody* _rigidbody)
 	{
 		JPH::BodyID JPHBodyID = JoltToTDS::ToBodyID(*_rigidbody);
 		JPH::BodyInterface* pBodies = &m_pSystem->GetBodyInterface();
-		//_transform->SetPosition(JoltToTDS::ToVec3(pBodies->GetPosition(JPHBodyID)));
-		//_transform->SetRotation(JoltToTDS::ToVec3(pBodies->GetRotation(JPHBodyID).GetEulerAngles()));
-		//_rigidbody->SetLinearVel(JoltToTDS::ToVec3(pBodies->GetLinearVelocity(JPHBodyID)));
-		//_rigidbody->SetAngularVel(JoltToTDS::ToVec3(pBodies->GetAngularVelocity(JPHBodyID)));
-		//_transform->SetDirty(false);
-	}
-	void PhysicsSystem::SensorActivated(RigidBody* _rigidbody)
-	{
-		if (contact_listener.GetSensorActivate())
+		if (pBodies->GetMotionType(JPHBodyID) == JPH::EMotionType::Dynamic)
 		{
-			_rigidbody->setSensorActivate(true);
+			_transform->SetPosition(JoltToTDS::ToVec3(pBodies->GetPosition(JPHBodyID)));
+			_rigidbody->SetLinearVel(JoltToTDS::ToVec3(pBodies->GetLinearVelocity(JPHBodyID)));
+		}
+		if (_rigidbody->getIsRayHit() &&  
+			(collector->mHits.data()->mBodyID.GetIndexAndSequenceNumber() != _rigidbody->GetBodyID().GetIndexAndSequenceNumber() ||
+			collector->HadHit() == false))
+		{
+			_rigidbody->setIsRayHit(false);
+			if (_rigidbody->getIsPlayer())
+			{
+				_rigidbody->setIsPlayerCast(false);
+			}
+		}
 
-		}
-		else
-		{
-			_rigidbody->setSensorActivate(false);
-		}
 	}
 	void PhysicsSystem::JPH_SystemShutdown()
 	{
+		// cleanup
 		m_pTempAllocator = nullptr;
 		m_pSystem = nullptr;
 		m_pJobSystem = nullptr;
-		m_BodyManager = nullptr;
-	
+		collector = nullptr;
+		delete contact_listener;
+		contact_listener = nullptr;
 	}
 	void PhysicsSystem::JPH_CreateBodyID(const EntityID& _entityID, Transform* _transform, RigidBody* _rigidbody)
 	{
@@ -322,7 +233,7 @@ namespace TDS
 		if (GetSphereCollider(_entityID))
 		{
 			SphereCollider* vSphere = GetSphereCollider(_entityID);
-			JPH::SphereShapeSettings s_sphereSettings(_transform->GetScale().x / (vSphere->GetRadius() * 2.f));
+			JPH::SphereShapeSettings s_sphereSettings(vSphere->GetColliderRadius());
 			JPH::ShapeSettings::ShapeResult result = s_sphereSettings.Create();
 			JPH::ShapeRefC sphereShape = result.Get(); // if error, high chance is how the shape is created, radius cannot be 0!
 			JPH::BodyCreationSettings b_sphereSetting
@@ -331,74 +242,64 @@ namespace TDS
 				JoltToTDS::ToVec3(_transform->GetPosition()),
 				JoltToTDS::ToQuat((_transform->GetRotation())),
 				vMotionType,
-				JoltLayers::GetObjectLayer(_rigidbody->GetMotionTypeInt())
+				JoltLayers::GetObjectLayer(_rigidbody->GetMotionTypeInt(), vSphere->GetIsTrigger())
 			);
 			b_sphereSetting.mFriction = _rigidbody->GetFriction();
 			b_sphereSetting.mRestitution = _rigidbody->GetRestitution();
 			b_sphereSetting.mGravityFactor = (_rigidbody->GetUseGravity()) ? _rigidbody->GetGravityFactor() : 0.0f;
 			b_sphereSetting.mLinearDamping = _rigidbody->GetLinearDamping();
 			b_sphereSetting.mAngularDamping = _rigidbody->GetAngularDamping();
-			b_sphereSetting.mLinearVelocity = JoltToTDS::ToVec3(_rigidbody->GetLinearVel());
-			b_sphereSetting.mAngularVelocity = JoltToTDS::ToVec3(_rigidbody->GetAngularVel());
 			b_sphereSetting.mIsSensor = vSphere->GetIsTrigger();
+			b_sphereSetting.mAllowSleeping = false;
 
 			JPH::BodyID sphereID = m_pSystem->GetBodyInterface().CreateAndAddBody(b_sphereSetting, JPH::EActivation::Activate);
 			JoltBodyID vJoltBodyID(sphereID.GetIndexAndSequenceNumber());
 			m_pBodyIDVector.push_back(vJoltBodyID);
+			uint32_t vIndex = sphereID.GetIndex();
+			m_pBodyIDMap[vIndex] = _entityID;
 			TDS_INFO("Sphere Created!");
 			_rigidbody->SetBodyID(vJoltBodyID);
 		}
 		else if (GetBoxCollider(_entityID))
 		{
 			BoxCollider* vBox = GetBoxCollider(_entityID);
-			//float transX, transY, transZ;
-			Vec3 length = (_rigidbody->getAABBmax() - _rigidbody->getAABBmin());
-			if (length.x == 0.f)
-			{
-				length.x = _rigidbody->getAABBmax().x;
-			}
-			if (length.y == 0.f)
-			{
-				length.y = _rigidbody->getAABBmax().y;
-			}
-			if (length.z == 0.f)
-			{
-				length.z = _rigidbody->getAABBmax().z;
-			}
-			//Vec3 halfExtents = { _transform->GetScale().x / vBox->GetSize().x, _transform->GetScale().y / vBox->GetSize().y, _transform->GetScale().z / vBox->GetSize().z };
-			//halfExtents = (halfExtents) * 2.f;
-			JPH::Vec3 JPHextents = JoltToTDS::ToVec3(length);
+			Vec3 halfExtents = vBox->GetColliderSize();
+			JPH::Vec3 JPHextents = JoltToTDS::ToVec3(halfExtents);
+	
 			JPH::BoxShapeSettings s_boxSettings(JPHextents);
 			JPH::ShapeSettings::ShapeResult result = s_boxSettings.Create();
 			JPH::ShapeRefC boxShape = result.Get();
+
 			JPH::BodyCreationSettings b_BoxSetting
 				(
 					boxShape,
-					JoltToTDS::ToVec3(_transform->GetPosition()),
+					JoltToTDS::ToVec3(vBox->GetColliderCenter()),
 					JoltToTDS::ToQuat((_transform->GetRotation())),
 					vMotionType,
-					JoltLayers::GetObjectLayer(_rigidbody->GetMotionTypeInt())
+					JoltLayers::GetObjectLayer(_rigidbody->GetMotionTypeInt(), vBox->GetIsTrigger())
 				);
 			b_BoxSetting.mFriction = _rigidbody->GetFriction();
 			b_BoxSetting.mRestitution = _rigidbody->GetRestitution();
-			b_BoxSetting.mGravityFactor = _rigidbody->GetGravityFactor();
+			b_BoxSetting.mGravityFactor = (_rigidbody->GetUseGravity()) ? _rigidbody->GetGravityFactor() : 0.0f;
 			b_BoxSetting.mLinearDamping = _rigidbody->GetLinearDamping();
 			b_BoxSetting.mAngularDamping = _rigidbody->GetAngularDamping();
-			b_BoxSetting.mLinearVelocity = JoltToTDS::ToVec3(_rigidbody->GetLinearVel());
-			b_BoxSetting.mAngularVelocity = JoltToTDS::ToVec3(_rigidbody->GetAngularVel());
 			b_BoxSetting.mIsSensor = vBox->GetIsTrigger();
-
-
+			b_BoxSetting.mAllowSleeping = false;
+			
 			JPH::BodyID boxID = m_pSystem->GetBodyInterface().CreateAndAddBody(b_BoxSetting, JPH::EActivation::Activate);
+
 			JoltBodyID vJoltBodyID(boxID.GetIndexAndSequenceNumber());
 			m_pBodyIDVector.push_back(vJoltBodyID);
+
+			uint32_t vIndex = boxID.GetIndex();
+			m_pBodyIDMap[vIndex] = _entityID;
 			TDS_INFO("Box Created!");
 			_rigidbody->SetBodyID(vJoltBodyID);
 		}
 		else if (GetCapsuleCollider(_entityID))
 		{
 			CapsuleCollider* vCapsule = GetCapsuleCollider(_entityID);
-			JPH::CapsuleShapeSettings s_capsuleSettings(vCapsule->GetHeight()*2.f, vCapsule->GetRadius()*2.f);
+			JPH::CapsuleShapeSettings s_capsuleSettings(vCapsule->GetHeight(), vCapsule->GetRadius());
 			JPH::ShapeSettings::ShapeResult result = s_capsuleSettings.Create();
 			JPH::ShapeRefC capsuleShape = result.Get();
 			JPH::BodyCreationSettings b_capsuleSetting
@@ -407,21 +308,23 @@ namespace TDS
 				JoltToTDS::ToVec3(_transform->GetPosition()),
 				JoltToTDS::ToQuat((_transform->GetRotation())),
 				vMotionType,
-				JoltLayers::GetObjectLayer(_rigidbody->GetMotionTypeInt())
+				JoltLayers::GetObjectLayer(_rigidbody->GetMotionTypeInt(), vCapsule->GetIsTrigger())
 			);
 			b_capsuleSetting.mFriction = _rigidbody->GetFriction();
 			b_capsuleSetting.mRestitution = _rigidbody->GetRestitution();
-			b_capsuleSetting.mGravityFactor = _rigidbody->GetGravityFactor();
+			b_capsuleSetting.mGravityFactor = (_rigidbody->GetUseGravity()) ? _rigidbody->GetGravityFactor() : 0.0f;
 			b_capsuleSetting.mLinearDamping = _rigidbody->GetLinearDamping();
 			b_capsuleSetting.mAngularDamping = _rigidbody->GetAngularDamping();
-			b_capsuleSetting.mLinearVelocity = JoltToTDS::ToVec3(_rigidbody->GetLinearVel());
-			b_capsuleSetting.mAngularVelocity = JoltToTDS::ToVec3(_rigidbody->GetAngularVel());
-			b_capsuleSetting.mIsSensor = vCapsule->GetIsTrigger();
+			b_capsuleSetting.mAllowSleeping = false;
+			//b_capsuleSetting.mIsSensor = b_capsuleSetting->GetIsTrigger();
 			
 			JPH::BodyID capsuleID = m_pSystem->GetBodyInterface().CreateAndAddBody(b_capsuleSetting, JPH::EActivation::Activate);
 			
 			JoltBodyID vJoltBodyID(capsuleID.GetIndexAndSequenceNumber());
 			m_pBodyIDVector.push_back(vJoltBodyID);
+
+			uint32_t vIndex = capsuleID.GetIndex();
+			m_pBodyIDMap[vIndex] = _entityID;
 
 			TDS_INFO("Capsule Created!");
 			_rigidbody->SetBodyID(vJoltBodyID);
@@ -432,5 +335,54 @@ namespace TDS
 			TDS_ASSERT(false, "No collider found for entity, for now rigidbody need to have collider")
 		}
 		
+	}
+
+
+	void PhysicsSystem::JPH_Raycast(const EntityID& entities, Transform* _transform, RigidBody* _rigidbody, bool isPlayer)
+
+	{
+		//float vRayScale = _rigidbody->getRayScale();
+		////float offsetDistance = _transform->GetScale().x + 100.0f;
+		//JPH::Vec3 vRayOrigin = JoltToTDS::ToVec3(_transform->GetPosition());
+		//JPH::Vec3 vRayDirection = JoltToTDS::ToVec3(GraphicsManager::getInstance().GetCamera().getForwardVector());
+
+		//JPH::RayCast ray{ vRayOrigin, vRayDirection * 20.0f * vRayScale };
+		//collector->Reset();
+		//m_pSystem->GetBroadPhaseQuery().CastRay(ray, *collector);
+		float offsetDistance = _transform->GetScale().x * 0.5f;
+		JPH::Vec3 vRayOrigin = JoltToTDS::ToVec3(_transform->GetPosition() + GraphicsManager::getInstance().GetCamera().getForwardVector() * offsetDistance);
+		JPH::Vec3 vRayDirection = JoltToTDS::ToVec3(GraphicsManager::getInstance().GetCamera().getForwardVector());
+		JPH::Vec3 vScaledRayDir = vRayDirection * _rigidbody->getRayScale();
+
+		JPH::RayCast ray{ vRayOrigin, vScaledRayDir };
+		collector->Reset();
+		m_pSystem->GetBroadPhaseQuery().CastRay(ray, *collector);
+
+		const JPH::BroadPhaseQuery* broadphase = &m_pSystem->GetBroadPhaseQuery();
+
+		if (collector->HadHit())
+		{
+			JPH::BroadPhaseCastResult* result = collector->mHits.data();
+			auto entityID = findEntityByID(result->mBodyID.GetIndex());
+			if (entityID.has_value())
+			{
+				GetRigidBody(entityID.value())->setIsRayHit(true);
+				GetRigidBody(entityID.value())->setIsPlayerCast(isPlayer);
+			}
+		}
+
+	}
+
+	std::optional<EntityID> TDS::PhysicsSystem::findEntityByID(uint32_t key)
+	{
+		auto it = m_pBodyIDMap.find(key);
+		if (it != m_pBodyIDMap.end()) {
+			// Key found, return the corresponding EntityID
+			return it->second;
+		}
+		else {
+			// Key not found
+			return std::nullopt;
+		}
 	}
 }

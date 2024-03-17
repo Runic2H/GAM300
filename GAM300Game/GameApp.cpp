@@ -28,16 +28,23 @@
 
 #include "Physics/PhysicsSystem.h"
 #include "Rendering/ObjectPicking.h"
+#include "MessagingSystem/MessageSystem.h"
 
+
+bool isPlaying = true;
+bool gamePaused = false;
+bool startPlaying = true;
 
 
 namespace TDS
 {
+    bool SceneManager::isPlaying;
+
     GamApp::GamApp(HINSTANCE hinstance, int& nCmdShow, const wchar_t* classname, WNDPROC wndproc)
         :m_window(hinstance, nCmdShow, classname)
     {
         Log::Init();
-        m_window.createWindow(wndproc, 1280, 720);
+        m_window.createWindow(wndproc, 1280, 720, true);
         TDS_INFO("window width: {}, window height: {}", m_window.getWidth(), m_window.getHeight());
     }
     void  GamApp::handleMessages(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
@@ -46,7 +53,9 @@ namespace TDS
 
         switch (uMsg)
         {
-
+        case WM_CREATE:
+            TDS::InputSystem::GetInstance()->setWindowCenter(GetSystemMetrics(SM_CXSCREEN) / 2, GetSystemMetrics(SM_CYSCREEN) / 2);
+            break;
         case WM_DESTROY:
             PostQuitMessage(0);
             break;
@@ -57,33 +66,43 @@ namespace TDS
             m_window.setWidth(LOWORD(lParam));
             m_window.setHeight(HIWORD(lParam));
             m_window.WindowIsResizing(true);
+            m_window.WindowIsResizing(true);
+            if (wParam == SIZE_MINIMIZED)
+            {
+                BROADCAST_MESSAGE("Stop Rendering");
+            }
+            else
+            {
+                BROADCAST_MESSAGE("Continue Rendering");
+
+            }
             break;
-        case WM_LBUTTONDOWN:
-        case WM_LBUTTONUP:
-        case WM_RBUTTONDOWN:
-        case WM_RBUTTONUP:
-        case WM_MBUTTONDOWN:
-        case WM_MBUTTONUP:
-        case WM_XBUTTONDOWN:
         case WM_XBUTTONUP:
         {
-            Input::processMouseInput(wParam, lParam);
+            //Input::processMouseInput(wParam, lParam);
         }break;
 
-        case WM_MOUSEMOVE:
+        /*case WM_MOUSEMOVE:
         {
             Input::updateMousePosition(lParam);
-        }break;
+        }break;*/
 
-        case WM_MOUSEWHEEL:
-        {
-            Input::processMouseScroll(wParam);
-        }break;
-
-        case WM_SYSKEYDOWN:
-        case WM_SYSKEYUP:
         case WM_KEYDOWN:
         {
+            if (wParam == VK_F11)
+            {
+                if (m_window.IsFullScreen() == false && !GraphicsManager::getInstance().IfFrameHasBegin())
+                {
+                    m_window.IsFullScreen() = true;
+                    m_window.ToggleFullScreen(true);
+                }
+                else if (m_window.IsFullScreen() == true && !GraphicsManager::getInstance().IfFrameHasBegin())
+                {
+                    m_window.IsFullScreen() = false;
+                    m_window.ToggleFullScreen(false);
+                }
+                else {}
+            }
             uint32_t VKcode = static_cast<uint32_t>(wParam);
             WORD keyflags = HIWORD(lParam);
             if (!(keyflags & KF_REPEAT))
@@ -107,6 +126,52 @@ namespace TDS
             Input::keystatus = Input::KeyStatus::RELEASED;
             Input::keystatus = Input::KeyStatus::IDLE;
         }break;
+
+        // Input System Stuff
+        case WM_INPUT: {
+
+            RAWINPUT rawInput;
+            UINT size = sizeof(RAWINPUT);
+
+            GetRawInputData((HRAWINPUT)lParam, RID_INPUT, &rawInput, &size, sizeof(RAWINPUTHEADER));
+
+            if (rawInput.header.dwType == RIM_TYPEMOUSE) {
+
+                // Process mouse input
+                TDS::InputSystem::GetInstance()->setRawMouseInput(rawInput.data.mouse.lLastX, rawInput.data.mouse.lLastY);
+
+                // Accumulate the X-axis mouse movement
+                InputSystem::GetInstance()->accumulatedMouseX += rawInput.data.mouse.lLastX;
+
+                // Accumulate the Y-axis mouse movement
+                InputSystem::GetInstance()->accumulatedMouseY += rawInput.data.mouse.lLastY;
+
+            }
+
+            POINT p;
+            GetCursorPos(&p);
+            ScreenToClient(GetActiveWindow(), &p);
+            InputSystem::GetInstance()->setLocalMousePos(p.x, p.y);
+            if (TDS::InputSystem::GetInstance()->getMouseLock())
+            {
+                HWND activeWindow = GetForegroundWindow();
+                if (activeWindow != nullptr) {
+                    RECT windowRect;
+                    if (GetWindowRect(activeWindow, &windowRect)) {
+                        TDS::InputSystem::GetInstance()->setWindowCenter((windowRect.left + windowRect.right) / 2, (windowRect.top + windowRect.bottom) / 2);
+                    }
+                }
+                TDS::InputSystem::GetInstance()->lockMouseCenter(activeWindow);
+            }
+
+        }break;
+        case WM_MOUSEWHEEL: {
+            InputSystem::GetInstance()->processMouseScroll(wParam);
+        }break;
+        case WM_SETCURSOR:
+        {
+            TDS::InputSystem::GetInstance()->hideMouse();
+        }break;
         }
     }
     void GamApp::SetWindowHandle(HWND hWnd)
@@ -120,13 +185,28 @@ namespace TDS
 
     void GamApp::Initialize()
     {
-       GraphicsManager::getInstance().Init(&m_window);
-       AssetManager::GetInstance()->PreloadAssets();
-       skyboxrender.Init();
+        GraphicsManager::getInstance().Init(&m_window);
+        AssetManager::GetInstance()->PreloadAssets();
+        /*skyboxrender.Init();*/
+        GraphicsManager::getInstance().GetDebugRenderer().Init();
+        GraphicsManager::getInstance().InitSkyBox();
+
+        RAWINPUTDEVICE rid;
+        rid.usUsagePage = 0x01;  // Mouse
+        rid.usUsage = 0x02;      // Mouse
+        rid.dwFlags = 0;
+        rid.hwndTarget = NULL;
+
+        if (RegisterRawInputDevices(&rid, 1, sizeof(RAWINPUTDEVICE)) == FALSE) {
+            std::cout << "Mouse Failed to Register" << std::endl;
+        }
     }
 
     void GamApp::FixedUpdate()
     {
+
+
+
         auto executeFixedUpdate = GetFunctionPtr<void(*)(void)>
             (
                 "ScriptAPI",
@@ -145,59 +225,190 @@ namespace TDS
                 "ExecuteUpdate"
             );
 
-        while (m_window.processInputEvent()) //while is_playing?
+        auto executeLateUpdate = GetFunctionPtr<void(*)(void)>
+            (
+                "ScriptAPI",
+                "ScriptAPI.EngineInterface",
+                "ExecuteLateUpdate"
+            );
+
+        auto executeFixedUpdate = GetFunctionPtr<void(*)(void)>
+            (
+                "ScriptAPI",
+                "ScriptAPI.EngineInterface",
+                "ExecuteFixedUpdate"
+            );
+
+        auto reloadScripts = GetFunctionPtr<void(*)(void)>
+            (
+                "ScriptAPI",
+                "ScriptAPI.EngineInterface",
+                "Reload"
+            );
+
+        auto addScript = GetFunctionPtr<bool(*)(int, const char*)>
+            (
+                "ScriptAPI",
+                "ScriptAPI.EngineInterface",
+                "AddScriptViaName"
+            );
+        SceneManager::GetInstance()->toggleScript = GetFunctionPtr<bool(*)(int, const char*)>
+            (
+                "ScriptAPI",
+                "ScriptAPI.EngineInterface",
+                "ToggleScriptViaName"
+            );
+        float lightx = 0.f;
+        RECT clientRect;
+        GetClientRect(m_window.getWindowHandler(), &clientRect);
+
+        int clientWidth = clientRect.right - clientRect.left;
+        int clientHeight = clientRect.bottom - clientRect.top;
+
+        // Maintaining a 16:9 aspect ratio
+        float aspectRatio = 16.0f / 9.0f;
+        int viewportWidth, viewportHeight;
+
+        if (clientWidth < (clientHeight * aspectRatio)) {
+            // Limited by width, scale height
+            viewportWidth = clientWidth;
+            viewportHeight = static_cast<int>(clientWidth / aspectRatio);
+        }
+        else {
+            // Limited by height, scale width
+            viewportWidth = static_cast<int>(clientHeight * aspectRatio);
+            viewportHeight = clientHeight;
+        }
+
+        // Set the viewport dimensions
+        GraphicsManager::getInstance().getViewportScreen().x = 0; // or some offset if needed
+        GraphicsManager::getInstance().getViewportScreen().y = 0; // or some offset if needed
+        GraphicsManager::getInstance().getViewportScreen().z = viewportWidth;
+        GraphicsManager::getInstance().getViewportScreen().w = viewportHeight;
+
+        while (m_window.processInputEvent())
         {
+            RECT clientRect;
+            GetClientRect(m_window.getWindowHandler(), &clientRect);
+
+            int clientWidth = clientRect.right - clientRect.left;
+            int clientHeight = clientRect.bottom - clientRect.top;
+
+            // Maintaining a 16:9 aspect ratio
+            float aspectRatio = 16.0f / 9.0f;
+            int viewportWidth, viewportHeight;
+
+            if (clientWidth < (clientHeight * aspectRatio)) {
+                // Limited by width, scale height
+                viewportWidth = clientWidth;
+                viewportHeight = static_cast<int>(clientWidth / aspectRatio);
+            }
+            else {
+                // Limited by height, scale width
+                viewportWidth = static_cast<int>(clientHeight * aspectRatio);
+                viewportHeight = clientHeight;
+            }
+
+            // Set the viewport dimensions
+            GraphicsManager::getInstance().getViewportScreen().x = 0; // or some offset if needed
+            GraphicsManager::getInstance().getViewportScreen().y = 0; // or some offset if needed
+            GraphicsManager::getInstance().getViewportScreen().z = viewportWidth;
+            GraphicsManager::getInstance().getViewportScreen().w = viewportHeight;
+
+            InputSystem::GetInstance()->update();
+
             TimeStep::CalculateDeltaTime();
             float DeltaTime = TimeStep::GetDeltaTime();
-          
+
             GraphicsManager::getInstance().setCamera(m_GameCamera);
             GraphicsManager::getInstance().GetCamera().setEditorCamera(false);
+            GraphicsManager::getInstance().GetCamera().setScrollWheel(false);
 
-           GraphicsManager::getInstance().GetCamera().UpdateCamera(DeltaTime, true);
+
+            GraphicsManager::getInstance().GetCamera().UpdateCamera(DeltaTime, isPlaying);
+
+            lightx = lightx < -1.f ? 1.f : lightx - 0.005f;
+            RendererSystem::lightPosX = lightx;
 
             Vec3 m_windowdimension{ static_cast<float>(m_window.getWidth()), static_cast<float>(m_window.getHeight()), 1.f };
             if (GraphicsManager::getInstance().getFrameBuffer().getDimensions() != m_windowdimension && m_windowdimension.x > 0 && m_windowdimension.y > 0)
             {
-                GraphicsManager::getInstance().getFrameBuffer().resize(m_windowdimension, GraphicsManager::getInstance().getRenderPass().getRenderPass());
- 
+                BROADCAST_MESSAGE("Resize Event", m_window.getWidth(), m_window.getHeight());
+
+
             }
-            GraphicsManager::getInstance().StartFrame();
-            VkCommandBuffer commandBuffer = GraphicsManager::getInstance().getCommandBuffer();
-            std::uint32_t frame = GraphicsManager::getInstance().GetSwapchainRenderer().getFrameIndex();
-            
 
-            GraphicsManager::getInstance().getRenderPass().beginRenderPass(commandBuffer, &GraphicsManager::getInstance().getFrameBuffer());
 
-            skyboxrender.RenderSkyBox(commandBuffer, frame);
+            if (isPlaying)
+            {
+                if (Input::isKeyPressed(VK_ESCAPE))
+                {
+                    gamePaused = !gamePaused;
+                    //proxy_audio_system::ScriptPlayAllPaused();
+                }
 
-            FixedUpdate();
-            ecs.runSystems(1, DeltaTime); // Other systems
-            executeUpdate();
-            LateUpdate();
+                if (startPlaying)
+                {
+                    InputSystem::GetInstance()->setMouseLock(false);
+                    InputSystem::GetInstance()->setCursorVisible(true);
+                    SceneManager::GetInstance()->isPlaying = true;
+                    SceneManager::GetInstance()->loadScene(SceneManager::GetInstance()->getCurrentScene());
+                    startPlaying = false;
+                    SceneManager::GetInstance()->awake();
+                    SceneManager::GetInstance()->start();
+                    proxy_audio_system::ScriptPlayAllPaused();
+                }
+
+                if (!gamePaused)
+                {
+                    executeFixedUpdate();
+                    ecs.runSystems(1, DeltaTime);
+                    executeUpdate();
+                    executeLateUpdate();
+                }
+            }
+            else
+            {
+                startPlaying = true;
+                SceneManager::GetInstance()->isPlaying = false;
+                if (PhysicsSystem::GetIsPlaying() || CameraSystem::GetIsPlaying()) // consider moving it to another seperate system (EditorApp?)
+                {
+                    PhysicsSystem::SetIsPlaying(false);
+                    CameraSystem::SetIsPlaying(false);
+                    InputSystem::GetInstance()->setMouseLock(false);
+                    InputSystem::GetInstance()->setCursorVisible(true);
+                }
+                proxy_audio_system::ScriptPauseAll();
+            }
+
             ecs.runSystems(2, DeltaTime); // Event handler
-            ecs.runSystems(3, DeltaTime); // Graphics
+            if (GraphicsManager::getInstance().IsRenderOn())
+            {
+                GraphicsManager::getInstance().StartFrame();
 
-          
-            //// event handling systems 
-            GraphicsManager::getInstance().getRenderPass().endRenderPass(commandBuffer);
 
-            //GraphicsManager::getInstance().getObjectPicker().Update(commandBuffer, frame, Vec2(Input::getMousePosition().x, Input::getMousePosition().y));
-           
+                ecs.runSystems(3, DeltaTime);
 
-            GraphicsManager::getInstance().GetSwapchainRenderer().BeginSwapChainRenderPass(commandBuffer);
-            GraphicsManager::getInstance().RenderFullScreen();
-            GraphicsManager::getInstance().GetSwapchainRenderer().EndSwapChainRenderPass(commandBuffer);
-            GraphicsManager::getInstance().EndFrame();
 
+
+                GraphicsManager::getInstance().DrawFrame();
+
+                GraphicsManager::getInstance().EndFrame();
+            }
             Input::scrollStop();
-
+            TDS::InputSystem::GetInstance()->setRawMouseInput(0, 0);
+            InputSystem::GetInstance()->accumulatedMouseX = 0;
+            InputSystem::GetInstance()->accumulatedMouseY = 0;
         }
         stopScriptEngine();
+
+
         AssetManager::GetInstance()->ShutDown();
-        //vkDeviceWaitIdle(GraphicsManager::getInstance().getVkInstance().getVkLogicalDevice());
+
         ecs.destroy();
-        skyboxrender.ShutDown();
+
         GraphicsManager::getInstance().ShutDown();
+        PhysicsSystem::JPH_SystemShutdown();
     }
 
     void GamApp::LateUpdate()
@@ -214,7 +425,8 @@ namespace TDS
     void GamApp::Run()
     {
         startScriptEngine();
-        //compileScriptAssembly();
+        /*buildManagedScriptCsProj();
+        compileScriptAssembly();*/
 
         // Step 1: Get Functions
         auto init = GetFunctionPtr<void(*)(void)>
@@ -224,8 +436,12 @@ namespace TDS
                 "Init"
             );
 
-        // Step 2: Initialize
-        init();
+        auto reloadScripts = GetFunctionPtr<void(*)(void)>
+            (
+                "ScriptAPI",
+                "ScriptAPI.EngineInterface",
+                "Reload"
+            );
 
         SceneManager::GetInstance()->addScript = GetFunctionPtr<bool(*)(EntityID, std::string)>
             (
@@ -240,11 +456,14 @@ namespace TDS
                 "RemoveScriptViaName"
             );
 
+        // Step 2: Initialize
+        init();
+
         SceneManager::GetInstance()->getScriptVariables = GetFunctionPtr<std::vector<ScriptValues>(*)(EntityID, std::string)>
             (
                 "ScriptAPI",
                 "ScriptAPI.EngineInterface",
-                "GetScriptVariables"
+                "GetVariables"
             );
 
         SceneManager::GetInstance()->hasScript = GetFunctionPtr<bool(*)(EntityID, std::string)>
@@ -275,74 +494,18 @@ namespace TDS
                 "RemoveEntity"
             );
 
-        SceneManager::GetInstance()->setBool = GetFunctionPtr<void(*)(EntityID, std::string, std::string, bool)>
+        SceneManager::GetInstance()->setScriptValue = GetFunctionPtr<void(*)(EntityID, std::string, ScriptValues)>
             (
                 "ScriptAPI",
                 "ScriptAPI.EngineInterface",
-                "SetValueBool"
+                "SetVariable"
             );
 
-        SceneManager::GetInstance()->setInt = GetFunctionPtr<void(*)(EntityID, std::string, std::string, int, bool)>
+        SceneManager::GetInstance()->setScriptValues = GetFunctionPtr<void(*)(EntityID, std::string, std::vector<ScriptValues>&)>
             (
                 "ScriptAPI",
                 "ScriptAPI.EngineInterface",
-                "SetValueInt"
-            );
-
-        SceneManager::GetInstance()->setDouble = GetFunctionPtr<void(*)(EntityID, std::string, std::string, double)>
-            (
-                "ScriptAPI",
-                "ScriptAPI.EngineInterface",
-                "SetValueDouble"
-            );
-
-        SceneManager::GetInstance()->setFloat = GetFunctionPtr<void(*)(EntityID, std::string, std::string, float)>
-            (
-                "ScriptAPI",
-                "ScriptAPI.EngineInterface",
-                "SetValueFloat"
-            );
-
-        SceneManager::GetInstance()->setString = GetFunctionPtr<void(*)(EntityID, std::string, std::string, std::string)>
-            (
-                "ScriptAPI",
-                "ScriptAPI.EngineInterface",
-                "SetValueString"
-            );
-
-        //SceneManager::GetInstance()->setChar = GetFunctionPtr<void(*)(EntityID, std::string, std::string, char)>
-        //    (
-        //        "ScriptAPI",
-        //        "ScriptAPI.EngineInterface",
-        //        "SetValueChar"
-        //    );
-
-        SceneManager::GetInstance()->setVector3 = GetFunctionPtr<void(*)(EntityID, std::string, std::string, Vec3)>
-            (
-                "ScriptAPI",
-                "ScriptAPI.EngineInterface",
-                "SetVector3"
-            );
-
-        SceneManager::GetInstance()->setGameObject = GetFunctionPtr<void(*)(EntityID, std::string, std::string, EntityID)>
-            (
-                "ScriptAPI",
-                "ScriptAPI.EngineInterface",
-                "SetGameObject"
-            );
-
-        SceneManager::GetInstance()->setComponent = GetFunctionPtr<void(*)(EntityID, std::string, std::string, EntityID)>
-            (
-                "ScriptAPI",
-                "ScriptAPI.EngineInterface",
-                "SetComponent"
-            );
-
-        SceneManager::GetInstance()->setScriptReference = GetFunctionPtr<void(*)(EntityID, std::string, std::string, EntityID, std::string)>
-            (
-                "ScriptAPI",
-                "ScriptAPI.EngineInterface",
-                "SetScript"
+                "SetVariables"
             );
 
         SceneManager::GetInstance()->updateName = GetFunctionPtr<bool(*)(EntityID, std::string)>
@@ -373,17 +536,32 @@ namespace TDS
                 "ExecuteStart"
             );
 
+        PhysicsSystem::OnTriggerEnter = GetFunctionPtr<void(*)(EntityID, EntityID)>
+            (
+                "ScriptAPI",
+                "ScriptAPI.EngineInterface",
+                "ExecuteOnTriggerEnter"
+            );
+
+        PhysicsSystem::OnTriggerStay = GetFunctionPtr<void(*)(EntityID, EntityID)>
+            (
+                "ScriptAPI",
+                "ScriptAPI.EngineInterface",
+                "ExecuteOnTriggerStay"
+            );
+
+        PhysicsSystem::OnTriggerExit = GetFunctionPtr<void(*)(EntityID, EntityID)>
+            (
+                "ScriptAPI",
+                "ScriptAPI.EngineInterface",
+                "ExecuteOnTriggerExit"
+            );
+
+
         SceneManager::GetInstance()->Init();
         ecs.initializeSystems(1);
         ecs.initializeSystems(2);
         ecs.initializeSystems(3);
-        //auto awake = GetFunctionPtr<void(*)(void)>
-        //    (
-        //        "ScriptAPI",
-        //        "ScriptAPI.EngineInterface",
-        //        "ExecuteAwake"
-        //    );
-        //awake();
     }
 
     void GamApp::Awake()
@@ -413,9 +591,64 @@ namespace TDS
         m_window.~WindowsWin();
     }
 
+    void GamApp::buildManagedScriptCsProj()
+    {
+        std::string filePath = "../ManagedScripts/ManagedScripts.csproj";
+        std::ofstream csprojFile(filePath);
+
+        if (csprojFile.is_open())
+        {
+            csprojFile << R"(
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>Library</OutputType>
+        <TargetFramework>net6.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <Platforms>x64</Platforms>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+        <OutputPath>$(SolutionDir)\$(Configuration)-$(Platform)</OutputPath>
+        <PlatformTarget>x64</PlatformTarget>
+        <DebugType>embedded</DebugType>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+        <OutputPath>$(SolutionDir)\$(Configuration)-$(Platform)</OutputPath>
+        <PlatformTarget>x64</PlatformTarget>
+        <DebugType>embedded</DebugType>
+    </PropertyGroup>
+    <ItemGroup>
+    <Reference Include="ScriptAPI"> )";
+#ifdef _DEBUG
+            csprojFile << R"(
+        <HintPath>..\Debug-x64\ScriptAPI.dll</HintPath>
+        )";
+#endif  //_DEBUG
+#ifdef NDEBUG
+            csprojFile << R"(
+        <HintPath>..\Release-x64\ScriptAPI.dll</HintPath>
+        )";
+#endif //NDEBUG
+            csprojFile << R"(
+    </Reference>
+    </ItemGroup>
+</Project>
+            )";
+
+            std::cout << "Generated " << filePath << " successfully." << std::endl;
+
+            csprojFile.close();
+        }
+        else
+        {
+            std::cerr << "Unable to open file: " << filePath << std::endl;
+        }
+    }
+
     void GamApp::startScriptEngine()
     {
-         //Get the .NET Runtime's path first
+        //Get the .NET Runtime's path first
         const auto DOT_NET_PATH = getDotNetRuntimePath();
         if (DOT_NET_PATH.empty())
             throw std::runtime_error("Failed to find .NET Runtime.");

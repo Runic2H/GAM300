@@ -1,5 +1,6 @@
 #include "CameraComponent.hxx"
 #include "../TypeConversion.hxx"
+#include "../EngineInterface.hxx"
 
 namespace ScriptAPI
 {
@@ -191,6 +192,7 @@ namespace ScriptAPI
 	void CameraComponent::SetFieldOfView(float value)
 	{
 		FieldOfView = value;
+		TDS::GetCameraComponent(entityID)->setFOV(value);
 	}
 
 	// MOUSESENSITIVITY ======================================================================
@@ -228,44 +230,6 @@ namespace ScriptAPI
 		MouseSensitivity = value;
 	}
 
-	// ISENABLED =============================================================================
-	// Private
-	bool CameraComponent::IsEnabled::get()
-	{
-		// May wanna change to a function
-		if (!TDS::GetCameraComponent(entityID))
-		{
-			// throw error instead (not sure how)
-			return false;
-		}
-
-		TDS::EntityID id = entityID;
-		return TDS::getComponentIsEnable("Camera Component", id);
-	}
-	void CameraComponent::IsEnabled::set(bool value)
-	{
-		// May wanna change to a function
-		if (!TDS::GetCameraComponent(entityID))
-		{
-			// throw error instead (not sure how)
-			return;
-		}
-
-		TDS::EntityID id = entityID;
-		std::string componentName = "Camera Component";
-		TDS::setComponentIsEnable(componentName, id, value);
-	}
-
-	// Public
-	bool CameraComponent::GetIsEnabled()
-	{
-		return IsEnabled;
-	}
-	void CameraComponent::SetIsEnabled(bool value)
-	{
-		IsEnabled = value;
-	}
-
 	// FORWARDVECTOR =========================================================================
 	// 
 	Vector3 CameraComponent::getForwardVector()
@@ -293,18 +257,69 @@ namespace ScriptAPI
 		//TDS::GetCameraComponent(entityID)->setForwardVector(rotatedMatrix * forwardVector);
 	}
 
+	// RIGHTVECTOR =========================================================================
+	// 
+
+	Vector3 CameraComponent::getRightVector()
+	{
+		// May wanna change to a function
+		if (!TDS::GetCameraComponent(entityID))
+		{
+			// throw error instead (not sure how)
+			return Vector3(0.f, 0.f, 0.f);
+		}
+
+		return Vector3(TDS::GetCameraComponent(entityID)->getRightVector());
+	}
+	void CameraComponent::setRightVector(float angle)
+	{
+		// May wanna change to a function
+		if (!TDS::GetCameraComponent(entityID))
+		{
+			// throw error instead (not sure how)
+			return;
+		}
+
+		//TDS::Vec3 forwardVector = TDS::GetCameraComponent(entityID)->getForwardVector();
+		//TDS::Mat3 rotatedMatrix = TDS::Mat3::RotateY(angle);
+		//TDS::GetCameraComponent(entityID)->setForwardVector(rotatedMatrix * forwardVector);
+	}
+
 	// CONSTRUCTOR ===========================================================================
 	CameraComponent::CameraComponent(TDS::EntityID ID) : entityID (ID), transform(TransformComponent(ID))
-	{ }
+	{
+		gameObject = EngineInterface::GetGameObject(ID);
+	}
 
 	void CameraComponent::SetEntityID(TDS::EntityID ID)
 	{
 		entityID = ID;
 		transform = TransformComponent(ID);
+		gameObject = EngineInterface::GetGameObject(ID);
 	}
 
 	TDS::EntityID CameraComponent::GetEntityID()
 	{
 		return entityID;
 	}
+
+	void CameraComponent::SetEnabled(bool enabled)
+	{
+		TDS::setComponentIsEnable("Camera Component", GetEntityID(), enabled);
+	}
+	bool CameraComponent::GetEnabled()
+	{
+		return TDS::getComponentIsEnable("Camera Component", GetEntityID());
+	}
+
+	/*void CameraComponent::SetGameCamera(CameraComponent camera)
+	{
+		TDS::GetCameraComponent(entityID)->setYaw(camera.GetYaw());
+		TDS::GetCameraComponent(entityID)->setPitch(camera.GetPitch());
+		TDS::GetCameraComponent(entityID)->setPosition(TDS::Vec3(camera.transform.GetPosition().X,
+			camera.transform.GetPosition().Y, camera.transform.GetPosition().Z));
+		TDS::GetCameraComponent(entityID)->setSpeed(camera.GetSpeed());
+		TDS::GetCameraComponent(entityID)->setFOV(camera.GetFieldOfView());
+		TDS::GetCameraComponent(entityID)->setMouseSensitivity(camera.GetMouseSensitivity());
+	}*/
 }

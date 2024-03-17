@@ -218,7 +218,7 @@ bool ConvexHullBuilder::AssignPointToFace(int inPositionIdx, const Faces &inFace
 			// This point is in front of the face, add it to the conflict list
 			if (best_dist_sq > best_face->mFurthestPointDistanceSq)
 			{
-				// This point is futher away than any others, update the distance and add point as last point
+				// This point is further away than any others, update the distance and add point as last point
 				best_face->mFurthestPointDistanceSq = best_dist_sq;
 				best_face->mConflictList.push_back(inPositionIdx);
 			}
@@ -408,7 +408,7 @@ ConvexHullBuilder::EResult ConvexHullBuilder::Initialize(int inMaxVertices, floa
 		Array<Vec3> positions_2d;
 		positions_2d.reserve(mPositions.size());
 		for (Vec3 v : mPositions)
-			positions_2d.push_back(Vec3(base1.Dot(v), base2.Dot(v), 0));
+			positions_2d.emplace_back(base1.Dot(v), base2.Dot(v), 0.0f);
 
 		// Build hull
 		Array<int> edges_2d;
@@ -1290,7 +1290,7 @@ void ConvexHullBuilder::GetCenterOfMassAndVolume(Vec3 &outCenterOfMass, float &o
 
 			// Update v2 for next triangle
 			v2 = v3;
-		} while (e != f->mFirstEdge);
+		}
 	}
 
 	// Calculate center of mass, fall back to average point in case there is no volume (everything is on a plane in this case)

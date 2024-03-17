@@ -77,8 +77,16 @@ namespace TDS
 			return ecs.addComponent<UISprite>(entityID);
 		else if (componentName == "Audio")
 			return ecs.addComponent<SoundInfo>(entityID);
-		
-		else 
+		else if (componentName == "DirectionalLight")
+			return ecs.addComponent<DirectionalLightComponent>(entityID);
+		else if (componentName == "SpotLight")
+			return ecs.addComponent<SpotLightComponent>(entityID);
+		else if (componentName == "PointLight")
+			return ecs.addComponent<PointLightComponent>(entityID);
+		else if (componentName == "AnimationComponent")
+			return ecs.addComponent<AnimationComponent>(entityID);
+
+		else
 			return nullptr;
 	}
 
@@ -116,6 +124,14 @@ namespace TDS
 			return *(ecs.addComponent<WinData>(entityID));
 		else if (componentName == rttr::type::get<SoundInfo>())
 			return *(ecs.addComponent<SoundInfo>(entityID));
+		else if (componentName == rttr::type::get<DirectionalLightComponent>())
+			return *(ecs.addComponent<DirectionalLightComponent>(entityID));
+		else if (componentName == rttr::type::get<SpotLightComponent>())
+			return *(ecs.addComponent<SpotLightComponent>(entityID));
+		else if (componentName == rttr::type::get<PointLightComponent>())
+			return *(ecs.addComponent<PointLightComponent>(entityID));
+		else if (componentName == rttr::type::get<AnimationComponent>())
+			return *(ecs.addComponent<AnimationComponent>(entityID));
 	}
 
 	/*!*************************************************************************
@@ -123,34 +139,43 @@ namespace TDS
 	****************************************************************************/
 	IComponent* getComponentByName(std::string componentName, const EntityID& entityID)
 	{
-		if (componentName == "AI")
+		if (componentName == "AI" || componentName == "ScriptAPI.AIComponent")
 			return ecs.getComponent<AI>(entityID);
-		else if (componentName == "Box Collider")
+		else if (componentName == "Box Collider" || componentName == "ScriptAPI.BoxColliderComponent")
 			return ecs.getComponent<BoxCollider>(entityID);
-		else if (componentName == "Camera Component")
+		else if (componentName == "Camera Component" || componentName == "ScriptAPI.CameraComponent")
 			return ecs.getComponent<CameraComponent>(entityID);
-		else if (componentName == "Capsule Collider")
+		else if (componentName == "Capsule Collider" || componentName == "ScriptAPI.CapsuleColliderComponent")
 			return ecs.getComponent<CapsuleCollider>(entityID);
-		else if (componentName == "Graphics Component")
+		else if (componentName == "Graphics Component" || componentName == "ScriptAPI.GraphicComponent")
 			return ecs.getComponent<GraphicsComponent>(entityID);
-		else if (componentName == "Name Tag")
+		else if (componentName == "Name Tag" || componentName == "ScriptAPI.NameTagComponent")
 			return ecs.getComponent<NameTag>(entityID);
-		else if (componentName == "Rigid Body")
+		else if (componentName == "Rigid Body" || componentName == "ScriptAPI.RigidBodyComponent")
 			return ecs.getComponent<RigidBody>(entityID);
-		else if (componentName == "Sphere Collider")
+		else if (componentName == "Sphere Collider" || componentName == "ScriptAPI.SphereColliderComponent")
 			return ecs.getComponent<SphereCollider>(entityID);
-		else if (componentName == "Sprite")
+		else if (componentName == "Sprite" || componentName == "ScriptAPI.SpriteComponent")
 			return ecs.getComponent<Sprite>(entityID);
-		else if (componentName == "Tag")
+		else if (componentName == "Tag" || componentName == "ScriptAPI.TagComponent")
 			return ecs.getComponent<Tag>(entityID);
-		else if (componentName == "Transform")
+		else if (componentName == "Transform" || componentName == "ScriptAPI.TransformComponent")
 			return ecs.getComponent<Transform>(entityID);
-		else if (componentName == "Win Data")
+		else if (componentName == "Win Data" || componentName == "ScriptAPI.WinDataComponent")
 			return ecs.getComponent<WinData>(entityID);
-		else if (componentName == "UI Sprite")
+		else if (componentName == "UI Sprite" || componentName == "ScriptAPI.UISpriteComponent")
 			return ecs.getComponent<UISprite>(entityID);
-		else if (componentName == "Audio")
+		else if (componentName == "Audio" || componentName == "ScriptAPI.AudioComponent")
 			return ecs.getComponent<SoundInfo>(entityID);
+		else if (componentName == "DirectionalLight")
+			return ecs.getComponent<DirectionalLightComponent>(entityID);
+		else if (componentName == "SpotLight")
+			return ecs.getComponent<SpotLightComponent>(entityID);
+		else if (componentName == "PointLight")
+			return ecs.getComponent<PointLightComponent>(entityID);
+		else if (componentName == "AnimationComponent")
+			return ecs.getComponent<AnimationComponent>(entityID);
+
 		else
 			return nullptr;
 	}
@@ -189,6 +214,14 @@ namespace TDS
 			return *(ecs.getComponent<WinData>(entityID));
 		else if (componentName == rttr::type::get<SoundInfo>())
 			return *(ecs.getComponent<SoundInfo>(entityID));
+		else if (componentName == rttr::type::get<DirectionalLightComponent>())
+			return *(ecs.getComponent<DirectionalLightComponent>(entityID));
+		else if (componentName == rttr::type::get<SpotLightComponent>())
+			return *(ecs.getComponent<SpotLightComponent>(entityID));
+		else if (componentName == rttr::type::get<PointLightComponent>())
+			return  *(ecs.getComponent<PointLightComponent>(entityID));
+		else if (componentName == rttr::type::get<AnimationComponent>())
+			return  *(ecs.getComponent<AnimationComponent>(entityID));
 	}
 
 	/*!*************************************************************************
@@ -224,6 +257,14 @@ namespace TDS
 			ecs.removeComponent<UISprite>(entityID);
 		else if (componentName == "Audio")
 			ecs.removeComponent<SoundInfo>(entityID);
+		else if (componentName == "DirectionalLight")
+			ecs.removeComponent<DirectionalLightComponent>(entityID);
+		else if (componentName == "SpotLight")
+			ecs.removeComponent<SpotLightComponent>(entityID);
+		else if (componentName == "PointLight")
+			ecs.removeComponent<PointLightComponent>(entityID);
+		else if (componentName == "AnimationComponent")
+			ecs.removeComponent<AnimationComponent>(entityID);
 	}
 
 	/*!*************************************************************************
@@ -259,6 +300,14 @@ namespace TDS
 			ecs.setComponentIsEnabled<UISprite>(entityID, isEnabled);
 		else if (componentName == "Audio")
 			ecs.setComponentIsEnabled<SoundInfo>(entityID, isEnabled);
+		else if (componentName == "DirectionalLight")
+			ecs.setComponentIsEnabled<DirectionalLightComponent>(entityID, isEnabled);
+		else if (componentName == "SpotLight")
+			ecs.setComponentIsEnabled<SpotLightComponent>(entityID, isEnabled);
+		else if (componentName == "PointLight")
+			ecs.setComponentIsEnabled<PointLightComponent>(entityID, isEnabled);
+		else if (componentName == "AnimationComponent")
+			ecs.setComponentIsEnabled<AnimationComponent>(entityID, isEnabled);
 	}
 
 	/*!*************************************************************************
@@ -294,6 +343,14 @@ namespace TDS
 			return ecs.getComponentIsEnabled<UISprite>(entityID);
 		else if (componentName == "Audio")
 			return ecs.getComponentIsEnabled<SoundInfo>(entityID);
+		else if (componentName == "DirectionalLight")
+			return  ecs.getComponentIsEnabled<DirectionalLightComponent>(entityID);
+		else if (componentName == "SpotLight")
+			return  ecs.getComponentIsEnabled<SpotLightComponent>(entityID);
+		else if (componentName == "PointLight")
+			return  ecs.getComponentIsEnabled<PointLightComponent>(entityID);
+		else if (componentName == "AnimationComponent")
+			return  ecs.getComponentIsEnabled<AnimationComponent>(entityID);
 		else
 			return false;
 	}

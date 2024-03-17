@@ -1,4 +1,3 @@
-
 #version 450
 
 //layout(binding = 4) uniform sampler2D texSampler;

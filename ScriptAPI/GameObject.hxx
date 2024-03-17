@@ -9,6 +9,10 @@
 #include "Components/UISpriteComponent.hxx"
 #include "Components/AudioComponent.hxx"
 #include "Components/GraphicComponent.hxx"
+#include "Components/PointlightComponent.hxx"
+#include "Components/DirectionalLightComponent.hxx"
+#include "Components/SpotlightComponent.hxx"
+#include "Components/AnimatedComponent.hxx"
 #include "ecs/ecs.h"
 
 namespace ScriptAPI
@@ -19,29 +23,22 @@ namespace ScriptAPI
         generic <typename T>
         T GetComponent();
 
-        BoxColliderComponent GetBoxColliderComponent();
-        CameraComponent GetCameraComponent();
-        CapsuleColliderComponent GetCapsuleColliderComponent();
-        NameTagComponent GetNameTagComponent();
-        RigidBodyComponent GetRigidBodyComponent();
-        SphereColliderComponent GetSphereColliderComponent();
-        TransformComponent GetTransformComponent();
-        UISpriteComponent GetUISpriteComponent();
-        AudioComponent GetAudioComponent();
-        GraphicComponent GetGraphicComponent();
-
-        bool activeInHierarchy(TDS::EntityID entityID);
-        void SetActive(TDS::EntityID entityID, bool status);
+        bool ActiveInHierarchy();
+        void SetActive(bool status);
+        bool GetActive();
 
         TDS::EntityID GetEntityID();
 
         TransformComponent transform;
 
     internal:
+        GameObject() { }
+        GameObject(TDS::EntityID ID);
         void SetEntityID(TDS::EntityID ID);
     private:
-
         //entityID and is_Enabled set at SetEntityID
         TDS::EntityID entityID;
+
+        System::String^ tag;
     };
 }

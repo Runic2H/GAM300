@@ -22,20 +22,20 @@ public:
     //~Vec4();
 
     // Static Properties
-    static Vec4 one();
-    static Vec4 zero();
-    static Vec4 positiveInfinity();
-    static Vec4 negativeInfinity();
+    DLL_API static Vec4 one();
+    DLL_API static Vec4 zero();
+    DLL_API static Vec4 positiveInfinity();
+    DLL_API static Vec4 negativeInfinity();
 
     // Properties
-    float magnitude();
+    DLL_API float magnitude();
     Vec4 normalize();
-    float sqrMagnitude();
+    DLL_API float sqrMagnitude();
 
     // Public Methods
-    bool Equals(const Vec4& v);
-    void Normalize();
-    void Set(float newX, float newY, float newZ, float newW);
+    DLL_API bool Equals(const Vec4& v);
+    inline DLL_API void Normalize();
+    DLL_API void Set(float newX, float newY, float newZ, float newW);
     std::string ToString();
 
     // Static Methods

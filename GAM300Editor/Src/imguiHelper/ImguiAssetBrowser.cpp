@@ -9,8 +9,10 @@
 #include "vulkanTools/vulkanInstance.h"
 #include "vulkanTools/VulkanTexture.h"
 #include "imguiHelper/ImguiAudio.h"
+#include "Tools/CompilerRevamped/MeshLoader.h"
 #include <string>
-
+#include "AssetManagement/Revamped/MeshFactory.h"
+#include "imguiHelper/ImguiCompilerDescriptor.h"
 
 #define ASSET_PATH "../assets"
 namespace TDS
@@ -22,44 +24,6 @@ namespace TDS
 	VkDescriptorSet file_DescSet{}, folder_DescSet{};
 	//int file_image_count = 0, folder_image_count = 0;
 
-	aiVector3D ExtractEulerAngles(const aiMatrix4x4& mat) 
-	{
-		aiVector3D euler{};
-
-
-		float sy = sqrt(mat.a1 * mat.a1 + mat.b1 * mat.b1);
-
-		bool singular = sy < 1e-6;
-
-		if (!singular) 
-		{
-			euler.x = atan2(mat.c2, mat.c3); 
-			euler.y = atan2(-mat.c1, sy);    
-			euler.z = atan2(mat.b1, mat.a1); 
-		}
-		else 
-		{
-
-			euler.x = atan2(-mat.b3, mat.b2); 
-			euler.y = atan2(-mat.c1, sy);     
-			euler.z = 0;                     
-		}
-
-		return euler;
-	}
-	void ExtractTranslation(const aiMatrix4x4& mat, aiVector3D& translation) 
-	{
-		translation.x = mat.a4;
-		translation.y = mat.b4;
-		translation.z = mat.c4;
-	}
-
-	void ExtractScale(const aiMatrix4x4& mat, aiVector3D& scale)
-	{
-		scale.x = sqrt(mat.a1 * mat.a1 + mat.b1 * mat.b1 + mat.c1 * mat.c1);
-		scale.y = sqrt(mat.a2 * mat.a2 + mat.b2 * mat.b2 + mat.c2 * mat.c2);
-		scale.z = sqrt(mat.a3 * mat.a3 + mat.b3 * mat.b3 + mat.c3 * mat.c3);
-	}
 	void CreateNewEntityWithSubMesh(EntityID ParentEntity, aiMatrix4x4& aiTransform, TypeReference<AssetModel>& model, std::string_view MeshName)
 	{
 		std::shared_ptr<Hierarchy> panel = static_pointer_cast<Hierarchy>(LevelEditorManager::GetInstance()->panels[HIERARCHY]);
@@ -69,7 +33,7 @@ namespace TDS
 		addComponentByName("Name Tag", newEntityID);
 		addComponentByName("Graphics Component", newEntityID);
 		addComponentByName("Transform", newEntityID);
-		
+
 		IComponent* nameTag = getComponentByName("Name Tag", newEntityID);
 		IComponent* GraphicComponent = getComponentByName("Graphics Component", newEntityID);
 		IComponent* TransformComp = getComponentByName("Transform", newEntityID);
@@ -97,13 +61,162 @@ namespace TDS
 		transformComp->SetRotation(Rotatation);
 		transformComp->SetScale(Scaling);
 
-		if (ParentEntity != 0) 
+		if (ParentEntity != 0)
 		{
 			NameTag* parentNameTag = ecs.getComponent<NameTag>(ParentEntity);
-			if (parentNameTag) 
+			if (parentNameTag)
 				parentNameTag->GetHierarchyChildren().push_back(newEntityID);
-			
+
 		}
+
+	}
+
+
+	void BuildEntityMeshHierachy(std::string_view ModelAssetName, EntityID rootEntity)
+	{
+
+		//Get Panel
+		std::shared_ptr<Hierarchy> panel = static_pointer_cast<Hierarchy>(LevelEditorManager::GetInstance()->panels[HIERARCHY]);
+
+		//Get mesh reference
+		TypeReference<MeshController> refMeshController{};
+		auto meshcontroller = AssetManager::GetInstance()->GetMeshFactory().GetMeshController(ModelAssetName, refMeshController);
+		auto& modelHandle = meshcontroller->GetModelPack()->m_ModelHandle;
+
+		if (modelHandle.m_Mesh.size() == 1)
+		{
+			GraphicsComponent* graphComponent = reinterpret_cast<GraphicsComponent*>(getComponentByName("Graphics Component", rootEntity));
+			graphComponent->m_MeshName = modelHandle.m_Mesh[0].m_Name;
+			graphComponent->m_MeshNodeName = ModelAssetName;
+
+		}
+		else
+		{
+			//Get mainRoot tag
+			NameTag* mainRoot = reinterpret_cast<NameTag*>(getComponentByName("Name Tag", rootEntity));
+			mainRoot->SetName(ModelAssetName.data());
+			GraphicsComponent* graphComponent = reinterpret_cast<GraphicsComponent*>(getComponentByName("Graphics Component", rootEntity));
+			graphComponent->m_MeshName = ModelAssetName;
+			graphComponent->m_MeshNodeName = ModelAssetName;
+
+
+			for (auto& rootNodes : meshcontroller->GetRoots())
+			{
+				Entity nodeEntity;
+				EntityID nodeEntityID = nodeEntity.getID();
+
+				//Add components
+				{
+					addComponentByName("Name Tag", nodeEntityID);
+					addComponentByName("Graphics Component", nodeEntityID);
+					addComponentByName("Transform", nodeEntityID);
+				}
+
+				GraphicsComponent* graphComp = reinterpret_cast<GraphicsComponent*>(getComponentByName("Graphics Component", nodeEntityID));
+				NameTag* rootTag = reinterpret_cast<NameTag*>(getComponentByName("Name Tag", nodeEntityID));
+				Transform* transformComp = reinterpret_cast<Transform*>(getComponentByName("Transform", nodeEntityID));
+				graphComp->m_MeshNodeName = rootNodes.first;
+				{
+					//Get asset reference,
+					AssetManager::GetInstance()->GetMeshFactory().GetMeshController(ModelAssetName, graphComp->m_MeshControllerRef);
+					
+					//This is a root, so no rendered mesh
+					graphComp->m_MeshName = "";
+					graphComp->m_ModelName = ModelAssetName;
+					graphComp->m_MeshNodeName = rootNodes.first;
+
+					//set root node name, 
+					rootTag->SetName(rootNodes.first);
+					rootTag->SetHierarchyParent(rootEntity);
+					rootTag->SetHierarchyIndex(panel->hierarchyList.size());
+					if (rootEntity != 0)
+					{
+						if (rootTag)
+							mainRoot->GetHierarchyChildren().push_back(nodeEntityID);
+					}
+					//set initial transform position,
+
+					if (ModelAssetName == "Adjusted_Bin.bin")
+					{
+						transformComp->SetPosition(rootNodes.second.m_SceneTranslation);
+						transformComp->SetRotation(rootNodes.second.m_SceneRotation);
+						transformComp->SetScale(rootNodes.second.m_SceneScale);
+					}
+					else
+					{
+						transformComp->SetRealPosition(rootNodes.second.m_SceneTranslation);
+						//transformComp->SetRealScale(rootNodes.second.m_SceneScale);
+						//transformComp->SetRealRotate(rootNodes.second.m_SceneRotation);
+					}
+					// push this entity into the main root
+
+				}
+
+
+				// Iterate the meshlist for this root node
+				for (auto& meshNode : rootNodes.second.m_MeshList)
+				{
+					Entity newEntity;
+					EntityID newEntityID = newEntity.getID();
+
+
+					{
+						//Add components
+						addComponentByName("Name Tag", newEntityID);
+						addComponentByName("Graphics Component", newEntityID);
+						addComponentByName("Transform", newEntityID);
+
+						//Get components
+						GraphicsComponent* childGrapComp = reinterpret_cast<GraphicsComponent*>(getComponentByName("Graphics Component", newEntityID));
+						NameTag* childTag = reinterpret_cast<NameTag*>(getComponentByName("Name Tag", newEntityID));
+						Transform* childTransformComp = reinterpret_cast<Transform*>(getComponentByName("Transform", newEntityID));
+
+
+						childTag->SetName(meshNode.first);
+						childTag->SetHierarchyParent(nodeEntityID);
+						childTag->SetHierarchyIndex(panel->hierarchyList.size());
+
+						//Get Reference
+						AssetManager::GetInstance()->GetMeshFactory().GetMeshController(ModelAssetName, childGrapComp->m_MeshControllerRef);
+			
+						//Set the correct mesh name and model name
+						childGrapComp->m_MeshName = meshNode.first;
+						childGrapComp->m_ModelName = ModelAssetName;
+						childGrapComp->m_MeshNodeName = rootNodes.first;
+						//Set initial transform position
+						if (ModelAssetName == "Adjusted_Bin.bin")
+						{
+							childTransformComp->SetPosition(rootNodes.second.m_SceneTranslation);
+							childTransformComp->SetRotation(rootNodes.second.m_SceneRotation);
+							childTransformComp->SetScale(rootNodes.second.m_SceneScale);
+						}
+						else
+						{
+							childTransformComp->SetRealPosition(rootNodes.second.m_SceneTranslation);
+
+							//transformComp->SetRealScale(rootNodes.second.m_SceneScale);
+							//transformComp->SetRealRotate(rootNodes.second.m_SceneRotation);
+						}
+						/*		childTransformComp->SetRealScale(rootNodes.second.m_SceneScale);
+								childTransformComp->SetRealRotate(rootNodes.second.m_SceneRotation);*/
+								//childTransformComp->SetScale(Vec3(1.f, 1.f, 1.f));
+								//childTransformComp->SetRotation(Vec3(0.f, 0.f, 0.f));
+								//If entity validity check
+						if (nodeEntityID != 0)
+						{
+							//Push into the root parent
+							NameTag* parentNameTag = ecs.getComponent<NameTag>(nodeEntityID);
+							if (parentNameTag)
+								parentNameTag->GetHierarchyChildren().push_back(newEntityID);
+						}
+
+					}
+				}
+
+
+			}
+		}
+
 
 	}
 	void DivideSubmesh(EntityID entity, TypeReference<AssetModel>& model)
@@ -114,7 +227,7 @@ namespace TDS
 
 			CreateNewEntityWithSubMesh(entity, originalModelTransform, model, childMeshes.first);
 		}
-		
+
 	}
 
 
@@ -197,7 +310,7 @@ namespace TDS
 			if (ImGui::Button("<-")) //will only show if u went into a folder in the current directory above
 			{
 				m_curr_path = m_curr_path.parent_path();
-				
+
 				/*if (audimg.ToggleControls())
 				{
 					std::cout << "Stopping Audio Imgui controls" << '\n';
@@ -210,6 +323,8 @@ namespace TDS
 			ImGui::Checkbox("Show .bin files", &show_bin);
 			ImGui::SameLine();
 			ImGui::Checkbox("Show .fbx files", &show_fbx);
+			ImGui::SameLine();
+			ImGui::Checkbox("Show .gltf files", &show_gltf);
 		}
 		if (m_curr_path == std::filesystem::path(s_TextureDirectory))
 		{
@@ -225,7 +340,7 @@ namespace TDS
 		ImGui::Columns(std::max(columnCount, 1), 0, false);
 
 		//load texture info ONCE
-		
+
 		if (loadonce == true)
 		{
 			fileIcon.LoadTexture("../assets/icons/icon.dds"); //can only take dds files for now
@@ -237,7 +352,7 @@ namespace TDS
 			loadonce = false;
 		}
 
-		
+
 
 		for (auto& directory_entry : std::filesystem::directory_iterator(m_curr_path))
 		{
@@ -257,16 +372,23 @@ namespace TDS
 					//folder_image_count++;
 				}
 				//if (!show_bin && !show_fbx) { continue; }
-				/*else*/ if (show_bin && !show_fbx)
+				/*else*/ if (show_bin && !show_fbx && !show_gltf)
 				{
 					if (!strstr(filename.c_str(), ".bin")) //if its not bin, continue
 					{
 						continue;
 					}
 				}
-				else if (show_fbx && !show_bin)
+				else if (show_fbx && !show_bin && !show_gltf)
 				{
 					if (!strstr(filename.c_str(), ".fbx")) //if its not bin, continue
+					{
+						continue;
+					}
+				}
+				else if (show_gltf && !show_bin && !show_fbx)
+				{
+					if (!strstr(filename.c_str(), ".gltf")) //if its not bin, continue
 					{
 						continue;
 					}
@@ -290,7 +412,7 @@ namespace TDS
 				}
 				else if (show_png && !show_dds)
 				{
-					if (!strstr(filename.c_str(), ".png")) 
+					if (!strstr(filename.c_str(), ".png"))
 					{
 						continue;
 					}
@@ -298,9 +420,9 @@ namespace TDS
 
 			}
 			ImGui::PushID(filename.c_str()); //store the current id in each button that is created in each iteration of files
-			
+
 			ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0, 0, 0, 0));
-			
+
 
 			if (directory_entry.is_directory()) //draw folder icon
 			{
@@ -309,7 +431,7 @@ namespace TDS
 			}
 			else //draw file icon
 			{
-				
+
 				//then render button
 				ImGui::ImageButton(reinterpret_cast<void*>(file_DescSet), ImVec2{ thumbnail_size, thumbnail_size }, ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
 				//do drag drop ONLY on files, not folder
@@ -330,19 +452,19 @@ namespace TDS
 
 			if (ImGui::IsItemClicked(0))
 			{
-				
+
 				//if it has a "." in it, it is a file, do not add to path
 				//only directories/folders can be added to path
 
 				//if it is a folder, open it and update the asset broswer curr dir
-				if (!strstr(filename.c_str(), ".")) 
+				if (!strstr(filename.c_str(), "."))
 				{
 					m_curr_path += "/" + filename;
-				
+
 
 					//attempt at drag drop
 					selectedpath = path1;
-					
+
 
 				}
 				//use the rest of the checks below to handle what happens when u press different kinds of file extensions
@@ -477,28 +599,24 @@ namespace TDS
 				//}
 
 
-				if (strstr(filename.c_str(), ".json"))
-				{
 
-				}
+				//if (strstr(filename.c_str(), ".json"))
+				//{
 
-				if (strstr(filename.c_str(), ".json"))
-				{
+				//}
 
-				}
+				////if .wav, play audio...
+				//if (strstr(filename.c_str(), ".wav") || strstr(filename.c_str(), ".flac") || strstr(filename.c_str(), ".mp3"))
+				//{
+				//	/*audimg.ToggleControls(true);
 
-				//if .wav, play audio...
-				if (strstr(filename.c_str(), ".wav") || strstr(filename.c_str(), ".flac") || strstr(filename.c_str(), ".mp3"))
-				{
-					/*audimg.ToggleControls(true);
-
-					audimg.play(filename);*/
-				}
+				//	audimg.play(filename);*/
+				//}
 
 
 			}
 			ImGui::TextWrapped(filename.c_str()); //currently using this to display full file name
-			
+
 			/*if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_SourceExtern))
 			{
 				ImGui::SetDragDropPayload("path", path1.c_str(), 1);
@@ -523,9 +641,14 @@ namespace TDS
 		//ImGui::SliderFloat("Thumbnail Size", &thumbnail_size, 16, 512);
 		//ImGui::SliderFloat("Padding", &padding, 0, 32);
 	}
-	std::string AssetBrowser::LoadAsset(const std::string& FileName)
+
+	std::string AssetBrowser::LoadAssetRevamped(const std::string& FileName)
 	{
+
+		std::shared_ptr<LevelEditorPanel> panel = LevelEditorManager::GetInstance()->panels[PanelTypes::COMPILER_DESCRIPTOR];
+		std::shared_ptr<CompilerDescriptors> imguiDesc = std::static_pointer_cast<CompilerDescriptors>(panel);
 		std::string OutputPath{};
+		std::string OutName{};
 		if (strstr(FileName.c_str(), ".jpg") || strstr(FileName.c_str(), ".png") || strstr(FileName.c_str(), ".dds"))
 		{
 			lookUp = false;
@@ -536,7 +659,7 @@ namespace TDS
 			//if (Graph == nullptr)
 			//	return std::string();
 
-			
+
 			std::string OutPath = ASSET_PATH;
 			OutPath += "/textures/";
 			OutPath += FileName.c_str();
@@ -558,14 +681,34 @@ namespace TDS
 
 			//GraphicsComponent* graphComp = reinterpret_cast<GraphicsComponent*>(Graph);
 			//if (graphComp)
-				AssetManager::GetInstance()->GetTextureFactory().Load(OutPath);
+			AssetManager::GetInstance()->GetTextureFactory().Load(OutPath);
 			OutputPath = OutPath;
 
 		}
+
+		if (strstr(FileName.c_str(), ".json"))
+		{
+			std::string InPath = "../assets/animations/";
+			std::string OutPath = InPath;
+
+			OutPath += FileName.c_str();
+
+			
+
+			OutName = AssetManager::GetInstance()->GetAnimationFactory().LoadAnimationPack(OutPath);
+			//if (strstr(OutName.c_str(), ".json"))
+			//	OutName = RemoveFileExtension(OutName, ".json");
+
+			return OutName;
+
+		}
+
 		if (strstr(FileName.c_str(), ".obj") || strstr(FileName.c_str(), ".fbx") || strstr(FileName.c_str(), ".gltf") || strstr(FileName.c_str(), ".bin"))
 		{
+			
+
 			lookUp = false;
-			std::string &OutPath = GeomCompiler::GetInstance()->OutPath;
+			std::string& OutPath = GeomCompiler::GetInstance()->OutPath;
 			OutPath = "../assets/models/";
 			OutPath += FileName.c_str();
 			if (strstr(FileName.c_str(), ".fbx"))
@@ -579,41 +722,77 @@ namespace TDS
 				lookUp = true;
 				/*OutPath = std::filesystem::path(OutPath).filename().string();*/
 			}
-
 			std::shared_ptr<Hierarchy> panel = static_pointer_cast<Hierarchy>(LevelEditorManager::GetInstance()->panels[HIERARCHY]);
 
 			EntityID currEntity = panel->getSelectedEntity();
 			if (currEntity < 1)
 				return std::string();
 			IComponent* Graph = getComponentByName("Graphics Component", panel->getSelectedEntity());
+
+
 			if (Graph == nullptr)
 				Graph = addComponentByName("Graphics Component", panel->getSelectedEntity());
+
 			GraphicsComponent* graphComp = reinterpret_cast<GraphicsComponent*>(Graph);
+
 
 			if (lookUp == false)
 			{
-				GeomDescriptor m_GeomDescriptor{};
-				m_GeomDescriptor.m_Descriptor.m_FilePath = std::filesystem::path(FileName).filename().string();
-				GeomCompiler::GetInstance()->InitDesc(m_GeomDescriptor);
-				std::string OutputFile = GeomCompiler::GetInstance()->LoadModel();
+				CompilerDescriptors::GeomDescDisplay* geomDisplay = reinterpret_cast<CompilerDescriptors::GeomDescDisplay*>(imguiDesc->m_CompilerDescriptors[CompilerDescriptors::DESC_GEOMETRY]);
 
-				AssetManager::GetInstance()->GetModelFactory().LoadModel(OutputFile);
-				OutputPath = OutputFile;
+				/*GeomDescriptor m_GeomDescriptor{};
+				m_GeomDescriptor.m_Descriptor.m_FilePath = std::filesystem::path(FileName).filename().string();*/
+
+				MeshLoader::Request req{};
+				req.m_FileName = std::filesystem::path(FileName).filename().string();
+				req.m_OutFile = OutPath;
+
+				req.currSetting = geomDisplay->m_GeomDecriptor;
+				req.currSetting.m_Descriptor.m_FilePath = std::filesystem::path(FileName).filename().string();
+
+				if (req.currSetting.m_LoadAnimation)
+				{
+					req.m_AnimOutFile = req.m_FileName;
+					req.m_AnimOutFile = RemoveFileExtension(req.m_AnimOutFile, ".fbx");
+					req.m_AnimOutFile += ".json";
+				}
+
+				req.m_OutFile += "_Bin";
+				req.m_OutFile += ".bin";
+
 				
+		
+				MeshLoader::GetInstance().RunCompiler(req);
+
 				
+
+
+				if (req.currSetting.m_LoadAnimation && !req.currSetting.m_LoadMesh)
+				{
+					return std::string();
+				}
+				else
+				{
+					std::string OutputFile = req.m_OutFile;
+					OutName = AssetManager::GetInstance()->GetMeshFactory().LoadModel(OutputFile);
+				}
+
 			}
 			else
 			{
-				AssetManager::GetInstance()->GetModelFactory().LoadModel(OutPath);
-				OutputPath = OutPath;
+				OutName = AssetManager::GetInstance()->GetMeshFactory().LoadModel(OutPath);
+				/*OutputPath = OutPath;*/
 			}
-			graphComp->m_AssetReference.m_ResourcePtr = AssetManager::GetInstance()->GetModelFactory().GetModel(std::filesystem::path(OutputPath).filename().string(), graphComp->m_AssetReference);
-			if (graphComp->m_AssetReference.m_ResourcePtr->m_Meshes.size() > 1)
-				DivideSubmesh(currEntity, graphComp->m_AssetReference);
 
+			//std::filesystem::path FilePath(OutputPath);
+			//std::string assetName = FilePath.filename().string();
 
+			BuildEntityMeshHierachy(OutName, currEntity);
+			
 			
 
+
+			return OutName;
 		}
 		//if .json, load scene...
 		if (strstr(FileName.c_str(), ".ttf"))
@@ -660,9 +839,9 @@ namespace TDS
 	{
 		fileIcon.m_VulkanTexture->Destroy(); //temp, to prevent mem leak
 		folderIcon.m_VulkanTexture->Destroy(); //temp, to prevent mem leak
-		
+
 		/* when breakpoint, these 2 lines below free nothing
-		
+
 		fileIcon.Destroy();
 		folderIcon.Destroy();*/
 

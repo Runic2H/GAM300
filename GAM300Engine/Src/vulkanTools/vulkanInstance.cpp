@@ -133,7 +133,7 @@ namespace TDS
 			queueCreateInfo.pQueuePriorities = &queuePriority;
 			queueCreateInfos.push_back(queueCreateInfo);
 		}
-		
+
 		VkPhysicalDeviceFeatures2 features2 = { VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_FEATURES_2 };
 		vkGetPhysicalDeviceFeatures2(m_PhysDeviceHandle, &features2);
 		VkPhysicalDeviceFeatures deviceFeatures{};
@@ -620,10 +620,28 @@ namespace TDS
 		}
 	}
 
+	VkFormat VulkanInstance::CheckForValidDepthStencil(const std::vector<VkFormat>& depthFormats)
+	{
+		std::uint32_t validIndex = 0;
+		std::uint32_t listCnt = std::uint32_t(depthFormats.size());
+		for (; validIndex < listCnt; ++validIndex)
+		{
+			VkFormatProperties formatProbs;
+			vkGetPhysicalDeviceFormatProperties(m_PhysDeviceHandle, depthFormats[validIndex], &formatProbs);
+			if (formatProbs.optimalTilingFeatures & VK_FORMAT_FEATURE_DEPTH_STENCIL_ATTACHMENT_BIT)
+				break;
+
+
+		}
+		return depthFormats[validIndex];
+
+
+	}
+
 	VulkanInstance::~VulkanInstance()
 	{
-	
+
 	}
-	
+
 
 }//namespace TDS
