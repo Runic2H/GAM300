@@ -126,12 +126,12 @@ namespace TDS {
 
 			//currentEmitter.SetSpawnTimer(currentEmitter.GetSpawnTimer() + deltatime);
 
-			unsigned int SpawnAmt = currentEmitter.GetSpawnTimer() / currentEmitter.GetSpawnInterval();
+			int SpawnAmt = currentEmitter.GetSpawnTimer() / currentEmitter.GetSpawnInterval();
 
 			if (SpawnAmt <= 0)
 				continue;
 			currentEmitter.GetEmitter().Position = Xform[i].GetPosition();
-			Particle_Emitter_PushData GPUPush = {currentEmitter.GetEmitter(), SpawnAmt };
+			Particle_Emitter_PushData GPUPush = {currentEmitter.GetEmitter(), std::min( SpawnAmt, currentEmitter.GetMaxParticles())};
 			m_EmitterPipeline->BindDescriptor(0, 1, 0, true);
 			m_EmitterPipeline->UpdateUBO(&GPUPush, sizeof(Particle_Emitter_PushData), 33, 0);
 			
