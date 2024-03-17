@@ -31,7 +31,8 @@ public class OptionsGamma : Script
     public override void Update()
     {
         gammaValue = GraphicsManagerWrapper.GetFadeFactor();
-        
+        gammaValue = Math.Clamp(gammaValue, 0.0f, 1.0f);
+
         if (Input.GetMouseButtonDown(Keycode.M1) && sprite.IsMouseCollided())
         {
             if(pressedGammaUp)
@@ -46,11 +47,11 @@ public class OptionsGamma : Script
                 GraphicsManagerWrapper.SetFadeFactor(gammaValue);
             }
 
-            gammaValue = Math.Clamp(gammaValue, 0f, 1f);
             
-            gammaText.GetComponent<UISpriteComponent>().SetFontMessage((Math.Round(gammaValue, 2)).ToString());
             buttonSfx.play(buttonSfxName);
         }
+        gammaValue = Math.Clamp(gammaValue, 0.0f, 1.0f);
+        gammaText.GetComponent<UISpriteComponent>().SetFontMessage((Math.Round(gammaValue, 2)).ToString());
 
     }
 
