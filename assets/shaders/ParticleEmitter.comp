@@ -24,11 +24,11 @@ struct ParticleEmitter{
     float min_Life, max_Life;
 };
 float seed(vec2 co){
-    return fract(abs(sin(dot(co.xy ,vec2(12.9898,78.233))))* 43758.5453);
+    return fract(sin(dot(co.xy ,vec2(12.9898,78.233)))* 43758.5453);
 }
 
 float rand(float min, float max){
-    return mix(min, max, seed(vec2(3.8,5.0)+ gl_GlobalInvocationID.xy));
+    return mix(min, max, seed(vec2(3.8,5.0)* dot(gl_GlobalInvocationID.xy, gl_GlobalInvocationID.xy)));
 }
 
 vec3 randvec3(vec3 min, vec3 max){
@@ -70,6 +70,7 @@ layout(local_size_x = 64, local_size_y = 1, local_size_z = 1) in;
 void main(){
     uint index = gl_GlobalInvocationID.x;
 
+    //if the index is greater than the amount of particles, return
     if (index >= EmitterStuff.particleamount)
         return;
     

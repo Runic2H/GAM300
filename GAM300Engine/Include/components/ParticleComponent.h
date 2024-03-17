@@ -5,7 +5,7 @@
 
 namespace TDS {
 
-	#define MAX_PARTICLES 50
+	#define MAX_PARTICLES 100000
 
 	enum ParticleMesh {
 		CUBE = 0,
@@ -37,8 +37,8 @@ namespace TDS {
 		Vec4 maxSize{ 1.5f,1.5f,1.5f,0.f };
 		Vec4 Position{ 0.f,0.f,0.f,0.f };
 		Vec4 Color{ 0.f,1.f,1.f,1.f };
-		float minlife{ 10.f };
-		float maxlife{ 10.f };
+		float minlife{ 0.1f };
+		float maxlife{ 1.f };
 		float padding[2];
 	};
 
@@ -55,23 +55,23 @@ namespace TDS {
 
 
 		//getter
-		float&		GetMinLife() { return Emitter.minlife; };
-		float&		GetMaxLife() { return Emitter.maxlife; };
-		Vec4&		GetMinSpawnoffset() { return Emitter.minSpawnoffset; };
-		Vec4&		GetMaxSpawnoffset() { return Emitter.maxSpawnoffset; };
-		Vec4&		GetMinVelocity() { return Emitter.minVelocity; };
-		Vec4&		GetMaxVelocity() { return Emitter.maxVelocity; };
-		Vec4&		GetMinAcceleration() { return Emitter.minAcceleration; };
-		Vec4&		GetMaxAcceleration() { return Emitter.maxAcceleration; };
-		Vec4&		GetMinSize() { return Emitter.minSize; };
-		Vec4&		GetMaxSize() { return Emitter.maxSize; };
-		Vec4&		GetPosition() { return Emitter.Position; };
-		Vec4&		GetColor() { return Emitter.Color; };
-		ParticleEmitter& GetEmitter() { return Emitter; }
-		ParticleMesh&	 GetMeshType() { return type; }
-		float&			 GetSpawnInterval() { return spawninterval; }
-		float&			 GetSpawnTimer() { return spawntimer; }
-		uint32_t&		 GetMaxParticles() { return maxparticles; }
+		float&				GetMinLife()			{ return Emitter.minlife; };
+		float&				GetMaxLife()			{ return Emitter.maxlife; };
+		Vec4&				GetMinSpawnoffset()		{ return Emitter.minSpawnoffset; };
+		Vec4&				GetMaxSpawnoffset()		{ return Emitter.maxSpawnoffset; };
+		Vec4&				GetMinVelocity()		{ return Emitter.minVelocity; };
+		Vec4&				GetMaxVelocity()		{ return Emitter.maxVelocity; };
+		Vec4&				GetMinAcceleration()	{ return Emitter.minAcceleration; };
+		Vec4&				GetMaxAcceleration()	{ return Emitter.maxAcceleration; };
+		Vec4&				GetMinSize()			{ return Emitter.minSize; };
+		Vec4&				GetMaxSize()			{ return Emitter.maxSize; };
+		Vec4&				GetPosition()			{ return Emitter.Position; };
+		Vec4&				GetColor()				{ return Emitter.Color; };
+		ParticleEmitter&	GetEmitter()			{ return Emitter; }
+		ParticleMesh&		GetMeshType()			{ return type; }
+		float&				GetSpawnInterval()		{ return spawninterval; }
+		float&				GetSpawnTimer()			{ return spawntimer; }
+		int&				GetMaxParticles()		{ return maxparticles; }
 
 		//setters
 		void SetMinLife(float& input) { Emitter.minlife = input; }
@@ -95,7 +95,7 @@ namespace TDS {
 		ParticleEmitter Emitter;
 		ParticleMesh type{ CUBE };
 		float spawninterval, spawntimer;
-		uint32_t maxparticles;
+		int maxparticles;
 	};
 	DLL_API Particle_Component* GetParticle_Component(EntityID entityID);
 }

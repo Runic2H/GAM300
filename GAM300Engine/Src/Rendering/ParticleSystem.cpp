@@ -173,11 +173,14 @@ namespace TDS {
 	void ParticleSystem::Render() 
 	{
 		uint32_t currentframe = GraphicsManager::getInstance().GetSwapchainRenderer().getFrameIndex();
+		
+		//camera stuffy
 		TDSCamera cam = GraphicsManager::getInstance().GetCamera();
 		Mat4 view = cam.GetViewMatrix();
 		Mat4 proj = Mat4::Perspective(cam.m_Fov * Mathf::Deg2Rad,
 			GraphicsManager::getInstance().GetSwapchainRenderer().getAspectRatio(), 0.1f, 1000000.f);
 		proj.m[1][1] *= -1;
+		
 		//send data into vertex and fragment shader to render into scene
 		auto commandBuffer = GraphicsManager::getInstance().getCommandBuffer();
 		m_RenderPipeline->SetCommandBuffer(commandBuffer);
