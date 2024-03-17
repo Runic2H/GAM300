@@ -45,7 +45,7 @@ public class RestartButton : Script
         {
             //Console.WriteLine("Restart Button Pressed");
             buttonSfx.play(buttonSfxName);
-            AudioComponent audio = gameObject.GetComponent<AudioComponent>();
+            //AudioComponent audio = gameObject.GetComponent<AudioComponent>();
             //audio.stopAll();
             //PopupUI.changeDisplayed = true;
             SceneLoader.LoadMainGame();

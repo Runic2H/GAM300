@@ -137,6 +137,7 @@ public class LockPick1 : Script
         counter = 0;
         savedNumOfTries = 0;
         audio = gameObject.GetComponent<AudioComponent>();
+        playOnce = true;
         next_VO = true;
         // GameplaySubtitles.counter = 5; //no effect on set gameplay subtitles to be empty
 
@@ -207,9 +208,9 @@ public class LockPick1 : Script
         UISpriteComponent ClosedSub = GameObjectScriptFind("Subtitles").GetComponent<UISpriteComponent>();
         //UISpriteComponent Sprite = gameObject.GetComponent<UISpriteComponent>();
 
-        if (counter < 5 && next_VO)
-        {
-            audio.play(playerGuideVO[counter]);
+        if (counter < 5 && next_VO && playOnce)
+        {            
+            audio.Queue(playerGuideVO[counter]);
             next_VO = false;
         }
         if (audio.finished(playerGuideVO[0]))
@@ -521,7 +522,6 @@ public class LockPick1 : Script
 
                     audio.play("pc_findtherightspot");
                 }
-                playOnce = true;
             }
 
             if (audio.finished("pc_findtherightspot"))
@@ -614,6 +614,7 @@ public class LockPick1 : Script
 
         if (passed)
         {
+            audio.FadeOut(3, "outside_ambience");
             movePick = false;
             audio.stop(rattleSoundEffects[0]);
             counter = 1;
@@ -643,12 +644,12 @@ public class LockPick1 : Script
                 if (doorIndex == 0)
                 {
                     counter = 2;
-                    audio.play(playerGuideVO[2]); //aite looks like im in
+                    audio.Queue(playerGuideVO[2]); //aite looks like im in
                     next_VO = true;
                     GameplaySubtitles.counter = 7;
                     Flashlight_Script.batteryLife = 49;
                     enteredHouse = true;
-
+                    playOnce = false;
                 }
                 if (doorIndex == 1)
                 {

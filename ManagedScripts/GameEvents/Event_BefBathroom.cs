@@ -20,6 +20,7 @@ public class EventBefBathroom : Script
     {
         Console.WriteLine("Martin (Internal): The shower’s running... but I don’t hear anyone in there.");
         AudioComponent audio = gameObject.GetComponent<AudioComponent>();
+        audio.set3DCoords(transform.GetPosition(), "shower_running");
         audio.play("shower_running"); //it runs even when player is a distance away from shower
         gameObject.GetComponent<ColliderComponent>().SetEnabled(false);
     }

@@ -52,6 +52,7 @@ public class EventBathroomSink : Script
             {
                 flicker = false;
                 bathroomLights.SetActive(flicker);
+                audio.stop("shower_running");
                 // Play light bulb exploding?
             }
         }
@@ -96,6 +97,7 @@ public class EventBathroomSink : Script
 
     void MoveShowerCurtain()
     {
+        audio.set3DCoords(transform.GetPosition(), "showerpull");
         audio.play("showerpull");
         bathroomCurtains.transform.SetPositionX(bathroomCurtains.transform.GetPosition().X + (showerCuratinMoveSpeed * Time.deltaTime));
     }

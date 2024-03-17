@@ -28,6 +28,7 @@ public class GhostMovement : Script
 
     public String[] walkingSounds;
     public String voiceClips;
+    static public Vector3 GhostTransformPosition;
 
     #endregion
 
@@ -162,6 +163,7 @@ public class GhostMovement : Script
         monsterAlert[6] = "mon_alerted7";
 
         voiceClips = "pc_monstergoesaway1";
+        GhostTransformPosition = new Vector3();
 
         speed = 3.0f;
         soundSpeed = 1.0f;
@@ -193,6 +195,7 @@ public class GhostMovement : Script
 
         Vector2 ghostPosition = new Vector2(transform.GetPosition().X, transform.GetPosition().Z);
         Vector2 playerPosition = new Vector2(player.transform.GetPosition().X, player.transform.GetPosition().Z);
+        GhostTransformPosition = transform.GetPosition();
 
         if (!diningCheckpoint && !diningRoomEventDone && 
             !livingRoomHidingGameObject.GetComponent<Hiding>().hiding &&
@@ -253,7 +256,7 @@ public class GhostMovement : Script
                 // If touches, loses
                 if (Vector2.Distance(ghostPosition, playerPosition) <= 40.0f)
                 {
-                    QueueJumpscare();
+                    playJumpscare();
                     return;
                 }
                 else
@@ -296,8 +299,8 @@ public class GhostMovement : Script
                 }
                 AudioComponent audio = gameObject.GetComponent<AudioComponent>();
                 int ran_num = RandomNumberGenerator.GetInt32(7);
-                audio.play(monsterAlert[ran_num]);
                 audio.set3DCoords(transform.GetPosition(), monsterAlert[ran_num]);
+                audio.play(monsterAlert[ran_num]);
 
                 break;
 
@@ -369,7 +372,7 @@ public class GhostMovement : Script
                 break;
         }
     }
-    public void QueueJumpscare()
+    public void playJumpscare()
     {
         GraphicsManagerWrapper.ToggleViewFrom2D(false);
 
@@ -408,9 +411,10 @@ public class GhostMovement : Script
     {
         AudioComponent audio = gameObject.GetComponent<AudioComponent>();
         walkingSoundCounter = 0;
+        audio.set3DCoords(transform.GetPosition(), walkingSounds[walkingSoundCounter]);
         audio.play(walkingSounds[walkingSoundCounter]);
         Vector3 temp = new Vector3(1000, 1000, 0);
-        audio.set3DCoords(temp/*transform.GetPosition()*/ , walkingSounds[walkingSoundCounter]);
+        //audio.set3DCoords(temp/*transform.GetPosition()*/ , walkingSounds[walkingSoundCounter]);
         currentEvent = GhostEvent.PlayingWalkingSound;
     }
     public bool PlayMonsterWalkingSound()
@@ -430,8 +434,9 @@ public class GhostMovement : Script
                     return false;
                 }
 
-                audio.play(walkingSounds[walkingSoundCounter]);
                 audio.set3DCoords(transform.GetPosition(), walkingSounds[walkingSoundCounter]);
+                audio.play(walkingSounds[walkingSoundCounter]);
+                Console.WriteLine("Monster position: " + transform.GetPosition().X + ", " + transform.GetPosition().Y + ", " + transform.GetPosition().Z);
                 playSoundTimer = soundSpeed - walkingSoundCounter * 0.05f;
                 //if (!triggerBedroomHideEvent)
                 //{
@@ -512,7 +517,7 @@ public class GhostMovement : Script
             //Console.WriteLine("initialized bedroom hiding event");
 
             startEvent = false;
-            bedroomMonsterAppearTimer = 3.0f;
+            bedroomMonsterAppearTimer = 5.0f;
 
             previousEvent = GhostEvent.BedroomHidingEvent;
             return;
@@ -525,7 +530,7 @@ public class GhostMovement : Script
         switch (eventStep)
         {
             case -1:
-
+            
                 if (bedroomMonsterAppearTimer <= 0.0f)
                 {
                     transform.SetPosition(new Vector3(1790.0f, transform.GetPosition().Y, -750.0f));
@@ -734,6 +739,7 @@ public class GhostMovement : Script
             {
                 startEvent = false;
                 gameObject.GetComponent<AudioComponent>().play("pc_movethissilently");
+                GameplaySubtitles.counter = 46;
             }
 
             previousEvent = GhostEvent.DiningRoomEvent;
@@ -969,7 +975,7 @@ public class GhostMovement : Script
                 // If touches, loses
                 if (Vector2.Distance(ghostPosition, playerPosition) <= 40.0f)
                 {
-                    QueueJumpscare(); // For presentation
+                    playJumpscare(); // For presentation
                     return;
                 }
                 else

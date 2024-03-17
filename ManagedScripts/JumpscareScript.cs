@@ -48,7 +48,7 @@ public class JumpscareScript : Script
     public override void Update()
     {
         switch (jumpscareSequenceIndex)
-        {
+        {            
             // 1. calculating rotations
             case 0:
 

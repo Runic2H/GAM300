@@ -86,6 +86,7 @@ public class p07 : Script
                 gameObject.SetActive(false);
 
                 // Trigger Painting Event
+                AudioPlayer.play("gallery_movepainting");
                 AudioPlayer.play("pc_stealpainting1");
                 GameplaySubtitles.counter = 13;
 
