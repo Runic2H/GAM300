@@ -23,12 +23,33 @@ struct ParticleEmitter{
     vec4 Color;
     float min_Life, max_Life;
 };
+
 float seed(vec2 co){
     return fract(sin(dot(co.xy ,vec2(12.9898,78.233)))* 43758.5453);
 }
 
+float brownian(){
+    float persistence = clamp(sin(gl_GlobalInvocationID.x *0.1), 0.1, 0.9);
+    float frequency = clamp(cos(gl_GlobalInvocationID.x * 0.1), 0.5,2.0);
+    int octaves = int (mod(gl_GlobalInvocationID.x, 10.0)+ 1.0);
+    float time = dot(gl_GlobalInvocationID.xy,gl_GlobalInvocationID.xy);
+
+    float total = 0.0;
+    float amp = 1.0;
+    float maxamp = 0.0;
+
+    for (int i = 0; i < octaves; i++){
+        total += seed(vec2(gl_GlobalInvocationID.xy+ time)) * amp;
+        maxamp += amp;
+        amp *= persistence;
+        time *= frequency;
+    }
+    return total / maxamp;
+    
+}
+
 float rand(float min, float max){
-    return mix(min, max, seed(vec2(3.8,5.0)* dot(gl_GlobalInvocationID.xy, gl_GlobalInvocationID.xy)));
+    return mix(min, max, brownian());
 }
 
 vec3 randvec3(vec3 min, vec3 max){
