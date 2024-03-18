@@ -5,7 +5,7 @@
 
 namespace TDS {
 
-	#define MAX_PARTICLES 100000
+	#define MAX_PARTICLES 10000
 
 	enum ParticleMesh {
 		CUBE = 0,
