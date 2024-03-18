@@ -39,6 +39,7 @@ layout (std140, binding = 33 ) buffer EmitterThingy
 {
     ParticleEmitter Emitter;
     int particleamount;
+    float EmitterLifeTime;
 }EmitterStuff;
 
 float seed(vec2 co){
@@ -49,7 +50,7 @@ float brownian(float randomseed){
     float persistence = clamp(sin(gl_GlobalInvocationID.x *0.1), 0.1, 0.9);
     float frequency = clamp(cos(gl_GlobalInvocationID.x * 0.1), 0.5,2.0);
     int octaves = int (mod(gl_GlobalInvocationID.x, 10.0)+ 1.0);
-    float time = dot(gl_GlobalInvocationID.xy,gl_GlobalInvocationID.xy);
+    float time = fract(EmitterStuff.EmitterLifeTime);
 
     float total = 0.0;
     float amp = 1.0;
@@ -66,14 +67,15 @@ float brownian(float randomseed){
 }
 
 float rand(float Min, float Max, float randomseed){
-    return mix(Min, Max, brownian(randomseed));
+    return mix(Min, Max, fract(brownian(randomseed)));
 }
 
 vec3 randvec3(vec3 Min, vec3 Max){
+    float time = EmitterStuff.EmitterLifeTime;
     vec3 randomvec3 = vec3(
-        rand(Min.x,Max.x,0.005),
-        rand(Min.y,Max.y,0.002),
-        rand(Min.z,Max.z,0.003)
+        rand(Min.x,Max.x,55 + sin(time)),
+        rand(Min.y,Max.y,22 + sin(time)),
+        rand(Min.z,Max.z,33 + sin(time))
     );  
     
     return mix(Min, Max, randomvec3);
