@@ -107,15 +107,15 @@
                 "MinLife": 0.10000000149011612,
                 "MaxLife": 1.0,
                 "Min Spawn Offset": {
-                    "x": -5.0,
+                    "x": -10.0,
                     "y": 0.0,
-                    "z": -5.0,
+                    "z": -10.0,
                     "w": 0.0
                 },
                 "Max Spawn Offset": {
-                    "x": 5.0,
+                    "x": 10.0,
                     "y": 5.0,
-                    "z": 5.0,
+                    "z": 10.0,
                     "w": 0.0
                 },
                 "Min Velocity": {
@@ -162,7 +162,7 @@
                 },
                 "ParticleMesh": "CUBE",
                 "SpawnInterval": 0.10000000149011612,
-                "SpawnTimer": 1064.0714111328125,
+                "SpawnTimer": 1104.9139404296875,
                 "MaxParticles": 100000
             }
         }
