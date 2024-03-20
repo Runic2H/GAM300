@@ -21,6 +21,7 @@ public class PlayButton : Script
     public GameObject blackScreen;
     private bool fading = false;
     private bool inMainMenu = false;
+    private bool firstHover = true;
     private float incrementFading = Time.deltaTime / 3f;
     bool withinArea(float mouse, float min, float max)
     {
@@ -50,6 +51,17 @@ public class PlayButton : Script
         if (bgm.finished(bgmName) && inMainMenu)
         {
             bgm.FadeIn(3, bgmName);
+        }
+
+        if(sprite.IsMouseCollided() && firstHover)
+        {
+            //set scale logic here
+            firstHover = false;
+            buttonSfx.play("buttonhover");
+        }
+        if(!sprite.IsMouseCollided())
+        {
+            firstHover = true;
         }
         
         if (Input.GetMouseButtonDown(Keycode.M1) && sprite.IsMouseCollided())

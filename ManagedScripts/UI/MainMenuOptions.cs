@@ -18,6 +18,7 @@ public class MainMenuOptions : Script
     public static bool isOpened;
     private AudioComponent buttonSfx;
     private string buttonSfxName = "";
+    private bool firstHover = true;
     public override void Awake()
     {
         //GraphicsManagerWrapper.ToggleViewFrom2D(true);
@@ -28,12 +29,22 @@ public class MainMenuOptions : Script
 
     public override void Start()
     {
-        mainmenubgm = gameObject.GetComponent<AudioComponent>();
-        
+        mainmenubgm = gameObject.GetComponent<AudioComponent>();  
     }
 
     public override void Update()
     {
+        if (sprite.IsMouseCollided() && firstHover)
+        {
+            //set scale logic here
+            firstHover = false;
+            buttonSfx.play("buttonhover");
+        }
+        if (!sprite.IsMouseCollided())
+        {
+            firstHover = true;
+        }
+
         if (Input.GetMouseButtonDown(Keycode.M1) && sprite.IsMouseCollided())
         {
             buttonSfx.play(buttonSfxName);
