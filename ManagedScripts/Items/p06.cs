@@ -60,7 +60,7 @@ public class p06 : Script
     // Update is called once per frame
     override public void Update()
     {
-        if (gameObject.GetComponent<RigidBodyComponent>().IsRayHit() && !DropPainting)
+        if (gameObject.GetComponent<RigidBodyComponent>().IsRayHit()&& !DropPainting)
         {
             Console.WriteLine("Painting");
             InteractUI.isShow = true;

@@ -52,7 +52,7 @@ public class p07 : Script
     // Update is called once per frame
     override public void Update()
     {
-        if (gameObject.GetComponent<RigidBodyComponent>().IsRayHit() && gameObject.GetComponent<RigidBodyComponent>().IsPlayerCast())
+        if (gameObject.GetComponent<RigidBodyComponent>().IsRayHit())
         {
             Console.WriteLine("p07");
             InteractUI.isShow = true;

@@ -42,7 +42,7 @@ public class GalleryLetter : Script
 
     public override void Update()
     {
-        if (gameObject.GetComponent<RigidBodyComponent>().IsRayHit() && gameObject.GetComponent<RigidBodyComponent>().IsPlayerCast())
+        if (gameObject.GetComponent<RigidBodyComponent>().IsRayHit())
         {
             Console.WriteLine("Gallery Letter");
             InteractUI.isShow = true;

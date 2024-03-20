@@ -17,6 +17,7 @@ public class p03 : Script
     [SerializeField]
     public string Painting_Name;
     public string Painting_Texture;
+    bool doOnce = true;
 
     public GameObject _InteractUI;
 
@@ -29,6 +30,7 @@ public class p03 : Script
 
     float timer = 2.0f;
     bool paintingMoved = false;
+ 
 
     override public void Awake()
     {
@@ -46,8 +48,14 @@ public class p03 : Script
     {
         //if (GalleryLetter.isNotePicked) // Don't allow player to proceed with puzzle before getting the hint.
         {
-            if (!isPaintingCollected && gameObject.GetComponent<RigidBodyComponent>().IsRayHit() && gameObject.GetComponent<RigidBodyComponent>().IsPlayerCast())
+            if (!isPaintingCollected && gameObject.GetComponent<RigidBodyComponent>().IsRayHit())
             {
+                if (doOnce)
+                {
+                    gameObject.GetComponent<AudioComponent>().play("pc_movethissilently");
+                    GameplaySubtitles.counter = 46;
+                    doOnce = false;
+                }
                 Console.WriteLine("p03");
                 InteractUI.isShow = true;
                 if (Input.GetKeyDown(Keycode.E))

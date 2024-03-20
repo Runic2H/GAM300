@@ -38,7 +38,7 @@ public class Receipt : Script
 
     public override void Update()
     {
-        if (gameObject.GetComponent<RigidBodyComponent>().IsRayHit() && gameObject.GetComponent<RigidBodyComponent>().IsPlayerCast())
+        if (gameObject.GetComponent<RigidBodyComponent>().IsRayHit())
         {
             Console.WriteLine("Receipt");
             InteractUI.isShow = true;

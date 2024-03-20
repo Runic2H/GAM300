@@ -67,7 +67,7 @@ public class Door_Script : Script
     // Update is called once per frame
     override public void Update()
     {
-        if (!forcedLocked && gameObject.GetComponent<RigidBodyComponent>().IsRayHit() && gameObject.GetComponent<RigidBodyComponent>().IsPlayerCast())
+        if (!forcedLocked && gameObject.GetComponent<RigidBodyComponent>().IsRayHit())
         {
             doorStates.GetComponent<DoorState>().doorLookedAt = true;
 

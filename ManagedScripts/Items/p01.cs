@@ -46,7 +46,7 @@ public class p01 : Script
     {
         //if(GalleryLetter.isNotePicked) // Don't allow player to proceed with puzzle before getting the hint.
         {
-            if (!isPaintingCollected && gameObject.GetComponent<RigidBodyComponent>().IsRayHit() && gameObject.GetComponent<RigidBodyComponent>().IsPlayerCast())
+            if (!isPaintingCollected && gameObject.GetComponent<RigidBodyComponent>().IsRayHit())
             {
                 Console.WriteLine("p01");
                 InteractUI.isShow = true;

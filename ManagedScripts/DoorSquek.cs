@@ -26,7 +26,7 @@ public class DoorSquek : Script
     }
     public override void Update()
     {
-        if (gameObject.GetComponent<RigidBodyComponent>().IsRayHit() && Input.GetKeyDown(Keycode.E))
+        if (gameObject.GetComponent<RigidBodyComponent>().IsRayHit()&& Input.GetKeyDown(Keycode.E))
         {
             checkpoint.OverrideCheckpoint(GhostMovement.GhostEvent.Nothing);
             audio.play(doorSquekSFX);

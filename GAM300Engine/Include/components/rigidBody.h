@@ -99,9 +99,6 @@ namespace TDS
 		DLL_API bool& getIsPlayer() { return mIsPlayer; }
 		DLL_API void setIsPlayer(bool isPlayer) { mIsPlayer = isPlayer; }
 
-		DLL_API bool& getIsPlayerCast() { return mIsPlayerCast; }
-		DLL_API void setIsPlayerCast(bool isPlayerCast) { mIsPlayerCast = isPlayerCast; }
-
 		RTTR_ENABLE(IComponent);
 		RTTR_REGISTRATION_FRIEND
 
@@ -127,7 +124,6 @@ namespace TDS
 		bool mIsRayCast;
 		bool mIsRayHit;
 		bool mIsPlayer;
-		bool mIsPlayerCast;
 
 		MotionType	mMotionType;
 		JoltBodyID	mBodyID;

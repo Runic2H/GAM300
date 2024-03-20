@@ -380,18 +380,6 @@ namespace ScriptAPI
 		return TDS::GetRigidBody(entityID)->getIsRayHit();
 	}
 
-	bool RigidBodyComponent::IsPlayerCast()
-	{
-		// May wanna change to a function
-		if (!TDS::GetRigidBody(entityID))
-		{
-			// throw error instead (not sure how)
-			return false;
-		}
-
-		return TDS::GetRigidBody(entityID)->getIsPlayerCast();
-	}
-
 	TDS::EntityID RigidBodyComponent::GetEntityID()
 	{
 		return entityID;

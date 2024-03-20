@@ -44,7 +44,7 @@ public class p02 : Script
     {
         //if (GalleryLetter.isNotePicked) // Don't allow player to proceed with puzzle before getting the hint.
         {
-            if (!isPaintingCollected && gameObject.GetComponent<RigidBodyComponent>().IsRayHit() && gameObject.GetComponent<RigidBodyComponent>().IsPlayerCast())
+            if (!isPaintingCollected && gameObject.GetComponent<RigidBodyComponent>().IsRayHit())
             {
                 Console.WriteLine("p02");
                 InteractUI.isShow = true;
@@ -56,7 +56,7 @@ public class p02 : Script
 
                     // Trigger Painting Event
                     AudioPlayer.play("gallery_movepainting");
-                    gameObject.GetComponent<BoxColliderComponent>().SetEnabled(false);
+                    gameObject.GetComponent<ColliderComponent>().SetEnabled(false);
                     //GameplaySubtitles.counter = 8;
 
                     // hiding event 
@@ -74,6 +74,7 @@ public class p02 : Script
                     Console.WriteLine("Moving p02");
                     //gameObject.transform.SetPosition(gameObject.transform.GetPosition() + gameObject.transform.getRightVector() * 50.0f * Time.deltaTime); // Right Vector is moving backwards instead
                     gameObject.transform.SetPosition(gameObject.transform.GetPosition() + new ScriptAPI.Vector3(0, 0, 75) * Time.deltaTime);
+                    gameObject.GetComponent<RigidBodyComponent>().SetPosition(gameObject.transform.GetPosition());
                     timer -= Time.deltaTime;
                 }
                 else

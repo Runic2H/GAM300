@@ -77,7 +77,7 @@ public class Hiding : Script
     public override void Update()
     {
 
-        if (interactable && gameObject.GetComponent<RigidBodyComponent>().IsRayHit() && gameObject.GetComponent<RigidBodyComponent>().IsPlayerCast()&& !hiding)
+        if (interactable && gameObject.GetComponent<RigidBodyComponent>().IsRayHit()&& !hiding)
         {
             _InteractUI.SetActive(true);
             doorStates.GetComponent<DoorState>().doorLookedAt = true;

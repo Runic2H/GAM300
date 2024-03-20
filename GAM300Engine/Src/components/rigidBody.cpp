@@ -61,8 +61,7 @@ namespace TDS
 							 mRayDirection(Vec3(0.0f, 0.0f, 0.0f)),
 							 mRayScale(1.f),
 							 mIsRayHit(false),
-							 mIsPlayer(false),
-							 mIsPlayerCast(false)
+							 mIsPlayer(false)
 	{ }
 
 
@@ -87,8 +86,7 @@ namespace TDS
 														mRayDirection(toMove.mRayDirection),
 														mRayScale(toMove.mRayScale),
 														mIsRayHit(toMove.mIsRayHit),
-														mIsPlayer(toMove.mIsPlayer),
-														mIsPlayerCast(toMove.mIsPlayerCast)
+														mIsPlayer(toMove.mIsPlayer)
 
 	{ }
 

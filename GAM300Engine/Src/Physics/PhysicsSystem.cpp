@@ -210,10 +210,6 @@ namespace TDS
 			collector->HadHit() == false))
 		{
 			_rigidbody->setIsRayHit(false);
-			if (_rigidbody->getIsPlayer())
-			{
-				_rigidbody->setIsPlayerCast(false);
-			}
 		}
 
 	}
@@ -367,7 +363,6 @@ namespace TDS
 			if (entityID.has_value())
 			{
 				GetRigidBody(entityID.value())->setIsRayHit(true);
-				GetRigidBody(entityID.value())->setIsPlayerCast(isPlayer);
 			}
 		}
 
