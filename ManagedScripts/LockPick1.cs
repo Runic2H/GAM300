@@ -58,6 +58,7 @@ public class LockPick1 : Script
     //public AudioClip[] rattleSoundEffects;
     public String[] lockSoundEffects;
     public String[] rattleSoundEffects;
+    float OldeulerAngleDegree;
     public static String[] playerGuideVO;
     float delay = 0.4f;
     public GameObject _NumOfTries;
@@ -96,14 +97,17 @@ public class LockPick1 : Script
     public GameObject doorStates;
 
     public float lockpickShakeTimer;
+    private float lockpickTimerCountdown = 0.4f;
+    private bool lockpickFlashing = false;
 
     // Start is called before the first frame update
     override public void Awake()
     {
-        lockSoundEffects = new String[3];
+        lockSoundEffects = new String[4];
         lockSoundEffects[0] = "lockpick_turn";
         lockSoundEffects[1] = "lockpick success";
         lockSoundEffects[2] = "lockpick_failtry";
+        lockSoundEffects[3] = "lockpick_failfull";
 
         rattleSoundEffects = new String[7];
         rattleSoundEffects[0] = "lockpick_move1";
@@ -113,6 +117,7 @@ public class LockPick1 : Script
         rattleSoundEffects[4] = "lockpick_move5";
         rattleSoundEffects[5] = "lockpick_move6";
         rattleSoundEffects[6] = "lockpick_move7";
+        OldeulerAngleDegree = 0f;
 
         playerGuideVO = new String[7];
         playerGuideVO[0] = "pc_lockpickstart";
@@ -274,31 +279,10 @@ public class LockPick1 : Script
             //range 1
             if (eulerAngleDegree < unlockRange.Y && eulerAngleDegree > unlockRange.X)
             {
-                if (audio.finished(lockSoundEffects[0]))
+                if (eulerAngleDegree != OldeulerAngleDegree)
                 {
-                    audio.stop(lockSoundEffects[0]);
-                    delay -= Time.deltaTime;
-
-                    if (delay <= 0 && !passed)
-                    {
-                        // Not sure if there is a better way to do this
-                        if (audio.finished(rattleSoundEffects[0]))
-                            audio.stop(rattleSoundEffects[0]);
-                        if (audio.finished(rattleSoundEffects[1]))
-                            audio.stop(rattleSoundEffects[1]);
-                        if (audio.finished(rattleSoundEffects[2]))
-                            audio.stop(rattleSoundEffects[2]);
-                        if (audio.finished(rattleSoundEffects[3]))
-                            audio.stop(rattleSoundEffects[3]);
-                        if (audio.finished(rattleSoundEffects[4]))
-                            audio.stop(rattleSoundEffects[4]);
-                        if (audio.finished(rattleSoundEffects[5]))
-                            audio.stop(rattleSoundEffects[5]);
-
-                        //audio.setVolume(50.0f);
-                        audio.play(rattleSoundEffects[0]);
-                        delay = 0.4f;
-                    }
+                    audio.play(rattleSoundEffects[0]);
+                    OldeulerAngleDegree = eulerAngleDegree;
                 }
 
                 //play VO
@@ -312,209 +296,61 @@ public class LockPick1 : Script
                 {
                     audio.stop("pc_turnthelock");
                 }
-                //if (audio.finished(rattleSoundEffects[0]))
-                //{
-                //    audio.stop(rattleSoundEffects[0]);
 
-                //    audio.play("pc_findtherightspot");
-                //    if (audio.finished("pc_findtherightspot"))
-                //    {
-                //        audio.stop("pc_findtherightspot");
-                //        audio.play("pc_turnthelock");
-                //        if (audio.finished("pc_turnthelock"))
-                //        {
-                //            audio.stop("pc_turnthelock");
-                //        }
-                //    }
-                //}
                 pickWasCloseButYouMovedAway = true;
             }
             //range 2
             else if (eulerAngleDegree < unlockRange.Y + 15 && eulerAngleDegree > unlockRange.X - 15)
             {
-                if (audio.finished(lockSoundEffects[0]))
+                if (eulerAngleDegree != OldeulerAngleDegree)
                 {
-                    audio.stop(lockSoundEffects[0]);
-                    delay -= Time.deltaTime;
-
-                    if (delay <= 0 && !passed)
-                    {
-                        // Not sure if there is a better way to do this
-                        if (audio.finished(rattleSoundEffects[0]))
-                            audio.stop(rattleSoundEffects[0]);
-                        if (audio.finished(rattleSoundEffects[1]))
-                            audio.stop(rattleSoundEffects[1]);
-                        if (audio.finished(rattleSoundEffects[2]))
-                            audio.stop(rattleSoundEffects[2]);
-                        if (audio.finished(rattleSoundEffects[3]))
-                            audio.stop(rattleSoundEffects[3]);
-                        if (audio.finished(rattleSoundEffects[4]))
-                            audio.stop(rattleSoundEffects[4]);
-                        if (audio.finished(rattleSoundEffects[5]))
-                            audio.stop(rattleSoundEffects[5]);
-
-                        //audio.setVolume(50.0f);
-                        audio.play(rattleSoundEffects[1]);
-                        delay = 0.4f;
-                    }
+                    audio.play(rattleSoundEffects[1]);
+                    OldeulerAngleDegree = eulerAngleDegree;
                 }
-
-                
             }
             //range 3
             else if (eulerAngleDegree < unlockRange.Y + 30 && eulerAngleDegree > unlockRange.X - 30)
             {
-                if (audio.finished(lockSoundEffects[0]))
+                if (eulerAngleDegree != OldeulerAngleDegree)
                 {
-                    audio.stop(lockSoundEffects[0]);
-                    delay -= Time.deltaTime;
-
-                    if (delay <= 0 && !passed)
-                    {
-                        // Not sure if there is a better way to do this
-                        if (audio.finished(rattleSoundEffects[0]))
-                            audio.stop(rattleSoundEffects[0]);
-                        if (audio.finished(rattleSoundEffects[1]))
-                            audio.stop(rattleSoundEffects[1]);
-                        if (audio.finished(rattleSoundEffects[2]))
-                            audio.stop(rattleSoundEffects[2]);
-                        if (audio.finished(rattleSoundEffects[3]))
-                            audio.stop(rattleSoundEffects[3]);
-                        if (audio.finished(rattleSoundEffects[4]))
-                            audio.stop(rattleSoundEffects[4]);
-                        if (audio.finished(rattleSoundEffects[5]))
-                            audio.stop(rattleSoundEffects[5]);
-
-                        //audio.setVolume(51.0f);
-                        audio.play(rattleSoundEffects[2]);
-                        delay = 0.4f;
-                    }
+                    audio.play(rattleSoundEffects[2]);
+                    OldeulerAngleDegree = eulerAngleDegree;
                 }
-
             }
             //range 4
             else if (eulerAngleDegree < unlockRange.Y + 45 && eulerAngleDegree > unlockRange.X - 45)
             {
-                if (audio.finished(lockSoundEffects[0]))
+                if (eulerAngleDegree != OldeulerAngleDegree)
                 {
-                    audio.stop(lockSoundEffects[0]);
-                    delay -= Time.deltaTime;
-
-                    if (delay <= 0 && !passed)
-                    {
-                        // Not sure if there is a better way to do this
-                        if (audio.finished(rattleSoundEffects[0]))
-                            audio.stop(rattleSoundEffects[0]);
-                        if (audio.finished(rattleSoundEffects[1]))
-                            audio.stop(rattleSoundEffects[1]);
-                        if (audio.finished(rattleSoundEffects[2]))
-                            audio.stop(rattleSoundEffects[2]);
-                        if (audio.finished(rattleSoundEffects[3]))
-                            audio.stop(rattleSoundEffects[3]);
-                        if (audio.finished(rattleSoundEffects[4]))
-                            audio.stop(rattleSoundEffects[4]);
-                        if (audio.finished(rattleSoundEffects[5]))
-                            audio.stop(rattleSoundEffects[5]);
-
-                        //audio.setVolume(51.0f);
-
-                        audio.play(rattleSoundEffects[3]);
-                        delay = 0.4f;
-                    }
+                    audio.play(rattleSoundEffects[3]);
+                    OldeulerAngleDegree = eulerAngleDegree;
                 }
-
-                
             }
             //range 5
             else if (eulerAngleDegree < unlockRange.Y + 60 && eulerAngleDegree > unlockRange.X - 60)
             {
-                if (audio.finished(lockSoundEffects[0]))
+                if (eulerAngleDegree != OldeulerAngleDegree)
                 {
-                    audio.stop(lockSoundEffects[0]);
-                    delay -= Time.deltaTime;
-
-                    if (delay <= 0 && !passed)
-                    {
-                        // Not sure if there is a better way to do this
-                        if (audio.finished(rattleSoundEffects[0]))
-                            audio.stop(rattleSoundEffects[0]);
-                        if (audio.finished(rattleSoundEffects[1]))
-                            audio.stop(rattleSoundEffects[1]);
-                        if (audio.finished(rattleSoundEffects[2]))
-                            audio.stop(rattleSoundEffects[2]);
-                        if (audio.finished(rattleSoundEffects[3]))
-                            audio.stop(rattleSoundEffects[3]);
-                        if (audio.finished(rattleSoundEffects[4]))
-                            audio.stop(rattleSoundEffects[4]);
-                        if (audio.finished(rattleSoundEffects[5]))
-                            audio.stop(rattleSoundEffects[5]);
-
-                        //audio.setVolume(51.0f);
-                        audio.play(rattleSoundEffects[4]);
-                        delay = 0.4f;
-                    }
+                    audio.play(rattleSoundEffects[4]);
+                    OldeulerAngleDegree = eulerAngleDegree;
                 }
-
-                
             }
             //range 6
             else if (eulerAngleDegree < unlockRange.Y + 75 && eulerAngleDegree > unlockRange.X - 75)
             {
-                if (audio.finished(lockSoundEffects[0]))
+                if (eulerAngleDegree != OldeulerAngleDegree)
                 {
-                    audio.stop(lockSoundEffects[0]);
-                    delay -= Time.deltaTime;
-
-                    if (delay <= 0 && !passed)
-                    {
-                        // Not sure if there is a better way to do this
-                        if (audio.finished(rattleSoundEffects[0]))
-                            audio.stop(rattleSoundEffects[0]);
-                        if (audio.finished(rattleSoundEffects[1]))
-                            audio.stop(rattleSoundEffects[1]);
-                        if (audio.finished(rattleSoundEffects[2]))
-                            audio.stop(rattleSoundEffects[2]);
-                        if (audio.finished(rattleSoundEffects[3]))
-                            audio.stop(rattleSoundEffects[3]);
-                        if (audio.finished(rattleSoundEffects[4]))
-                            audio.stop(rattleSoundEffects[4]);
-                        if (audio.finished(rattleSoundEffects[5]))
-                            audio.stop(rattleSoundEffects[5]);
-
-                        //audio.setVolume(51.0f);
-                        audio.play(rattleSoundEffects[5]);
-                        delay = 0.4f;
-                    }
+                    audio.play(rattleSoundEffects[5]);
+                    OldeulerAngleDegree = eulerAngleDegree;
                 }
             }
             //range 7
             else if (pickWasCloseButYouMovedAway) 
             {
-                if (audio.finished(lockSoundEffects[0]))
+                if (eulerAngleDegree != OldeulerAngleDegree)
                 {
-                    audio.stop(lockSoundEffects[0]);
-                    delay -= Time.deltaTime;
-
-                    if (delay <= 0 && !passed)
-                    {
-                        // Not sure if there is a better way to do this
-                        if (audio.finished(rattleSoundEffects[0]))
-                            audio.stop(rattleSoundEffects[0]);
-                        if (audio.finished(rattleSoundEffects[1]))
-                            audio.stop(rattleSoundEffects[1]);
-                        if (audio.finished(rattleSoundEffects[2]))
-                            audio.stop(rattleSoundEffects[2]);
-                        if (audio.finished(rattleSoundEffects[3]))
-                            audio.stop(rattleSoundEffects[3]);
-                        if (audio.finished(rattleSoundEffects[4]))
-                            audio.stop(rattleSoundEffects[4]);
-                        if (audio.finished(rattleSoundEffects[5]))
-                            audio.stop(rattleSoundEffects[5]);
-
-                        //audio.setVolume(51.0f);
-                        audio.play(rattleSoundEffects[6]); //play 7
-                        delay = 0.4f;
-                    }
+                    audio.play(rattleSoundEffects[6]);
+                    OldeulerAngleDegree = eulerAngleDegree;
                 }
                 if (audio.finished(rattleSoundEffects[6]) && audio.finished(playerGuideVO[0]) && audio.finished("pc_turnthelock") && !passed) //prevent multiple VO playing
                 {
@@ -590,13 +426,16 @@ public class LockPick1 : Script
                 if (deduct == true)
                 {
                     numOfTries -= 1;
+                    audio.play(lockSoundEffects[2]);
                     deduct = false;
+                    lockpickFlashing = true;
                 }
+
 
                 if (numOfTries <= 0)
                 {
                     // NOTE: Audio
-                    audio.play(lockSoundEffects[2]);
+                    audio.play(lockSoundEffects[3]);
                     movePick = false;
                     timer = 1.0f;
                     failed = true;
@@ -606,7 +445,17 @@ public class LockPick1 : Script
         #endregion
 
         _AmtOfTries.SetFontMessage("Number of tries left: " + numOfTries.ToString());
-
+        if (lockpickFlashing)
+        {
+            lockpickTimerCountdown -= Time.deltaTime;
+            _AmtOfTries.SetFontColour(new Vector4(1.0f, 0.0f, 0.0f, 1.0f)); // red
+            if (lockpickTimerCountdown <= 0)
+            {
+                lockpickFlashing = false;
+                lockpickTimerCountdown = 0.4f;
+                _AmtOfTries.SetFontColour(new Vector4(1.0f, 1.0f, 1.0f, 1.0f)); // white
+            }
+        }
         if (numOfTries <= 1)
         {
             _AmtOfTries.SetFontColour(new Vector4(1.0f, 0.0f, 0.0f, 1.0f)); // red

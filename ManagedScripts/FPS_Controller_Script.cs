@@ -18,7 +18,7 @@ public class FPS_Controller_Script : Script
     public float fov = 60f;
     public bool invertCamera = false;
     public bool cameraCanMove = true;
-    public float mouseSensitivity = 2.0f;
+    public float mouseSensitivity = 1.0f;
     public float maxLookAngle = 50f;
 
     // Crosshair
@@ -49,7 +49,7 @@ public class FPS_Controller_Script : Script
     [Header("Movement Variables")]
     public bool playerCanMove = true;
     public float walkSpeed = 3f;
-    private float savedWalkSpeed = 2f;
+    private float savedWalkSpeed = 3f;
     public float maxVelocityChange = 10f;
     public bool isWalking = false;
 

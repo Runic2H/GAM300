@@ -247,7 +247,7 @@ public class GhostMovement : Script
                 //}
 
                 if (bedroomHidingGameObject.GetComponent<Hiding>().hiding || 
-                    galleryHidingGameObject.GetComponent<GalleryHiding>().hiding ||
+                    galleryHidingGameObject.GetComponent<Hiding>().hiding ||
                     livingRoomHidingGameObject.GetComponent<Hiding>().hiding) // NOTE: Will add in the other hiding boolean variables later
                 {
                     currentEvent = previousEvent;
@@ -271,6 +271,8 @@ public class GhostMovement : Script
                 }
                 playerMoved = true;
                 speed += 0.001f;
+
+                PlayMonsterWalkingSound();
 
                 break;
 
@@ -298,10 +300,8 @@ public class GhostMovement : Script
                         currentEvent = GhostEvent.Nothing;
                     }
                 }
-                AudioComponent audio = gameObject.GetComponent<AudioComponent>();
-                int ran_num = RandomNumberGenerator.GetInt32(7);
-                audio.set3DCoords(transform.GetPosition(), monsterAlert[ran_num]);
-                audio.play(monsterAlert[ran_num]);
+
+                PlayMonsterWalkingSound();
 
                 break;
 
@@ -317,11 +317,15 @@ public class GhostMovement : Script
                     return;
                 }
 
+                PlayMonsterWalkingSound();
+
                 BedroomHidingEvent();
 
                 break;
 
             case GhostEvent.LivingDiningRoomEvent: // 1. LivingDiningRoomEvent => move from dining room - living room door to dining room - main hall door & disappear
+
+                PlayMonsterWalkingSound();
 
                 LivingDiningRoomEvent();
 
@@ -340,11 +344,15 @@ public class GhostMovement : Script
                     return;
                 }
 
+                PlayMonsterWalkingSound();
+
                 LivingRoomHidingEvent();
 
                 break;
 
             case GhostEvent.DiningRoomEvent:
+
+                PlayMonsterWalkingSound();
 
                 DiningRoomEvent();
 
@@ -355,18 +363,22 @@ public class GhostMovement : Script
                 //Console.WriteLine(Vector3.Distance(player.transform.GetPosition(), transform.GetPosition()));
                 //if (gameObject.GetComponent<RigidBodyComponent>().IsRayHit()) // If player is in sight
                 if (Vector3.Distance(player.transform.GetPosition(), transform.GetPosition()) <= 700.0f &&
-                    !galleryHidingGameObject.GetComponent<GalleryHiding>().hiding) // If player is in range
+                    !galleryHidingGameObject.GetComponent<Hiding>().hiding) // If player is in range
                 {
                     // NOTE: May want to add in "not hiding" condition
                     currentEvent = GhostEvent.ChasingPlayer;
                     return;
                 }
 
+                PlayMonsterWalkingSound();
+
                 GalleryHidingEvent();
 
                 break;
 
             case GhostEvent.FinalChasingEvent:
+
+                PlayMonsterWalkingSound();
 
                 FinalChaseEvent();
 
@@ -414,8 +426,6 @@ public class GhostMovement : Script
         walkingSoundCounter = 0;
         audio.set3DCoords(transform.GetPosition(), walkingSounds[walkingSoundCounter]);
         audio.play(walkingSounds[walkingSoundCounter]);
-        Vector3 temp = new Vector3(1000, 1000, 0);
-        //audio.set3DCoords(temp/*transform.GetPosition()*/ , walkingSounds[walkingSoundCounter]);
         currentEvent = GhostEvent.PlayingWalkingSound;
     }
     public bool PlayMonsterWalkingSound()
@@ -424,21 +434,26 @@ public class GhostMovement : Script
 
         if (audio.finished(walkingSounds[walkingSoundCounter]))
         {
+            if(walkingSoundCounter >= 7)
+            {
+                walkingSoundCounter = 0;
+            }
+            
             if (playSoundTimer < 0)
             {
                 audio.stop(walkingSounds[walkingSoundCounter]);
                 ++walkingSoundCounter;
 
-                if (walkingSoundCounter == 7)  // finished
-                {
-                    audio.play("pc_afterscare_heartbeat");
-                    return false;
-                }
+                //if (walkingSoundCounter == 7)  // finished
+                //{
+                //    audio.play("pc_afterscare_heartbeat");
+                //    return false;
+                //}
 
                 audio.set3DCoords(transform.GetPosition(), walkingSounds[walkingSoundCounter]);
-                audio.play(walkingSounds[walkingSoundCounter]);
                 Console.WriteLine("Monster position: " + transform.GetPosition().X + ", " + transform.GetPosition().Y + ", " + transform.GetPosition().Z);
-                playSoundTimer = soundSpeed - walkingSoundCounter * 0.05f;
+                audio.play(walkingSounds[walkingSoundCounter]);
+                playSoundTimer = soundSpeed - walkingSoundCounter * 0.005f;
                 //if (!triggerBedroomHideEvent)
                 //{
                 //    int ra = RandomNumberGenerator.GetInt32(8);
@@ -484,7 +499,8 @@ public class GhostMovement : Script
     public bool MoveTo(Vector2 destination, float speed)
     {
         Vector2 ghostPosition = new Vector2(transform.GetPosition().X, transform.GetPosition().Z);
-        Vector2 nextPosition = Vector2.MoveTowards(ghostPosition, destination, speed);
+        float step = speed * Time.deltaTime * 60;
+        Vector2 nextPosition = Vector2.MoveTowards(ghostPosition, destination, step);
         transform.SetPosition(new Vector3(nextPosition.X, transform.GetPosition().Y, nextPosition.Y));
 
         #region Turning monster to face where its walking
@@ -745,6 +761,8 @@ public class GhostMovement : Script
 
             //Console.WriteLine("initialized dining event (red light green light)");
         }
+        float rotationSpeedDegreePerSec = 300.0f;
+        float rotationThisFrame = rotationSpeedDegreePerSec * Time.deltaTime;
 
         switch (eventStep)
         {
@@ -760,7 +778,7 @@ public class GhostMovement : Script
 
             case 1: // Turning towards player (5 degrees per frame)
 
-                transform.SetRotationY(transform.GetRotation().Y - (float)(5.0f / 180.0f * Math.PI));
+                transform.SetRotationY(transform.GetRotation().Y - rotationThisFrame * (float)(Math.PI / 180.0f));
 
                 // Finished turning
                 if (transform.GetRotation().Y <= 0.0f)
@@ -792,7 +810,7 @@ public class GhostMovement : Script
 
             case 3: // Turn back and go back to the first eventStep
 
-                transform.SetRotationY(transform.GetRotation().Y + (float)(5.0f / 180.0f * Math.PI));
+                transform.SetRotationY(transform.GetRotation().Y + rotationThisFrame * (float)(Math.PI / 180.0f));
 
                 // Finished turning
                 if (transform.GetRotation().Y >= (float)(Math.PI))
@@ -853,7 +871,7 @@ public class GhostMovement : Script
         }
         
 
-        if (!galleryHidingGameObject.GetComponent<GalleryHiding>().hiding) // If player comes out of hiding, monster will chase player
+        if (!galleryHidingGameObject.GetComponent<Hiding>().hiding) // If player comes out of hiding, monster will chase player
         {
             previousEvent = GhostEvent.GalleryHidingEvent;
             currentEvent = GhostEvent.ChasingPlayer;
@@ -896,7 +914,8 @@ public class GhostMovement : Script
 
                 galleryHideEventDone = true;
                 currentEvent = GhostEvent.Nothing;
-                GalleryHiding.GhostShouldMove = false;
+                galleryHidingGameObject.GetComponent<EventGalleryHiding>().GhostShouldMove = false;
+                galleryHidingGameObject.GetComponent<EventGalleryHiding>().GhostMoved = false;
 
                 audio.FadeOut(2, "pc_afterscare_breathing");
                 audio.FadeOut(2, "pc_afterscare_heartbeat");

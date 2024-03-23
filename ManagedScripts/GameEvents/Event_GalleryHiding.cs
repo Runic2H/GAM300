@@ -63,8 +63,8 @@ public class EventGalleryHiding : Script
             }
             if (enemyPathfinding.GetComponent<GhostMovement>().galleryHideEventDone)
             {
-                audioPlayer.play(voClips[2]);
-                GameplaySubtitles.counter = 15;
+                //audioPlayer.play("pc_monstergoesaway1");
+                //GameplaySubtitles.counter = 11;
                 enemyPathfinding.GetComponent<GhostMovement>().galleryHideEventDone = false; // Reset for multiple hiding
             }
         }

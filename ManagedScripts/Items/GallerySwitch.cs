@@ -20,6 +20,7 @@ public class GallerySwitch : Script
     [SerializeField]
     public GameObject? _InteractUI;
     private bool isInteractUIActive = false;
+    public GameObject? hidingGameObject;
     public override void Awake()
     {
         audioPlayer = gameObject.GetComponent<AudioComponent>();
@@ -41,8 +42,9 @@ public class GallerySwitch : Script
             {
                 isActivated = true;
                 isInteractUIActive = false;
-                GalleryHiding.GhostShouldMove = true;
-                GalleryHiding.timeLimit = 10.0f;
+                hidingGameObject.GetComponent<EventGalleryHiding>().GhostShouldMove = true;
+                hidingGameObject.GetComponent<EventGalleryHiding>().timeLimit = 10.0f;
+                hidingGameObject.GetComponent<EventGalleryHiding>().GhostMoved = false;
                 if (GalleryLetter.isNotePicked)
                 {
                     audioPlayer.play("pc_mighthaveopened");
