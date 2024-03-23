@@ -1,37 +1,35 @@
-﻿/*!*************************************************************************
-****
-\file ReturnToGame.cs
-\author Matthew Cheung
-\par DP email: j.cheung@digipen.edu
-\par Course: csd3450
-\date 20-1-2024
-\brief  Script for main menu quit game button
-****************************************************************************
-***/
+﻿///*!*************************************************************************
+//****
+//\file QuitConfirmationNo.cs
+//\author Matthew Cheung
+//\par DP email: j.cheung@digipen.edu
+//\par Course: csd3450
+//\date 23-3-2024
+//\brief  Script for pressing no in quit confirmation menu
+//****************************************************************************
+//***/
+
 using ScriptAPI;
 using System;
 
-public class QuitButton : Script
+public class QuitConfirmationNo : Script
 {
-    public AudioComponent bgm;
-    private UISpriteComponent sprite;
     private AudioComponent buttonSfx;
-    private string buttonSfxName = "";
+    private string buttonSfxName = "button_press";
+    private UISpriteComponent sprite;
     private bool firstHover = true;
-
+    
     GameObject QuitObject;
 
     public override void Awake()
     {
-        sprite = gameObject.GetComponent<UISpriteComponent>();
-        buttonSfxName = "button_press";
         buttonSfx = gameObject.GetComponent<AudioComponent>();
+        sprite = gameObject.GetComponent<UISpriteComponent>();
     }
 
     public override void Start()
     {
         QuitObject = GameObjectScriptFind("QuitConfirmation");
-        QuitObject.SetActive(false);
     }
     public override void Update()
     {
@@ -45,14 +43,11 @@ public class QuitButton : Script
         {
             firstHover = true;
         }
-
         if (Input.GetMouseButtonDown(Keycode.M1) && sprite.IsMouseCollided())
         {
             buttonSfx.play(buttonSfxName);
-            AudioComponent audio = gameObject.GetComponent<AudioComponent>();
-            //audio.stopAll();
-            //SceneLoader.LoadQuitGame();
-            QuitObject.SetActive(true);
+            QuitObject.SetActive(false);
         }
+
     }
 }
