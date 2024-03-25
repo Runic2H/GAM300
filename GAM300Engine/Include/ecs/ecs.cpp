@@ -20,6 +20,7 @@
 #include "Physics/CollisionSystem.h"
 #include "Animation/AnimationSystem.h"
 #include "AI/Pathfinder.h"
+#include "Rendering/ParticleSystem.h"
 
 namespace TDS
 {
@@ -39,5 +40,6 @@ namespace TDS
 		_RenderSystem.action(RendererSystem::OnInit, RendererSystem::OnUpdate);
 		_AudioSystem.action(proxy_audio_system::audio_system_init, proxy_audio_system::audio_system_update);
 		_PathfinderSystem.action(Pathfinder::Initialize, Pathfinder::Update);
+		_ParticleSystem.action(ParticleSystem::Init, ParticleSystem::UpdateSystem);
 	}
 }

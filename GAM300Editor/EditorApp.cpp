@@ -37,6 +37,7 @@
 #include "Input/InputSystem.h"
 #include "Rendering/GridRenderer.h"
 #include "MessagingSystem/MessageSystem.h"
+#include "Rendering/Revamped/MaterialManager.h"
 
 bool isPlaying = false;
 bool gamePaused = false;
@@ -201,6 +202,10 @@ namespace TDS
          ShaderReflector::GetInstance()->Init(SHADER_DIRECTORY, REFLECTED_BIN);
         GraphicsManager::getInstance().Init(&m_window);
         AssetManager::GetInstance()->PreloadAssets();
+        GraphicsManager::getInstance().GetMaterialManager().PreloadMaterialInfos();
+  
+        
+        
         //skyboxrender.Init();
         GraphicsManager::getInstance().GetDebugRenderer().Init();
         GraphicsManager::getInstance().InitSkyBox();

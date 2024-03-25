@@ -1,0 +1,104 @@
+#version 450 core
+
+struct Particle 
+{
+    vec4 Size;
+    vec4 Rotation;
+    vec4 CurrentPosition;
+    
+    vec4 Velocity;
+    vec4 Acceleration;
+    vec4 Color; //rgb color of the particle
+    float Age;//how long has the particle been active
+    uint Active;
+};
+
+layout (std140, binding = 31) buffer Particles {
+    Particle List[];
+}v_Particles;
+
+layout (std430, binding = 32) buffer Freelist{
+    int count;
+    int indices[];
+}v_Freelist;
+
+/*
+layout (std140, binding = 34) writeonly buffer TransformMatrix{
+    mat4 List[];
+}v_TransformMatrix;
+*/
+layout(std430, binding = 35) buffer TimeBlock {
+    float DeltaTime;
+}Time;
+
+mat4 GenerateTransform(vec4 Scale, vec4 Rotate, vec4 Translate){
+    mat4 Scalemat = mat4(
+        Scale.x, 0.0, 0.0, 0.0,
+        0.0, Scale.y, 0.0, 0.0,
+        0.0, 0.0, Scale.z, 0.0,
+        0.0, 0.0, 0.0, 1.0);
+    
+    mat4 rotationX = mat4(
+        1.0, 0.0, 0.0, 0.0,
+        0.0, cos(Rotate.x), -sin(Rotate.x), 0.0,
+        0.0, sin(Rotate.x), cos(Rotate.x), 0.0,
+        0.0, 0.0, 0.0, 1.0
+    );
+
+    mat4 rotationY= mat4(
+        cos(Rotate.y), 0.0, sin(Rotate.y), 0.0,
+        0.0, 1.0, 0.0, 0.0,
+        -sin(Rotate.y), 0.0, cos(Rotate.y), 0.0,
+        0.0, 0.0, 0.0, 1.0
+    );
+
+    mat4 rotationZ = mat4(
+        cos(Rotate.z), -sin(Rotate.z), 0.0, 0.0,
+        sin(Rotate.z), cos(Rotate.z), 0.0, 0.0,
+        0.0, 0.0, 1.0, 0.0,
+        0.0, 0.0, 0.0, 1.0
+    );
+
+    mat4 Rotmat = rotationZ * rotationY * rotationX;
+
+    mat4 Translatemat = mat4(
+        1.0, 0.0, 0.0, 0.0,
+        0.0, 1.0, 0.0, 0.0,
+        0.0, 0.0, 1.0, 0.0,
+        Translate.x, Translate.y, Translate.z, 1.0
+    );
+
+    mat4 Xform = Translatemat* Rotmat* Scalemat;
+    return Xform;
+}
+
+void ComputeParticle(inout Particle p, int index){
+    if (p.Age > 0.0){
+        p.Age -= Time.DeltaTime;
+        p.Velocity += p.Acceleration * Time.DeltaTime;
+        p.CurrentPosition += p.Velocity * Time.DeltaTime;
+
+        //if the particle has expired, deactivate it and add it to the freelist
+        if (p.Age <= 0.0){
+            p.Active = 0;
+            p.Color = vec4(0.0, 0.0, 0.0, 0.0);
+            v_Freelist.indices[atomicAdd(v_Freelist.count,1)] = index;
+        }
+    }
+}
+
+
+layout(local_size_x = 64, local_size_y = 1, local_size_z = 1) in;
+
+void main(){
+    uint index = gl_GlobalInvocationID.x;
+    if (index >= v_Particles.List.length()){
+        return;
+    }
+
+    ComputeParticle(v_Particles.List[index], int(index));
+    
+    
+
+    //v_TransformMatrix.List[index] = GenerateTransform(v_Particles.List[index].Size, v_Particles.List[index].Rotation, v_Particles.List[index].CurrentPosition);
+}
