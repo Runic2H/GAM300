@@ -356,7 +356,7 @@ namespace TDS
 				auto& materialBuffer = m_GBufferBatch3D.m_BatchBuffers[updates.m_MeshID].m_ComponentMaterial;
 				//Materials
 				{
-					materialBuffer.diffuse = textureMgr.GetTextureID(updates.m_pMaterialAttribute->m_phongBlinn.m_DiffuseTex);
+					materialBuffer.diffuseTex = textureMgr.GetTextureID(updates.m_pMaterialAttribute->m_phongBlinn.m_DiffuseTex);
 					materialBuffer.specularTex = textureMgr.GetTextureID(updates.m_pMaterialAttribute->m_phongBlinn.m_SpecularTex);
 					materialBuffer.ambientTex = textureMgr.GetTextureID(updates.m_pMaterialAttribute->m_phongBlinn.m_AmbientTex);
 					materialBuffer.emissiveTex = textureMgr.GetTextureID(updates.m_pMaterialAttribute->m_phongBlinn.m_EmissiveTex);
@@ -420,6 +420,7 @@ namespace TDS
 		auto GBufferPipeline = m_DeferredPipelines[DEFERRED_STAGE::STAGE_G_BUFFER_INSTANCE];
 		unsigned int startingOffset = 0;
 		unsigned int totalAnimationOffset = 0;
+		bool useMaterials = false;
 		for (auto& itr : m_GBufferInstance.m_instanceRenderManager.m_InstanceUpdateInfo)
 		{
 			auto& instanceReq = m_GBufferInstance.m_InstanceRequests[m_GBufferInstance.m_GroupIdx];
@@ -443,7 +444,7 @@ namespace TDS
 				instaneBuffer.m_EntityID = meshUpdateData.m_EntityID;
 				instaneBuffer.m_modelMatrix = meshUpdateData.m_pTransform->GetTransformMatrix();
 				instaneBuffer.m_IsAnimated = meshUpdateData.m_IsAnimated;
-				instaneBuffer.m_UseMaterials = meshUpdateData.m_UseMaterials;
+				instaneBuffer.m_UseMaterials = useMaterials = meshUpdateData.m_UseMaterials;
 				instaneBuffer.m_UseMeshMatID = meshUpdateData.m_UsePreloadedMaterials;
 				ModelName = meshUpdateData.m_ModelName;
 				{
@@ -522,8 +523,9 @@ namespace TDS
 		for (std::uint32_t i = 0; i < m_GBufferInstance.m_GroupIdx; ++i)
 		{
 			auto& instanceReq = m_GBufferInstance.m_InstanceRequests[i];
-
-			UploadMaterialsList(instanceReq.m_ModelName);
+			
+			if (useMaterials)
+				UploadMaterialsList(instanceReq.m_ModelName);
 
 			GBufferPipeline->BindPipeline();
 			GBufferPipeline->BindVertexBuffer(*instanceReq.m_MeshBuffer->m_VertexBuffer);
@@ -748,6 +750,7 @@ namespace TDS
 			updateData->m_RenderIn2D = graphComp->m_UsedIn2D;
 			updateData->m_pMaterialAttribute = &graphComp->m_MaterialAttributes;
 			updateData->m_UseMaterials = graphComp->m_UseMaterials;
+			updateData->m_UsePreloadedMaterials = graphComp->m_UsePreloadMaterials;
 			updateData->m_ModelName = graphComp->m_ModelName;
 			++instanceUpdatePack.m_Index;
 		}
@@ -774,7 +777,7 @@ namespace TDS
 				auto& materialBuffer = m_Composition3DBatch.m_BatchBuffers[updates.m_MeshID].m_ComponentMaterial;
 				//Materials
 				{
-					materialBuffer.diffuse = textureMgr.GetTextureID(updates.m_pMaterialAttribute->m_phongBlinn.m_DiffuseTex);
+					materialBuffer.diffuseTex = textureMgr.GetTextureID(updates.m_pMaterialAttribute->m_phongBlinn.m_DiffuseTex);
 					materialBuffer.specularTex = textureMgr.GetTextureID(updates.m_pMaterialAttribute->m_phongBlinn.m_SpecularTex);
 					materialBuffer.ambientTex = textureMgr.GetTextureID(updates.m_pMaterialAttribute->m_phongBlinn.m_AmbientTex);
 					materialBuffer.emissiveTex = textureMgr.GetTextureID(updates.m_pMaterialAttribute->m_phongBlinn.m_EmissiveTex);
@@ -838,40 +841,43 @@ namespace TDS
 		if (GraphicsManager::getInstance().IsViewingFrom2D() == false) return;
 
 		auto& textureMgr = AssetManager::GetInstance()->GetTextureFactory();
+		bool useMaterials = false;
 
 		auto GBufferPipeline = m_DeferredPipelines[DEFERRED_STAGE::STAGE_3D_COMPOSITION_INSTANCE];
 		int startingOffset = 0;
 		for (auto& itr : m_Composition3DInstance.m_instanceRenderManager.m_InstanceUpdateInfo)
 		{
+			std::string ModelName{};
 			auto& instanceReq = m_Composition3DInstance.m_InstanceRequests[m_Composition3DInstance.m_GroupIdx];
 			instanceReq.m_MeshBuffer = itr.first;
 
 			for (std::uint32_t i = 0; i < itr.second.m_Index; ++i)
 			{
 				auto& meshUpdateData = itr.second.m_Updates[i];
-
+				ModelName = meshUpdateData.m_ModelName;
 				auto& InstanceInfo = instanceReq.m_RenderInstanceInfo;
 				auto& instaneBuffer = m_Composition3DInstance.m_InstanceBuffers[m_Composition3DInstance.m_TotalInstances];
 
 				InstanceInfo.m_InstanceOffset = startingOffset;
 				InstanceInfo.m_Instances = itr.second.m_Index;
+				
 
 				{
-					instaneBuffer.m_MaterialID = m_Composition3DInstance.m_TotalInstances;
 					instaneBuffer.m_IsRender = meshUpdateData.m_ShowMesh;
 					instaneBuffer.m_TextureID = meshUpdateData.m_TextureID;
 					instaneBuffer.m_EntityID = meshUpdateData.m_EntityID;
 					instaneBuffer.m_modelMatrix = meshUpdateData.m_pTransform->GetTransformMatrix();
-					instaneBuffer.m_UseMaterials = meshUpdateData.m_UseMaterials;
+					instaneBuffer.m_UseMaterials = useMaterials = meshUpdateData.m_UseMaterials;
 					instaneBuffer.m_UseMeshMatID = meshUpdateData.m_UsePreloadedMaterials;
 					instaneBuffer.m_MaterialID = meshUpdateData.m_MaterialID;
+					
 				}
 
 
 				auto& materialBuffer = instaneBuffer.m_ComponentMaterial;
 				//Materials
 				{
-					materialBuffer.diffuse = textureMgr.GetTextureID(meshUpdateData.m_pMaterialAttribute->m_phongBlinn.m_DiffuseTex);
+					materialBuffer.diffuseTex = textureMgr.GetTextureID(meshUpdateData.m_pMaterialAttribute->m_phongBlinn.m_DiffuseTex);
 					materialBuffer.specularTex = textureMgr.GetTextureID(meshUpdateData.m_pMaterialAttribute->m_phongBlinn.m_SpecularTex);
 					materialBuffer.ambientTex = textureMgr.GetTextureID(meshUpdateData.m_pMaterialAttribute->m_phongBlinn.m_AmbientTex);
 					materialBuffer.emissiveTex = textureMgr.GetTextureID(meshUpdateData.m_pMaterialAttribute->m_phongBlinn.m_EmissiveTex);
@@ -897,6 +903,7 @@ namespace TDS
 				++m_Composition3DInstance.m_TotalInstances;
 
 			}
+			instanceReq.m_ModelName = ModelName;
 			startingOffset = m_Composition3DInstance.m_TotalInstances;
 			itr.second.m_Index = 0;
 			++m_Composition3DInstance.m_GroupIdx;
@@ -915,6 +922,10 @@ namespace TDS
 		for (std::uint32_t i = 0; i < m_Composition3DInstance.m_GroupIdx; ++i)
 		{
 			auto& instanceReq = m_Composition3DInstance.m_InstanceRequests[i];
+
+			if (useMaterials)
+				UploadMaterialsList(instanceReq.m_ModelName);
+
 
 			GBufferPipeline->BindPipeline();
 			GBufferPipeline->BindVertexBuffer(*instanceReq.m_MeshBuffer->m_VertexBuffer);

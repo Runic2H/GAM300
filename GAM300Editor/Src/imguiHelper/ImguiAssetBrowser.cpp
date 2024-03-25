@@ -11,6 +11,8 @@
 #include "imguiHelper/ImguiAudio.h"
 #include "Tools/CompilerRevamped/MeshLoader.h"
 #include <string>
+#include "Rendering/GraphicsManager.h"
+#include "Rendering/Revamped/MaterialManager.h"
 #include "AssetManagement/Revamped/MeshFactory.h"
 #include "imguiHelper/ImguiCompilerDescriptor.h"
 
@@ -771,25 +773,30 @@ namespace TDS
 		
 				MeshLoader::GetInstance().RunCompiler(req);
 
-				
-				if (req.currSetting.m_LoadMaterialTextures)
+				if (req.currSetting.m_LoadMaterials)
 				{
-					std::string OutPath = ASSET_PATH;
-					OutPath += "/textures/";
-		
-					for (auto& textureTOLoad : req.m_MaterialOut.m_TextureToload)
+					if (req.currSetting.m_LoadMaterialTextures)
 					{
-						OutPath += textureTOLoad.m_TexturePath.c_str();
-						std::string inPath = OutPath;
-						if (strstr(OutPath.c_str(), ".jpg"))
-							OutPath = RemoveFileExtension(OutPath, ".jpg");
-						else if (strstr(OutPath.c_str(), ".png"))
-							OutPath = RemoveFileExtension(OutPath, ".png");
-						OutPath += ".dds";
+						std::string OutPath = ASSET_PATH;
+						OutPath += "/textures/";
 
-						TextureCompressor::GetInstance().Run(inPath, OutPath);
-						AssetManager::GetInstance()->GetTextureFactory().Load(OutPath);
+						for (auto& textureTOLoad : req.m_MaterialOut.m_TextureToload)
+						{
+							OutPath += textureTOLoad.m_TexturePath.c_str();
+							std::string inPath = OutPath;
+							if (strstr(OutPath.c_str(), ".jpg"))
+								OutPath = RemoveFileExtension(OutPath, ".jpg");
+							else if (strstr(OutPath.c_str(), ".png"))
+								OutPath = RemoveFileExtension(OutPath, ".png");
+							OutPath += ".dds";
+
+							TextureCompressor::GetInstance().Run(inPath, OutPath);
+							AssetManager::GetInstance()->GetTextureFactory().Load(OutPath);
+						}
 					}
+
+					GraphicsManager::getInstance().GetMaterialManager().m_ModelToMaterials[req.m_MaterialOut.m_ModelName] = req.m_MaterialOut;
+					
 				}
 
 				

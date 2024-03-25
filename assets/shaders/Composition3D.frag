@@ -83,6 +83,10 @@ void main()
         }
         return;
    }
-   //outColor = texture(texArraySampler[textureID], fragTexCoord);
+   else
+   {
+        outColor = texture(texArraySampler[textureID], fragTexCoord);
+   }
+
 
 }
