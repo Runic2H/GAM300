@@ -136,7 +136,7 @@ namespace TDS
 					}
 					//set initial transform position,
 
-					if (ModelAssetName == "Adjusted_Bin.bin")
+					if (ModelAssetName == "Adjusted_Bin.bin" || ModelAssetName == "Outside Environment_Bin.bin")
 					{
 						transformComp->SetPosition(rootNodes.second.m_SceneTranslation);
 						transformComp->SetRotation(rootNodes.second.m_SceneRotation);
@@ -184,7 +184,7 @@ namespace TDS
 						childGrapComp->m_ModelName = ModelAssetName;
 						childGrapComp->m_MeshNodeName = rootNodes.first;
 						//Set initial transform position
-						if (ModelAssetName == "Adjusted_Bin.bin")
+						if (ModelAssetName == "Adjusted_Bin.bin" || ModelAssetName == "Outside Environment_Bin.bin")
 						{
 							childTransformComp->SetPosition(rootNodes.second.m_SceneTranslation);
 							childTransformComp->SetRotation(rootNodes.second.m_SceneRotation);
@@ -675,7 +675,9 @@ namespace TDS
 			else
 				OutPath += ".dds";
 
-
+			CompilerDescriptors::TextureDescDisplay* textureDisplay = reinterpret_cast<CompilerDescriptors::TextureDescDisplay*>(imguiDesc->m_CompilerDescriptors[CompilerDescriptors::DESC_TEXTURE]);
+			
+			TextureCompressor::GetInstance().SetCompressionSetting(textureDisplay->m_TextureDescriptor);
 			if (lookUp == false)
 				TextureCompressor::GetInstance().Run(inPath, OutPath);
 
@@ -756,7 +758,12 @@ namespace TDS
 					req.m_AnimOutFile = RemoveFileExtension(req.m_AnimOutFile, ".fbx");
 					req.m_AnimOutFile += ".json";
 				}
-
+				if (req.currSetting.m_LoadMaterials)
+				{
+					req.m_MaterialOutFile = req.m_FileName;
+					req.m_MaterialOutFile = RemoveFileExtension(req.m_MaterialOutFile, ".fbx");
+					req.m_MaterialOutFile += ".json";
+				}
 				req.m_OutFile += "_Bin";
 				req.m_OutFile += ".bin";
 
@@ -765,17 +772,32 @@ namespace TDS
 				MeshLoader::GetInstance().RunCompiler(req);
 
 				
+				if (req.currSetting.m_LoadMaterialTextures)
+				{
+					std::string OutPath = ASSET_PATH;
+					OutPath += "/textures/";
+		
+					for (auto& textureTOLoad : req.m_MaterialOut.m_TextureToload)
+					{
+						OutPath += textureTOLoad.m_TexturePath.c_str();
+						std::string inPath = OutPath;
+						if (strstr(OutPath.c_str(), ".jpg"))
+							OutPath = RemoveFileExtension(OutPath, ".jpg");
+						else if (strstr(OutPath.c_str(), ".png"))
+							OutPath = RemoveFileExtension(OutPath, ".png");
+						OutPath += ".dds";
+
+						TextureCompressor::GetInstance().Run(inPath, OutPath);
+						AssetManager::GetInstance()->GetTextureFactory().Load(OutPath);
+					}
+				}
+
+				
+				std::string OutputFile = req.m_OutFile;
+				OutName = AssetManager::GetInstance()->GetMeshFactory().LoadModel(OutputFile);
+				
 
 
-				if (req.currSetting.m_LoadAnimation && !req.currSetting.m_LoadMesh)
-				{
-					return std::string();
-				}
-				else
-				{
-					std::string OutputFile = req.m_OutFile;
-					OutName = AssetManager::GetInstance()->GetMeshFactory().LoadModel(OutputFile);
-				}
 
 			}
 			else
