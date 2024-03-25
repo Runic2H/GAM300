@@ -45,7 +45,6 @@ public class OptionsMouseSensitivity : Script
                 mouseValue -= 0.1f;                
             }
             mouseValue = Math.Clamp(mouseValue, 0.1f, 2.0f);
-           // Console.WriteLine(mouseValue);
             Input.SetSensitivity(mouseValue);
             buttonSfx.play(buttonSfxName);
         }
