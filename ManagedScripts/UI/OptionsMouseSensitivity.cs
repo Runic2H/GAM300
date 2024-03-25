@@ -1,26 +1,27 @@
 ﻿/*!*************************************************************************
 ****
-\file OptionsGamma.cs
+\file OptionsMouseSensitivity.cs
 \author Matthew Cheung
 \par DP email: j.cheung@digipen.edu
 \par Course: csd3450
-\date 15-03-2024
-\brief  Script for settings gamma in options menu
+\date 23-03-2024
+\brief  Script for settings mouse sensitivity in options menu
 ****************************************************************************
 ***/
 
 using ScriptAPI;
 using System;
 
-public class OptionsGamma : Script
+public class OptionsMouseSensitivity : Script
 {
-    public bool pressedGammaUp;
-    private float gammaValue;
+    public bool pressedMouseUp;
+    private float mouseValue;
     private UISpriteComponent sprite;
     private AudioComponent buttonSfx;
     private string buttonSfxName = "";
 
-    public GameObject gammaText;
+    public GameObject mouseText;
+
     public override void Awake()
     {
         buttonSfxName = "button_press";
@@ -30,28 +31,24 @@ public class OptionsGamma : Script
 
     public override void Update()
     {
-        gammaValue = GraphicsManagerWrapper.GetFadeFactor();
-        gammaValue = Math.Clamp(gammaValue, 0.0f, 1.0f);
+        mouseValue = Input.GetSensitivity();
+        mouseValue = Math.Clamp(mouseValue, 0.1f, 2.0f);
 
         if (Input.GetMouseButtonDown(Keycode.M1) && sprite.IsMouseCollided())
         {
-            if(pressedGammaUp)
+            if(pressedMouseUp) 
             {
-                gammaValue += 0.05f;
+                mouseValue += 0.1f;
             }
-            else
+            else 
             {
-                gammaValue -= 0.05f;
+                mouseValue -= 0.1f;                
             }
-            GraphicsManagerWrapper.SetFadeFactor(gammaValue);
+            mouseValue = Math.Clamp(mouseValue, 0.1f, 2.0f);
+           // Console.WriteLine(mouseValue);
+            Input.SetSensitivity(mouseValue);
             buttonSfx.play(buttonSfxName);
         }
-        gammaValue = Math.Clamp(gammaValue, 0.0f, 1.0f);
-        gammaText.GetComponent<UISpriteComponent>().SetFontMessage((Math.Round(gammaValue, 2)).ToString());
-
-    }
-
-    public override void OnDestroy()
-    {
+        mouseText.GetComponent<UISpriteComponent>().SetFontMessage((Math.Round(mouseValue, 2)).ToString());
     }
 }
