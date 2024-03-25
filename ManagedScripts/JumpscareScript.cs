@@ -26,7 +26,7 @@ public class JumpscareScript : Script
 
     private bool fadeIn = false;
     private bool fadeOut = true;
-    private float fadeIncrement = 0.01f;
+    private float fadeIncrement = 0.005f;
     private float originalFadeValue;
 
     private float timer;
@@ -149,7 +149,7 @@ public class JumpscareScript : Script
                 }
                 else if (fadeIn)
                 {
-                    GraphicsManagerWrapper.SetFadeFactor(GraphicsManagerWrapper.GetFadeFactor() + (fadeIncrement / 2));
+                    GraphicsManagerWrapper.SetFadeFactor(GraphicsManagerWrapper.GetFadeFactor() + fadeIncrement);
 
                     if (GraphicsManagerWrapper.GetFadeFactor() >= originalFadeValue)
                     {

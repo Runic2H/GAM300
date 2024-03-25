@@ -70,6 +70,8 @@ public class p07 : Script
                     GameplaySubtitles.counter = 20;
                 }
                 once = false;
+
+                checkpoint.OverrideCheckpoint(GhostMovement.GhostEvent.Nothing);
             }
 
             if (Input.GetKeyDown(Keycode.E))
@@ -90,16 +92,17 @@ public class p07 : Script
                 AudioPlayer.play("pc_stealpainting1");
                 GameplaySubtitles.counter = 13;
 
-                checkpoint.OverrideCheckpoint(GhostMovement.GhostEvent.BedroomHidingEvent);
-
                 // hiding event 
-                hidingGameObject.GetComponent<EventBedroomHiding>().numOfPaintingsTook++;
-                if (hidingGameObject.GetComponent<EventBedroomHiding>().numOfPaintingsTook == 1)
-                {
-                    ghost.GetComponent<GhostMovement>().PlayMonsterWalkingSoundInitial();
-                    ghost.GetComponent<GhostMovement>().currentEvent = GhostMovement.GhostEvent.BedroomHidingEvent;
-                    ghost.GetComponent<GhostMovement>().startEvent = true;
-                }
+                //hidingGameObject.GetComponent<EventBedroomHiding>().numOfPaintingsTook++;
+                //if (hidingGameObject.GetComponent<EventBedroomHiding>().numOfPaintingsTook == 1)
+                //{
+                //    ghost.GetComponent<GhostMovement>().PlayMonsterWalkingSoundInitial();
+                //    ghost.GetComponent<GhostMovement>().currentEvent = GhostMovement.GhostEvent.BedroomHidingEvent;
+                //    ghost.GetComponent<GhostMovement>().startEvent = true;
+                //}
+                ghost.GetComponent<GhostMovement>().PlayMonsterWalkingSoundInitial();
+                ghost.GetComponent<GhostMovement>().currentEvent = GhostMovement.GhostEvent.BedroomHidingEvent;
+                ghost.GetComponent<GhostMovement>().startEvent = true;
             }
         }
         else

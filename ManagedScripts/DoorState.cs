@@ -28,8 +28,12 @@ public class DoorState : Script
         Doors = new State[14];
         for (int i = 0; i < Doors.Length; i++)
         {
-            Doors[i] = State.Locked;
+            Doors[i] = State.Unlocked;
         }
+        Doors[0] = State.Locked;
+        Doors[1] = State.Locked;
+        Doors[3] = State.Locked;
+        Doors[10] = State.Locked;
     }
     public override void LateUpdate()
     {

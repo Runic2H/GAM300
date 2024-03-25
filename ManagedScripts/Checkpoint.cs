@@ -23,6 +23,13 @@ public class Checkpoint : Script
     //    FinalCheckpoint
     //}
 
+    #region Painting
+
+    [DontSerializeField] private bool BedroomPaintingEnabled = true;
+    public GameObject BedroomPainting; //p07
+
+    #endregion
+
     #region Player
     [DontSerializeField] private Vector3 PlayerPositonCheckpoint;
     [DontSerializeField] private Vector3 PlayerRotationCheckpoint;
@@ -37,8 +44,8 @@ public class Checkpoint : Script
     public GameObject Monster;
     #endregion
 
-    public DoorState doorStates;
-    public int finalChaseDoorIndex;
+    public DoorState DoorStates;
+    public int FinalChaseDoorIndex;
 
     public void OverrideCheckpoint(GhostMovement.GhostEvent currentEvent)
     {
@@ -53,6 +60,9 @@ public class Checkpoint : Script
         //Console.WriteLine("Monster");
         MonsterPositonCheckpoint = Monster.transform.GetPosition();
         GhostEventCheckpoint = currentEvent;
+
+        // Painting
+        BedroomPaintingEnabled = BedroomPainting.GetActive();
     }
 
     public void RevertToCheckpoint()
@@ -84,12 +94,10 @@ public class Checkpoint : Script
         Monster.GetComponent<GhostMovement>().currentEvent = GhostEventCheckpoint;
         Monster.GetComponent<GhostMovement>().startEvent = true;
 
-        doorStates.Doors[finalChaseDoorIndex] = DoorState.State.Locked;
-    }
-    
-    float toRadians(float degree)
-    {
-        return degree * (3.1415926535897931f / 180);
+        DoorStates.Doors[FinalChaseDoorIndex] = DoorState.State.Locked;
+
+        // Painting
+        BedroomPainting.SetActive(BedroomPaintingEnabled);
     }
 }
 

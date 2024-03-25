@@ -27,6 +27,7 @@ public class EventBedroomHiding : Script
     public static bool doOnce = true;
 
     public int numOfPaintingsTook = 0;
+    public DoorState doorState;
 	
 	public override void Awake()
 	{
@@ -34,6 +35,7 @@ public class EventBedroomHiding : Script
         voClips[0] = "pc_hideinclosetfirst";
         voClips[1] = "pc_wanderingcloset";
         voClips[2] = "pc_monstergoesaway1"; //wth was that
+        doorState = GameObjectScriptFind("DoorState").GetComponent<DoorState>();
 	}
 
 
@@ -42,14 +44,14 @@ public class EventBedroomHiding : Script
         hiding = closet.GetComponent<Hiding>().hiding;
         if (hiding)
         {
-            if (enemyPathfinding.GetComponent<GhostMovement>().bedroomHideEventDone == false && numOfPaintingsTook == 1) // triggering bedroom monster event 
-            {
-                if (enemyPathfinding.GetComponent<GhostMovement>().currentEvent != GhostMovement.GhostEvent.BedroomHidingEvent)
-                {
-                    enemyPathfinding.GetComponent<GhostMovement>().currentEvent = GhostMovement.GhostEvent.BedroomHidingEvent;
-                    enemyPathfinding.GetComponent<GhostMovement>().startEvent = true;
-                }
-            }
+            //if (enemyPathfinding.GetComponent<GhostMovement>().bedroomHideEventDone == false && numOfPaintingsTook == 1) // triggering bedroom monster event 
+            //{
+            //    if (enemyPathfinding.GetComponent<GhostMovement>().currentEvent != GhostMovement.GhostEvent.BedroomHidingEvent)
+            //    {
+            //        enemyPathfinding.GetComponent<GhostMovement>().currentEvent = GhostMovement.GhostEvent.BedroomHidingEvent;
+            //        enemyPathfinding.GetComponent<GhostMovement>().startEvent = true;
+            //    }
+            //}
 
             if (enemyPathfinding.GetComponent<GhostMovement>().bedroomHideEventDone)
             {
