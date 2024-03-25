@@ -27,6 +27,7 @@ public class InventoryScript : Script
     public static List<string> paintingsObjsImg;
 
     public static string currentTab;
+    public static string currentObjectName;
     public static int currentBox;
     public static bool InventoryIsOpen;
     public static bool IsUseable;
@@ -44,7 +45,10 @@ public class InventoryScript : Script
     public GameObject hidingGameObject;
 
     static string boxtexture = "A_Inventory Box.dds";
-
+    
+    private AudioComponent audio;
+    private string audioOpenName = "inventory open";
+    private string audioCloseName = "inventory close";
     public override void Awake()
     {
         LockpickIsOpen = false;
@@ -101,6 +105,15 @@ public class InventoryScript : Script
         Console.WriteLine("Toggle Inventory\n");
         InventoryIsOpen = !InventoryIsOpen;
         InventoryObject.SetActive(InventoryIsOpen);
+        
+        if (InventoryIsOpen)
+        {
+            audio.play(audioOpenName);
+        }       
+        else
+        {
+            audio.play(audioCloseName);
+        }
     }
 
     public void checkMouseInput()
@@ -134,6 +147,7 @@ public class InventoryScript : Script
             {
                 Console.WriteLine("Collide Examine Button");
                 // do examine stuff
+                ExamineObject();
             }
         }
     }
@@ -275,11 +289,23 @@ public class InventoryScript : Script
             {
                 // Do battery logic
                 Flashlight_Script.batteryLife = 100.0f;
+                AudioComponent audio = gameObject.GetComponent<AudioComponent>();
+                audio.play("flashlight battery restore");
             }
             if (storedObjName == "???")
             {
                 // Do ??? logic
             }
+        }
+    }
+
+    void ExamineObject()
+    {
+        if (currentObjectName != "" && !IsUseable)
+        {
+            View_Object.ObjectName = currentObjectName;
+            View_Object.OnEnter = true;
+            GameObjectScriptFind("ObjectViewer").SetActive(true);
         }
     }
 }

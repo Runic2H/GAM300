@@ -7,7 +7,7 @@ public class FPS_Controller_Script : Script
 {
     public RigidBodyComponent rb;
     public string[] footStepSoundEffects;
-    String[] backgroundMusic;
+    public static String[] backgroundMusic;
     private int currentFootStepPlaying;
     float audioTimer;
     AudioComponent audio;
@@ -18,7 +18,7 @@ public class FPS_Controller_Script : Script
     public float fov = 60f;
     public bool invertCamera = false;
     public bool cameraCanMove = true;
-    public float mouseSensitivity = 2.0f;
+    public float mouseSensitivity = 1.0f;
     public float maxLookAngle = 50f;
 
     // Crosshair
@@ -48,7 +48,8 @@ public class FPS_Controller_Script : Script
     #region Movement Variables
     [Header("Movement Variables")]
     public bool playerCanMove = true;
-    public float walkSpeed = 2f;
+    public float walkSpeed = 3f;
+    private float savedWalkSpeed = 3f;
     public float maxVelocityChange = 10f;
     public bool isWalking = false;
 
@@ -97,9 +98,9 @@ public class FPS_Controller_Script : Script
     public uint crouchKey = Keycode.CTRL;
     public float crouchHeight = .75f;
     public float speedReduction = .5f;
+    public bool isCrouched = false; // Needed for dining event
 
     // Internal Variables
-    private bool isCrouched = false;
     private Vector3 originalScale;
     private float originalHeight;
     #endregion
@@ -153,7 +154,8 @@ public class FPS_Controller_Script : Script
         audioTimer = 1.0f;
 
         backgroundMusic = new String[3];
-        backgroundMusic[0] = "ambientdrone1";
+        backgroundMusic[0] = "outside_ambience";
+        savedWalkSpeed = walkSpeed;
     }
     public override void Start()
     {
@@ -297,6 +299,9 @@ public class FPS_Controller_Script : Script
         {
             HeadBob();
         }
+
+        Vector3 up_vector = Vector3.Normalize(Vector3.Cross(playerCamera.getRightVector(), playerCamera.getForwardVector()));
+        audio.setPlayerCoords(transform.GetPosition(), Vector3.Normalize(playerCamera.getForwardVector()), up_vector);
     }
     public override void FixedUpdate()
     {
@@ -371,7 +376,7 @@ public class FPS_Controller_Script : Script
                 {
                     //sprintBarCG.alpha -= 3 * Time.deltaTime;
                 }
-                targetVelocity = transform.TransformDirection(targetVelocity) * currentSprintSpeed;
+                targetVelocity = transform.TransformDirection(targetVelocity) * walkSpeed;
 
                 // Apply a force that attempts to reach our target velocity
                 //Vector3 velocity = rb.GetLinearVelocity();
@@ -433,11 +438,20 @@ public class FPS_Controller_Script : Script
 
         //}
         #endregion
-
-        if (audio.finished(backgroundMusic[0]))
+        if (!LockPick1.enteredHouse)
         {
             audio.play(backgroundMusic[0]);
-            //audio.setVolume(0.5f);
+        }
+        else
+        {
+            if (audio.checkPlaying(backgroundMusic[0]))
+            {
+                //audio.FadeOut(3, backgroundMusic[0]);
+            }
+            if (audio.finished(backgroundMusic[0]))
+            {
+                audio.play("ambientdrone1");
+            }
         }
     }
 
@@ -463,6 +477,12 @@ public class FPS_Controller_Script : Script
                 pitch = Mathf.Clamp(pitch, -maxLookAngle, maxLookAngle);
 
                 transform.SetRotation(Vector3.Up() * yaw);
+                transform.SetRotationY(transform.GetRotation().Y % 360);
+                if (transform.GetRotation().Y < 0)
+                {
+                    transform.SetRotationY(360 - transform.GetRotation().Y);
+                }
+
                 playerCamera.transform.SetRotationX(pitch);
                 playerCamera.transform.SetRotationY(transform.GetRotation().Y);
             }
@@ -571,10 +591,10 @@ public class FPS_Controller_Script : Script
             new Vector3(transform.GetPosition().X, 0, transform.GetPosition().Z),
             new Vector4 (quat.X, quat.Y, quat.Z, quat.W), new Vector3(0, 0, 0), new Vector3(0, 0, 0));
 
-        if (speedReduction != 0) walkSpeed *= speedReduction;
+        if (speedReduction != 0 && walkSpeed == savedWalkSpeed) walkSpeed *= speedReduction;
     }
 
-    private void StandUp()
+    public void StandUp()
     {
         transform.SetScale(new Vector3(originalScale.X, originalScale.Y, originalScale.Z));
         //transform.SetPositionY(originalHeight);
@@ -582,7 +602,7 @@ public class FPS_Controller_Script : Script
         gameObject.GetComponent<RigidBodyComponent>().SetPositionRotationAndVelocity(
             new Vector3(transform.GetPosition().X, originalHeight, transform.GetPosition().Z),
             new Vector4(quat.X, quat.Y, quat.Z, quat.W), new Vector3(0, 0, 0), new Vector3(0, 0, 0));
-        if (speedReduction != 0) walkSpeed /= speedReduction;
+        if (speedReduction != 0 && walkSpeed < savedWalkSpeed) walkSpeed /= speedReduction;
     }
     #endregion
 
@@ -638,9 +658,6 @@ public class FPS_Controller_Script : Script
                     audio.play(footStepSoundEffects[currentFootStepPlaying]);
                     audioTimer = 1.0f;
                 }
-
-                Vector3 up_vector = Vector3.Cross(playerCamera.getForwardVector(), playerCamera.getRightVector());
-                audio.setPlayerCoords(transform.GetPosition(), playerCamera.getForwardVector(), up_vector);
             }
             else
             {

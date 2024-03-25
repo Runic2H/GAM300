@@ -153,7 +153,7 @@ namespace ScriptAPI
 
 	void AudioComponent::setVolume(float vol, System::String^ pathing)
 	{
-		volume = vol;
+		//volume = vol;
 		TDS::proxy_audio_system::SetVolume(vol, toStdString(pathing));
 	}
 
