@@ -805,6 +805,15 @@ namespace TDS
 				
 
 
+				if (req.currSetting.m_LoadAnimation && !req.currSetting.m_LoadMesh)
+				{
+					return std::string();
+				}
+				else
+				{
+					std::string OutputFile = req.m_OutFile;
+					OutName = AssetManager::GetInstance()->GetMeshFactory().LoadModel(OutputFile);
+				}
 
 			}
 			else

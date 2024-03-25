@@ -322,7 +322,7 @@ namespace TDS
 	private:
 
 		//Lighting pass data
-		float											m_ScreenFadeFactor = 1.f;
+		float											m_ScreenFadeFactor = 0.1f;
 		std::uint32_t									m_LightSrcInstance = 0;
 
 		LightingPushConstant							m_LightingPushConstant;
